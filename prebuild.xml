@@ -1,0 +1,1514 @@
+<?xml version="1.0" ?>
+<Prebuild version="1.10" xmlns="http://dnpb.sourceforge.net/schemas/prebuild-1.10.xsd">
+  <Solution activeConfig="Debug" name="Vision" path="./" version="0.9.3 $Rev$">
+    <Configuration name="Debug" platform="x86">
+      <Options>
+        <CompilerDefines>TRACE;DEBUG</CompilerDefines>
+        <OptimizeCode>false</OptimizeCode>
+        <CheckUnderflowOverflow>false</CheckUnderflowOverflow>
+        <AllowUnsafe>true</AllowUnsafe>
+        <WarningLevel>4</WarningLevel>
+        <WarningsAsErrors>false</WarningsAsErrors>
+        <OutputPath>bin</OutputPath>
+        <DebugInformation>true</DebugInformation>
+        <IncrementalBuild>true</IncrementalBuild>
+        <NoStdLib>false</NoStdLib>
+      </Options>
+    </Configuration>
+    <Configuration name="Debug" platform="AnyCPU">
+      <Options>
+        <CompilerDefines>TRACE;DEBUG</CompilerDefines>
+        <OptimizeCode>false</OptimizeCode>
+        <CheckUnderflowOverflow>false</CheckUnderflowOverflow>
+        <AllowUnsafe>true</AllowUnsafe>
+        <WarningLevel>4</WarningLevel>
+        <WarningsAsErrors>false</WarningsAsErrors>
+        <OutputPath>bin</OutputPath>
+        <DebugInformation>true</DebugInformation>
+        <IncrementalBuild>true</IncrementalBuild>
+        <NoStdLib>false</NoStdLib>
+      </Options>
+    </Configuration>
+    <Configuration name="Debug" platform="x64">
+      <Options>
+        <CompilerDefines>TRACE;DEBUG</CompilerDefines>
+        <OptimizeCode>false</OptimizeCode>
+        <CheckUnderflowOverflow>false</CheckUnderflowOverflow>
+        <AllowUnsafe>true</AllowUnsafe>
+        <WarningLevel>4</WarningLevel>
+        <WarningsAsErrors>false</WarningsAsErrors>
+        <OutputPath>bin</OutputPath>
+        <DebugInformation>true</DebugInformation>
+        <IncrementalBuild>true</IncrementalBuild>
+        <NoStdLib>false</NoStdLib>
+      </Options>
+    </Configuration>
+    <Configuration name="Release" platform="x86">
+      <Options>
+        <CompilerDefines></CompilerDefines>
+        <OptimizeCode>true</OptimizeCode>
+        <CheckUnderflowOverflow>false</CheckUnderflowOverflow>
+        <AllowUnsafe>true</AllowUnsafe>
+        <WarningLevel>4</WarningLevel>
+        <WarningsAsErrors>false</WarningsAsErrors>
+        <SuppressWarnings/>
+        <OutputPath>bin</OutputPath>
+        <DebugInformation>false</DebugInformation>
+        <IncrementalBuild>true</IncrementalBuild>
+        <NoStdLib>false</NoStdLib>
+      </Options>
+    </Configuration>
+    <Configuration name="Release" platform="AnyCPU">
+      <Options>
+        <CompilerDefines></CompilerDefines>
+        <OptimizeCode>true</OptimizeCode>
+        <CheckUnderflowOverflow>false</CheckUnderflowOverflow>
+        <AllowUnsafe>true</AllowUnsafe>
+        <WarningLevel>4</WarningLevel>
+        <WarningsAsErrors>false</WarningsAsErrors>
+        <SuppressWarnings/>
+        <OutputPath>bin</OutputPath>
+        <DebugInformation>false</DebugInformation>
+        <IncrementalBuild>true</IncrementalBuild>
+        <NoStdLib>false</NoStdLib>
+      </Options>
+    </Configuration>
+    <Configuration name="Release" platform="x64">
+      <Options>
+        <CompilerDefines></CompilerDefines>
+        <OptimizeCode>true</OptimizeCode>
+        <CheckUnderflowOverflow>false</CheckUnderflowOverflow>
+        <AllowUnsafe>true</AllowUnsafe>
+        <WarningLevel>4</WarningLevel>
+        <WarningsAsErrors>false</WarningsAsErrors>
+        <SuppressWarnings/>
+        <OutputPath>bin</OutputPath>
+        <DebugInformation>false</DebugInformation>
+        <IncrementalBuild>true</IncrementalBuild>
+        <NoStdLib>false</NoStdLib>
+      </Options>
+    </Configuration>
+
+    <Project frameworkVersion="v4_5" name="Vision.Framework" path="Vision/Framework" type="Library">
+      <Configuration name="Debug" platform="x86">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x86">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="x64">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x64">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../VisionSim/bin/</ReferencePath>
+      <Reference name="System"/>
+      <Reference name="System.Core"/>
+      <Reference name="System.Data"/>
+      <Reference name="System.Drawing"/>
+	  <Reference name="System.Net.Http"/>
+	  <Reference name="System.Windows.Forms"/>
+      <Reference name="System.Web"/>
+ 	  <Reference name="System.Xml"/>
+
+      <Reference name="Nini" path="../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse" path="../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse.StructuredData" path="../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverseTypes" path="../../VisionSim/bin/"/>
+      <Reference name="protobuf-net.dll" path="../../VisionSim/bin/"/>
+      <Reference name="SmartThreadPool.dll" path="../../VisionSim/bin/"/>
+      <Reference name="XMLRPC" path="../../VisionSim/bin/"/>
+      
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
+        </Match>
+      </Files>
+    </Project>
+
+    <!-- Physics Plug-ins -->
+    <Project frameworkVersion="v4_5" name="Vision.Physics.BasicPhysicsPlugin" path="Vision/Physics/BasicPhysicsPlugin" type="Library">
+      <Configuration name="Debug" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../../VisionSim/bin/</ReferencePath>
+      <Reference name="System"/>
+      
+      <Reference name="Vision.Framework"/>
+      
+      <Reference name="Nini" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverseTypes" path="../../../VisionSim/bin/"/>
+      
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
+        </Match>
+      </Files>
+    </Project>
+
+    <Project frameworkVersion="v4_5" name="Vision.Physics.Meshing" path="Vision/Physics/Meshing" type="Library">
+      <Configuration name="Debug" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../../VisionSim/bin/</ReferencePath>
+      <Reference name="System"/>
+	  <Reference name="System.Core"/>
+      <Reference name="System.Drawing"/>
+      
+      <Reference name="Vision.Framework"/>
+
+      <Reference name="CSJ2K" path="../../../VisionSim/bin/"/>
+      <Reference name="Nini" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse.StructuredData" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverseTypes" path="../../../VisionSim/bin/"/>
+      <Reference name="zlib.net" path="../../../VisionSim/bin/"/>
+
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
+        </Match>
+      </Files>
+    </Project>
+
+    <Project frameworkVersion="v4_5" name="Vision.Physics.BulletSPlugin" path="Vision/Physics/BulletSPlugin" type="Library">
+      <Configuration name="Debug">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
+          <AllowUnsafe>true</AllowUnsafe>
+        </Options>
+      </Configuration>
+      <Configuration name="Release">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
+          <AllowUnsafe>true</AllowUnsafe>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../../VisionSim/bin/</ReferencePath>
+      <Reference name="System"/>
+      <Reference name="System.Core"/>
+      <Reference name="System.Xml"/>
+      <Reference name="OpenMetaverseTypes" path="../../../VisionSim/bin/"/>
+      <Reference name="Nini.dll"  path="../../../VisionSim/bin/"/>
+      <Reference name="Vision.Framework"/>
+      <Reference name="Vision.Region"/>
+      <Reference name="Vision.Physics.Meshing"/>
+      <Reference name="Vision.Physics.ConvexDecompositionDotNet"/>
+      <Reference name="BulletXNA.dll" path="../../../VisionSim/bin/"/>
+
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
+        </Match>
+      </Files>
+    </Project>
+
+    <Project frameworkVersion="v4_5" name="Vision.Physics.ConvexDecompositionDotNet" path="Vision/Physics/ConvexDecompositionDotNet" type="Library">
+      <Configuration name="Debug">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../../VisionSim/bin/</ReferencePath>
+      <Reference name="System"/>
+      <Reference name="System.Core"/>
+      <Reference name="System.Data"/>
+      <Reference name="System.Xml"/>
+
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
+        </Match>
+      </Files>
+    </Project>
+
+    <Project frameworkVersion="v4_5" name="Vision.Region" path="Vision/Region" type="Library">
+      <Configuration name="Debug" platform="x86">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x86">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="x64">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x64">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../VisionSim/bin/</ReferencePath>
+      <Reference name="System"/>
+      <Reference name="System.Core"/>
+      <Reference name="System.Drawing"/>
+      <Reference name="System.Web"/>
+      <Reference name="System.Xml"/>
+
+      <Reference name="Vision.DataManager"/>
+      <Reference name="Vision.Framework"/>
+      
+      <Reference name="Nini" path="../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse" path="../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse.StructuredData" path="../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverseTypes" path="../../VisionSim/bin/"/>
+      <Reference name="protobuf-net.dll" path="../../VisionSim/bin/"/>
+      <Reference name="SmartThreadPool.dll" path="../../VisionSim/bin/"/>
+      <Reference name="XMLRPC" path="../../VisionSim/bin/"/>
+
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
+        </Match>
+      </Files>
+    </Project>
+
+    <Project frameworkVersion="v4_5" name="Vision.Services.NoSQLServices" path="Vision/Services/NoSQLServices" type="Library">
+      <Configuration name="Debug" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../../VisionSim/bin/</ReferencePath>
+      <Reference name="System"/>
+      <Reference name="System.Core"/>
+      <Reference name="System.Data"/>
+      <Reference name="System.Drawing"/>
+      <Reference name="System.Xml"/>
+      <Reference name="System.Web"/>
+
+      <Reference name="Vision.DataManager"/>
+      <Reference name="Vision.Services.DataService"/>
+      
+      <Reference name="Vision.Framework"/>
+
+      <Reference name="Nini" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse.StructuredData" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverseTypes" path="../../../VisionSim/bin/"/>
+      <Reference name="protobuf-net.dll" path="../../../VisionSim/bin/"/>
+      <Reference name="Sider" path="../../../VisionSim/bin/"/>
+      <Reference name="XMLRPC" path="../../../VisionSim/bin/"/>
+
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
+        </Match>
+      </Files>
+    </Project>
+
+    <Project frameworkVersion="v4_5" name="Vision.Services.SQLServices" path="Vision/Services/SQLServices" type="Library">
+      <Configuration name="Debug" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../../VisionSim/bin/</ReferencePath>
+      <Reference name="System"/>
+      <Reference name="System.Core"/>
+      <Reference name="System.Data"/>
+      <Reference name="System.Drawing"/>
+      <Reference name="System.Xml"/>
+      <Reference name="System.Web"/>
+
+      <Reference name="Vision.DataManager"/>
+      <Reference name="Vision.Framework"/>
+      <Reference name="Vision.Services.DataService"/>
+
+      <Reference name="Nini" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse.StructuredData" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverseTypes" path="../../../VisionSim/bin/"/>
+      <Reference name="protobuf-net.dll" path="../../../VisionSim/bin/"/>
+      <Reference name="Sider" path="../../../VisionSim/bin/"/>
+      <Reference name="XMLRPC" path="../../../VisionSim/bin/"/>
+
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
+        </Match>
+      </Files>
+    </Project>
+	
+    <Project frameworkVersion="v4_5" name="Vision.Services.GenericServices" path="Vision/Services/GenericServices" type="Library">
+      <Configuration name="Debug" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../../VisionSim/bin/</ReferencePath>
+      <Reference name="System"/>
+      <Reference name="System.Core"/>
+      <Reference name="System.Data"/>
+      <Reference name="System.Drawing"/>
+      <Reference name="System.Xml"/>
+      <Reference name="System.Web"/>
+
+      <Reference name="Vision.DataManager"/>
+      <Reference name="Vision.Framework"/>
+      <Reference name="Vision.Region"/>
+      <Reference name="Vision.Modules"/>
+      <Reference name="Vision.Services.DataService"/>
+
+      <Reference name="GlynnTucker.Cache" path="../../../VisionSim/bin/"/>
+      <Reference name="Nini" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse.StructuredData" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverseTypes" path="../../../VisionSim/bin/"/>
+      <Reference name="protobuf-net.dll" path="../../../VisionSim/bin/"/>
+      <Reference name="XMLRPC" path="../../../VisionSim/bin/"/>
+
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
+        </Match>
+      </Files>
+    </Project>
+
+    <Project frameworkVersion="v4_5" name="Vision.DataManager" path="Vision/DataManager" type="Library">
+      <Configuration name="Debug" platform="x86">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x86">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="x64">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x64">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../VisionSim/bin/</ReferencePath>
+      <Reference name="System"/>
+      <Reference name="System.Core"/>
+      <Reference name="System.Data"/>
+      <Reference name="System.Xml"/>
+      
+      <Reference name="Vision.Framework"/>
+
+      <Reference name="Nini" path="../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse" path="../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse.StructuredData" path="../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverseTypes" path="../../VisionSim/bin/"/>
+      
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
+        </Match>
+      </Files>
+    </Project>
+
+    <Project frameworkVersion="v4_5" name="Vision.DataManager.MySQL" path="Vision/DataManagerPlugins/MySQL" type="Library">
+      <Configuration name="Debug" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../../VisionSim/bin/</ReferencePath>
+      <Reference name="System"/>
+      <Reference name="System.Core"/>
+	  <Reference name="System.Data"/>
+	  <Reference name="System.Drawing"/>
+      <Reference name="System.Xml"/>
+
+      <Reference name="Vision.DataManager"/>
+	  <Reference name="Vision.Framework"/>
+		
+      <Reference name="MySql.Data" path="../../../VisionSim/bin/"/>
+      <Reference name="Nini" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverseTypes" path="../../../VisionSim/bin/"/>
+	  <Reference name="OpenMetaverse.StructuredData" path="../../../VisionSim/bin/"/>
+      
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
+        </Match>
+      </Files>
+    </Project>
+
+    <Project frameworkVersion="v4_5" name="Vision.DataManager.SQLite" path="Vision/DataManagerPlugins/SQLite" type="Library">
+      <Configuration name="Debug" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../../VisionSim/bin/</ReferencePath>
+      <Reference name="System"/>
+      <Reference name="System.Core"/>
+      <Reference name="System.Data"/>
+      <Reference name="System.Drawing"/>
+      <Reference name="System.Xml"/>
+      
+      <Reference name="Vision.DataManager"/>
+      <Reference name="Vision.Framework"/>
+
+      <Reference name="Community.CsharpSqlite.SQLiteClient" path="../../../VisionSim/bin/"/>
+      <Reference name="Nini" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse.StructuredData" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverseTypes" path="../../../VisionSim/bin/"/>
+      <Reference name="XMLRPC" path="../../../VisionSim/bin/"/>
+
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
+        </Match>
+      </Files>
+    </Project>
+
+    <Project frameworkVersion="v4_5" name="Vision.Services.DataService" path="Vision/Services/DataService" type="Library">
+      <Configuration name="Debug" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../../VisionSim/bin/</ReferencePath>
+      <Reference name="Microsoft.CSharp"/>
+      <Reference name="System"/>
+      <Reference name="System.Core"/>
+      <Reference name="System.Data"/>
+      <Reference name="System.Drawing"/>
+      <Reference name="System.Xml"/>
+      <Reference name="System.Web"/>
+
+      <Reference name="Vision.DataManager"/>
+      <Reference name="Vision.DataManager.MySQL"/>
+      <Reference name="Vision.DataManager.SQLite"/>
+      <Reference name="Vision.Framework"/>
+
+      <Reference name="Nini" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse.StructuredData" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverseTypes" path="../../../VisionSim/bin/"/>
+
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
+        </Match>
+      </Files>
+    </Project>
+  
+    <Project frameworkVersion="v4_5" name="Vision.ClientStack" path="Vision/ClientStack" type="Library">
+      <Configuration name="Debug" platform="x86">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x86">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="x64">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x64">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../VisionSim/bin/</ReferencePath>
+      <Reference name="System"/>
+      <Reference name="System.Core"/>
+      <Reference name="System.Xml"/>
+
+      <Reference name="Vision.Framework"/>
+      
+      <Reference name="Nini"  path="../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse" path="../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse.StructuredData" path="../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverseTypes" path="../../VisionSim/bin/"/>
+      <Reference name="SmartThreadPool.dll" path="../../VisionSim/bin/"/>
+      <Reference name="XMLRPC" path="../../VisionSim/bin/"/>
+
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
+        </Match>
+      </Files>
+    </Project>
+	  
+    <!-- Vision app -->
+    <Project frameworkVersion="v4_5" name="Vision" path="Vision/Application" type="Exe" appmanifest="app.manifest">
+      <Configuration name="Debug" platform="x86">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x86">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="x64">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x64">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../VisionSim/bin/</ReferencePath>
+      <Reference name="System"/>
+
+      <Reference name="Vision.Framework"/>
+	  <Reference name="Vision.Simulation.Base"/>
+
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
+        </Match>
+        <Match pattern="*.manifest" buildAction="None"  recurse="false"/>
+      </Files>
+    </Project>
+	
+    <Project frameworkVersion="v4_5" name="Vision.Server" path="Vision/Server" type="Exe" appmanifest="app.manifest">
+      <Configuration name="Debug" platform="x86">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x86">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="x64">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x64">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../VisionSim/bin/</ReferencePath>
+      <Reference name="System"/>
+
+      <Reference name="Vision.Framework"/>
+	  <Reference name="Vision.Simulation.Base"/>
+
+      <Reference name="Nini" path="../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse" path="../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse.StructuredData" path="../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverseTypes" path="../../VisionSim/bin/"/>
+
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
+        </Match>
+        <Match pattern="*.manifest" buildAction="None"  recurse="true"/>
+      </Files>
+    </Project>
+
+    <Project frameworkVersion="v4_5" name="Vision.Server.AssetServer" path="Vision/Servers/AssetServer" type="Exe" appmanifest="app.manifest">
+      <Configuration name="Debug" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../../VisionSim/bin/</ReferencePath>
+      <Reference name="System"/>
+
+      <Reference name="Vision.Framework"/>
+	  <Reference name="Vision.Simulation.Base"/>
+
+      <Reference name="Nini" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse.StructuredData" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverseTypes" path="../../../VisionSim/bin/"/>
+
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
+        </Match>
+        <Match pattern="*.manifest" buildAction="None"  recurse="true"/>
+      </Files>
+    </Project>
+	
+    <Project frameworkVersion="v4_5" name="Vision.Server.AvatarServer" path="Vision/Servers/AvatarServer" type="Exe" appmanifest="app.manifest">
+      <Configuration name="Debug" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../../VisionSim/bin/</ReferencePath>
+      <Reference name="System"/>
+
+      <Reference name="Vision.Framework"/>
+	  <Reference name="Vision.Simulation.Base"/>
+
+      <Reference name="Nini" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse.StructuredData" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverseTypes" path="../../../VisionSim/bin/"/>
+
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
+        </Match>
+        <Match pattern="*.manifest" buildAction="None"  recurse="true"/>
+      </Files>
+    </Project>
+	
+    <Project frameworkVersion="v4_5" name="Vision.Server.GridServer" path="Vision/Servers/GridServer" type="Exe" appmanifest="app.manifest">
+      <Configuration name="Debug" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../../VisionSim/bin/</ReferencePath>
+      <Reference name="System"/>
+
+      <Reference name="Vision.Framework"/>
+	  <Reference name="Vision.Simulation.Base"/>
+
+      <Reference name="Nini" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse.StructuredData" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverseTypes" path="../../../VisionSim/bin/"/>
+
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
+        </Match>
+        <Match pattern="*.manifest" buildAction="None"  recurse="true"/>
+      </Files>
+    </Project>
+
+    <Project frameworkVersion="v4_5" name="Vision.Server.InventoryServer" path="Vision/Servers/InventoryServer" type="Exe" appmanifest="app.manifest">
+      <Configuration name="Debug" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../../VisionSim/bin/</ReferencePath>
+      <Reference name="System"/>
+
+      <Reference name="Vision.Framework"/>
+	  <Reference name="Vision.Simulation.Base"/>
+
+      <Reference name="Nini" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse.StructuredData" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverseTypes" path="../../../VisionSim/bin/"/>
+
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
+        </Match>
+        <Match pattern="*.manifest" buildAction="None"  recurse="true"/>
+      </Files>
+    </Project>
+	
+    <Project frameworkVersion="v4_5" name="Vision.Server.WebServer" path="Vision/Servers/WebServer" type="Exe" appmanifest="app.manifest">
+      <Configuration name="Debug" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../../VisionSim/bin/</ReferencePath>
+      <Reference name="System"/>
+
+      <Reference name="Vision.Framework"/>
+	  <Reference name="Vision.Simulation.Base"/>
+
+      <Reference name="Nini" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse.StructuredData" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverseTypes" path="../../../VisionSim/bin/"/>
+
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
+        </Match>
+        <Match pattern="*.manifest" buildAction="None"  recurse="true"/>
+      </Files>
+    </Project>
+
+    <Project frameworkVersion="v4_5" name="Vision.Simulation.Base" path="Vision/Simulation/Base" type="Library">
+      <Configuration name="Debug" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../../VisionSim/bin/</ReferencePath>
+      <Reference name="Microsoft.CSharp"/>
+      <Reference name="System"/>
+	  <Reference name="System.Core"/>
+      <Reference name="System.Web"/>
+      <Reference name="System.Xml"/>
+
+      <Reference name="Vision.Framework"/>
+      <Reference name="Vision.Services.DataService"/>
+      <Reference name="Vision.Services.GenericServices"/>
+      
+      <Reference name="Nini" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse.StructuredData" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverseTypes" path="../../../VisionSim/bin/"/>
+      <Reference name="XMLRPC" path="../../../VisionSim/bin/"/>
+
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
+        </Match>
+      </Files>
+    </Project>
+
+    <Project frameworkVersion="v4_5" name="Vision.CoreApplicationPlugins" path="Vision/CoreApplicationPlugins" type="Library">
+      <Configuration name="Debug" platform="x86">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x86">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="x64">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x64">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../VisionSim/bin/</ReferencePath>
+      <Reference name="System"/>
+	  <Reference name="System.Core"/>
+      <Reference name="System.Drawing"/>
+      <Reference name="System.Windows.Forms"/>
+      <Reference name="System.Xml"/>
+      <Reference name="System.Web"/>
+
+      <Reference name="Vision.DataManager"/>
+      <Reference name="Vision.Framework"/>
+      <Reference name="Vision.Services.DataService"/>
+
+      <Reference name="Nini" path="../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse" path="../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse.StructuredData" path="../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverseTypes" path="../../VisionSim/bin/"/>
+      <Reference name="XMLRPC" path="../../VisionSim/bin/"/>
+
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
+        </Match>
+      </Files>
+    </Project>
+    
+    <Project frameworkVersion="v4_5" name="Vision.Modules" path="Vision/Modules" type="Library">
+      <Configuration name="Debug" platform="x86">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x86">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="x64">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x64">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../VisionSim/bin/</ReferencePath>
+      <Reference name="System"/>
+      <Reference name="System.Core"/>
+      <Reference name="System.Data"/>
+      <Reference name="System.Drawing"/>
+      <Reference name="System.Windows.Forms"/>
+      <Reference name="System.Xml"/>
+      <Reference name="System.Web"/>
+      <Reference name="Vision.DataManager"/>
+      <Reference name="Vision.Framework"/>
+      <Reference name="Vision.Region"/>
+
+      <Reference name="CSJ2K" path="../../VisionSim/bin/"/>
+      <Reference name="GlynnTucker.Cache" path="../../VisionSim/bin/"/>
+      <Reference name="Nini" path="../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse" path="../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse.StructuredData" path="../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverseTypes" path="../../VisionSim/bin/"/>
+      <Reference name="protobuf-net.dll" path="../../VisionSim/bin/"/>
+      <Reference name="Warp3Dw" path="../../VisionSim/bin/"/>
+      <Reference name="XMLRPC" path="../../VisionSim/bin/"/>
+      <Reference name="zlib.net" path="../../VisionSim/bin/"/>
+
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
+        </Match>
+      </Files>
+    </Project>
+
+    <Project frameworkVersion="v4_5" name="Vision.Physics.OpenDynamicsEngine" path="Vision/Physics/OpenDynamicsEngine" type="Library">
+      <Configuration name="Debug" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../../VisionSim/bin/</ReferencePath>
+      <Reference name="System"/>
+      <Reference name="System.Core"/>
+
+      <Reference name="Vision.Framework"/>
+      
+      <Reference name="Nini" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverseTypes" path="../../../VisionSim/bin/"/>
+
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
+        </Match>
+      </Files>
+    </Project>
+
+    <Project frameworkVersion="v4_5" name="Vision.ScriptEngines.DotNetEngine" path="Vision/ScriptEngines/DotNetEngine" type="Library">
+      <Configuration name="Debug" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../../VisionSim/bin/</ReferencePath>
+      <Reference name="Microsoft.CSharp"/>
+      <Reference name="System"/>
+      <Reference name="System.Core"/>
+      <Reference name="System.Data"/>
+      <Reference name="System.Drawing"/>
+      <Reference name="System.Runtime.Remoting"/>
+      <Reference name="System.Xml"/>
+
+      <Reference name="Vision.DataManager"/>
+      <Reference name="Vision.Framework"/>
+      
+      <Reference name="Nini" path="../../../VisionSim/bin/"/>
+      <Reference name="ScriptEngineParser" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverseTypes" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse.StructuredData" path="../../../VisionSim/bin/"/>
+      <Reference name="SmartThreadPool.dll" path="../../../VisionSim/bin/"/>
+      <Reference name="Tools" path="../../../VisionSim/bin/"/>
+
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
+        </Match>
+      </Files>
+    </Project>
+
+    <Project frameworkVersion="v4_5" name="Vision.BotManager" path="Vision/BotManager" type="Library">
+      <Configuration name="Debug" platform="x86">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x86">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="x64">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x64">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../VisionSim/bin/</ReferencePath>
+      <Reference name="System"/>
+      <Reference name="System.Core"/>
+      <Reference name="System.Data"/>
+      <Reference name="System.Runtime.Remoting"/>
+      <Reference name="System.Xml"/>
+
+      <Reference name="Vision.DataManager"/>
+      <Reference name="Vision.Framework"/>
+      <Reference name="Vision.ScriptEngines.DotNetEngine"/>
+      
+      <Reference name="Nini" path="../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse" path="../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverseTypes" path="../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse.StructuredData" path="../../VisionSim/bin/"/>
+      <Reference name="Tools" path="../../VisionSim/bin/"/>
+
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
+        </Match>
+      </Files>
+    </Project>
+
+    <?include file="addon-modules/*/prebuild*.xml" ?>
+
+  </Solution>
+
+</Prebuild>
