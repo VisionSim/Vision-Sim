@@ -1,10 +1,14 @@
---------------- Vision Developers -----------------------
+--------------- Vision-Sim Developers -----------------------
+
+BritanyannCopperfield
+
+--------------- WhiteCore-Sim Developers -----------------------
 
 Fly-Man-
 Greythane
 
 
---------------- Vision contributors (Thanks for all the patches :)) -----------------------
+--------------- WhiteCore-Sim contributors (Thanks for all the patches :)) -----------------------
 
 Nhede
 Emperorstarfinder
