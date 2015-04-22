@@ -23,4 +23,4 @@ Support is available from various sources.
 
 * IRC channel #Vision-support on freenode (http://webchat.freenode.net?channels=%23Vision-support)
 
-* Check out https://github.com/VisionSim/Vision-Dev for the latest developments, downloads and forum
+* Check out https://github.com/VisionSim/Vision-Sim for the latest developments, downloads and forum
