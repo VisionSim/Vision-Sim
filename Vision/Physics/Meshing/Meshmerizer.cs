@@ -27,25 +27,25 @@
 
 //#define SPAM
 
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Physics;
-using Vision.Framework.SceneInfo;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
-#if DEBUGING
-using PrimMesher;
-#else
-using Vision.Physics.PrimMesher;
-#endif
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
+using ComponentAce.Compression.Libs.zlib;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
+using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
-using ComponentAce.Compression.Libs.ZLib;
+using Vision.Framework.Physics;
+using Vision.Framework.SceneInfo;
+
+#if DEBUGING
+using PrimMesher;
+#else
+using Vision.Physics.PrimMesher;
+#endif
 
 namespace Vision.Physics.Meshing
 {

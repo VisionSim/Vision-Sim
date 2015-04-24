@@ -25,7 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
@@ -37,13 +41,8 @@ using Vision.Framework.Utilities;
 using Nini.Config;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Security.Cryptography;
-using System.Text;
 using Vision.Framework.Services.ClassHelpers.Assets;
-using ComponentAce.Compression.Libs.ZLib;
+using ComponentAce.Compression.Libs.zLib;
 
 namespace Vision.Modules.Caps
 {
