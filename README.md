@@ -7,6 +7,21 @@ increased technology focus, heavy emphasis on working with other developers,
 whether it be viewer based developers or server based developers, 
 and a set of features around stability and simplified usability for users.
 
+## Configuration
+*To see how to configure WhiteCore, look at "Setting up VisionSim.txt" in the VisionDocs folder for more information*
+
+Windows:
+   Run the 'runprebuild.bat' file.
+   This will check you current system configuration, compile the correct Visual Studio 2010 soultion and project files and prompt you to build immediately (if desired)
+
+*nix:      (Also OSX)
+   Execute the 'runprebuild.sh' form a terminal or console shell.
+   You will be prompted for your desired configuration, the appropriate solution and project files for Mono will be compiled and finally, prompt you to build immediately (if desired)
+   
+OSX:
+   Run the 'runprebuild.command' shell command by 'double clicking' in Finder.
+   You will be prompted for your desired configuration, the appropriate solution and project files for Mono will be compiled and finally, prompt you to build immediately (if desired)
+
 ## Compiling Vision-Sim
 
 *To compile Vision, look at the Compiling.txt in the VisionDocs folder for more information*
