@@ -28,12 +28,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using NUnit.Framework;
 using Vision.DataManager.Migration;
 using Vision.DataManager.Migration.Migrators;
 using Vision.DataManager.MySQL;
 using Vision.DataManager.SQLite;
-using NUnit.Framework;
-
 
 namespace Vision.DataManager.Tests
 {

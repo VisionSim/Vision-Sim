@@ -25,11 +25,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.DataManager.Migration;
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Services;
-using Vision.Framework.Utilities;
-using OpenMetaverse;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -37,6 +32,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Community.CsharpSqlite.SQLiteClient;
+using OpenMetaverse;
+using Vision.DataManager.Migration;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Services;
+using Vision.Framework.Utilities;
 
 namespace Vision.DataManager.SQLite
 {
