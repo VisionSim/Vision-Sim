@@ -30,6 +30,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using ComponentAce.Compression.Libs.zlib;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
@@ -37,12 +41,8 @@ using Vision.Framework.SceneInfo;
 using Vision.Framework.Servers.HttpServer;
 using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Servers.HttpServer.Interfaces;
-using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
 using Vision.Framework.Services.ClassHelpers.Assets;
-using ComponentAce.Compression.Libs.zLib;
+using Vision.Framework.Utilities;
 
 namespace Vision.Modules.Caps
 {
