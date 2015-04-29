@@ -31,11 +31,11 @@ using Vision.Framework.Utilities;
 
 namespace Vision.DataManager.Migration.Migrators.Generics
 {
-    public class GenericsMigrator_5 : Migrator
+    public class GenericsMigrator_1 : Migrator
     {
-        public GenericsMigrator_5()
+        public GenericsMigrator_1()
         {
-            Version = new Version(0, 0, 5);
+            Version = new Version(0, 0, 1);
             MigrationName = "Generics";
 
             schema = new List<SchemaDefinition>();
