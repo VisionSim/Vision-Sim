@@ -147,6 +147,12 @@ namespace Vision.Modules.WorldMap
             int height = viewport.Height * 2;
                             
             WarpRenderer renderer = new WarpRenderer();
+            if (!renderer.CreateScene(width, height))
+            {
+                MainConsole.Instance.Error("[Warp3D]: Unable to create the required! Maybe lack of RAM?");
+                return new Bitmap(Constants.RegionSize, Constants.RegionSize, Pixel.Format24bppRgb);
+            }
+
             renderer.CreateScene(width, height);
             renderer.Scene.autoCalcNormals = false;
             if (threeD)
