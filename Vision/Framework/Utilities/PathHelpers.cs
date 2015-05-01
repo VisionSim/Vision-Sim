@@ -26,10 +26,10 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.IO;
 using Vision.Framework.ConsoleFramework;
-using System.Collections.Generic;
 
 namespace Vision.Framework.Utilities
 {
@@ -102,7 +102,10 @@ namespace Vision.Framework.Utilities
         /// <param name="createPath">If set to <c>true</c> create path.</param>
         public static string VerifyWriteFile(string fileName, string defaultExt, string defaultDir, bool createPath)
         {
-            // some file sanity checks when saving 
+            // some file sanity checks when saving
+            if (fileName == "")
+                return "";
+
             string extension = Path.GetExtension (fileName);
             if (!defaultExt.StartsWith ("."))
                 defaultExt = "." + defaultExt;
@@ -193,6 +196,9 @@ namespace Vision.Framework.Utilities
         public static string VerifyReadFile(string fileName, string defaultExt, string defaultDir, bool showErrors)
         {
             // some sanity checks...
+            if (fileName == "")
+                return "";
+
             string extension = Path.GetExtension(fileName).ToLower();
             if (!defaultExt.StartsWith ("."))
                 defaultExt = "." + defaultExt;
