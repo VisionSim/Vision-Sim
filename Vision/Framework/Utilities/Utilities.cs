@@ -73,6 +73,20 @@ namespace Vision.Framework.Utilities
                    MainServer.Instance.Port.ToString();
         }
 
+        public static string GetRegionMaturity(int Maturity)
+        {
+            switch(Maturity)
+            {
+                case 13:
+                    return "PG";
+                case 21:
+                    return "Mature";
+                case 42:
+                    return "Adult";
+                default:
+                    return "Unknown";
+            }
+        }
         /// <summary>
         ///     What is our version?
         /// </summary>

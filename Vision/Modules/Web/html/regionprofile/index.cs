@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org, http://aurora-sim.org, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -91,6 +91,7 @@ namespace Vision.Modules.Web
                 vars.Add("RegionSizeY", region.RegionSizeY);
                 vars.Add("RegionType", region.RegionType);
                 vars.Add("RegionTerrain", region.RegionTerrain);
+                vars.Add("RegionMaturity", Utilities.GetRegionMaturity(region.Access);
 
                 bool regionIsOnline = (region.Flags & (int)RegionFlags.RegionOnline) == (int)RegionFlags.RegionOnline;
                 vars.Add("RegionOnline",
@@ -191,6 +192,7 @@ namespace Vision.Modules.Web
                 vars.Add("RegionSizeText", translator.GetTranslatedString("RegionSizeText"));
                 vars.Add("RegionNameText", translator.GetTranslatedString("RegionNameText"));
                 vars.Add("RegionTypeText", translator.GetTranslatedString("RegionTypeText"));
+                vars.Add("RegionMaturityText", Translator.GetTrandlatedString("RegionMaturityText"));
                 vars.Add("RegionTerrainText", translator.GetTranslatedString("RegionTerrainText"));
                 vars.Add("RegionInfoText", translator.GetTranslatedString("RegionInfoText"));
                 vars.Add("RegionOnlineText", translator.GetTranslatedString("RegionOnlineText"));
