@@ -355,19 +355,32 @@ namespace Vision.Modules
                 //            ? 0 
                 //            : info.RegionLocZ / Constants.RegionSize)).ToString ())) * Constants.RegionSize;
 
+                var haveSize = true;
+                var sizeCheck = "";
                 do
                 {
-                    info.RegionSizeX = int.Parse (MainConsole.Instance.Prompt ("Region size X", info.RegionSizeX.ToString ()));
+                    info.RegionSizeX = int.Parse(MainConsole.Instance.Prompt("Region size X", info.RegionSizeX.ToString()));
                     if (info.RegionSizeX > Constants.MaxRegionSize)
-                        MainConsole.Instance.CleanInfo ("    Sorry, size cannot be greater than the recommended maximum of " + Constants.MaxRegionSize);
-                } while (info.RegionSizeX > Constants.MaxRegionSize);
+                    {
+                        MainConsole.Instance.CleanInfo("      The currently recommended maximum size is " + "? (yes/no)", "no");
+                        haveSize = sizeCheck.ToLower().StartsWith("y");
+                    }
+                } while (!haveSize);
+
+                // assume square regions
+                info.RegionSizeY = info.RegionSizeX;
 
                 do
                 {
-                    info.RegionSizeY = int.Parse (MainConsole.Instance.Prompt ("Region size Y", info.RegionSizeY.ToString ()));
-                    if (info.RegionSizeY > Constants.MaxRegionSize)
-                        MainConsole.Instance.CleanInfo ("    Sorry, size cannot be greater than the recommended maximum of " + Constants.MaxRegionSize);
-                } while (info.RegionSizeY > Constants.MaxRegionSize);
+                    info.RegionSizeX = int.Parse(MainConsole.Instance.Prompt("Region size X", info.RegionSizeX.ToString()));
+                    if (info.RegionSizeX > Constants.MaxRegionSize)
+                    {
+                        MainConsole.Instance.CleanInfo("      The currently recommended maximum size is " + "? (yes/no)", "no");
+                        haveSize = sizeCheck.ToLower().StartsWith("y");
+                    }
+                } while (! haveSize);
+
+                bool bigRegion = ((info.RegionSizeX > Constants.MaxRegionSize) || (info.RegionSizeY > Constants.MaxRegionSize));
 
                 // * Mainland / Full Region (Private)
                 // * Mainland / Homestead
@@ -379,7 +392,7 @@ namespace Vision.Modules
                     (info.RegionType == "" ? "Estate" : info.RegionType));
 
                 // Region presets or advanced setup
-                string setupMode;                             
+                string setupMode;
                 string terrainOpen = "Grassland";                             
                 string terrainFull = "Grassland";
                 var responses = new List<string>();
@@ -390,12 +403,14 @@ namespace Vision.Modules
                     responses.Add("Full Region");
                     responses.Add("Homestead");
                     responses.Add ("Openspace");
-                    responses.Add ("Whitecore");                            // TODO: remove?
+                    responses.Add ("Vision");                            // TODO: remove?
                     responses.Add ("Custom");                               
                     setupMode = MainConsole.Instance.Prompt("Mainland region type?", "Full Region", responses).ToLower ();
 
                     // allow specifying terrain for Openspace
-                    if (setupMode.StartsWith("o"))
+                    if (bigRegion)
+                        terrainOpen = "flatland";
+                    else if (setupMode.StartsWith("0"))
                         terrainOpen = MainConsole.Instance.Prompt("Openspace terrain ( Grassland, Swamp, Aquatic)?", terrainOpen).ToLower();
 
                 } else
@@ -403,13 +418,15 @@ namespace Vision.Modules
                     // Estate regions
                     info.RegionType = "Estate / ";                   
                     responses.Add("Full Region");
-                    responses.Add ("Whitecore");                            // TODO: Vision 'standard' setup, rename??
+                    responses.Add ("Vision");                            // TODO: Vision 'standard' setup, rename??
                     responses.Add ("Custom");
                     setupMode = MainConsole.Instance.Prompt("Estate region type?","Full Region", responses).ToLower();
                 }
 
                 // terrain can be specified for Full or custom regions
-                if (setupMode.StartsWith ("f") || setupMode.StartsWith ("c"))
+                if (bigRegion)
+                    terrainOpen = "flatland";
+                else if (setupMode.StartsWith ("f") || setupMode.StartsWith ("c"))
                 {
                     var tresp = new List<string>();
                     tresp.Add ("Flatland");
@@ -474,8 +491,10 @@ namespace Vision.Modules
                         info.RegionTerrain = "Aquatic";
                     else if (terrainOpen.StartsWith("s"))
                         info.RegionTerrain = "Swamp";
-                    else
+                    else if (terrainOpen.StartsWith("g"))
                         info.RegionTerrain = "Grassland";
+                    else
+                        info.RegionTerrain = "Flatland";
 
                     info.Startup = StartupType.Medium;
                     info.SeeIntoThisSimFromNeighbor = true;
@@ -490,7 +509,10 @@ namespace Vision.Modules
                     // 'Homestead' setup
                     info.RegionType = info.RegionType + "Homestead";                   
                     //info.RegionPort;            // use auto assigned port
-                    info.RegionTerrain = "Homestead";
+                    if (bigRegion)
+                        info.RegionTerrain = "Flatland";
+                    else if
+                        info.RegionTerrain = "Homestead";
                     info.Startup = StartupType.Medium;
                     info.SeeIntoThisSimFromNeighbor = true;
                     info.InfiniteRegion = false;
