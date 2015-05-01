@@ -1,5 +1,5 @@
 ## Version details of libraries
-# Last updated:  April 22nd 2015
+# Last updated:  May 1st 2015
 # BritanyannCopperfield
 
 Library															Version					Last updated			Origin
@@ -38,6 +38,7 @@ odex86.dll														???						11 Apr 2013
 openjpeg-dotnet-x86_64.dll										1.1.0.0					08 Apr 2013
 openjpeg-dotnet.dll												1.1.0.0					08 Apr 2013
 protobuf-net.dll												2.0.0.622				08 Apr 2013
+PrimMesher.dll                                                  1.0.1.72                01 May 2015
 zlib.net.dll													1.0.3.0					10 Dec 2012
 
 lib32/BulletSim.dll												???						24 Jun 2013				OpenSim
