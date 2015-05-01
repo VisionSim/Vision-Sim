@@ -91,7 +91,7 @@ namespace Vision.Modules.Web
                 vars.Add("RegionSizeY", region.RegionSizeY);
                 vars.Add("RegionType", region.RegionType);
                 vars.Add("RegionTerrain", region.RegionTerrain);
-                vars.Add("RegionMaturity", Utilities.GetRegionMaturity(region.Access);
+                vars.Add("RegionMaturity", Utilities.GetRegionMaturity(region.Access));
 
                 bool regionIsOnline = (region.Flags & (int)RegionFlags.RegionOnline) == (int)RegionFlags.RegionOnline;
                 vars.Add("RegionOnline",
