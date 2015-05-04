@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -12020,6 +12020,36 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
                         else if ((LSL_Integer)o == ScriptBaseClass.OBJECT_PATHFINDING_TYPE)
                         {
                             ret.Add(0);
+                        }
+                            else if ((LSL_Integer)o == ScriptBaseClass.OBJECT_PHYSICS)
+                        {
+                            ret.Add(0);
+                            break;
+                        }
+                        else if ((LSL_Integer)o == ScriptBaseClass.OBJECT_PHANTOM)
+                        {
+                            ret.Add(0);
+                            break;
+                        }
+                        else if ((LSL_Integer)o == ScriptBaseClass.OBJECT_TEMP_ON_REZ)
+                        {
+                            ret.Add(0);
+                            break;
+                        }
+                        else if ((LSL_Integer)o == ScriptBaseClass.OBJECT_RENDER_WEIGHT)
+                        {
+                            ret.Add(-1);
+                            break;
+                        }
+                        else if ((LSL_Integer)o == ScriptBaseClass.OBJECT_HOVER_HEIGHT)
+                        {
+                            ret.Add(new LSL_Float(0));
+                            break;
+                        }
+                        else if ((LSL_Integer)o == ScriptBaseClass.OBJECT_LAST_OWNER_ID)
+                        {
+                            ret.Add(ScriptBaseClass.NULL_KEY;
+                            break;
                         }
                         else
                         {

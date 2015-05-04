@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -591,6 +591,13 @@ namespace Vision.ScriptEngines.DotNetEngine.Runtime
         public static readonly LSL_Types.LSLInteger OBJECT_ROOT = 18;
         public static readonly LSL_Types.LSLInteger OBJECT_ATTACHED_POINT = 19;
         public static readonly LSL_Types.LSLInteger OBJECT_PATHFINDING_TYPE = 20;
+        public static readonly LSL_Types.LSLInteger OBJECT_PHYSICS = 21;
+        public static readonly LSL_Types.LSLInteger OBJECT_PHANTOM = 22;
+        public static readonly LSL_Types.LSLInteger OBJECT_TEMP_ON_REZ = 23;
+        public static readonly LSL_Types.LSLInteger OBjECT_RENDER_WEIGHT = 24;
+        public static readonly LSL_Types.LSLInteger OBJECT_HOVER_HEIGHT = 25;
+        public static readonly LSL_Types.LSLInteger OBJECT_BODY_SHAPE_TYPE = 26;
+        public static readonly LSL_Types.LSLInteger OBJECT_LAST_OWNER_ID = 27;
 
         public static readonly vector ZERO_VECTOR = new vector(0.0, 0.0, 0.0);
         public static readonly rotation ZERO_ROTATION = new rotation(0.0, 0.0, 0.0, 1.0);
