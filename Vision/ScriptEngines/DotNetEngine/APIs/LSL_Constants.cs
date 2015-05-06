@@ -25,10 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using vector = Vision.ScriptEngines.DotNetEngine.LSL_Types.Vector3;
-using rotation = Vision.ScriptEngines.DotNetEngine.LSL_Types.Quaternion;
+using vector = Vision.ScriptEngine.DotNetEngine.LSL_Types.Vector3;
+using rotation = Vision.ScriptEngine.DotNetEngine.LSL_Types.Quaternion;
 
-namespace Vision.ScriptEngines.DotNetEngine.Runtime
+namespace Vision.ScriptEngine.DotNetEngine.Runtime
 {
     public partial class ScriptBaseClass
     {
@@ -594,11 +594,11 @@ namespace Vision.ScriptEngines.DotNetEngine.Runtime
         public static readonly LSL_Types.LSLInteger OBJECT_PHYSICS = 21;
         public static readonly LSL_Types.LSLInteger OBJECT_PHANTOM = 22;
         public static readonly LSL_Types.LSLInteger OBJECT_TEMP_ON_REZ = 23;
-        public static readonly LSL_Types.LSLInteger OBjECT_RENDER_WEIGHT = 24;
+        public static readonly LSL_Types.LSLInteger OBJECT_RENDER_WEIGHT = 24;
         public static readonly LSL_Types.LSLInteger OBJECT_HOVER_HEIGHT = 25;
         public static readonly LSL_Types.LSLInteger OBJECT_BODY_SHAPE_TYPE = 26;
         public static readonly LSL_Types.LSLInteger OBJECT_LAST_OWNER_ID = 27;
-
+        
         public static readonly vector ZERO_VECTOR = new vector(0.0, 0.0, 0.0);
         public static readonly rotation ZERO_ROTATION = new rotation(0.0, 0.0, 0.0, 1.0);
 

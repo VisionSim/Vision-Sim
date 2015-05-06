@@ -41,8 +41,8 @@ using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Services.ClassHelpers.Inventory;
 using Vision.Framework.Services.ClassHelpers.Profile;
 using Vision.Framework.Utilities;
-using Vision.ScriptEngines.DotNetEngine.Plugins;
-using Vision.ScriptEngines.DotNetEngine.Runtime;
+using Vision.ScriptEngine.DotNetEngine.Plugins;
+using Vision.ScriptEngine.DotNetEngine.Runtime;
 using Nini.Config;
 using OpenMetaverse;
 using OpenMetaverse.Packets;
@@ -56,17 +56,17 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using GridRegion = Vision.Framework.Services.GridRegion;
-using LSL_Float = Vision.ScriptEngines.DotNetEngine.LSL_Types.LSLFloat;
-using LSL_Integer = Vision.ScriptEngines.DotNetEngine.LSL_Types.LSLInteger;
-using LSL_Key = Vision.ScriptEngines.DotNetEngine.LSL_Types.LSLString;
-using LSL_List = Vision.ScriptEngines.DotNetEngine.LSL_Types.list;
-using LSL_Rotation = Vision.ScriptEngines.DotNetEngine.LSL_Types.Quaternion;
-using LSL_String = Vision.ScriptEngines.DotNetEngine.LSL_Types.LSLString;
-using LSL_Vector = Vision.ScriptEngines.DotNetEngine.LSL_Types.Vector3;
+using LSL_Float = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLFloat;
+using LSL_Integer = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLInteger;
+using LSL_Key = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLString;
+using LSL_List = Vision.ScriptEngine.DotNetEngine.LSL_Types.list;
+using LSL_Rotation = Vision.ScriptEngine.DotNetEngine.LSL_Types.Quaternion;
+using LSL_String = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLString;
+using LSL_Vector = Vision.ScriptEngine.DotNetEngine.LSL_Types.Vector3;
 using PrimType = Vision.Framework.SceneInfo.PrimType;
 using RegionFlags = Vision.Framework.Services.RegionFlags;
 
-namespace Vision.ScriptEngines.DotNetEngine.APIs
+namespace Vision.ScriptEngine.DotNetEngine.APIs
 {
     /// <summary>
     ///     Contains all LSL ll-functions. This class will be in Default AppDomain.
@@ -75,7 +75,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
     {
         const double DoubleDifference = .0000005;
 
-        protected IScriptModulePlugin m_ScriptEngines;
+        protected IScriptModulePlugin m_ScriptEngine;
         protected ISceneChildEntity m_host;
         protected uint m_localID;
         protected UUID m_itemID;
@@ -174,27 +174,27 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
         /// </summary>
         protected bool m_allowOpenSimParams = false;
 
-        public void Initialize(IScriptModulePlugin ScriptEngines, ISceneChildEntity host, uint localID, UUID itemID,
+        public void Initialize(IScriptModulePlugin ScriptEngine, ISceneChildEntity host, uint localID, UUID itemID,
                                ScriptProtectionModule module)
         {
-            m_ScriptEngines = ScriptEngines;
+            m_ScriptEngine = ScriptEngine;
             m_host = host;
             m_localID = localID;
             m_itemID = itemID;
             ScriptProtection = module;
 
             m_ScriptDelayFactor =
-                m_ScriptEngines.Config.GetFloat("ScriptDelayFactor", 1.0f);
+                m_ScriptEngine.Config.GetFloat("ScriptDelayFactor", 1.0f);
             m_ScriptDistanceFactor =
-                m_ScriptEngines.Config.GetFloat("ScriptDistanceLimitFactor", 1.0f);
+                m_ScriptEngine.Config.GetFloat("ScriptDistanceLimitFactor", 1.0f);
             m_MinTimerInterval =
-                m_ScriptEngines.Config.GetFloat("MinTimerInterval", 0.5f);
+                m_ScriptEngine.Config.GetFloat("MinTimerInterval", 0.5f);
             m_automaticLinkPermission =
-                m_ScriptEngines.Config.GetBoolean("AutomaticLinkPermission", false);
+                m_ScriptEngine.Config.GetBoolean("AutomaticLinkPermission", false);
             m_allowOpenSimParams =
-                m_ScriptEngines.Config.GetBoolean("AllowOpenSimParamsInLLFunctions", false);
+                m_ScriptEngine.Config.GetBoolean("AllowOpenSimParamsInLLFunctions", false);
             m_notecardLineReadCharsMax =
-                m_ScriptEngines.Config.GetInt("NotecardLineReadCharsMax", 255);
+                m_ScriptEngine.Config.GetInt("NotecardLineReadCharsMax", 255);
             if (m_notecardLineReadCharsMax > 65535)
                 m_notecardLineReadCharsMax = 65535;
 
@@ -286,7 +286,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
 
         public void state(string newState)
         {
-            m_ScriptEngines.SetState(m_itemID, newState);
+            m_ScriptEngine.SetState(m_itemID, newState);
             throw new EventAbortException();
         }
 
@@ -301,7 +301,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
             {
                 m_UrlModule.ScriptRemoved(m_itemID);
             }
-            m_ScriptEngines.ResetScript(m_host.UUID, m_itemID, true);
+            m_ScriptEngine.ResetScript(m_host.UUID, m_itemID, true);
         }
 
         public void llResetOtherScript(string name)
@@ -311,7 +311,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
 
 
             if ((item = ScriptByName(name)) != UUID.Zero)
-                m_ScriptEngines.ResetScript(m_host.UUID, item, false);
+                m_ScriptEngine.ResetScript(m_host.UUID, item, false);
             else
                 Error("llResetOtherScript", "Can't find script '" + name + "'");
         }
@@ -326,7 +326,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
 
             if ((item = ScriptByName(name)) != UUID.Zero)
             {
-                return m_ScriptEngines.GetScriptRunningState(item) ? 1 : 0;
+                return m_ScriptEngine.GetScriptRunningState(item) ? 1 : 0;
             }
 
             Error("llGetScriptState", "Can't find script '" + name + "'");
@@ -356,7 +356,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
 
             if ((item = ScriptByName(name)) != UUID.Zero)
             {
-                m_ScriptEngines.SetScriptRunningState(item, run == 1);
+                m_ScriptEngine.SetScriptRunningState(item, run == 1);
             }
             else
             {
@@ -1127,7 +1127,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
 
             UUID keyID = UUID.Zero;
             UUID.TryParse(id, out keyID);
-            SensorRepeatPlugin sensorPlugin = (SensorRepeatPlugin)m_ScriptEngines.GetScriptPlugin("SensorRepeat");
+            SensorRepeatPlugin sensorPlugin = (SensorRepeatPlugin)m_ScriptEngine.GetScriptPlugin("SensorRepeat");
             sensorPlugin.SenseOnce(m_host.UUID, m_itemID, name, keyID, type, range, arc, m_host);
         }
 
@@ -1138,7 +1138,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
             UUID keyID = UUID.Zero;
             UUID.TryParse(id, out keyID);
 
-            SensorRepeatPlugin sensorPlugin = (SensorRepeatPlugin)m_ScriptEngines.GetScriptPlugin("SensorRepeat");
+            SensorRepeatPlugin sensorPlugin = (SensorRepeatPlugin)m_ScriptEngine.GetScriptPlugin("SensorRepeat");
             sensorPlugin.SetSenseRepeatEvent(m_host.UUID, m_itemID, name, keyID, type, range, arc, rate, m_host);
         }
 
@@ -1146,7 +1146,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
         {
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "LSL", m_host, "LSL", m_itemID)) return;
 
-            SensorRepeatPlugin sensorPlugin = (SensorRepeatPlugin)m_ScriptEngines.GetScriptPlugin("SensorRepeat");
+            SensorRepeatPlugin sensorPlugin = (SensorRepeatPlugin)m_ScriptEngine.GetScriptPlugin("SensorRepeat");
             sensorPlugin.RemoveScript(m_host.UUID, m_itemID);
         }
 
@@ -1183,7 +1183,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "LSL", m_host, "LSL", m_itemID))
                 return new LSL_String();
 
-            DetectParams detectedParams = m_ScriptEngines.GetDetectParams(m_host.UUID, m_itemID, number);
+            DetectParams detectedParams = m_ScriptEngine.GetDetectParams(m_host.UUID, m_itemID, number);
             if (detectedParams == null)
                 return String.Empty;
             return detectedParams.Name;
@@ -1194,7 +1194,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "LSL", m_host, "LSL", m_itemID))
                 return new LSL_String();
 
-            DetectParams detectedParams = m_ScriptEngines.GetDetectParams(m_host.UUID, m_itemID, number);
+            DetectParams detectedParams = m_ScriptEngine.GetDetectParams(m_host.UUID, m_itemID, number);
             if (detectedParams == null)
                 return String.Empty;
             return detectedParams.Key.ToString();
@@ -1205,7 +1205,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "LSL", m_host, "LSL", m_itemID))
                 return new LSL_String();
 
-            DetectParams detectedParams = m_ScriptEngines.GetDetectParams(m_host.UUID, m_itemID, number);
+            DetectParams detectedParams = m_ScriptEngine.GetDetectParams(m_host.UUID, m_itemID, number);
             if (detectedParams == null)
                 return String.Empty;
             return detectedParams.Owner.ToString();
@@ -1216,7 +1216,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "LSL", m_host, "LSL", m_itemID))
                 return new LSL_Integer();
 
-            DetectParams detectedParams = m_ScriptEngines.GetDetectParams(m_host.UUID, m_itemID, number);
+            DetectParams detectedParams = m_ScriptEngine.GetDetectParams(m_host.UUID, m_itemID, number);
             if (detectedParams == null)
                 return 0;
             return new LSL_Integer(detectedParams.Type);
@@ -1227,7 +1227,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "LSL", m_host, "LSL", m_itemID))
                 return new LSL_Vector();
 
-            DetectParams detectedParams = m_ScriptEngines.GetDetectParams(m_host.UUID, m_itemID, number);
+            DetectParams detectedParams = m_ScriptEngine.GetDetectParams(m_host.UUID, m_itemID, number);
             if (detectedParams == null)
                 return new LSL_Vector();
             return detectedParams.Position;
@@ -1238,7 +1238,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "LSL", m_host, "LSL", m_itemID))
                 return new LSL_Vector();
 
-            DetectParams detectedParams = m_ScriptEngines.GetDetectParams(m_host.UUID, m_itemID, number);
+            DetectParams detectedParams = m_ScriptEngine.GetDetectParams(m_host.UUID, m_itemID, number);
             if (detectedParams == null)
                 return new LSL_Vector();
             return detectedParams.Velocity;
@@ -1249,7 +1249,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "LSL", m_host, "LSL", m_itemID))
                 return new LSL_Vector();
 
-            DetectParams parms = m_ScriptEngines.GetDetectParams(m_host.UUID, m_itemID, number);
+            DetectParams parms = m_ScriptEngine.GetDetectParams(m_host.UUID, m_itemID, number);
             if (parms == null)
                 return new LSL_Vector(0, 0, 0);
 
@@ -1261,7 +1261,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "LSL", m_host, "LSL", m_itemID))
                 return new LSL_Rotation();
 
-            DetectParams detectedParams = m_ScriptEngines.GetDetectParams(m_host.UUID, m_itemID, number);
+            DetectParams detectedParams = m_ScriptEngine.GetDetectParams(m_host.UUID, m_itemID, number);
             if (detectedParams == null)
                 return new LSL_Rotation();
             return detectedParams.Rotation;
@@ -1272,7 +1272,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "LSL", m_host, "LSL", m_itemID))
                 return new LSL_Integer();
 
-            DetectParams detectedParams = m_ScriptEngines.GetDetectParams(m_host.UUID, m_itemID, number);
+            DetectParams detectedParams = m_ScriptEngine.GetDetectParams(m_host.UUID, m_itemID, number);
             if (detectedParams == null)
                 return new LSL_Integer(0);
             if (m_host.GroupID == detectedParams.Group)
@@ -1285,7 +1285,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "LSL", m_host, "LSL", m_itemID))
                 return new LSL_Integer();
 
-            DetectParams parms = m_ScriptEngines.GetDetectParams(m_host.UUID, m_itemID, number);
+            DetectParams parms = m_ScriptEngine.GetDetectParams(m_host.UUID, m_itemID, number);
             if (parms == null)
                 return new LSL_Integer(0);
 
@@ -1300,7 +1300,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "LSL", m_host, "LSL", m_itemID))
                 return new LSL_Vector();
 
-            DetectParams detectedParams = m_ScriptEngines.GetDetectParams(m_host.UUID, m_itemID, index);
+            DetectParams detectedParams = m_ScriptEngine.GetDetectParams(m_host.UUID, m_itemID, index);
             if (detectedParams == null)
                 return new LSL_Vector();
             return detectedParams.TouchBinormal;
@@ -1314,7 +1314,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "LSL", m_host, "LSL", m_itemID))
                 return new LSL_Integer();
 
-            DetectParams detectedParams = m_ScriptEngines.GetDetectParams(m_host.UUID, m_itemID, index);
+            DetectParams detectedParams = m_ScriptEngine.GetDetectParams(m_host.UUID, m_itemID, index);
             if (detectedParams == null)
                 return new LSL_Integer(-1);
             return new LSL_Integer(detectedParams.TouchFace);
@@ -1328,7 +1328,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "LSL", m_host, "LSL", m_itemID))
                 return new LSL_Vector();
 
-            DetectParams detectedParams = m_ScriptEngines.GetDetectParams(m_host.UUID, m_itemID, index);
+            DetectParams detectedParams = m_ScriptEngine.GetDetectParams(m_host.UUID, m_itemID, index);
             if (detectedParams == null)
                 return new LSL_Vector();
             return detectedParams.TouchNormal;
@@ -1342,7 +1342,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "LSL", m_host, "LSL", m_itemID))
                 return new LSL_Vector();
 
-            DetectParams detectedParams = m_ScriptEngines.GetDetectParams(m_host.UUID, m_itemID, index);
+            DetectParams detectedParams = m_ScriptEngine.GetDetectParams(m_host.UUID, m_itemID, index);
             if (detectedParams == null)
                 return new LSL_Vector();
             return detectedParams.TouchPos;
@@ -1356,7 +1356,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "LSL", m_host, "LSL", m_itemID))
                 return new LSL_Vector();
 
-            DetectParams detectedParams = m_ScriptEngines.GetDetectParams(m_host.UUID, m_itemID, index);
+            DetectParams detectedParams = m_ScriptEngine.GetDetectParams(m_host.UUID, m_itemID, index);
             if (detectedParams == null)
                 return new LSL_Vector(-1.0, -1.0, 0.0);
             return detectedParams.TouchST;
@@ -1370,7 +1370,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "LSL", m_host, "LSL", m_itemID))
                 return new LSL_Vector();
 
-            DetectParams detectedParams = m_ScriptEngines.GetDetectParams(m_host.UUID, m_itemID, index);
+            DetectParams detectedParams = m_ScriptEngine.GetDetectParams(m_host.UUID, m_itemID, index);
             if (detectedParams == null)
                 return new LSL_Vector(-1.0, -1.0, 0.0);
             return detectedParams.TouchUV;
@@ -2279,7 +2279,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
             // Capped movemment if distance > 10m (http://wiki.secondlife.com/wiki/LlSetPos)
             LSL_Vector currentPos = GetPartLocalPos(part);
             float ground = 0;
-            bool disable_underground_movement = m_ScriptEngines.Config.GetBoolean("DisableUndergroundMovement", true);
+            bool disable_underground_movement = m_ScriptEngine.Config.GetBoolean("DisableUndergroundMovement", true);
 
             ITerrainChannel heightmap = World.RequestModuleInterface<ITerrainChannel>();
             if (heightmap != null)
@@ -3231,7 +3231,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.Low, "llRezPrim", m_host, "LSL", m_itemID))
                 return DateTime.Now;
 
-            if (m_ScriptEngines.Config.GetBoolean("AllowllRezObject", true))
+            if (m_ScriptEngine.Config.GetBoolean("AllowllRezObject", true))
             {
                 if (Double.IsNaN(rot.x) || Double.IsNaN(rot.y) || Double.IsNaN(rot.z) || Double.IsNaN(rot.s))
                     return DateTime.Now;
@@ -3576,7 +3576,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
                 sec = m_MinTimerInterval;
 
             // Setting timer repeat
-            TimerPlugin timerPlugin = (TimerPlugin)m_ScriptEngines.GetScriptPlugin("Timer");
+            TimerPlugin timerPlugin = (TimerPlugin)m_ScriptEngine.GetScriptPlugin("Timer");
             timerPlugin.SetTimerEvent(m_host.UUID, m_itemID, sec);
         }
 
@@ -3932,7 +3932,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
                                                                                  if (email == null)
                                                                                      return;
 
-                                                                                 m_ScriptEngines.PostScriptEvent(
+                                                                                 m_ScriptEngine.PostScriptEvent(
                                                                                      m_itemID, m_host.UUID, "email",
                                                                                      new Object[]
                                                                                          {
@@ -4006,7 +4006,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
         {
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "LSL", m_host, "LSL", m_itemID)) return;
 
-            m_ScriptEngines.SetMinEventDelay(m_itemID, m_host.UUID, delay);
+            m_ScriptEngine.SetMinEventDelay(m_itemID, m_host.UUID, delay);
         }
 
         /// <summary>
@@ -4162,14 +4162,14 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
         {
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "LSL", m_host, "LSL", m_itemID)) return 0;
 
-            return m_ScriptEngines.GetStartParameter(m_itemID, m_host.UUID);
+            return m_ScriptEngine.GetStartParameter(m_itemID, m_host.UUID);
         }
 
         public void llGodLikeRezObject(string inventory, LSL_Vector pos)
         {
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "LSL", m_host, "LSL", m_itemID)) return;
 
-            if (m_ScriptEngines.Config.GetBoolean("AllowGodFunctions", false))
+            if (m_ScriptEngine.Config.GetBoolean("AllowGodFunctions", false))
             {
                 if (World.Permissions.CanRunConsoleCommand(m_host.OwnerID))
                 {
@@ -4238,7 +4238,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
                 item.PermsGranter = UUID.Zero;
                 item.PermsMask = 0;
 
-                m_ScriptEngines.PostScriptEvent(m_itemID, m_host.UUID, new EventParams(
+                m_ScriptEngine.PostScriptEvent(m_itemID, m_host.UUID, new EventParams(
                                                                           "run_time_permissions", new Object[]
                                                                                                       {
                                                                                                           new LSL_Integer
@@ -4270,7 +4270,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
                         m_host.TaskInventory[invItemID].PermsMask = perm;
                     }
 
-                    m_ScriptEngines.PostScriptEvent(m_itemID, m_host.UUID, new EventParams(
+                    m_ScriptEngine.PostScriptEvent(m_itemID, m_host.UUID, new EventParams(
                                                                               "run_time_permissions", new Object[]
                                                                                                           {
                                                                                                               new LSL_Integer
@@ -4298,7 +4298,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
                         m_host.TaskInventory[invItemID].PermsMask = perm;
                     }
 
-                    m_ScriptEngines.PostScriptEvent(m_itemID, m_host.UUID, new EventParams(
+                    m_ScriptEngine.PostScriptEvent(m_itemID, m_host.UUID, new EventParams(
                                                                               "run_time_permissions", new Object[]
                                                                                                           {
                                                                                                               new LSL_Integer
@@ -4341,7 +4341,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
             }
 
             // Requested agent is not in range, refuse perms
-            m_ScriptEngines.PostScriptEvent(m_itemID, m_host.UUID, new EventParams(
+            m_ScriptEngine.PostScriptEvent(m_itemID, m_host.UUID, new EventParams(
                                                                       "run_time_permissions", new Object[]
                                                                                                   {
                                                                                                       new LSL_Integer(0)
@@ -4370,7 +4370,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
                 m_host.TaskInventory[invItemID].PermsMask = answer;
             }
 
-            m_ScriptEngines.PostScriptEvent(m_itemID, m_host.UUID, new EventParams(
+            m_ScriptEngine.PostScriptEvent(m_itemID, m_host.UUID, new EventParams(
                                                                       "run_time_permissions", new Object[]
                                                                                                   {
                                                                                                       new LSL_Integer(
@@ -4935,7 +4935,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
 
             UUID rq = UUID.Random();
 
-            DataserverPlugin dataserverPlugin = (DataserverPlugin)m_ScriptEngines.GetScriptPlugin("Dataserver");
+            DataserverPlugin dataserverPlugin = (DataserverPlugin)m_ScriptEngine.GetScriptPlugin("Dataserver");
             UUID tid = dataserverPlugin.RegisterRequest(m_host.UUID,
                                                         m_itemID, rq.ToString());
 
@@ -4957,7 +4957,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
                 if (item.Type == 3 && item.Name == name)
                 {
                     UUID rq = UUID.Random();
-                    DataserverPlugin dataserverPlugin = (DataserverPlugin)m_ScriptEngines.GetScriptPlugin("Dataserver");
+                    DataserverPlugin dataserverPlugin = (DataserverPlugin)m_ScriptEngine.GetScriptPlugin("Dataserver");
 
                     UUID tid = dataserverPlugin.RegisterRequest(m_host.UUID,
                                                                 m_itemID, rq.ToString());
@@ -5129,7 +5129,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
                                           new LSL_Integer(linkNumber), new LSL_Integer(num), new LSL_String(msg),
                                           new LSL_String(id)
                                       };
-                m_ScriptEngines.PostObjectEvent(part.UUID, "link_message", resobj);
+                m_ScriptEngine.PostObjectEvent(part.UUID, "link_message", resobj);
             }
         }
 
@@ -7589,7 +7589,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
         {
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "LSL", m_host, "LSL", m_itemID)) return 0;
 
-            bool result = m_ScriptEngines.PipeEventsForScript(m_host,
+            bool result = m_ScriptEngine.PipeEventsForScript(m_host,
                                                              new Vector3((float)pos.x, (float)pos.y, (float)pos.z));
             if (result)
             {
@@ -7746,7 +7746,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
                 {
                     string ExternalHostName = MainServer.Instance.HostName;
 
-                    xmlRpcRouter.RegisterNewReceiver(m_ScriptEngines.ScriptModule, channelID, m_host.UUID,
+                    xmlRpcRouter.RegisterNewReceiver(m_ScriptEngine.ScriptModule, channelID, m_host.UUID,
                                                      m_itemID, String.Format("http://{0}:{1}/", ExternalHostName,
                                                                              xmlrpcMod.Port.ToString()));
                 }
@@ -7759,7 +7759,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
                                           new LSL_Integer(0),
                                           new LSL_String(String.Empty)
                                       };
-                m_ScriptEngines.PostScriptEvent(m_itemID, m_host.UUID, new EventParams("remote_data", resobj,
+                m_ScriptEngine.PostScriptEvent(m_itemID, m_host.UUID, new EventParams("remote_data", resobj,
                                                                                       new DetectParams[0]),
                                                EventPriority.FirstStart);
             }
@@ -10060,7 +10060,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "LSL", m_host, "LSL", m_itemID)) return;
 
 
-            if (m_ScriptEngines.Config.GetBoolean("AllowGodFunctions", false))
+            if (m_ScriptEngine.Config.GetBoolean("AllowGodFunctions", false))
             {
                 if (World.Permissions.CanRunConsoleCommand(m_host.OwnerID))
                 {
@@ -10127,7 +10127,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
         {
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "LSL", m_host, "LSL", m_itemID)) return;
 
-            if (m_ScriptEngines.Config.GetBoolean("AllowGodFunctions", false))
+            if (m_ScriptEngine.Config.GetBoolean("AllowGodFunctions", false))
             {
                 if (World.Permissions.CanRunConsoleCommand(m_host.OwnerID))
                 {
@@ -10198,7 +10198,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "LSL", m_host, "LSL", m_itemID)) return "";
 
             if (m_UrlModule != null)
-                return m_UrlModule.RequestSecureURL(m_ScriptEngines.ScriptModule, m_host, m_itemID).ToString();
+                return m_UrlModule.RequestSecureURL(m_ScriptEngine.ScriptModule, m_host, m_itemID).ToString();
             return UUID.Zero.ToString();
         }
 
@@ -10385,7 +10385,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
                 {
                     UUID rq = UUID.Random();
 
-                    DataserverPlugin dataserverPlugin = (DataserverPlugin)m_ScriptEngines.GetScriptPlugin("Dataserver");
+                    DataserverPlugin dataserverPlugin = (DataserverPlugin)m_ScriptEngine.GetScriptPlugin("Dataserver");
 
                     tid = dataserverPlugin.RegisterRequest(m_host.UUID, m_itemID, rq.ToString());
 
@@ -10406,7 +10406,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
 
 
             if (m_UrlModule != null)
-                return m_UrlModule.RequestURL(m_ScriptEngines.ScriptModule, m_host, m_itemID).ToString();
+                return m_UrlModule.RequestURL(m_ScriptEngine.ScriptModule, m_host, m_itemID).ToString();
             return UUID.Zero.ToString();
         }
 
@@ -11311,7 +11311,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
                 return DateTime.Now;
 
             UUID avatarID = m_host.OwnerID;
-            DetectParams detectedParams = m_ScriptEngines.GetDetectParams(m_host.UUID, m_itemID, 0);
+            DetectParams detectedParams = m_ScriptEngine.GetDetectParams(m_host.UUID, m_itemID, 0);
             // only works on the first detected avatar
             //This only works in touch events or if the item is attached to the avatar
             if (detectedParams == null && !m_host.IsAttachment) return DateTime.Now;
@@ -11619,7 +11619,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
             Dictionary<string, string> httpHeaders = new Dictionary<string, string>();
 
             string shard = "OpenSim";
-            IConfigSource config = m_ScriptEngines.ConfigSource;
+            IConfigSource config = m_ScriptEngine.ConfigSource;
             if (config.Configs["LSLRemoting"] != null)
                 shard = config.Configs["LSLRemoting"].GetString("shard", shard);
 
@@ -12021,35 +12021,35 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
                         {
                             ret.Add(0);
                         }
-                            else if ((LSL_Integer)o == ScriptBaseClass.OBJECT_PHYSICS)
+                        else if ((LSL_Integer)o == ScriptBaseClass.OBJECT_PHYSICS)
                         {
-                            ret.Add(0);
-                            break;
+                        	ret.Add(0);
+                        	break;
                         }
                         else if ((LSL_Integer)o == ScriptBaseClass.OBJECT_PHANTOM)
                         {
-                            ret.Add(0);
-                            break;
+                        	ret.Add(0);
+                        	break;
                         }
                         else if ((LSL_Integer)o == ScriptBaseClass.OBJECT_TEMP_ON_REZ)
                         {
-                            ret.Add(0);
-                            break;
+                        	ret.Add(0);
+                        	break;
                         }
                         else if ((LSL_Integer)o == ScriptBaseClass.OBJECT_RENDER_WEIGHT)
                         {
-                            ret.Add(-1);
-                            break;
+                        	ret.Add(-1);
+                        	break;
                         }
                         else if ((LSL_Integer)o == ScriptBaseClass.OBJECT_HOVER_HEIGHT)
                         {
-                            ret.Add(new LSL_Float(0));
-                            break;
+                        	ret.Add(new LSL_Float(0));
+                        	break;
                         }
                         else if ((LSL_Integer)o == ScriptBaseClass.OBJECT_LAST_OWNER_ID)
                         {
-                            ret.Add(ScriptBaseClass.NULL_KEY;
-                            break;
+                        	ret.Add(ScriptBaseClass.NULL_KEY);
+                        	break;
                         }
                         else
                         {
@@ -12694,9 +12694,9 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
                 return UUID.Zero.ToString();
             }
 
-            // was: UUID tid = tid = m_ScriptEngines.
+            // was: UUID tid = tid = m_ScriptEngine.
             UUID rq = UUID.Random();
-            DataserverPlugin dataserverPlugin = (DataserverPlugin)m_ScriptEngines.GetScriptPlugin("Dataserver");
+            DataserverPlugin dataserverPlugin = (DataserverPlugin)m_ScriptEngine.GetScriptPlugin("Dataserver");
             UUID tid = dataserverPlugin.RegisterRequest(m_host.UUID, m_itemID, rq.ToString());
 
             if (NotecardCache.IsCached(assetID))
@@ -12741,7 +12741,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
                 return UUID.Zero.ToString();
             }
 
-            DataserverPlugin dataserverPlugin = (DataserverPlugin)m_ScriptEngines.GetScriptPlugin("Dataserver");
+            DataserverPlugin dataserverPlugin = (DataserverPlugin)m_ScriptEngine.GetScriptPlugin("Dataserver");
             UUID tid = dataserverPlugin.RegisterRequest(m_host.UUID, m_itemID, uuid.ToString());
 
             Util.FireAndForget(delegate
@@ -12771,7 +12771,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
                 return UUID.Zero.ToString();
             }
 
-            DataserverPlugin dataserverPlugin = (DataserverPlugin)m_ScriptEngines.GetScriptPlugin("Dataserver");
+            DataserverPlugin dataserverPlugin = (DataserverPlugin)m_ScriptEngine.GetScriptPlugin("Dataserver");
             UUID tid = dataserverPlugin.RegisterRequest(m_host.UUID, m_itemID, uuid.ToString());
 
             Util.FireAndForget(delegate
@@ -12822,9 +12822,9 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
                 return UUID.Zero.ToString();
             }
 
-            // was: UUID tid = tid = m_ScriptEngines.
+            // was: UUID tid = tid = m_ScriptEngine.
             UUID rq = UUID.Random();
-            DataserverPlugin dataserverPlugin = (DataserverPlugin)m_ScriptEngines.GetScriptPlugin("Dataserver");
+            DataserverPlugin dataserverPlugin = (DataserverPlugin)m_ScriptEngine.GetScriptPlugin("Dataserver");
             UUID tid = dataserverPlugin.RegisterRequest(m_host.UUID, m_itemID, rq.ToString());
 
             if (NotecardCache.IsCached(assetID))
@@ -12888,7 +12888,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
         {
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.Severe, "print", m_host, "LSL", m_itemID)) return;
 
-            if (m_ScriptEngines.Config.GetBoolean("AllowosConsoleCommand", false))
+            if (m_ScriptEngine.Config.GetBoolean("AllowosConsoleCommand", false))
             {
                 if (World.Permissions.CanRunConsoleCommand(m_host.OwnerID))
                 {
@@ -13027,7 +13027,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
             else
                 data = llList2CSV(new LSL_Types.list("SERVICE_ERROR"));
 
-            m_ScriptEngines.PostScriptEvent(m_itemID, m_host.UUID, new EventParams(
+            m_ScriptEngine.PostScriptEvent(m_itemID, m_host.UUID, new EventParams(
                                                                       "transaction_result", new Object[]
                                                                                                 {
                                                                                                     transferID, success,
