@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org/, Skidz Tweak
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Aurora-Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -30,23 +30,23 @@ using System.Collections.Generic;
 using System.Timers;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
-using Vision.Framework.Services;
-using Vision.Framework.Modules;
-using Vision.Framework.Utilities;
 using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Modules;
+using Vision.Framework.Services;
+using Vision.Framework.Utilities;
 
 namespace Vision.Modules.Currency
 {
     class GiveStipends
     {
-        private readonly Timer taskTimer = new Timer();
-        private readonly bool m_enabled = false;
-        private SimpleCurrencyConfig m_options;
+        readonly Timer taskTimer = new Timer();
+        readonly bool m_enabled = false;
         readonly IScheduleService m_scheduler;
-        private readonly IRegistryCore m_registry;
-        private readonly SimpleCurrencyConnector m_currencyService;
+        readonly IRegistryCore m_registry;
+        readonly BaseCurrencyConnector m_currencyService;
+        BaseCurrencyConfig m_options;
 
-        public GiveStipends(SimpleCurrencyConfig options, IRegistryCore registry, SimpleCurrencyConnector CurrencyService)
+        public GiveStipends(BaseCurrencyConfig options, IRegistryCore registry, BaseCurrencyConnector CurrencyService)
         {
             m_enabled = options.GiveStipends;
             if (!m_enabled) return;
@@ -65,7 +65,7 @@ namespace Vision.Modules.Currency
             registry.RequestModuleInterface<ISimulationBase>().EventManager.RegisterEventHandler("UpdateUserInformation", CreateUserInformation);
         }
         
-        private object CreateUserInformation(string functionname, object parameters)
+        object CreateUserInformation(string functionname, object parameters)
         {
             UUID userid = (UUID)parameters;
             IUserAccountService userService = m_registry.RequestModuleInterface<IUserAccountService>();
@@ -90,7 +90,7 @@ namespace Vision.Modules.Currency
 
         }
 
-        private object DeleteUserInformation(string functionname, object parameters)
+        object DeleteUserInformation(string functionname, object parameters)
         {
             UUID user = (UUID)parameters;
             SchedulerItem i = m_scheduler.Get(user.ToString(), "StipendsPayout");
@@ -99,7 +99,7 @@ namespace Vision.Modules.Currency
             return null;
         }
 
-        private object StipendsPayOutEvent(string functionName, object parameters)
+        object StipendsPayOutEvent(string functionName, object parameters)
         {
             if (functionName != "StipendsPayout") return null;
             StipendsInfo si = new StipendsInfo();
@@ -126,7 +126,7 @@ namespace Vision.Modules.Currency
             return "";
         }
 
-        private void TimerElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
+        void TimerElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
         {
             taskTimer.Enabled = false;
             IUserAccountService userService = m_registry.RequestModuleInterface<IUserAccountService>();
@@ -148,7 +148,7 @@ namespace Vision.Modules.Currency
             }
         }
 
-        private static DateTime UnixTimeStampToDateTime(int unixTimeStamp)
+        static DateTime UnixTimeStampToDateTime(int unixTimeStamp)
         {
             // Unix timestamp is seconds past epoch
             DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0);
