@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -436,8 +436,10 @@ namespace Vision.ScriptEngine.DotNetEngine.Runtime
         public static readonly LSL_Types.LSLInteger PRIM_SCULPT_TYPE_TORUS = 2;
         public static readonly LSL_Types.LSLInteger PRIM_SCULPT_TYPE_PLANE = 3;
         public static readonly LSL_Types.LSLInteger PRIM_SCULPT_TYPE_CYLINDER = 4;
+        
         //Vision-Sim const only
         public static readonly LSL_Types.LSLInteger PRIM_SCULPT_TYPE_MESH = 5;
+        
         //???
         public static readonly LSL_Types.LSLInteger PRIM_SCULPT_FLAG_INVERT = 64;
         public static readonly LSL_Types.LSLInteger PRIM_SCULPT_FLAG_MIRROR = 128;
@@ -570,6 +572,7 @@ namespace Vision.ScriptEngine.DotNetEngine.Runtime
         public static readonly LSL_Types.LSLInteger DEBUG_CHANNEL = 0x7FFFFFFF;
         public static readonly LSL_Types.LSLInteger PUBLIC_CHANNEL = 0x00000000;
 
+        // Constants for llGetObjectDetails
         public static readonly LSL_Types.LSLInteger OBJECT_UNKNOWN_DETAIL = -1;
         public static readonly LSL_Types.LSLInteger OBJECT_NAME = 1;
         public static readonly LSL_Types.LSLInteger OBJECT_DESC = 2;
@@ -711,6 +714,7 @@ namespace Vision.ScriptEngine.DotNetEngine.Runtime
         public static readonly LSL_Types.LSLInteger PROFILE_NONE = 0;
         public static readonly LSL_Types.LSLInteger PROFILE_SCRIPT_MEMORY = 1;
 
+        //llManageEstateAccess
         public static readonly LSL_Types.LSLInteger ESTATE_ACCESS_ALLOWED_AGENT_ADD = 0;
         public static readonly LSL_Types.LSLInteger ESTATE_ACCESS_ALLOWED_AGENT_REMOVE = 1;
         public static readonly LSL_Types.LSLInteger ESTATE_ACCESS_ALLOWED_GROUP_ADD = 2;
@@ -730,8 +734,17 @@ namespace Vision.ScriptEngine.DotNetEngine.Runtime
         public static readonly LSL_Types.LSLInteger KFM_CMD_PLAY = 1024;
         public static readonly LSL_Types.LSLInteger KFM_CMD_PAUSE = 2048;
         public static readonly LSL_Types.LSLInteger KFM_DATA = 4096;
-
-
+        
+        // Pathfinding types
+        public static readonly LSL_Types.LSLInteger OPT_OTHER = -1;
+        public static readonly LSL_Types.LSLInteger OPT_LEGACY_LINKSET = 0;
+        public static readonly LSL_Types.LSLInteger OPT_AVATAR = 1;
+        public static readonly LSL_Types.LSLInteger OPT_CHARACTER = 2;
+        public static readonly LSL_Types.LSLInteger OPT_WALKABLE = 3;
+        public static readonly LSL_Types.LSLInteger OPT_STATIC_OBSTACLE = 4;
+        public static readonly LSL_Types.LSLInteger OPT_MATERIAL_VOLUME = 5;
+        public static readonly LSL_Types.LSLInteger OPT_EXCLUSION_VOLUME = 6;
+        
         public static readonly LSL_Types.LSLInteger CHARACTER_DESIRED_SPEED = 1;
         public static readonly LSL_Types.LSLInteger CHARACTER_RADIUS = 2;
         public static readonly LSL_Types.LSLInteger CHARACTER_LENGTH = 3;
