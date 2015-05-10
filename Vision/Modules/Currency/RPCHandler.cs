@@ -68,7 +68,7 @@ namespace Vision.Modules.Currency
 
             // we only want this if we are local..
             bool remoteCalls = false;
-            IConfig connectorConfig = config.Configs["WhiteCoreConnectors"];
+            IConfig connectorConfig = config.Configs["VisionConnectors"];
             if ((connectorConfig != null) && connectorConfig.Contains("DoRemoteCalls"))
                 remoteCalls = connectorConfig.GetBoolean("DoRemoteCalls", false);
 

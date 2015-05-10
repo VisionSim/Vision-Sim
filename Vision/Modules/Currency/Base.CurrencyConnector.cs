@@ -58,7 +58,7 @@ namespace Vision.Modules.Currency
         
         #endregion
 
-        #region IWhiteCoreDataPlugin Members
+        #region IVisionDataPlugin Members
 
         public string Name
         {
@@ -400,7 +400,6 @@ namespace Vision.Modules.Currency
 
 
             Dictionary<string, bool> sort = new Dictionary<string, bool>(1);
-            //sort["PrincipalID"] = true;
             sort["Created"] = false;        // descending order
 
             List<string> query = m_gd.Query(new string[] {"*"}, _REALMPURCHASE, filter, sort, start, count);

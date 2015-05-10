@@ -239,39 +239,13 @@ namespace Vision.Modules.BaseCurrencyModule
 
             quoteResponse.Add("success", false);
             quoteResponse.Add("errorMessage", "Invalid parameters passed to the quote box");
-			quoteResponse.Add("errorURI", "http://whitecore-sim.org/wiki");
+			quoteResponse.Add("errorURI", "http://vision-sim.org/wiki");
             returnval.Value = quoteResponse;
             return returnval;
         }
 
         protected XmlRpcResponse buy_func(XmlRpcRequest request, IPEndPoint ep)
         {
-            /*Hashtable requestData = (Hashtable)request.Params[0];
-            UUID agentId = UUID.Zero;
-            int amount = 0;
-            if (requestData.ContainsKey("agentId") && requestData.ContainsKey("currencyBuy"))
-            {
-                UUID.TryParse((string)requestData["agentId"], out agentId);
-                try
-                {
-                    amount = (Int32)requestData["currencyBuy"];
-                }
-                catch (InvalidCastException)
-                {
-                }
-                if (agentId != UUID.Zero)
-                {
-                    uint buyer = CheckExistAndRefreshFunds(agentId);
-                    buyer += (uint)amount;
-                    UpdateBalance(agentId,buyer);
-					
-                    IClientAPI client = LocateClientObject(agentId);
-                    if (client != null)
-                    {
-                        SendMoneyBalance(client, agentId, client.SessionId, UUID.Zero);
-                    }
-                }
-            }*/
             XmlRpcResponse returnval = new XmlRpcResponse();
             Hashtable returnresp = new Hashtable {{"success", true}};
             returnval.Value = returnresp;
