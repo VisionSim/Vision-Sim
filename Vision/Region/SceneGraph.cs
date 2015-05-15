@@ -25,7 +25,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.Packets;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
@@ -35,13 +41,6 @@ using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.Packets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 
 namespace Vision.Region
 {
@@ -285,6 +284,8 @@ namespace Vision.Region
         protected internal void AddScenePresence(IScenePresence presence)
         {
             AddEntity(presence, true);
+            MainConsole.Instance.DebugFormat("Adding {0} to {1} at {2}:{3}",
+                presence.Name, presence.Scene.RegionInfo.RegionName, presence.AbsolutePosition.X, presence.AbsolutePosition.Y);
         }
 
         /// <summary>

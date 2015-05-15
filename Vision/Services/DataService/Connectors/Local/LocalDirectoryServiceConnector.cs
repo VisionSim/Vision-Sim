@@ -25,6 +25,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using EventFlags = OpenMetaverse.DirectoryManager.EventFlags;
+using GridRegion = Vision.Framework.Services.GridRegion;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
@@ -33,25 +41,16 @@ using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Profile;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using EventFlags = OpenMetaverse.DirectoryManager.EventFlags;
-using GridRegion = Vision.Framework.Services.GridRegion;
 
 namespace Vision.Services.DataService
 {
     public class LocalDirectoryServiceConnector : ConnectorBase, IDirectoryServiceConnector
     {
-        private IGenericData GD;
-        private string m_userClassifiedsTable = "user_classifieds";
-        private string m_eventInfoTable = "event_information";
-        private string m_eventNotificationTable = "event_notifications";
-        private string m_SearchParcelTable = "search_parcel";
+        IGenericData GD;
+        string m_userClassifiedsTable = "user_classifieds";
+        string m_eventInfoTable = "event_information";
+        string m_eventNotificationTable = "event_notifications";
+        string m_SearchParcelTable = "search_parcel";
 
         #region IDirectoryServiceConnector Members
 
@@ -118,13 +117,13 @@ namespace Vision.Services.DataService
                                                                          args.GlobalID,
                                                                          args.LocalID,
                                                                          args.UserLocation.X,
-                                                                         args.UserLocation.Y,
+                                                                         args.UserLocation.Y, // This is actually the landing position for teleporting
                                                                          args.UserLocation.Z,
                                                                          args.Name,
                                                                          args.Description,
                                                                          args.Flags,
                                                                          args.Dwell,
-                                                                         UUID.Zero,
+                                                                         UUID.Zero, // InfoUUID - This isn't used?
                                                                          ((args.Flags & (uint) ParcelFlags.ForSale) ==
                                                                           (uint) ParcelFlags.ForSale)
                                                                              ? 1
@@ -132,8 +131,8 @@ namespace Vision.Services.DataService
                                                                          args.SalePrice,
                                                                          args.AuctionID,
                                                                          args.Area,
-                                                                         0,
-                                                                         args.Maturity,
+                                                                         0, // EstateID - This isn't used?
+                                                                         args.Maturity, 
                                                                          args.OwnerID,
                                                                          args.GroupID,
                                                                          ((args.Flags & (uint) ParcelFlags.ShowDirectory) ==
@@ -165,7 +164,7 @@ namespace Vision.Services.DataService
 
         #region Parcels
 
-        private static List<LandData> Query2LandData(List<string> Query)
+        static List<LandData> Query2LandData(List<string> Query)
         {
             List<LandData> Lands = new List<LandData>();
 
@@ -184,6 +183,7 @@ namespace Vision.Services.DataService
                                             Flags = uint.Parse(Query[i + 8]),
                                             Dwell = int.Parse(Query[i + 9]),
                                             //InfoUUID = UUID.Parse(Query[i + 10]),
+                                            SalePrice = int.Parse(Query[i + 12]),
                                             AuctionID = uint.Parse(Query[i + 13]),
                                             Area = int.Parse(Query[i + 14]),
                                             Maturity = int.Parse(Query[i + 16]),
@@ -198,6 +198,14 @@ namespace Vision.Services.DataService
                 catch
                 {
                 }
+
+                // Set some flags
+                if (uint.Parse (Query [i + 11]) != 0)
+                    LandData.Flags |= (uint) ParcelFlags.ForSale;
+
+                if (uint.Parse(Query[i + 19]) != 0)
+                    LandData.Flags |= (uint) ParcelFlags.ShowDirectory;
+
                 LandData.Category = (string.IsNullOrEmpty(Query[i + 22]))
                                         ? ParcelCategory.None
                                         : (ParcelCategory) int.Parse(Query[i + 22]);
@@ -362,7 +370,7 @@ namespace Vision.Services.DataService
                                }).ToList();
         }
 
-        private static QueryFilter GetParcelsByRegionWhereClause(UUID RegionID, UUID owner, ParcelFlags flags,
+        static QueryFilter GetParcelsByRegionWhereClause(UUID RegionID, UUID owner, ParcelFlags flags,
                                                                  ParcelCategory category)
         {
             QueryFilter filter = new QueryFilter();
@@ -819,7 +827,7 @@ namespace Vision.Services.DataService
             return Data;
         }
 
-        private void ConvertBytesToLandBitmap(ref bool[,] tempConvertMap, byte[] Bitmap, int sizeX)
+        void ConvertBytesToLandBitmap(ref bool[,] tempConvertMap, byte[] Bitmap, int sizeX)
         {
             try
             {
@@ -1116,7 +1124,7 @@ namespace Vision.Services.DataService
             return Data;
         }
 
-        private static List<EventData> Query2EventData(List<string> RetVal)
+        static List<EventData> Query2EventData(List<string> RetVal)
         {
             List<EventData> Events = new List<EventData>();
             IRegionData regiondata = Framework.Utilities.DataManager.RequestPlugin<IRegionData>();
