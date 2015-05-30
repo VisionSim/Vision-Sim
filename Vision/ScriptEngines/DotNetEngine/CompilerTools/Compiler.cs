@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,9 +25,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.ModuleLoader;
-using OpenMetaverse;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -35,6 +32,9 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using OpenMetaverse;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.ModuleLoader;
 
 namespace Vision.ScriptEngines.DotNetEngine.CompilerTools
 {
@@ -225,8 +225,6 @@ namespace Vision.ScriptEngines.DotNetEngine.CompilerTools
             m_errors.Clear();
 
             UUID assemblyGuid = UUID.Random();
-
-            //            assembly = CheckDirectories(FilePrefix + "_compiled_" + itemID.ToString() + "V" + VersionID + ".dll", itemID);
 
             assembly = CheckDirectories(assemblyGuid.ToString() + ".dll", assemblyGuid);
 

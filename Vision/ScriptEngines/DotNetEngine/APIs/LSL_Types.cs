@@ -1801,25 +1801,25 @@ namespace Vision.ScriptEngine.DotNetEngine
                 return new LSLInteger(i1.value/i2);
             }
 
-            //            static public LSLFloat operator +(LSLInteger i1, double f)
-            //            {
-            //                return new LSLFloat((double)i1.value + f);
-            //            }
+            //static public LSLFloat operator +(LSLInteger i1, double f)
+            //{
+            //    return new LSLFloat((double)i1.value + f);
+            //}
             //
-            //            static public LSLFloat operator -(LSLInteger i1, double f)
-            //            {
-            //                return new LSLFloat((double)i1.value - f);
-            //            }
+            //static public LSLFloat operator -(LSLInteger i1, double f)
+            //{
+            //    return new LSLFloat((double)i1.value - f);
+            //}
             //
-            //            static public LSLFloat operator *(LSLInteger i1, double f)
-            //            {
-            //                return new LSLFloat((double)i1.value * f);
-            //            }
+            //static public LSLFloat operator *(LSLInteger i1, double f)
+            //{
+            //    return new LSLFloat((double)i1.value * f);
+            //}
             //
-            //            static public LSLFloat operator /(LSLInteger i1, double f)
-            //            {
-            //                return new LSLFloat((double)i1.value / f);
-            //            }
+            //static public LSLFloat operator /(LSLInteger i1, double f)
+            //{
+            //    return new LSLFloat((double)i1.value / f);
+            //}
 
             public static LSLInteger operator -(LSLInteger i)
             {

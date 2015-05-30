@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -26,35 +26,35 @@
  */
 
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Remoting.Lifetime;
+using System.Xml;
+using OpenMetaverse;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
-using Vision.ScriptEngines.DotNetEngine.Runtime;
-using OpenMetaverse;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Lifetime;
-using System.Xml;
-using LSL_Float = Vision.ScriptEngines.DotNetEngine.LSL_Types.LSLFloat;
-using LSL_Integer = Vision.ScriptEngines.DotNetEngine.LSL_Types.LSLInteger;
-using LSL_Key = Vision.ScriptEngines.DotNetEngine.LSL_Types.LSLString;
-using LSL_List = Vision.ScriptEngines.DotNetEngine.LSL_Types.list;
-using LSL_Rotation = Vision.ScriptEngines.DotNetEngine.LSL_Types.Quaternion;
-using LSL_String = Vision.ScriptEngines.DotNetEngine.LSL_Types.LSLString;
-using LSL_Vector = Vision.ScriptEngines.DotNetEngine.LSL_Types.Vector3;
+using Vision.ScriptEngine.DotNetEngine.Runtime;
+using LSL_Float = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLFloat;
+using LSL_Integer = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLInteger;
+using LSL_Key = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLString;
+using LSL_List = Vision.ScriptEngine.DotNetEngine.LSL_Types.list;
+using LSL_Rotation = Vision.ScriptEngine.DotNetEngine.LSL_Types.Quaternion;
+using LSL_String = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLString;
+using LSL_Vector = Vision.ScriptEngine.DotNetEngine.LSL_Types.Vector3;
 
-namespace Vision.ScriptEngines.DotNetEngine.APIs
+namespace Vision.ScriptEngine.DotNetEngine.APIs
 {
 	[Serializable]
 	public class AA_Api : MarshalByRefObject, IScriptApi
     {
         internal IAssetConnector AssetConnector;
         internal ScriptProtectionModule ScriptProtection;
-        internal IScriptModulePlugin m_ScriptEngines;
+        internal IScriptModulePlugin m_ScriptEngine;
         internal ISceneChildEntity m_host;
         internal UUID m_itemID;
 
@@ -338,7 +338,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
         public void aaRaiseError(string message)
         {
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "aaRaiseError", m_host, "AA", m_itemID)) return;
-            m_ScriptEngines.PostScriptEvent(m_itemID, m_host.UUID, "on_error", new object[] {message});
+            m_ScriptEngine.PostScriptEvent(m_itemID, m_host.UUID, "on_error", new object[] {message});
             throw new EventAbortException();
         }
 
@@ -716,11 +716,11 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
 
         #region IScriptApi Members
 
-        public void Initialize(IScriptModulePlugin ScriptEngines, ISceneChildEntity host, uint localID, UUID itemID,
+        public void Initialize(IScriptModulePlugin ScriptEngine, ISceneChildEntity host, uint localID, UUID itemID,
                                ScriptProtectionModule module)
         {
             m_itemID = itemID;
-            m_ScriptEngines = ScriptEngines;
+            m_ScriptEngine = ScriptEngine;
             m_host = host;
             ScriptProtection = module;
             AssetConnector = Framework.Utilities.DataManager.RequestPlugin<IAssetConnector>();
@@ -770,8 +770,8 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
             if (lease.CurrentState == LeaseState.Initial)
             {
                 lease.InitialLeaseTime = TimeSpan.FromMinutes(0);
-                //                lease.RenewOnCallTime = TimeSpan.FromSeconds(10.0);
-                //                lease.SponsorshipTimeout = TimeSpan.FromMinutes(1.0);
+                //lease.RenewOnCallTime = TimeSpan.FromSeconds(10.0);
+                //lease.SponsorshipTimeout = TimeSpan.FromMinutes(1.0);
             }
             return lease;
         }
@@ -817,7 +817,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
                 module.AddCombatPermission(client.AgentId);
 
             //Tell the prim about the new permissions
-            m_ScriptEngines.PostScriptEvent(m_itemID, m_host.UUID, new EventParams(
+            m_ScriptEngine.PostScriptEvent(m_itemID, m_host.UUID, new EventParams(
                                                                       "run_time_permissions", new Object[]
                                                                                                   {
                                                                                                       new LSL_Integer(
@@ -828,7 +828,7 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
 
         internal void ShoutError(string msg)
         {
-            dynamic api = m_ScriptEngines.GetApi(m_itemID, "ll");
+            dynamic api = m_ScriptEngine.GetApi(m_itemID, "ll");
             api.llShout(ScriptBaseClass.DEBUG_CHANNEL, msg);
         }
 

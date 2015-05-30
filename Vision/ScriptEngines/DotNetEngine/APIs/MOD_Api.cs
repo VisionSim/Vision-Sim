@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http;//opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,14 +25,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Runtime.Remoting.Lifetime;
+using OpenMetaverse;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 using Vision.ScriptEngines.DotNetEngine.Runtime;
-using OpenMetaverse;
-using System;
-using System.Runtime.Remoting.Lifetime;
 using LSL_Float = Vision.ScriptEngines.DotNetEngine.LSL_Types.LSLFloat;
 using LSL_Integer = Vision.ScriptEngines.DotNetEngine.LSL_Types.LSLInteger;
 using LSL_Key = Vision.ScriptEngines.DotNetEngine.LSL_Types.LSLString;
@@ -132,8 +131,8 @@ namespace Vision.ScriptEngines.DotNetEngine.APIs
             if (lease.CurrentState == LeaseState.Initial)
             {
                 lease.InitialLeaseTime = TimeSpan.FromMinutes(0);
-                //                lease.RenewOnCallTime = TimeSpan.FromSeconds(10.0);
-                //                lease.SponsorshipTimeout = TimeSpan.FromMinutes(1.0);
+                //lease.RenewOnCallTime = TimeSpan.FromSeconds(10.0);
+                //lease.SponsorshipTimeout = TimeSpan.FromMinutes(1.0);
             }
             return lease;
         }

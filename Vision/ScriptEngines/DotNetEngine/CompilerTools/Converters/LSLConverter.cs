@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,7 +31,7 @@ using Microsoft.CSharp;
 
 //using Microsoft.JScript;
 
-namespace Vision.ScriptEngines.DotNetEngine.CompilerTools
+namespace Vision.ScriptEngine.DotNetEngine.CompilerTools
 {
     public class LSLConverter : IScriptConverter
     {
@@ -50,13 +50,16 @@ namespace Vision.ScriptEngines.DotNetEngine.CompilerTools
         {
             m_compiler = compiler;
             new CSCodeGenerator(compiler);
-            //            LSL_Converter = new CSCodeGenerator(null, compiler);
 
             //Add new LSL events that haven't been added into the parser
-            LSL2CSCodeTransformer.AddLSLEvent(new EventInfo("transaction_result", new [] {
-                "LSL_Types.LSLString", "LSL_Types.LSLInteger", "LSL_Types.LSLString" }));
+            LSL2CSCodeTransformer.AddLSLEvent(new EventInfo("experience_permissions", new [] {
+                "LSL_Types.LSLString"}));
+            LSL2CSCodeTransformer.AddLSLEvent(new EventInfo("experience_permissions_denied", new [] {
+				"LSL_Types.LSLString", "LSL_Types.LSLInteger" }));
             LSL2CSCodeTransformer.AddLSLEvent(new EventInfo("path_update", new [] {
                 "LSL_Types.LSLInteger", "LSL_Types.list" }));
+            LSL2CSCodeTransformer.AddLSLEvent(new EventInfo("transaction_result", new [] {
+                "LSL_Types.LSLString", "LSL_Types.LSLInteger", "LSL_Types.LSLString" }));
         }
 
         public void Convert(string Script, out string CompiledScript,
@@ -66,9 +69,6 @@ namespace Vision.ScriptEngines.DotNetEngine.CompilerTools
             LSL_Converter = new CSCodeGenerator(m_compiler);
             CompiledScript = LSL_Converter.Convert(Script);
             PositionMap = LSL_Converter.PositionMap;
-
-            //Unless we are using the same LSL_Converter more than once, we don't need to do this
-            //LSL_Converter.Dispose(); //Resets it for next time
         }
 
         public string Name
@@ -195,19 +195,19 @@ namespace Vision.ScriptEngines.DotNetEngine.CompilerTools
         private string ReplaceTypes(string message)
         {
             message = message.Replace(
-                "Vision.ScriptEngines.DotNetEngine.LSL_Types.LSLString",
+                "WhiteCore.ScriptEngine.DotNetEngine.LSL_Types.LSLString",
                 "string");
 
             message = message.Replace(
-                "Vision.ScriptEngines.DotNetEngine.LSL_Types.LSLInteger",
+                "WhiteCore.ScriptEngine.DotNetEngine.LSL_Types.LSLInteger",
                 "integer");
 
             message = message.Replace(
-                "Vision.ScriptEngines.DotNetEngine.LSL_Types.LSLFloat",
+                "WhiteCore.ScriptEngine.DotNetEngine.LSL_Types.LSLFloat",
                 "float");
 
             message = message.Replace(
-                "Vision.ScriptEngines.DotNetEngine.LSL_Types.list",
+                "WhiteCore.ScriptEngine.DotNetEngine.LSL_Types.list",
                 "list");
 
             return message;
@@ -217,10 +217,10 @@ namespace Vision.ScriptEngines.DotNetEngine.CompilerTools
         {
             //Remove these long strings
             message = message.Replace(
-                "Vision.ScriptEngines.DotNetEngine.Runtime.ScriptBaseClass.",
+                "WhiteCore.ScriptEngine.DotNetEngine.Runtime.ScriptBaseClass.",
                 "");
             message = message.Replace(
-                "Vision.ScriptEngines.DotNetEngine.LSL_Types.",
+                "WhiteCore.ScriptEngine.DotNetEngine.LSL_Types.",
                 "");
             if (message.Contains("The best overloaded method match for"))
             {
