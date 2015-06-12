@@ -5001,7 +5001,7 @@ namespace Vision.Region
                     currRot.Normalize();
 
                     // difference between current orientation and desired orientation
-                    Quaternion dR = new Quaternion(currRot / APIDTarget;
+                    Quaternion dR = new Quaternion(currRot / APIDTarget);
 
                     // find axis and angle of rotation to rotate to desired orientation
                     Vector3 axis = Vector3.UnitX;
