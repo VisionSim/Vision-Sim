@@ -4,7 +4,7 @@ echo ========================================
 echo ==== Vision-Sim Configuration ==========
 echo ========================================
 echo.
-echo If you wish to customise the configuration, re-run with the switch '-p'
+echo If you wish to customize the configuration, re-run with the switch '-p'
 echo   e.g.   runprebuild -p
 echo.
 
@@ -19,7 +19,7 @@ if %bits% == x86 (
 	echo Found 32 bit architecture
 )
 
-rem ## Determin native framework
+rem ## Determine native framework
 :CheckOS
 set framework=4_5
 for /f "tokens=4-5 delims=. " %%i in ('ver') do set VERSION=%%i.%%j
