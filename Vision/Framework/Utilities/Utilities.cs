@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision-sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -54,13 +54,13 @@ namespace Vision.Framework.Utilities
         public static string HostName = "";
 
         /// <summary>
-        ///     Get the URL to the release notes for the current version of Vision
+        ///     Get the URL to the release notes for the current version of Universe
         /// </summary>
         /// <returns></returns>
         public static string GetServerReleaseNotesURL()
         {
 			return (MainServer.Instance.Secure ? "https://" : "http://") + MainServer.Instance.HostName +
-                   ":" + MainServer.Instance.Port.ToString() + "/VisionServerRelease" + VisionServerVersion() + ".html";
+                   ":" + MainServer.Instance.Port.ToString() + "/VisionServerRelease" + UniverseServerVersion() + ".html";
         }
 
         /// <summary>
@@ -72,21 +72,37 @@ namespace Vision.Framework.Utilities
 			return (MainServer.Instance.Secure ? "https://" : "http://") + MainServer.Instance.HostName + ":" +
                    MainServer.Instance.Port.ToString();
         }
-
+        
         public static string GetRegionMaturity(int Maturity)
+        {
+        	switch(Maturity)
+        	{
+        	case 13:
+        		return "PG";
+        	case 21:
+        		return "Mature";
+        	case 42:
+        		return "Adult";
+        	default:
+        		return "Unknown";
+        	}
+        }
+
+        public static string GetMaxMaturity(int Maturity)
         {
             switch(Maturity)
             {
-                case 13:
+                case 0:
                     return "PG";
-                case 21:
-                    return "Mature";
-                case 42:
-                    return "Adult";
+                case 1:
+                    return "M";
+                case 2:
+                    return "A";
                 default:
-                    return "Unknown";
+                    return "PG";
             }
         }
+
         /// <summary>
         ///     What is our version?
         /// </summary>
@@ -437,7 +453,7 @@ namespace Vision.Framework.Utilities
 
 
         /// <summary>
-        ///     Download the file from downloadLink and save it to Vision + Version +
+        ///     Download the file from downloadLink and save it to Universe + Version +
         /// </summary>
         /// <param name="downloadLink">Link to the download</param>
         /// <param name="filename">Name to put the download in</param>
@@ -595,7 +611,9 @@ namespace Vision.Framework.Utilities
             var userId = userID.ToString();
             return ( userId == Constants.GovernorUUID || 
                      userId == Constants.RealEstateOwnerUUID ||
-                     userId == Constants.LibraryOwner
+                     userId == Constants.LibraryOwner || 
+                     userId == Constants.BankerUUID ||
+                     userId == Constants.MarketplaceUUID
             );
         }
 

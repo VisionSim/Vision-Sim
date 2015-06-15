@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision-sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -26,10 +26,10 @@
  */
 
 using System;
-using Vision.Framework.Modules;
-using Vision.Framework.Utilities;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
+using Vision.Framework.Modules;
+using Vision.Framework.Utilities;
 
 namespace Vision.Framework.Services.ClassHelpers.Profile
 {
@@ -81,6 +81,18 @@ namespace Vision.Framework.Services.ClassHelpers.Profile
         public int MaxMaturity = 2;
 
         /// <summary>
+        /// 	Hoverheight of the user
+        /// </summary>
+        public double HoverHeight = 0.0;
+
+        /// <summary>
+        /// 	Permissions set by the user
+        /// </summary>
+        public int PermEveryone = 0;
+        public int PermGroup = 0;
+        public int PermNextOwner = 532480;
+
+        /// <summary>
         ///     Other information can be stored in here.
         ///     For ex, temperary ban info for this user
         /// </summary>
@@ -102,11 +114,15 @@ namespace Vision.Framework.Services.ClassHelpers.Profile
                              {
                                  {"PrincipalID", OSD.FromUUID(PrincipalID)},
                                  {"Flags", OSD.FromInteger((int) Flags)},
-                                 {"MaxMaturity", OSD.FromInteger(MaxMaturity)},
+                                 {"AcceptTOS", OSD.FromBoolean(AcceptTOS)},                                 
                                  {"MaturityRating", OSD.FromInteger(MaturityRating)},
+                                 {"MaxMaturity", OSD.FromInteger(MaxMaturity)},
+                                 {"HoverHeight", OSD.FromReal(HoverHeight)},
                                  {"Language", OSD.FromString(Language)},
-                                 {"AcceptTOS", OSD.FromBoolean(AcceptTOS)},
                                  {"LanguageIsPublic", OSD.FromBoolean(LanguageIsPublic)},
+                                 {"PermEveryone", OSD.FromInteger(PermEveryone)},
+                                 {"PermGroup", OSD.FromInteger(PermGroup)},
+                                 {"PermNextOwner", OSD.FromInteger(PermNextOwner)},
                                  {
                                      "OtherAgentInformation",
                                      OSD.FromString(OSDParser.SerializeLLSDXmlString(OtherAgentInformation))
@@ -119,14 +135,18 @@ namespace Vision.Framework.Services.ClassHelpers.Profile
         public override void FromOSD(OSDMap map)
         {
             PrincipalID = map["PrincipalID"].AsUUID();
-            Flags = (IAgentFlags) map["Flags"].AsInteger();
-            MaxMaturity = Convert.ToInt32(map["MaxMaturity"].AsInteger());
-            MaturityRating = Convert.ToInt32(map["MaturityRating"].AsInteger());
-            Language = map["Language"].AsString();
+            Flags = (IAgentFlags)map["Flags"].AsInteger();
             AcceptTOS = map["AcceptTOS"].AsBoolean();
+            MaturityRating = Convert.ToInt32(map["MaturityRating"].AsInteger());
+            MaxMaturity = Convert.ToInt32(map["MaxMaturity"].AsInteger());
+            HoverHeight = map["HoverHeight"].AsReal();
+            Language = map["Language"].AsString();
             LanguageIsPublic = map["LanguageIsPublic"].AsBoolean();
+            PermEveryone = Convert.ToInt32(map["PermEveryone"].AsInteger());
+            PermGroup = Convert.ToInt32(map["PermGroup"].AsInteger());
+            PermNextOwner = Convert.ToInt32(map["PermNextOwner"].AsInteger());
             if (map.ContainsKey("OtherAgentInformation"))
-                OtherAgentInformation = (OSDMap) OSDParser.DeserializeLLSDXml(map["OtherAgentInformation"].AsString());
+                OtherAgentInformation = (OSDMap)OSDParser.DeserializeLLSDXml(map["OtherAgentInformation"].AsString());
         }
     }
 
@@ -296,19 +316,19 @@ namespace Vision.Framework.Services.ClassHelpers.Profile
 
             //Interests
             Interests = new ProfileInterests
-                            {
-                                WantToMask = map["WantToMask"].AsUInteger(),
-                                WantToText = map["WantToText"].AsString(),
-                                CanDoMask = map["CanDoMask"].AsUInteger(),
-                                CanDoText = map["CanDoText"].AsString(),
-                                Languages = map["Languages"].AsString()
-                            };
+            {
+                WantToMask = map["WantToMask"].AsUInteger(),
+                WantToText = map["WantToText"].AsString(),
+                CanDoMask = map["CanDoMask"].AsUInteger(),
+                CanDoText = map["CanDoText"].AsString(),
+                Languages = map["Languages"].AsString()
+            };
             //End interests
 
             try
             {
                 if (map.ContainsKey("Notes"))
-                    Notes = (OSDMap) OSDParser.DeserializeJson(map["Notes"].AsString());
+                    Notes = (OSDMap)OSDParser.DeserializeJson(map["Notes"].AsString());
             }
             catch
             {
@@ -399,7 +419,7 @@ namespace Vision.Framework.Services.ClassHelpers.Profile
             SimName = map["SimName"].AsString();
             GlobalPos = map["GlobalPos"].AsVector3();
             ParcelName = map["ParcelName"].AsString();
-            ClassifiedFlags = (byte) map["ClassifiedFlags"].AsInteger();
+            ClassifiedFlags = (byte)map["ClassifiedFlags"].AsInteger();
             PriceForListing = map["PriceForListing"].AsInteger();
         }
     }

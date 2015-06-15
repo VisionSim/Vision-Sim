@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision-sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,7 +25,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.IO;
+using System.Web;
+using OpenMetaverse;
+using OpenMetaverseStructuredData;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.PresenceInfo;
@@ -35,12 +41,6 @@ using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Profile;
 using Vision.Framework.Utilities;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.IO;
-using System.Web;
 using GridRegion = Vision.Framework.Services.GridRegion;
 
 namespace Vision.Services
@@ -58,21 +58,8 @@ namespace Vision.Services
             m_service = service;
             m_agentInfoService = service.Registry.RequestModuleInterface<IAgentInfoService>();
             m_agentProcessing = service.Registry.RequestModuleInterface<IAgentProcessing>();
-
-            HttpServerHandle method = delegate(string path, Stream request,
-                                               OSHttpRequest httpRequest, OSHttpResponse httpResponse)
-                                          { return ProcessUpdateAgentLanguage(request, m_service.AgentID); };
-            service.AddStreamHandler("UpdateAgentLanguage",
-                                     new GenericStreamHandler("POST", service.CreateCAPS("UpdateAgentLanguage", ""),
-                                                              method));
-
-
-            method = delegate(string path, Stream request,
-                              OSHttpRequest httpRequest, OSHttpResponse httpResponse)
-                         { return ProcessUpdateAgentInfo(request, m_service.AgentID); };
-            service.AddStreamHandler("UpdateAgentInformation",
-                                     new GenericStreamHandler("POST", service.CreateCAPS("UpdateAgentInformation", ""),
-                                                              method));
+            
+            HttpServerHandle method;
 
             service.AddStreamHandler("AvatarPickerSearch",
                                      new GenericStreamHandler("GET", service.CreateCAPS("AvatarPickerSearch", ""),
@@ -100,8 +87,6 @@ namespace Vision.Services
 
         public void DeregisterCaps()
         {
-            m_service.RemoveStreamHandler("UpdateAgentLanguage", "POST");
-            m_service.RemoveStreamHandler("UpdateAgentInformation", "POST");
             m_service.RemoveStreamHandler("AvatarPickerSearch", "GET");
             m_service.RemoveStreamHandler("HomeLocation", "POST");
             m_service.RemoveStreamHandler("TeleportLocation", "POST");
@@ -123,31 +108,12 @@ namespace Vision.Services
                 Vector3 lookAt = new Vector3((float) lookat["X"].AsReal(),
                                              (float) lookat["Y"].AsReal(),
                                              (float) lookat["Z"].AsReal());
-                //int locationID = HomeLocation["LocationId"].AsInteger();
 
                 m_agentInfoService.SetHomePosition(agentID.ToString(), m_service.Region.RegionID, position, lookAt);
             }
 
             rm.Add("success", OSD.FromBoolean(true));
             return OSDParser.SerializeLLSDXmlBytes(rm);
-        }
-
-        private byte[] ProcessUpdateAgentLanguage(Stream request, UUID agentID)
-        {
-            OSDMap rm = OSDParser.DeserializeLLSDXml(HttpServerHandlerHelpers.ReadFully(request)) as OSDMap;
-            if (rm == null)
-                return MainServer.BadRequest;
-            IAgentConnector AgentFrontend = Framework.Utilities.DataManager.RequestPlugin<IAgentConnector>();
-            if (AgentFrontend != null)
-            {
-                IAgentInfo IAI = AgentFrontend.GetAgent(agentID);
-                if (IAI == null)
-                    return MainServer.BadRequest;
-                IAI.Language = rm["language"].AsString();
-                IAI.LanguageIsPublic = int.Parse(rm["language_is_public"].AsString()) == 1;
-                AgentFrontend.UpdateAgent(IAI);
-            }
-            return MainServer.BlankResponse;
         }
 
         private byte[] ProcessAvatarPickerSearch(string path, Stream request, OSHttpRequest httpRequest,
@@ -185,29 +151,6 @@ namespace Vision.Services
             return OSDParser.SerializeLLSDXmlBytes(body);
         }
 
-        private byte[] ProcessUpdateAgentInfo(Stream request, UUID agentID)
-        {
-            OSD r = OSDParser.DeserializeLLSDXml(HttpServerHandlerHelpers.ReadFully(request));
-            OSDMap rm = (OSDMap) r;
-            OSDMap access = (OSDMap) rm["access_prefs"];
-            string Level = access["max"].AsString();
-            int maxLevel = 0;
-            if (Level == "PG")
-                maxLevel = 0;
-            if (Level == "M")
-                maxLevel = 1;
-            if (Level == "A")
-                maxLevel = 2;
-            IAgentConnector data = Framework.Utilities.DataManager.RequestPlugin<IAgentConnector>();
-            if (data != null)
-            {
-                IAgentInfo agent = data.GetAgent(agentID);
-                agent.MaturityRating = maxLevel;
-                data.UpdateAgent(agent);
-            }
-            return MainServer.BlankResponse;
-        }
-
         private bool _isInTeleportCurrently = false;
 
         private byte[] TeleportLocation(Stream request, UUID agentID)
@@ -226,10 +169,7 @@ namespace Vision.Services
             Vector3 position = new Vector3((float) pos["X"].AsReal(),
                                            (float) pos["Y"].AsReal(),
                                            (float) pos["Z"].AsReal());
-            /*OSDMap lookat = rm["LocationLookAt"] as OSDMap;
-            Vector3 lookAt = new Vector3((float)lookat["X"].AsReal(),
-                (float)lookat["Y"].AsReal(),
-                (float)lookat["Z"].AsReal());*/
+
             ulong RegionHandle = rm["RegionHandle"].AsULong();
             const uint tpFlags = 16;
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision-sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,18 +25,18 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.PresenceInfo;
-using Vision.Framework.Services;
-using Vision.Framework.Services.ClassHelpers.Inventory;
-using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using Nini.Config;
+using OpenMetaverse;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.PresenceInfo;
+using Vision.Framework.Services;
+using Vision.Framework.Services.ClassHelpers.Inventory;
+using Vision.Framework.Utilities;
 using FriendInfo = Vision.Framework.Services.FriendInfo;
 using GridRegion = Vision.Framework.Services.GridRegion;
 
@@ -60,6 +60,9 @@ namespace Vision.Services
 
         private string agentAccess;
         private string agentAccessMax;
+        private string agentRegionAccess;
+        private int aoTransition;
+        private int agentFlags;
         private UUID agentID;
         private ArrayList agentInventory;
 
@@ -130,6 +133,9 @@ namespace Vision.Services
             StartLocation = where;
             AgentAccessMax = AdultMax;
             AgentAccess = AdultRating;
+            AgentRegionAccess = AgentRegionAccess;
+            AOTransition = AOTransition;
+            AgentFlag = AgentFlag;
             eventCategories = eventValues;
             eventNotifications = eventNotificationValues;
             classifiedCategories = classifiedValues;
@@ -227,7 +233,6 @@ namespace Vision.Services
         {
             IPEndPoint endPoint = destination.ExternalEndPoint;
             //We don't need this anymore, we set this from what we get from the region
-            //endPoint = Util.ResolveAddressForClient (endPoint, circuitData.ClientIPEndPoint);
             SimAddress = endPoint.Address.ToString();
             SimPort = (uint) circuitData.RegionUDPPort;
             RegionX = (uint) destination.RegionLocX;
@@ -247,7 +252,10 @@ namespace Vision.Services
             lastname = "User";
             agentAccess = "M";
             agentAccessMax = "A";
+            agentRegionAccess = "A";
             startLocation = "last";
+            aoTransition = 0;
+            agentFlags = 0;
             udpBlackList = "EnableSimulator,TeleportFinish,CrossedRegion,OpenCircuit";
 
             ErrorMessage = "You have entered an invalid name/password combination.  Check Caps/lock.";
@@ -284,6 +292,7 @@ namespace Vision.Services
                 responseData["display_name"] = DisplayName;
                 responseData["agent_access"] = agentAccess;
                 responseData["agent_access_max"] = agentAccessMax;
+                responseData["agent_region_access"] - agentRegionAccess;
                 responseData["udp_blacklist"] = udpBlackList;
 
                 if (AllowFirstLife != null)
@@ -307,6 +316,8 @@ namespace Vision.Services
                 responseData["classified_categories"] = classifiedCategories;
                 responseData["ui-config"] = uiConfig;
                 responseData["export"] = AllowExportPermission ? "flag" : "";
+                responseData["ao_transition"] = aoTransition;
+                responseData["agent_flags"] = agentFlags;
 
                 if (agentInventory != null)
                 {
@@ -546,9 +557,7 @@ namespace Vision.Services
                     TempHash["parent_id"] = library.LibraryRootFolderID.ToString();
                 else
                     TempHash["parent_id"] = folder.ParentID.ToString();
-                //TempHash["version"] = (Int32)folder.Version;
                 TempHash["version"] = 1;
-                //TempHash["type_default"] = (Int32) folder.Type;
                 TempHash["type_default"] = 9;
                 TempHash["folder_id"] = folder.ID.ToString();
                 table.Add(TempHash);
@@ -656,6 +665,12 @@ namespace Vision.Services
             set { agentAccessMax = value; }
         }
 
+        public string AgentRegionAccess
+        {
+            get { return agentRegionAccess; }
+            set { agentRegionAccess = value; }
+        }
+
         public string StartLocation
         {
             get { return startLocation; }
@@ -672,6 +687,18 @@ namespace Vision.Services
         {
             get { return seedCapability; }
             set { seedCapability = value; }
+        }
+
+        public int AOTransition
+        {
+            get { return aoTransition; }
+            set { aoTransition = value; }
+        }
+
+        public int AgentFlag
+        {
+            get { return AgentFlags; }
+            set { AgentFlags = value; }
         }
 
         public string ErrorReason { get; set; }
