@@ -697,8 +697,8 @@ namespace Vision.Services
 
         public int AgentFlag
         {
-            get { return AgentFlags; }
-            set { AgentFlags = value; }
+            get { return agentFlags; }
+            set { agentFlags = value; }
         }
 
         public string ErrorReason { get; set; }
