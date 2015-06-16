@@ -31,7 +31,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Web;
 using OpenMetaverse;
-using OpenMetaverseStructuredData;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.PresenceInfo;
