@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,12 +25,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.IO;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.Servers.HttpServer;
 using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Services;
-using OpenMetaverse.StructuredData;
-using System.IO;
 
 namespace Vision.Services
 {
@@ -64,11 +64,14 @@ namespace Vision.Services
                                             OSHttpRequest httpRequest, OSHttpResponse httpResponse)
         {
             OSDMap data = new OSDMap();
+            // AvatarHoverHeightEnabled
+            data["AvatarHoverHeightEnabled"] = true;
+            // MaxMaterialsPerTransaction
+            data["MaxMaterialsPerTransaction"] = 50;
             data["MeshRezEnabled"] = true;
             data["MeshUploadEnabled"] = true;
             data["MeshXferEnabled"] = true;
             data["PhysicsMaterialsEnabled"] = true;
-
 
             OSDMap typesMap = new OSDMap();
 
@@ -77,11 +80,6 @@ namespace Vision.Services
             typesMap["prim"] = true;
 
             data["PhysicsShapeTypes"] = typesMap;
-
-
-            //Data URLS need sent as well
-            //Not yet...
-            //data["DataUrls"] = m_service.Registry.RequestModuleInterface<IGridRegistrationService> ().GetUrlForRegisteringClient (m_service.AgentID + "|" + m_service.RegionHandle);
 
             //Send back data
             return OSDParser.SerializeLLSDXmlBytes(data);
