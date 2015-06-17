@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,9 +25,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
+using Vision.Region;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Servers;
 using Vision.Framework.Servers.HttpServer;
@@ -36,14 +43,6 @@ using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Services.ClassHelpers.Inventory;
 using Vision.Framework.Utilities;
-using Vision.Region;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace Vision.Services
 {
@@ -340,7 +339,6 @@ namespace Vision.Services
                          asset_type == "object")
                 {
                     OSDMap meshMap = (OSDMap) map["asset_resources"];
-                    //OSDArray instance_list = (OSDArray)meshMap["instance_list"];
                     int mesh_list = meshMap.ContainsKey("mesh_list") ? ((OSDArray) meshMap["mesh_list"]).Count : 1;
                     int texture_list = meshMap.ContainsKey("texture_list")
                                            ? ((OSDArray) meshMap["texture_list"]).Count
@@ -564,8 +562,6 @@ namespace Vision.Services
                             Quaternion rotation = inner_instance_list["rotation"].AsQuaternion();
 
 							int physicsShapeType = inner_instance_list["physics_shape_type"].AsInteger();
-// 20131224 not used                            int material = inner_instance_list["material"].AsInteger();
-// 20131224 not used                            int mesh = inner_instance_list["mesh"].AsInteger();
 
                             SceneObjectPart prim = new SceneObjectPart(m_agentID, pbs, position, Quaternion.Identity,
                                                                        Vector3.Zero, assetName)
@@ -605,7 +601,7 @@ namespace Vision.Services
                             Vector3 offset = positions[i] - rootPos;
                             grp.ChildrenList[i].SetOffsetPosition(offset);
                         }
-                        //grp.Rotation = rotations[0];
+
                         for (int i = 0; i < rotations.Count; i++)
                         {
                             if (i != 0)

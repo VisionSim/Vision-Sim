@@ -25,7 +25,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Web;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.Servers;
@@ -34,16 +43,6 @@ using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Profile;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Web;
 
 namespace Vision.Services
 {
@@ -129,7 +128,6 @@ namespace Vision.Services
                 IUserProfileInfo info = m_profileConnector.GetUserProfile(m_service.AgentID);
                 if (info == null)
                 {
-                    //m_avatar.ControllingClient.SendAlertMessage ("You cannot update your display name currently as your profile cannot be found.");
                 }
                 else
                 {
@@ -196,8 +194,6 @@ namespace Vision.Services
                             PackUserInfo(info, account, ref agents);
                         else
                             PackUserInfo(info, account, ref agents);
-                        //else //Technically is right, but needs to be packed no matter what for OS based grids
-                        //    bad_ids.Add (id);
                     }
                 }
             }

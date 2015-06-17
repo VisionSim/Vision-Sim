@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using System.IO;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.DatabaseInterfaces;
@@ -33,11 +37,6 @@ using Vision.Framework.Servers.HttpServer;
 using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
-using System;
-using System.Collections.Generic;
-using System.IO;
 
 namespace Vision.Services
 {
@@ -72,8 +71,7 @@ namespace Vision.Services
         {
             try
             {
-                //MainConsole.Instance.Debug("[CAPS]: UploadBakedTexture Request in region: " +
-                //        m_regionName);
+                //MainConsole.Instance.Debug("[CAPS]: UploadBakedTexture Request in region: " + m_regionName);
 
                 OSDMap rm = (OSDMap) OSDParser.DeserializeLLSDXml(HttpServerHandlerHelpers.ReadFully(request));
                 UUID groupID = rm["group_id"].AsUUID();
