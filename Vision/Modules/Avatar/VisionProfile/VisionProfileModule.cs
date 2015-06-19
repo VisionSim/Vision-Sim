@@ -1,5 +1,5 @@
-/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+﻿/*
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
@@ -34,13 +40,6 @@ using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Profile;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using GridRegion = Vision.Framework.Services.GridRegion;
 
 namespace Vision.Modules.Profiles
@@ -619,6 +618,16 @@ namespace Vision.Modules.Profiles
             }
             else
                 charterMember = Utils.StringToBytes(Profile.MembershipGroup);
+            // When ChaterMember set this character └ the viewer recognizes it
+            // as a Grid Master Not sure what we will be doing with this in
+            // in Virtual Universe.
+
+            // Perhaps the Viewer Devs will shed some light on this regarding future viewer planning.
+
+            if (Utilities.IsSystemUser(Profile.PrincipalID))
+            {
+                charterMember = Utils.StringToBytes("└");
+            }
 
             uint membershipGroupINT = 0;
             if (Profile.MembershipGroup != "")
