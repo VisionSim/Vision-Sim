@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,6 +25,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
@@ -33,12 +39,6 @@ using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Services.ClassHelpers.Inventory;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Vision.Services.SQLServices.InventoryService
 {
@@ -319,7 +319,7 @@ namespace Vision.Services.SQLServices.InventoryService
                                                          ID = UUID.Random()
                                                      };
                 //Give a new copy to every person
-                AssetBase asset = m_AssetService.Get(AvatarWearable.DEFAULT_BODY_ASSET.ToString());
+                AssetBase asset = m_AssetService.Get(AvatarWearable.DEFAULT_SHAPE_ASSET.ToString());
                 if (asset != null)
                 {
                     asset.ID = UUID.Random();
@@ -1090,7 +1090,6 @@ namespace Vision.Services.SQLServices.InventoryService
                 if (!_tempItemCache.ContainsKey(item.ID))
                     _tempItemCache.Add(item.ID, item);
             }
-            //_addInventoryItemQueue.Add(item.Owner, new AddInventoryItemStore(item, success));
         }
 
         /// <summary>
@@ -1496,7 +1495,7 @@ namespace Vision.Services.SQLServices.InventoryService
                             brokenLinks.Add(item.ID);
                         }
                         else if (linkedItem.ID == AvatarWearable.DEFAULT_EYES_ITEM ||
-                                 linkedItem.ID == AvatarWearable.DEFAULT_BODY_ITEM ||
+                                 linkedItem.ID == AvatarWearable.DEFAULT_SHAPE_ITEM ||
                                  linkedItem.ID == AvatarWearable.DEFAULT_HAIR_ITEM ||
                                  linkedItem.ID == AvatarWearable.DEFAULT_PANTS_ITEM ||
                                  linkedItem.ID == AvatarWearable.DEFAULT_SHIRT_ITEM ||
@@ -1573,7 +1572,7 @@ namespace Vision.Services.SQLServices.InventoryService
 
         protected virtual InventoryFolderBase[] GetSystemFolders(UUID principalID)
         {
-            //            MainConsole.Instance.DebugFormat("[XINVENTORY SERVICE]: Getting system folders for {0}", principalID);
+            //MainConsole.Instance.DebugFormat("[INVENTORY SERVICE]: Getting system folders for {0}", principalID);
 
             InventoryFolderBase[] allFolders = m_Database.GetFolders(
                 new[] {"agentID"},
@@ -1588,8 +1587,7 @@ namespace Vision.Services.SQLServices.InventoryService
                         return false;
                     });
 
-            //            MainConsole.Instance.DebugFormat(
-            //                "[XINVENTORY SERVICE]: Found {0} system folders for {1}", sysFolders.Length, principalID);
+            //MainConsole.Instance.DebugFormat("[INVENTORY SERVICE]: Found {0} system folders for {1}", sysFolders.Length, principalID);
 
             return sysFolders;
         }

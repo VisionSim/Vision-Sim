@@ -312,7 +312,7 @@ namespace Vision.Services
                 responseData["seed_capability"] = seedCapability;
 
                 responseData["event_categories"] = eventCategories;
-                responseData["event_notifications"] = eventNotifications; // TODO: What is this?
+                responseData["event_notifications"] = eventNotifications; // This is notificaiton of events you "Subscribed" to
                 responseData["classified_categories"] = classifiedCategories;
                 responseData["ui-config"] = uiConfig;
                 responseData["export"] = AllowExportPermission ? "flag" : "";
