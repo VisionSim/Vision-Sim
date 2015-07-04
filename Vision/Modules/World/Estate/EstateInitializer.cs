@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,6 +25,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
@@ -32,24 +38,19 @@ using Vision.Framework.SceneInfo;
 using Vision.Framework.Serialization;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse.StructuredData;
-using System.Collections.Generic;
-using System.Linq;
-using OpenMetaverse;
 
 namespace Vision.Modules.Estate
 {
-    public class EstateInitializer : ISharedRegionStartupModule, IVisionBackupModule
+    public class EstateInitializer : ISharedRegionStartupModule, IWhiteCoreBackupModule
     {
-        private string LastEstateName = "";
-        private string LastEstateOwner = Constants.RealEstateOwnerName;
+        string LastEstateName = "";
+        string LastEstateOwner = Constants.RealEstateOwnerName;
         protected IRegistryCore m_registry;
-         
+
 
         public void Initialise(IScene scene, IConfigSource source, ISimulationBase simBase)
         {
-            scene.StackModuleInterface<IVisionBackupModule>(this);
+            scene.StackModuleInterface<IWhiteCoreBackupModule>(this);
             m_registry = simBase.ApplicationRegistry;
         }
 
@@ -103,7 +104,7 @@ namespace Vision.Modules.Estate
         {
             if (MainConsole.Instance != null)
             {
-                MainConsole.Instance.Commands.AddCommand (
+                MainConsole.Instance.Commands.AddCommand(
                     "change estate",
                     "change estate",
                     "change info about the estate for the given region",
@@ -124,7 +125,7 @@ namespace Vision.Modules.Estate
         /// </summary>
         /// <returns>The mainland estate.</returns>
         /// <param name="regionID">Region I.</param>
-        private EstateSettings LinkMainlandEstate(UUID regionID)
+        EstateSettings LinkMainlandEstate(UUID regionID)
         {
             // link region to the Mainland... assign to RealEstateOwner & System Estate
             IEstateConnector estateConnector = Framework.Utilities.DataManager.RequestPlugin<IEstateConnector>();
@@ -133,8 +134,8 @@ namespace Vision.Modules.Estate
             // link region to the 'Mainland'
             if (estateConnector.LinkRegion(regionID, Constants.SystemEstateID))
             {
-                ES = estateConnector.GetEstateSettings (regionID);     // refresh to check linking
-                if ( (ES == null) || (ES.EstateID == 0) )
+                ES = estateConnector.GetEstateSettings(regionID);     // refresh to check linking
+                if ((ES == null) || (ES.EstateID == 0))
                 {
                     MainConsole.Instance.Warn("An error was encountered linking the region to the 'Mainland'!\nPossibly a problem with the server connection, please link this region later.");
                     return null;
@@ -152,25 +153,26 @@ namespace Vision.Modules.Estate
         /// </summary>
         /// <returns>The estate info.</returns>
         /// <param name="scene">Scene.</param>
-        private EstateSettings CreateEstateInfo(IScene scene)
+        EstateSettings CreateEstateInfo(IScene scene)
         {
 
             // check for regionType to determine if this is 'Mainland' or an 'Estate'
-            string regType = scene.RegionInfo.RegionType.ToLower ();
-            if (regType.StartsWith ("m"))
+            string regType = scene.RegionInfo.RegionType.ToLower();
+            if (regType.StartsWith("m"))
             {
-                return LinkMainlandEstate (scene.RegionInfo.RegionID);
+                return LinkMainlandEstate(scene.RegionInfo.RegionID);
             }
 
             // we are linking to a user estate
             IEstateConnector estateConnector = Framework.Utilities.DataManager.RequestPlugin<IEstateConnector>();
             ISystemEstateService sysEstateInfo = m_registry.RequestModuleInterface<ISystemEstateService>();
-             
+            ISystemAccountService sysAccounts = m_registry.RequestModuleInterface<ISystemAccountService>();
+
             string sysEstateOwnerName;
-            var sysAccount = scene.UserAccountService.GetUserAccount (scene.RegionInfo.AllScopeIDs, (UUID) Constants.RealEstateOwnerUUID);
+            var sysAccount = scene.UserAccountService.GetUserAccount(scene.RegionInfo.AllScopeIDs, sysAccounts.SystemEstateOwnerUUID);
 
             if (sysAccount == null)
-                sysEstateOwnerName = sysEstateInfo.SystemEstateOwnerName;
+                sysEstateOwnerName = sysAccounts.SystemEstateOwnerName;
             else
                 sysEstateOwnerName = sysAccount.Name;
 
@@ -181,9 +183,9 @@ namespace Vision.Modules.Estate
             {
                 UserAccount account;
                 string estateOwner;
- 
-                estateOwner = MainConsole.Instance.Prompt("Estate owner name (" + sysEstateOwnerName +"/User Name)", LastEstateOwner);
- 
+
+                estateOwner = MainConsole.Instance.Prompt("Estate owner name (" + sysEstateOwnerName + "/User Name)", LastEstateOwner);
+
                 // we have a prospective estate owner...
                 List<EstateSettings> ownerEstates = null;
                 account = scene.UserAccountService.GetUserAccount(scene.RegionInfo.AllScopeIDs, estateOwner);
@@ -192,25 +194,25 @@ namespace Vision.Modules.Estate
                     // we have a user account...
                     LastEstateOwner = account.Name;
 
-                    ownerEstates = estateConnector.GetEstates (account.PrincipalID);
+                    ownerEstates = estateConnector.GetEstates(account.PrincipalID);
                 }
 
                 if (account == null || ownerEstates == null || ownerEstates.Count == 0)
                 {
                     if (account == null)
-                        MainConsole.Instance.Warn ("[Estate]: Unable to locate the user " + estateOwner);
+                        MainConsole.Instance.Warn("[Estate]: Unable to locate the user " + estateOwner);
                     else
                         MainConsole.Instance.WarnFormat("[Estate]: The user, {0}, has no estates currently.", account.Name);
 
                     string joinMainland = MainConsole.Instance.Prompt(
                         "Do you want to 'park' the region with the system owner/estate? (yes/no)", "yes");
                     if (joinMainland.ToLower().StartsWith("y"))                      // joining 'mainland'
-                        return LinkMainlandEstate (scene.RegionInfo.RegionID);
+                        return LinkMainlandEstate(scene.RegionInfo.RegionID);
 
                     continue;
                 }
 
-                if ( ownerEstates.Count > 1)
+                if (ownerEstates.Count > 1)
                 {
                     MainConsole.Instance.InfoFormat("[Estate]: User {0} has {1} estates currently. {2}",
                         account.Name, ownerEstates.Count, "These estates are the following:");
@@ -225,7 +227,7 @@ namespace Vision.Modules.Estate
                     do
                     {
                         //TODO: This could be a problem if we have a lot of estates
-                        string response = MainConsole.Instance.Prompt("Estate name to join", LastEstateName, responses);    
+                        string response = MainConsole.Instance.Prompt("Estate name to join", LastEstateName, responses);
                         if (response == "None" || response == "Cancel")
                         {
                             LastEstateName = "";
@@ -236,10 +238,11 @@ namespace Vision.Modules.Estate
                     if (LastEstateName == "")
                         continue;
 
-                } else 
+                }
+                else
                     LastEstateName = ownerEstates[0].EstateName;
-            
-             
+
+
                 // we should have a user account and estate name by now
                 int estateID = estateConnector.GetEstate(account.PrincipalID, LastEstateName);
                 if (estateID == 0)
@@ -254,12 +257,13 @@ namespace Vision.Modules.Estate
                 {
                     if ((ES = estateConnector.GetEstateSettings(scene.RegionInfo.RegionID)) == null ||
                          ES.EstateID == 0)
-                        //We could do by EstateID now, but we need to completely make sure that it fully is set up
+                    //We could do by EstateID now, but we need to completely make sure that it fully is set up
                     {
                         MainConsole.Instance.Warn("[Estate]: The connection to the server was broken, please try again.");
                         continue;
                     }
-                } else
+                }
+                else
                 {
                     MainConsole.Instance.WarnFormat("[Estate]: Joining the {0} estate failed. Please try again.", LastEstateName);
                     continue;
@@ -281,8 +285,8 @@ namespace Vision.Modules.Estate
             if (EstateConnector != null)
             {
                 // a bit of info re 'Mainland'
-                string regType = scene.RegionInfo.RegionType.ToLower ();
-                if (regType.StartsWith ("m") && (scene.RegionInfo.EstateSettings.EstateID == Constants.SystemEstateID) )
+                string regType = scene.RegionInfo.RegionType.ToLower();
+                if (regType.StartsWith("m") && (scene.RegionInfo.EstateSettings.EstateID == Constants.SystemEstateID))
                 {
                     MainConsole.Instance.Info("[Estate]: This region is already part of the Mainland system estate");
                     return;
@@ -292,10 +296,10 @@ namespace Vision.Modules.Estate
                     MainConsole.Instance.Prompt(
                         "Are you sure you want to change the estate for region '" + scene.RegionInfo.RegionName + "'? (yes/no)",
                         "yes");
- 
+
                 if (removeFromEstate == "yes")
                 {
-                    if (regType.StartsWith ("m"))
+                    if (regType.StartsWith("m"))
                         MainConsole.Instance.Info("[Estate]: Mainland type regions can only be part of the Mainland system estate");
 
                     if (!EstateConnector.DelinkRegion(scene.RegionInfo.RegionID))
@@ -310,7 +314,7 @@ namespace Vision.Modules.Estate
             }
         }
 
- 
+
         public bool IsArchiving
         {
             get { return false; }
@@ -356,7 +360,7 @@ namespace Vision.Modules.Estate
             if (filePath.StartsWith("estatesettings/"))
             {
                 EstateSettings settings = new EstateSettings();
-                settings.FromOSD((OSDMap) OSDParser.DeserializeLLSDBinary(data));
+                settings.FromOSD((OSDMap)OSDParser.DeserializeLLSDBinary(data));
                 scene.RegionInfo.EstateSettings = settings;
             }
             else if (filePath.StartsWith("regioninfo/"))
@@ -366,7 +370,7 @@ namespace Vision.Modules.Estate
                         "Should we load the region information from the archive (region name, region position, etc)?",
                         "false");
                 RegionInfo settings = new RegionInfo();
-                settings.UnpackRegionInfoData((OSDMap) OSDParser.DeserializeLLSDBinary(data));
+                settings.UnpackRegionInfoData((OSDMap)OSDParser.DeserializeLLSDBinary(data));
                 if (m_merge == "false")
                 {
                     //Still load the region settings though

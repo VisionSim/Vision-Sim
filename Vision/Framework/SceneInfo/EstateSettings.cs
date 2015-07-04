@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,12 +28,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Vision.Framework.ClientInterfaces;
-using Vision.Framework.Modules;
-using Vision.Framework.Utilities;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
 using ProtoBuf;
+using Vision.Framework.ClientInterfaces;
+using Vision.Framework.Modules;
+using Vision.Framework.Utilities;
 
 namespace Vision.Framework.SceneInfo
 {
@@ -47,24 +47,24 @@ namespace Vision.Framework.SceneInfo
 
         #endregion
 
-        private List<UUID> l_EstateAccess = new List<UUID>();
-        private List<EstateBan> l_EstateBans = new List<EstateBan>();
-        private List<UUID> l_EstateGroups = new List<UUID>();
-        private List<UUID> l_EstateManagers = new List<UUID>();
-        private string m_AbuseEmail = String.Empty;
-        private bool m_AllowDirectTeleport = true;
-        private bool m_AllowLandmark = true;
-        private bool m_AllowParcelChanges = true;
-        private bool m_AllowSetHome = true;
-        private bool m_AllowVoice = true;
+        List<UUID> l_EstateAccess = new List<UUID>();
+        List<EstateBan> l_EstateBans = new List<EstateBan>();
+        List<UUID> l_EstateGroups = new List<UUID>();
+        List<UUID> l_EstateManagers = new List<UUID>();
+        string m_AbuseEmail = String.Empty;
+        bool m_AllowDirectTeleport = true;
+        bool m_AllowLandmark = true;
+        bool m_AllowParcelChanges = true;
+        bool m_AllowSetHome = true;
+        bool m_AllowVoice = true;
 
-        private string m_EstateName = Constants.SystemEstateName;
-        private UUID m_EstateOwner = (UUID)Constants.RealEstateOwnerUUID;
+        string m_EstateName = Constants.SystemEstateName;
+        UUID m_EstateOwner = (UUID)Constants.RealEstateOwnerUUID;
 
-        private uint m_ParentEstateID = 1;
-        private int m_PricePerMeter = 1;
-        private bool m_PublicAccess = true;
-        private bool m_UseGlobalTime = true;
+        uint m_ParentEstateID = 1;
+        int m_PricePerMeter = 1;
+        bool m_PublicAccess = true;
+        bool m_UseGlobalTime = true;
 
         public EstateSettings()
         {
@@ -119,7 +119,6 @@ namespace Vision.Framework.SceneInfo
         }
 
         // Used by the sim
-        //
 
         [ProtoMember(9)]
         public bool UseGlobalTime

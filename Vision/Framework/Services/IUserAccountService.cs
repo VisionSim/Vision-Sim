@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,10 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.Utilities;
+using System;
+using System.Collections.Generic;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
-using System.Collections.Generic;
+using Vision.Framework.Utilities;
 
 namespace Vision.Framework.Services
 {
@@ -239,6 +240,13 @@ namespace Vision.Framework.Services
         /// <param name="archiveInformation">Whether or not we should store the account's name and account information so that the user's information inworld does not go null</param>
         /// <param name="wipeFromDatabase">Whether or not we should remove all of the user's data from other locations in the database</param>
         void DeleteUser(UUID userID, string name, string password, bool archiveInformation, bool wipeFromDatabase);
+    
+        /// <summary>
+        /// Users 'god' level.
+        /// </summary>
+        /// <returns>The god level description.</returns>
+        /// <param name="level">Level.</param>
+        string UserGodLevel(int level);
     }
 
     /// <summary>
