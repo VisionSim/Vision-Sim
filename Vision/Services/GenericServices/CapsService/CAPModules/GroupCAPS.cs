@@ -73,17 +73,15 @@ namespace Vision.Services
             {
                 //MainConsole.Instance.Debug("[CAPS]: UploadBakedTexture Request in region: " + m_regionName);
 
-                OSDMap rm = (OSDMap) OSDParser.DeserializeLLSDXml(HttpServerHandlerHelpers.ReadFully(request));
+                OSDMap rm = (OSDMap)OSDParser.DeserializeLLSDXml(HttpServerHandlerHelpers.ReadFully(request));
                 UUID groupID = rm["group_id"].AsUUID();
 
                 OSDMap defaults = new OSDMap();
-                ulong EveryonePowers = (ulong) (GroupPowers.AllowSetHome |
-                                                GroupPowers.Accountable |
-                                                GroupPowers.JoinChat |
-                                                GroupPowers.AllowVoiceChat |
+                ulong EveryonePowers = (ulong)(GroupPowers.Accountable |
+                                                GroupPowers.AllowSetHome |
                                                 GroupPowers.ReceiveNotices |
-                                                GroupPowers.StartProposal |
-                                                GroupPowers.VoteOnProposal);
+                                                GroupPowers.JoinChat |
+                                                GroupPowers.AllowVoiceChat);
                 defaults["default_powers"] = EveryonePowers;
 
                 List<string> titles = new List<string>();
@@ -102,7 +100,7 @@ namespace Vision.Services
                     else
                     {
                         titles.Add(gmd.Title);
-                        member["title"] = titles.Count-1;
+                        member["title"] = titles.Count - 1;
                     }
                     member["powers"] = gmd.AgentPowers;
                     count++;
