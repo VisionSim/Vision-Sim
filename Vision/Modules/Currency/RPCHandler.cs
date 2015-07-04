@@ -63,7 +63,7 @@ namespace Vision.Modules.Currency
         public void Start(IConfigSource config, IRegistryCore registry)
         {
             if (config.Configs["Currency"] == null ||
-                config.Configs["Currency"].GetString("Module", "") != "SimpleCurrency")
+                config.Configs["Currency"].GetString("Module", "") != "BaseCurrency")
                 return;
 
             // we only want this if we are local..
@@ -75,13 +75,12 @@ namespace Vision.Modules.Currency
             if (remoteCalls)
                 return;
 
-            m_connector = Framework.Utilities.DataManager.RequestPlugin<ISimpleCurrencyConnector>() as BaseCurrencyConnector;
+            m_connector = Framework.Utilities.DataManager.RequestPlugin<IBaseCurrencyConnector>() as BaseCurrencyConnector;
             var curPort = m_connector.GetConfig().ClientPort;
             if (curPort == 0 && MainServer.Instance == null)
                 return;
 
-            IHttpServer server =
-                registry.RequestModuleInterface<ISimulationBase>().GetHttpServer((uint)curPort);
+            IHttpServer server = registry.RequestModuleInterface<ISimulationBase>().GetHttpServer((uint)curPort);
             server.AddXmlRPCHandler("getCurrencyQuote", QuoteFunc);
             server.AddXmlRPCHandler("buyCurrency", BuyFunc);
             server.AddXmlRPCHandler("preflightBuyLandPrep", PreflightBuyLandPrepFunc);

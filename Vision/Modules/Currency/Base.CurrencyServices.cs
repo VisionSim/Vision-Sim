@@ -57,11 +57,11 @@ namespace Vision.Modules.Currency
         public void Initialize(IConfigSource config, IRegistryCore registry)
         {
             if (config.Configs["Currency"] == null ||
-                config.Configs["Currency"].GetString("Module", "") != "SimpleCurrency")
+                config.Configs["Currency"].GetString("Module", "") != "BaseCurrency")
                 return;
 
             m_registry = registry;
-            m_connector = Framework.Utilities.DataManager.RequestPlugin<ISimpleCurrencyConnector>() as BaseCurrencyConnector;
+            m_connector = Framework.Utilities.DataManager.RequestPlugin<IBaseCurrencyConnector>() as BaseCurrencyConnector;
         }
 
         public void Start(IConfigSource config, IRegistryCore registry)
@@ -86,22 +86,22 @@ namespace Vision.Modules.Currency
             {
                 manager.OnAddedScene += (scene) =>
                 {
-                                                m_scenes.Add(scene);
-                                                scene.EventManager.OnNewClient += OnNewClient;
-                                                scene.EventManager.OnClosingClient += OnClosingClient;
-                                                scene.EventManager.OnMakeRootAgent += OnMakeRootAgent;
-                                                scene.EventManager.OnValidateBuyLand += EventManager_OnValidateBuyLand;
-                                                scene.RegisterModuleInterface<IMoneyModule>(this);
-                                            };
+                    m_scenes.Add(scene);
+                    scene.EventManager.OnNewClient += OnNewClient;
+                    scene.EventManager.OnClosingClient += OnClosingClient;
+                    scene.EventManager.OnMakeRootAgent += OnMakeRootAgent;
+                    scene.EventManager.OnValidateBuyLand += EventManager_OnValidateBuyLand;
+                    scene.RegisterModuleInterface<IMoneyModule>(this);
+                };
                 manager.OnCloseScene += (scene) =>
-                                            {
-                                                scene.EventManager.OnNewClient -= OnNewClient;
-                                                scene.EventManager.OnClosingClient -= OnClosingClient;
-                                                scene.EventManager.OnMakeRootAgent -= OnMakeRootAgent;
-                                                scene.EventManager.OnValidateBuyLand -= EventManager_OnValidateBuyLand;
-                                                scene.RegisterModuleInterface<IMoneyModule>(this);
-                                                m_scenes.Remove(scene);
-                                            };
+                {
+                    scene.EventManager.OnNewClient -= OnNewClient;
+                    scene.EventManager.OnClosingClient -= OnClosingClient;
+                    scene.EventManager.OnMakeRootAgent -= OnMakeRootAgent;
+                    scene.EventManager.OnValidateBuyLand -= EventManager_OnValidateBuyLand;
+                    scene.RegisterModuleInterface<IMoneyModule>(this);
+                    m_scenes.Remove(scene);
+                };
             }
 
 
@@ -133,7 +133,7 @@ namespace Vision.Modules.Currency
                     landforsale)
                 {
                     if (m_connector.UserCurrencyTransfer(lob.LandData.OwnerID, e.agentId,
-                                                         (uint) saleprice, "Land Buy", TransactionType.LandSale,
+                                                         (uint)saleprice, "Land Buy", TransactionType.LandSale,
                                                          UUID.Zero))
                     {
                         e.parcelOwnerID = pOwnerID;
@@ -168,20 +168,20 @@ namespace Vision.Modules.Currency
             get { return Config.PriceDirectoryFee; }
         }
 
-        public int ClientPort 
+        public int ClientPort
         {
-            get  { return Config.ClientPort; }
+            get { return Config.ClientPort; }
         }
 
         public bool ObjectGiveMoney(UUID objectID, string objectName, UUID fromID, UUID toID, int amount)
         {
-            return m_connector.UserCurrencyTransfer(toID, fromID, UUID.Zero, "", objectID, objectName, (uint) amount, "Object payment",
+            return m_connector.UserCurrencyTransfer(toID, fromID, UUID.Zero, "", objectID, objectName, (uint)amount, "Object payment",
                                                     TransactionType.ObjectPays, UUID.Zero);
         }
 
         public int Balance(UUID agentID)
         {
-            return (int) m_connector.GetUserCurrency(agentID).Amount;
+            return (int)m_connector.GetUserCurrency(agentID).Amount;
         }
 
         public bool Charge(UUID agentID, int amount, string text, TransactionType type)
@@ -200,14 +200,14 @@ namespace Vision.Modules.Currency
 
         public bool Transfer(UUID toID, UUID fromID, int amount, string description, TransactionType type)
         {
-            return m_connector.UserCurrencyTransfer(toID, fromID, (uint) amount, description, type,
+            return m_connector.UserCurrencyTransfer(toID, fromID, (uint)amount, description, type,
                                                     UUID.Zero);
         }
 
-        public bool Transfer(UUID toID, UUID fromID, UUID toObjectID, string toObjectName, UUID fromObjectID, 
+        public bool Transfer(UUID toID, UUID fromID, UUID toObjectID, string toObjectName, UUID fromObjectID,
             string fromObjectName, int amount, string description, TransactionType type)
         {
-            bool result = m_connector.UserCurrencyTransfer(toID, fromID, toObjectID, toObjectName, 
+            bool result = m_connector.UserCurrencyTransfer(toID, fromID, toObjectID, toObjectName,
                 fromObjectID, fromObjectName, (uint)amount, description, type, UUID.Zero);
             if (toObjectID != UUID.Zero)
             {
@@ -248,9 +248,9 @@ namespace Vision.Modules.Currency
 
         public List<AgentTransfer> GetTransactionHistory(UUID toAgentID, UUID fromAgentID, int period, string periodType)
         {
-            return m_connector.GetTransactionHistory (toAgentID, fromAgentID, period, periodType);
+            return m_connector.GetTransactionHistory(toAgentID, fromAgentID, period, periodType);
         }
-            
+
         public List<AgentTransfer> GetTransactionHistory(UUID toAgentID, int period, string periodType)
         {
             return m_connector.GetTransactionHistory(toAgentID, period, periodType);
@@ -265,7 +265,7 @@ namespace Vision.Modules.Currency
         {
             return m_connector.GetTransactionHistory(period, periodType, start, count);
         }
- 
+
 
         public uint NumberOfPurchases(UUID UserID)
         {
@@ -287,7 +287,7 @@ namespace Vision.Modules.Currency
             return m_connector.GetPurchaseHistory(dateStart, dateEnd, start, count);
         }
 
-        public List<AgentPurchase> GetPurchaseHistory (int period, string periodType, uint? start, uint? count)
+        public List<AgentPurchase> GetPurchaseHistory(int period, string periodType, uint? start, uint? count)
         {
             return m_connector.GetPurchaseHistory(period, periodType, start, count);
         }
@@ -306,7 +306,7 @@ namespace Vision.Modules.Currency
         void OnMakeRootAgent(IScenePresence presence)
         {
             presence.ControllingClient.SendMoneyBalance(UUID.Zero, true, new byte[0],
-                                                        (int) m_connector.GetUserCurrency(presence.UUID).Amount);
+                                                        (int)m_connector.GetUserCurrency(presence.UUID).Amount);
         }
 
         protected void OnClosingClient(IClientAPI client)
@@ -337,7 +337,7 @@ namespace Vision.Modules.Currency
                             break;
                         }
                     }
-                    if(!paid)
+                    if (!paid)
                     {
                         m_connector.UserCurrencyTransfer(toID, fromID, (uint)amount, description,
                                                     (TransactionType)type, UUID.Random());
@@ -349,7 +349,7 @@ namespace Vision.Modules.Currency
         bool ValidateLandBuy(EventManager.LandBuyArgs e)
         {
             return m_connector.UserCurrencyTransfer(e.parcelOwnerID, e.agentId,
-                                                    (uint) e.parcelPrice, "Land Purchase", TransactionType.LandSale,
+                                                    (uint)e.parcelPrice, "Land Purchase", TransactionType.LandSale,
                                                     UUID.Random());
         }
 
@@ -385,8 +385,8 @@ namespace Vision.Modules.Currency
         {
             if (client.AgentId == agentId && client.SessionId == sessionId)
             {
-                var cliBal = (int)m_connector.GetUserCurrency (client.AgentId).Amount;   
-                client.SendMoneyBalance (transactionId, true, new byte[0], cliBal);
+                var cliBal = (int)m_connector.GetUserCurrency(client.AgentId).Amount;
+                client.SendMoneyBalance(transactionId, true, new byte[0], cliBal);
             }
             else
                 client.SendAlertMessage("Unable to send your money balance to you!");
@@ -418,11 +418,11 @@ namespace Vision.Modules.Currency
             }
             else if (method == "GetLandData")
             {
-                MainConsole.Instance.Info (message);
+                MainConsole.Instance.Info(message);
 
                 UUID agentID = message["AgentID"];
-                IScene region = GetSceneFor (agentID);
-                MainConsole.Instance.Info ("Region: " + region.RegionInfo.RegionName);
+                IScene region = GetSceneFor(agentID);
+                MainConsole.Instance.Info("Region: " + region.RegionInfo.RegionName);
 
                 IParcelManagementModule parcelManagement = region.RequestModuleInterface<IParcelManagementModule>();
                 if (parcelManagement != null)
@@ -430,30 +430,30 @@ namespace Vision.Modules.Currency
                     IScenePresence sp = region.GetScenePresence(agentID);
                     if (sp != null)
                     {
-                        MainConsole.Instance.InfoFormat ("sp parcel UUID: {0} Pos: {1}, {2}",
+                        MainConsole.Instance.InfoFormat("sp parcel UUID: {0} Pos: {1}, {2}",
                             sp.CurrentParcelUUID, sp.AbsolutePosition.X, sp.AbsolutePosition.Y);
-                        
+
                         ILandObject lo = sp.CurrentParcel;
                         if (lo == null)
                         {
                             // try for a position fix
-                            lo = parcelManagement.GetLandObject ((int)sp.AbsolutePosition.X, (int)sp.AbsolutePosition.Y);
+                            lo = parcelManagement.GetLandObject((int)sp.AbsolutePosition.X, (int)sp.AbsolutePosition.Y);
                         }
 
                         if (lo != null)
-                        {   
+                        {
                             if ((lo.LandData.Flags & (uint)ParcelFlags.ForSale) == (uint)ParcelFlags.ForSale)
                             {
                                 if (lo.LandData.AuthBuyerID != UUID.Zero && lo.LandData.AuthBuyerID != agentID)
-                                    return new OSDMap () { new KeyValuePair<string, OSD> ("Success", false) };
-                                OSDMap map = lo.LandData.ToOSD ();
-                                map ["Success"] = true;
+                                    return new OSDMap() { new KeyValuePair<string, OSD>("Success", false) };
+                                OSDMap map = lo.LandData.ToOSD();
+                                map["Success"] = true;
                                 return map;
                             }
                         }
                     }
                 }
-                return new OSDMap() {new KeyValuePair<string, OSD>("Success", false)};
+                return new OSDMap() { new KeyValuePair<string, OSD>("Success", false) };
             }
             return null;
         }
@@ -468,11 +468,11 @@ namespace Vision.Modules.Currency
             }
             if (m_scenes.Count == 0)
             {
-                MainConsole.Instance.Debug ("User is not present in any region??");
+                MainConsole.Instance.Debug("User not present in any regions??");
                 return null;
             }
 
-            MainConsole.Instance.Debug ("Returning scene[0]: " + m_scenes [0].RegionInfo.RegionName);
+            MainConsole.Instance.Debug("Returning scene[0]: " + m_scenes[0].RegionInfo.RegionName);
             return m_scenes[0];
         }
 
@@ -492,7 +492,7 @@ namespace Vision.Modules.Currency
                 if (icapiTo != null)
                 {
                     icapiTo.ControllingClient.SendMoneyBalance(transactionId, true, Utils.StringToBytes(message),
-                                                               (int) m_connector.GetUserCurrency(icapiTo.UUID).Amount);
+                                                               (int)m_connector.GetUserCurrency(icapiTo.UUID).Amount);
                     dialogModule.SendAlertToUser(toId, message);
                 }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,12 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
 using Vision.Framework.Modules;
 using Vision.Framework.Services;
 using Vision.Simulation.Base;
-using System;
-using System.Collections.Generic;
 
 namespace Vision.Servers.InventoryServer
 {
@@ -48,7 +47,7 @@ namespace Vision.Servers.InventoryServer
                                                                        typeof (IInventoryData),
                                                                        typeof (IUserAccountData),
                                                                        typeof (IAssetDataPlugin),
-                                                                       typeof (ISimpleCurrencyConnector),
+                                                                       typeof (IBaseCurrencyConnector),
                                                                        typeof (IAgentInfoConnector)
                                                                    },
                                                                new List<Type>

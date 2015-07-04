@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,6 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
@@ -32,10 +36,6 @@ using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Inventory;
-using Nini.Config;
-using OpenMetaverse;
-using System;
-using System.Collections.Generic;
 
 namespace Vision.Modules.Inventory
 {
@@ -63,7 +63,6 @@ namespace Vision.Modules.Inventory
                     m_Enabled = false;
                     return;
                 }
-                //m_currencyService = Framework.Utilities.DataManager.RequestPlugin<ISimpleCurrencyConnector>() as SimpleCurrencyConnector;
             }
         }
 
@@ -72,7 +71,6 @@ namespace Vision.Modules.Inventory
             if (!m_Enabled)
                 return;
 
-            //m_Scene = scene;
             m_Scenelist.Add(scene);
 
             scene.RegisterModuleInterface(this);
@@ -90,14 +88,12 @@ namespace Vision.Modules.Inventory
             if (m_TransferModule == null)
             {
                 m_TransferModule = m_Scenelist[0].RequestModuleInterface<IMessageTransferModule>();
-//                m_TransferModule = m_Scene.RequestModuleInterface<IMessageTransferModule>();
                 if (m_TransferModule == null)
                 {
                     MainConsole.Instance.Error(
                         "[INVENTORY TRANSFER]: No Message transfer module found, transfers will be local only");
                     m_Enabled = false;
 
-                    //m_Scene = null;
                     m_Scenelist.Clear();
                     scene.EventManager.OnNewClient -= OnNewClient;
                     scene.EventManager.OnClosingClient -= OnClosingClient;
@@ -108,8 +104,6 @@ namespace Vision.Modules.Inventory
 
         public void RemoveRegion(IScene scene)
         {
-            //m_Scene = null;
-
             scene.EventManager.OnNewClient -= OnNewClient;
             scene.EventManager.OnClosingClient -= OnClosingClient;
             scene.EventManager.OnIncomingInstantMessage -= OnGridInstantMessage;
@@ -222,8 +216,6 @@ namespace Vision.Modules.Inventory
                                 im.BinaryBucket [0] = (byte)AssetType.Folder;
                                 Array.Copy (copyIDBytes, 0, im.BinaryBucket, 1, copyIDBytes.Length);
 
-//                                m_currencyService.UserCurrencyTransfer(im.FromAgentID, im.ToAgentID, 0,
-//                                    "Inworld inventory folder transfer", TransactionType.GiveInventory, UUID.Zero);
                             if (moneyService != null)
                                 moneyService.Transfer(im.ToAgentID, im.FromAgentID, 0,
                                 "Inworld inventory folder transfer", TransactionType.GiveInventory);
@@ -287,7 +279,6 @@ namespace Vision.Modules.Inventory
                     // Send the IM to the recipient. The item is already
                     // in their inventory, so it will not be lost if
                     // they are offline.
-                    //
                      if (m_TransferModule != null)
                         m_TransferModule.SendInstantMessage(im);
                 }
@@ -312,7 +303,6 @@ namespace Vision.Modules.Inventory
                 // Here, the recipient is local and we can assume that the
                 // inventory is loaded. Courtesy of the above bulk update,
                 // It will have been pushed to the client, too
-                //
                 IInventoryService invService = clientScene.InventoryService;
                 MainConsole.Instance.DebugFormat ("[INVENTORY TRANSFER]: Declined message received");
 
@@ -363,8 +353,6 @@ namespace Vision.Modules.Inventory
                                                  "received inventory" + reason, false);
                 }
 
-                //m_currencyService.UserCurrencyTransfer(im.FromAgentID, im.ToAgentID, 0,
-                //    "Inworld inventory transfer declined", TransactionType.GiveInventory, UUID.Zero);
                 if (moneyService != null)
                     moneyService.Transfer(im.ToAgentID, im.FromAgentID, 0,
                         "Inworld inventory transfer declined", TransactionType.GiveInventory);
@@ -389,7 +377,6 @@ namespace Vision.Modules.Inventory
         private void OnGridInstantMessage(GridInstantMessage msg)
         {
             // Check if this is ours to handle
-            //
             IScene userScene = FindClientScene(msg.ToAgentID);
             if (userScene == null)
             {
@@ -398,7 +385,6 @@ namespace Vision.Modules.Inventory
             }
 
             // Find agent to deliver to
-            //
             IScenePresence user = userScene.GetScenePresence(msg.ToAgentID);
 
             // Just forward to local handling
