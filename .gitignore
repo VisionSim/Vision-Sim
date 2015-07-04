@@ -56,8 +56,10 @@ VisionSim/Data/ScriptEngines/*-*-*-*-*
 VisionSim/Data/ScriptEngines/*.dll
 VisionSim/Data/ScriptEngines/*/*.dll
 VisionSim/Data/ScriptEngines/*/*.state
+VisionSim/Data/Marketplace.txt
 VisionSim/Data/RealEstateUser.txt
 VisionSim/Data/AvatarArchives/*
+VisionSim/Data/Banker.txt
 VisionSim/Data/UserArchives/*
 VisionSim/Data/Governor.txt
 VisionSim/Data/SystemEstate.txt
