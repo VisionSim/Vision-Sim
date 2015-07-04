@@ -54,13 +54,13 @@ namespace Vision.Framework.Utilities
         public static string HostName = "";
 
         /// <summary>
-        ///     Get the URL to the release notes for the current version of Universe
+        ///     Get the URL to the release notes for the current version of Vision Sim
         /// </summary>
         /// <returns></returns>
         public static string GetServerReleaseNotesURL()
         {
-			return (MainServer.Instance.Secure ? "https://" : "http://") + MainServer.Instance.HostName +
-                   ":" + MainServer.Instance.Port.ToString() + "/VisionServerRelease" + UniverseServerVersion() + ".html";
+            return (MainServer.Instance.Secure ? "https://" : "http://") + MainServer.Instance.HostName +
+                   ":" + MainServer.Instance.Port + "/VisionServerRelease" + VisionServerVersion() + ".html";
         }
 
         /// <summary>
@@ -69,28 +69,28 @@ namespace Vision.Framework.Utilities
         /// <returns></returns>
         public static string GetAddress()
         {
-			return (MainServer.Instance.Secure ? "https://" : "http://") + MainServer.Instance.HostName + ":" +
-                   MainServer.Instance.Port.ToString();
+            return (MainServer.Instance.Secure ? "https://" : "http://") + MainServer.Instance.HostName + ":" +
+                   MainServer.Instance.Port;
         }
-        
+
         public static string GetRegionMaturity(int Maturity)
         {
-        	switch(Maturity)
-        	{
-        	case 13:
-        		return "PG";
-        	case 21:
-        		return "Mature";
-        	case 42:
-        		return "Adult";
-        	default:
-        		return "Unknown";
-        	}
+            switch (Maturity)
+            {
+                case 13:
+                    return "PG";
+                case 21:
+                    return "Mature";
+                case 42:
+                    return "Adult";
+                default:
+                    return "Unknown";
+            }
         }
 
         public static string GetMaxMaturity(int Maturity)
         {
-            switch(Maturity)
+            switch (Maturity)
             {
                 case 0:
                     return "PG";
@@ -107,7 +107,7 @@ namespace Vision.Framework.Utilities
         ///     What is our version?
         /// </summary>
         /// <returns></returns>
-        public static string VisionServerVersion()
+        public static string WhiteCoreServerVersion()
         {
             return VersionInfo.VERSION_NUMBER;
         }
@@ -185,10 +185,10 @@ namespace Vision.Framework.Utilities
 
             // Use the password to generate pseudo-random bytes for the encryption
             // key. Specify the size of the key in bytes (instead of bits).
-            byte[] keyBytes = password.GetBytes(KeySize/8);
+            byte[] keyBytes = password.GetBytes(KeySize / 8);
 
             // Create uninitialized Rijndael encryption object.
-            RijndaelManaged symmetricKey = new RijndaelManaged {Mode = CipherMode.CBC};
+            RijndaelManaged symmetricKey = new RijndaelManaged { Mode = CipherMode.CBC };
 
             // It is reasonable to set encryption mode to Cipher Block Chaining
             // (CBC). Use default options for other symmetric key parameters.
@@ -279,10 +279,10 @@ namespace Vision.Framework.Utilities
 
             // Use the password to generate pseudo-random bytes for the encryption
             // key. Specify the size of the key in bytes (instead of bits).
-            byte[] keyBytes = password.GetBytes(KeySize/8);
+            byte[] keyBytes = password.GetBytes(KeySize / 8);
 
             // Create uninitialized Rijndael encryption object.
-            RijndaelManaged symmetricKey = new RijndaelManaged {Mode = CipherMode.CBC};
+            RijndaelManaged symmetricKey = new RijndaelManaged { Mode = CipherMode.CBC };
 
             // It is reasonable to set encryption mode to Cipher Block Chaining
             // (CBC). Use default options for other symmetric key parameters.
@@ -332,7 +332,7 @@ namespace Vision.Framework.Utilities
             // Return decrypted string.   
             return plainText;
         }
-            
+
         /// <summary>
         ///     Get OUR external IP
         /// </summary>
@@ -352,7 +352,7 @@ namespace Vision.Framework.Utilities
                     externalIp = utf8.GetString(webClient.DownloadData("http://checkip.dyndns.org/"));
                     //Remove the HTML stuff
                     externalIp =
-                        externalIp.Remove(0, 76).Split(new string[1] {"</body>"}, StringSplitOptions.RemoveEmptyEntries)
+                        externalIp.Remove(0, 76).Split(new string[1] { "</body>" }, StringSplitOptions.RemoveEmptyEntries)
                             [0];
                     NetworkUtils.InternetSuccess();
                 }
@@ -375,8 +375,8 @@ namespace Vision.Framework.Utilities
                 CachedExternalIP = externalIp;
                 return externalIp;
             }
-            else
-                return CachedExternalIP;
+
+            return CachedExternalIP;
         }
 
         /// <summary>
@@ -387,18 +387,18 @@ namespace Vision.Framework.Utilities
         public static string GetLocalIp()
         {
 
-        IPHostEntry host;
-        string localIP = "?";
-        host = Dns.GetHostEntry(Dns.GetHostName());
-        foreach (IPAddress ip in host.AddressList)
-        {
-            if (ip.AddressFamily == AddressFamily.InterNetwork)
+            IPHostEntry host;
+            string localIP = "?";
+            host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (IPAddress ip in host.AddressList)
             {
-                localIP = ip.ToString();
-                break;
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    localIP = ip.ToString();
+                    break;
+                }
             }
-        }
-        return localIP;
+            return localIP;
         }
 
         /// <summary>
@@ -435,7 +435,7 @@ namespace Vision.Framework.Utilities
         {
             int size = BitConverter.ToInt32(data, data.Length - 4);
             byte[] uncompressedData = new byte[size];
-            MemoryStream memStream = new MemoryStream(data, start, (data.Length - start)) {Position = 0};
+            MemoryStream memStream = new MemoryStream(data, start, (data.Length - start)) { Position = 0 };
             GZipStream gzStream = new GZipStream(memStream, CompressionMode.Decompress);
 
             try
@@ -453,7 +453,7 @@ namespace Vision.Framework.Utilities
 
 
         /// <summary>
-        ///     Download the file from downloadLink and save it to Universe + Version +
+        ///     Download the file from downloadLink and save it to WhiteCore + Version +
         /// </summary>
         /// <param name="downloadLink">Link to the download</param>
         /// <param name="filename">Name to put the download in</param>
@@ -533,7 +533,7 @@ namespace Vision.Framework.Utilities
             buttonCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
 
             form.ClientSize = new Size(396, 107);
-            form.Controls.AddRange(new Control[] {label, textBox, buttonOk, buttonCancel});
+            form.Controls.AddRange(new Control[] { label, textBox, buttonOk, buttonCancel });
             form.ClientSize = new Size(Math.Max(300, label.Right + 10), form.ClientSize.Height);
             form.FormBorderStyle = FormBorderStyle.FixedDialog;
             form.StartPosition = FormStartPosition.CenterScreen;
@@ -577,7 +577,7 @@ namespace Vision.Framework.Utilities
             buttonCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
 
             form.ClientSize = new Size(396, 107);
-            form.Controls.AddRange(new Control[] {label, buttonOk, buttonCancel});
+            form.Controls.AddRange(new Control[] { label, buttonOk, buttonCancel });
             form.ClientSize = new Size(Math.Max(300, label.Right + 10), form.ClientSize.Height);
             form.FormBorderStyle = FormBorderStyle.FixedDialog;
             form.StartPosition = FormStartPosition.CenterScreen;
@@ -606,14 +606,19 @@ namespace Vision.Framework.Utilities
             return EMailreStrict.IsMatch(address);
         }
 
+        /// <summary>
+        /// Determines whether the specified userID is a system user.
+        /// </summary>
+        /// <returns><c>true</c> if the specified userID is a system user; otherwise, <c>false</c>.</returns>
+        /// <param name="userID">User I.</param>
         public static bool IsSystemUser(OpenMetaverse.UUID userID)
         {
             var userId = userID.ToString();
-            return ( userId == Constants.GovernorUUID || 
+            return (userId == Constants.GovernorUUID ||
                      userId == Constants.RealEstateOwnerUUID ||
-                     userId == Constants.LibraryOwner || 
+                     userId == Constants.LibraryOwner ||
                      userId == Constants.BankerUUID ||
-                     userId == Constants.MarketplaceUUID
+                     userId == Constants.MarketplaceOwnerUUID
             );
         }
 
@@ -633,22 +638,22 @@ namespace Vision.Framework.Utilities
                 return Environment.Is64BitOperatingSystem;
             }
         }
-        
+
         public static DateTime GetNextWeekday(DateTime start, DayOfWeek day)
         {
-        	// The (... + 7) % 7 ensures we end up with a value in the range [0, 6]
-        	int daysToAdd = ((int) day - (int) start.DayOfWeek + 7) % 7;
-        	return start.AddDays(daysToAdd);
+            // The (... + 7) % 7 ensures we end up with a value in the range [0, 6]
+            int daysToAdd = ((int)day - (int)start.DayOfWeek + 7) % 7;
+            return start.AddDays(daysToAdd);
         }
 
         public static class RandomPassword
         {
             static Random rand = new Random();
 
-            static readonly char[] VOWELS = new char[] { 'a', 'e', 'i', 'o', 'u' };
-            static readonly char[] CONSONANTS = new char[] { 'b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z' };
-            static readonly char[] SYMBOLS = new char[] { '*', '?', '/', '\\', '%', '$', '#', '@', '!', '~' };
-            static readonly char[] NUMBERS = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+            static readonly char[] VOWELS = { 'a', 'e', 'i', 'o', 'u' };
+            static readonly char[] CONSONANTS = { 'b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z' };
+            static readonly char[] SYMBOLS = { '*', '?', '/', '\\', '%', '$', '#', '@', '!', '~' };
+            static readonly char[] NUMBERS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
             /// <summary>
             /// Generates a random, human-readable password.
@@ -750,14 +755,14 @@ namespace Vision.Framework.Utilities
                     {
                         string upper = word.Trim().ToUpper();
                         if (upper.Length < order + 1)
-                            continue;                   
+                            continue;
                         _samples.Add(upper);
                     }
                 }
 
                 //Build chains            
                 foreach (string word in _samples)
-                {              
+                {
                     for (int letter = 0; letter < word.Length - order; letter++)
                     {
                         string token = word.Substring(letter, order);
@@ -863,7 +868,7 @@ namespace Vision.Framework.Utilities
             "Stock", "Tarnost", "Tharbad", "Tighfield", "Tirion", "Umbar", "Undertowers",
             "Upbourn", "Valmar", "Vinyamar", "Waymeet" 
         };
-    
+
         public static string[] UserNames = {
             "Ada", "Aelgifu", "Aelith", "Almaric", "Amber", "Angerbotha", "Anselm", "Arathalion",
             "Arwen", "Assi", "Autumn", "Avice", "Badacin", "Balcardil", "Banjo", "Bebba", "Belladonna",

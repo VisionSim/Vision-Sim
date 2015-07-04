@@ -26,8 +26,28 @@
  */
 
 using Amib.Threading;
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Modules;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
+using System.Net;
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
+using System.Reflection;
+using System.Reflection.Emit;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Xml;
 using Nini.Config;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
@@ -55,6 +75,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Xml;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Modules;
 using ReaderWriterLockSlim = System.Threading.ReaderWriterLockSlim;
 
 namespace Vision.Framework.Utilities
@@ -84,20 +106,21 @@ namespace Vision.Framework.Utilities
     /// </summary>
     public class Util
     {
-        private static uint nextXferID = 5000;
-        private static readonly Random randomClass = new ThreadSafeRandom();
+        static uint nextXferID = 5000;
+        static readonly Random randomClass = new ThreadSafeRandom();
+
         // Get a list of invalid file characters (OS dependent)
-        private static readonly string regexInvalidFileChars = "[" + new String(Path.GetInvalidFileNameChars()) + "]";
-        private static readonly string regexInvalidPathChars = "[" + new String(Path.GetInvalidPathChars()) + "]";
-        private static readonly object XferLock = new object();
+        static readonly string regexInvalidFileChars = "[" + new String(Path.GetInvalidFileNameChars()) + "]";
+        static readonly string regexInvalidPathChars = "[" + new String(Path.GetInvalidPathChars()) + "]";
+        static readonly object XferLock = new object();
 
         /// <summary>
         ///     Thread pool used for Util.FireAndForget if
         ///     FireAndForgetMethod.SmartThreadPool is used
         /// </summary>
-        private static SmartThreadPool m_ThreadPool;
+        static SmartThreadPool m_ThreadPool;
 
-        private static volatile bool m_threadPoolRunning;
+        static volatile bool m_threadPoolRunning;
 
         // Unix-epoch starts at January 1st 1970, 00:00:00 UTC. And all our times in the server are (or at least should be) in UTC.
         public static readonly DateTime UnixEpoch =
@@ -111,34 +134,35 @@ namespace Vision.Framework.Utilities
 
         static Util()
         {
-            RuntimeTypeModel.Default.Add(typeof (UUID), false)
-                            .SetSurrogate(typeof (UUIDSurrogate));
-            RuntimeTypeModel.Default.Add(typeof (IPEndPoint), false)
+            RuntimeTypeModel.Default.Add(typeof(UUID), false)
+                            .SetSurrogate(typeof(UUIDSurrogate));
+            RuntimeTypeModel.Default.Add(typeof(IPEndPoint), false)
                             .SetSurrogate(typeof(IPEndPointSurrogate));
-            RuntimeTypeModel.Default.Add(typeof (OSD), false)
-                            .SetSurrogate(typeof (OSDSurrogate));
-            RuntimeTypeModel.Default.Add(typeof (OSDArray), false)
-                            .SetSurrogate(typeof (OSDArraySurrogate));
-            RuntimeTypeModel.Default.Add(typeof (OSDMap), false)
-                            .SetSurrogate(typeof (OSDMapSurrogate));
-            RuntimeTypeModel.Default.Add(typeof (Vector3), false)
-                            .SetSurrogate(typeof (Vector3Surrogate));
-            RuntimeTypeModel.Default.Add(typeof (Quaternion), false)
-                            .SetSurrogate(typeof (QuaternionSurrogate));
-            RuntimeTypeModel.Default.Add(typeof (ParcelManager.ParcelAccessEntry), false)
-                            .SetSurrogate(typeof (ParcelAccessEntrySurrogate));
-            RuntimeTypeModel.Default.Add(typeof (MediaEntry), false)
-                            .SetSurrogate(typeof (MediaEntrySurrogate));
-            RuntimeTypeModel.Default.Add(typeof (System.Drawing.Color), false)
-                            .SetSurrogate(typeof (ColorSurrogate));
+            RuntimeTypeModel.Default.Add(typeof(OSD), false)
+                            .SetSurrogate(typeof(OSDSurrogate));
+            RuntimeTypeModel.Default.Add(typeof(OSDArray), false)
+                            .SetSurrogate(typeof(OSDArraySurrogate));
+            RuntimeTypeModel.Default.Add(typeof(OSDMap), false)
+                            .SetSurrogate(typeof(OSDMapSurrogate));
+            RuntimeTypeModel.Default.Add(typeof(Vector3), false)
+                            .SetSurrogate(typeof(Vector3Surrogate));
+            RuntimeTypeModel.Default.Add(typeof(Quaternion), false)
+                            .SetSurrogate(typeof(QuaternionSurrogate));
+            RuntimeTypeModel.Default.Add(typeof(ParcelManager.ParcelAccessEntry), false)
+                            .SetSurrogate(typeof(ParcelAccessEntrySurrogate));
+            RuntimeTypeModel.Default.Add(typeof(MediaEntry), false)
+                            .SetSurrogate(typeof(MediaEntrySurrogate));
+            RuntimeTypeModel.Default.Add(typeof(System.Drawing.Color), false)
+                            .SetSurrogate(typeof(ColorSurrogate));
         }
 
         #region Protobuf helpers
 
         [ProtoContract]
-        private class UUIDSurrogate
+        class UUIDSurrogate
         {
-            [ProtoMember(1)] public string ID;
+            [ProtoMember(1)]
+            public string ID;
             // protobuf-net wants an implicit or explicit operator between the types
             public static implicit operator UUID(UUIDSurrogate value)
             {
@@ -148,18 +172,21 @@ namespace Vision.Framework.Utilities
             public static implicit operator UUIDSurrogate(UUID value)
             {
                 return new UUIDSurrogate
-                           {
-                               ID = value.ToString()
-                           };
+                {
+                    ID = value.ToString()
+                };
             }
         }
 
         [ProtoContract]
-        private class Vector3Surrogate
+        class Vector3Surrogate
         {
-            [ProtoMember(1)] public float X;
-            [ProtoMember(2)] public float Y;
-            [ProtoMember(3)] public float Z;
+            [ProtoMember(1)]
+            public float X;
+            [ProtoMember(2)]
+            public float Y;
+            [ProtoMember(3)]
+            public float Z;
 
             // protobuf-net wants an implicit or explicit operator between the types
             public static implicit operator Vector3(Vector3Surrogate value)
@@ -170,21 +197,25 @@ namespace Vision.Framework.Utilities
             public static implicit operator Vector3Surrogate(Vector3 value)
             {
                 return new Vector3Surrogate()
-                           {
-                               X = value.X,
-                               Y = value.Y,
-                               Z = value.Z
-                           };
+                {
+                    X = value.X,
+                    Y = value.Y,
+                    Z = value.Z
+                };
             }
         }
 
         [ProtoContract]
-        private class QuaternionSurrogate
+        class QuaternionSurrogate
         {
-            [ProtoMember(1)] public float X;
-            [ProtoMember(2)] public float Y;
-            [ProtoMember(3)] public float Z;
-            [ProtoMember(4)] public float W;
+            [ProtoMember(1)]
+            public float X;
+            [ProtoMember(2)]
+            public float Y;
+            [ProtoMember(3)]
+            public float Z;
+            [ProtoMember(4)]
+            public float W;
             // protobuf-net wants an implicit or explicit operator between the types
             public static implicit operator Quaternion(QuaternionSurrogate value)
             {
@@ -194,20 +225,22 @@ namespace Vision.Framework.Utilities
             public static implicit operator QuaternionSurrogate(Quaternion value)
             {
                 return new QuaternionSurrogate()
-                           {
-                               X = value.X,
-                               Y = value.Y,
-                               Z = value.Z,
-                               W = value.W
-                           };
+                {
+                    X = value.X,
+                    Y = value.Y,
+                    Z = value.Z,
+                    W = value.W
+                };
             }
         }
 
         [ProtoContract]
-        private class IPEndPointSurrogate
+        class IPEndPointSurrogate
         {
-            [ProtoMember(1)] public string IPAddr;
-            [ProtoMember(2)] public int Port;
+            [ProtoMember(1)]
+            public string IPAddr;
+            [ProtoMember(2)]
+            public int Port;
             // protobuf-net wants an implicit or explicit operator between the types
             public static implicit operator IPEndPoint(IPEndPointSurrogate value)
             {
@@ -219,17 +252,18 @@ namespace Vision.Framework.Utilities
                 return value == null
                            ? null
                            : new IPEndPointSurrogate
-                                 {
-                                     IPAddr = value.Address.ToString(),
-                                     Port = value.Port
-                                 };
+                           {
+                               IPAddr = value.Address.ToString(),
+                               Port = value.Port
+                           };
             }
         }
 
         [ProtoContract]
-        private class OSDSurrogate
+        class OSDSurrogate
         {
-            [ProtoMember(1)] public string str;
+            [ProtoMember(1)]
+            public string str;
             // protobuf-net wants an implicit or explicit operator between the types
             public static implicit operator OSD(OSDSurrogate value)
             {
@@ -239,14 +273,14 @@ namespace Vision.Framework.Utilities
             public static implicit operator OSDSurrogate(OSD value)
             {
                 return new OSDSurrogate
-                           {
-                               str = value == null ? "" : OSDParser.SerializeJsonString(value)
-                           };
+                {
+                    str = value == null ? "" : OSDParser.SerializeJsonString(value)
+                };
             }
         }
 
         [ProtoContract]
-        private class OSDMapSurrogate
+        class OSDMapSurrogate
         {
             [ProtoMember(1)]
             public string str;
@@ -266,7 +300,7 @@ namespace Vision.Framework.Utilities
         }
 
         [ProtoContract]
-        private class OSDArraySurrogate
+        class OSDArraySurrogate
         {
             [ProtoMember(1)]
             public string str;
@@ -286,38 +320,42 @@ namespace Vision.Framework.Utilities
         }
 
         [ProtoContract]
-        private class ParcelAccessEntrySurrogate
+        class ParcelAccessEntrySurrogate
         {
-            [ProtoMember(1)] public UUID AgentID;
-            [ProtoMember(2)] public AccessList Flags;
-            [ProtoMember(3)] public DateTime Time;
+            [ProtoMember(1)]
+            public UUID AgentID;
+            [ProtoMember(2)]
+            public AccessList Flags;
+            [ProtoMember(3)]
+            public DateTime Time;
 
             // protobuf-net wants an implicit or explicit operator between the types
             public static implicit operator ParcelManager.ParcelAccessEntry(ParcelAccessEntrySurrogate value)
             {
                 return new ParcelManager.ParcelAccessEntry()
-                           {
-                               AgentID = value.AgentID,
-                               Flags = value.Flags,
-                               Time = value.Time
-                           };
+                {
+                    AgentID = value.AgentID,
+                    Flags = value.Flags,
+                    Time = value.Time
+                };
             }
 
             public static implicit operator ParcelAccessEntrySurrogate(ParcelManager.ParcelAccessEntry value)
             {
                 return new ParcelAccessEntrySurrogate
-                           {
-                               AgentID = value.AgentID,
-                               Flags = value.Flags,
-                               Time = value.Time
-                           };
+                {
+                    AgentID = value.AgentID,
+                    Flags = value.Flags,
+                    Time = value.Time
+                };
             }
         }
 
         [ProtoContract]
-        private class MediaEntrySurrogate
+        class MediaEntrySurrogate
         {
-            [ProtoMember(1)] public OSD info;
+            [ProtoMember(1)]
+            public OSD info;
 
             // protobuf-net wants an implicit or explicit operator between the types
             public static implicit operator MediaEntry(MediaEntrySurrogate value)
@@ -328,19 +366,23 @@ namespace Vision.Framework.Utilities
             public static implicit operator MediaEntrySurrogate(MediaEntry value)
             {
                 return new MediaEntrySurrogate
-                           {
-                               info = value == null ? null : value.GetOSD()
-                           };
+                {
+                    info = value == null ? null : value.GetOSD()
+                };
             }
         }
 
         [ProtoContract]
-        private class ColorSurrogate
+        class ColorSurrogate
         {
-            [ProtoMember(1)] public int A;
-            [ProtoMember(2)] public int R;
-            [ProtoMember(3)] public int G;
-            [ProtoMember(4)] public int B;
+            [ProtoMember(1)]
+            public int A;
+            [ProtoMember(2)]
+            public int R;
+            [ProtoMember(3)]
+            public int G;
+            [ProtoMember(4)]
+            public int B;
 
             // protobuf-net wants an implicit or explicit operator between the types
             public static implicit operator System.Drawing.Color(ColorSurrogate value)
@@ -351,12 +393,12 @@ namespace Vision.Framework.Utilities
             public static implicit operator ColorSurrogate(System.Drawing.Color value)
             {
                 return new ColorSurrogate
-                           {
-                               A = value.A,
-                               R = value.R,
-                               G = value.G,
-                               B = value.B
-                           };
+                {
+                    A = value.A,
+                    R = value.R,
+                    G = value.G,
+                    B = value.B
+                };
             }
         }
 
@@ -395,7 +437,7 @@ namespace Vision.Framework.Utilities
                 if (val == null)
                     builder.AppendFormat("{0}{1}=null\n", lineStart, key);
                 else if (val is OSDMap)
-                    builder.AppendFormat("{0}{1}=...\n{2}", lineStart, key, ConvertToString((OSDMap) val, "\t\t"));
+                    builder.AppendFormat("{0}{1}=...\n{2}", lineStart, key, ConvertToString((OSDMap)val, "\t\t"));
                 else
                     builder.AppendFormat("{0}{1}={2}\n", lineStart, key, val.ToString());
             }
@@ -415,7 +457,7 @@ namespace Vision.Framework.Utilities
         {
             //Do both , and " " so that it removes any annoying spaces in the string added by users
             List<string> value =
-                new List<string>(listAsString.Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries));
+                new List<string>(listAsString.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries));
             Dictionary<string, string> dict = new Dictionary<string, string>();
             foreach (var v in value)
             {
@@ -484,7 +526,7 @@ namespace Vision.Framework.Utilities
         /// <returns></returns>
         public static double lerp(double a, double b, double c)
         {
-            return (b*a) + (c*(1 - a));
+            return (b * a) + (c * (1 - a));
         }
 
         /// <summary>
@@ -528,7 +570,7 @@ namespace Vision.Framework.Utilities
             float dx = a.X - b.X;
             float dy = a.Y - b.Y;
             float dz = a.Z - b.Z;
-            return Math.Sqrt(dx*dx + dy*dy + dz*dz);
+            return Math.Sqrt(dx * dx + dy * dy + dz * dz);
         }
 
         /// <summary>
@@ -541,7 +583,7 @@ namespace Vision.Framework.Utilities
         {
             float dx = a.X - b.X;
             float dy = a.Y - b.Y;
-            return Math.Sqrt(dx*dx + dy*dy);
+            return Math.Sqrt(dx * dx + dy * dy);
         }
 
         /// <summary>
@@ -556,7 +598,7 @@ namespace Vision.Framework.Utilities
             float dx = a.X - b.X;
             float dy = a.Y - b.Y;
             float dz = a.Z - b.Z;
-            return (dx*dx + dy*dy + dz*dz) < (amount*amount);
+            return (dx * dx + dy * dy + dz * dz) < (amount * amount);
         }
 
         /// <summary>
@@ -566,7 +608,7 @@ namespace Vision.Framework.Utilities
         /// <returns>The magnitude of the vector</returns>
         public static double GetMagnitude(Vector3 a)
         {
-            return Math.Sqrt((a.X*a.X) + (a.Y*a.Y) + (a.Z*a.Z));
+            return Math.Sqrt((a.X * a.X) + (a.Y * a.Y) + (a.Z * a.Z));
         }
 
         /// <summary>
@@ -580,8 +622,8 @@ namespace Vision.Framework.Utilities
             if (IsZeroVector(a))
                 throw new ArgumentException("Vector paramater cannot be a zero vector.");
 
-            float Mag = (float) GetMagnitude(a);
-            return new Vector3(a.X/Mag, a.Y/Mag, a.Z/Mag);
+            float Mag = (float)GetMagnitude(a);
+            return new Vector3(a.X / Mag, a.Y / Mag, a.Z / Mag);
         }
 
         /// <summary>
@@ -590,7 +632,6 @@ namespace Vision.Framework.Utilities
         /// <returns></returns>
         public static bool IsZeroVector(Vector3 v)
         {
-            //if (v.X == 0 && v.Y == 0 && v.Z == 0)
             if (v.X < Constants.FloatDifference &&
                 v.Y < Constants.FloatDifference &&
                 v.Z < Constants.FloatDifference)
@@ -606,16 +647,16 @@ namespace Vision.Framework.Utilities
         public static Quaternion Axes2Rot(Vector3 fwd, Vector3 left, Vector3 up)
         {
             float s;
-            float tr = (float) (fwd.X + left.Y + up.Z + 1.0);
+            float tr = (float)(fwd.X + left.Y + up.Z + 1.0);
 
             if (tr >= 1.0)
             {
-                s = (float) (0.5/Math.Sqrt(tr));
+                s = (float)(0.5 / Math.Sqrt(tr));
                 return new Quaternion(
-                    (left.Z - up.Y)*s,
-                    (up.X - fwd.Z)*s,
-                    (fwd.Y - left.X)*s,
-                    (float) 0.25/s);
+                    (left.Z - up.Y) * s,
+                    (up.X - fwd.Z) * s,
+                    (fwd.Y - left.X) * s,
+                    (float)0.25 / s);
             }
             else
             {
@@ -623,36 +664,36 @@ namespace Vision.Framework.Utilities
 
                 if (max < fwd.X)
                 {
-                    s = (float) (Math.Sqrt(fwd.X - (left.Y + up.Z) + 1.0));
-                    float x = (float) (s*0.5);
-                    s = (float) (0.5/s);
+                    s = (float)(Math.Sqrt(fwd.X - (left.Y + up.Z) + 1.0));
+                    float x = (float)(s * 0.5);
+                    s = (float)(0.5 / s);
                     return new Quaternion(
                         x,
-                        (fwd.Y + left.X)*s,
-                        (up.X + fwd.Z)*s,
-                        (left.Z - up.Y)*s);
+                        (fwd.Y + left.X) * s,
+                        (up.X + fwd.Z) * s,
+                        (left.Z - up.Y) * s);
                 }
                 else if (max == left.Y)
                 {
-                    s = (float) (Math.Sqrt(left.Y - (up.Z + fwd.X) + 1.0));
-                    float y = (float) (s*0.5);
-                    s = (float) (0.5/s);
+                    s = (float)(Math.Sqrt(left.Y - (up.Z + fwd.X) + 1.0));
+                    float y = (float)(s * 0.5);
+                    s = (float)(0.5 / s);
                     return new Quaternion(
-                        (fwd.Y + left.X)*s,
+                        (fwd.Y + left.X) * s,
                         y,
-                        (left.Z + up.Y)*s,
-                        (up.X - fwd.Z)*s);
+                        (left.Z + up.Y) * s,
+                        (up.X - fwd.Z) * s);
                 }
                 else
                 {
-                    s = (float) (Math.Sqrt(up.Z - (fwd.X + left.Y) + 1.0));
-                    float z = (float) (s*0.5);
-                    s = (float) (0.5/s);
+                    s = (float)(Math.Sqrt(up.Z - (fwd.X + left.Y) + 1.0));
+                    float z = (float)(s * 0.5);
+                    s = (float)(0.5 / s);
                     return new Quaternion(
-                        (up.X + fwd.Z)*s,
-                        (left.Z + up.Y)*s,
+                        (up.X + fwd.Z) * s,
+                        (left.Z + up.Y) * s,
                         z,
-                        (fwd.Y - left.X)*s);
+                        (fwd.Y - left.X) * s);
                 }
             }
         }
@@ -697,7 +738,7 @@ namespace Vision.Framework.Utilities
             StringBuilder sb = new StringBuilder();
             StringWriter sw = new StringWriter(sb);
 
-            XmlTextWriter xtw = new XmlTextWriter(sw) {Formatting = Formatting.Indented};
+            XmlTextWriter xtw = new XmlTextWriter(sw) { Formatting = Formatting.Indented };
 
             try
             {
@@ -716,7 +757,7 @@ namespace Vision.Framework.Utilities
             // Must have .NET 2.0 (Generics / libsl)
             if (Environment.Version.Major < 2)
             {
-                reason = ".NET 1.0/1.1 lacks components that are used by Vision";
+                reason = ".NET 1.0/1.1 lacks components that are used by WhiteCore";
                 return false;
             }
 
@@ -725,7 +766,7 @@ namespace Vision.Framework.Utilities
                 Environment.OSVersion.Platform == PlatformID.Win32S ||
                 Environment.OSVersion.Platform == PlatformID.WinCE)
             {
-                reason = "Windows 95/98/ME will not run Vision";
+                reason = "Windows 95/98/ME will not run WhiteCore";
                 return false;
             }
 
@@ -742,7 +783,7 @@ namespace Vision.Framework.Utilities
                 Environment.Version.Major < 4 &&
                 Environment.Version.Build < 50727) //.net 3.5
             {
-                reason = ".NET versions before 3.5 lack components that are used by Vision";
+                reason = ".NET versions before 3.5 lack components that are used by WhiteCore";
                 return false;
             }
 
@@ -753,7 +794,7 @@ namespace Vision.Framework.Utilities
         {
             get
             {
-                int p = (int) Environment.OSVersion.Platform;
+                int p = (int)Environment.OSVersion.Platform;
                 return (p == 4) || (p == 6) || (p == 128);
             }
         }
@@ -812,7 +853,7 @@ namespace Vision.Framework.Utilities
         /// <param name="dllToLoad"></param>
         /// <returns></returns>
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
-        private static extern IntPtr LoadLibrary(string dllToLoad);
+        static extern IntPtr LoadLibrary(string dllToLoad);
 
         /// <summary>
         /// Determine whether the current process is 64 bit
@@ -831,7 +872,7 @@ namespace Vision.Framework.Utilities
         public static int ToUnixTime(DateTime stamp)
         {
             TimeSpan t = stamp.ToUniversalTime() - UnixEpoch;
-            return (int) t.TotalSeconds;
+            return (int)t.TotalSeconds;
         }
 
         public static DateTime ToDateTime(ulong seconds)
@@ -860,7 +901,7 @@ namespace Vision.Framework.Utilities
             return sb.ToString();
         }
 
-        private static byte[] ComputeMD5Hash(string data)
+        static byte[] ComputeMD5Hash(string data)
         {
             MD5 md5 = MD5.Create();
             return md5.ComputeHash(Encoding.Default.GetBytes(data));
@@ -877,7 +918,7 @@ namespace Vision.Framework.Utilities
             return BitConverter.ToString(hash).Replace("-", String.Empty);
         }
 
-        private static byte[] ComputeSHA1Hash(string src)
+        static byte[] ComputeSHA1Hash(string src)
         {
             SHA1CryptoServiceProvider SHA1 = new SHA1CryptoServiceProvider();
             return SHA1.ComputeHash(Encoding.Default.GetBytes(src));
@@ -904,9 +945,9 @@ namespace Vision.Framework.Utilities
         public static Vector3 ClampV(Vector3 x, float max)
         {
             float lenSq = x.LengthSquared();
-            if (lenSq > (max*max))
+            if (lenSq > (max * max))
             {
-                x = x/x.Length()*max;
+                x = x / x.Length() * max;
             }
             return x;
         }
@@ -969,7 +1010,7 @@ namespace Vision.Framework.Utilities
                     for (int j = 0; j < 16 && (i + j) < bytes.Length; j++)
                     {
                         if (bytes[i + j] >= 0x20 && bytes[i + j] < 0x7E)
-                            output.Append((char) bytes[i + j]);
+                            output.Append((char)bytes[i + j]);
                         else
                             output.Append(".");
                     }
@@ -999,15 +1040,11 @@ namespace Vision.Framework.Utilities
             return Regex.Replace(filename, regexInvalidFileChars, String.Empty);
         }
 
-        //
         // directory locations
-        //
 
         public static string homeDir()
         {
             string temp;
-            //            string personal=(Environment.GetFolderPath(Environment.SpecialFolder.Personal));
-            //            temp = Path.Combine(personal,".Vision");
             temp = ".";
             return temp;
         }
@@ -1066,10 +1103,10 @@ namespace Vision.Framework.Utilities
 
         public static void AddDataRowToConfig(IConfigSource config, DataRow row)
         {
-            config.Configs.Add((string) row[0]);
+            config.Configs.Add((string)row[0]);
             for (int i = 0; i < row.Table.Columns.Count; i++)
             {
-                config.Configs[(string) row[0]].Set(row.Table.Columns[i].ColumnName, row[i]);
+                config.Configs[(string)row[0]].Set(row.Table.Columns[i].ColumnName, row[i]);
             }
         }
 
@@ -1142,7 +1179,7 @@ namespace Vision.Framework.Utilities
         public static void Compress7ZipFile(string path, string destination)
         {
             ProcessStartInfo p = new ProcessStartInfo();
-            string pa = Path.GetDirectoryName(Assembly.GetAssembly(typeof (Util)).CodeBase);
+            string pa = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Util)).CodeBase);
             if (pa != null)
             {
                 p.FileName = Path.Combine(pa, "7za.exe");
@@ -1156,7 +1193,7 @@ namespace Vision.Framework.Utilities
         public static void UnCompress7ZipFile(string path, string destination)
         {
             ProcessStartInfo p = new ProcessStartInfo();
-            string pa = Path.GetDirectoryName(Assembly.GetAssembly(typeof (Util)).CodeBase);
+            string pa = Path.GetDirectoryName(Assembly.GetAssembly(typeof(Util)).CodeBase);
             if (pa != null)
             {
                 p.FileName = Path.Combine(pa, "7za.exe");
@@ -1262,9 +1299,9 @@ namespace Vision.Framework.Utilities
                     int nextByte = stream.ReadByte();
                     if (nextByte != -1)
                     {
-                        byte[] temp = new byte[readBuffer.Length*2];
+                        byte[] temp = new byte[readBuffer.Length * 2];
                         Buffer.BlockCopy(readBuffer, 0, temp, 0, readBuffer.Length);
-                        Buffer.SetByte(temp, totalBytesRead, (byte) nextByte);
+                        Buffer.SetByte(temp, totalBytesRead, (byte)nextByte);
                         readBuffer = temp;
                         totalBytesRead++;
                     }
@@ -1292,9 +1329,9 @@ namespace Vision.Framework.Utilities
         public static ulong BytesToUInt64Big(byte[] bytes)
         {
             if (bytes.Length < 8) return 0;
-            return ((ulong) bytes[0] << 56) | ((ulong) bytes[1] << 48) | ((ulong) bytes[2] << 40) |
-                   ((ulong) bytes[3] << 32) |
-                   ((ulong) bytes[4] << 24) | ((ulong) bytes[5] << 16) | ((ulong) bytes[6] << 8) | bytes[7];
+            return ((ulong)bytes[0] << 56) | ((ulong)bytes[1] << 48) | ((ulong)bytes[2] << 40) |
+                   ((ulong)bytes[3] << 32) |
+                   ((ulong)bytes[4] << 24) | ((ulong)bytes[5] << 16) | ((ulong)bytes[6] << 8) | bytes[7];
         }
 
         // used for RemoteParcelRequest (for "About Landmark")
@@ -1450,31 +1487,31 @@ namespace Vision.Framework.Utilities
             {
                 if (!fieldInfo.IsStatic)
                 {
-                    if (fieldInfo.FieldType == typeof (String))
+                    if (fieldInfo.FieldType == typeof(String))
                     {
                         fieldInfo.SetValue(settingsClass,
-                                           config.Get(fieldInfo.Name, (string) fieldInfo.GetValue(settingsClass)));
+                                           config.Get(fieldInfo.Name, (string)fieldInfo.GetValue(settingsClass)));
                     }
-                    else if (fieldInfo.FieldType == typeof (Boolean))
+                    else if (fieldInfo.FieldType == typeof(Boolean))
                     {
                         fieldInfo.SetValue(settingsClass,
-                                           config.GetBoolean(fieldInfo.Name, (bool) fieldInfo.GetValue(settingsClass)));
+                                           config.GetBoolean(fieldInfo.Name, (bool)fieldInfo.GetValue(settingsClass)));
                     }
-                    else if (fieldInfo.FieldType == typeof (Int32))
+                    else if (fieldInfo.FieldType == typeof(Int32))
                     {
                         fieldInfo.SetValue(settingsClass,
-                                           config.GetInt(fieldInfo.Name, (int) fieldInfo.GetValue(settingsClass)));
+                                           config.GetInt(fieldInfo.Name, (int)fieldInfo.GetValue(settingsClass)));
                     }
-                    else if (fieldInfo.FieldType == typeof (Single))
+                    else if (fieldInfo.FieldType == typeof(Single))
                     {
                         fieldInfo.SetValue(settingsClass,
-                                           config.GetFloat(fieldInfo.Name, (float) fieldInfo.GetValue(settingsClass)));
+                                           config.GetFloat(fieldInfo.Name, (float)fieldInfo.GetValue(settingsClass)));
                     }
-                    else if (fieldInfo.FieldType == typeof (UInt32))
+                    else if (fieldInfo.FieldType == typeof(UInt32))
                     {
                         fieldInfo.SetValue(settingsClass,
                                            Convert.ToUInt32(config.Get(fieldInfo.Name,
-                                                                       ((uint) fieldInfo.GetValue(settingsClass))
+                                                                       ((uint)fieldInfo.GetValue(settingsClass))
                                                                            .ToString())));
                     }
                 }
@@ -1485,35 +1522,35 @@ namespace Vision.Framework.Utilities
             {
                 if ((propInfo.CanRead) && (propInfo.CanWrite))
                 {
-                    if (propInfo.PropertyType == typeof (String))
+                    if (propInfo.PropertyType == typeof(String))
                     {
                         propInfo.SetValue(settingsClass,
-                                          config.Get(propInfo.Name, (string) propInfo.GetValue(settingsClass, null)),
+                                          config.Get(propInfo.Name, (string)propInfo.GetValue(settingsClass, null)),
                                           null);
                     }
-                    else if (propInfo.PropertyType == typeof (Boolean))
+                    else if (propInfo.PropertyType == typeof(Boolean))
                     {
                         propInfo.SetValue(settingsClass,
-                                          config.GetBoolean(propInfo.Name, (bool) propInfo.GetValue(settingsClass, null)),
+                                          config.GetBoolean(propInfo.Name, (bool)propInfo.GetValue(settingsClass, null)),
                                           null);
                     }
-                    else if (propInfo.PropertyType == typeof (Int32))
+                    else if (propInfo.PropertyType == typeof(Int32))
                     {
                         propInfo.SetValue(settingsClass,
-                                          config.GetInt(propInfo.Name, (int) propInfo.GetValue(settingsClass, null)),
+                                          config.GetInt(propInfo.Name, (int)propInfo.GetValue(settingsClass, null)),
                                           null);
                     }
-                    else if (propInfo.PropertyType == typeof (Single))
+                    else if (propInfo.PropertyType == typeof(Single))
                     {
                         propInfo.SetValue(settingsClass,
-                                          config.GetFloat(propInfo.Name, (float) propInfo.GetValue(settingsClass, null)),
+                                          config.GetFloat(propInfo.Name, (float)propInfo.GetValue(settingsClass, null)),
                                           null);
                     }
-                    if (propInfo.PropertyType == typeof (UInt32))
+                    if (propInfo.PropertyType == typeof(UInt32))
                     {
                         propInfo.SetValue(settingsClass,
                                           Convert.ToUInt32(config.Get(propInfo.Name,
-                                                                      ((uint) propInfo.GetValue(settingsClass, null))
+                                                                      ((uint)propInfo.GetValue(settingsClass, null))
                                                                           .ToString())), null);
                     }
                 }
@@ -1525,8 +1562,6 @@ namespace Vision.Framework.Utilities
         public static Guid GetHashGuid(string data, string salt)
         {
             byte[] hash = ComputeMD5Hash(data + salt);
-
-            //string s = BitConverter.ToString(hash);
 
             Guid guid = new Guid(hash);
 
@@ -1587,7 +1622,7 @@ namespace Vision.Framework.Utilities
             buffer = OSDParser.DeserializeJson(strdata);
             if (buffer.Type == OSDType.Map)
             {
-                args = (OSDMap) buffer;
+                args = (OSDMap)buffer;
                 return args;
             }
             return null;
@@ -1603,12 +1638,11 @@ namespace Vision.Framework.Utilities
                 buffer = OSDParser.DeserializeJson(data);
                 if (buffer.Type == OSDType.Map)
                 {
-                    args = (OSDMap) buffer;
+                    args = (OSDMap)buffer;
                     return args;
                 }
                 else
                 {
-                    // uh?
                     MainConsole.Instance.Debug(("[UTILS]: Got OSD of unexpected type " + buffer.Type.ToString()));
                     return null;
                 }
@@ -1626,7 +1660,7 @@ namespace Vision.Framework.Utilities
 
             if (Path.VolumeSeparatorChar != Path.DirectorySeparatorChar)
             {
-                string[] vcomps = path.Split(new[] {Path.VolumeSeparatorChar}, 2, StringSplitOptions.RemoveEmptyEntries);
+                string[] vcomps = path.Split(new[] { Path.VolumeSeparatorChar }, 2, StringSplitOptions.RemoveEmptyEntries);
 
                 if (vcomps.Length > 1)
                 {
@@ -1635,16 +1669,16 @@ namespace Vision.Framework.Utilities
                 }
             }
 
-            string[] comps = path.Split(new[] {Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar},
+            string[] comps = path.Split(new[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar },
                                         StringSplitOptions.RemoveEmptyEntries);
 
             // Glob
 
             path = vol;
             if (vol != String.Empty)
-                path += new String(new[] {Path.VolumeSeparatorChar, Path.DirectorySeparatorChar});
+                path += new String(new[] { Path.VolumeSeparatorChar, Path.DirectorySeparatorChar });
             else
-                path = new String(new[] {Path.DirectorySeparatorChar});
+                path = new String(new[] { Path.DirectorySeparatorChar });
 
             List<string> paths = new List<string>();
             List<string> found = new List<string>();
@@ -1680,7 +1714,7 @@ namespace Vision.Framework.Utilities
 
         public static string[] GetSubFiles(string path)
         {
-            string[] comps = path.Split(new[] {Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar},
+            string[] comps = path.Split(new[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar },
                                         StringSplitOptions.None);
             List<string> paths = new List<string>();
             string endFind = comps[comps.Length - 1];
@@ -1760,10 +1794,10 @@ namespace Vision.Framework.Utilities
         /// <summary>
         ///     Created to work around a limitation in Mono with nested delegates
         /// </summary>
-        private sealed class FireAndForgetWrapper
+        sealed class FireAndForgetWrapper
         {
-            private static volatile FireAndForgetWrapper instance;
-            private static readonly object syncRoot = new Object();
+            static volatile FireAndForgetWrapper instance;
+            static readonly object syncRoot = new Object();
 
             public static FireAndForgetWrapper Instance
             {
@@ -1794,9 +1828,9 @@ namespace Vision.Framework.Utilities
                 callback.BeginInvoke(obj, EndFireAndForget, callback);
             }
 
-            private static void EndFireAndForget(IAsyncResult ar)
+            static void EndFireAndForget(IAsyncResult ar)
             {
-                WaitCallback callback = (WaitCallback) ar.AsyncState;
+                WaitCallback callback = (WaitCallback)ar.AsyncState;
 
                 try
                 {
@@ -1834,7 +1868,7 @@ namespace Vision.Framework.Utilities
             {
                 //This stops more tasks and threads from being started
                 m_threadPoolRunning = false;
-                m_ThreadPool.WaitForIdle(60*1000);
+                m_ThreadPool.WaitForIdle(60 * 1000);
                 //Wait for the threads to be idle, but don't wait for more than a minute
                 //Destroy the threadpool now
                 m_ThreadPool.Dispose();
@@ -1883,14 +1917,14 @@ namespace Vision.Framework.Utilities
                     if (m_ThreadPool == null)
                         InitThreadPool(15);
                     if (m_threadPoolRunning) //Check if the thread pool should be running
-                        m_ThreadPool.QueueWorkItem((WorkItemCallback) SmartThreadPoolCallback, new[] {callback, obj});
+                        m_ThreadPool.QueueWorkItem((WorkItemCallback)SmartThreadPoolCallback, new[] { callback, obj });
                     break;
                 case FireAndForgetMethod.Thread:
                     Thread thread = new Thread(delegate(object o)
-                                                   {
-                                                       Culture.SetCurrentCulture();
-                                                       callback(o);
-                                                   });
+                    {
+                        Culture.SetCurrentCulture();
+                        callback(o);
+                    });
                     thread.Start(obj);
                     break;
                 default:
@@ -1898,10 +1932,10 @@ namespace Vision.Framework.Utilities
             }
         }
 
-        private static object SmartThreadPoolCallback(object o)
+        static object SmartThreadPoolCallback(object o)
         {
-            object[] array = (object[]) o;
-            WaitCallback callback = (WaitCallback) array[0];
+            object[] array = (object[])o;
+            WaitCallback callback = (WaitCallback)array[0];
             object obj = array[1];
 
             callback(obj);
@@ -1996,36 +2030,37 @@ namespace Vision.Framework.Utilities
         public static OSD MakeOSD(object o, Type t)
         {
             if (o is OSD)
-                return (OSD) o;
+                return (OSD)o;
             if (o is System.Drawing.Image)
                 return OSDBinary.FromBinary(ImageToByteArray(o as System.Drawing.Image));
             OSD oo;
             if ((oo = OSD.FromObject(o)).Type != OSDType.Unknown)
-                return (OSD) oo;
+                return oo;
             if (o is IDataTransferable)
-                return ((IDataTransferable) o).ToOSD();
+                return ((IDataTransferable)o).ToOSD();
             Type[] genericArgs = t.GetGenericArguments();
-            if (Util.IsInstanceOfGenericType(typeof (List<>), t))
+            if (Util.IsInstanceOfGenericType(typeof(List<>), t))
             {
                 OSDArray array = new OSDArray();
-                System.Collections.IList collection = (System.Collections.IList) o;
+                IList collection = (IList)o;
                 foreach (object item in collection)
                 {
                     array.Add(MakeOSD(item, genericArgs[0]));
                 }
                 return array;
             }
-            else if (Util.IsInstanceOfGenericType(typeof (Dictionary<,>), t))
+
+            if (Util.IsInstanceOfGenericType(typeof(Dictionary<,>), t))
             {
                 OSDMap array = new OSDMap();
-                System.Collections.IDictionary collection = (System.Collections.IDictionary) o;
-                foreach (System.Collections.DictionaryEntry item in collection)
+                IDictionary collection = (IDictionary)o;
+                foreach (DictionaryEntry item in collection)
                 {
                     array.Add(MakeOSD(item.Key, genericArgs[0]), MakeOSD(item.Value, genericArgs[1]));
                 }
                 return array;
             }
-            if (t.BaseType == typeof (Enum))
+            if (t.BaseType == typeof(Enum))
                 return OSD.FromString(o.ToString());
             return null;
         }
@@ -2044,12 +2079,12 @@ namespace Vision.Framework.Utilities
             return returnImage;
         }
 
-        private static object CreateInstance(Type type)
+        static object CreateInstance(Type type)
         {
-            if (type == typeof (string))
+            if (type == typeof(string))
                 return string.Empty;
-            else
-                return Activator.CreateInstance(type);
+
+            return Activator.CreateInstance(type);
         }
 
         public static object OSDToObject(OSD o)
@@ -2059,64 +2094,64 @@ namespace Vision.Framework.Utilities
 
         public static object OSDToObject(OSD o, Type PossibleArrayType)
         {
-            if (o.Type == OSDType.UUID || PossibleArrayType == typeof (UUID))
+            if (o.Type == OSDType.UUID || PossibleArrayType == typeof(UUID))
                 return o.AsUUID();
-            if (PossibleArrayType == typeof (string) || PossibleArrayType == typeof (OSDString) ||
-                PossibleArrayType.BaseType == typeof (Enum))
+            if (PossibleArrayType == typeof(string) || PossibleArrayType == typeof(OSDString) ||
+                PossibleArrayType.BaseType == typeof(Enum))
             {
-                if (PossibleArrayType.BaseType == typeof (Enum))
+                if (PossibleArrayType.BaseType == typeof(Enum))
                     return Enum.Parse(PossibleArrayType, o.AsString());
 
                 return o.AsString();
             }
-            if (o.Type == OSDType.Array && PossibleArrayType == typeof (System.Drawing.Image))
+            if (o.Type == OSDType.Array && PossibleArrayType == typeof(System.Drawing.Image))
                 return ByteArrayToImage(o.AsBinary());
 
-            if (o.Type == OSDType.Integer && PossibleArrayType == typeof (byte))
-                return (byte) o.AsInteger();
-            if (o.Type == OSDType.Integer || PossibleArrayType == typeof (int))
+            if (o.Type == OSDType.Integer && PossibleArrayType == typeof(byte))
+                return (byte)o.AsInteger();
+            if (o.Type == OSDType.Integer || PossibleArrayType == typeof(int))
                 return o.AsInteger();
-            if (o.Type == OSDType.Binary || PossibleArrayType == typeof (byte[]))
+            if (o.Type == OSDType.Binary || PossibleArrayType == typeof(byte[]))
                 return o.AsBinary();
-            if (o.Type == OSDType.Boolean || PossibleArrayType == typeof (bool))
+            if (o.Type == OSDType.Boolean || PossibleArrayType == typeof(bool))
                 return o.AsBoolean();
-            if (PossibleArrayType == typeof (Color4))
+            if (PossibleArrayType == typeof(Color4))
                 return o.AsColor4();
-            if (o.Type == OSDType.Date || PossibleArrayType == typeof (DateTime))
+            if (o.Type == OSDType.Date || PossibleArrayType == typeof(DateTime))
                 return o.AsDate();
-            if (PossibleArrayType == typeof (long))
+            if (PossibleArrayType == typeof(long))
                 return o.AsLong();
-            if (PossibleArrayType == typeof (Quaternion))
+            if (PossibleArrayType == typeof(Quaternion))
                 return o.AsQuaternion();
-            if (PossibleArrayType == typeof (float))
-                return (float) o.AsReal();
-            if (o.Type == OSDType.Real || PossibleArrayType == typeof (double))
+            if (PossibleArrayType == typeof(float))
+                return (float)o.AsReal();
+            if (o.Type == OSDType.Real || PossibleArrayType == typeof(double))
                 return o.AsReal();
-            if (PossibleArrayType == typeof (uint))
+            if (PossibleArrayType == typeof(uint))
                 return o.AsUInteger();
-            if (PossibleArrayType == typeof (ulong))
+            if (PossibleArrayType == typeof(ulong))
                 return o.AsULong();
-            if (o.Type == OSDType.URI || PossibleArrayType == typeof (Uri))
+            if (o.Type == OSDType.URI || PossibleArrayType == typeof(Uri))
                 return o.AsUri();
-            if (PossibleArrayType == typeof (Vector2))
+            if (PossibleArrayType == typeof(Vector2))
                 return o.AsVector2();
-            if (PossibleArrayType == typeof (Vector3))
+            if (PossibleArrayType == typeof(Vector3))
                 return o.AsVector3();
-            if (PossibleArrayType == typeof (Vector3d))
+            if (PossibleArrayType == typeof(Vector3d))
                 return o.AsVector3d();
-            if (PossibleArrayType == typeof (Vector4))
+            if (PossibleArrayType == typeof(Vector4))
                 return o.AsVector4();
-            if (PossibleArrayType == typeof (OSDMap))
-                return (OSDMap) o;
-            if (PossibleArrayType == typeof (OSDArray))
-                return (OSDArray) o;
+            if (PossibleArrayType == typeof(OSDMap))
+                return o;
+            if (PossibleArrayType == typeof(OSDArray))
+                return o;
             if (o.Type == OSDType.Array)
             {
-                OSDArray array = (OSDArray) o;
+                OSDArray array = (OSDArray)o;
                 var possArrayType = Activator.CreateInstance(PossibleArrayType);
-                IList list = (IList) possArrayType;
+                IList list = (IList)possArrayType;
                 Type t = PossibleArrayType.GetGenericArguments()[0];
-                if (t == typeof (UInt32))
+                if (t == typeof(UInt32))
                     return o.AsUInteger();
 
                 foreach (OSD oo in array)
@@ -2129,15 +2164,16 @@ namespace Vision.Framework.Utilities
             var possType = Activator.CreateInstance(PossibleArrayType);
             if (possType is IDataTransferable)
             {
-                IDataTransferable data = (IDataTransferable) possType;
-                data.FromOSD((OSDMap) o);
+                IDataTransferable data = (IDataTransferable)possType;
+                data.FromOSD((OSDMap)o);
                 return data;
             }
-            else if (o.Type == OSDType.Map)
+
+            if (o.Type == OSDType.Map)
             {
-                OSDMap array = (OSDMap) o;
+                OSDMap array = (OSDMap)o;
                 var possArrayTypeB = Activator.CreateInstance(PossibleArrayType);
-                var list = (IDictionary) possArrayTypeB;
+                var list = (IDictionary)possArrayTypeB;
                 Type t = PossibleArrayType.GetGenericArguments()[1];
                 Type tt = PossibleArrayType.GetGenericArguments()[0];
                 foreach (KeyValuePair<string, OSD> oo in array)
@@ -2165,13 +2201,13 @@ namespace Vision.Framework.Utilities
         {
             uint xx, yy;
             Utils.LongToUInts(regionHandle, out xx, out yy);
-            x = (int) xx;
-            y = (int) yy;
+            x = (int)xx;
+            y = (int)yy;
         }
 
         public static ulong IntsToUlong(int x, int y)
         {
-            return Utils.UIntsToLong((uint) x, (uint) y);
+            return Utils.UIntsToLong((uint)x, (uint)y);
         }
 
         public static string CombineParams(string[] commandParams, int pos)
@@ -2253,8 +2289,8 @@ namespace Vision.Framework.Utilities
 
         public static sbyte CheckMeshType(sbyte p)
         {
-            if (p == (sbyte) AssetType.Mesh)
-                return (sbyte) AssetType.Texture;
+            if (p == (sbyte)AssetType.Mesh)
+                return (sbyte)AssetType.Texture;
             return p;
         }
 
@@ -2290,11 +2326,11 @@ namespace Vision.Framework.Utilities
 
             do
             {
-                double remainder = value - (26*Math.Truncate(value/26));
+                double remainder = value - (26 * Math.Truncate(value / 26));
 
-                retVal = retVal + CHARS.Substring((int) remainder, 1);
+                retVal = retVal + CHARS.Substring((int)remainder, 1);
 
-                value = Math.Truncate(value/26);
+                value = Math.Truncate(value / 26);
             } while (value > 0);
 
 
@@ -2346,7 +2382,7 @@ namespace Vision.Framework.Utilities
             for (int i = 0; i < size; i++)
             {
                 j = Util.RandomClass.Next(25);
-                builder += (char) (j + off);
+                builder += (char)(j + off);
             }
 
             return builder;
@@ -2462,16 +2498,13 @@ namespace Vision.Framework.Utilities
 
     public class NetworkUtils
     {
-        private static bool m_noInternetConnection;
-        private static int m_nextInternetConnectionCheck;
-        //private static bool useLocalhostLoopback=false;
-        private static readonly ExpiringCache<string, IPAddress> m_dnsCache = new ExpiringCache<string, IPAddress>();
+        static bool m_noInternetConnection;
+        static int m_nextInternetConnectionCheck;
+        static readonly ExpiringCache<string, IPAddress> m_dnsCache = new ExpiringCache<string, IPAddress>();
 
         public static IPEndPoint ResolveEndPoint(string hostName, int port)
         {
             IPEndPoint endpoint = null;
-            // Old one defaults to IPv6
-            //return new IPEndPoint(Dns.GetHostAddresses(m_externalHostName)[0], m_internalEndPoint.Port);
 
             IPAddress ia = null;
             // If it is already an IP, don't resolve it - just return directly
@@ -2543,7 +2576,7 @@ namespace Vision.Framework.Utilities
 
         public static void InternetFailure()
         {
-            m_nextInternetConnectionCheck = Util.EnvironmentTickCountAdd(5*60*1000); /*5 mins*/
+            m_nextInternetConnectionCheck = Util.EnvironmentTickCountAdd(5 * 60 * 1000); /*5 mins*/
             m_noInternetConnection = true;
         }
 
@@ -2557,7 +2590,7 @@ namespace Vision.Framework.Utilities
             if (xff == string.Empty)
                 return null;
 
-            string[] parts = xff.Split(new[] {','});
+            string[] parts = xff.Split(new[] { ',' });
             if (parts.Length > 0)
             {
                 try
@@ -2579,7 +2612,7 @@ namespace Vision.Framework.Utilities
             {
                 try
                 {
-                    Hashtable headers = (Hashtable) req["headers"];
+                    Hashtable headers = (Hashtable)req["headers"];
                     if (headers.ContainsKey("remote_addr") && headers["remote_addr"] != null)
                         return headers["remote_addr"].ToString();
                     if (headers.ContainsKey("Host") && headers["Host"] != null)
@@ -2601,33 +2634,6 @@ namespace Vision.Framework.Utilities
         /// <returns></returns>
         public static IPAddress ResolveAddressForClient(IPAddress iPAddress, IPEndPoint clientIP)
         {
-            /*if (iPAddress == null)
-                return clientIP.Address;
-            if (iPAddress.Equals(clientIP.Address))
-            {
-                if (useLocalhostLoopback)
-                    return IPAddress.Loopback;
-                if (iPAddress == IPAddress.Loopback)
-                    return iPAddress; //Don't send something else if it is already on loopback
-                if (CheckInternetConnection())
-                {
-#pragma warning disable 618
-                    //The 'bad' way, only works for things on the same machine...
-                    try
-                    {
-                        string hostName = Dns.GetHostName();
-                        IPHostEntry ipEntry = Dns.GetHostByName(hostName);
-#pragma warning restore 618
-                        IPAddress[] addr = ipEntry.AddressList;
-                        return addr[0]; //Loopback around! They are on the same connection
-                    }
-                    catch
-                    {
-                        InternetFailure(); //Something went wrong
-                    }
-                }
-            }
-            return iPAddress;*/
             return iPAddress;
         }
 
@@ -2648,7 +2654,7 @@ namespace Vision.Framework.Utilities
             return false;
         }
 
-        private static bool CheckMask(IPAddress address, IPAddress mask, IPAddress target)
+        static bool CheckMask(IPAddress address, IPAddress mask, IPAddress target)
         {
             if (mask == null)
                 return false;
@@ -2698,14 +2704,14 @@ namespace Vision.Framework.Utilities
             // Is it already a valid IP? No need to look it up.
             if (IPAddress.TryParse(dnsAddress, out ipa))
             {
-                m_dnsCache.Add(dnsAddress, ipa, 30*60 /*30mins*/);
+                m_dnsCache.Add(dnsAddress, ipa, 30 * 60 /*30mins*/);
                 return ipa;
             }
             try
             {
                 if (IPAddress.TryParse(dnsAddress.Split(':')[0], out ipa))
                 {
-                    m_dnsCache.Add(dnsAddress, ipa, 30*60 /*30mins*/);
+                    m_dnsCache.Add(dnsAddress, ipa, 30 * 60 /*30mins*/);
                     return ipa;
                 }
             }
@@ -2740,13 +2746,13 @@ namespace Vision.Framework.Utilities
             {
                 foreach (IPAddress host in hosts.Where(host => host.AddressFamily == AddressFamily.InterNetwork))
                 {
-                    m_dnsCache.Add(dnsAddress, host, 30*60 /*30mins*/);
+                    m_dnsCache.Add(dnsAddress, host, 30 * 60 /*30mins*/);
                     return host;
                 }
 
                 if (hosts.Length > 0)
                 {
-                    m_dnsCache.Add(dnsAddress, hosts[0], 30*60 /*30mins*/);
+                    m_dnsCache.Add(dnsAddress, hosts[0], 30 * 60 /*30mins*/);
                     return hosts[0];
                 }
             }
@@ -2817,9 +2823,9 @@ namespace Vision.Framework.Utilities
 
         public class IPAddressRange
         {
-            private readonly AddressFamily addressFamily;
-            private readonly byte[] lowerBytes;
-            private readonly byte[] upperBytes;
+            readonly AddressFamily addressFamily;
+            readonly byte[] lowerBytes;
+            readonly byte[] upperBytes;
 
             public IPAddressRange(IPAddress lower, IPAddress upper)
             {
@@ -2842,7 +2848,7 @@ namespace Vision.Framework.Utilities
                 bool lowerBoundary = true, upperBoundary = true;
 
                 for (int i = 0;
-                     i < this.lowerBytes.Length &&
+                     i < lowerBytes.Length &&
                      (lowerBoundary || upperBoundary);
                      i++)
                 {
@@ -2921,7 +2927,7 @@ namespace Vision.Framework.Utilities
                                         object[] invokeParameters)
         {
             DynamicMethod dynamicMethod = new DynamicMethod(string.Empty,
-                                                            typeof (object), new Type[]
+                                                            typeof(object), new Type[]
                                                                                  {
                                                                                      typeof (object),
                                                                                      typeof (object[])
@@ -2952,19 +2958,15 @@ namespace Vision.Framework.Utilities
                 il.Emit(OpCodes.Ldloc, locals[i]);
             }
             il.EmitCall(OpCodes.Call, method, null);
-            if (method.ReturnType == typeof (void))
+            if (method.ReturnType == typeof(void))
                 il.Emit(OpCodes.Ldnull);
             else
                 EmitBoxIfNeeded(il, method.ReturnType);
             il.Emit(OpCodes.Ret);
-            return dynamicMethod.Invoke(null, new object[2] {invokeClass, invokeParameters});
-            /*FastInvokeHandler invoder =
-              (FastInvokeHandler)dynamicMethod.CreateDelegate(
-              typeof(FastInvokeHandler));
-            return invoder;*/
+            return dynamicMethod.Invoke(null, new object[2] { invokeClass, invokeParameters });
         }
 
-        private static void EmitCastToReference(ILGenerator il, System.Type type)
+        static void EmitCastToReference(ILGenerator il, System.Type type)
         {
             if (type.IsValueType)
             {
@@ -2976,7 +2978,7 @@ namespace Vision.Framework.Utilities
             }
         }
 
-        private static void EmitBoxIfNeeded(ILGenerator il, System.Type type)
+        static void EmitBoxIfNeeded(ILGenerator il, System.Type type)
         {
             if (type.IsValueType)
             {
@@ -2984,7 +2986,7 @@ namespace Vision.Framework.Utilities
             }
         }
 
-        private static void EmitFastInt(ILGenerator il, int value)
+        static void EmitFastInt(ILGenerator il, int value)
         {
             switch (value)
             {
@@ -3022,7 +3024,7 @@ namespace Vision.Framework.Utilities
 
             if (value > -129 && value < 128)
             {
-                il.Emit(OpCodes.Ldc_I4_S, (SByte) value);
+                il.Emit(OpCodes.Ldc_I4_S, (SByte)value);
             }
             else
             {
