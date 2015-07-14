@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,12 +66,12 @@ namespace Vision.Physics.PrimMesher
             axis = axis.Normalize();
 
             angle *= 0.5f;
-            float c = (float) Math.Cos(angle);
-            float s = (float) Math.Sin(angle);
+            float c = (float)Math.Cos(angle);
+            float s = (float)Math.Sin(angle);
 
-            X = axis.X*s;
-            Y = axis.Y*s;
-            Z = axis.Z*s;
+            X = axis.X * s;
+            Y = axis.Y * s;
+            Z = axis.Z * s;
             W = c;
 
             Normalize();
@@ -79,7 +79,7 @@ namespace Vision.Physics.PrimMesher
 
         public float Length()
         {
-            return (float) Math.Sqrt(X*X + Y*Y + Z*Z + W*W);
+            return (float)Math.Sqrt(X * X + Y * Y + Z * Z + W * W);
         }
 
         public Quat Normalize()
@@ -90,7 +90,7 @@ namespace Vision.Physics.PrimMesher
             // Catch very small rounding errors when normalizing
             if (mag > MAG_THRESHOLD)
             {
-                float oomag = 1f/mag;
+                float oomag = 1f / mag;
                 X *= oomag;
                 Y *= oomag;
                 Z *= oomag;
@@ -109,17 +109,16 @@ namespace Vision.Physics.PrimMesher
 
         public static Quat operator *(Quat q1, Quat q2)
         {
-            float x = q1.W*q2.X + q1.X*q2.W + q1.Y*q2.Z - q1.Z*q2.Y;
-            float y = q1.W*q2.Y - q1.X*q2.Z + q1.Y*q2.W + q1.Z*q2.X;
-            float z = q1.W*q2.Z + q1.X*q2.Y - q1.Y*q2.X + q1.Z*q2.W;
-            float w = q1.W*q2.W - q1.X*q2.X - q1.Y*q2.Y - q1.Z*q2.Z;
+            float x = q1.W * q2.X + q1.X * q2.W + q1.Y * q2.Z - q1.Z * q2.Y;
+            float y = q1.W * q2.Y - q1.X * q2.Z + q1.Y * q2.W + q1.Z * q2.X;
+            float z = q1.W * q2.Z + q1.X * q2.Y - q1.Y * q2.X + q1.Z * q2.W;
+            float w = q1.W * q2.W - q1.X * q2.X - q1.Y * q2.Y - q1.Z * q2.Z;
             return new Quat(x, y, z, w);
         }
 
         public override string ToString()
         {
-            return "< X: " + X.ToString() + ", Y: " + Y.ToString() + ", Z: " + Z.ToString() + ", W: " +
-                   W.ToString() + ">";
+            return String.Format("< X: {0}, Y: {1}, Z: {2}, W: {3} >", X, Y, Z, W);
         }
     }
 
@@ -145,7 +144,7 @@ namespace Vision.Physics.PrimMesher
 
         public float Length()
         {
-            return (float) Math.Sqrt(X*X + Y*Y + Z*Z);
+            return (float)Math.Sqrt(X * X + Y * Y + Z * Z);
         }
 
         public Coord Invert()
@@ -165,7 +164,7 @@ namespace Vision.Physics.PrimMesher
             // Catch very small rounding errors when normalizing
             if (mag > MAG_THRESHOLD)
             {
-                float oomag = 1.0f/mag;
+                float oomag = 1.0f / mag;
                 X *= oomag;
                 Y *= oomag;
                 Z *= oomag;
@@ -182,16 +181,16 @@ namespace Vision.Physics.PrimMesher
 
         public override string ToString()
         {
-            return X.ToString() + " " + Y.ToString() + " " + Z.ToString();
+            return X + " " + Y + " " + Z;
         }
 
         public static Coord Cross(Coord c1, Coord c2)
         {
             return new Coord(
-                c1.Y*c2.Z - c2.Y*c1.Z,
-                c1.Z*c2.X - c2.Z*c1.X,
-                c1.X*c2.Y - c2.X*c1.Y
-                );
+                c1.Y * c2.Z - c2.Y * c1.Z,
+                c1.Z * c2.X - c2.Z * c1.X,
+                c1.X * c2.Y - c2.X * c1.Y
+            );
         }
 
         public static Coord operator +(Coord v, Coord a)
@@ -201,41 +200,43 @@ namespace Vision.Physics.PrimMesher
 
         public static Coord operator *(Coord v, Coord m)
         {
-            return new Coord(v.X*m.X, v.Y*m.Y, v.Z*m.Z);
+            return new Coord(v.X * m.X, v.Y * m.Y, v.Z * m.Z);
         }
 
         public static Coord operator *(Coord v, Quat q)
         {
             // From http://www.euclideanspace.com/maths/algebra/realNormedAlgebra/quaternions/transforms/
 
-            Coord c2 = new Coord(0.0f, 0.0f, 0.0f)
-                           {
-                               X = q.W*q.W*v.X +
-                                   2f*q.Y*q.W*v.Z -
-                                   2f*q.Z*q.W*v.Y +
-                                   q.X*q.X*v.X +
-                                   2f*q.Y*q.X*v.Y +
-                                   2f*q.Z*q.X*v.Z -
-                                   q.Z*q.Z*v.X -
-                                   q.Y*q.Y*v.X,
-                               Y = 2f*q.X*q.Y*v.X +
-                                   q.Y*q.Y*v.Y +
-                                   2f*q.Z*q.Y*v.Z +
-                                   2f*q.W*q.Z*v.X -
-                                   q.Z*q.Z*v.Y +
-                                   q.W*q.W*v.Y -
-                                   2f*q.X*q.W*v.Z -
-                                   q.X*q.X*v.Y,
-                               Z = 2f*q.X*q.Z*v.X +
-                                   2f*q.Y*q.Z*v.Y +
-                                   q.Z*q.Z*v.Z -
-                                   2f*q.W*q.Y*v.X -
-                                   q.Y*q.Y*v.Z +
-                                   2f*q.W*q.X*v.Y -
-                                   q.X*q.X*v.Z +
-                                   q.W*q.W*v.Z
-                           };
+            Coord c2 = new Coord(0.0f, 0.0f, 0.0f);
 
+            c2.X = q.W * q.W * v.X +
+                2f * q.Y * q.W * v.Z -
+                2f * q.Z * q.W * v.Y +
+                q.X * q.X * v.X +
+                2f * q.Y * q.X * v.Y +
+                2f * q.Z * q.X * v.Z -
+                     q.Z * q.Z * v.X -
+                     q.Y * q.Y * v.X;
+
+            c2.Y =
+                2f * q.X * q.Y * v.X +
+                     q.Y * q.Y * v.Y +
+                2f * q.Z * q.Y * v.Z +
+                2f * q.W * q.Z * v.X -
+                q.Z * q.Z * v.Y +
+                q.W * q.W * v.Y -
+                2f * q.X * q.W * v.Z -
+                     q.X * q.X * v.Y;
+
+            c2.Z =
+                2f * q.X * q.Z * v.X +
+                2f * q.Y * q.Z * v.Y +
+                q.Z * q.Z * v.Z -
+                2f * q.W * q.Y * v.X -
+                q.Y * q.Y * v.Z +
+                2f * q.W * q.X * v.Y -
+                     q.X * q.X * v.Z +
+                     q.W * q.W * v.Z;
 
             return c2;
         }
@@ -246,7 +247,6 @@ namespace Vision.Physics.PrimMesher
         public float U;
         public float V;
 
-
         public UVCoord(float u, float v)
         {
             U = u;
@@ -255,8 +255,8 @@ namespace Vision.Physics.PrimMesher
 
         public UVCoord Flip()
         {
-            this.U = 1.0f - this.U;
-            this.V = 1.0f - this.V;
+            U = 1.0f - U;
+            V = 1.0f - V;
             return this;
         }
     }
@@ -411,7 +411,7 @@ namespace Vision.Physics.PrimMesher
         }
     }
 
-    internal struct Angle
+    struct Angle
     {
         internal float X;
         internal float Y;
@@ -425,92 +425,88 @@ namespace Vision.Physics.PrimMesher
         }
     }
 
-    internal class AngleList
+    class AngleList
     {
-        private static readonly Angle[] angles3 =
-            {
-                new Angle(0.0f, 1.0f, 0.0f),
-                new Angle(0.33333333333333333f, -0.5f, 0.86602540378443871f),
-                new Angle(0.66666666666666667f, -0.5f, -0.86602540378443837f),
-                new Angle(1.0f, 1.0f, 0.0f)
+        static readonly Angle[] angles3 = {
+                new Angle (0.0f, 1.0f, 0.0f),
+                new Angle (0.33333333333333333f, -0.5f, 0.86602540378443871f),
+                new Angle (0.66666666666666667f, -0.5f, -0.86602540378443837f),
+                new Angle (1.0f, 1.0f, 0.0f)
             };
 
-        private static readonly Coord[] normals3 =
-            {
-                new Coord(0.25f, 0.4330127019f, 0.0f).Normalize(),
-                new Coord(-0.5f, 0.0f, 0.0f).Normalize(),
-                new Coord(0.25f, -0.4330127019f, 0.0f).Normalize(),
-                new Coord(0.25f, 0.4330127019f, 0.0f).Normalize()
+        static readonly Coord[] normals3 = {
+                new Coord (0.25f, 0.4330127019f, 0.0f).Normalize (),
+                new Coord (-0.5f, 0.0f, 0.0f).Normalize (),
+                new Coord (0.25f, -0.4330127019f, 0.0f).Normalize (),
+                new Coord (0.25f, 0.4330127019f, 0.0f).Normalize ()
             };
 
-        private static readonly Angle[] angles4 =
-            {
-                new Angle(0.0f, 1.0f, 0.0f),
-                new Angle(0.25f, 0.0f, 1.0f),
-                new Angle(0.5f, -1.0f, 0.0f),
-                new Angle(0.75f, 0.0f, -1.0f),
-                new Angle(1.0f, 1.0f, 0.0f)
+        static readonly Angle[] angles4 = {
+                new Angle (0.0f, 1.0f, 0.0f),
+                new Angle (0.25f, 0.0f, 1.0f),
+                new Angle (0.5f, -1.0f, 0.0f),
+                new Angle (0.75f, 0.0f, -1.0f),
+                new Angle (1.0f, 1.0f, 0.0f)
             };
 
-        private static readonly Coord[] normals4 =
-            {
-                new Coord(0.5f, 0.5f, 0.0f).Normalize(),
-                new Coord(-0.5f, 0.5f, 0.0f).Normalize(),
-                new Coord(-0.5f, -0.5f, 0.0f).Normalize(),
-                new Coord(0.5f, -0.5f, 0.0f).Normalize(),
-                new Coord(0.5f, 0.5f, 0.0f).Normalize()
+        static readonly Coord[] normals4 = {
+                new Coord (0.5f, 0.5f, 0.0f).Normalize (),
+                new Coord (-0.5f, 0.5f, 0.0f).Normalize (),
+                new Coord (-0.5f, -0.5f, 0.0f).Normalize (),
+                new Coord (0.5f, -0.5f, 0.0f).Normalize (),
+                new Coord (0.5f, 0.5f, 0.0f).Normalize ()
             };
 
-        private static readonly Angle[] angles24 =
-            {
-                new Angle(0.0f, 1.0f, 0.0f),
-                new Angle(0.041666666666666664f, 0.96592582628906831f, 0.25881904510252074f),
-                new Angle(0.083333333333333329f, 0.86602540378443871f, 0.5f),
-                new Angle(0.125f, 0.70710678118654757f, 0.70710678118654746f),
-                new Angle(0.16666666666666667f, 0.5f, 0.8660254037844386f),
-                new Angle(0.20833333333333331f, 0.25881904510252096f, 0.9659258262890682f),
-                new Angle(0.25f, 0.0f, 1.0f),
-                new Angle(0.29166666666666663f, -0.25881904510252063f, 0.96592582628906831f),
-                new Angle(0.33333333333333333f, -0.5f, 0.86602540378443871f),
-                new Angle(0.375f, -0.70710678118654746f, 0.70710678118654757f),
-                new Angle(0.41666666666666663f, -0.86602540378443849f, 0.5f),
-                new Angle(0.45833333333333331f, -0.9659258262890682f, 0.25881904510252102f),
-                new Angle(0.5f, -1.0f, 0.0f),
-                new Angle(0.54166666666666663f, -0.96592582628906842f, -0.25881904510252035f),
-                new Angle(0.58333333333333326f, -0.86602540378443882f, -0.5f),
-                new Angle(0.62499999999999989f, -0.70710678118654791f, -0.70710678118654713f),
-                new Angle(0.66666666666666667f, -0.5f, -0.86602540378443837f),
-                new Angle(0.70833333333333326f, -0.25881904510252152f, -0.96592582628906809f),
-                new Angle(0.75f, 0.0f, -1.0f),
-                new Angle(0.79166666666666663f, 0.2588190451025203f, -0.96592582628906842f),
-                new Angle(0.83333333333333326f, 0.5f, -0.86602540378443904f),
-                new Angle(0.875f, 0.70710678118654735f, -0.70710678118654768f),
-                new Angle(0.91666666666666663f, 0.86602540378443837f, -0.5f),
-                new Angle(0.95833333333333326f, 0.96592582628906809f, -0.25881904510252157f),
-                new Angle(1.0f, 1.0f, 0.0f)
+        static readonly Angle[] angles24 = {
+                new Angle (0.0f, 1.0f, 0.0f),
+                new Angle (0.041666666666666664f, 0.96592582628906831f, 0.25881904510252074f),
+                new Angle (0.083333333333333329f, 0.86602540378443871f, 0.5f),
+                new Angle (0.125f, 0.70710678118654757f, 0.70710678118654746f),
+                new Angle (0.16666666666666667f, 0.5f, 0.8660254037844386f),
+                new Angle (0.20833333333333331f, 0.25881904510252096f, 0.9659258262890682f),
+                new Angle (0.25f, 0.0f, 1.0f),
+                new Angle (0.29166666666666663f, -0.25881904510252063f, 0.96592582628906831f),
+                new Angle (0.33333333333333333f, -0.5f, 0.86602540378443871f),
+                new Angle (0.375f, -0.70710678118654746f, 0.70710678118654757f),
+                new Angle (0.41666666666666663f, -0.86602540378443849f, 0.5f),
+                new Angle (0.45833333333333331f, -0.9659258262890682f, 0.25881904510252102f),
+                new Angle (0.5f, -1.0f, 0.0f),
+                new Angle (0.54166666666666663f, -0.96592582628906842f, -0.25881904510252035f),
+                new Angle (0.58333333333333326f, -0.86602540378443882f, -0.5f),
+                new Angle (0.62499999999999989f, -0.70710678118654791f, -0.70710678118654713f),
+                new Angle (0.66666666666666667f, -0.5f, -0.86602540378443837f),
+                new Angle (0.70833333333333326f, -0.25881904510252152f, -0.96592582628906809f),
+                new Angle (0.75f, 0.0f, -1.0f),
+                new Angle (0.79166666666666663f, 0.2588190451025203f, -0.96592582628906842f),
+                new Angle (0.83333333333333326f, 0.5f, -0.86602540378443904f),
+                new Angle (0.875f, 0.70710678118654735f, -0.70710678118654768f),
+                new Angle (0.91666666666666663f, 0.86602540378443837f, -0.5f),
+                new Angle (0.95833333333333326f, 0.96592582628906809f, -0.25881904510252157f),
+                new Angle (1.0f, 1.0f, 0.0f)
             };
 
         internal List<Angle> angles;
-        private float iX, iY; // intersection point
+        float iX, iY;
+        // intersection point
         internal List<Coord> normals;
 
-        private Angle interpolatePoints(float newPoint, Angle p1, Angle p2)
+        Angle interpolatePoints(float newPoint, Angle p1, Angle p2)
         {
-            float m = (newPoint - p1.angle)/(p2.angle - p1.angle);
-            return new Angle(newPoint, p1.X + m*(p2.X - p1.X), p1.Y + m*(p2.Y - p1.Y));
+            float m = (newPoint - p1.angle) / (p2.angle - p1.angle);
+            return new Angle(newPoint, p1.X + m * (p2.X - p1.X), p1.Y + m * (p2.Y - p1.Y));
         }
 
-        private void intersection(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4)
+        void intersection(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4)
         {
             // ref: http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline2d/
-            double denom = (y4 - y3)*(x2 - x1) - (x4 - x3)*(y2 - y1);
-            double uaNumerator = (x4 - x3)*(y1 - y3) - (y4 - y3)*(x1 - x3);
+            double denom = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
+            double uaNumerator = (x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3);
 
-            if (denom != 0.0)
+            if (Math.Abs(denom) <= Constants.FloatDifference)
             {
-                double ua = uaNumerator/denom;
-                iX = (float) (x1 + ua*(x2 - x1));
-                iY = (float) (y1 + ua*(y2 - y1));
+                double ua = uaNumerator / denom;
+                iX = (float)(x1 + ua * (x2 - x1));
+                iY = (float)(y1 + ua * (y2 - y1));
             }
         }
 
@@ -519,8 +515,8 @@ namespace Vision.Physics.PrimMesher
             angles = new List<Angle>();
             normals = new List<Coord>();
 
-            const double twoPi = Math.PI*2.0;
-            const float twoPiInv = 1.0f/(float) twoPi;
+            const double twoPi = Math.PI * 2.0;
+            const float twoPiInv = 1.0f / (float)twoPi;
 
             if (sides < 1)
                 throw new Exception("number of sides not greater than zero");
@@ -537,12 +533,13 @@ namespace Vision.Physics.PrimMesher
                     sourceAngles = angles3;
                 else if (sides == 4)
                     sourceAngles = angles4;
-                else sourceAngles = angles24;
+                else
+                    sourceAngles = angles24;
 
-                int startAngleIndex = (int) (startAngle*sides);
+                int startAngleIndex = (int)(startAngle * sides);
                 int endAngleIndex = sourceAngles.Length - 1;
                 if (stopAngle < 1.0f)
-                    endAngleIndex = (int) (stopAngle*sides) + 1;
+                    endAngleIndex = (int)(stopAngle * sides) + 1;
                 if (endAngleIndex == startAngleIndex)
                     endAngleIndex++;
 
@@ -562,20 +559,20 @@ namespace Vision.Physics.PrimMesher
                 {
                     int lastAngleIndex = angles.Count - 1;
                     angles[lastAngleIndex] = interpolatePoints(stopAngle, angles[lastAngleIndex - 1],
-                                                               angles[lastAngleIndex]);
+                        angles[lastAngleIndex]);
                 }
             }
             else
             {
-                double stepSize = twoPi/sides;
+                double stepSize = twoPi / sides;
 
-                int startStep = (int) (startAngle/stepSize);
-                double angle = stepSize*startStep;
+                int startStep = (int)(startAngle / stepSize);
+                double angle = stepSize * startStep;
                 int step = startStep;
                 double stopAngleTest = stopAngle;
                 if (stopAngle < twoPi)
                 {
-                    stopAngleTest = stepSize*((int) (stopAngle/stepSize) + 1);
+                    stopAngleTest = stepSize * ((int)(stopAngle / stepSize) + 1);
                     if (stopAngleTest < stopAngle)
                         stopAngleTest += stepSize;
                     if (stopAngleTest > twoPi)
@@ -585,19 +582,19 @@ namespace Vision.Physics.PrimMesher
                 while (angle <= stopAngleTest)
                 {
                     Angle newAngle;
-                    newAngle.angle = (float) angle;
-                    newAngle.X = (float) Math.Cos(angle);
-                    newAngle.Y = (float) Math.Sin(angle);
+                    newAngle.angle = (float)angle;
+                    newAngle.X = (float)Math.Cos(angle);
+                    newAngle.Y = (float)Math.Sin(angle);
                     angles.Add(newAngle);
                     step += 1;
-                    angle = stepSize*step;
+                    angle = stepSize * step;
                 }
 
                 if (startAngle > angles[0].angle)
                 {
                     Angle newAngle;
                     intersection(angles[0].X, angles[0].Y, angles[1].X, angles[1].Y, 0.0f, 0.0f,
-                                 (float) Math.Cos(startAngle), (float) Math.Sin(startAngle));
+                        Math.Cos(startAngle), Math.Sin(startAngle));
                     newAngle.angle = startAngle;
                     newAngle.X = iX;
                     newAngle.Y = iY;
@@ -609,7 +606,7 @@ namespace Vision.Physics.PrimMesher
                 {
                     Angle newAngle;
                     intersection(angles[index - 1].X, angles[index - 1].Y, angles[index].X, angles[index].Y, 0.0f, 0.0f,
-                                 (float) Math.Cos(stopAngle), (float) Math.Sin(stopAngle));
+                        Math.Cos(stopAngle), Math.Sin(stopAngle));
                     newAngle.angle = stopAngle;
                     newAngle.X = iX;
                     newAngle.Y = iY;
@@ -622,9 +619,9 @@ namespace Vision.Physics.PrimMesher
     /// <summary>
     ///     generates a profile for extrusion
     /// </summary>
-    internal class Profile
+    class Profile
     {
-        private const float twoPi = 2.0f*(float) Math.PI;
+        const float twoPi = 2.0f * (float)Math.PI;
         internal int bottomFaceNumber;
         internal bool calcVertexNormals;
 
@@ -697,12 +694,12 @@ namespace Vision.Physics.PrimMesher
             float yScale = 0.5f;
             if (sides == 4) // corners of a square are sqrt(2) from center
             {
-                xScale = 0.707f;
-                yScale = 0.707f;
+                xScale = 0.707107f;
+                yScale = 0.707107f;
             }
 
-            float startAngle = profileStart*twoPi;
-            float stopAngle = profileEnd*twoPi;
+            float startAngle = profileStart * twoPi;
+            float stopAngle = profileEnd * twoPi;
 
             try
             {
@@ -710,9 +707,8 @@ namespace Vision.Physics.PrimMesher
             }
             catch (Exception ex)
             {
-                errorMessage = "makeAngles failed: Exception: " + ex
-                               + "\nsides: " + sides.ToString() + " startAngle: " + startAngle.ToString() +
-                               " stopAngle: " + stopAngle.ToString();
+                errorMessage = "makeAngles failed: Exception: " + ex +
+                    "\nsides: " + sides + " startAngle: " + startAngle + " stopAngle: " + stopAngle;
 
                 return;
             }
@@ -734,9 +730,8 @@ namespace Vision.Physics.PrimMesher
                     }
                     catch (Exception ex)
                     {
-                        errorMessage = "makeAngles failed: Exception: " + ex
-                                       + "\nsides: " + sides.ToString() + " startAngle: " + startAngle.ToString() +
-                                       " stopAngle: " + stopAngle.ToString();
+                        errorMessage = "makeAngles failed: Exception: " + ex +
+                        "\nsides: " + sides + " startAngle: " + startAngle + " stopAngle: " + stopAngle;
 
                         return;
                     }
@@ -746,7 +741,7 @@ namespace Vision.Physics.PrimMesher
             else if (!simpleFace)
             {
                 coords.Add(center);
-                //hasCenter = true;
+
                 if (this.calcVertexNormals)
                     vertexNormals.Add(new Coord(0.0f, 0.0f, 1.0f));
                 us.Add(0.0f);
@@ -762,8 +757,8 @@ namespace Vision.Physics.PrimMesher
                 for (int i = 0; i < numHollowAngles; i++)
                 {
                     angle = hollowAngles.angles[i];
-                    newVert.X = hollow*xScale*angle.X;
-                    newVert.Y = hollow*yScale*angle.Y;
+                    newVert.X = hollow * xScale * angle.X;
+                    newVert.Y = hollow * yScale * angle.Y;
                     newVert.Z = z;
 
                     hollowCoords.Add(newVert);
@@ -773,7 +768,10 @@ namespace Vision.Physics.PrimMesher
                                               ? hollowAngles.normals[i].Invert()
                                               : new Coord(-angle.X, -angle.Y, 0.0f));
 
-                        hollowUs.Add(angle.angle*hollow);
+                        if (hollowSides == 4)
+                            hollowUs.Add(angle.angle * hollow * 0.707107f);
+                        else
+                            hollowUs.Add(angle.angle * hollow);
                     }
                 }
             }
@@ -784,8 +782,8 @@ namespace Vision.Physics.PrimMesher
             for (int i = 0; i < numAngles; i++)
             {
                 angle = angles.angles[i];
-                newVert.X = angle.X*xScale;
-                newVert.Y = angle.Y*yScale;
+                newVert.X = angle.X * xScale;
+                newVert.Y = angle.Y * yScale;
                 newVert.Z = z;
                 coords.Add(newVert);
                 if (this.calcVertexNormals)
@@ -819,13 +817,13 @@ namespace Vision.Physics.PrimMesher
                                                   ? angles.normals[i].Invert()
                                                   : new Coord(-angle.X, -angle.Y, 0.0f));
 
-                            hollowUs.Add(angle.angle*hollow);
+                            hollowUs.Add(angle.angle * hollow);
                         }
                     }
                 }
                 else if (!simpleFace && createFaces && angle.angle > 0.0001f)
                 {
-                    Face newFace = new Face {v1 = 0, v2 = index, v3 = index + 1};
+                    Face newFace = new Face { v1 = 0, v2 = index, v3 = index + 1 };
 
                     faces.Add(newFace);
                 }
@@ -873,7 +871,7 @@ namespace Vision.Physics.PrimMesher
                             {
                                 if (j < maxJ)
                                     if (angles.angles[j + 1].angle - hollowAngles.angles[i].angle <
-                                        hollowAngles.angles[i].angle - angles.angles[j].angle + 0.000001f)
+                                            hollowAngles.angles[i].angle - angles.angles[j].angle + 0.000001f)
                                     {
                                         newFace.v1 = numTotalVerts - i - 1;
                                         newFace.v2 = j;
@@ -899,7 +897,7 @@ namespace Vision.Physics.PrimMesher
                             {
                                 if (j < maxJ)
                                     if (hollowAngles.angles[j + 1].angle - angles.angles[i].angle <
-                                        angles.angles[i].angle - hollowAngles.angles[j].angle + 0.000001f)
+                                            angles.angles[i].angle - hollowAngles.angles[j].angle + 0.000001f)
                                     {
                                         newFace.v1 = i;
                                         newFace.v2 = numTotalVerts - j - 2;
@@ -966,7 +964,6 @@ namespace Vision.Physics.PrimMesher
                     cutNormal2.X = coords[lastOuterVertIndex + 1].Y - coords[lastOuterVertIndex].Y;
                     cutNormal2.Y = -(coords[lastOuterVertIndex + 1].X - coords[lastOuterVertIndex].X);
                 }
-
                 else
                 {
                     cut1CoordIndices.Add(0);
@@ -1005,11 +1002,7 @@ namespace Vision.Physics.PrimMesher
                 if (startVert > 0)
                     faceNumbers.Add(-1);
                 for (int i = 0; i < numOuterVerts - 1; i++)
-                    //this.faceNumbers.Add(sides < 5 ? faceNum++ : faceNum);
-                    faceNumbers.Add(sides < 5 && i < sides ? faceNum++ : faceNum);
-
-                //if (!hasHollow && !hasProfileCut)
-                //    this.bottomFaceNumber = faceNum++;
+                    faceNumbers.Add(sides < 5 && i <= sides ? faceNum++ : faceNum);
 
                 faceNumbers.Add(hasProfileCut ? -1 : faceNum++);
 
@@ -1026,8 +1019,7 @@ namespace Vision.Physics.PrimMesher
 
                     hollowFaceNumber = faceNum++;
                 }
-                //if (hasProfileCut || hasHollow)
-                //    this.bottomFaceNumber = faceNum++;
+
                 bottomFaceNumber = faceNum++;
 
                 if (hasHollow && hasProfileCut)
@@ -1045,7 +1037,7 @@ namespace Vision.Physics.PrimMesher
         {
             faceUVs = new List<UVCoord>();
             foreach (Coord c in coords)
-                faceUVs.Add(new UVCoord(0.5f + c.X, 0.5f - c.Y));
+                faceUVs.Add(new UVCoord(1.0f - (0.5f + c.X), 1.0f - (0.5f - c.Y)));
         }
 
         internal Profile Copy()
@@ -1062,7 +1054,7 @@ namespace Vision.Physics.PrimMesher
 
             if (needFaces)
                 copy.faces.AddRange(faces);
-            if ((copy.calcVertexNormals = this.calcVertexNormals))
+            if ((copy.calcVertexNormals = calcVertexNormals))
             {
                 copy.vertexNormals.AddRange(vertexNormals);
                 copy.faceNormal = faceNormal;
@@ -1218,10 +1210,7 @@ namespace Vision.Physics.PrimMesher
 
             for (int i = 0; i < faces.Count; i++)
             {
-                string s = coords[faces[i].v1].ToString();
-                s += " " + coords[faces[i].v2].ToString();
-                s += " " + coords[faces[i].v3].ToString();
-
+                string s = coords[faces[i].v1] + " " + coords[faces[i].v2] + " " + coords[faces[i].v3];
                 sw.WriteLine(s);
             }
 
@@ -1247,10 +1236,11 @@ namespace Vision.Physics.PrimMesher
 
     public class Path
     {
-        private const float twoPi = 2.0f*(float) Math.PI;
+        const float twoPi = 2.0f * (float)Math.PI;
         public float dimpleBegin;
         public float dimpleEnd = 1.0f;
-        public float holeSizeX = 1.0f; // called pathScaleX in pbs
+        public float holeSizeX = 1.0f;
+        // called pathScaleX in pbs
         public float holeSizeY = 0.25f;
         public float pathCutBegin;
         public float pathCutEnd = 1.0f;
@@ -1268,14 +1258,14 @@ namespace Vision.Physics.PrimMesher
 
         public void Create(PathType pathType, int steps)
         {
-            if (this.taperX > 0.999f)
-                this.taperX = 0.999f;
-            if (this.taperX < -0.999f)
-                this.taperX = -0.999f;
-            if (this.taperY > 0.999f)
-                this.taperY = 0.999f;
-            if (this.taperY < -0.999f)
-                this.taperY = -0.999f;
+            if (taperX > 0.999f)
+                taperX = 0.999f;
+            if (taperX < -0.999f)
+                taperX = -0.999f;
+            if (taperY > 0.999f)
+                taperY = 0.999f;
+            if (taperY < -0.999f)
+                taperY = -0.999f;
 
             if (pathType == PathType.Linear || pathType == PathType.Flexible)
             {
@@ -1285,16 +1275,16 @@ namespace Vision.Physics.PrimMesher
                 float twistTotal = twistEnd - twistBegin;
                 float twistTotalAbs = Math.Abs(twistTotal);
                 if (twistTotalAbs > 0.01f)
-                    steps += (int) (twistTotalAbs*3.66); //  dahlia's magic number
+                    steps += (int)(twistTotalAbs * 3.66); //  dahlia's magic number
 
                 const float start = -0.5f;
-                float stepSize = length/steps;
-                float percentOfPathMultiplier = stepSize;
-                float xOffset = 0.0f;
-                float yOffset = 0.0f;
+                float stepSize = length / steps;
+                float percentOfPathMultiplier = stepSize * 0.999999f;
+                float xOffset = topShearX * pathCutBegin;
+                float yOffset = topShearY * pathCutBegin;
                 float zOffset = start;
-                float xOffsetStepIncrement = topShearX/steps;
-                float yOffsetStepIncrement = topShearY/steps;
+                float xOffsetStepIncrement = topShearX * length / steps;
+                float yOffsetStepIncrement = topShearY * length / steps;
 
                 float percentOfPath = pathCutBegin;
                 zOffset += percentOfPath;
@@ -1305,22 +1295,24 @@ namespace Vision.Physics.PrimMesher
 
                 while (!done)
                 {
-                    PathNode newNode = new PathNode {xScale = 1.0f};
+                    PathNode newNode = new PathNode { xScale = 1.0f };
 
                     if (taperX == 0.0f)
                         newNode.xScale = 1.0f;
                     else if (taperX > 0.0f)
-                        newNode.xScale = 1.0f - percentOfPath*taperX;
-                    else newNode.xScale = 1.0f + (1.0f - percentOfPath)*taperX;
+                        newNode.xScale = 1.0f - percentOfPath * taperX;
+                    else
+                        newNode.xScale = 1.0f + (1.0f - percentOfPath) * taperX;
 
                     newNode.yScale = 1.0f;
                     if (taperY == 0.0f)
                         newNode.yScale = 1.0f;
                     else if (taperY > 0.0f)
-                        newNode.yScale = 1.0f - percentOfPath*taperY;
-                    else newNode.yScale = 1.0f + (1.0f - percentOfPath)*taperY;
+                        newNode.yScale = 1.0f - percentOfPath * taperY;
+                    else
+                        newNode.yScale = 1.0f + (1.0f - percentOfPath) * taperY;
 
-                    float twist = twistBegin + twistTotal*percentOfPath;
+                    float twist = twistBegin + twistTotal * percentOfPath;
 
                     newNode.rotation = new Quat(new Coord(0.0f, 0.0f, 1.0f), twist);
                     newNode.position = new Coord(xOffset, yOffset, zOffset);
@@ -1338,7 +1330,8 @@ namespace Vision.Physics.PrimMesher
                         if (percentOfPath > pathCutEnd)
                             done = true;
                     }
-                    else done = true;
+                    else
+                        done = true;
                 }
             } // end of linear path code
 
@@ -1352,18 +1345,18 @@ namespace Vision.Physics.PrimMesher
                 float twistTotalAbs = Math.Abs(twistTotal);
                 if (twistTotalAbs > 0.01f)
                 {
-                    if (twistTotalAbs > Math.PI*1.5f)
+                    if (twistTotalAbs > Math.PI * 1.5f)
                         steps *= 2;
-                    if (twistTotalAbs > Math.PI*3.0f)
+                    if (twistTotalAbs > Math.PI * 3.0f)
                         steps *= 2;
                 }
 
-                float yPathScale = holeSizeY*0.5f;
+                float yPathScale = holeSizeY * 0.5f;
                 float pathLength = pathCutEnd - pathCutBegin;
-                float totalSkew = skew*2.0f*pathLength;
-                float skewStart = pathCutBegin*2.0f*skew - skew;
-                float xOffsetTopShearXFactor = topShearX*(0.25f + 0.5f*(0.5f - holeSizeY));
-                float yShearCompensation = 1.0f + Math.Abs(topShearY)*0.25f;
+                float totalSkew = skew * 2.0f * pathLength;
+                float skewStart = pathCutBegin * 2.0f * skew - skew;
+                float xOffsetTopShearXFactor = topShearX * (0.25f + 0.5f * (0.5f - holeSizeY));
+                float yShearCompensation = 1.0f + Math.Abs(topShearY) * 0.25f;
 
                 // It's not quite clear what pushY (Y top shear) does, but subtracting it from the start and end
                 // angles appears to approximate it's effects on path cut. Likewise, adding it to the angle used
@@ -1373,11 +1366,11 @@ namespace Vision.Physics.PrimMesher
                 // the meshes generated with this technique appear nearly identical in shape to the same prims when
                 // displayed by the viewer.
 
-                float startAngle = (twoPi*pathCutBegin*revolutions) - topShearY*0.9f;
-                float endAngle = (twoPi*pathCutEnd*revolutions) - topShearY*0.9f;
-                float stepSize = twoPi/stepsPerRevolution;
+                float startAngle = (twoPi * pathCutBegin * revolutions) - topShearY * 0.9f;
+                float endAngle = (twoPi * pathCutEnd * revolutions) - topShearY * 0.9f;
+                float stepSize = twoPi / stepsPerRevolution;
 
-                int step = (int) (startAngle/stepSize);
+                int step = (int)(startAngle / stepSize);
                 float angle = startAngle;
 
                 bool done = false;
@@ -1385,39 +1378,39 @@ namespace Vision.Physics.PrimMesher
                 {
                     PathNode newNode = new PathNode();
 
-                    float xProfileScale = (1.0f - Math.Abs(skew))*holeSizeX;
+                    float xProfileScale = (1.0f - Math.Abs(skew)) * holeSizeX;
                     float yProfileScale = holeSizeY;
 
-                    float percentOfPath = angle/(twoPi*revolutions);
-                    float percentOfAngles = (angle - startAngle)/(endAngle - startAngle);
+                    float percentOfPath = angle / (twoPi * revolutions);
+                    float percentOfAngles = (angle - startAngle) / (endAngle - startAngle);
 
                     if (taperX > 0.01f)
-                        xProfileScale *= 1.0f - percentOfPath*taperX;
+                        xProfileScale *= 1.0f - percentOfPath * taperX;
                     else if (taperX < -0.01f)
-                        xProfileScale *= 1.0f + (1.0f - percentOfPath)*taperX;
+                        xProfileScale *= 1.0f + (1.0f - percentOfPath) * taperX;
 
                     if (taperY > 0.01f)
-                        yProfileScale *= 1.0f - percentOfPath*taperY;
+                        yProfileScale *= 1.0f - percentOfPath * taperY;
                     else if (taperY < -0.01f)
-                        yProfileScale *= 1.0f + (1.0f - percentOfPath)*taperY;
+                        yProfileScale *= 1.0f + (1.0f - percentOfPath) * taperY;
 
                     newNode.xScale = xProfileScale;
                     newNode.yScale = yProfileScale;
 
                     float radiusScale = 1.0f;
                     if (radius > 0.001f)
-                        radiusScale = 1.0f - radius*percentOfPath;
+                        radiusScale = 1.0f - radius * percentOfPath;
                     else if (radius < 0.001f)
-                        radiusScale = 1.0f + radius*(1.0f - percentOfPath);
+                        radiusScale = 1.0f + radius * (1.0f - percentOfPath);
 
-                    float twist = twistBegin + twistTotal*percentOfPath;
+                    float twist = twistBegin + twistTotal * percentOfPath;
 
-                    float xOffset = 0.5f*(skewStart + totalSkew*percentOfAngles);
-                    xOffset += (float) Math.Sin(angle)*xOffsetTopShearXFactor;
+                    float xOffset = 0.5f * (skewStart + totalSkew * percentOfAngles);
+                    xOffset += (float)Math.Sin(angle) * xOffsetTopShearXFactor;
 
-                    float yOffset = yShearCompensation*(float) Math.Cos(angle)*(0.5f - yPathScale)*radiusScale;
+                    float yOffset = yShearCompensation * (float)Math.Cos(angle) * (0.5f - yPathScale) * radiusScale;
 
-                    float zOffset = (float) Math.Sin(angle + topShearY)*(0.5f - yPathScale)*radiusScale;
+                    float zOffset = (float)Math.Sin(angle + topShearY) * (0.5f - yPathScale) * radiusScale;
 
                     newNode.position = new Coord(xOffset, yOffset, zOffset);
 
@@ -1427,7 +1420,7 @@ namespace Vision.Physics.PrimMesher
                     newNode.rotation = new Quat(new Coord(1.0f, 0.0f, 0.0f), angle + topShearY);
 
                     // next apply twist rotation to the profile layer
-                    if (twistTotal != 0.0f || twistBegin != 0.0f)
+                    if (Math.Abs(twistTotal) <= Constants.FloatDifference || Math.Abs(twistBegin) <= Constants.FloatDifference)
                         newNode.rotation *= new Quat(new Coord(0.0f, 0.0f, 1.0f), twist);
 
                     newNode.percentOfPath = percentOfPath;
@@ -1442,7 +1435,7 @@ namespace Vision.Physics.PrimMesher
                     else
                     {
                         step += 1;
-                        angle = stepSize*step;
+                        angle = stepSize * step;
                         if (angle > endAngle)
                             angle = endAngle;
                     }
@@ -1453,8 +1446,21 @@ namespace Vision.Physics.PrimMesher
 
     public class PrimMesh
     {
+        const float twoPi = 2.0f * (float)Math.PI;
+
+        readonly int sides = 4;
+        readonly int hollowSides = 4;
+        readonly float profileStart;
+        readonly float profileEnd = 1.0f;
+        readonly float hollow;
+
+        int profileOuterFaceNumber = -1;
+        int profileHollowFaceNumber = -1;
+        bool hasProfileCut;
+        bool hasHollow;
+        bool normalsProcessed;
+
         public string errorMessage = "";
-        private const float twoPi = 2.0f*(float) Math.PI;
 
         public List<Coord> coords;
         public List<Coord> normals;
@@ -1462,11 +1468,6 @@ namespace Vision.Physics.PrimMesher
 
         public List<ViewerFace> viewerFaces;
 
-        private readonly int sides = 4;
-        private readonly int hollowSides = 4;
-        private readonly float profileStart;
-        private readonly float profileEnd = 1.0f;
-        private readonly float hollow;
         public int twistBegin;
         public int twistEnd;
         public float topShearX;
@@ -1476,7 +1477,8 @@ namespace Vision.Physics.PrimMesher
         public float dimpleBegin;
         public float dimpleEnd = 1.0f;
         public float skew;
-        public float holeSizeX = 1.0f; // called pathScaleX in pbs
+        public float holeSizeX = 1.0f;
+        // called pathScaleX in pbs
         public float holeSizeY = 0.25f;
         public float taperX;
         public float taperY;
@@ -1484,13 +1486,7 @@ namespace Vision.Physics.PrimMesher
         public float revolutions = 1.0f;
         public int stepsPerRevolution = 24;
 
-        private int profileOuterFaceNumber = -1;
-        private int profileHollowFaceNumber = -1;
-
-        private bool hasProfileCut;
-        private bool hasHollow;
         public bool calcVertexNormals;
-        private bool normalsProcessed;
         public bool viewerMode;
         public bool sphereMode;
 
@@ -1503,31 +1499,31 @@ namespace Vision.Physics.PrimMesher
         public string ParamsToDisplayString()
         {
             string s = "";
-            s += "sides..................: " + sides.ToString();
-            s += "\nhollowSides..........: " + hollowSides.ToString();
-            s += "\nprofileStart.........: " + profileStart.ToString();
-            s += "\nprofileEnd...........: " + profileEnd.ToString();
-            s += "\nhollow...............: " + hollow.ToString();
-            s += "\ntwistBegin...........: " + twistBegin.ToString();
-            s += "\ntwistEnd.............: " + twistEnd.ToString();
-            s += "\ntopShearX............: " + topShearX.ToString();
-            s += "\ntopShearY............: " + topShearY.ToString();
-            s += "\npathCutBegin.........: " + pathCutBegin.ToString();
-            s += "\npathCutEnd...........: " + pathCutEnd.ToString();
-            s += "\ndimpleBegin..........: " + dimpleBegin.ToString();
-            s += "\ndimpleEnd............: " + dimpleEnd.ToString();
-            s += "\nskew.................: " + skew.ToString();
-            s += "\nholeSizeX............: " + holeSizeX.ToString();
-            s += "\nholeSizeY............: " + holeSizeY.ToString();
-            s += "\ntaperX...............: " + taperX.ToString();
-            s += "\ntaperY...............: " + taperY.ToString();
-            s += "\nradius...............: " + radius.ToString();
-            s += "\nrevolutions..........: " + revolutions.ToString();
-            s += "\nstepsPerRevolution...: " + stepsPerRevolution.ToString();
-            s += "\nsphereMode...........: " + sphereMode.ToString();
-            s += "\nhasProfileCut........: " + hasProfileCut.ToString();
-            s += "\nhasHollow............: " + hasHollow.ToString();
-            s += "\nviewerMode...........: " + viewerMode.ToString();
+            s += "sides..................: " + sides;
+            s += "\nhollowSides..........: " + hollowSides;
+            s += "\nprofileStart.........: " + profileStart;
+            s += "\nprofileEnd...........: " + profileEnd;
+            s += "\nhollow...............: " + hollow;
+            s += "\ntwistBegin...........: " + twistBegin;
+            s += "\ntwistEnd.............: " + twistEnd;
+            s += "\ntopShearX............: " + topShearX;
+            s += "\ntopShearY............: " + topShearY;
+            s += "\npathCutBegin.........: " + pathCutBegin;
+            s += "\npathCutEnd...........: " + pathCutEnd;
+            s += "\ndimpleBegin..........: " + dimpleBegin;
+            s += "\ndimpleEnd............: " + dimpleEnd;
+            s += "\nskew.................: " + skew;
+            s += "\nholeSizeX............: " + holeSizeX;
+            s += "\nholeSizeY............: " + holeSizeY;
+            s += "\ntaperX...............: " + taperX;
+            s += "\ntaperY...............: " + taperY;
+            s += "\nradius...............: " + radius;
+            s += "\nrevolutions..........: " + revolutions;
+            s += "\nstepsPerRevolution...: " + stepsPerRevolution;
+            s += "\nsphereMode...........: " + sphereMode;
+            s += "\nhasProfileCut........: " + hasProfileCut;
+            s += "\nhasHollow............: " + hasHollow;
+            s += "\nviewerMode...........: " + viewerMode;
 
             return s;
         }
@@ -1619,21 +1615,21 @@ namespace Vision.Physics.PrimMesher
                 // prisms don't taper well so add some vertical resolution
                 // other prims may benefit from this but just do prisms for now
                 if (Math.Abs(taperX) > 0.01 || Math.Abs(taperY) > 0.01)
-                    steps = (int) (steps*4.5*length);
+                    steps = (int)(steps * 4.5 * length);
             }
 
             if (sphereMode)
                 hasProfileCut = profileEnd - profileStart < 0.4999f;
             else
-                this.hasProfileCut = this.profileEnd - this.profileStart < 0.9999f;
-            this.hasHollow = (this.hollow > 0.001f);
+                hasProfileCut = profileEnd - profileStart < 0.9999f;
+            hasHollow = (hollow > 0.001f);
 
-            float twistBegin2 = twistBegin/360.0f*twoPi;
-            float twistEnd2 = twistEnd/360.0f*twoPi;
+            float twistBegin2 = twistBegin / 360.0f * twoPi;
+            float twistEnd2 = twistEnd / 360.0f * twoPi;
             float twistTotal = twistEnd2 - twistBegin2;
             float twistTotalAbs = Math.Abs(twistTotal);
             if (twistTotalAbs > 0.01f)
-                steps += (int) (twistTotalAbs*3.66); //  dahlia's magic number
+                steps += (int)(twistTotalAbs * 3.66); //  dahlia's magic number
 
             float hollow2 = hollow;
 
@@ -1643,24 +1639,25 @@ namespace Vision.Physics.PrimMesher
             {
                 if (sides == 3)
                 {
-                    initialProfileRot = (float) Math.PI;
+                    initialProfileRot = (float)Math.PI;
                     if (hollowSides == 4)
                     {
                         if (hollow2 > 0.7f)
                             hollow2 = 0.7f;
                         hollow2 *= 0.707f;
                     }
-                    else hollow2 *= 0.5f;
+                    else
+                        hollow2 *= 0.5f;
                 }
                 else if (sides == 4)
                 {
-                    initialProfileRot = 0.25f*(float) Math.PI;
+                    initialProfileRot = 0.25f * (float)Math.PI;
                     if (hollowSides != 4)
                         hollow2 *= 0.707f;
                 }
                 else if (sides > 4)
                 {
-                    initialProfileRot = (float) Math.PI;
+                    initialProfileRot = (float)Math.PI;
                     if (hollowSides == 4)
                     {
                         if (hollow2 > 0.7f)
@@ -1679,11 +1676,12 @@ namespace Vision.Physics.PrimMesher
                             hollow2 = 0.7f;
                         hollow2 *= 0.707f;
                     }
-                    else hollow2 *= 0.5f;
+                    else
+                        hollow2 *= 0.5f;
                 }
                 else if (sides == 4)
                 {
-                    initialProfileRot = 1.25f*(float) Math.PI;
+                    initialProfileRot = 1.25f * (float)Math.PI;
                     if (hollowSides != 4)
                         hollow2 *= 0.707f;
                 }
@@ -1692,10 +1690,17 @@ namespace Vision.Physics.PrimMesher
             }
 
             Profile profile = new Profile(sides, profileStart, profileEnd, hollow2, hollowSides, true,
-                                          calcVertexNormals);
+                                  calcVertexNormals);
             errorMessage = profile.errorMessage;
 
             numPrimFaces = profile.numPrimFaces;
+            int cut1FaceNumber = profile.bottomFaceNumber + 1;
+            int cut2FaceNumber = cut1FaceNumber + 1;
+            if (!needEndFaces)
+            {
+                cut1FaceNumber -= 2;
+                cut2FaceNumber -= 2;
+            }
 
             profileOuterFaceNumber = profile.outerFaceNumber;
             //this is always true
@@ -1726,27 +1731,28 @@ namespace Vision.Physics.PrimMesher
 
             Coord lastCutNormal1 = new Coord();
             Coord lastCutNormal2 = new Coord();
-            float lastV = 1.0f;
+            float thisV = 0.0f;
+            float lastV = 0.0f;
 
             Path path = new Path
-                            {
-                                twistBegin = twistBegin2,
-                                twistEnd = twistEnd2,
-                                topShearX = topShearX,
-                                topShearY = topShearY,
-                                pathCutBegin = pathCutBegin,
-                                pathCutEnd = pathCutEnd,
-                                dimpleBegin = dimpleBegin,
-                                dimpleEnd = dimpleEnd,
-                                skew = skew,
-                                holeSizeX = holeSizeX,
-                                holeSizeY = holeSizeY,
-                                taperX = taperX,
-                                taperY = taperY,
-                                radius = radius,
-                                revolutions = revolutions,
-                                stepsPerRevolution = stepsPerRevolution
-                            };
+            {
+                twistBegin = twistBegin2,
+                twistEnd = twistEnd2,
+                topShearX = topShearX,
+                topShearY = topShearY,
+                pathCutBegin = pathCutBegin,
+                pathCutEnd = pathCutEnd,
+                dimpleBegin = dimpleBegin,
+                dimpleEnd = dimpleEnd,
+                skew = skew,
+                holeSizeX = holeSizeX,
+                holeSizeY = holeSizeY,
+                taperX = taperX,
+                taperY = taperY,
+                radius = radius,
+                revolutions = revolutions,
+                stepsPerRevolution = stepsPerRevolution
+            };
 
             path.Create(pathType, steps);
 
@@ -1765,7 +1771,8 @@ namespace Vision.Physics.PrimMesher
                 else if (radius != 0.0f)
                     needEndFaces = true;
             }
-            else needEndFaces = true;
+            else
+                needEndFaces = true;
 
             for (int nodeIndex = 0; nodeIndex < path.pathNodes.Count; nodeIndex++)
             {
@@ -1807,10 +1814,16 @@ namespace Vision.Physics.PrimMesher
                             newViewerFace.uv2 = newLayer.faceUVs[face.v2];
                             newViewerFace.uv3 = newLayer.faceUVs[face.v3];
 
+                            if (pathType == PathType.Linear)
+                            {
+                                newViewerFace.uv1.Flip();
+                                newViewerFace.uv2.Flip();
+                                newViewerFace.uv3.Flip();
+                            }
                             viewerFaces.Add(newViewerFace);
                         }
                     }
-                } // if (nodeIndex == 0)
+                }
 
                 // append this layer
 
@@ -1831,9 +1844,11 @@ namespace Vision.Physics.PrimMesher
                 // fill faces between layers
 
                 int numVerts = newLayer.coords.Count;
+                thisV = 1.0f - node.percentOfPath;
                 if (nodeIndex > 0)
                 {
-                    Face newFace = new Face();
+                    Face newFace1 = new Face();
+                    Face newFace2 = new Face();
 
                     int startVert = coordsLen + 1;
                     int endVert = coords.Count;
@@ -1849,14 +1864,23 @@ namespace Vision.Physics.PrimMesher
 
                         int whichVert = i - startVert;
 
-                        newFace.v1 = i;
-                        newFace.v2 = i - numVerts;
-                        newFace.v3 = iNext - numVerts;
-                        faces.Add(newFace);
+                        newFace1.v1 = i;
+                        newFace1.v2 = i - numVerts;
+                        newFace1.v3 = iNext;
 
-                        newFace.v2 = iNext - numVerts;
-                        newFace.v3 = iNext;
-                        faces.Add(newFace);
+                        newFace1.n1 = newFace1.v1;
+                        newFace1.n2 = newFace1.v2;
+                        newFace1.n3 = newFace1.v3;
+                        faces.Add(newFace1);
+
+                        newFace2.v1 = iNext;
+                        newFace2.v2 = i - numVerts;
+                        newFace2.v3 = iNext - numVerts;
+
+                        newFace2.n1 = newFace2.v1;
+                        newFace2.n2 = newFace2.v2;
+                        newFace2.n3 = newFace2.v3;
+                        faces.Add(newFace2);
 
                         if (viewerMode)
                         {
@@ -1887,8 +1911,8 @@ namespace Vision.Physics.PrimMesher
                                     // to reflect the entire texture width
                                     u1 *= sides;
                                     u2 *= sides;
-                                    u2 -= (int) u1;
-                                    u1 -= (int) u1;
+                                    u2 -= u1;
+                                    u1 -= u1;
                                     if (u2 < 0.1f)
                                         u2 = 1.0f;
                                 }
@@ -1896,11 +1920,10 @@ namespace Vision.Physics.PrimMesher
                                 {
                                     u1 *= 2.0f;
                                     u2 *= 2.0f;
-                                    //this.profileHollowFaceNumber = primFaceNum;
                                 }
                             }
 
-                            if (this.sphereMode)
+                            if (sphereMode)
                             {
                                 if (whichVert != cut1Vert && whichVert != cut2Vert)
                                 {
@@ -1912,7 +1935,6 @@ namespace Vision.Physics.PrimMesher
                                         u1 -= hollow;
                                         u2 -= hollow;
                                     }
-
                                 }
                             }
 
@@ -1965,7 +1987,6 @@ namespace Vision.Physics.PrimMesher
                                 newViewerFace2.n1 = newViewerFace2.n3 = newLayer.cutNormal2;
                                 newViewerFace2.n2 = lastCutNormal2;
                             }
-
                             else // outer and hollow faces
                             {
                                 if ((sides < 5 && whichVert < newLayer.numOuterVerts) ||
@@ -2001,7 +2022,7 @@ namespace Vision.Physics.PrimMesher
                 {
                     // add the top faces to the viewerFaces list here
                     Coord faceNormal = newLayer.faceNormal;
-                    ViewerFace newViewerFace = new ViewerFace {primFaceNumber = 0};
+                    ViewerFace newViewerFace = new ViewerFace { primFaceNumber = 0 };
                     int numFaces = newLayer.faces.Count;
                     List<Face> faces2 = newLayer.faces;
 
@@ -2024,12 +2045,17 @@ namespace Vision.Physics.PrimMesher
                         newViewerFace.uv2 = newLayer.faceUVs[face.v2 - coordsLen];
                         newViewerFace.uv3 = newLayer.faceUVs[face.v3 - coordsLen];
 
+                        if (pathType == PathType.Linear)
+                        {
+                            newViewerFace.uv1.Flip();
+                            newViewerFace.uv2.Flip();
+                            newViewerFace.uv3.Flip();
+                        }
                         viewerFaces.Add(newViewerFace);
                     }
                 }
-            } // for (int nodeIndex = 0; nodeIndex < path.pathNodes.Count; nodeIndex++)
+            }
         }
-
 
         /// <summary>
         ///     DEPRICATED - use Extrude(PathType.Linear) instead
@@ -2040,7 +2066,6 @@ namespace Vision.Physics.PrimMesher
             Extrude(PathType.Linear);
         }
 
-
         /// <summary>
         ///     DEPRICATED - use Extrude(PathType.Circular) instead
         ///     Extrude a profile into a circular path prim mesh. Used for prim types torus, tube, and ring.
@@ -2050,8 +2075,7 @@ namespace Vision.Physics.PrimMesher
             Extrude(PathType.Circular);
         }
 
-
-        private Coord SurfaceNormal(Coord c1, Coord c2, Coord c3)
+        Coord SurfaceNormal(Coord c1, Coord c2, Coord c3)
         {
             Coord edge1 = new Coord(c2.X - c1.X, c2.Y - c1.Y, c2.Z - c1.Z);
             Coord edge2 = new Coord(c3.X - c1.X, c3.Y - c1.Y, c3.Z - c1.Z);
@@ -2089,34 +2113,33 @@ namespace Vision.Physics.PrimMesher
         public PrimMesh Copy()
         {
             PrimMesh copy = new PrimMesh(sides, profileStart, profileEnd, hollow, hollowSides)
-                                {
-                                    twistBegin = twistBegin,
-                                    twistEnd = twistEnd,
-                                    topShearX = topShearX,
-                                    topShearY = topShearY,
-                                    pathCutBegin = pathCutBegin,
-                                    pathCutEnd = pathCutEnd,
-                                    dimpleBegin = dimpleBegin,
-                                    dimpleEnd = dimpleEnd,
-                                    skew = skew,
-                                    holeSizeX = holeSizeX,
-                                    holeSizeY = holeSizeY,
-                                    taperX = taperX,
-                                    taperY = taperY,
-                                    radius = radius,
-                                    revolutions = revolutions,
-                                    stepsPerRevolution = stepsPerRevolution,
-                                    calcVertexNormals = calcVertexNormals,
-                                    normalsProcessed = normalsProcessed,
-                                    viewerMode = viewerMode,
-                                    numPrimFaces = numPrimFaces,
-                                    errorMessage = errorMessage,
-                                    coords = new List<Coord>(coords),
-                                    faces = new List<Face>(faces),
-                                    viewerFaces = new List<ViewerFace>(viewerFaces),
-                                    normals = new List<Coord>(normals)
-                                };
-
+            {
+                twistBegin = twistBegin,
+                twistEnd = twistEnd,
+                topShearX = topShearX,
+                topShearY = topShearY,
+                pathCutBegin = pathCutBegin,
+                pathCutEnd = pathCutEnd,
+                dimpleBegin = dimpleBegin,
+                dimpleEnd = dimpleEnd,
+                skew = skew,
+                holeSizeX = holeSizeX,
+                holeSizeY = holeSizeY,
+                taperX = taperX,
+                taperY = taperY,
+                radius = radius,
+                revolutions = revolutions,
+                stepsPerRevolution = stepsPerRevolution,
+                calcVertexNormals = calcVertexNormals,
+                normalsProcessed = normalsProcessed,
+                viewerMode = viewerMode,
+                numPrimFaces = numPrimFaces,
+                errorMessage = errorMessage,
+                coords = new List<Coord>(coords),
+                faces = new List<Face>(faces),
+                viewerFaces = new List<ViewerFace>(viewerFaces),
+                normals = new List<Coord>(normals)
+            };
 
             return copy;
         }
@@ -2241,7 +2264,6 @@ namespace Vision.Physics.PrimMesher
         {
             int i;
             int numVerts = coords.Count;
-            //Coord vert;
 
             Coord m = new Coord(x, y, z);
             for (i = 0; i < numVerts; i++)
@@ -2277,10 +2299,7 @@ namespace Vision.Physics.PrimMesher
 
             for (int i = 0; i < faces.Count; i++)
             {
-                string s = coords[faces[i].v1].ToString();
-                s += " " + coords[faces[i].v2].ToString();
-                s += " " + coords[faces[i].v3].ToString();
-
+                string s = coords[faces[i].v1] + " " + coords[faces[i].v2] + " " + coords[faces[i].v3];
                 sw.WriteLine(s);
             }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,19 +43,19 @@ namespace Vision.Physics.Meshing
 {
     public class Mesh : IMesh
     {
-        private readonly ulong m_key;
+        readonly ulong m_key;
         public bool WasCached { get; set; }
 
-        private Vector3 _centroid;
-        private int _centroidDiv;
-        private IntPtr m_indicesPtr = IntPtr.Zero;
-        private GCHandle m_pinnedIndex;
-        private GCHandle m_pinnedVertexes;
-        private int[] m_triangles;
-        private float[] m_vertices;
-        private int m_vertexCount;
-        private int m_indexCount;
-        private IntPtr m_verticesPtr = IntPtr.Zero;
+        Vector3 _centroid;
+        int _centroidDiv;
+        IntPtr m_indicesPtr = IntPtr.Zero;
+        GCHandle m_pinnedIndex;
+        GCHandle m_pinnedVertexes;
+        int[] m_triangles;
+        float[] m_vertices;
+        int m_vertexCount;
+        int m_indexCount;
+        IntPtr m_verticesPtr = IntPtr.Zero;
 
         public Mesh(ulong key)
         {
@@ -106,7 +106,6 @@ namespace Vision.Physics.Meshing
             m_triangles = new int[faces.Count * 3];
             for (int i = 0; i < faces.Count; i++)
             {
-                //Face t = m_triangles[i];
                 m_triangles[3 * i + 0] = faces[i].v1;
                 m_triangles[3 * i + 1] = faces[i].v2;
                 m_triangles[3 * i + 2] = faces[i].v3;
@@ -114,12 +113,11 @@ namespace Vision.Physics.Meshing
             m_indexCount = m_triangles.Length;
         }
 
-        private void setVertexListAsFloat(List<Coord> coords)
+        void setVertexListAsFloat(List<Coord> coords)
         {
             m_vertices = new float[coords.Count * 3];
             for (int i = 0; i < coords.Count; i++)
             {
-                //Coord v = m_vertices[i];
                 m_vertices[3 * i + 0] = coords[i].X;
                 m_vertices[3 * i + 1] = coords[i].Y;
                 m_vertices[3 * i + 2] = coords[i].Z;
@@ -198,29 +196,13 @@ namespace Vision.Physics.Meshing
         public OSD Serialize()
         {
             OSDArray array = new OSDArray();
-            /*foreach (Face t in m_triangles)
-            {
-                OSDArray triArray = new OSDArray
-                                        {
-                                            new Vector3(t.v1.X, t.v1.Y, t.v1.Z),
-                                            new Vector3(t.v2.X, t.v2.Y, t.v2.Z),
-                                            new Vector3(t.v3.X, t.v3.Y, t.v3.Z)
-                                        };
-                array.Add(triArray);
-            }*/
+            
             return array;
         }
 
         public void Deserialize(OSD cachedMesh)
         {
-            /*OSDArray array = (OSDArray) cachedMesh;
-            foreach (OSD triangle in array)
-            {
-                OSDArray triangleArray = (OSDArray) triangle;
-                Add(new Triangle(new Coord(triangleArray[0].AsVector3()),
-                                 new Coord(triangleArray[1].AsVector3()),
-                                 new Coord(triangleArray[2].AsVector3())));
-            }*/
+            
         }
 
         public int[] getIndexListAsInt()

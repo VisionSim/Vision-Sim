@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,7 +28,7 @@
 // to build without references to System.Drawing, comment this out
 
 #define SYSTEM_DRAWING
-
+#undef FASTBMP // FASTBMP is experimental.  Please create an issue if you run into problems
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -41,11 +41,11 @@ namespace Vision.Physics.PrimMesher
 {
     public class SculptMap
     {
-        public byte[] blueBytes;
-        public byte[] greenBytes;
+        public int width;
         public int height;
         public byte[] redBytes;
-        public int width;
+        public byte[] greenBytes;
+        public byte[] blueBytes;
 
         public SculptMap()
         {
@@ -59,15 +59,15 @@ namespace Vision.Physics.PrimMesher
             if (bmW == 0 || bmH == 0)
                 throw new Exception("SculptMap: bitmap has no data");
 
-            int numLodPixels = lod*2*lod*2; // (32 * 2)^2  = 64^2 pixels for default sculpt map image
+            int numLodPixels = lod * 2 * lod * 2; // (32 * 2)^2  = 64^2 pixels for default sculpt map image
 
             bool needsScaling = false;
 
-            bool smallMap = bmW*bmH <= lod*lod;
+            bool smallMap = bmW * bmH <= lod * lod;
 
             width = bmW;
             height = bmH;
-            while (width*height > numLodPixels)
+            while (width * height > numLodPixels)
             {
                 width >>= 1;
                 height >>= 1;
@@ -79,28 +79,27 @@ namespace Vision.Physics.PrimMesher
             {
                 if (needsScaling)
                     bm = ScaleImage(bm, width, height,
-                                    InterpolationMode.NearestNeighbor);
+                        InterpolationMode.NearestNeighbor);
             }
-
             catch (Exception e)
             {
                 throw new Exception("Exception in ScaleImage(): e: " + e);
             }
 
-            if (width*height > lod*lod)
+            if (width * height > lod * lod)
             {
                 width >>= 1;
                 height >>= 1;
             }
 
-            int numBytes = (width + 1)*(height + 1);
+            int numBytes = (width + 1) * (height + 1);
             redBytes = new byte[numBytes];
             greenBytes = new byte[numBytes];
             blueBytes = new byte[numBytes];
-/*
-            FastBitmap unsafeBMP = new FastBitmap(bm);
-            unsafeBMP.LockBitmap(); //Lock the bitmap for the unsafe operation
-*/
+#if FASTBMP
+            FastBitmap unsafeBMP = new FastBitmap (bm);
+            unsafeBMP.LockBitmap (); //Lock the bitmap for the unsafe operation
+#endif
             int byteNdx = 0;
 
             try
@@ -111,13 +110,23 @@ namespace Vision.Physics.PrimMesher
                     {
                         Color pixel;
                         if (smallMap)
-//                            pixel = unsafeBMP.GetPixel(x < width ? x : x - 1,
+                        {
+#if FASTBMP
+                            pixel = unsafeBMP.GetPixel (x < width ? x : x - 1,
+#else
                             pixel = bm.GetPixel(x < width ? x : x - 1,
-                                                y < height ? y : y - 1);
+#endif
+ y < height ? y : y - 1);
+                        }
                         else
-                            pixel = bm.GetPixel(x < width ? x : x - 1,
-//                            pixel = unsafeBMP.GetPixel(x < width ? x*2 : x*2 - 1,
-                                                y < height ? y*2 : y*2 - 1);
+                        {
+#if FASTBMP
+                            pixel = unsafeBMP.GetPixel (x < width ? x * 2 : x * 2 - 1,
+#else
+                            pixel = bm.GetPixel(x < width ? x * 2 : x * 2 - 1,
+#endif
+ y < height ? y * 2 : y * 2 - 1);
+                        }
 
                         redBytes[byteNdx] = pixel.R;
                         greenBytes[byteNdx] = pixel.G;
@@ -131,10 +140,10 @@ namespace Vision.Physics.PrimMesher
             {
                 throw new Exception("Caught exception processing byte arrays in SculptMap(): e: " + e);
             }
-
+#if FASTBMP
             //All done, unlock
-//            unsafeBMP.UnlockBitmap();
-
+            unsafeBMP.UnlockBitmap ();
+#endif
             width++;
             height++;
         }
@@ -146,7 +155,7 @@ namespace Vision.Physics.PrimMesher
 
             List<List<Coord>> rows = new List<List<Coord>>(numRows);
 
-            float pixScale = 1.0f/255;
+            float pixScale = 1.0f / 255;
 
             int rowNdx, colNdx;
             int smNdx = 0;
@@ -157,11 +166,11 @@ namespace Vision.Physics.PrimMesher
                 for (colNdx = 0; colNdx < numCols; colNdx++)
                 {
                     if (mirror)
-                        row.Add(new Coord(-(redBytes[smNdx]*pixScale - 0.5f), (greenBytes[smNdx]*pixScale - 0.5f),
-                                          blueBytes[smNdx]*pixScale - 0.5f));
+                        row.Add(new Coord(-(redBytes[smNdx] * pixScale - 0.5f), (greenBytes[smNdx] * pixScale - 0.5f),
+                            blueBytes[smNdx] * pixScale - 0.5f));
                     else
-                        row.Add(new Coord(redBytes[smNdx]*pixScale - 0.5f, greenBytes[smNdx]*pixScale - 0.5f,
-                                          blueBytes[smNdx]*pixScale - 0.5f));
+                        row.Add(new Coord(redBytes[smNdx] * pixScale - 0.5f, greenBytes[smNdx] * pixScale - 0.5f,
+                            blueBytes[smNdx] * pixScale - 0.5f));
 
                     ++smNdx;
                 }
@@ -170,14 +179,14 @@ namespace Vision.Physics.PrimMesher
             return rows;
         }
 
-        private Bitmap ScaleImage(Bitmap srcImage, int destWidth, int destHeight,
-                                  InterpolationMode interpMode)
+        Bitmap ScaleImage(Bitmap srcImage, int destWidth, int destHeight,
+                           InterpolationMode interpMode)
         {
             Bitmap scaledImage = new Bitmap(destWidth, destHeight, PixelFormat.Format24bppRgb);
 
             Color c;
-            float xscale = srcImage.Width/destWidth;
-            float yscale = srcImage.Height/destHeight;
+            float xscale = srcImage.Width / destWidth;
+            float yscale = srcImage.Height / destHeight;
 
             float sy = 0.5f;
             for (int y = 0; y < destHeight; y++)
@@ -187,7 +196,7 @@ namespace Vision.Physics.PrimMesher
                 {
                     try
                     {
-                        c = srcImage.GetPixel((int) (sx), (int) (sy));
+                        c = srcImage.GetPixel((int)(sx), (int)(sy));
                         scaledImage.SetPixel(x, y, Color.FromArgb(c.R, c.G, c.B));
                     }
                     catch (IndexOutOfRangeException)
@@ -200,22 +209,6 @@ namespace Vision.Physics.PrimMesher
             }
             srcImage.Dispose();
             return scaledImage;
-
-            /*
-            Bitmap scaledImage = new Bitmap(srcImage, destWidth, destHeight);
-            scaledImage.SetResolution(96.0f, 96.0f);
-
-            Graphics grPhoto = Graphics.FromImage(scaledImage);
-            grPhoto.InterpolationMode = interpMode;
-
-            grPhoto.DrawImage(srcImage,
-                              new Rectangle(0, 0, destWidth, destHeight),
-                              new Rectangle(0, 0, srcImage.Width, srcImage.Height),
-                              GraphicsUnit.Pixel);
-
-            grPhoto.Dispose();
-            return scaledImage;
-             */
         }
     }
 }
