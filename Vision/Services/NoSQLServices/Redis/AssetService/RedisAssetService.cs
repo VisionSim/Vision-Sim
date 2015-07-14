@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,6 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using Sider;
+using System;
+using System.IO;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
@@ -32,11 +37,6 @@ using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Utilities;
 using Vision.RedisServices.ConnectionHelpers;
-using Nini.Config;
-using OpenMetaverse;
-using Sider;
-using System;
-using System.IO;
 
 namespace Vision.RedisServices.AssetService
 {
@@ -206,7 +206,7 @@ namespace Vision.RedisServices.AssetService
             object remoteValue = DoRemoteByURL("AssetServerURI", id);
             if (remoteValue != null || m_doRemoteOnly)
             {
-                byte[] data = (byte[]) remoteValue;
+                byte[] data = (byte[])remoteValue;
                 if (doDatabaseCaching && cache != null && data != null)
                     cache.CacheData(id, data);
                 return data;
@@ -216,7 +216,7 @@ namespace Vision.RedisServices.AssetService
             if (doDatabaseCaching && cache != null)
                 cache.Cache(id, asset);
             if (asset != null) return asset.Data;
-            return new byte[0];
+            return null;
         }
 
         [CanBeReflected(ThreatLevel = ThreatLevel.Low)]
