@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,7 +28,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.Packets;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
@@ -37,22 +39,19 @@ using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Profile;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.Packets;
 using GridRegion = Vision.Framework.Services.GridRegion;
 
 namespace Vision.Modules.Search
 {
-    public class VisionSearchModule : INonSharedRegionModule
+    public class SearchModule : INonSharedRegionModule
     {
         #region Declares
 
-        private IScene m_Scene;
-        private IGroupsModule GroupsModule;
-        private IProfileConnector ProfileFrontend;
-        private IDirectoryServiceConnector DirectoryService;
-        private bool m_SearchEnabled;
+        IScene m_Scene;
+        IGroupsModule GroupsModule;
+        IProfileConnector ProfileFrontend;
+        IDirectoryServiceConnector DirectoryService;
+        bool m_SearchEnabled;
 
         #endregion
 
@@ -75,7 +74,7 @@ namespace Vision.Modules.Search
             client.OnEventNotificationRemoveRequest += client_OnEventNotificationRemoveRequest;
         }
 
-        private void OnClosingClient(IClientAPI client)
+        void OnClosingClient(IClientAPI client)
         {
             client.OnDirPlacesQuery -= DirPlacesQuery;
             client.OnDirFindQuery -= DirFindQuery;
@@ -117,12 +116,12 @@ namespace Vision.Modules.Search
         {
             List<DirPlacesReplyData> ReturnValues =
                 DirectoryService.FindLand(queryText.Trim(), category.ToString(), queryStart,
-                                          (uint) queryFlags, remoteClient.ScopeID);
+                    (uint)queryFlags, remoteClient.ScopeID);
 
             SplitPackets(ReturnValues,
-                         data => remoteClient.SendDirPlacesReply(queryID, data));
+                data => remoteClient.SendDirPlacesReply(queryID, data));
         }
-        
+
         /// <summary>
         ///     Popular places based on traffic
         /// </summary>
@@ -152,10 +151,10 @@ namespace Vision.Modules.Search
         {
             List<DirLandReplyData> ReturnValues =
                 new List<DirLandReplyData>(DirectoryService.FindLandForSale(searchType.ToString(), price, area,
-                                                                            queryStart, queryFlags, remoteClient.ScopeID));
+                    queryStart, queryFlags, remoteClient.ScopeID));
 
             SplitPackets(ReturnValues,
-                         data => remoteClient.SendDirLandReply(queryID, data));
+                data => remoteClient.SendDirLandReply(queryID, data));
         }
 
         /// <summary>
@@ -172,12 +171,12 @@ namespace Vision.Modules.Search
             if ((queryFlags & 1) != 0) //People query
             {
                 DirPeopleQuery(remoteClient, queryID, queryText, queryFlags,
-                               queryStart);
+                    queryStart);
             }
             else if ((queryFlags & 32) != 0) //Events query
             {
                 DirEventsQuery(remoteClient, queryID, queryText, queryFlags,
-                               queryStart);
+                    queryStart);
             }
         }
 
@@ -187,7 +186,7 @@ namespace Vision.Modules.Search
         {
             //Find the user accounts
             List<UserAccount> accounts = m_Scene.UserAccountService.GetUserAccounts(remoteClient.AllScopeIDs,
-                                                                                    queryText.Trim());
+                                             queryText.Trim());
             List<DirPeopleReplyData> ReturnValues =
                 new List<DirPeopleReplyData>();
 
@@ -198,11 +197,11 @@ namespace Vision.Modules.Search
                 if (UserProfile == null)
                 {
                     DirPeopleReplyData person = new DirPeopleReplyData
-                                                    {
-                                                        agentID = item.PrincipalID,
-                                                        firstName = item.FirstName,
-                                                        lastName = item.LastName
-                                                    };
+                    {
+                        agentID = item.PrincipalID,
+                        firstName = item.FirstName,
+                        lastName = item.LastName
+                    };
                     if (GroupsModule == null)
                         person.group = "";
                     else
@@ -225,11 +224,11 @@ namespace Vision.Modules.Search
                 else if (UserProfile.AllowPublish) //Check whether they want to be in search or not
                 {
                     DirPeopleReplyData person = new DirPeopleReplyData
-                                                    {
-                                                        agentID = item.PrincipalID,
-                                                        firstName = item.FirstName,
-                                                        lastName = item.LastName
-                                                    };
+                    {
+                        agentID = item.PrincipalID,
+                        firstName = item.FirstName,
+                        lastName = item.LastName
+                    };
                     if (GroupsModule == null)
                         person.group = "";
                     else
@@ -253,7 +252,7 @@ namespace Vision.Modules.Search
             }
 
             SplitPackets(ReturnValues,
-                         data => remoteClient.SendDirPeopleReply(queryID, data));
+                data => remoteClient.SendDirPeopleReply(queryID, data));
         }
 
         /// <summary>
@@ -269,11 +268,11 @@ namespace Vision.Modules.Search
         {
             List<DirEventsReplyData> ReturnValues =
                 new List<DirEventsReplyData>(DirectoryService.FindEvents(queryText.Trim(), queryFlags, queryStart,
-                                                                         remoteClient.ScopeID));
+                    remoteClient.ScopeID));
 
             SplitPackets(ReturnValues, data => remoteClient.SendDirEventsReply(queryID, data));
         }
-        
+
         /// <summary>
         ///     Find Classifieds
         /// </summary>
@@ -288,11 +287,11 @@ namespace Vision.Modules.Search
         {
             List<DirClassifiedReplyData> ReturnValues =
                 new List<DirClassifiedReplyData>(DirectoryService.FindClassifieds(queryText.Trim(), category.ToString(),
-                                                                                  queryFlags, queryStart,
-                                                                                  remoteClient.ScopeID));
+                    queryFlags, queryStart,
+                    remoteClient.ScopeID));
 
             SplitPackets(ReturnValues,
-                         data => remoteClient.SendDirClassifiedReply(queryID, data));
+                data => remoteClient.SendDirClassifiedReply(queryID, data));
         }
 
         public void SplitPackets<T>(List<T> packets, SendPacket<T> send)
@@ -343,7 +342,7 @@ namespace Vision.Modules.Search
 
             GR = regionhandle == 0
                      ? new GridRegion(remoteClient.Scene.RegionInfo)
-                     : m_Scene.GridService.GetRegionByPosition(remoteClient.AllScopeIDs, (int) xstart, (int) ystart);
+                     : m_Scene.GridService.GetRegionByPosition(remoteClient.AllScopeIDs, (int)xstart, (int)ystart);
             if (GR == null)
             {
                 //No region???
@@ -352,7 +351,7 @@ namespace Vision.Modules.Search
 
             #region Telehub
 
-            if (itemtype == (uint) GridItemType.Telehub)
+            if (itemtype == (uint)GridItemType.Telehub)
             {
                 IRegionConnector GF = Framework.Utilities.DataManager.RequestPlugin<IRegionConnector>();
                 if (GF == null)
@@ -364,14 +363,14 @@ namespace Vision.Modules.Search
                 if (telehub != null)
                 {
                     mapitem = new mapItemReply
-                                  {
-                                      x = (uint) (GR.RegionLocX + telehub.TelehubLocX),
-                                      y = (uint) (GR.RegionLocY + telehub.TelehubLocY),
-                                      id = GR.RegionID,
-                                      name = Util.Md5Hash(GR.RegionName + tc.ToString()),
-                                      Extra = 1,
-                                      Extra2 = 0
-                                  };
+                    {
+                        x = (uint)(GR.RegionLocX + telehub.TelehubLocX),
+                        y = (uint)(GR.RegionLocY + telehub.TelehubLocY),
+                        id = GR.RegionID,
+                        name = Util.Md5Hash(GR.RegionName + tc.ToString()),
+                        Extra = 1,
+                        Extra2 = 0
+                    };
                     //The position is in GLOBAL coordinates (in meters)
                     //This is how the name is sent, go figure
                     //Not sure, but this is what gets sent
@@ -387,13 +386,13 @@ namespace Vision.Modules.Search
             #region Land for sale
 
             //PG land that is for sale
-            if (itemtype == (uint) GridItemType.LandForSale)
+            if (itemtype == (uint)GridItemType.LandForSale)
             {
                 if (DirectoryService == null)
                     return;
                 //Find all the land, use "0" for the flags so we get all land for sale, no price or area checking
                 List<DirLandReplyData> Landdata = DirectoryService.FindLandForSaleInRegion("0", uint.MaxValue, 0, 0, 0,
-                                                                                           GR.RegionID);
+                                                      GR.RegionID);
 
                 int locX = 0;
                 int locY = 0;
@@ -424,14 +423,14 @@ namespace Vision.Modules.Search
                         continue;
 
                     mapitem = new mapItemReply
-                                  {
-                                      x = (uint) (locX + landdata.UserLocation.X),
-                                      y = (uint) (locY + landdata.UserLocation.Y),
-                                      id = landDir.parcelID,
-                                      name = landDir.name,
-                                      Extra = landDir.actualArea,
-                                      Extra2 = landDir.salePrice
-                                  };
+                    {
+                        x = (uint)(locX + landdata.UserLocation.X),
+                        y = (uint)(locY + landdata.UserLocation.Y),
+                        id = landDir.parcelID,
+                        name = landDir.name,
+                        Extra = landDir.actualArea,
+                        Extra2 = landDir.salePrice
+                    };
                     //Global coords, so make sure its in meters
                     mapitems.Add(mapitem);
                 }
@@ -444,13 +443,13 @@ namespace Vision.Modules.Search
             }
 
             //Adult or mature land that is for sale
-            if (itemtype == (uint) GridItemType.AdultLandForSale)
+            if (itemtype == (uint)GridItemType.AdultLandForSale)
             {
                 if (DirectoryService == null)
                     return;
                 //Find all the land, use "0" for the flags so we get all land for sale, no price or area checking
                 List<DirLandReplyData> Landdata = DirectoryService.FindLandForSale("0", uint.MaxValue, 0, 0, 0,
-                                                                                   remoteClient.ScopeID);
+                                                      remoteClient.ScopeID);
 
                 int locX = 0;
                 int locY = 0;
@@ -479,14 +478,14 @@ namespace Vision.Modules.Search
                         continue;
 
                     mapitem = new mapItemReply
-                                  {
-                                      x = (uint) (locX + landdata.UserLocation.X),
-                                      y = (uint) (locY + landdata.UserLocation.Y),
-                                      id = landDir.parcelID,
-                                      name = landDir.name,
-                                      Extra = landDir.actualArea,
-                                      Extra2 = landDir.salePrice
-                                  };
+                    {
+                        x = (uint)(locX + landdata.UserLocation.X),
+                        y = (uint)(locY + landdata.UserLocation.Y),
+                        id = landDir.parcelID,
+                        name = landDir.name,
+                        Extra = landDir.actualArea,
+                        Extra2 = landDir.salePrice
+                    };
                     //Global coords, so make sure its in meters
 
                     mapitems.Add(mapitem);
@@ -503,19 +502,19 @@ namespace Vision.Modules.Search
 
             #region Events
 
-            if (itemtype == (uint) GridItemType.PgEvent ||
-                itemtype == (uint) GridItemType.MatureEvent ||
-                itemtype == (uint) GridItemType.AdultEvent)
+            if (itemtype == (uint)GridItemType.PgEvent ||
+                itemtype == (uint)GridItemType.MatureEvent ||
+                itemtype == (uint)GridItemType.AdultEvent)
             {
                 if (DirectoryService == null)
                     return;
 
                 //Find the maturity level
-                int maturity = itemtype == (uint) GridItemType.PgEvent
-                                   ? (int) DirectoryManager.EventFlags.PG
-                                   : (itemtype == (uint) GridItemType.MatureEvent)
-                                         ? (int) DirectoryManager.EventFlags.Mature
-                                         : (int) DirectoryManager.EventFlags.Adult;
+                int maturity = itemtype == (uint)GridItemType.PgEvent
+                                   ? (int)DirectoryManager.EventFlags.PG
+                                   : (itemtype == (uint)GridItemType.MatureEvent)
+                                         ? (int)DirectoryManager.EventFlags.Mature
+                                         : (int)DirectoryManager.EventFlags.Adult;
 
                 //Gets all the events occurring in the given region by maturity level
                 List<DirEventsReplyData> Eventdata = DirectoryService.FindAllEventsInRegion(GR.RegionName, maturity);
@@ -528,14 +527,14 @@ namespace Vision.Modules.Search
                         continue; //Can't do anything about it
                     Vector3 globalPos = eventdata.globalPos;
                     mapitem = new mapItemReply
-                                  {
-                                      x = (uint) globalPos.X,
-                                      y = (uint) globalPos.Y,
-                                      id = UUID.Random(),
-                                      name = eventData.name,
-                                      Extra = (int) eventdata.dateUTC,
-                                      Extra2 = (int) eventdata.eventID
-                                  };
+                    {
+                        x = (uint)globalPos.X,
+                        y = (uint)globalPos.Y,
+                        id = UUID.Random(),
+                        name = eventData.name,
+                        Extra = (int)eventdata.dateUTC,
+                        Extra2 = (int)eventdata.eventID
+                    };
 
                     //Use global position plus half the region so that it doesn't always appear in the bottom corner
 
@@ -553,7 +552,7 @@ namespace Vision.Modules.Search
 
             #region Classified
 
-            if (itemtype == (uint) GridItemType.Classified)
+            if (itemtype == (uint)GridItemType.Classified)
             {
                 if (DirectoryService == null)
                     return;
@@ -565,18 +564,18 @@ namespace Vision.Modules.Search
                     GridRegion region = m_Scene.GridService.GetRegionByName(remoteClient.AllScopeIDs, classified.SimName);
 
                     mapitem = new mapItemReply
-                                  {
-                                      x = (uint)
+                    {
+                        x = (uint)
                                           (region.RegionLocX + classified.GlobalPos.X +
-                                           (remoteClient.Scene.RegionInfo.RegionSizeX/2)),
-                                      y = (uint)
+                        (remoteClient.Scene.RegionInfo.RegionSizeX / 2)),
+                        y = (uint)
                                           (region.RegionLocY + classified.GlobalPos.Y +
-                                           (remoteClient.Scene.RegionInfo.RegionSizeY/2)),
-                                      id = classified.CreatorUUID,
-                                      name = classified.Name,
-                                      Extra = 0,
-                                      Extra2 = 0
-                                  };
+                        (remoteClient.Scene.RegionInfo.RegionSizeY / 2)),
+                        id = classified.CreatorUUID,
+                        name = classified.Name,
+                        Extra = 0,
+                        Extra2 = 0
+                    };
 
                     //Use global position plus half the sim so that all classifieds are not in the bottom corner
 
@@ -600,7 +599,7 @@ namespace Vision.Modules.Search
             {
                 //Get all the parcels
                 client.SendPlacesQuery(DirectoryService.GetParcelByOwner(client.AgentId).ToArray(), QueryID,
-                                       TransactionID);
+                    TransactionID);
             }
             if (QueryFlags == 256) //Group Owned
             {
@@ -622,13 +621,12 @@ namespace Vision.Modules.Search
                 accounts = new List<UserAccount>(0);
 
             AvatarPickerReplyPacket replyPacket =
-                (AvatarPickerReplyPacket) PacketPool.Instance.GetPacket(PacketType.AvatarPickerReply);
+                (AvatarPickerReplyPacket)PacketPool.Instance.GetPacket(PacketType.AvatarPickerReply);
             // TODO: don't create new blocks if recycling an old packet
 
             AvatarPickerReplyPacket.DataBlock[] searchData =
                 new AvatarPickerReplyPacket.DataBlock[accounts.Count];
-            AvatarPickerReplyPacket.AgentDataBlock agentData = new AvatarPickerReplyPacket.AgentDataBlock
-                                                                   {AgentID = avatarID, QueryID = RequestID};
+            AvatarPickerReplyPacket.AgentDataBlock agentData = new AvatarPickerReplyPacket.AgentDataBlock { AgentID = avatarID, QueryID = RequestID };
 
             replyPacket.AgentData = agentData;
 
@@ -637,11 +635,11 @@ namespace Vision.Modules.Search
             {
                 UUID translatedIDtem = item.PrincipalID;
                 searchData[i] = new AvatarPickerReplyPacket.DataBlock
-                                    {
-                                        AvatarID = translatedIDtem,
-                                        FirstName = Utils.StringToBytes(item.FirstName),
-                                        LastName = Utils.StringToBytes(item.LastName)
-                                    };
+                {
+                    AvatarID = translatedIDtem,
+                    FirstName = Utils.StringToBytes(item.FirstName),
+                    LastName = Utils.StringToBytes(item.LastName)
+                };
                 i++;
             }
             if (accounts.Count == 0)
@@ -651,31 +649,31 @@ namespace Vision.Modules.Search
             replyPacket.Data = searchData;
 
             AvatarPickerReplyAgentDataArgs agent_data = new AvatarPickerReplyAgentDataArgs
-                                                            {
-                                                                AgentID = replyPacket.AgentData.AgentID,
-                                                                QueryID = replyPacket.AgentData.QueryID
-                                                            };
+            {
+                AgentID = replyPacket.AgentData.AgentID,
+                QueryID = replyPacket.AgentData.QueryID
+            };
 
             List<AvatarPickerReplyDataArgs> data_args = new List<AvatarPickerReplyDataArgs>();
             for (i = 0; i < replyPacket.Data.Length; i++)
             {
                 AvatarPickerReplyDataArgs data_arg = new AvatarPickerReplyDataArgs
-                                                         {
-                                                             AvatarID = replyPacket.Data[i].AvatarID,
-                                                             FirstName = replyPacket.Data[i].FirstName,
-                                                             LastName = replyPacket.Data[i].LastName
-                                                         };
+                {
+                    AvatarID = replyPacket.Data[i].AvatarID,
+                    FirstName = replyPacket.Data[i].FirstName,
+                    LastName = replyPacket.Data[i].LastName
+                };
                 data_args.Add(data_arg);
             }
             client.SendAvatarPickerReply(agent_data, data_args);
         }
 
-        private void client_OnEventNotificationRemoveRequest(uint EventID, IClientAPI client)
+        void client_OnEventNotificationRemoveRequest(uint EventID, IClientAPI client)
         {
             DirectoryService.RemoveEventNofication(client.AgentId, EventID);
         }
 
-        private void client_OnEventNotificationAddRequest(uint EventID, IClientAPI client)
+        void client_OnEventNotificationAddRequest(uint EventID, IClientAPI client)
         {
             DirectoryService.AddEventNofication(client.AgentId, EventID);
         }
@@ -733,7 +731,7 @@ namespace Vision.Modules.Search
 
         public string Name
         {
-            get { return "VisionSearchModule"; }
+            get { return "SearchModule"; }
         }
 
         #endregion
