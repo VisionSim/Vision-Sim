@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,25 +25,25 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Linq;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using System;
-using System.Linq;
 
 namespace Vision.Modules.Chat
 {
     /// <summary>
     ///     This dialog module has support for mute lists
     /// </summary>
-    public class VisionDialogModule : INonSharedRegionModule, IDialogModule
+    public class DialogModule : INonSharedRegionModule, IDialogModule
     {
-        protected bool m_enabled = true;
+        protected bool m_enabled;
         protected IMuteListModule m_muteListModule;
         protected IScene m_scene;
 
@@ -82,10 +82,10 @@ namespace Vision.Modules.Chat
         public void SendGeneralAlert(string message)
         {
             m_scene.ForEachScenePresence(delegate(IScenePresence presence)
-                                             {
-                                                 if (!presence.IsChildAgent)
-                                                     presence.ControllingClient.SendAlertMessage(message);
-                                             });
+            {
+                if (!presence.IsChildAgent)
+                    presence.ControllingClient.SendAlertMessage(message);
+            });
         }
 
         public void SendDialogToUser(
@@ -108,7 +108,7 @@ namespace Vision.Modules.Chat
             //If the user is muted, we do NOT send them dialog boxes
             if (m_muteListModule != null)
             {
-                bool cached = false; //Unneeded
+                bool cached; // Not used but needed for call
 
                 if (m_muteListModule.GetMutes(avatarID, out cached).Any(mute => mute.MuteID == ownerID))
                 {
@@ -118,8 +118,16 @@ namespace Vision.Modules.Chat
 
             IScenePresence sp = m_scene.GetScenePresence(avatarID);
             if (sp != null && !sp.IsChildAgent)
-                sp.ControllingClient.SendDialog(objectName, objectID, ownerID, ownerFirstName, ownerLastName, message,
-                                                textureID, ch, buttonlabels);
+                sp.ControllingClient.SendDialog(
+                    objectName,
+                    objectID,
+                    ownerID,
+                    ownerFirstName,
+                    ownerLastName,
+                    message,
+                    textureID,
+                    ch,
+                    buttonlabels);
         }
 
         public void SendUrlToUser(
@@ -130,7 +138,7 @@ namespace Vision.Modules.Chat
             //If the user is muted, do NOT send them URL boxes
             if (m_muteListModule != null)
             {
-                bool cached = false; //Unneeded
+                bool cached; // Not used but needed for call
                 if (m_muteListModule.GetMutes(avatarID, out cached).Any(mute => mute.MuteID == ownerID))
                 {
                     return;
@@ -150,6 +158,7 @@ namespace Vision.Modules.Chat
             {
                 UserAccount account = m_scene.UserAccountService.GetUserAccount(m_scene.RegionInfo.AllScopeIDs, ownerID);
                 string ownerFirstName, ownerLastName;
+
                 if (account != null)
                 {
                     ownerFirstName = account.FirstName;
@@ -172,7 +181,7 @@ namespace Vision.Modules.Chat
                 //If the user is muted, do not send the text box
                 if (m_muteListModule != null)
                 {
-                    bool cached = false; //Unneeded
+                    bool cached; // Not used but needed for call
 
                     if (m_muteListModule.GetMutes(avatarID, out cached).Any(mute => mute.MuteID == ownerID))
                     {
@@ -180,7 +189,7 @@ namespace Vision.Modules.Chat
                     }
                 }
                 sp.ControllingClient.SendTextBoxRequest(message, chatChannel, name, ownerFirstName, ownerLastName,
-                                                        ownerID, objectID);
+                    ownerID, objectID);
             }
         }
 
@@ -188,31 +197,25 @@ namespace Vision.Modules.Chat
             UUID fromAvatarID, string fromAvatarName, string message)
         {
             m_scene.ForEachScenePresence(delegate(IScenePresence presence)
-                                             {
-                                                 if (!presence.IsChildAgent)
-                                                     presence.ControllingClient.SendBlueBoxMessage(fromAvatarID,
-                                                                                                   fromAvatarName,
-                                                                                                   message);
-                                             });
+            {
+                if (!presence.IsChildAgent)
+                    presence.ControllingClient.SendBlueBoxMessage(
+                        fromAvatarID,
+                        fromAvatarName,
+                        message);
+            });
         }
 
         #endregion
 
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource source)
+        public void Initialise(IConfigSource config)
         {
-            IConfig m_config = source.Configs["Dialog"];
-
-            if (null == m_config)
+            IConfig m_config = config.Configs["Dialog"];
+            if (m_config != null)
             {
-                m_enabled = false;
-                return;
-            }
-
-            if (m_config.GetString("DialogModule", "DialogModule") != "VisionDialogModule")
-            {
-                m_enabled = false;
+                m_enabled = m_config.GetString("DialogModule", Name) == Name;
             }
         }
 
@@ -220,6 +223,7 @@ namespace Vision.Modules.Chat
         {
             if (!m_enabled)
                 return;
+
             m_scene = scene;
             m_scene.RegisterModuleInterface<IDialogModule>(this);
             m_scene.EventManager.OnPermissionError += SendAlertToUser;
@@ -227,16 +231,23 @@ namespace Vision.Modules.Chat
             if (MainConsole.Instance != null)
             {
                 MainConsole.Instance.Commands.AddCommand(
-                    "alert user", 
-                    "alert user [first] [last] [message]", 
-                    "Send an alert to a user", 
-                    HandleAlertConsoleCommand, true, false);
+                    "alert user",
+                    "alert user <<first last> message>",
+                    "Send an alert to a user in the current region",
+                    HandleAlertConsoleCommand, true, true);
 
                 MainConsole.Instance.Commands.AddCommand(
-                    "alert general", 
-                    "alert general [message]", 
-                    "Send an alert to everyone", 
-                    HandleAlertConsoleCommand, true, false);
+                    "alert general",
+                    "alert general <message>",
+                    "Send an alert to everyone in the current region",
+                    HandleAlertConsoleCommand, true, true);
+
+                MainConsole.Instance.Commands.AddCommand(
+                    "alert broadcast",
+                    "alert broadcast <message>",
+                    "Send an alert to everyone logged in",
+                    HandleAlertConsoleCommand, false, true);
+
             }
         }
 
@@ -260,7 +271,7 @@ namespace Vision.Modules.Chat
 
         public string Name
         {
-            get { return "Dialog Module"; }
+            get { return "DialogModule"; }
         }
 
         #endregion
@@ -269,28 +280,76 @@ namespace Vision.Modules.Chat
         ///     Handle an alert command from the console.
         /// </summary>
         /// <param name="cmdparams"></param>
-        public void HandleAlertConsoleCommand(IScene scene, string[] cmdparams)
+        protected void HandleAlertConsoleCommand(IScene scene, string[] cmdparams)
         {
-            if (cmdparams[1] == "general")
-            {
-                string message = Util.CombineParams(cmdparams, 2);
+            string message = "";
+            string userName = "";
+            string cmdType = cmdparams[1].ToLower();
 
-                MainConsole.Instance.InfoFormat(
-                    "[DIALOG]: Sending general alert in region {0} with message {1}", m_scene.RegionInfo.RegionName,
-                    message);
-                SendGeneralAlert(message);
+            if (cmdType.StartsWith("g") || cmdType.StartsWith("b"))
+            {
+                // general
+                if (cmdparams.Length > 2)
+                    message = Util.CombineParams(cmdparams, 2);
+                else
+                    message = MainConsole.Instance.Prompt("Message to send?", "");
+                if (message == "")
+                    return;
+
+                if (cmdType.StartsWith("g"))
+                {
+                    MainConsole.Instance.InfoFormat("[DIALOG]: Sending general alert in region {0} with message '{1}'",
+                        scene.RegionInfo.RegionName, message);
+
+                    // send the message
+                    scene.ForEachScenePresence(delegate(IScenePresence sp)
+                    {
+                        if (!sp.IsChildAgent)
+                            sp.ControllingClient.SendAlertMessage(message);
+                    });
+                }
+                else
+                {
+
+                    MainConsole.Instance.InfoFormat("[DIALOG]: Sending broadcast alert to all regions with message '{0}'", message);
+
+                    // broadcst the message
+                    foreach (IScene scn in MainConsole.Instance.ConsoleScenes)
+                    {
+                        scn.ForEachScenePresence(delegate(IScenePresence sp)
+                        {
+                            if (!sp.IsChildAgent)
+                                sp.ControllingClient.SendAlertMessage(message);
+                        });
+                    }
+                }
+                return;
             }
+
+            // user alert
+            if (cmdparams.Length >= 4)
+                userName = cmdparams[2] + " " + cmdparams[3];
             else
-            {
-                string firstName = cmdparams[2];
-                string lastName = cmdparams[3];
-                string message = Util.CombineParams(cmdparams, 4);
+                userName = MainConsole.Instance.Prompt("User name? (First Last)", "");
+            if (userName == "")
+                return;
 
-                MainConsole.Instance.InfoFormat(
-                    "[DIALOG]: Sending alert in region {0} to {1} {2} with message {3}",
-                    m_scene.RegionInfo.RegionName, firstName, lastName, message);
-                SendAlertToUser(firstName + " " + lastName, message, false);
-            }
+            if (cmdparams.Length > 4)
+                message = Util.CombineParams(cmdparams, 4);
+            else
+                message = MainConsole.Instance.Prompt("Message to send?", "");
+            if (message == "")
+                return;
+
+
+            MainConsole.Instance.InfoFormat("[DIALOG]: Sending alert in region {0} to {1} with message '{2}'",
+                scene.RegionInfo.RegionName, userName, message);
+
+            // send the message to the user
+            IScenePresence spc = scene.SceneGraph.GetScenePresence(userName);
+            if (spc != null && !spc.IsChildAgent)
+                spc.ControllingClient.SendAgentAlertMessage(message, false);
+
         }
     }
 }

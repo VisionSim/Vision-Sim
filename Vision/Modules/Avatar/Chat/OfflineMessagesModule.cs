@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.DatabaseInterfaces;
@@ -35,45 +38,33 @@ using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Profile;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using System;
-using System.Collections.Generic;
 
 namespace Vision.Modules.Chat
 {
-    public class VisionOfflineMessageModule : INonSharedRegionModule
+    public class OfflineMessageModule : INonSharedRegionModule
     {
-        private bool enabled = true;
-        private IScene m_Scene;
-        private IMessageTransferModule m_TransferModule = null;
-        private IOfflineMessagesConnector OfflineMessagesConnector;
-        private bool m_SendOfflineMessagesToEmail = false;
+        bool m_enabled;
+        IScene m_Scene;
+        IMessageTransferModule m_TransferModule;
+        IOfflineMessagesConnector OfflineMessagesConnector;
+        bool m_SendOfflineMessagesToEmail;
 
-        private Dictionary<UUID, List<GridInstantMessage>> m_offlineMessagesCache =
+        Dictionary<UUID, List<GridInstantMessage>> m_offlineMessagesCache =
             new Dictionary<UUID, List<GridInstantMessage>>();
 
         public void Initialise(IConfigSource config)
         {
             IConfig cnf = config.Configs["Messaging"];
-            if (cnf == null)
+            if (cnf != null)
             {
-                enabled = false;
-                return;
+                m_enabled = (cnf.GetString("OfflineMessageModule", Name) == Name);
+                m_SendOfflineMessagesToEmail = cnf.GetBoolean("SendOfflineMessagesToEmail", m_SendOfflineMessagesToEmail);
             }
-            if (cnf.GetString("OfflineMessageModule", "VisionOfflineMessageModule") !=
-                "VisionOfflineMessageModule")
-            {
-                enabled = false;
-                return;
-            }
-
-            m_SendOfflineMessagesToEmail = cnf.GetBoolean("SendOfflineMessagesToEmail", m_SendOfflineMessagesToEmail);
         }
 
         public void AddRegion(IScene scene)
         {
-            if (!enabled)
+            if (!m_enabled)
                 return;
 
             m_Scene = scene;
@@ -85,7 +76,7 @@ namespace Vision.Modules.Chat
 
         public void RegionLoaded(IScene scene)
         {
-            if (!enabled)
+            if (!m_enabled)
                 return;
 
             if (m_TransferModule == null)
@@ -97,7 +88,7 @@ namespace Vision.Modules.Chat
                     scene.EventManager.OnNewClient -= OnNewClient;
                     scene.EventManager.OnClosingClient -= OnClosingClient;
 
-                    enabled = false;
+                    m_enabled = false;
                     m_Scene = null;
 
                     MainConsole.Instance.Error(
@@ -110,7 +101,7 @@ namespace Vision.Modules.Chat
 
         public void RemoveRegion(IScene scene)
         {
-            if (!enabled)
+            if (!m_enabled)
                 return;
 
             m_Scene = null;
@@ -126,7 +117,7 @@ namespace Vision.Modules.Chat
 
         public string Name
         {
-            get { return "VisionOfflineMessageModule"; }
+            get { return "OfflineMessageModule"; }
         }
 
         public Type ReplaceableInterface
@@ -138,29 +129,29 @@ namespace Vision.Modules.Chat
         {
         }
 
-        private IClientAPI FindClient(UUID agentID)
+        IClientAPI FindClient(UUID agentID)
         {
             IScenePresence presence = m_Scene.GetScenePresence(agentID);
             return (presence != null && !presence.IsChildAgent) ? presence.ControllingClient : null;
         }
 
-        private void UpdateCachedInfo(UUID agentID, CachedUserInfo info)
+        void UpdateCachedInfo(UUID agentID, CachedUserInfo info)
         {
             lock (m_offlineMessagesCache)
                 m_offlineMessagesCache[agentID] = info.OfflineMessages;
         }
 
-        private void OnNewClient(IClientAPI client)
+        void OnNewClient(IClientAPI client)
         {
             client.OnRetrieveInstantMessages += RetrieveInstantMessages;
         }
 
-        private void OnClosingClient(IClientAPI client)
+        void OnClosingClient(IClientAPI client)
         {
             client.OnRetrieveInstantMessages -= RetrieveInstantMessages;
         }
 
-        private void RetrieveInstantMessages(IClientAPI client)
+        void RetrieveInstantMessages(IClientAPI client)
         {
             if (OfflineMessagesConnector == null)
                 return;
@@ -174,28 +165,31 @@ namespace Vision.Modules.Chat
 
             if (msglist == null)
                 msglist = OfflineMessagesConnector.GetOfflineMessages(client.AgentId);
-            msglist.Sort(
-                delegate(GridInstantMessage a, GridInstantMessage b) { return a.Timestamp.CompareTo(b.Timestamp); });
+            msglist.Sort(delegate(GridInstantMessage a, GridInstantMessage b)
+            {
+                return a.Timestamp.CompareTo(b.Timestamp);
+            });
+
             foreach (GridInstantMessage IM in msglist)
             {
                 // Send through scene event manager so all modules get a chance
                 // to look at this message before it gets delivered.
                 //
-                // Needed for proper state management for stored group
-                // invitations
-                //
+                // Needed for proper state management for stored group invitations
                 IM.Offline = 1;
                 m_Scene.EventManager.TriggerIncomingInstantMessage(IM);
             }
         }
 
-        private void UndeliveredMessage(GridInstantMessage im, string reason)
+        void UndeliveredMessage(GridInstantMessage im, string reason)
         {
             if (OfflineMessagesConnector == null || im == null)
                 return;
+
             IClientAPI client = FindClient(im.FromAgentID);
             if ((client == null) && (im.Dialog != 32))
                 return;
+
             if (!OfflineMessagesConnector.AddOfflineMessage(im))
             {
                 if ((!im.FromGroup) && (reason != "User does not exist.") && (client != null))
@@ -212,17 +206,20 @@ namespace Vision.Modules.Chat
                 else if (client == null)
                     return;
             }
-            else if ((im.Offline != 0)
-                     && (!im.FromGroup || im.FromGroup))
+            else if ((im.Offline != 0) && (!im.FromGroup || im.FromGroup))
             {
                 if (im.Dialog == 32) //Group notice
                 {
                     IGroupsModule module = m_Scene.RequestModuleInterface<IGroupsModule>();
                     if (module != null)
                         im = module.BuildOfflineGroupNotice(im);
+
+                    // TODO:  This drops (supposedly) group messages and the logic above is interesting!!
                     return;
                 }
+
                 if (client == null) return;
+
                 IEmailModule emailModule = m_Scene.RequestModuleInterface<IEmailModule>();
                 if (emailModule != null && m_SendOfflineMessagesToEmail)
                 {
@@ -243,7 +240,7 @@ namespace Vision.Modules.Chat
                     }
                 }
 
-                if (im.Dialog == (byte) InstantMessageDialog.MessageFromAgent && !im.FromGroup)
+                if (im.Dialog == (byte)InstantMessageDialog.MessageFromAgent && !im.FromGroup)
                 {
                     client.SendInstantMessage(new GridInstantMessage()
                     {
@@ -257,13 +254,13 @@ namespace Vision.Modules.Chat
                     });
                 }
 
-                if (im.Dialog == (byte) InstantMessageDialog.InventoryOffered)
+                if (im.Dialog == (byte)InstantMessageDialog.InventoryOffered)
                     client.SendAlertMessage("User is not online. Inventory has been saved");
             }
             else if (im.Offline == 0)
             {
                 if (client == null) return;
-                if (im.Dialog == (byte) InstantMessageDialog.MessageFromAgent && !im.FromGroup)
+                if (im.Dialog == (byte)InstantMessageDialog.MessageFromAgent && !im.FromGroup)
                 {
                     client.SendInstantMessage(new GridInstantMessage()
                     {
@@ -277,7 +274,7 @@ namespace Vision.Modules.Chat
                     });
                 }
 
-                if (im.Dialog == (byte) InstantMessageDialog.InventoryOffered)
+                if (im.Dialog == (byte)InstantMessageDialog.InventoryOffered)
                     client.SendAlertMessage("User not able to be found. Inventory has been saved");
             }
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
@@ -36,12 +41,6 @@ using Vision.Framework.Servers.HttpServer;
 using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using GridRegion = Vision.Framework.Services.GridRegion;
 
 namespace Vision.Modules.Chat
@@ -64,9 +63,9 @@ namespace Vision.Modules.Chat
         /// </summary>
         protected static Dictionary<UUID, string> IMUsersCache = new Dictionary<UUID, string>();
 
-        private bool m_Enabled;
+        bool m_Enabled;
         protected static List<IScene> m_scenes = new List<IScene>();
-        protected bool m_addedHttpHandler = false;
+        protected bool m_addedHttpHandler;
         protected IAgentInfoService m_agentInfoService;
 
         #region IMessageTransferModule Members
@@ -135,21 +134,24 @@ namespace Vision.Modules.Chat
         public virtual void Initialise(IConfigSource config)
         {
             IConfig cnf = config.Configs["Messaging"];
-            if (cnf != null && cnf.GetString(
-                "MessageTransferModule", "MessageTransferModule") !=
-                "MessageTransferModule")
+            if (cnf != null)
+            {
+                m_Enabled = (cnf.GetString("MessageTransferModule", Name) == Name);
+
+                // only add one http handler !
+                if (!m_addedHttpHandler)
+                {
+                    m_addedHttpHandler = true;
+                    MainServer.Instance.AddStreamHandler(new GenericStreamHandler("POST", "/gridinstantmessages/", processGridInstantMessage));
+                }
+            }
+
+            if (!m_Enabled)
             {
                 MainConsole.Instance.Debug("[MESSAGE TRANSFER]: Disabled by configuration");
                 return;
             }
 
-            m_Enabled = true;
-
-            if (!m_addedHttpHandler)
-            {
-                m_addedHttpHandler = true;
-                MainServer.Instance.AddStreamHandler(new GenericStreamHandler("POST", "/gridinstantmessages/", processGridInstantMessage));
-            }
         }
 
         public virtual void AddRegion(IScene scene)
@@ -191,13 +193,12 @@ namespace Vision.Modules.Chat
 
         #endregion
 
-        private void HandleUndeliveredMessage(GridInstantMessage im, string reason)
+        void HandleUndeliveredMessage(GridInstantMessage im, string reason)
         {
             UndeliveredMessage handlerUndeliveredMessage = OnUndeliveredMessage;
 
             // If this event has handlers, then an IM from an agent will be
             // considered delivered. This will suppress the error message.
-            //
             if (handlerUndeliveredMessage != null)
             {
                 handlerUndeliveredMessage(im, reason);
@@ -210,7 +211,7 @@ namespace Vision.Modules.Chat
         protected virtual byte[] processGridInstantMessage(string path, Stream request, OSHttpRequest httpRequest, OSHttpResponse httpResponse)
         {
             GridInstantMessage gim = ProtoBuf.Serializer.Deserialize<GridInstantMessage>(request);
-            
+
             // Trigger the Instant message in the scene.
             IScenePresence user;
             bool successful = false;
@@ -236,7 +237,7 @@ namespace Vision.Modules.Chat
         protected virtual void GridInstantMessageCompleted(IAsyncResult iar)
         {
             GridInstantMessageDelegate icon =
-                (GridInstantMessageDelegate) iar.AsyncState;
+                (GridInstantMessageDelegate)iar.AsyncState;
             icon.EndInvoke(iar);
         }
 
@@ -423,7 +424,7 @@ namespace Vision.Modules.Chat
 
             //Now query the grid server for the agent
             List<string> AgentLocations = m_agentInfoService.GetAgentsLocations(im.FromAgentID.ToString(),
-                                                                 new List<string>(new[] {toAgentID.ToString()}));
+                                                                 new List<string>(new[] { toAgentID.ToString() }));
             if (AgentLocations.Count > 0)
             {
                 //No agents, so this user is offline

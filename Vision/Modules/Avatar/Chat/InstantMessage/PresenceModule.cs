@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,16 +25,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
-using Nini.Config;
-using OpenMetaverse;
-using System;
-using System.Collections.Generic;
 
 namespace Vision.Modules.Chat
 {
@@ -89,7 +88,7 @@ namespace Vision.Modules.Chat
             client.AddGenericPacketHandler("requestonlinenotification", OnRequestOnlineNotification);
         }
 
-        private void OnClosingClient(IClientAPI client)
+        void OnClosingClient(IClientAPI client)
         {
             client.RemoveGenericPacketHandler("requestonlinenotification");
         }
@@ -99,7 +98,7 @@ namespace Vision.Modules.Chat
             if (!(sender is IClientAPI))
                 return;
 
-            IClientAPI client = (IClientAPI) sender;
+            IClientAPI client = (IClientAPI)sender;
             MainConsole.Instance.DebugFormat("[PRESENCE MODULE]: OnlineNotification requested by {0}", client.Name);
 
             List<UserInfo> status = m_Scene.RequestModuleInterface<IAgentInfoService>().GetUserInfos(args);

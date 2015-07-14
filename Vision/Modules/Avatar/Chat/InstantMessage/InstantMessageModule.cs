@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,29 +25,28 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
-using Nini.Config;
-using OpenMetaverse;
-using System;
 
 namespace Vision.Modules.Chat
 {
     public class InstantMessageModule : INonSharedRegionModule
     {
-        private IScene m_Scene;
+        IScene m_Scene;
 
-        private IMessageTransferModule m_TransferModule;
+        IMessageTransferModule m_TransferModule;
 
         /// <value>
         ///     Is this module enabled?
         /// </value>
-        private bool m_enabled;
+        bool m_enabled;
 
         #region INonSharedRegionModule Members
 
@@ -55,13 +54,8 @@ namespace Vision.Modules.Chat
         {
             if (config.Configs["Messaging"] != null)
             {
-                if (config.Configs["Messaging"].GetString(
-                    "InstantMessageModule", "InstantMessageModule") !=
-                    "InstantMessageModule")
-                    return;
+                m_enabled = (config.Configs["Messaging"].GetString("InstantMessageModule", Name) == Name);
             }
-
-            m_enabled = true;
         }
 
         public void AddRegion(IScene scene)
@@ -122,12 +116,11 @@ namespace Vision.Modules.Chat
 
         #endregion
 
-        private void EventManager_OnClosingClient(IClientAPI client)
+        void EventManager_OnClosingClient(IClientAPI client)
         {
-            //client.OnInstantMessage -= OnInstantMessage;
         }
 
-        private void EventManager_OnNewClient(IClientAPI client)
+        void EventManager_OnNewClient(IClientAPI client)
         {
             client.OnInstantMessage += OnInstantMessage;
         }
@@ -136,11 +129,11 @@ namespace Vision.Modules.Chat
         {
             byte dialog = im.Dialog;
 
-            if (dialog != (byte) InstantMessageDialog.MessageFromAgent
-                && dialog != (byte) InstantMessageDialog.StartTyping
-                && dialog != (byte) InstantMessageDialog.StopTyping
-                && dialog != (byte) InstantMessageDialog.BusyAutoResponse
-                && dialog != (byte) InstantMessageDialog.MessageFromObject)
+            if (dialog != (byte)InstantMessageDialog.MessageFromAgent
+                && dialog != (byte)InstantMessageDialog.StartTyping
+                && dialog != (byte)InstantMessageDialog.StopTyping
+                && dialog != (byte)InstantMessageDialog.BusyAutoResponse
+                && dialog != (byte)InstantMessageDialog.MessageFromObject)
             {
                 return;
             }
@@ -166,14 +159,14 @@ namespace Vision.Modules.Chat
         /// <summary>
         /// </summary>
         /// <param name="msg"></param>
-        private void OnGridInstantMessage(GridInstantMessage msg)
+        void OnGridInstantMessage(GridInstantMessage msg)
         {
             byte dialog = msg.Dialog;
 
-            if (dialog != (byte) InstantMessageDialog.MessageFromAgent
-                && dialog != (byte) InstantMessageDialog.StartTyping
-                && dialog != (byte) InstantMessageDialog.StopTyping
-                && dialog != (byte) InstantMessageDialog.MessageFromObject)
+            if (dialog != (byte)InstantMessageDialog.MessageFromAgent
+                && dialog != (byte)InstantMessageDialog.StartTyping
+                && dialog != (byte)InstantMessageDialog.StopTyping
+                && dialog != (byte)InstantMessageDialog.MessageFromObject)
             {
                 return;
             }
