@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.IO;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
@@ -34,11 +38,6 @@ using Vision.Framework.Servers.HttpServer;
 using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
-using System;
-using System.IO;
 
 namespace Vision.Modules.Gods
 {
@@ -47,7 +46,7 @@ namespace Vision.Modules.Gods
         /// <summary>
         ///     Special UUID for actions that apply to all agents
         /// </summary>
-        private static readonly UUID ALL_AGENTS = new UUID("44e87126-e794-4ded-05b3-7c42da3d5cdb");
+        static readonly UUID ALL_AGENTS = new UUID("44e87126-e794-4ded-05b3-7c42da3d5cdb");
 
         protected IDialogModule m_dialogModule;
         protected IScene m_scene;
@@ -65,7 +64,7 @@ namespace Vision.Modules.Gods
                 {
                     //Unconditionally remove god levels
                     sp.GodLevel = Constants.USER_NORMAL;
-                    sp.ControllingClient.SendAdminResponse(token, (uint) sp.GodLevel);
+                    sp.ControllingClient.SendAdminResponse(token, (uint)sp.GodLevel);
                     return;
                 }
 
@@ -76,17 +75,15 @@ namespace Vision.Modules.Gods
                     if (sp.GodLevel == Constants.USER_NORMAL)
                         sp.GodLevel = Constants.USER_GOD_MAINTENANCE;
 
-                    MainConsole.Instance.Info("[GODS]: God level set for " + sp.Name + ", level " +
-                                              sp.GodLevel.ToString());
-                    sp.ControllingClient.SendAdminResponse(token, (uint) sp.GodLevel);
+                    MainConsole.Instance.InfoFormat("[GODS]: God level set for {0}, level {1}", sp.Name, sp.GodLevel);
+                    sp.ControllingClient.SendAdminResponse(token, (uint)sp.GodLevel);
                 }
                 else
                 {
                     if (m_dialogModule != null)
-                        m_dialogModule.SendAlertToUser(agentID,
-                                                       "Request for god powers denied. This request has been logged.");
+                        m_dialogModule.SendAlertToUser(agentID, "Request for god powers denied. This request has been logged.");
                     MainConsole.Instance.Info("[GODS]: God powers requested by " + sp.Name +
-                                              ", user is not allowed to have god powers");
+                        ", user is not allowed to have god powers");
                 }
             }
         }
@@ -107,11 +104,11 @@ namespace Vision.Modules.Gods
                         {
                             m_scene.ForEachClient(
                                 delegate(IClientAPI controller)
-                                    {
-                                        if (controller.AgentId != godID)
-                                            controller.Kick(reason);
-                                    }
-                                );
+                                {
+                                    if (controller.AgentId != godID)
+                                        controller.Kick(reason);
+                                }
+                            );
 
                             //This does modify this list, but we make a copy of it
                             foreach (IScenePresence p in m_scene.GetScenePresences())
@@ -217,20 +214,22 @@ namespace Vision.Modules.Gods
             retVal["UntrustedSimulatorMessage"] = CapsUtil.CreateCAPS("UntrustedSimulatorMessage", "");
 
             server.AddStreamHandler(new GenericStreamHandler("POST", retVal["UntrustedSimulatorMessage"],
-                                                             delegate(string path, Stream request,
+                delegate(string path, Stream request,
                                                                       OSHttpRequest httpRequest,
                                                                       OSHttpResponse httpResponse)
-                                                                 { return UntrustedSimulatorMessage(agentID, request); }));
+                {
+                    return UntrustedSimulatorMessage(agentID, request);
+                }));
             return retVal;
         }
 
-        private byte[] UntrustedSimulatorMessage(UUID AgentID, Stream request)
+        byte[] UntrustedSimulatorMessage(UUID AgentID, Stream request)
         {
-            OSDMap rm = (OSDMap) OSDParser.DeserializeLLSDXml(HttpServerHandlerHelpers.ReadFully(request));
+            OSDMap rm = (OSDMap)OSDParser.DeserializeLLSDXml(HttpServerHandlerHelpers.ReadFully(request));
             if (rm["message"] == "GodKickUser")
             {
-                OSDArray innerArray = ((OSDArray) ((OSDMap) rm["body"])["UserInfo"]);
-                OSDMap innerMap = (OSDMap) innerArray[0];
+                OSDArray innerArray = ((OSDArray)((OSDMap)rm["body"])["UserInfo"]);
+                OSDMap innerMap = (OSDMap)innerArray[0];
                 UUID toKick = innerMap["AgentID"].AsUUID();
                 UUID sessionID = innerMap["GodSessionID"].AsUUID();
                 string reason = innerMap["Reason"].AsString();
