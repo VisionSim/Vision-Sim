@@ -44,7 +44,7 @@ using GridRegion = Vision.Framework.Services.GridRegion;
 
 namespace Vision.Modules.Profiles
 {
-    public class VisionProfileModule : INonSharedRegionModule
+    public class ProfileModule : INonSharedRegionModule
     {
         #region Declares
 
@@ -61,10 +61,10 @@ namespace Vision.Modules.Profiles
             Online = 16
         }
 
-        private IScene m_Scene;
-        private IProfileConnector ProfileFrontend;
-        private bool m_ProfileEnabled = true;
-        private IFriendsModule m_friendsModule;
+        IScene m_Scene;
+        IProfileConnector ProfileFrontend;
+        bool m_ProfileEnabled = true;
+        IFriendsModule m_friendsModule;
 
         #endregion
 
@@ -75,7 +75,7 @@ namespace Vision.Modules.Profiles
             IConfig profileConfig = config.Configs["Profile"];
             if (profileConfig == null)
             {
-                MainConsole.Instance.Info("[VisionProfile] Not configured, disabling");
+                MainConsole.Instance.Info("[Profile] Not configured, disabling");
                 return;
             }
             if (profileConfig.GetString("ProfileModule", Name) != Name)
@@ -97,7 +97,7 @@ namespace Vision.Modules.Profiles
             scene.EventManager.OnClosingClient += OnClosingClient;
 
             IScheduledMoneyModule moneyModule = scene.RequestModuleInterface<IScheduledMoneyModule>();
-            if(moneyModule != null)
+            if (moneyModule != null)
                 moneyModule.OnUserDidNotPay += moneyModule_OnUserDidNotPay;
         }
 
@@ -127,14 +127,14 @@ namespace Vision.Modules.Profiles
 
         public string Name
         {
-            get { return "VisionProfileModule"; }
+            get { return "ProfileModule"; }
         }
 
         #endregion
 
         #region Client
 
-        private void OnClosingClient(IClientAPI client)
+        void OnClosingClient(IClientAPI client)
         {
             client.OnRequestAvatarProperties -= RequestAvatarProperty;
             client.OnUpdateAvatarProperties -= UpdateAvatarProperties;
@@ -205,7 +205,7 @@ namespace Vision.Modules.Profiles
             if (!(sender is IClientAPI))
                 return;
 
-            IClientAPI remoteClient = (IClientAPI) sender;
+            IClientAPI remoteClient = (IClientAPI)sender;
             UUID requestedUUID = new UUID(args[0]);
 
             Dictionary<UUID, string> classifieds = new Dictionary<UUID, string>();
@@ -221,11 +221,11 @@ namespace Vision.Modules.Profiles
             if (classified == null || classified.CreatorUUID == UUID.Zero)
                 return;
             remoteClient.SendClassifiedInfoReply(queryClassifiedID, classified.CreatorUUID, classified.CreationDate,
-                                                 classified.ExpirationDate, classified.Category, classified.Name,
-                                                 classified.Description, classified.ParcelUUID, classified.ParentEstate,
-                                                 classified.SnapshotUUID, classified.SimName, classified.GlobalPos,
-                                                 classified.ParcelName, classified.ClassifiedFlags,
-                                                 classified.PriceForListing);
+                classified.ExpirationDate, classified.Category, classified.Name,
+                classified.Description, classified.ParcelUUID, classified.ParentEstate,
+                classified.SnapshotUUID, classified.SimName, classified.GlobalPos,
+                classified.ParcelName, classified.ClassifiedFlags,
+                classified.PriceForListing);
         }
 
         public void ClassifiedInfoUpdate(UUID queryClassifiedID, uint queryCategory, string queryName,
@@ -238,7 +238,7 @@ namespace Vision.Modules.Profiles
 
             if (p == null)
                 return; //Just fail
-            
+
             IScheduledMoneyModule scheduledMoneyModule = p.Scene.RequestModuleInterface<IScheduledMoneyModule>();
             IMoneyModule moneyModule = p.Scene.RequestModuleInterface<IMoneyModule>();
             Classified classcheck = ProfileFrontend.GetClassified(queryClassifiedID);
@@ -258,7 +258,7 @@ namespace Vision.Modules.Profiles
                     scheduledMoneyModule.RemoveFromScheduledCharge("[Classified: " + queryClassifiedID + "]");
 
                 if (!scheduledMoneyModule.Charge(remoteClient.AgentId, queryclassifiedPrice, "Add Reoccurring Classified (" + queryClassifiedID + ")",
-                    7, TransactionType.ClassifiedCharge, "[Classified: " + queryClassifiedID + "]", true))
+                        7, TransactionType.ClassifiedCharge, "[Classified: " + queryClassifiedID + "]", true))
                 {
                     remoteClient.SendAlertMessage("You do not have enough money to create this classified.");
                     return;
@@ -291,29 +291,29 @@ namespace Vision.Modules.Profiles
                 }
             }
 
-            uint creationdate = (uint) Util.UnixTimeSinceEpoch();
+            uint creationdate = (uint)Util.UnixTimeSinceEpoch();
 
-            uint expirationdate = (uint) Util.UnixTimeSinceEpoch() + (365*24*60*60);
+            uint expirationdate = (uint)Util.UnixTimeSinceEpoch() + (365 * 24 * 60 * 60);
 
             Classified classified = new Classified
-                                        {
-                                            ClassifiedUUID = classifiedUUID,
-                                            CreatorUUID = creatorUUID,
-                                            CreationDate = creationdate,
-                                            ExpirationDate = expirationdate,
-                                            Category = category,
-                                            Name = name,
-                                            Description = description,
-                                            ParcelUUID = parceluuid,
-                                            ParentEstate = parentestate,
-                                            SnapshotUUID = snapshotUUID,
-                                            SimName = simname,
-                                            GlobalPos = globalpos,
-                                            ParcelName = parcelname,
-                                            ClassifiedFlags = classifiedFlags,
-                                            PriceForListing = classifiedPrice,
-                                            ScopeID = remoteClient.ScopeID
-                                        };
+            {
+                ClassifiedUUID = classifiedUUID,
+                CreatorUUID = creatorUUID,
+                CreationDate = creationdate,
+                ExpirationDate = expirationdate,
+                Category = category,
+                Name = name,
+                Description = description,
+                ParcelUUID = parceluuid,
+                ParentEstate = parentestate,
+                SnapshotUUID = snapshotUUID,
+                SimName = simname,
+                GlobalPos = globalpos,
+                ParcelName = parcelname,
+                ClassifiedFlags = classifiedFlags,
+                PriceForListing = classifiedPrice,
+                ScopeID = remoteClient.ScopeID
+            };
 
             ProfileFrontend.AddClassified(classified);
         }
@@ -335,7 +335,7 @@ namespace Vision.Modules.Profiles
 
         void moneyModule_OnUserDidNotPay(UUID agentID, string identifier, string paymentTextThatFailed)
         {
-            if(identifier.StartsWith("Classified"))
+            if (identifier.StartsWith("Classified"))
             {
                 Classified classcheck = ProfileFrontend.GetClassified(UUID.Parse(identifier.Replace("Classified", "")));
                 ProfileFrontend.RemoveClassified(classcheck.ClassifiedUUID);
@@ -372,7 +372,7 @@ namespace Vision.Modules.Profiles
             if (!(sender is IClientAPI))
                 return;
 
-            IClientAPI remoteClient = (IClientAPI) sender;
+            IClientAPI remoteClient = (IClientAPI)sender;
             UUID requestedUUID = new UUID(args[0]);
 
             Dictionary<UUID, string> picks = ProfileFrontend.GetPicks(requestedUUID)
@@ -385,15 +385,15 @@ namespace Vision.Modules.Profiles
             if (!(sender is IClientAPI))
                 return;
 
-            IClientAPI remoteClient = (IClientAPI) sender;
+            IClientAPI remoteClient = (IClientAPI)sender;
             UUID PickUUID = UUID.Parse(args[1]);
 
             ProfilePickInfo pick = ProfileFrontend.GetPick(PickUUID);
             if (pick != null)
                 remoteClient.SendPickInfoReply(pick.PickUUID, pick.CreatorUUID, pick.TopPick == 1 ? true : false,
-                                               pick.ParcelUUID, pick.Name, pick.Description, pick.SnapshotUUID,
-                                               pick.User, pick.OriginalName, pick.SimName, pick.GlobalPos,
-                                               pick.SortOrder, pick.Enabled == 1 ? true : false);
+                    pick.ParcelUUID, pick.Name, pick.Description, pick.SnapshotUUID,
+                    pick.User, pick.OriginalName, pick.SimName, pick.GlobalPos,
+                    pick.SortOrder, pick.Enabled == 1 ? true : false);
         }
 
         public void PickInfoUpdate(IClientAPI remoteClient, UUID pickID, UUID creatorID, bool topPick, string name,
@@ -411,14 +411,14 @@ namespace Vision.Modules.Profiles
                 remoteClient.Scene.RequestModuleInterface<IParcelManagementModule>();
             if (parcelManagement != null)
             {
-                ILandObject targetlandObj = parcelManagement.GetLandObject(pos_global.X/Constants.RegionSize,
-                                                                           pos_global.Y/Constants.RegionSize);
+                ILandObject targetlandObj = parcelManagement.GetLandObject(pos_global.X / Constants.RegionSize,
+                                                pos_global.Y / Constants.RegionSize);
 
                 if (targetlandObj != null)
                 {
                     UserAccount parcelOwner =
                         remoteClient.Scene.UserAccountService.GetUserAccount(remoteClient.AllScopeIDs,
-                                                                             targetlandObj.LandData
+                            targetlandObj.LandData
                                                                                           .OwnerID);
                     if (parcelOwner != null)
                         user = parcelOwner.Name;
@@ -430,21 +430,21 @@ namespace Vision.Modules.Profiles
             }
 
             ProfilePickInfo pick = new ProfilePickInfo
-                                       {
-                                           PickUUID = pickID,
-                                           CreatorUUID = creatorID,
-                                           TopPick = topPick ? 1 : 0,
-                                           ParcelUUID = parceluuid,
-                                           Name = name,
-                                           Description = desc,
-                                           SnapshotUUID = snapshotID,
-                                           User = user,
-                                           OriginalName = OrigionalName,
-                                           SimName = remoteClient.Scene.RegionInfo.RegionName,
-                                           GlobalPos = pos_global,
-                                           SortOrder = sortOrder,
-                                           Enabled = enabled ? 1 : 0
-                                       };
+            {
+                PickUUID = pickID,
+                CreatorUUID = creatorID,
+                TopPick = topPick ? 1 : 0,
+                ParcelUUID = parceluuid,
+                Name = name,
+                Description = desc,
+                SnapshotUUID = snapshotID,
+                User = user,
+                OriginalName = OrigionalName,
+                SimName = remoteClient.Scene.RegionInfo.RegionName,
+                GlobalPos = pos_global,
+                SortOrder = sortOrder,
+                Enabled = enabled ? 1 : 0
+            };
 
             ProfileFrontend.AddPick(pick);
         }
@@ -474,7 +474,7 @@ namespace Vision.Modules.Profiles
                 return;
             }
 
-            IClientAPI remoteClient = (IClientAPI) sender;
+            IClientAPI remoteClient = (IClientAPI)sender;
             IUserProfileInfo UPI = ProfileFrontend.GetUserProfile(remoteClient.AgentId);
             if (UPI == null)
                 return;
@@ -537,9 +537,9 @@ namespace Vision.Modules.Profiles
             if (UPI == null || TargetAccount == null)
             {
                 remoteClient.SendAvatarProperties(target, "",
-                                                  Util.ToDateTime(0).ToString("M/d/yyyy", CultureInfo.InvariantCulture),
-                                                  new Byte[1], "", 0,
-                                                  UUID.Zero, UUID.Zero, "", UUID.Zero);
+                    Util.ToDateTime(0).ToString("M/d/yyyy", CultureInfo.InvariantCulture),
+                    new Byte[1], "", 0,
+                    UUID.Zero, UUID.Zero, "", UUID.Zero);
                 return;
             }
             UserInfo TargetPI =
@@ -560,19 +560,19 @@ namespace Vision.Modules.Profiles
                 {
                     charterMember = new Byte[1];
                     if (TargetAccount != null)
-                        charterMember[0] = (Byte) ((TargetAccount.UserFlags & Constants.USER_FLAG_CHARTERMEMBER) >> 8);     // CharterMember == 0xf00
+                        charterMember[0] = (Byte)((TargetAccount.UserFlags & Constants.USER_FLAG_CHARTERMEMBER) >> 8);     // CharterMember == 0xf00
                 }
                 else
                 {
                     charterMember = Utils.StringToBytes(UPI.MembershipGroup);
                 }
                 remoteClient.SendAvatarProperties(UPI.PrincipalID, UPI.AboutText,
-                                                  Util.ToDateTime(UPI.Created).ToString("M/d/yyyy",
-                                                                                        CultureInfo.InvariantCulture),
-                                                  charterMember, UPI.FirstLifeAboutText,
-                                                  (uint)
+                    Util.ToDateTime(UPI.Created).ToString("M/d/yyyy",
+                        CultureInfo.InvariantCulture),
+                    charterMember, UPI.FirstLifeAboutText,
+                    (uint)
                                                   (TargetAccount == null ? 0 : TargetAccount.UserFlags & agentOnline),
-                                                  UPI.FirstLifeImage, UPI.Image, UPI.WebURL, UPI.Partner);
+                    UPI.FirstLifeImage, UPI.Image, UPI.WebURL, UPI.Partner);
             }
         }
 
@@ -601,28 +601,32 @@ namespace Vision.Modules.Profiles
                 UPI.MaturePublish = maturepublish;
                 ProfileFrontend.UpdateUserProfile(UPI);
             }
-            SendProfile(remoteClient, UPI,
-                        remoteClient.Scene.UserAccountService.GetUserAccount(remoteClient.AllScopeIDs,
-                                                                             remoteClient.AgentId), 16);
+
+            SendProfile(
+                remoteClient,
+                UPI,
+                remoteClient.Scene.UserAccountService.GetUserAccount(remoteClient.AllScopeIDs, remoteClient.AgentId),
+                16
+            );
         }
 
-        private void SendProfile(IClientAPI remoteClient, IUserProfileInfo Profile, UserAccount account,
-                                 uint agentOnline)
+        void SendProfile(IClientAPI remoteClient, IUserProfileInfo Profile, UserAccount account,
+                         uint agentOnline)
         {
             Byte[] charterMember;
             if (Profile.MembershipGroup == "")
             {
                 charterMember = new Byte[1];
                 if (account != null)
-                    charterMember[0] = (Byte) ((account.UserFlags & Constants.USER_FLAG_CHARTERMEMBER) >> 8);   // CharterMember == 0xf00
+                    charterMember[0] = (Byte)((account.UserFlags & Constants.USER_FLAG_CHARTERMEMBER) >> 8);   // CharterMember == 0xf00
             }
             else
                 charterMember = Utils.StringToBytes(Profile.MembershipGroup);
-            // When ChaterMember set this character └ the viewer recognizes it
-            // as a Grid Master Not sure what we will be doing with this in
-            // in Virtual Universe.
 
-            // Perhaps the Viewer Devs will shed some light on this regarding future viewer planning.
+            // When charterMember set this character └ the viewer recognizes it
+            // as a Grid Master. Not sure what we want to do with that in WhiteCore
+            //
+            // Perhaps a talk with viewer devs to allow more options for this
 
             if (Utilities.IsSystemUser(Profile.PrincipalID))
             {
@@ -634,17 +638,29 @@ namespace Vision.Modules.Profiles
                 membershipGroupINT = 4;
 
             uint flags = Convert.ToUInt32(Profile.AllowPublish) + Convert.ToUInt32(Profile.MaturePublish) +
-                         membershipGroupINT + agentOnline + (uint) (account != null ? account.UserFlags : 0);
-            remoteClient.SendAvatarInterestsReply(Profile.PrincipalID, Convert.ToUInt32(Profile.Interests.WantToMask),
-                                                  Profile.Interests.WantToText,
-                                                  Convert.ToUInt32(Profile.Interests.CanDoMask),
-                                                  Profile.Interests.CanDoText, Profile.Interests.Languages);
-            remoteClient.SendAvatarProperties(Profile.PrincipalID, Profile.AboutText,
-                                              Util.ToDateTime(Profile.Created).ToString("M/d/yyyy",
-                                                                                        CultureInfo.InvariantCulture),
-                                              charterMember, Profile.FirstLifeAboutText, flags,
-                                              Profile.FirstLifeImage, Profile.Image, Profile.WebURL,
-                                              Profile.Partner);
+                         membershipGroupINT + agentOnline + (uint)(account != null ? account.UserFlags : 0);
+
+            remoteClient.SendAvatarInterestsReply(
+                Profile.PrincipalID,
+                Convert.ToUInt32(Profile.Interests.WantToMask),
+                Profile.Interests.WantToText,
+                Convert.ToUInt32(Profile.Interests.CanDoMask),
+                Profile.Interests.CanDoText,
+                Profile.Interests.Languages
+            );
+
+            remoteClient.SendAvatarProperties(
+                Profile.PrincipalID,
+                Profile.AboutText,
+                Util.ToDateTime(Profile.Created).ToString("M/d/yyyy", CultureInfo.InvariantCulture),
+                charterMember,
+                Profile.FirstLifeAboutText,
+                flags,
+                Profile.FirstLifeImage,
+                Profile.Image,
+                Profile.WebURL,
+                Profile.Partner
+            );
         }
 
         #endregion
@@ -657,7 +673,7 @@ namespace Vision.Modules.Profiles
             if (UPI == null)
                 return;
             UserAccount account = remoteClient.Scene.UserAccountService.GetUserAccount(remoteClient.AllScopeIDs,
-                                                                                       remoteClient
+                                      remoteClient
                                                                                            .AgentId);
             remoteClient.SendUserInfoReply(UPI.Visible, UPI.IMViaEmail, account.Email);
         }
@@ -685,18 +701,18 @@ namespace Vision.Modules.Profiles
                 if (module != null)
                 {
                     int perms = module.GetFriendPerms(hunter, target);
-                    if ((perms & (int) FriendRights.CanSeeOnMap) == (int) FriendRights.CanSeeOnMap)
+                    if ((perms & (int)FriendRights.CanSeeOnMap) == (int)FriendRights.CanSeeOnMap)
                     {
                         UserInfo GUI =
                             client.Scene.RequestModuleInterface<IAgentInfoService>().GetUserInfo(target.ToString());
                         if (GUI != null && GUI.IsOnline)
                         {
                             GridRegion region = m_Scene.GridService.GetRegionByUUID(
-                                client.AllScopeIDs, GUI.CurrentRegionID);
+                                                    client.AllScopeIDs, GUI.CurrentRegionID);
 
                             client.SendScriptTeleportRequest(client.Name, region.RegionName,
-                                                             GUI.CurrentPosition,
-                                                             GUI.CurrentLookAt);
+                                GUI.CurrentPosition,
+                                GUI.CurrentLookAt);
                         }
                     }
                 }
@@ -707,7 +723,7 @@ namespace Vision.Modules.Profiles
 
         #region Helpers
 
-        private bool IsFriendOfUser(UUID friend, UUID requested)
+        bool IsFriendOfUser(UUID friend, UUID requested)
         {
             if (friend == requested)
                 return true;
