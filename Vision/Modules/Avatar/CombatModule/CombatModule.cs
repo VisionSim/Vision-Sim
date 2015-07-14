@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,18 +28,18 @@
 using System;
 using System.Collections.Generic;
 using System.Timers;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.Modules;
 using Vision.Framework.Physics;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
-using Nini.Config;
-using OpenMetaverse;
 
 
 namespace Vision.Modules.Combat
 {
-    public class VisionCombatModule : INonSharedRegionModule, ICombatModule
+    public class CombatModule : INonSharedRegionModule, ICombatModule
     {
         private readonly List<UUID> CombatAllowedAgents = new List<UUID>();
         private readonly Dictionary<string, List<UUID>> Teams = new Dictionary<string, List<UUID>>();
@@ -94,7 +94,7 @@ namespace Vision.Modules.Combat
 
         public string Name
         {
-            get { return "VisionCombatModule"; }
+            get { return "CombatModule"; }
         }
 
         public Type ReplaceableInterface
@@ -188,7 +188,7 @@ namespace Vision.Modules.Combat
 
         private void EventManager_OnRemovePresence(IScenePresence presence)
         {
-            CombatPresence m = (CombatPresence) presence.RequestModuleInterface<ICombatPresence>();
+            CombatPresence m = (CombatPresence)presence.RequestModuleInterface<ICombatPresence>();
             if (m != null)
             {
                 presence.UnregisterModuleInterface<ICombatPresence>(m);
@@ -248,7 +248,7 @@ namespace Vision.Modules.Combat
 
             try
             {
-                if ((obj.LandData.Flags & (uint) ParcelFlags.AllowDamage) != 0)
+                if ((obj.LandData.Flags & (uint)ParcelFlags.AllowDamage) != 0)
                 {
                     ICombatPresence CP = avatar.RequestModuleInterface<ICombatPresence>();
                     CP.Health = MaximumHealth;
@@ -270,12 +270,12 @@ namespace Vision.Modules.Combat
         {
             private readonly float MaximumDamageToInflict;
             private readonly float MaximumHealth;
-            private readonly VisionCombatModule m_combatModule;
+            private readonly CombatModule m_combatModule;
             private readonly ISceneEntity m_part;
             private string m_Team;
             private float m_health = 100f;
 
-            public CombatObject(VisionCombatModule module, ISceneEntity part, IConfig m_config)
+            public CombatObject(CombatModule module, ISceneEntity part, IConfig m_config)
             {
                 m_part = part;
                 m_combatModule = module;
@@ -327,46 +327,8 @@ namespace Vision.Modules.Combat
 
             public void PhysicsActor_OnCollisionUpdate(EventArgs e)
             {
-                /*if (HasLeftCombat)
-                    return;
-                */
                 if (e == null)
                     return;
-
-                /*CollisionEventUpdate collisionData = (CollisionEventUpdate) e;
-                Dictionary<uint, ContactPoint> coldata = collisionData.m_objCollisionList;
-
-                UUID killerObj = UUID.Zero;
-                foreach (uint localid in coldata.Keys)
-                {
-                    ISceneChildEntity part = m_part.Scene.GetSceneObjectPart(localid);
-                    if (part != null && part.ParentEntity.Damage != -1.0f)
-                    {
-                        if (part.ParentEntity.Damage > MaximumDamageToInflict)
-                            part.ParentEntity.Damage = MaximumDamageToInflict;
-
-                        Health -= part.ParentEntity.Damage;
-                        if (Health <= 0.0f)
-                            killerObj = part.UUID;
-                    }
-                    else
-                    {
-                        float Z = Math.Abs(m_part.Velocity.Z);
-                        if (coldata[localid].PenetrationDepth >= 0.05f)
-                            Health -= coldata[localid].PenetrationDepth*Z;
-                    }
-
-                    //Regenerate health (this is approx 1 sec)
-                    if ((int) (Health + 0.0625) <= m_combatModule.MaximumHealth)
-                        Health += 0.0625f;
-
-                    if (Health > m_combatModule.MaximumHealth)
-                        Health = m_combatModule.MaximumHealth;
-                }
-                if (Health <= 0)
-                {
-                    Die(killerObj);
-                }*/
             }
 
             public void LeaveCombat()
@@ -392,7 +354,7 @@ namespace Vision.Modules.Combat
                 if (damage > MaximumDamageToInflict)
                     damage = MaximumDamageToInflict;
                 float health = Health;
-                health -= (float) damage;
+                health -= (float)damage;
                 if (health <= 0)
                     Die(OwnerID);
             }
@@ -406,7 +368,7 @@ namespace Vision.Modules.Combat
                 if (damage > MaximumDamageToInflict)
                     damage = MaximumDamageToInflict;
                 float health = Health;
-                health -= (float) damage;
+                health -= (float)damage;
                 if (health <= 0)
                     Die(OwnerID);
             }
@@ -417,7 +379,7 @@ namespace Vision.Modules.Combat
                     return;
 
                 float health = Health;
-                health += (float) healing;
+                health += (float)healing;
                 if (health >= MaximumHealth)
                     health = MaximumHealth;
             }
@@ -426,7 +388,7 @@ namespace Vision.Modules.Combat
             {
                 foreach (IScriptModule m in m_part.Scene.RequestModuleInterfaces<IScriptModule>())
                 {
-                    m.PostObjectEvent(m_part.UUID, "dead_object", new object[] {OwnerID});
+                    m.PostObjectEvent(m_part.UUID, "dead_object", new object[] { OwnerID });
                 }
             }
 
@@ -447,9 +409,8 @@ namespace Vision.Modules.Combat
             private readonly Timer m_healthtimer = new Timer();
             private IScenePresence m_SP;
             private string m_Team = "No Team";
-            private VisionCombatModule m_combatModule;
+            private CombatModule m_combatModule;
             private float m_health = 100f;
-            //private Dictionary<string, float> GenericStats = new Dictionary<string, float>();
 
             public float Health
             {
@@ -484,7 +445,7 @@ namespace Vision.Modules.Combat
 
             #region Initialization/Close
 
-            public CombatPresence(VisionCombatModule module, IScenePresence SP, IConfig m_config)
+            public CombatPresence(CombatModule module, IScenePresence SP, IConfig m_config)
             {
                 m_SP = SP;
                 m_combatModule = module;
@@ -533,7 +494,7 @@ namespace Vision.Modules.Combat
                 if (m_SP == null || m_SP.Scene == null || m_SP.Invulnerable || HasLeftCombat || e == null)
                     return;
 
-                CollisionEventUpdate collisionData = (CollisionEventUpdate) e;
+                CollisionEventUpdate collisionData = (CollisionEventUpdate)e;
                 Dictionary<uint, ContactPoint> coldata = collisionData.GetCollisionEvents();
 
                 float starthealth = Health;
@@ -589,7 +550,7 @@ namespace Vision.Modules.Combat
                         {
                             Z = Math.Max(Z, 1.5f) * 10;
                             float damage = Math.Min(coldata[localid].PenetrationDepth, 15f);
-                            Health -= damage*Z;
+                            Health -= damage * Z;
                         }
                     }
 
@@ -639,10 +600,8 @@ namespace Vision.Modules.Combat
                         {
                             m_SP.AllowMovement = false;
                             this.HasLeftCombat = true;
-                            Timer t = new Timer
-                                          {Interval = m_combatModule.m_SecondsBeforeRespawn*1000, AutoReset = false};
-                            //Use this to reenable movement and combat
-                            //Only once
+                            Timer t = new Timer { Interval = m_combatModule.m_SecondsBeforeRespawn * 1000, AutoReset = false };
+                            //Use this only once to reenable movement and combat
                             t.Elapsed += respawn_Elapsed;
                             t.Start();
                         }
@@ -657,8 +616,8 @@ namespace Vision.Modules.Combat
                             {
                                 if (m_SP.PhysicsActor != null)
                                     m_SP.PhysicsActor.Flying = true;
-                                m_SP.Teleport(new Vector3(m_SP.Scene.RegionInfo.RegionSizeX/2,
-                                                          m_SP.Scene.RegionInfo.RegionSizeY/2, 128));
+                                m_SP.Teleport(new Vector3(m_SP.Scene.RegionInfo.RegionSizeX / 2,
+                                                          m_SP.Scene.RegionInfo.RegionSizeY / 2, 128));
                             }
                     }
                 }
@@ -735,7 +694,7 @@ namespace Vision.Modules.Combat
                     IEntityTransferModule entityTransfer = m_SP.Scene.RequestModuleInterface<IEntityTransferModule>();
                     if (entityTransfer != null)
                         entityTransfer.RequestTeleportLocation(m_SP.ControllingClient, RegionName, pos, lookat,
-                                                               (uint) TeleportFlags.ViaHome);
+                                                               (uint)TeleportFlags.ViaHome);
                 }
             }
 
@@ -745,7 +704,7 @@ namespace Vision.Modules.Combat
                     return;
                 if (!this.HasLeftCombat || !m_combatModule.ForceRequireCombatPermission)
                 {
-                    m_health += (float) healing;
+                    m_health += (float)healing;
                     if (m_health >= m_combatModule.MaximumHealth)
                         m_health = m_combatModule.MaximumHealth;
 
@@ -762,7 +721,7 @@ namespace Vision.Modules.Combat
                 {
                     if (damage > m_combatModule.MaximumDamageToInflict)
                         damage = m_combatModule.MaximumDamageToInflict;
-                    m_health -= (float) damage;
+                    m_health -= (float)damage;
                     m_SP.ControllingClient.SendHealth(Health);
                     if (Health <= 0)
                     {
