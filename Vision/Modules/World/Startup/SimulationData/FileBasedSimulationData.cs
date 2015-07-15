@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,20 +25,20 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Timers;
+using Nini.Config;
+using OpenMetaverse;
+using ProtoBuf;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Utilities;
 using Vision.Region;
-using Nini.Config;
-using OpenMetaverse;
-using ProtoBuf;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Timers;
 using Timer = System.Timers.Timer;
 
 namespace Vision.Modules
@@ -157,7 +157,7 @@ namespace Vision.Modules
             {
                 if (Path.GetFileName (regBak).StartsWith(regionName)) 
                 {
-                    //        MainConsole.Instance.Debug ("Found: " + Path.GetFileNameWithoutExtension (regBak));
+                    // MainConsole.Instance.Debug ("Found: " + Path.GetFileNameWithoutExtension (regBak));
                     regionBaks.Add ( regBak);
                 }
             }
@@ -418,6 +418,8 @@ namespace Vision.Modules
                     // Estate regions
                     info.RegionType = "Estate / ";                   
                     responses.Add("Full Region");
+                    responses.Add("Homestead");
+                    responses.Add("Openspace");
                     responses.Add ("Vision");                            // TODO: Vision 'standard' setup, rename??
                     responses.Add ("Custom");
                     setupMode = MainConsole.Instance.Prompt("Estate region type?","Full Region", responses).ToLower();
@@ -508,7 +510,6 @@ namespace Vision.Modules
                 {
                     // 'Homestead' setup
                     info.RegionType = info.RegionType + "Homestead";                   
-                    //info.RegionPort;            // use auto assigned port
                     if (bigRegion)
                         info.RegionTerrain = "Flatland";
                     else if
