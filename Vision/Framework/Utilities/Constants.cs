@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -100,5 +100,16 @@ namespace Vision.Framework.Utilities
         public const int USER_FLAG_MEMBER = 600;        // Member Estate: Payment info on account
         public const int USER_FLAG_CONTRACTOR = 800;        // Contracted
         public const int USER_FLAG_CHARTERMEMBER = 3840;    // Charter member
+
+        // stipend flags
+        public const int SCHEDULER_INTERVAL = 300;          // seconds between scheduler checks
+  
+        public const string STIPEND_PAY_DAY = "tuesday";    // the day stipend payments are processed
+        public const string STIPEND_PAY_TIME = "00:05";     // the time, hh:mm, when stipend payments are processed
+        public const string STIPEND_PAY_PERIOD = "week";    // how often we process stipends
+        public const int STIPEND_PAY_INTERVAL = 1;          // number of period between payments (hours, weeks etc.)
+        public const int STIPEND_RECENT_LOGIN_PERIOD = 7 * 24 * 60 * 60;    // week (of seconds)
+
+        public const int GROUP_PAYMENTS_DELAY = 15;         // minutes to wait after stipend payments before processing group payments
     }
 }
