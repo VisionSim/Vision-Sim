@@ -47,7 +47,6 @@ namespace Vision.Modules.Estate
         string LastEstateOwner = Constants.RealEstateOwnerName;
         protected IRegistryCore m_registry;
 
-
         public void Initialise(IScene scene, IConfigSource source, ISimulationBase simBase)
         {
             scene.StackModuleInterface<IWhiteCoreBackupModule>(this);
@@ -155,7 +154,6 @@ namespace Vision.Modules.Estate
         /// <param name="scene">Scene.</param>
         EstateSettings CreateEstateInfo(IScene scene)
         {
-
             // check for regionType to determine if this is 'Mainland' or an 'Estate'
             string regType = scene.RegionInfo.RegionType.ToLower();
             if (regType.StartsWith("m"))
@@ -165,7 +163,6 @@ namespace Vision.Modules.Estate
 
             // we are linking to a user estate
             IEstateConnector estateConnector = Framework.Utilities.DataManager.RequestPlugin<IEstateConnector>();
-            ISystemEstateService sysEstateInfo = m_registry.RequestModuleInterface<ISystemEstateService>();
             ISystemAccountService sysAccounts = m_registry.RequestModuleInterface<ISystemAccountService>();
 
             string sysEstateOwnerName;
@@ -175,7 +172,6 @@ namespace Vision.Modules.Estate
                 sysEstateOwnerName = sysAccounts.SystemEstateOwnerName;
             else
                 sysEstateOwnerName = sysAccount.Name;
-
 
             // This is an 'Estate' so get some details....
             LastEstateOwner = sysEstateOwnerName;
@@ -241,7 +237,6 @@ namespace Vision.Modules.Estate
                 }
                 else
                     LastEstateName = ownerEstates[0].EstateName;
-
 
                 // we should have a user account and estate name by now
                 int estateID = estateConnector.GetEstate(account.PrincipalID, LastEstateName);
@@ -313,7 +308,6 @@ namespace Vision.Modules.Estate
                     MainConsole.Instance.Warn("[Estate]: No action has been taken.");
             }
         }
-
 
         public bool IsArchiving
         {

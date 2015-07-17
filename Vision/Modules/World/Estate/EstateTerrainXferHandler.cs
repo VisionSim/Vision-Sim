@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,12 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using OpenMetaverse;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Utilities;
-using OpenMetaverse;
-using System;
 
 namespace Vision.Modules.Estate
 {
@@ -42,16 +41,15 @@ namespace Vision.Modules.Estate
 
         #endregion
 
-        private readonly AssetBase m_asset;
-        private readonly object _lock = new object();
+        readonly AssetBase m_asset;
+        readonly object _lock = new object();
 
-        private TerrainUploadComplete handlerTerrainUploadDone;
+        TerrainUploadComplete handlerTerrainUploadDone;
         public ulong mXferID;
 
         public EstateTerrainXferHandler(IClientAPI pRemoteClient, string pClientFilename)
         {
-            m_asset = new AssetBase(UUID.Zero, pClientFilename, AssetType.Texture, pRemoteClient.AgentId)
-                          {Data = new byte[0], Description = "empty", Flags = AssetFlags.Temporary | AssetFlags.Local};
+            m_asset = new AssetBase(UUID.Zero, pClientFilename, AssetType.Texture, pRemoteClient.AgentId) { Data = new byte[0], Description = "empty", Flags = AssetFlags.Temporary | AssetFlags.Local };
         }
 
         public ulong XferID
@@ -65,7 +63,7 @@ namespace Vision.Modules.Estate
         {
             mXferID = Util.GetNextXferID();
             pRemoteClient.SendXferRequest(mXferID, short.Parse(m_asset.Type.ToString()), m_asset.ID, 0,
-                                          Utils.StringToBytes(m_asset.Name));
+                Utils.StringToBytes(m_asset.Name));
         }
 
         /// <summary>

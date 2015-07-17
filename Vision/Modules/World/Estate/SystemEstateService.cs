@@ -148,6 +148,7 @@ namespace Vision.Modules.Estate
         }
 
         #region systemEstate
+
         /// <summary>
         /// Checks for a valid system estate. Adds or corrects if required
         /// </summary>
@@ -192,7 +193,6 @@ namespace Vision.Modules.Estate
             {
                 MainConsole.Instance.Warn("There was an error in creating the system estate: " + ES.EstateName);
                 //EstateName holds the error. See LocalEstateConnector for more info.
-
             }
             else
             {
@@ -299,7 +299,6 @@ namespace Vision.Modules.Estate
                 MainConsole.Instance.InfoFormat("[EstateService]: The system Estate details have been reset");
             else
                 MainConsole.Instance.InfoFormat("[EstateService]: Estate details are correct as configured");
-
         }
 
         protected void CreateEstateCommand(IScene scene, string[] cmd)
@@ -601,8 +600,7 @@ namespace Vision.Modules.Estate
             if (ES != null)
                 if (estateConnector.LinkRegion(region.RegionID, (int)ES.EstateID))
                     MainConsole.Instance.Warn("'" + regionName + "' has been placed in the '" +
-                        sysEstateInfo.SystemEstateName + "' estate until re-assigned");
-
+                    sysEstateInfo.SystemEstateName + "' estate until re-assigned");
         }
 
         /// <summary>
@@ -653,7 +651,6 @@ namespace Vision.Modules.Estate
                 MainConsole.Instance.CleanInfo(estateInfo);
             }
             MainConsole.Instance.CleanInfo("\n");
-
         }
 
         /// <summary>
@@ -663,7 +660,6 @@ namespace Vision.Modules.Estate
         /// <param name="cmd">Cmd.</param>
         void ShowEstateRegionsCommand(IScene scene, string[] cmd)
         {
-
             IEstateConnector estateConnector = Framework.Utilities.DataManager.RequestPlugin<IEstateConnector>();
             IGridService gridService = m_registry.RequestModuleInterface<IGridService>();
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,6 +25,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.DatabaseInterfaces;
@@ -34,14 +42,6 @@ using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Profile;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
 using RegionFlags = Vision.Framework.Services.RegionFlags;
 
 namespace Vision.Modules.Estate
@@ -50,18 +50,18 @@ namespace Vision.Modules.Estate
     {
         #region Declares
 
-        private readonly Dictionary<UUID, int> LastTelehub = new Dictionary<UUID, int>();
-        private readonly Dictionary<UUID, int> TimeSinceLastTeleport = new Dictionary<UUID, int>();
-        private IScene m_scene;
-        private string[] BanCriteria = new string[0];
-        private bool ForceLandingPointsOnCrossing;
-        private bool LoginsDisabled = true;
-        private IRegionConnector RegionConnector;
-        private float SecondsBeforeNextTeleport = 3;
-        private bool StartDisabled;
-        private bool m_enabled;
-        private bool m_enabledBlockTeleportSeconds;
-        private bool m_checkMaturityLevel = true;
+        readonly Dictionary<UUID, int> LastTelehub = new Dictionary<UUID, int>();
+        readonly Dictionary<UUID, int> TimeSinceLastTeleport = new Dictionary<UUID, int>();
+        IScene m_scene;
+        string[] BanCriteria = new string[0];
+        bool ForceLandingPointsOnCrossing;
+        bool LoginsDisabled = true;
+        IRegionConnector RegionConnector;
+        float SecondsBeforeNextTeleport = 3;
+        bool StartDisabled;
+        bool m_enabled;
+        bool m_enabledBlockTeleportSeconds;
+        bool m_checkMaturityLevel = true;
 
         #endregion
 
@@ -119,19 +119,19 @@ namespace Vision.Modules.Estate
             AgentCircuitData circuitData = scene.AuthenticateHandler.GetAgentCircuitData(SP.UUID);
 
             ES.AddBan(new EstateBan
-                          {
-                              BannedHostAddress = circuitData.IPAddress,
-                              BannedHostIPMask = circuitData.IPAddress,
-                              BannedHostNameMask = circuitData.IPAddress,
-                              BannedUserID = SP.UUID,
-                              EstateID = ES.EstateID
-                          });
+            {
+                BannedHostAddress = circuitData.IPAddress,
+                BannedHostIPMask = circuitData.IPAddress,
+                BannedHostNameMask = circuitData.IPAddress,
+                BannedUserID = SP.UUID,
+                EstateID = ES.EstateID
+            });
             Vision.Framework.Utilities.DataManager.RequestPlugin<IEstateConnector>().
                 SaveEstateSettings(ES);
             if (alert != "")
                 SP.ControllingClient.Kick(alert);
             else
-                SP.ControllingClient.Kick("\nThe Vision manager banned and kicked you out.\n");
+                SP.ControllingClient.Kick("\nThe WhiteCore manager banned and kicked you out.\n");
 
             // kick client...
             IEntityTransferModule transferModule = SP.Scene.RequestModuleInterface<IEntityTransferModule>();
@@ -199,11 +199,11 @@ namespace Vision.Modules.Estate
             if (cmdparams[2] == "AddEstateBan".ToLower())
             {
                 EstateBan EB = new EstateBan
-                                   {
-                                       BannedUserID =
+                {
+                    BannedUserID =
                                            m_scene.UserAccountService.GetUserAccount(null, cmdparams[3],
-                                                                                         cmdparams[4]).PrincipalID
-                                   };
+                        cmdparams[4]).PrincipalID
+                };
                 m_scene.RegionInfo.EstateSettings.AddBan(EB);
             }
             if (cmdparams[2] == "AddEstateManager".ToLower())
@@ -242,14 +242,14 @@ namespace Vision.Modules.Estate
 
         #region Client
 
-        private void OnNewClient(IClientAPI client)
+        void OnNewClient(IClientAPI client)
         {
             client.OnGodlikeMessage += GodlikeMessage;
             client.OnEstateTelehubRequest += GodlikeMessage;
             //This is ok, we do estate checks and check to make sure that only telehubs are dealt with here
         }
 
-        private void OnClosingClient(IClientAPI client)
+        void OnClosingClient(IClientAPI client)
         {
             client.OnGodlikeMessage -= GodlikeMessage;
             client.OnEstateTelehubRequest -= GodlikeMessage;
@@ -273,7 +273,7 @@ namespace Vision.Modules.Estate
                 if (parameter1 == "spawnpoint remove")
                 {
                     Telehub telehub = RegionConnector.FindTelehub(client.Scene.RegionInfo.RegionID,
-                                                                  client.Scene.RegionInfo.RegionHandle);
+                                          client.Scene.RegionInfo.RegionHandle);
                     if (telehub == null)
                         return;
                     //Remove the one we sent at X
@@ -289,7 +289,7 @@ namespace Vision.Modules.Estate
                     if (part == null)
                         return;
                     Telehub telehub = RegionConnector.FindTelehub(client.Scene.RegionInfo.RegionID,
-                                                                  client.Scene.RegionInfo.RegionHandle);
+                                          client.Scene.RegionInfo.RegionHandle);
                     if (telehub == null)
                         return;
                     telehub.RegionLocX = client.Scene.RegionInfo.RegionLocX;
@@ -317,7 +317,7 @@ namespace Vision.Modules.Estate
                     if (part == null)
                         return;
                     Telehub telehub = RegionConnector.FindTelehub(client.Scene.RegionInfo.RegionID,
-                                                                  client.Scene.RegionInfo.RegionHandle);
+                                          client.Scene.RegionInfo.RegionHandle);
                     if (telehub == null)
                         telehub = new Telehub();
                     telehub.RegionLocX = client.Scene.RegionInfo.RegionLocX;
@@ -342,12 +342,12 @@ namespace Vision.Modules.Estate
             }
         }
 
-        private void SendTelehubInfo(IClientAPI client)
+        void SendTelehubInfo(IClientAPI client)
         {
             if (RegionConnector != null)
             {
                 Telehub telehub = RegionConnector.FindTelehub(client.Scene.RegionInfo.RegionID,
-                                                              client.Scene.RegionInfo.RegionHandle);
+                                      client.Scene.RegionInfo.RegionHandle);
                 if (telehub == null)
                 {
                     client.SendTelehubInfo(Vector3.Zero, Quaternion.Identity, new List<Vector3>(), UUID.Zero, "");
@@ -365,8 +365,8 @@ namespace Vision.Modules.Estate
 
         #region Teleport Permissions
 
-        private bool OnAllowedIncomingTeleport(UUID userID, IScene scene, Vector3 Position, uint TeleportFlags,
-                                               out Vector3 newPosition, out string reason)
+        bool OnAllowedIncomingTeleport(UUID userID, IScene scene, Vector3 Position, uint TeleportFlags,
+                                       out Vector3 newPosition, out string reason)
         {
             newPosition = Position;
             UserAccount account = scene.UserAccountService.GetUserAccount(scene.RegionInfo.AllScopeIDs, userID);
@@ -453,7 +453,7 @@ namespace Vision.Modules.Estate
                 }
             }
             //Move them out of banned parcels
-            ParcelFlags parcelflags = (ParcelFlags) ILO.LandData.Flags;
+            ParcelFlags parcelflags = (ParcelFlags)ILO.LandData.Flags;
             if ((parcelflags & ParcelFlags.UseAccessGroup) == ParcelFlags.UseAccessGroup &&
                 (parcelflags & ParcelFlags.UseAccessList) == ParcelFlags.UseAccessList &&
                 (parcelflags & ParcelFlags.UsePassList) == ParcelFlags.UsePassList)
@@ -510,7 +510,7 @@ namespace Vision.Modules.Estate
             }
 
             EstateSettings ES = scene.RegionInfo.EstateSettings;
-            TeleportFlags tpflags = (TeleportFlags) TeleportFlags;
+            TeleportFlags tpflags = (TeleportFlags)TeleportFlags;
             const TeleportFlags allowableFlags =
                 OpenMetaverse.TeleportFlags.ViaLandmark | OpenMetaverse.TeleportFlags.ViaHome |
                 OpenMetaverse.TeleportFlags.ViaLure |
@@ -519,8 +519,8 @@ namespace Vision.Modules.Estate
 
             //If the user wants to force landing points on crossing, we act like they are not crossing, otherwise, check the child property and that the ViaRegionID is set
             bool isCrossing = !ForceLandingPointsOnCrossing && (Sp != null && Sp.IsChildAgent &&
-                                                                ((tpflags & OpenMetaverse.TeleportFlags.ViaRegionID) ==
-                                                                 OpenMetaverse.TeleportFlags.ViaRegionID));
+                              ((tpflags & OpenMetaverse.TeleportFlags.ViaRegionID) ==
+                              OpenMetaverse.TeleportFlags.ViaRegionID));
             //Move them to the nearest landing point
             if (!((tpflags & allowableFlags) != 0) && !isCrossing && !ES.AllowDirectTeleport)
             {
@@ -529,7 +529,7 @@ namespace Vision.Modules.Estate
                 if (!scene.Permissions.IsGod(userID))
                 {
                     Telehub telehub = RegionConnector.FindTelehub(scene.RegionInfo.RegionID,
-                                                                  scene.RegionInfo.RegionHandle);
+                                          scene.RegionInfo.RegionHandle);
                     if (telehub != null)
                     {
                         if (telehub.SpawnPos.Count == 0)
@@ -542,7 +542,7 @@ namespace Vision.Modules.Estate
                             if (!LastTelehub.TryGetValue(scene.RegionInfo.RegionID, out LastTelehubNum))
                                 LastTelehubNum = 0;
                             Position = telehub.SpawnPos[LastTelehubNum] +
-                                       new Vector3(telehub.TelehubLocX, telehub.TelehubLocY, telehub.TelehubLocZ);
+                            new Vector3(telehub.TelehubLocX, telehub.TelehubLocY, telehub.TelehubLocZ);
                             LastTelehubNum++;
                             if (LastTelehubNum == telehub.SpawnPos.Count)
                                 LastTelehubNum = 0;
@@ -552,12 +552,12 @@ namespace Vision.Modules.Estate
                 }
             }
             else if (!((tpflags & allowableFlags) != 0) && !isCrossing &&
-                     !scene.Permissions.GenericParcelPermission(userID, ILO, (ulong) GroupPowers.None))
-                //Telehubs override parcels
+                   !scene.Permissions.GenericParcelPermission(userID, ILO, (ulong)GroupPowers.None))
+            //Telehubs override parcels
             {
                 if (Sp != null)
                     Sp.ClearSavedVelocity(); //If we are moving the agent, clear their velocity
-                if (ILO.LandData.LandingType == (int) LandingType.None) //Blocked, force this person off this land
+                if (ILO.LandData.LandingType == (int)LandingType.None) //Blocked, force this person off this land
                 {
                     //Find a new parcel for them
                     List<ILandObject> Parcels = parcelManagement.ParcelsNearPoint(Position);
@@ -572,9 +572,9 @@ namespace Vision.Modules.Estate
                         foreach (ILandObject Parcel in Parcels.Where(Parcel => !Parcel.IsBannedFromLand(userID)))
                         {
                             //Now we have to check their userloc
-                            if (ILO.LandData.LandingType == (int) LandingType.None)
+                            if (ILO.LandData.LandingType == (int)LandingType.None)
                                 continue; //Blocked, check next one
-                            else if (ILO.LandData.LandingType == (int) LandingType.LandingPoint)
+                            else if (ILO.LandData.LandingType == (int)LandingType.LandingPoint)
                                 //Use their landing spot
                                 newPosition = Parcel.LandData.UserLocation;
                             else //They allow for anywhere, so dump them in the center at the ground
@@ -594,7 +594,7 @@ namespace Vision.Modules.Estate
                         }
                     }
                 }
-                else if (ILO.LandData.LandingType == (int) LandingType.LandingPoint) //Move to tp spot
+                else if (ILO.LandData.LandingType == (int)LandingType.LandingPoint) //Move to tp spot
                     newPosition = ILO.LandData.UserLocation != Vector3.Zero
                                       ? ILO.LandData.UserLocation
                                       : parcelManagement.GetNearestRegionEdgePosition(Sp);
@@ -605,7 +605,7 @@ namespace Vision.Modules.Estate
             {
                 //Can only enter prelude regions once!
                 if (scene.RegionInfo.RegionFlags != -1 &&
-                    ((scene.RegionInfo.RegionFlags & (int) RegionFlags.Prelude) == (int) RegionFlags.Prelude) &&
+                    ((scene.RegionInfo.RegionFlags & (int)RegionFlags.Prelude) == (int)RegionFlags.Prelude) &&
                     agentInfo != null)
                 {
                     if (agentInfo.OtherAgentInformation.ContainsKey("Prelude" + scene.RegionInfo.RegionID))
@@ -616,7 +616,7 @@ namespace Vision.Modules.Estate
                     else
                     {
                         agentInfo.OtherAgentInformation.Add("Prelude" + scene.RegionInfo.RegionID,
-                                                            OSD.FromInteger((int) IAgentFlags.PastPrelude));
+                            OSD.FromInteger((int)IAgentFlags.PastPrelude));
                         AgentConnector.UpdateAgent(agentInfo);
                     }
                 }
@@ -632,18 +632,18 @@ namespace Vision.Modules.Estate
             }
 
 
-            if ((ILO.LandData.Flags & (int) ParcelFlags.DenyAnonymous) != 0)
+            if ((ILO.LandData.Flags & (int)ParcelFlags.DenyAnonymous) != 0)
             {
                 if (account != null &&
-                    (account.UserFlags & (int) IUserProfileInfo.ProfileFlags.NoPaymentInfoOnFile) ==
-                    (int) IUserProfileInfo.ProfileFlags.NoPaymentInfoOnFile)
+                    (account.UserFlags & (int)IUserProfileInfo.ProfileFlags.NoPaymentInfoOnFile) ==
+                    (int)IUserProfileInfo.ProfileFlags.NoPaymentInfoOnFile)
                 {
                     reason = "You may not enter this region.";
                     return false;
                 }
             }
 
-            if ((ILO.LandData.Flags & (uint) ParcelFlags.DenyAgeUnverified) != 0 && agentInfo != null)
+            if ((ILO.LandData.Flags & (uint)ParcelFlags.DenyAgeUnverified) != 0 && agentInfo != null)
             {
                 if ((agentInfo.Flags & IAgentFlags.Minor) == IAgentFlags.Minor)
                 {
@@ -656,7 +656,7 @@ namespace Vision.Modules.Estate
             ITerrainChannel chan = scene.RequestModuleInterface<ITerrainChannel>();
             if (chan != null)
             {
-                float posZLimit = chan[(int) newPosition.X, (int) newPosition.Y] + (float) 1.25;
+                float posZLimit = chan[(int)newPosition.X, (int)newPosition.Y] + (float)1.25;
 
                 if (posZLimit >= (newPosition.Z) && !(Single.IsInfinity(posZLimit) || Single.IsNaN(posZLimit)))
                 {
@@ -664,12 +664,11 @@ namespace Vision.Modules.Estate
                 }
             }
 
-            //newPosition = Position;
             reason = "";
             return true;
         }
 
-        private bool OnAllowedIncomingAgent(IScene scene, AgentCircuitData agent, bool isRootAgent, out string reason)
+        bool OnAllowedIncomingAgent(IScene scene, AgentCircuitData agent, bool isRootAgent, out string reason)
         {
             #region Incoming Agent Checks
 
@@ -699,7 +698,7 @@ namespace Vision.Modules.Estate
                     }
                 }
                 TimeSinceLastTeleport[Sp.Scene.RegionInfo.RegionID] = Util.UnixTimeSinceEpoch() +
-                                                                      ((int) (SecondsBeforeNextTeleport));
+                ((int)(SecondsBeforeNextTeleport));
             }
 
             //Gods tp freely
@@ -719,7 +718,7 @@ namespace Vision.Modules.Estate
                         reason = "You have been banned from this region.";
                         return false;
                     }
-                    else if (((IPEndPoint) Sp.ControllingClient.GetClientEP()).Address.ToString().Contains(banstr))
+                    else if (((IPEndPoint)Sp.ControllingClient.GetClientEP()).Address.ToString().Contains(banstr))
                     {
                         reason = "You have been banned from this region.";
                         return false;
@@ -731,19 +730,19 @@ namespace Vision.Modules.Estate
                 {
                     reason =
                         String.Format(
-                            "Failed to verify user presence in the grid for {0} in region {1}. Presence service does not exist.",
-                            account.Name, scene.RegionInfo.RegionName);
+                        "Failed to verify user presence in the grid for {0} in region {1}. Presence service does not exist.",
+                        account.Name, scene.RegionInfo.RegionName);
                     return false;
                 }
 
                 UserInfo pinfo = presence.GetUserInfo(agent.AgentID.ToString());
 
-                if (pinfo == null || (!pinfo.IsOnline && ((agent.TeleportFlags & (uint) TeleportFlags.ViaLogin) == 0)))
+                if (pinfo == null || (!pinfo.IsOnline && ((agent.TeleportFlags & (uint)TeleportFlags.ViaLogin) == 0)))
                 {
                     reason =
                         String.Format(
-                            "Failed to verify user presence in the grid for {0}, access denied to region {1}.",
-                            account.Name, scene.RegionInfo.RegionName);
+                        "Failed to verify user presence in the grid for {0}, access denied to region {1}.",
+                        account.Name, scene.RegionInfo.RegionName);
                     return false;
                 }
             }
@@ -752,7 +751,7 @@ namespace Vision.Modules.Estate
 
             IEntityCountModule entityCountModule = scene.RequestModuleInterface<IEntityCountModule>();
             if (entityCountModule != null && scene.RegionInfo.RegionSettings.AgentLimit
-                                             < entityCountModule.RootAgents + 1 &&
+                < entityCountModule.RootAgents + 1 &&
                 scene.RegionInfo.RegionSettings.AgentLimit > 0)
             {
                 reason = "Too many agents at this time. Please come back later.";
@@ -768,19 +767,19 @@ namespace Vision.Modules.Estate
                 {
                     if (Sp != null)
                     {
-                        string banIP = ((IPEndPoint) Sp.ControllingClient.GetClientEP()).Address.ToString();
+                        string banIP = ((IPEndPoint)Sp.ControllingClient.GetClientEP()).Address.ToString();
 
                         if (ban.BannedHostIPMask != banIP) //If it changed, ban them again
                         {
                             //Add the ban with the new hostname
                             ES.AddBan(new EstateBan
-                                          {
-                                              BannedHostIPMask = banIP,
-                                              BannedUserID = ban.BannedUserID,
-                                              EstateID = ban.EstateID,
-                                              BannedHostAddress = ban.BannedHostAddress,
-                                              BannedHostNameMask = ban.BannedHostNameMask
-                                          });
+                            {
+                                BannedHostIPMask = banIP,
+                                BannedUserID = ban.BannedUserID,
+                                EstateID = ban.EstateID,
+                                BannedHostAddress = ban.BannedHostAddress,
+                                BannedHostNameMask = ban.BannedHostNameMask
+                            });
                             //Update the database
                             Vision.Framework.Utilities.DataManager.RequestPlugin<IEstateConnector>().
                                 SaveEstateSettings(ES);
@@ -809,14 +808,14 @@ namespace Vision.Modules.Estate
                     {
                         //Ban the new user
                         ES.AddBan(new EstateBan
-                                      {
-                                          EstateID = ES.EstateID,
-                                          BannedHostIPMask = agent.IPAddress,
-                                          BannedUserID = agent.AgentID,
-                                          BannedHostAddress = agent.IPAddress,
-                                          BannedHostNameMask = agent.IPAddress
-                                      });
-                        Vision.Framework.Utilities.DataManager.RequestPlugin<IEstateConnector>().
+                        {
+                            EstateID = ES.EstateID,
+                            BannedHostIPMask = agent.IPAddress,
+                            BannedUserID = agent.AgentID,
+                            BannedHostAddress = agent.IPAddress,
+                            BannedHostNameMask = agent.IPAddress
+                        });
+                        WhiteCore.Framework.Utilities.DataManager.RequestPlugin<IEstateConnector>().
                             SaveEstateSettings(ES);
 
                         reason = "Banned from this region.";
@@ -837,32 +836,32 @@ namespace Vision.Modules.Estate
             }
 
             if (ES.DenyAnonymous &&
-                ((account.UserFlags & (int) IUserProfileInfo.ProfileFlags.NoPaymentInfoOnFile) ==
-                 (int) IUserProfileInfo.ProfileFlags.NoPaymentInfoOnFile))
+                ((account.UserFlags & (int)IUserProfileInfo.ProfileFlags.NoPaymentInfoOnFile) ==
+                (int)IUserProfileInfo.ProfileFlags.NoPaymentInfoOnFile))
             {
                 reason = "You may not enter this region.";
                 return false;
             }
 
             if (ES.DenyIdentified &&
-                ((account.UserFlags & (int) IUserProfileInfo.ProfileFlags.PaymentInfoOnFile) ==
-                 (int) IUserProfileInfo.ProfileFlags.PaymentInfoOnFile))
+                ((account.UserFlags & (int)IUserProfileInfo.ProfileFlags.PaymentInfoOnFile) ==
+                (int)IUserProfileInfo.ProfileFlags.PaymentInfoOnFile))
             {
                 reason = "You may not enter this region.";
                 return false;
             }
 
             if (ES.DenyTransacted &&
-                ((account.UserFlags & (int) IUserProfileInfo.ProfileFlags.PaymentInfoInUse) ==
-                 (int) IUserProfileInfo.ProfileFlags.PaymentInfoInUse))
+                ((account.UserFlags & (int)IUserProfileInfo.ProfileFlags.PaymentInfoInUse) ==
+                (int)IUserProfileInfo.ProfileFlags.PaymentInfoInUse))
             {
                 reason = "You may not enter this region.";
                 return false;
             }
 
-            const long m_Day = 25*60*60; //Find out day length in seconds
+            const long m_Day = 25 * 60 * 60; //Find out day length in seconds
             if (scene.RegionInfo.RegionSettings.MinimumAge != 0 &&
-                (account.Created - Util.UnixTimeSinceEpoch()) < (scene.RegionInfo.RegionSettings.MinimumAge*m_Day))
+                (account.Created - Util.UnixTimeSinceEpoch()) < (scene.RegionInfo.RegionSettings.MinimumAge * m_Day))
             {
                 reason = "You may not enter this region.";
                 return false;
@@ -889,7 +888,7 @@ namespace Vision.Modules.Estate
             if (m_checkMaturityLevel)
             {
                 if (agentInfo != null &&
-                    scene.RegionInfo.AccessLevel > Util.ConvertMaturityToAccessLevel((uint) agentInfo.MaturityRating))
+                    scene.RegionInfo.AccessLevel > Util.ConvertMaturityToAccessLevel((uint)agentInfo.MaturityRating))
                 {
                     reason = "The region has too high of a maturity level. Blocking teleport.";
                     return false;
@@ -908,7 +907,7 @@ namespace Vision.Modules.Estate
             return true;
         }
 
-        private bool CheckEstateGroups(EstateSettings ES, AgentCircuitData agent)
+        bool CheckEstateGroups(EstateSettings ES, AgentCircuitData agent)
         {
             IGroupsModule gm = m_scene.RequestModuleInterface<IGroupsModule>();
             if (gm != null && ES.EstateGroups.Count > 0)
@@ -919,8 +918,8 @@ namespace Vision.Modules.Estate
             return false;
         }
 
-        private bool FindUnBannedParcel(Vector3 Position, IScenePresence Sp, UUID AgentID, out ILandObject ILO,
-                                        out Vector3 newPosition, out string reason)
+        bool FindUnBannedParcel(Vector3 Position, IScenePresence Sp, UUID AgentID, out ILandObject ILO,
+                                out Vector3 newPosition, out string reason)
         {
             ILO = null;
             IParcelManagementModule parcelManagement = Sp.Scene.RequestModuleInterface<IParcelManagementModule>();
@@ -979,7 +978,7 @@ namespace Vision.Modules.Estate
                 SecondsBeforeNextTeleport = config.GetFloat("BlockTeleportsTime", 3);
                 StartDisabled = config.GetBoolean("StartDisabled", StartDisabled);
                 ForceLandingPointsOnCrossing = config.GetBoolean("ForceLandingPointsOnCrossing",
-                                                                 ForceLandingPointsOnCrossing);
+                    ForceLandingPointsOnCrossing);
                 m_checkMaturityLevel = config.GetBoolean("CheckMaturityLevel", true);
 
                 string banCriteriaString = config.GetString("BanCriteria", "");
@@ -1000,72 +999,72 @@ namespace Vision.Modules.Estate
             if (MainConsole.Instance != null)
             {
                 MainConsole.Instance.Commands.AddCommand(
-                    "set regionsetting maturity", 
+                    "set regionsetting maturity",
                     "set regionsetting maturity [value]",
-                    "Sets a region's maturity - 0(PG),1(Mature),2(Adult)", 
+                    "Sets a region's maturity - 0(PG),1(Mature),2(Adult)",
                     SetRegionInfoOption, true, false);
-                
-            	MainConsole.Instance.Commands.AddCommand(
-                    "set regionsetting addestateban", 
+
+                MainConsole.Instance.Commands.AddCommand(
+                    "set regionsetting addestateban",
                     "set regionsetting addestateban [first] [last]",
-                    "Add a user to the estate ban list", 
+                    "Add a user to the estate ban list",
                     SetRegionInfoOption, true, false);
-                
-            	MainConsole.Instance.Commands.AddCommand(
-                    "set regionsetting removeestateban", 
+
+                MainConsole.Instance.Commands.AddCommand(
+                    "set regionsetting removeestateban",
                     "set regionsetting removeestateban [first] [last]",
-                    "Remove a user from the estate ban list", 
+                    "Remove a user from the estate ban list",
                     SetRegionInfoOption, true, false);
-                
-            	MainConsole.Instance.Commands.AddCommand(
-                    "set regionsetting addestatemanager", 
+
+                MainConsole.Instance.Commands.AddCommand(
+                    "set regionsetting addestatemanager",
                     "set regionsetting addestatemanager [first] [last]",
-                    "Add a user to the estate manager list", 
+                    "Add a user to the estate manager list",
                     SetRegionInfoOption, true, false);
-                
-            	MainConsole.Instance.Commands.AddCommand(
-                    "set regionsetting removeestatemanager", 
+
+                MainConsole.Instance.Commands.AddCommand(
+                    "set regionsetting removeestatemanager",
                     "set regionsetting removeestatemanager [first] [last]",
-                    "Remove a user from the estate manager list", 
+                    "Remove a user from the estate manager list",
                     SetRegionInfoOption, true, false);
-                
-            	MainConsole.Instance.Commands.AddCommand(
-                    "set regionsetting addestateaccess", 
+
+                MainConsole.Instance.Commands.AddCommand(
+                    "set regionsetting addestateaccess",
                     "set regionsetting addestateaccess [first] [last]",
-                    "Add a user to the estate access list", 
+                    "Add a user to the estate access list",
                     SetRegionInfoOption, true, false);
-                
-            	MainConsole.Instance.Commands.AddCommand(
-                    "set regionsetting removeestateaccess", 
+
+                MainConsole.Instance.Commands.AddCommand(
+                    "set regionsetting removeestateaccess",
                     "set regionsetting removeestateaccess [first] [last]",
-                    "Remove a user from the estate access list", 
+                    "Remove a user from the estate access list",
                     SetRegionInfoOption, true, false);
-                
-            	MainConsole.Instance.Commands.AddCommand(
-                    "estate ban user", 
-                    "estate ban user", 
-                    "Bans a user from the current estate", 
+
+                MainConsole.Instance.Commands.AddCommand(
+                    "estate ban user",
+                    "estate ban user",
+                    "Bans a user from the current estate",
                     BanUser, true, false);
-                
-            	MainConsole.Instance.Commands.AddCommand(
-                    "estate unban user", 
-                    "estate unban user", 
-                    "Bans a user from the current estate", 
+
+                MainConsole.Instance.Commands.AddCommand(
+                    "estate unban user",
+                    "estate unban user",
+                    "Bans a user from the current estate",
                     UnBanUser, true, false);
-                
-            	MainConsole.Instance.Commands.AddCommand(
+
+                MainConsole.Instance.Commands.AddCommand(
                     "login enable",
                     "login enable",
                     "Enable simulator logins",
                     ProcessLoginCommands, true, false);
-                
-            	MainConsole.Instance.Commands.AddCommand(
+
+                MainConsole.Instance.Commands.AddCommand(
                     "login disable",
                     "login disable",
                     "Disable simulator logins",
                     ProcessLoginCommands, true, false);
-                
-            	MainConsole.Instance.Commands.AddCommand(
+
+                MainConsole.Instance.Commands.AddCommand(
                     "login status",
                     "login status",
                     "Show login status",
@@ -1109,7 +1108,7 @@ namespace Vision.Modules.Estate
                 LoginsDisabled = false;
             }
         }
-            
+
         #endregion
     }
 }
