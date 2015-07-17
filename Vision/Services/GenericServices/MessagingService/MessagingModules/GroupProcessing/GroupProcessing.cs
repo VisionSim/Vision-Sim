@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,16 +25,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.Services;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Vision.Services
 {
@@ -70,11 +70,11 @@ namespace Vision.Services
             //We need to check and see if this is an GroupSessionAgentUpdate
             if (message.ContainsKey("Method") && message["Method"] == "GroupSessionAgentUpdate")
             {
-                //COMES IN ON Vision.SERVER SIDE
+                //COMES IN ON VISION.SERVER SIDE
                 //Send it on to whomever it concerns
-                OSDMap innerMessage = (OSDMap) message["Message"];
+                OSDMap innerMessage = (OSDMap)message["Message"];
                 if (innerMessage["message"] == "ChatterBoxSessionAgentListUpdates")
-                    //ONLY forward on this type of message
+                //ONLY forward on this type of message
                 {
                     UUID agentID = message["AgentID"];
                     IEventQueueService eqs = m_registry.RequestModuleInterface<IEventQueueService>();
@@ -89,11 +89,11 @@ namespace Vision.Services
             }
             else if (message.ContainsKey("Method") && message["Method"] == "FixGroupRoleTitles")
             {
-                //COMES IN ON Vision.SERVER SIDE FROM REGION
+                //COMES IN ON VISION.SERVER SIDE FROM REGION
                 UUID groupID = message["GroupID"].AsUUID();
                 UUID agentID = message["AgentID"].AsUUID();
                 UUID roleID = message["RoleID"].AsUUID();
-                byte type = (byte) message["Type"].AsInteger();
+                byte type = (byte)message["Type"].AsInteger();
                 IGroupsServiceConnector con = Framework.Utilities.DataManager.RequestPlugin<IGroupsServiceConnector>();
                 List<GroupRoleMembersData> members = con.GetGroupRoleMembers(agentID, groupID);
                 List<GroupRolesData> roles = con.GetGroupRoles(agentID, groupID);
@@ -108,27 +108,25 @@ namespace Vision.Services
                     if (data.RoleID == roleID)
                     {
                         //They were affected by the change
-                        switch ((GroupRoleUpdate) type)
+                        switch ((GroupRoleUpdate)type)
                         {
                             case GroupRoleUpdate.Create:
-                            case GroupRoleUpdate.NoUpdate:
-                                //No changes...
+                            case GroupRoleUpdate.NoUpdate:     //No changes...
                                 break;
 
                             case GroupRoleUpdate.UpdatePowers: //Possible we don't need to send this?
                             case GroupRoleUpdate.UpdateAll:
                             case GroupRoleUpdate.UpdateData:
                             case GroupRoleUpdate.Delete:
-                                if (type == (byte) GroupRoleUpdate.Delete)
+                                if (type == (byte)GroupRoleUpdate.Delete)
                                     //Set them to the most limited role since their role is gone
                                     con.SetAgentGroupSelectedRole(data.MemberID, groupID, everyone.RoleID);
-                                //Need to update their title inworld
 
-                                IAgentInfoService agentInfoService =
-                                    m_registry.RequestModuleInterface<IAgentInfoService>();
+                                //Need to update their title inworld
+                                IAgentInfoService agentInfoService = m_registry.RequestModuleInterface<IAgentInfoService>();
                                 UserInfo info;
                                 if (agentInfoService != null &&
-                                    (info = agentInfoService.GetUserInfo(agentID.ToString())) != null && info.IsOnline)
+                                        (info = agentInfoService.GetUserInfo(agentID.ToString())) != null && info.IsOnline)
                                 {
                                     //Forward the message
                                     regionsToBeUpdated.Add(info);
@@ -139,8 +137,7 @@ namespace Vision.Services
                 }
                 if (regionsToBeUpdated.Count != 0)
                 {
-                    ISyncMessagePosterService messagePost =
-                        m_registry.RequestModuleInterface<ISyncMessagePosterService>();
+                    ISyncMessagePosterService messagePost = m_registry.RequestModuleInterface<ISyncMessagePosterService>();
                     if (messagePost != null)
                     {
                         foreach (UserInfo userInfo in regionsToBeUpdated)
@@ -157,7 +154,7 @@ namespace Vision.Services
             }
             else if (message.ContainsKey("Method") && message["Method"] == "ForceUpdateGroupTitles")
             {
-                //COMES IN ON REGION SIDE FROM Vision.SERVER
+                //COMES IN ON REGION SIDE FROM VISION.SERVER
                 UUID groupID = message["GroupID"].AsUUID();
                 UUID roleID = message["RoleID"].AsUUID();
                 UUID regionID = message["RegionID"].AsUUID();

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,18 +25,18 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System.Collections.Generic;
-using Vision.Framework.ClientInterfaces;
-using Vision.Framework.PresenceInfo;
-using Vision.Framework.Services;
+using System;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
-using System;
+using System.Collections.Generic;
+using Vision.Framework.ClientInterfaces;
 using Vision.Framework.Modules;
+using Vision.Framework.PresenceInfo;
+using Vision.Framework.Services;
 
 namespace Vision.Framework.DatabaseInterfaces
 {
-    public interface IGroupsServiceConnector : IVisionDataPlugin
+    public interface IGroupsServiceConnector : IWhiteCoreDataPlugin
     {
         void CreateGroup(UUID groupID, string name, string charter, bool showInList, UUID insigniaID, int membershipFee,
                          bool openEnrollment, bool allowPublish, bool maturePublish, UUID founderID, UUID OwnerRoleID);
@@ -82,6 +82,8 @@ namespace Vision.Framework.DatabaseInterfaces
         uint GetNumberOfGroupNotices(UUID requestingAgentID, List<UUID> GroupIDs);
 
         uint GetNumberOfGroups(UUID requestingAgentID, Dictionary<string, bool> boolFields);
+
+        List<UUID> GetAllGroups(UUID requestingAgentID);
 
         GroupRecord GetGroupRecord(UUID requestingAgentID, UUID GroupID, string GroupName);
 

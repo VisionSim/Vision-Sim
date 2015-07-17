@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,6 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.DatabaseInterfaces;
@@ -32,11 +37,6 @@ using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Vision.Services.DataService
 {
@@ -206,9 +206,17 @@ namespace Vision.Services.DataService
 
             data.Insert("group_data", row);
 
+            // const ulong EveryonePowers = 8796495740928;             // >> 0x80018010000
+            //
+            // Removed this part in favor of using the real values
+
             //Add everyone role to group
             AddRoleToGroup(founderID, groupID, UUID.Zero, "Everyone", "Everyone in the group is in the everyone role.",
                            "Member of " + name, EveryonePowers);
+
+            // const ulong OfficersPowers = 436506116225230;           // >> 0x 18cfffffff8ce
+            //
+            // Removed this part in favor of using the real values
 
             UUID officersRole = UUID.Random();
             //Add officers role to group
@@ -691,7 +699,7 @@ namespace Vision.Services.DataService
             values["ListInProfile"] = ListInProfile;
 
             QueryFilter filter = new QueryFilter();
-            // these look the wrong way around
+            // these look the wrong way around ~ SignpostMarv
             filter.andFilters["GroupID"] = AgentID;
             filter.andFilters["AgentID"] = GroupID;
 
@@ -913,6 +921,30 @@ namespace Vision.Services.DataService
                 MaturePublish = int.Parse(result[9]) == 1,
                 OwnerRoleID = UUID.Parse(result[10])
             };
+        }
+
+        [CanBeReflected(ThreatLevel = ThreatLevel.Low)]
+        public List<UUID> GetAllGroups(UUID requestingAgentID)
+        {
+            object remoteValue = DoRemote(requestingAgentID);
+            if (remoteValue != null || m_doRemoteOnly)
+                return (List<UUID>)remoteValue;
+
+            // maybe check for system user??
+            if (!Utilities.IsSystemUser(requestingAgentID))
+                return new List<UUID>();
+
+            QueryFilter filter = new QueryFilter();
+            List<string> groupsData = data.Query(new[] { "GroupID" }, "group_data", filter, null, null, null);
+
+            if (groupsData == null)
+                return new List<UUID>();
+
+            List<UUID> groupIDs = new List<UUID>();
+            foreach (var id in groupsData)
+                groupIDs.Add((UUID)id);
+
+            return groupIDs;
         }
 
         [CanBeReflected(ThreatLevel = ThreatLevel.Low)]
@@ -1183,7 +1215,6 @@ namespace Vision.Services.DataService
                 ShowInList = int.Parse(Membership[14]) == 1
             };
 
-
             return GMD;
         }
 
@@ -1201,7 +1232,6 @@ namespace Vision.Services.DataService
             tables.AddTable("group_roles", "osr", JoinType.Inner,
                             new[,] { { "osgrm.RoleID", "osr.RoleID" }, { "osgm.GroupID", "osr.GroupID" } });
 
-
             QueryFilter filter = new QueryFilter();
             filter.andFilters["osgm.AgentID"] = requestingAgentID;
             filter.andFilters["osgm.GroupID"] = GroupID;
@@ -1212,7 +1242,6 @@ namespace Vision.Services.DataService
                                                          "osgrm.RoleID",
                                                          "osr.Name"
                                                      }, tables, filter, null, null, null);
-
 
             List<GroupTitlesData> titles = new List<GroupTitlesData>();
             for (int loop = 0; loop < Membership.Count(); loop += 3)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using SYstem.Reflection;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.DatabaseInterfaces;
@@ -38,34 +45,26 @@ using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Inventory;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 
 namespace Vision.Modules.Groups
 {
     public class GroupsModule : INonSharedRegionModule, IGroupsModule
     {
-        private readonly Dictionary<UUID, GroupMembershipData> m_cachedGroupTitles =
+        readonly Dictionary<UUID, GroupMembershipData> m_cachedGroupTitles =
             new Dictionary<UUID, GroupMembershipData>();
 
-        private readonly Dictionary<UUID, List<GroupMembershipData>> m_cachedGroupMemberships =
+        readonly Dictionary<UUID, List<GroupMembershipData>> m_cachedGroupMemberships =
             new Dictionary<UUID, List<GroupMembershipData>>();
 
-        private IScene m_scene;
+        IScene m_scene;
 
         // Configuration settings
-        private bool m_debugEnabled = true;
-        private IGroupsServiceConnector m_groupData;
-        private bool m_groupNoticesEnabled = true;
-        private bool m_groupsEnabled;
-        private IMessageTransferModule m_msgTransferModule;
-        private IInstantMessagingService m_imService;
+        bool m_debugEnabled = true;
+        IGroupsServiceConnector m_groupData;
+        bool m_groupNoticesEnabled = true;
+        bool m_groupsEnabled;
+        IMessageTransferModule m_msgTransferModule;
+        IInstantMessagingService m_imService;
 
         #region IGroupsModule Members
 
@@ -79,6 +78,11 @@ namespace Vision.Modules.Groups
         public GroupRecord GetGroupRecord(string name)
         {
             return m_groupData.GetGroupRecord(UUID.Zero, UUID.Zero, name);
+        }
+
+        public List<UUID> GetAllGroups(UUID requestingAgettID)
+        {
+            return m_groupData.GetAllGroups(requestingAgettID);
         }
 
         public void ActivateGroup(IClientAPI remoteClient, UUID groupID)
@@ -158,6 +162,14 @@ namespace Vision.Modules.Groups
             return m_groupData.GetGroupProfile(GetRequestingAgentID(remoteClient), groupID);
         }
 
+        public List<GroupMembersData> GetGroupMembers(UUID requestingAgentID, UUID groupID)
+        {
+            if (m_debugEnabled)
+                MainConsole.Instance.DebugFormat("[GROUPS]: {0} called", MethodBase.GetCurrentMethod().Name);
+
+            return m_groupData.GetGroupMembers(requestingAgentID, groupID);
+        }
+
         public GroupMembershipData[] GetMembershipData(UUID agentID)
         {
             if (m_debugEnabled)
@@ -200,13 +212,13 @@ namespace Vision.Modules.Groups
             NullCacheInfos(remoteClient.AgentId, groupID);
         }
 
-        private void NullCacheInfos(UUID groupID)
+        void NullCacheInfos(UUID groupID)
         {
             foreach (UUID agentID in m_cachedGroupMemberships.Keys)
                 NullCacheInfos(agentID, groupID);
         }
 
-        private void NullCacheInfos(UUID agentID, UUID groupID)
+        void NullCacheInfos(UUID agentID, UUID groupID)
         {
             if (!m_cachedGroupMemberships.ContainsKey(agentID))
                 return;
@@ -266,7 +278,7 @@ namespace Vision.Modules.Groups
             if (m_debugEnabled)
                 MainConsole.Instance.DebugFormat("[GROUPS]: {0} called", MethodBase.GetCurrentMethod().Name);
 
-            return m_groupData.GetGroupNotices(GetRequestingAgentID(remoteClient), 0,0, groupID).ToArray();
+            return m_groupData.GetGroupNotices(GetRequestingAgentID(remoteClient), 0, 0, groupID).ToArray();
         }
 
         /// <summary>
@@ -333,7 +345,7 @@ namespace Vision.Modules.Groups
 
             // Security Checks are handled in the Groups Service.
 
-            switch ((GroupRoleUpdate) updateType)
+            switch ((GroupRoleUpdate)updateType)
             {
                 case OpenMetaverse.GroupRoleUpdate.Create:
                     m_groupData.AddRoleToGroup(GetRequestingAgentID(remoteClient), groupID, UUID.Random(), name,
@@ -349,7 +361,7 @@ namespace Vision.Modules.Groups
                 case OpenMetaverse.GroupRoleUpdate.UpdatePowers:
                     if (m_debugEnabled)
                     {
-                        GroupPowers gp = (GroupPowers) powers;
+                        GroupPowers gp = (GroupPowers)powers;
                         MainConsole.Instance.DebugFormat("[GROUPS]: Role ({0}) updated with Powers ({1}) ({2})", name,
                                                          powers.ToString(), gp.ToString());
                     }
@@ -426,18 +438,17 @@ namespace Vision.Modules.Groups
                 MainConsole.Instance.DebugFormat("[GROUPS]: {0} called", MethodBase.GetCurrentMethod().Name);
 
             GridInstantMessage msg = new GridInstantMessage
-                                         {
-                                             ToAgentID = agentID,
-                                             Dialog = dialog,
-                                             FromGroup = true,
-                                             Offline = 1,
-                                             ParentEstateID = 0,
-                                             Position = Vector3.Zero,
-                                             RegionID = UUID.Zero,
-                                             SessionID = UUID.Random()
-                                         };
+            {
+                ToAgentID = agentID,
+                Dialog = dialog,
+                FromGroup = true,
+                Offline = 1,
+                ParentEstateID = 0,
+                Position = Vector3.Zero,
+                RegionID = UUID.Zero,
+                SessionID = UUID.Random()
+            };
 
-            // msg.dialog = (byte)OpenMetaverse.InstantMessageDialog.GroupNotice;
             // Allow this message to be stored for offline use
 
             msg.FromAgentID = info.GroupID;
@@ -522,19 +533,19 @@ namespace Vision.Modules.Groups
             {
                 // SL sends out notifications to the group messaging session that the person has left
                 GridInstantMessage im = new GridInstantMessage
-                                            {
-                                                FromAgentID = groupID,
-                                                Dialog = (byte) InstantMessageDialog.SessionSend,
-                                                BinaryBucket = new byte[0],
-                                                FromAgentName = "System",
-                                                FromGroup = true,
-                                                SessionID = groupID,
-                                                Message = remoteClient.Name + " has left the group.",
-                                                Offline = 1,
-                                                RegionID = remoteClient.Scene.RegionInfo.RegionID,
-                                                Timestamp = (uint) Util.UnixTimeSinceEpoch(),
-                                                ToAgentID = UUID.Zero
-                                            };
+                {
+                    FromAgentID = groupID,
+                    Dialog = (byte)InstantMessageDialog.SessionSend,
+                    BinaryBucket = new byte[0],
+                    FromAgentName = "System",
+                    FromGroup = true,
+                    SessionID = groupID,
+                    Message = remoteClient.Name + " has left the group.",
+                    Offline = 1,
+                    RegionID = remoteClient.Scene.RegionInfo.RegionID,
+                    Timestamp = (uint)Util.UnixTimeSinceEpoch(),
+                    ToAgentID = UUID.Zero
+                };
 
                 m_imService.EnsureSessionIsStarted(groupID);
                 m_imService.SendChatToSession(UUID.Zero, im);
@@ -594,24 +605,24 @@ namespace Vision.Modules.Groups
 
             // Send Message to avatar being ejected from the group
             GridInstantMessage msg = new GridInstantMessage
-                                         {
-                                             SessionID = UUID.Zero,
-                                             FromAgentID = UUID.Zero,
-                                             ToAgentID = ejecteeID,
-                                             Timestamp = 0,
-                                             FromAgentName = "System",
-                                             Message =
-                                                 string.Format("You have been ejected from '{1}' by {0}.",
-                                                               agentName,
-                                                               groupInfo.GroupName),
-                                             Dialog = 210,
-                                             FromGroup = false,
-                                             Offline = 0,
-                                             ParentEstateID = 0,
-                                             Position = Vector3.Zero,
-                                             RegionID = remoteClient.Scene.RegionInfo.RegionID,
-                                             BinaryBucket = new byte[0]
-                                         };
+            {
+                SessionID = UUID.Zero,
+                FromAgentID = UUID.Zero,
+                ToAgentID = ejecteeID,
+                Timestamp = 0,
+                FromAgentName = "System",
+                Message =
+                    string.Format("You have been ejected from '{1}' by {0}.",
+                                  agentName,
+                                  groupInfo.GroupName),
+                Dialog = 210,
+                FromGroup = false,
+                Offline = 0,
+                ParentEstateID = 0,
+                Position = Vector3.Zero,
+                RegionID = remoteClient.Scene.RegionInfo.RegionID,
+                BinaryBucket = new byte[0]
+            };
 
             OutgoingInstantMessage(msg, ejecteeID);
 
@@ -619,7 +630,7 @@ namespace Vision.Modules.Groups
             IClientAPI ejectee = GetActiveClient(ejecteeID);
             if (ejectee != null)
             {
-                msg.Dialog = (byte) InstantMessageDialog.MessageFromAgent;
+                msg.Dialog = (byte)InstantMessageDialog.MessageFromAgent;
                 OutgoingInstantMessage(msg, ejecteeID);
                 ejectee.SendAgentDropGroup(groupID);
             }
@@ -637,21 +648,21 @@ namespace Vision.Modules.Groups
             {
                 // SL sends out notifcations to the group messaging session that the person has left
                 GridInstantMessage im = new GridInstantMessage
-                                            {
-                                                FromAgentID = groupID,
-                                                Dialog = (byte) InstantMessageDialog.SessionSend,
-                                                BinaryBucket = new byte[0],
-                                                FromAgentName = "System",
-                                                FromGroup = true,
-                                                SessionID = groupID,
-                                                Message =
-                                                    account.Name + " has been ejected from the group by " +
-                                                    remoteClient.Name + ".",
-                                                Offline = 1,
-                                                RegionID = remoteClient.Scene.RegionInfo.RegionID,
-                                                Timestamp = (uint) Util.UnixTimeSinceEpoch(),
-                                                ToAgentID = UUID.Zero
-                                            };
+                {
+                    FromAgentID = groupID,
+                    Dialog = (byte)InstantMessageDialog.SessionSend,
+                    BinaryBucket = new byte[0],
+                    FromAgentName = "System",
+                    FromGroup = true,
+                    SessionID = groupID,
+                    Message =
+                        account.Name + " has been ejected from the group by " +
+                        remoteClient.Name + ".",
+                    Offline = 1,
+                    RegionID = remoteClient.Scene.RegionInfo.RegionID,
+                    Timestamp = (uint)Util.UnixTimeSinceEpoch(),
+                    ToAgentID = UUID.Zero
+                };
 
                 m_imService.EnsureSessionIsStarted(groupID);
                 m_imService.SendChatToSession(groupID, im);
@@ -712,15 +723,14 @@ namespace Vision.Modules.Groups
                     UUID inviteUUID = InviteID;
 
                     GridInstantMessage msg = new GridInstantMessage
-                                                 {
-                                                     SessionID = inviteUUID,
-                                                     FromAgentID = groupID,
-                                                     ToAgentID = invitedAgentID,
-                                                     Timestamp = 0,
-                                                     FromAgentName = agentName
-                                                 };
-                    // msg.fromAgentID = GetRequestingAgentID(remoteClient).Guid;
-                    // msg.timestamp = (uint)Util.UnixTimeSinceEpoch();
+                    {
+                        SessionID = inviteUUID,
+                        FromAgentID = groupID,
+                        ToAgentID = invitedAgentID,
+                        Timestamp = 0,
+                        FromAgentName = agentName
+                    };
+                    
                     GroupRecord groupInfo = GetGroupRecord(groupID);
                     string MemberShipCost = ". There is no cost to join this group.";
                     if (groupInfo.MembershipFee != 0)
@@ -729,7 +739,7 @@ namespace Vision.Modules.Groups
                     }
                     msg.Message = string.Format("{0} has invited you to join " + groupInfo.GroupName + MemberShipCost,
                                                 remoteClient.Name);
-                    msg.Dialog = (byte) InstantMessageDialog.GroupInvitation;
+                    msg.Dialog = (byte)InstantMessageDialog.GroupInvitation;
                     msg.FromGroup = true;
                     msg.Offline = 0;
                     msg.ParentEstateID = 0;
@@ -763,7 +773,7 @@ namespace Vision.Modules.Groups
         /// <summary>
         ///     Try to find an active IClientAPI reference for agentID giving preference to root connections
         /// </summary>
-        private IClientAPI GetActiveClient(UUID agentID)
+        IClientAPI GetActiveClient(UUID agentID)
         {
             IClientAPI child = null;
 
@@ -788,16 +798,15 @@ namespace Vision.Modules.Groups
         /// <summary>
         ///     Send 'remoteClient' the group membership 'data' for agent 'dataForAgentID'.
         /// </summary>
-        private void SendGroupMembershipInfoViaCaps(IClientAPI remoteClient, UUID dataForAgentID,
+        void SendGroupMembershipInfoViaCaps(IClientAPI remoteClient, UUID dataForAgentID,
                                                     GroupMembershipData[] data)
         {
             if (m_debugEnabled)
                 MainConsole.Instance.InfoFormat("[GROUPS]: {0} called", MethodBase.GetCurrentMethod().Name);
 
             OSDArray AgentData = new OSDArray(1);
-            OSDMap AgentDataMap = new OSDMap(1) {{"AgentID", OSD.FromUUID(dataForAgentID)}};
+            OSDMap AgentDataMap = new OSDMap(1) { { "AgentID", OSD.FromUUID(dataForAgentID) } };
             AgentData.Add(AgentDataMap);
-
 
             OSDArray GroupData = new OSDArray(data.Length);
             OSDArray NewGroupData = new OSDArray(data.Length);
@@ -848,12 +857,12 @@ namespace Vision.Modules.Groups
 
         public OSD buildEvent(string eventName, OSD eventBody)
         {
-            OSDMap llsdEvent = new OSDMap(2) {{"body", eventBody}, {"message", new OSDString(eventName)}};
+            OSDMap llsdEvent = new OSDMap(2) { { "body", eventBody }, { "message", new OSDString(eventName) } };
 
             return llsdEvent;
         }
 
-        private void SendScenePresenceUpdate(UUID AgentID, string Title)
+        void SendScenePresenceUpdate(UUID AgentID, string Title)
         {
             if (m_debugEnabled)
                 MainConsole.Instance.DebugFormat("[GROUPS]: Updating scene title for {0} with title: {1}", AgentID,
@@ -876,7 +885,7 @@ namespace Vision.Modules.Groups
         /// <summary>
         ///     Send updates to all clients who might be interested in groups data for dataForClientID
         /// </summary>
-        private void UpdateAllClientsWithGroupInfo(UUID dataForAgentID, string activeGroupTitle)
+        void UpdateAllClientsWithGroupInfo(UUID dataForAgentID, string activeGroupTitle)
         {
             if (m_debugEnabled)
                 MainConsole.Instance.InfoFormat("[GROUPS]: {0} called", MethodBase.GetCurrentMethod().Name);
@@ -890,35 +899,35 @@ namespace Vision.Modules.Groups
                                                                                                   dataForAgentID);
 
             m_scene.ForEachClient(delegate(IClientAPI client)
-                                      {
-                                          if (m_debugEnabled)
-                                              MainConsole.Instance.InfoFormat(
-                                                  "[GROUPS]: SendAgentGroupDataUpdate called for {0}", client.Name);
+            {
+                if (m_debugEnabled)
+                    MainConsole.Instance.InfoFormat(
+                        "[GROUPS]: SendAgentGroupDataUpdate called for {0}", client.Name);
 
-                                          // TODO: All the client update functions need to be re-examined 
-                                          // because most do too much and send too much stuff
-                                          OnAgentDataUpdateRequest(client, dataForAgentID, UUID.Zero, false);
+                // TODO: All the client update functions need to be re-examined 
+                // because most do too much and send too much stuff
+                OnAgentDataUpdateRequest(client, dataForAgentID, UUID.Zero, false);
 
-                                          GroupMembershipData[] membershipArray;
-                                          if (client.AgentId != dataForAgentID)
-                                          {
-                                              Predicate<GroupMembershipData> showInProfile =
-                                                  membership => membership.ListInProfile;
+                GroupMembershipData[] membershipArray;
+                if (client.AgentId != dataForAgentID)
+                {
+                    Predicate<GroupMembershipData> showInProfile =
+                        membership => membership.ListInProfile;
 
-                                              membershipArray = membershipData.FindAll(showInProfile).ToArray();
-                                          }
-                                          else
-                                              membershipArray = membershipData.ToArray();
+                    membershipArray = membershipData.FindAll(showInProfile).ToArray();
+                }
+                else
+                    membershipArray = membershipData.ToArray();
 
-                                          SendGroupMembershipInfoViaCaps(client, dataForAgentID, membershipArray);
-                                      });
+                SendGroupMembershipInfoViaCaps(client, dataForAgentID, membershipArray);
+            });
             SendScenePresenceUpdate(dataForAgentID, activeGroupTitle);
         }
 
         /// <summary>
         ///     Update remoteClient with group information about dataForAgentID
         /// </summary>
-        private void SendAgentGroupDataUpdate(IClientAPI remoteClient, UUID dataForAgentID)
+        void SendAgentGroupDataUpdate(IClientAPI remoteClient, UUID dataForAgentID)
         {
             if (m_debugEnabled)
                 MainConsole.Instance.InfoFormat("[GROUPS]: SendAgentGroupDataUpdate called for {0}", remoteClient.Name);
@@ -934,7 +943,7 @@ namespace Vision.Modules.Groups
         /// <summary>
         ///     Update remoteClient with group information about dataForAgentID
         /// </summary>
-        private void SendNewAgentGroupDataUpdate(IClientAPI remoteClient)
+        void SendNewAgentGroupDataUpdate(IClientAPI remoteClient)
         {
             if (m_debugEnabled)
                 MainConsole.Instance.InfoFormat("[GROUPS]: SendAgentGroupDataUpdate called for {0}", remoteClient.Name);
@@ -953,7 +962,7 @@ namespace Vision.Modules.Groups
         /// <param name="requestingClient"></param>
         /// <param name="dataForAgentID"></param>
         /// <returns></returns>
-        private GroupMembershipData[] GetProfileListedGroupMemberships(IClientAPI requestingClient, UUID dataForAgentID)
+        GroupMembershipData[] GetProfileListedGroupMemberships(IClientAPI requestingClient, UUID dataForAgentID)
         {
             List<GroupMembershipData> membershipData = m_cachedGroupMemberships.ContainsKey(dataForAgentID)
                                                            ? m_cachedGroupMemberships[dataForAgentID]
@@ -998,10 +1007,9 @@ namespace Vision.Modules.Groups
         {
             // Notify all group members of a change in group roles and/or
             // permissions
-            //
         }
 
-        private void OutgoingInstantMessage(GridInstantMessage msg, UUID msgTo)
+        void OutgoingInstantMessage(GridInstantMessage msg, UUID msgTo)
         {
             if (m_debugEnabled)
                 MainConsole.Instance.InfoFormat("[GROUPS]: {0} called", MethodBase.GetCurrentMethod().Name);
@@ -1023,7 +1031,7 @@ namespace Vision.Modules.Groups
             }
         }
 
-        private void OutgoingInstantMessage(GridInstantMessage msg, UUID msgTo, bool localOnly)
+        void OutgoingInstantMessage(GridInstantMessage msg, UUID msgTo, bool localOnly)
         {
             if (m_debugEnabled)
                 MainConsole.Instance.InfoFormat("[GROUPS]: {0} called", MethodBase.GetCurrentMethod().Name);
@@ -1058,26 +1066,23 @@ namespace Vision.Modules.Groups
                 // Do not run this module by default.
                 return;
             }
-            else
+
+            m_groupsEnabled = groupsConfig.GetBoolean("Enabled", false);
+            if (!m_groupsEnabled)
             {
-                m_groupsEnabled = groupsConfig.GetBoolean("Enabled", false);
-                if (!m_groupsEnabled)
-                {
-                    return;
-                }
-
-                if (groupsConfig.GetString("Module", "Default") != Name)
-                {
-                    m_groupsEnabled = false;
-
-                    return;
-                }
-
-                //MainConsole.Instance.InfoFormat("[GROUPS]: Initializing {0}", this.Name);
-
-                m_groupNoticesEnabled = groupsConfig.GetBoolean("NoticesEnabled", true);
-                m_debugEnabled = groupsConfig.GetBoolean("DebugEnabled", true);
+                return;
             }
+
+            if (groupsConfig.GetString("Module", "Default") != Name)
+            {
+                m_groupsEnabled = false;
+                return;
+            }
+
+            //MainConsole.Instance.InfoFormat("[GROUPS]: Initializing {0}", this.Name);
+
+            m_groupNoticesEnabled = groupsConfig.GetBoolean("NoticesEnabled", true);
+            m_debugEnabled = groupsConfig.GetBoolean("DebugEnabled", true);
         }
 
         public void AddRegion(IScene scene)
@@ -1094,7 +1099,7 @@ namespace Vision.Modules.Groups
             if (m_debugEnabled)
                 MainConsole.Instance.DebugFormat("[GROUPS]: {0} called", MethodBase.GetCurrentMethod().Name);
 
-            m_groupData = Vision.Framework.Utilities.DataManager.RequestPlugin<IGroupsServiceConnector>();
+            m_groupData = WhiteCore.Framework.Utilities.DataManager.RequestPlugin<IGroupsServiceConnector>();
 
             // No Groups Service Connector, then nothing works...
             if (m_groupData == null)
@@ -1171,7 +1176,7 @@ namespace Vision.Modules.Groups
 
         #region EventHandlers
 
-        private void OnNewClient(IClientAPI client)
+        void OnNewClient(IClientAPI client)
         {
             if (m_debugEnabled)
                 MainConsole.Instance.DebugFormat("[GROUPS]: {0} called", MethodBase.GetCurrentMethod().Name);
@@ -1198,7 +1203,7 @@ namespace Vision.Modules.Groups
             }
         }
 
-        private void OnClosingClient(IClientAPI client)
+        void OnClosingClient(IClientAPI client)
         {
             if (m_debugEnabled)
                 MainConsole.Instance.DebugFormat("[GROUPS]: {0} called", MethodBase.GetCurrentMethod().Name);
@@ -1216,13 +1221,13 @@ namespace Vision.Modules.Groups
             RemoveFromGroupPowersCache(client.AgentId, UUID.Zero);
         }
 
-        private void GroupProposalBallotRequest(IClientAPI client, UUID agentID, UUID sessionID, UUID groupID,
+        void GroupProposalBallotRequest(IClientAPI client, UUID agentID, UUID sessionID, UUID groupID,
                                                 UUID proposalID, string vote)
         {
             m_groupData.VoteOnActiveProposals(agentID, groupID, proposalID, vote);
         }
 
-        private void GroupVoteHistoryRequest(IClientAPI client, UUID agentID, UUID sessionID, UUID groupID,
+        void GroupVoteHistoryRequest(IClientAPI client, UUID agentID, UUID sessionID, UUID groupID,
                                              UUID transactionID)
         {
             List<GroupProposalInfo> inactiveProposals = m_groupData.GetInactiveProposals(client.AgentId, groupID);
@@ -1247,7 +1252,7 @@ namespace Vision.Modules.Groups
             }
         }
 
-        private void GroupActiveProposalsRequest(IClientAPI client, UUID agentID, UUID sessionID, UUID groupID,
+        void GroupActiveProposalsRequest(IClientAPI client, UUID agentID, UUID sessionID, UUID groupID,
                                                  UUID transactionID)
         {
             List<GroupProposalInfo> activeProposals = m_groupData.GetActiveProposals(client.AgentId, groupID);
@@ -1270,9 +1275,9 @@ namespace Vision.Modules.Groups
             client.SendGroupActiveProposals(groupID, transactionID, proposals);
         }
 
-        private byte[] GroupProposalBallot(string request, UUID agentID)
+        byte[] GroupProposalBallot(string request, UUID agentID)
         {
-            OSDMap map = (OSDMap) OSDParser.DeserializeLLSDXml(request);
+            OSDMap map = (OSDMap)OSDParser.DeserializeLLSDXml(request);
 
             UUID groupID = map["group-id"].AsUUID();
             UUID proposalID = map["proposal-id"].AsUUID();
@@ -1285,9 +1290,9 @@ namespace Vision.Modules.Groups
             return OSDParser.SerializeLLSDXmlBytes(resp);
         }
 
-        private byte[] StartGroupProposal(string request, UUID agentID)
+        byte[] StartGroupProposal(string request, UUID agentID)
         {
-            OSDMap map = (OSDMap) OSDParser.DeserializeLLSDXml(request);
+            OSDMap map = (OSDMap)OSDParser.DeserializeLLSDXml(request);
 
             int duration = map["duration"].AsInteger();
             UUID group = map["group-id"].AsUUID();
@@ -1297,18 +1302,18 @@ namespace Vision.Modules.Groups
             UUID session = map["session-id"].AsUUID();
 
             GroupProposalInfo info = new GroupProposalInfo
-                                         {
-                                             GroupID = group,
-                                             Majority = (float) majority,
-                                             Quorum = quorum,
-                                             Session = session,
-                                             Text = text,
-                                             Duration = duration,
-                                             BallotInitiator = agentID,
-                                             Created = DateTime.Now,
-                                             Ending = DateTime.Now.AddSeconds(duration),
-                                             VoteID = UUID.Random()
-                                         };
+            {
+                GroupID = group,
+                Majority = (float)majority,
+                Quorum = quorum,
+                Session = session,
+                Text = text,
+                Duration = duration,
+                BallotInitiator = agentID,
+                Created = DateTime.Now,
+                Ending = DateTime.Now.AddSeconds(duration),
+                VoteID = UUID.Random()
+            };
 
             m_groupData.AddGroupProposal(agentID, info);
 
@@ -1317,17 +1322,16 @@ namespace Vision.Modules.Groups
             return OSDParser.SerializeLLSDXmlBytes(resp);
         }
 
-        private void OnRequestAvatarProperties(IClientAPI remoteClient, UUID avatarID)
+        void OnRequestAvatarProperties(IClientAPI remoteClient, UUID avatarID)
         {
             if (m_debugEnabled)
                 MainConsole.Instance.DebugFormat("[GROUPS]: {0} called", MethodBase.GetCurrentMethod().Name);
 
-            //GroupMembershipData[] avatarGroups = m_groupData.GetAgentGroupMemberships(GetRequestingAgentID(remoteClient), avatarID).ToArray();
             GroupMembershipData[] avatarGroups = GetProfileListedGroupMemberships(remoteClient, avatarID);
             remoteClient.SendAvatarGroupsReply(avatarID, avatarGroups);
         }
 
-        private void EventManager_OnClientLogin(IClientAPI client)
+        void EventManager_OnClientLogin(IClientAPI client)
         {
             if (client.Scene.GetScenePresence(client.AgentId).IsChildAgent)
                 return;
@@ -1343,15 +1347,14 @@ namespace Vision.Modules.Groups
                         UUID inviteUUID = Invite.InviteID;
 
                         GridInstantMessage msg = new GridInstantMessage
-                                                     {
-                                                         SessionID = inviteUUID,
-                                                         FromAgentID = Invite.GroupID,
-                                                         ToAgentID = Invite.AgentID,
-                                                         Timestamp = (uint) Util.UnixTimeSinceEpoch(),
-                                                         FromAgentName = Invite.FromAgentName,
-                                                         RegionID = client.Scene.RegionInfo.RegionID
-                                                     };
-
+                        {
+                            SessionID = inviteUUID,
+                            FromAgentID = Invite.GroupID,
+                            ToAgentID = Invite.AgentID,
+                            Timestamp = (uint)Util.UnixTimeSinceEpoch(),
+                            FromAgentName = Invite.FromAgentName,
+                            RegionID = client.Scene.RegionInfo.RegionID
+                        };
 
                         GroupRecord groupInfo = GetGroupRecord(Invite.GroupID);
                         string MemberShipCost = ". There is no cost to join this group.";
@@ -1361,7 +1364,7 @@ namespace Vision.Modules.Groups
                         msg.Message =
                             string.Format("{0} has invited you to join " + groupInfo.GroupName + MemberShipCost,
                                           Invite.FromAgentName);
-                        msg.Dialog = (byte) InstantMessageDialog.GroupInvitation;
+                        msg.Dialog = (byte)InstantMessageDialog.GroupInvitation;
                         msg.FromGroup = true;
                         msg.Offline = 0;
                         msg.ParentEstateID = 0;
@@ -1375,65 +1378,30 @@ namespace Vision.Modules.Groups
             }
         }
 
-        /*
-         * This becomes very problematic in a shared module.  In a shared module you may have more then one
-         * reference to IClientAPI's, one for 0 or 1 root connections, and 0 or more child connections.
-         * The OnClientClosed event does not provide anything to indicate which one of those should be closed
-         * nor does it provide what scene it was from so that the specific reference can be looked up.
-         * The InstantMessageModule.cs does not currently worry about unregistering the handles, 
-         * and it should be an issue, since it's the client that references us not the other way around
-         * , so as long as we don't keep a reference to the client laying around, the client can still be GC'ed
-        private void OnClientClosed(UUID AgentId)
-        {
-            if (m_debugEnabled) MainConsole.Instance.DebugFormat("[GROUPS]: {0} called", System.Reflection.MethodBase.GetCurrentMethod().Name);
-
-            lock (m_ActiveClients)
-            {
-                if (m_ActiveClients.ContainsKey(AgentId))
-                {
-                    IClientAPI client = m_ActiveClients[AgentId];
-                    client.OnUUIDGroupNameRequest -= HandleUUIDGroupNameRequest;
-                    client.OnAgentDataUpdateRequest -= OnAgentDataUpdateRequest;
-                    client.OnDirFindQuery -= OnDirFindQuery;
-                    client.OnInstantMessage -= OnInstantMessage;
-
-                    m_ActiveClients.Remove(AgentId);
-                }
-                else
-                {
-                    if (m_debugEnabled) MainConsole.Instance.WarnFormat("[GROUPS]: Client closed that wasn't registered here.");
-                }
-
-                
-            }
-        }
-        */
-
-        private void OnDirFindQuery(IClientAPI remoteClient, UUID queryID, string queryText, uint queryFlags,
+        void OnDirFindQuery(IClientAPI remoteClient, UUID queryID, string queryText, uint queryFlags,
                                     int queryStart)
         {
-            if (((DirectoryManager.DirFindFlags) queryFlags & DirectoryManager.DirFindFlags.Groups) ==
+            if (((DirectoryManager.DirFindFlags)queryFlags & DirectoryManager.DirFindFlags.Groups) ==
                 DirectoryManager.DirFindFlags.Groups)
             {
                 if (m_debugEnabled)
                     MainConsole.Instance.DebugFormat(
                         "[GROUPS]: {0} called with queryText({1}) queryFlags({2}) queryStart({3})",
-                        MethodBase.GetCurrentMethod().Name, queryText, (DirectoryManager.DirFindFlags) queryFlags,
+                        MethodBase.GetCurrentMethod().Name, queryText, (DirectoryManager.DirFindFlags)queryFlags,
                         queryStart);
 
                 remoteClient.SendDirGroupsReply(queryID,
                                                 m_groupData.FindGroups(GetRequestingAgentID(remoteClient), queryText,
-                                                                       (uint) queryStart, 50, queryFlags).ToArray());
+                                                                       (uint)queryStart, 50, queryFlags).ToArray());
             }
         }
 
-        private void OnAgentDataUpdateRequest(IClientAPI remoteClient, UUID dataForAgentID, UUID sessionID)
+        void OnAgentDataUpdateRequest(IClientAPI remoteClient, UUID dataForAgentID, UUID sessionID)
         {
             OnAgentDataUpdateRequest(remoteClient, dataForAgentID, sessionID, true);
         }
 
-        private void OnAgentDataUpdateRequest(IClientAPI remoteClient, UUID dataForAgentID, UUID sessionID,
-                                              bool sendToAll)
+        void OnAgentDataUpdateRequest(IClientAPI remoteClient, UUID dataForAgentID, UUID sessionID, bool sendToAll)
         {
             if (m_debugEnabled)
                 MainConsole.Instance.DebugFormat("[GROUPS]: {0} called", MethodBase.GetCurrentMethod().Name);
@@ -1441,7 +1409,7 @@ namespace Vision.Modules.Groups
             UUID activeGroupID = UUID.Zero;
             string activeGroupTitle = string.Empty;
             string activeGroupName = string.Empty;
-            ulong activeGroupPowers = (ulong) GroupPowers.None;
+            ulong activeGroupPowers = (ulong)GroupPowers.None;
 
             GroupMembershipData membership = m_cachedGroupTitles.ContainsKey(dataForAgentID)
                                                  ? m_cachedGroupTitles[dataForAgentID]
@@ -1466,7 +1434,7 @@ namespace Vision.Modules.Groups
                 SendScenePresenceUpdate(dataForAgentID, activeGroupTitle);
         }
 
-        private void HandleUUIDGroupNameRequest(UUID GroupID, IClientAPI remoteClient)
+        void HandleUUIDGroupNameRequest(UUID GroupID, IClientAPI remoteClient)
         {
             if (m_debugEnabled)
                 MainConsole.Instance.DebugFormat("[GROUPS]: {0} called", MethodBase.GetCurrentMethod().Name);
@@ -1479,14 +1447,14 @@ namespace Vision.Modules.Groups
             remoteClient.SendGroupNameReply(GroupID, GroupName);
         }
 
-        private void OnInstantMessage(IClientAPI remoteClient, GridInstantMessage im)
+        void OnInstantMessage(IClientAPI remoteClient, GridInstantMessage im)
         {
             if (m_debugEnabled)
                 MainConsole.Instance.DebugFormat("[GROUPS]: {0} called", MethodBase.GetCurrentMethod().Name);
 
             // Group invitations
-            if ((im.Dialog == (byte) InstantMessageDialog.GroupInvitationAccept) ||
-                (im.Dialog == (byte) InstantMessageDialog.GroupInvitationDecline))
+            if ((im.Dialog == (byte)InstantMessageDialog.GroupInvitationAccept) ||
+                (im.Dialog == (byte)InstantMessageDialog.GroupInvitationDecline))
             {
                 UUID inviteID = im.SessionID;
                 GroupInviteInfo inviteInfo = m_groupData.GetAgentToGroupInvite(GetRequestingAgentID(remoteClient),
@@ -1510,7 +1478,7 @@ namespace Vision.Modules.Groups
                 if ((inviteInfo != null) && (fromAgentID == inviteInfo.AgentID))
                 {
                     // Accept
-                    if (im.Dialog == (byte) InstantMessageDialog.GroupInvitationAccept)
+                    if (im.Dialog == (byte)InstantMessageDialog.GroupInvitationAccept)
                     {
                         if (m_debugEnabled)
                             MainConsole.Instance.DebugFormat("[GROUPS]: Received an accept invite notice.");
@@ -1524,22 +1492,22 @@ namespace Vision.Modules.Groups
                                                         inviteInfo.RoleID);
 
                             GridInstantMessage msg = new GridInstantMessage
-                                                         {
-                                                             SessionID = UUID.Zero,
-                                                             FromAgentID = UUID.Zero,
-                                                             ToAgentID = inviteInfo.AgentID,
-                                                             Timestamp = (uint) Util.UnixTimeSinceEpoch(),
-                                                             FromAgentName = "Groups",
-                                                             Message =
-                                                                 string.Format("You have been added to the group."),
-                                                             Dialog = (byte) InstantMessageDialog.MessageBox,
-                                                             FromGroup = false,
-                                                             Offline = 0,
-                                                             ParentEstateID = 0,
-                                                             Position = Vector3.Zero,
-                                                             RegionID = UUID.Zero,
-                                                             BinaryBucket = new byte[0]
-                                                         };
+                            {
+                                SessionID = UUID.Zero,
+                                FromAgentID = UUID.Zero,
+                                ToAgentID = inviteInfo.AgentID,
+                                Timestamp = (uint)Util.UnixTimeSinceEpoch(),
+                                FromAgentName = "Groups",
+                                Message =
+                                    string.Format("You have been added to the group."),
+                                Dialog = (byte)InstantMessageDialog.MessageBox,
+                                FromGroup = false,
+                                Offline = 0,
+                                ParentEstateID = 0,
+                                Position = Vector3.Zero,
+                                RegionID = UUID.Zero,
+                                BinaryBucket = new byte[0]
+                            };
 
                             OutgoingInstantMessage(msg, inviteInfo.AgentID);
 
@@ -1557,7 +1525,7 @@ namespace Vision.Modules.Groups
                     }
 
                     // Reject
-                    if (im.Dialog == (byte) InstantMessageDialog.GroupInvitationDecline)
+                    if (im.Dialog == (byte)InstantMessageDialog.GroupInvitationDecline)
                     {
                         if (m_debugEnabled)
                             MainConsole.Instance.DebugFormat("[GROUPS]: Received a reject invite notice.");
@@ -1570,7 +1538,7 @@ namespace Vision.Modules.Groups
             // Group notices
             switch (im.Dialog)
             {
-                case (byte) InstantMessageDialog.GroupNotice:
+                case (byte)InstantMessageDialog.GroupNotice:
                     {
                         if (!m_groupNoticesEnabled)
                             return;
@@ -1601,7 +1569,7 @@ namespace Vision.Modules.Groups
                                 string binBucket = Utils.BytesToString(im.BinaryBucket);
                                 binBucket = binBucket.Remove(0, 14).Trim();
 
-                                OSDMap binBucketOSD = (OSDMap) OSDParser.DeserializeLLSDXml(binBucket);
+                                OSDMap binBucketOSD = (OSDMap)OSDParser.DeserializeLLSDXml(binBucket);
                                 if (binBucketOSD.ContainsKey("item_id"))
                                 {
                                     ItemID = binBucketOSD["item_id"].AsUUID();
@@ -1624,42 +1592,42 @@ namespace Vision.Modules.Groups
                             if (OnNewGroupNotice != null)
                                 OnNewGroupNotice(GroupID, NoticeID);
                             GroupNoticeInfo notice = new GroupNoticeInfo()
-                                                         {
-                                                             BinaryBucket = im.BinaryBucket,
-                                                             GroupID = GroupID,
-                                                             Message = Message,
-                                                             noticeData = new GroupNoticeData()
-                                                                              {
-                                                                                  AssetType = (byte) AssetType,
-                                                                                  FromName = im.FromAgentName,
-                                                                                  GroupID = GroupID,
-                                                                                  HasAttachment = ItemID != UUID.Zero,
-                                                                                  ItemID = ItemID,
-                                                                                  ItemName = ItemName,
-                                                                                  NoticeID = NoticeID,
-                                                                                  Subject = Subject,
-                                                                                  Timestamp = im.Timestamp
-                                                                              }
-                                                         };
+                            {
+                                BinaryBucket = im.BinaryBucket,
+                                GroupID = GroupID,
+                                Message = Message,
+                                noticeData = new GroupNoticeData()
+                                {
+                                    AssetType = (byte)AssetType,
+                                    FromName = im.FromAgentName,
+                                    GroupID = GroupID,
+                                    HasAttachment = ItemID != UUID.Zero,
+                                    ItemID = ItemID,
+                                    ItemName = ItemName,
+                                    NoticeID = NoticeID,
+                                    Subject = Subject,
+                                    Timestamp = im.Timestamp
+                                }
+                            };
 
                             SendGroupNoticeToUsers(remoteClient, notice, false);
                         }
                     }
                     break;
-                case (byte) InstantMessageDialog.GroupNoticeInventoryDeclined:
+                case (byte)InstantMessageDialog.GroupNoticeInventoryDeclined:
                     break;
-                case (byte) InstantMessageDialog.GroupNoticeInventoryAccepted:
+                case (byte)InstantMessageDialog.GroupNoticeInventoryAccepted:
                     {
                         UUID FolderID = new UUID(im.BinaryBucket, 0);
                         remoteClient.Scene.InventoryService.GiveInventoryItemAsync(remoteClient.AgentId, UUID.Zero,
                                                                                    im.SessionID, FolderID, false,
                                                                                    (item) =>
-                                                                                       {
-                                                                                           if (item != null)
-                                                                                               remoteClient
-                                                                                                   .SendBulkUpdateInventory
-                                                                                                   (item);
-                                                                                       });
+                                                                                   {
+                                                                                       if (item != null)
+                                                                                           remoteClient
+                                                                                               .SendBulkUpdateInventory
+                                                                                               (item);
+                                                                                   });
                     }
                     break;
                 case 210:
@@ -1670,7 +1638,7 @@ namespace Vision.Modules.Groups
 
                         UUID ejecteeID = im.ToAgentID;
 
-                        im.Dialog = (byte) InstantMessageDialog.MessageFromAgent;
+                        im.Dialog = (byte)InstantMessageDialog.MessageFromAgent;
                         OutgoingInstantMessage(im, ejecteeID);
 
                         IClientAPI ejectee = GetActiveClient(ejecteeID);
@@ -1686,7 +1654,7 @@ namespace Vision.Modules.Groups
                     break;
                 case 211:
                     {
-                        im.Dialog = (byte) InstantMessageDialog.GroupNotice;
+                        im.Dialog = (byte)InstantMessageDialog.GroupNotice;
 
                         //In offline group notices, imSessionID is replaced with the NoticeID so that we can rebuild the packet here
                         GroupNoticeInfo GND = m_groupData.GetGroupNotice(im.ToAgentID, im.SessionID);
@@ -1751,7 +1719,7 @@ namespace Vision.Modules.Groups
                 {
                     // Build notice IIM
                     GridInstantMessage msg = CreateGroupNoticeIM(GetRequestingAgentID(remoteClient), notice,
-                                                                 (byte) InstantMessageDialog.GroupNotice);
+                                                                 (byte)InstantMessageDialog.GroupNotice);
 
                     msg.ToAgentID = member.AgentID;
                     OutgoingInstantMessage(msg, member.AgentID, localOnly);
@@ -1759,7 +1727,7 @@ namespace Vision.Modules.Groups
             }
         }
 
-        private GroupMembershipData AttemptFindGroupMembershipData(UUID requestingAgentID, UUID agentID, UUID groupID)
+        GroupMembershipData AttemptFindGroupMembershipData(UUID requestingAgentID, UUID agentID, UUID groupID)
         {
             if (m_cachedGroupMemberships.ContainsKey(agentID))
             {
@@ -1771,7 +1739,7 @@ namespace Vision.Modules.Groups
             return m_groupData.GetGroupMembershipData(requestingAgentID, groupID, agentID);
         }
 
-        private void OnGridInstantMessage(GridInstantMessage msg)
+        void OnGridInstantMessage(GridInstantMessage msg)
         {
             if (m_debugEnabled)
                 MainConsole.Instance.InfoFormat("[GROUPS]: {0} called", MethodBase.GetCurrentMethod().Name);
@@ -1784,8 +1752,8 @@ namespace Vision.Modules.Groups
             {
                 switch (msg.Dialog)
                 {
-                    case (byte) InstantMessageDialog.GroupInvitation:
-                    case (byte) InstantMessageDialog.GroupNotice:
+                    case (byte)InstantMessageDialog.GroupInvitation:
+                    case (byte)InstantMessageDialog.GroupNotice:
                         UUID toAgentID = msg.ToAgentID;
                         IClientAPI localClient = GetActiveClient(toAgentID);
                         if (localClient != null)
@@ -1808,39 +1776,39 @@ namespace Vision.Modules.Groups
                                                              delegate(string path, Stream request,
                                                                       OSHttpRequest httpRequest,
                                                                       OSHttpResponse httpResponse)
-                                                                 {
-                                                                     return GroupProposalBallot(HttpServerHandlerHelpers.ReadString(request),
-                                                                                                agentID);
-                                                                 }));
+                                                             {
+                                                                 return GroupProposalBallot(HttpServerHandlerHelpers.ReadString(request),
+                                                                                            agentID);
+                                                             }));
             retVal["StartGroupProposal"] = CapsUtil.CreateCAPS("StartGroupProposal", "");
             server.AddStreamHandler(new GenericStreamHandler("POST", retVal["StartGroupProposal"],
                                                              delegate(string path, Stream request,
                                                                       OSHttpRequest httpRequest,
                                                                       OSHttpResponse httpResponse)
-                                                                 {
-                                                                     return StartGroupProposal(HttpServerHandlerHelpers.ReadString(request),
-                                                                                               agentID);
-                                                                 }));
+                                                             {
+                                                                 return StartGroupProposal(HttpServerHandlerHelpers.ReadString(request),
+                                                                                           agentID);
+                                                             }));
             return retVal;
         }
 
-        private GridInstantMessage BuildGroupNoticeIM(GroupNoticeInfo data, UUID groupNoticeID, UUID AgentID)
+        GridInstantMessage BuildGroupNoticeIM(GroupNoticeInfo data, UUID groupNoticeID, UUID AgentID)
         {
             GridInstantMessage msg = new GridInstantMessage
-                                         {
-                                             FromAgentID = data.GroupID,
-                                             ToAgentID = AgentID,
-                                             Timestamp = data.noticeData.Timestamp,
-                                             FromAgentName = data.noticeData.FromName,
-                                             Message = data.noticeData.Subject + "|" + data.Message,
-                                             Dialog = (byte) InstantMessageDialog.GroupNoticeRequested,
-                                             FromGroup = true,
-                                             Offline = 1,
-                                             ParentEstateID = 0,
-                                             Position = Vector3.Zero,
-                                             RegionID = UUID.Zero,
-                                             SessionID = UUID.Random()
-                                         };
+            {
+                FromAgentID = data.GroupID,
+                ToAgentID = AgentID,
+                Timestamp = data.noticeData.Timestamp,
+                FromAgentName = data.noticeData.FromName,
+                Message = data.noticeData.Subject + "|" + data.Message,
+                Dialog = (byte)InstantMessageDialog.GroupNoticeRequested,
+                FromGroup = true,
+                Offline = 1,
+                ParentEstateID = 0,
+                Position = Vector3.Zero,
+                RegionID = UUID.Zero,
+                SessionID = UUID.Random()
+            };
 
             //Allow offline
 
@@ -1863,7 +1831,7 @@ namespace Vision.Modules.Groups
             return msg;
         }
 
-        private byte[] CreateBitBucketForGroupAttachment(GroupNoticeData groupNoticeData, UUID groupID)
+        byte[] CreateBitBucketForGroupAttachment(GroupNoticeData groupNoticeData, UUID groupID)
         {
             int i = 20;
             i += groupNoticeData.ItemName.Length;
@@ -1871,14 +1839,13 @@ namespace Vision.Modules.Groups
             groupID.ToBytes(bitbucket, 2);
             byte[] name = Utils.StringToBytes(" " + groupNoticeData.ItemName);
             Array.ConstrainedCopy(name, 0, bitbucket, 18, name.Length);
-            //Utils.Int16ToBytes((short)item.AssetType, bitbucket, 0);
             bitbucket[0] = 1; // 0 for no attachment, 1 for attachment
             bitbucket[1] = groupNoticeData.AssetType; // Asset type
 
             return bitbucket;
         }
 
-        private UUID GetRequestingAgentID(IClientAPI client)
+        UUID GetRequestingAgentID(IClientAPI client)
         {
             UUID requestingAgentID = UUID.Zero;
             if (client != null)
@@ -1896,7 +1863,7 @@ namespace Vision.Modules.Groups
         ///     TKey 2 - UUID of the group
         ///     TValue - Powers of the agent in the given group
         /// </summary>
-        private readonly Dictionary<UUID, Dictionary<UUID, ulong>> AgentGroupPowersCache =
+        readonly Dictionary<UUID, Dictionary<UUID, ulong>> AgentGroupPowersCache =
             new Dictionary<UUID, Dictionary<UUID, ulong>>();
 
         /// <summary>
@@ -1930,6 +1897,7 @@ namespace Vision.Modules.Groups
                     }
                 }
             }
+ 
             //Ask the server as we don't know about this user
             if (ourPowers == 0)
             {
@@ -1948,13 +1916,13 @@ namespace Vision.Modules.Groups
             if (permissions == GroupPowers.None)
                 return true;
 
-            if ((((GroupPowers) ourPowers) & permissions) != permissions)
+            if ((((GroupPowers)ourPowers) & permissions) != permissions)
                 return false;
 
             return true;
         }
 
-        private void AddToGroupPowersCache(UUID AgentID, UUID GroupID, ulong powers)
+        void AddToGroupPowersCache(UUID AgentID, UUID GroupID, ulong powers)
         {
             lock (AgentGroupPowersCache)
             {
@@ -1966,7 +1934,7 @@ namespace Vision.Modules.Groups
             }
         }
 
-        private void RemoveFromGroupPowersCache(UUID GroupID)
+        void RemoveFromGroupPowersCache(UUID GroupID)
         {
             lock (AgentGroupPowersCache)
             {
@@ -1977,7 +1945,7 @@ namespace Vision.Modules.Groups
             }
         }
 
-        private void RemoveFromGroupPowersCache(UUID AgentID, UUID GroupID)
+        void RemoveFromGroupPowersCache(UUID AgentID, UUID GroupID)
         {
             lock (AgentGroupPowersCache)
             {

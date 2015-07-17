@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,11 +25,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
 using System.Collections.Generic;
-using Vision.Framework.ClientInterfaces;
-using Vision.Framework.PresenceInfo;
 using OpenMetaverse;
+using Vision.Framework.ClientInterfaces;
 using Vision.Framework.DatabaseInterfaces;
+using Vision.Framework.PresenceInfo;
 
 namespace Vision.Framework.Modules
 {
@@ -77,6 +78,13 @@ namespace Vision.Framework.Modules
         /// <param name="GroupID">ID of the group</param>
         /// <returns>The group's data.  Null if there is no such group.</returns>
         GroupRecord GetGroupRecord(UUID GroupID);
+
+        /// <summary>
+        /// Gets a list of all groups.
+        /// </summary>
+        /// <returns>Alist of group UUIDs</returns>
+        List<UUID> GetAllGroups(UUID RequestingAgentID);
+        List<GroupMembersData> GetGroupMembers(UUID requestingAgentID, UUID GroupID);
 
         void ActivateGroup(IClientAPI remoteClient, UUID groupID);
         List<GroupTitlesData> GroupTitlesRequest(IClientAPI remoteClient, UUID groupID);
