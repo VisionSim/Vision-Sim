@@ -76,6 +76,11 @@ namespace Vision.Modules.Caps
 
         public void RemoveRegion(IScene scene)
         {
+            if (!m_enabled)
+                return;
+
+            m_scene.EventManager.OnRegisterCaps -= RegisterCaps;
+            m_scene = null;
         }
 
         public void RegionLoaded(IScene scene)
