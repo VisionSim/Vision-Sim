@@ -28,6 +28,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Vision.Framework.Utilities;
 
 namespace Vision.Physics.PrimMesher
 {

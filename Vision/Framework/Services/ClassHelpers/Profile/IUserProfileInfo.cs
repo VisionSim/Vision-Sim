@@ -51,10 +51,10 @@ namespace Vision.Framework.Services.ClassHelpers.Profile
     [Flags]
     public enum IAgentmembershipType : uint
     {
-        Free = 0;
-        Basic = 2;
-        Premium = 4;
-        Concierge = 512;
+        Free = 0,
+        Basic = 2,
+        Premium = 4,
+        Concierge = 512
     }
 
     public class IAgentInfo : IDataTransferable, BaseCacheAccount

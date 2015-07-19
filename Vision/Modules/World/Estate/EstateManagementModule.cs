@@ -183,7 +183,7 @@ namespace Vision.Modules.Estate
                 m_scene.RegionInfo.EstateSettings.SunPosition = sun_hour;
             }
 
-            WhiteCore.Framework.Utilities.DataManager.RequestPlugin<IEstateConnector>().
+            Framework.Utilities.DataManager.RequestPlugin<IEstateConnector>().
                 SaveEstateSettings(m_scene.RegionInfo.EstateSettings);
 
             TriggerEstateInfoChange();
@@ -995,7 +995,7 @@ namespace Vision.Modules.Estate
             m_scene.RegionInfo.RegionSettings.BlockShowInSearch = (parms1 & (uint)RegionFlags.BlockParcelSearch) ==
             (uint)RegionFlags.BlockParcelSearch;
 
-            WhiteCore.Framework.Utilities.DataManager.RequestPlugin<IEstateConnector>().
+            Framework.Utilities.DataManager.RequestPlugin<IEstateConnector>().
                 SaveEstateSettings(m_scene.RegionInfo.EstateSettings);
             TriggerEstateInfoChange();
             TriggerEstateSunUpdate();

@@ -1099,7 +1099,7 @@ namespace Vision.Modules.Groups
             if (m_debugEnabled)
                 MainConsole.Instance.DebugFormat("[GROUPS]: {0} called", MethodBase.GetCurrentMethod().Name);
 
-            m_groupData = WhiteCore.Framework.Utilities.DataManager.RequestPlugin<IGroupsServiceConnector>();
+            m_groupData = Framework.Utilities.DataManager.RequestPlugin<IGroupsServiceConnector>();
 
             // No Groups Service Connector, then nothing works...
             if (m_groupData == null)

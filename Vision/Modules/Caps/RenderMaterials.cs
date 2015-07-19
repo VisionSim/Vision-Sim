@@ -210,7 +210,6 @@ namespace Vision.Modules.Caps
                                                 try
                                                 {
                                                     mat = matsMap["Material"] as OSDMap;
-
                                                 }
                                                 catch (Exception e)
                                                 {
@@ -250,7 +249,14 @@ namespace Vision.Modules.Caps
                                                                 MainConsole.Instance.Debug("[Materials]: te.DefaultTexture is null");
                                                             else
                                                             {
+                                                                //## FixMe ##
+                                                                // comparison always results in 'False'                                   
+                                                                //if (te.DefaultTexture.MaterialID == null)
+                                                                //    MainConsole.Instance.Debug("[MaterialsDemoModule]: te.DefaultTexture.MaterialID is null");
+                                                                //else
+                                                                //{
                                                                 te.DefaultTexture.MaterialID = id;
+                                                                //}
                                                             }
                                                         }
                                                         else
@@ -308,9 +314,11 @@ namespace Vision.Modules.Caps
                 catch (Exception e)
                 {
                     MainConsole.Instance.Warn("[Materials]: exception decoding zipped CAP payload: " + e);
+                    //return "";
                 }
                 MainConsole.Instance.Debug("[Materials]: knownMaterials.Count: " + m_knownMaterials.Count);
             }
+
 
             resp["Zipped"] = ZCompressOSD(respArr, false);
             string response = OSDParser.SerializeLLSDXmlString(resp);
@@ -370,12 +378,14 @@ namespace Vision.Modules.Caps
             }
         }
 
+
         public byte[] RenderMaterialsGetCap(string path, Stream request,
                                             OSHttpRequest httpRequest, OSHttpResponse httpResponse)
         {
             MainConsole.Instance.Debug("[Materials]: GET cap handler");
 
             OSDMap resp = new OSDMap();
+
 
             int matsCount = 0;
 
@@ -391,6 +401,7 @@ namespace Vision.Modules.Caps
                 allOsd.Add(matMap);
                 matsCount++;
             }
+
 
             resp["Zipped"] = ZCompressOSD(allOsd, false);
             MainConsole.Instance.Debug("[Materials]: matsCount: " + matsCount);

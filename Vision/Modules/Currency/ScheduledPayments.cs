@@ -27,11 +27,15 @@
 
 
 using System;
+using System.Collections.Generic;
+using System.Timers;
 using Nini.Config;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
 using Vision.Framework.ConsoleFramework;
+using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
+using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
 
