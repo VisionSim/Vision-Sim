@@ -28,6 +28,16 @@ OSX:
 
 *To compile Vision, look at the Compiling.txt in the VisionDocs folder for more information*
 
+## Vision-Sim Build Status
+
+Windows .Net 4.5 [![Build status](https://ci.appveyor.com/api/projects/status/a90lejf562n9sxwy?svg=true)](https://ci.appveyor.com/project/britanyanncopperfield/vision-sim)
+
+Linux 64 Bit [![Build Status](https://travis-ci.org/VisionSim/Vision-Sim.svg?branch=master)](https://travis-ci.org/VisionSim/Vision-Sim)
+
+Pull requests [![Issue Stats](http://www.issuestats.com/github/VisionSim/Vision-Sim/badge/pr)](http://www.issuestats.com/github/VisionSim/Vision-Sim)
+
+Issues closed [![Issue Stats](http://www.issuestats.com/github/VisionSim/Vision-Sim/badge/issue)](http://www.issuestats.com/github/VisionSim/Vision-Sim)
+
 ## Configuration
 
 *To see how to configure Vision, look at "Setting up Vision.txt" in the VisionDocs folder for more information*
