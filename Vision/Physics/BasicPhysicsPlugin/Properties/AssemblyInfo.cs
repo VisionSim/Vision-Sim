@@ -25,6 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -38,7 +39,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("http://Vision-sim.org")]
-[assembly: AssemblyCopyright("(C) Vision-Sim.org Developers 2007-2009")]
+[assembly: AssemblyCopyright("(C) Vision-Sim.org Developers 2015-2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -54,4 +55,4 @@ using System.Runtime.InteropServices;
 // You can specify all values by your own or you can build default build and revision
 // numbers with the '*' character (the default):
 
-[assembly: AssemblyVersion("0.9.3.*")]
+[assembly: AssemblyVersion("1.0.1.*")]

@@ -46,7 +46,7 @@ namespace Vision.Framework.Utilities
 
         #endregion
 
-		public const string VERSION_NUMBER = "0.9.3";
+		public const string VERSION_NUMBER = "1.0.1";
         public const Flavour VERSION_FLAVOUR = Flavour.Dev;
         public const string VERSION_NAME = "Vision";
 
