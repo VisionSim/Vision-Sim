@@ -26,76 +26,49 @@
  */
 
 using System;
-using System.IO;
-using Vision.Framework.Servers.HttpServer.Implementation;
-using Vision.Framework.Servers.HttpServer.Interfaces;
+using System.Collections.Generic;
+using Vision.Framework.Utilities;
 
-namespace Vision.Framework.Servers.HttpServer
+namespace Vision.DataManager.Migration.Migrators.Generics
 {
-    public abstract class BaseRequestHandler : IStreamedRequestHandler
+    public class GenericsMigrator_1 : Migrator
     {
-        protected readonly string m_httpMethod;
-
-        protected readonly string m_path;
-
-        protected BaseRequestHandler(string httpMethod, string path)
+        public GenericsMigrator_1()
         {
-            m_httpMethod = httpMethod;
-            m_path = path;
+            Version = new Version(0, 0, 1);
+            MigrationName = "Generics";
+
+            schema = new List<SchemaDefinition>();
+
+            AddSchema("generics", ColDefs(
+                ColDef("OwnerID", ColumnTypes.String36),
+                ColDef("Type", ColumnTypes.String64),
+                ColDef("Key", ColumnTypes.String64),
+                ColDef("Value", ColumnTypes.LongText)
+                                      ), IndexDefs(
+                                          IndexDef(new string[3] {"OwnerID", "Type", "Key"}, IndexType.Primary),
+                                          IndexDef(new string[2] {"Type", "Key"}, IndexType.Index)
+                                             ));
         }
 
-        public virtual string ContentType
+        protected override void DoCreateDefaults(IDataConnector genericData)
         {
-            get { return "application/xml"; }
+            EnsureAllTablesInSchemaExist(genericData);
         }
 
-        public virtual string HttpMethod
+        protected override bool DoValidate(IDataConnector genericData)
         {
-            get { return m_httpMethod; }
+            return TestThatAllTablesValidate(genericData);
         }
 
-        public virtual string Path
+        protected override void DoMigrate(IDataConnector genericData)
         {
-            get { return m_path; }
+            DoCreateDefaults(genericData);
         }
 
-        public string GetBodyAsString(Stream request)
+        protected override void DoPrepareRestorePoint(IDataConnector genericData)
         {
-            StreamReader sr = new StreamReader(request);
-            string body = sr.ReadToEnd();
-            sr.Close();
-            body = body.Trim();
-            return body;
+            CopyAllTablesToTempVersions(genericData);
         }
-
-        protected string GetParam(string path)
-        {
-            if (CheckParam(path))
-            {
-                return path.Substring(m_path.Length);
-            }
-
-            return String.Empty;
-        }
-
-        protected bool CheckParam(string path)
-        {
-            if (String.IsNullOrEmpty(path))
-            {
-                return false;
-            }
-
-            return path.StartsWith(Path);
-        }
-
-        protected string[] SplitParams(string path)
-        {
-            string param = GetParam(path);
-
-            return param.Split(new char[] {'/', '?', '&'}, StringSplitOptions.RemoveEmptyEntries);
-        }
-
-        public abstract byte[] Handle(string path, Stream request,
-                                      OSHttpRequest httpRequest, OSHttpResponse httpResponse);
     }
 }

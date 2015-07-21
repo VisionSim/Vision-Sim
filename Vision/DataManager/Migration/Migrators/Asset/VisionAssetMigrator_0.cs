@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,11 +31,11 @@ using Vision.Framework.Utilities;
 
 namespace Vision.DataManager.Migration.Migrators.Asset
 {
-    public class VisionAssetMigrator_1 : Migrator
+    public class VisionAssetMigrator_0 : Migrator
     {
-        public VisionAssetMigrator_1()
+        public VisionAssetMigrator_0()
         {
-            Version = new Version(0, 0, 1);
+            Version = new Version(0, 0, 0);
             MigrationName = "BlackholeAsset";
 
             schema = new List<SchemaDefinition>();
@@ -350,7 +350,7 @@ namespace Vision.DataManager.Migration.Migrators.Asset
 			AddSchema("visionassets_tasks", ColDefs(
                 ColDef("id", ColumnTypes.String36),
                 ColDef("task_type", ColumnTypes.String64),
-                ColDef("task_values", ColumnTypes.String255)
+                ColDef("task_values", ColumnTypes.String36)
                                                 ), IndexDefs(
                                                     IndexDef(new string[1] {"id"}, IndexType.Primary)
                                                        ));

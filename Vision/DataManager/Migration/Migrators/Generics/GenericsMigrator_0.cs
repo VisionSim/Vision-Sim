@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,45 +25,49 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.Modules;
-using Vision.Framework.SceneInfo;
-using OpenMetaverse.StructuredData;
+using System;
+using System.Collections.Generic;
+using Vision.Framework.Utilities;
 
-namespace Vision.Framework.ClientInterfaces
+namespace Vision.DataManager.Migration.Migrators.Generics
 {
-    public class ExtendedLandData : IDataTransferable
+    public class GenericsMigrator_0 : Migrator
     {
-        public float GlobalPosX;
-        public float GlobalPosY;
-        public LandData LandData;
-        public string RegionName;
-        public string RegionType;
-        public string RegionTerrain;
-        public uint RegionArea;
-
-        public override void FromOSD(OpenMetaverse.StructuredData.OSDMap map)
+        public GenericsMigrator_0()
         {
-            GlobalPosX = map["GlobalPosX"];
-            GlobalPosY = map["GlobalPosY"];
-            LandData = new LandData();
-            LandData.FromOSD((OSDMap) map["LandData"]);
-            RegionName = map["RegionName"];
-            RegionType = map["RegionType"];
-            RegionTerrain = map["RegionTerrain"];
-            RegionArea = map["RegionArea"];
+            Version = new Version(0, 0, 0);
+            MigrationName = "Generics";
+
+            schema = new List<SchemaDefinition>();
+
+            AddSchema("generics", ColDefs(
+                ColDef("OwnerID", ColumnTypes.String36),
+                ColDef("Type", ColumnTypes.String64),
+                ColDef("Key", ColumnTypes.String64),
+                ColDef("Value", ColumnTypes.LongText)
+                                      ), IndexDefs(
+                                          IndexDef(new string[3] {"OwnerID", "Type", "Key"}, IndexType.Primary)
+                                             ));
         }
 
-        public override OSDMap ToOSD()
+        protected override void DoCreateDefaults(IDataConnector genericData)
         {
-            OSDMap map = new OSDMap();
-            map["GlobalPosX"] = GlobalPosX;
-            map["GlobalPosY"] = GlobalPosY;
-            map["LandData"] = LandData.ToOSD();
-            map["RegionName"] = RegionName;
-            map["RegionType"] = RegionType;
-            map["RegionTerrain"] = RegionTerrain;
-            map["RegionArea"] = RegionArea;
-            return map;
+            EnsureAllTablesInSchemaExist(genericData);
+        }
+
+        protected override bool DoValidate(IDataConnector genericData)
+        {
+            return TestThatAllTablesValidate(genericData);
+        }
+
+        protected override void DoMigrate(IDataConnector genericData)
+        {
+            DoCreateDefaults(genericData);
+        }
+
+        protected override void DoPrepareRestorePoint(IDataConnector genericData)
+        {
+            CopyAllTablesToTempVersions(genericData);
         }
     }
 }

@@ -1,5 +1,5 @@
-/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+﻿/*
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,26 +29,44 @@ using System;
 using System.Collections.Generic;
 using Vision.Framework.Utilities;
 
-namespace Vision.DataManager.Migration.Migrators.Generics
+namespace Vision.DataManager.Migration.Migrators.Scheduler
 {
-    public class GenericsMigrator_5 : Migrator
+    public class SchedulerMigrator_0 : Migrator
     {
-        public GenericsMigrator_5()
+        public SchedulerMigrator_0()
         {
-            Version = new Version(0, 0, 5);
-            MigrationName = "Generics";
+            Version = new Version(0, 0, 0);
+            MigrationName = "Scheduler";
 
             schema = new List<SchemaDefinition>();
 
-            AddSchema("generics", ColDefs(
-                ColDef("OwnerID", ColumnTypes.String36),
-                ColDef("Type", ColumnTypes.String64),
-                ColDef("Key", ColumnTypes.String64),
-                ColDef("Value", ColumnTypes.LongText)
-                                      ), IndexDefs(
-                                          IndexDef(new string[3] {"OwnerID", "Type", "Key"}, IndexType.Primary),
-                                          IndexDef(new string[2] {"Type", "Key"}, IndexType.Index)
-                                             ));
+            AddSchema("scheduler", ColDefs(
+                ColDef("id", ColumnTypes.String36),
+                ColDef("fire_function", ColumnTypes.String128),
+                ColDef("fire_params", ColumnTypes.String1024),
+                ColDef("run_once", ColumnTypes.TinyInt1),
+                ColDef("run_every", ColumnTypes.Integer30),
+                ColDef("runs_next", ColumnTypes.Integer30),
+                ColDef("keep_history", ColumnTypes.TinyInt1),
+                ColDef("require_reciept", ColumnTypes.TinyInt1),
+                ColDef("last_history_id", ColumnTypes.String36),
+                ColDef("create_time", ColumnTypes.Integer30),
+                ColDef("enabled", ColumnTypes.TinyInt1)
+                                       ), IndexDefs(
+                                           IndexDef(new string[3] {"id", "runs_next", "enabled"}, IndexType.Primary)
+                                              ));
+
+            AddSchema("scheduler_history", ColDefs(
+                ColDef("id", ColumnTypes.String36),
+                ColDef("scheduler_id", ColumnTypes.String36),
+                ColDef("ran_time", ColumnTypes.Integer30),
+                ColDef("run_time", ColumnTypes.Integer30),
+                ColDef("reciept", ColumnTypes.String1024),
+                ColDef("is_complete", ColumnTypes.TinyInt1),
+                ColDef("complete_time", ColumnTypes.Integer30)
+                                               ), IndexDefs(
+                                                   IndexDef(new string[2] {"id", "scheduler_id"}, IndexType.Primary)
+                                                      ));
         }
 
         protected override void DoCreateDefaults(IDataConnector genericData)
