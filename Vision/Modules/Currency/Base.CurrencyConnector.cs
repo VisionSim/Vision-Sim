@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Aurora-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -27,26 +27,24 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Net;
 using Nini.Config;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
-using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
-using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
 
 namespace Vision.Modules.Currency
 {
+    
     public class BaseCurrencyConnector : ConnectorBase, IBaseCurrencyConnector
     {
         #region Declares
-        const string _REALM = "currency";
-        const string _REALMHISTORY = "currency_history";
-        const string _REALMPURCHASE = "currency_purchased";
+        const string _REALM = "simple_currency";
+        const string _REALMHISTORY = "simple_currency_history";
+        const string _REALMPURCHASE = "simple_purchased";
 
         IGenericData m_gd;
         BaseCurrencyConfig m_config;
@@ -56,10 +54,10 @@ namespace Vision.Modules.Currency
 
         public string InWorldCurrency = "";
         public string RealCurrency = "";
-
+        
         #endregion
 
-        #region IWhiteCoreDataPlugin Members
+        #region IVisionDataPlugin Members
 
         public string Name
         {
@@ -79,15 +77,15 @@ namespace Vision.Modules.Currency
             IConfig gridInfo = source.Configs["GridInfoService"];
             if (gridInfo != null)
             {
-                InWorldCurrency = gridInfo.GetString("CurrencySymbol", String.Empty) + " ";
-                RealCurrency = gridInfo.GetString("RealCurrencySymbol", String.Empty) + " ";
+                InWorldCurrency = gridInfo.GetString ("CurrencySymbol", String.Empty) + " ";
+                RealCurrency = gridInfo.GetString ("RealCurrencySymbol", String.Empty) + " ";
             }
 
             if (source.Configs[Name] != null)
                 defaultConnectionString = source.Configs[Name].GetString("ConnectionString", defaultConnectionString);
 
             if (GenericData != null)
-                GenericData.ConnectToDatabase(defaultConnectionString, "BaseCurrency", true);
+                GenericData.ConnectToDatabase(defaultConnectionString, "SimpleCurrency", true);
             Framework.Utilities.DataManager.RegisterPlugin(Name, this);
 
             m_config = new BaseCurrencyConfig(config);
@@ -105,7 +103,7 @@ namespace Vision.Modules.Currency
         {
             object remoteValue = DoRemoteByURL("CurrencyServerURI");
             if (remoteValue != null || m_doRemoteOnly)
-                return (BaseCurrencyConfig)remoteValue;
+                return (BaseCurrencyConfig) remoteValue;
 
             return m_config;
         }
@@ -115,12 +113,11 @@ namespace Vision.Modules.Currency
         {
             object remoteValue = DoRemoteByURL("CurrencyServerURI", agentId);
             if (remoteValue != null || m_doRemoteOnly)
-                return (UserCurrency)remoteValue;
+                return (UserCurrency) remoteValue;
 
-            Dictionary<string, object> where = new Dictionary<string, object>(1);
-            where["PrincipalID"] = agentId;
-            List<string> query = m_gd.Query(new[] { "*" }, _REALM, new QueryFilter()
-            {
+            Dictionary<string, object> where = new Dictionary<string, object> (1);
+            where ["PrincipalID"] = agentId;
+            List<string> query = m_gd.Query (new [] { "*" }, _REALM, new QueryFilter () {
                 andFilters = where
             }, null, null, null);
             UserCurrency currency;
@@ -130,7 +127,7 @@ namespace Vision.Modules.Currency
                 UserCurrencyCreate(agentId);
                 return currency;
             }
-
+            
             return new UserCurrency(query);
         }
 
@@ -139,10 +136,9 @@ namespace Vision.Modules.Currency
         {
             object remoteValue = DoRemoteByURL("CurrencyServerURI", groupID);
             if (remoteValue != null || m_doRemoteOnly)
-                return (GroupBalance)remoteValue;
+                return (GroupBalance) remoteValue;
 
-            GroupBalance gb = new GroupBalance()
-            {
+            GroupBalance gb = new GroupBalance () {
                 GroupFee = 0,
                 LandFee = 0,
                 ObjectFee = 0,
@@ -151,10 +147,9 @@ namespace Vision.Modules.Currency
                 TotalTierDebit = 0,
                 StartingDate = DateTime.UtcNow
             };
-            Dictionary<string, object> where = new Dictionary<string, object>(1);
-            where["PrincipalID"] = groupID;
-            List<string> queryResults = m_gd.Query(new[] { "*" }, _REALM, new QueryFilter()
-            {
+            Dictionary<string, object> where = new Dictionary<string, object> (1);
+            where ["PrincipalID"] = groupID;
+            List<string> queryResults = m_gd.Query (new [] { "*" }, _REALM, new QueryFilter () {
                 andFilters = where
             }, null, null, null);
 
@@ -245,8 +240,8 @@ namespace Vision.Modules.Currency
             filter.andLessThanEqFilters["Created"] = Utils.GetUnixTime();//Less than now
             List<string> query = m_gd.Query(new string[1] { "Amount" }, _REALMPURCHASE, filter, null, null, null);
             if (query == null)
-                return new List<uint>();
-            return query.ConvertAll<uint>(s => uint.Parse(s));
+                return new List<uint> ();
+            return query.ConvertAll<uint> (s => uint.Parse (s));
         }
 
         // transactions...
@@ -259,12 +254,12 @@ namespace Vision.Modules.Currency
             if (fromAgentID != UUID.Zero)
                 filter.andFilters["FromPrincipalID"] = fromAgentID;
 
-
-            var transactions = m_gd.Query(new string[1] { "count(*)" }, _REALMHISTORY, filter, null, null, null);
+   
+            var transactions = m_gd.Query (new string[1] {"count(*)"}, _REALMHISTORY, filter, null, null, null);
             if ((transactions == null) || (transactions.Count == 0))
                 return 0;
-
-            return (uint)int.Parse(transactions[0]);
+           
+            return (uint)int.Parse (transactions[0]);
         }
 
         [CanBeReflected(ThreatLevel = ThreatLevel.Low)]
@@ -272,7 +267,7 @@ namespace Vision.Modules.Currency
         {
             object remoteValue = DoRemoteByURL("CurrencyServerURI", dateStart, dateEnd, start, count);
             if (remoteValue != null || m_doRemoteOnly)
-                return (List<AgentTransfer>)remoteValue;
+                return (List<AgentTransfer>) remoteValue;
 
             QueryFilter filter = new QueryFilter();
 
@@ -282,16 +277,17 @@ namespace Vision.Modules.Currency
                 filter.andFilters["FromPrincipalID"] = fromAgentID;
 
             // back to utc please...
-            dateStart = dateStart.ToUniversalTime();
-            dateEnd = dateEnd.ToUniversalTime();
+            dateStart = dateStart.ToUniversalTime ();
+            dateEnd = dateEnd.ToUniversalTime ();
 
             filter.andGreaterThanEqFilters["Created"] = Utils.DateTimeToUnixTime(dateStart);    // from...
             filter.andLessThanEqFilters["Created"] = Utils.DateTimeToUnixTime(dateEnd);         //...to
 
             Dictionary<string, bool> sort = new Dictionary<string, bool>(1);
             sort["Created"] = false;        // descending order
+            //sort["FromName"] = true;
 
-            List<string> query = m_gd.Query(new string[] { "*" }, _REALMHISTORY, filter, sort, start, count);
+            List<string> query = m_gd.Query (new string[] { "*" }, _REALMHISTORY, filter, sort, start, count);
 
             return ParseTransferQuery(query);
         }
@@ -302,19 +298,19 @@ namespace Vision.Modules.Currency
             var dateStart = StartTransactionPeriod(period, periodType);
             var dateEnd = DateTime.Now;
 
-            return GetTransactionHistory(toAgentID, fromAgentID, dateStart, dateEnd, null, null);
+            return GetTransactionHistory (toAgentID, fromAgentID, dateStart, dateEnd, null, null);
         }
 
         [CanBeReflected(ThreatLevel = ThreatLevel.Low)]
         public List<AgentTransfer> GetTransactionHistory(UUID toAgentID, int period, string periodType)
         {
-            return GetTransactionHistory(toAgentID, UUID.Zero, period, periodType);
+            return GetTransactionHistory (toAgentID, UUID.Zero, period, periodType);
         }
 
         [CanBeReflected(ThreatLevel = ThreatLevel.Low)]
         public List<AgentTransfer> GetTransactionHistory(DateTime dateStart, DateTime dateEnd, uint? start, uint? count)
         {
-            return GetTransactionHistory(UUID.Zero, UUID.Zero, dateStart, dateEnd, start, count);
+            return GetTransactionHistory (UUID.Zero, UUID.Zero, dateStart, dateEnd, start, count);
         }
 
         [CanBeReflected(ThreatLevel = ThreatLevel.Low)]
@@ -323,7 +319,7 @@ namespace Vision.Modules.Currency
             var dateStart = StartTransactionPeriod(period, periodType);
             var dateEnd = DateTime.Now;
 
-            return GetTransactionHistory(dateStart, dateEnd, start, count);
+            return GetTransactionHistory (dateStart, dateEnd, start, count);
         }
 
         // Purchases...
@@ -334,11 +330,11 @@ namespace Vision.Modules.Currency
             if (UserID != UUID.Zero)
                 filter.andFilters["PrincipalID"] = UserID;
 
-            var purchases = m_gd.Query(new string[1] { "count(*)" }, _REALMPURCHASE, filter, null, null, null);
+            var purchases = m_gd.Query (new string[1] { "count(*)" }, _REALMPURCHASE, filter, null, null, null);
             if ((purchases == null) || (purchases.Count == 0))
                 return 0;
-
-            return (uint)int.Parse(purchases[0]);
+            
+            return (uint)int.Parse (purchases [0]);
         }
 
         [CanBeReflected(ThreatLevel = ThreatLevel.Low)]
@@ -346,7 +342,7 @@ namespace Vision.Modules.Currency
         {
             object remoteValue = DoRemoteByURL("CurrencyServerURI", dateStart, dateEnd, start, count);
             if (remoteValue != null || m_doRemoteOnly)
-                return (List<AgentPurchase>)remoteValue;
+                return (List<AgentPurchase>) remoteValue;
 
             QueryFilter filter = new QueryFilter();
 
@@ -354,17 +350,18 @@ namespace Vision.Modules.Currency
                 filter.andFilters["PrincipalID"] = UserID;
 
             // back to utc please...
-            dateStart = dateStart.ToUniversalTime();
-            dateEnd = dateEnd.ToUniversalTime();
+            dateStart = dateStart.ToUniversalTime ();
+            dateEnd = dateEnd.ToUniversalTime ();
 
             filter.andGreaterThanEqFilters["Created"] = Utils.DateTimeToUnixTime(dateStart);    // from...
             filter.andLessThanEqFilters["Created"] = Utils.DateTimeToUnixTime(dateEnd);         //...to
 
 
             Dictionary<string, bool> sort = new Dictionary<string, bool>(1);
+            //sort["PrincipalID"] = true;
             sort["Created"] = false;        // descending order
 
-            List<string> query = m_gd.Query(new string[] { "*" }, _REALMPURCHASE, filter, sort, start, count);
+            List<string> query = m_gd.Query (new string[] { "*" }, _REALMPURCHASE, filter, sort, start, count);
 
             return ParsePurchaseQuery(query);
         }
@@ -375,13 +372,13 @@ namespace Vision.Modules.Currency
             var dateStart = StartTransactionPeriod(period, periodType);
             var dateEnd = DateTime.Now;
 
-            return GetPurchaseHistory(toAgentID, dateStart, dateEnd, null, null);
+            return GetPurchaseHistory (toAgentID, dateStart, dateEnd, null, null);
         }
 
         [CanBeReflected(ThreatLevel = ThreatLevel.Low)]
         public List<AgentPurchase> GetPurchaseHistory(DateTime dateStart, DateTime dateEnd, uint? start, uint? count)
         {
-            return GetPurchaseHistory(UUID.Zero, dateStart, dateEnd, start, count);
+            return GetPurchaseHistory (UUID.Zero, dateStart, dateEnd, start, count);
         }
 
         [CanBeReflected(ThreatLevel = ThreatLevel.Low)]
@@ -390,9 +387,11 @@ namespace Vision.Modules.Currency
             var dateStart = StartTransactionPeriod(period, periodType);
             var dateEnd = DateTime.Now;
 
-            return GetPurchaseHistory(UUID.Zero, dateStart, dateEnd, start, count);
+            return GetPurchaseHistory (UUID.Zero, dateStart, dateEnd, start, count);
         }
 
+
+            
         public bool UserCurrencyTransfer(UUID toID, UUID fromID, uint amount,
                                          string description, TransactionType type, UUID transactionID)
         {
@@ -406,7 +405,7 @@ namespace Vision.Modules.Currency
             object remoteValue = DoRemoteByURL("CurrencyServerURI", toID, fromID, toObjectID, toObjectName, fromObjectID,
                 fromObjectName, amount, description, type, transactionID);
             if (remoteValue != null || m_doRemoteOnly)
-                return (bool)remoteValue;
+                return (bool) remoteValue;
 
             UserCurrency toCurrency = GetUserCurrency(toID);
             UserCurrency fromCurrency = fromID == UUID.Zero ? null : GetUserCurrency(fromID);
@@ -415,14 +414,14 @@ namespace Vision.Modules.Currency
             if (fromCurrency != null)
             {
                 //Check to see whether they have enough money
-                if ((int)fromCurrency.Amount - (int)amount < 0)
+                if ((int) fromCurrency.Amount - (int) amount < 0)
                     return false; //Not enough money
                 fromCurrency.Amount -= amount;
 
                 UserCurrencyUpdate(fromCurrency, true);
             }
             if (fromID == toID)
-                toCurrency = GetUserCurrency(toID);
+                toCurrency = GetUserCurrency (toID);
 
             //Update the user whose getting paid
             toCurrency.Amount += amount;
@@ -432,7 +431,7 @@ namespace Vision.Modules.Currency
             if (m_userInfoService == null)
             {
                 m_userInfoService = m_registry.RequestModuleInterface<IAgentInfoService>();
-                m_userAccountService = m_registry.RequestModuleInterface<IUserAccountService>();
+                m_userAccountService = m_registry.RequestModuleInterface<IUserAccountService> ();
             }
             if (m_userInfoService != null)
             {
@@ -443,15 +442,15 @@ namespace Vision.Modules.Currency
 
                 if (m_config.SaveTransactionLogs)
                     AddTransactionRecord((
-                        transactionID == UUID.Zero ? UUID.Random() : transactionID),
+                        transactionID == UUID.Zero ? UUID.Random() : transactionID), 
                         description,
                         toID,
                         fromID,
                         amount,
                         type,
-                        (toCurrency == null ? 0 : toCurrency.Amount),
+                        (toCurrency == null ? 0 : toCurrency.Amount), 
                         (fromCurrency == null ? 0 : fromCurrency.Amount),
-                        (toAccount == null ? "System" : toAccount.Name),
+                        (toAccount == null ? "System" : toAccount.Name), 
                         (fromAccount == null ? "System" : fromAccount.Name),
                         toObjectName,
                         fromObjectName,
@@ -463,8 +462,7 @@ namespace Vision.Modules.Currency
                     if (toUserInfo != null && toUserInfo.IsOnline)
                         SendUpdateMoneyBalanceToClient(toID, transactionID, toUserInfo.CurrentRegionURI, toCurrency.Amount,
                             toAccount == null ? "" : (toAccount.Name + " paid you $" + amount + (description == "" ? "" : ": " + description)));
-                }
-                else
+                } else
                 {
                     if (toUserInfo != null && toUserInfo.IsOnline)
                     {
@@ -490,13 +488,13 @@ namespace Vision.Modules.Currency
 
             if (m_syncMessagePoster != null)
             {
-                OSDMap map = new OSDMap();
-                map["Method"] = "UpdateMoneyBalance";
-                map["AgentID"] = toID;
-                map["Amount"] = balance;
-                map["Message"] = message;
-                map["TransactionID"] = transactionID;
-                m_syncMessagePoster.Post(serverURI, map);
+                OSDMap map = new OSDMap ();
+                map ["Method"] = "UpdateMoneyBalance";
+                map ["AgentID"] = toID;
+                map ["Amount"] = balance;
+                map ["Message"] = message;
+                map ["TransactionID"] = transactionID;
+                m_syncMessagePoster.Post (serverURI, map);
             }
         }
 
@@ -508,7 +506,7 @@ namespace Vision.Modules.Currency
         void AddTransactionRecord(UUID TransID, string Description, UUID ToID, UUID FromID, uint Amount,
             TransactionType TransType, uint ToBalance, uint FromBalance, string ToName, string FromName, string toObjectName, string fromObjectName, UUID regionID)
         {
-            if (Amount > m_config.MaxAmountBeforeLogging)
+            if(Amount > m_config.MaxAmountBeforeLogging)
                 m_gd.Insert(_REALMHISTORY, new object[] {
                     TransID,
                     Description ?? "",
@@ -527,10 +525,10 @@ namespace Vision.Modules.Currency
                 });
         }
 
-        void UserCurrencyUpdate(UserCurrency agent, bool full)
+        void UserCurrencyUpdate (UserCurrency agent, bool full)
         {
             if (full)
-                m_gd.Update(_REALM,
+                m_gd.Update (_REALM,
                     new Dictionary<string, object> {
                         { "LandInUse", agent.LandInUse },
                         { "Tier", agent.Tier },
@@ -539,8 +537,7 @@ namespace Vision.Modules.Currency
                         { "StipendsBalance", agent.StipendsBalance }
                     },
                     null,
-                    new QueryFilter()
-                    {
+                    new QueryFilter () {
                         andFilters = new Dictionary<string, object> {
                             { "PrincipalID", agent.PrincipalID }
                         }
@@ -549,15 +546,14 @@ namespace Vision.Modules.Currency
                     null
                 );
             else
-                m_gd.Update(_REALM,
+                m_gd.Update (_REALM,
                     new Dictionary<string, object> {
                         { "LandInUse", agent.LandInUse },
                         { "Tier", agent.Tier },
                         { "IsGroup", agent.IsGroup }
                     },
                     null,
-                    new QueryFilter()
-                    {
+                    new QueryFilter () {
                         andFilters = new Dictionary<string, object> {
                             { "PrincipalID", agent.PrincipalID }
                         }
@@ -568,45 +564,45 @@ namespace Vision.Modules.Currency
 
         void UserCurrencyCreate(UUID agentId)
         {
-            // Check if this agent has a user account, if not assume its a bot and exit
-            UserAccount account = m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccount(new List<UUID> { UUID.Zero }, agentId);
+			// Check if this agent has a user account, if not assume its a bot and exit
+			UserAccount account = m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccount(new List<UUID> { UUID.Zero }, agentId);
             if (account != null)
             {
-                m_gd.Insert(_REALM, new object[] { agentId.ToString(), 0, 0, 0, 0, 0 });
+                m_gd.Insert(_REALM, new object[] {agentId.ToString(), 0, 0, 0, 0, 0});
             }
         }
 
         void GroupCurrencyCreate(UUID groupID)
         {
-            m_gd.Insert(_REALM, new object[] { groupID.ToString(), 0, 0, 0, 1, 0 });
+            m_gd.Insert(_REALM, new object[] {groupID.ToString(), 0, 0, 0, 1, 0});
         }
 
-        DateTime StartTransactionPeriod(int period, string periodType)
+        DateTime StartTransactionPeriod (int period, string periodType)
         {
             DateTime then = DateTime.Now;
             switch (periodType)
             {
-                case "sec":
-                    then = then.AddSeconds(-period);
-                    break;
-                case "min":
-                    then = then.AddMinutes(-period);
-                    break;
-                case "hour":
-                    then = then.AddHours(-period);
-                    break;
-                case "day":
-                    then = then.AddDays(-period);
-                    break;
-                case "week":
-                    then = then.AddDays(-period * 7);
-                    break;
-                case "month":
-                    then = then.AddMonths(-period);
-                    break;
-                case "year":
-                    then = then.AddYears(-period);
-                    break;
+            case "sec":
+                then = then.AddSeconds(-period);
+                break;
+            case "min":
+                then = then.AddMinutes(-period);
+                break;
+            case "hour":
+                then = then.AddHours(-period);
+                break;
+            case "day":
+                then = then.AddDays(-period);
+                break;
+            case "week":
+                then = then.AddDays(-period * 7);
+                break;
+            case "month":
+                then = then.AddMonths(-period);
+                break;
+            case "year":
+                then = then.AddYears(-period);
+                break;
             }
 
             return then;
@@ -614,11 +610,11 @@ namespace Vision.Modules.Currency
 
         static List<AgentTransfer> ParseTransferQuery(List<string> query)
         {
-            var transferList = new List<AgentTransfer>();
+           var transferList = new List<AgentTransfer>();
 
             for (int i = 0; i < query.Count; i += 14)
             {
-                AgentTransfer transfer = new AgentTransfer();
+                AgentTransfer transfer = new AgentTransfer ();
 
                 transfer.ID = UUID.Parse(query[i + 0]);
                 transfer.Description = query[i + 1];
@@ -627,8 +623,8 @@ namespace Vision.Modules.Currency
                 transfer.ToAgent = UUID.Parse(query[i + 4]);
                 transfer.ToAgentName = query[i + 5];
                 transfer.Amount = Int32.Parse(query[i + 6]);
-                transfer.TransferType = (TransactionType)Int32.Parse(query[i + 7]);
-                transfer.TransferDate = Utils.UnixTimeToDateTime((uint)Int32.Parse(query[i + 8]));
+                transfer.TransferType = (TransactionType) Int32.Parse(query[i + 7]);
+                transfer.TransferDate = Utils.UnixTimeToDateTime((uint) Int32.Parse(query[i + 8]));
                 transfer.ToBalance = Int32.Parse(query[i + 9]);
                 transfer.FromBalance = Int32.Parse(query[i + 10]);
                 transfer.FromObjectName = query[i + 11];
@@ -641,28 +637,29 @@ namespace Vision.Modules.Currency
             return transferList;
         }
 
+
         static List<AgentPurchase> ParsePurchaseQuery(List<string> query)
         {
             var purchaseList = new List<AgentPurchase>();
 
             for (int i = 0; i < query.Count; i += 14)
             {
-                AgentPurchase purchase = new AgentPurchase();
+                AgentPurchase purchase = new AgentPurchase ();
 
                 purchase.ID = UUID.Parse(query[i + 0]);
                 purchase.AgentID = UUID.Parse(query[i + 1]);
                 purchase.IP = query[i + 2];
                 purchase.Amount = Int32.Parse(query[i + 3]);
                 purchase.RealAmount = Int32.Parse(query[i + 4]);
-                purchase.PurchaseDate = Utils.UnixTimeToDateTime((uint)Int32.Parse(query[i + 5]));
-                purchase.UpdateDate = Utils.UnixTimeToDateTime((uint)Int32.Parse(query[i + 6]));
+                purchase.PurchaseDate = Utils.UnixTimeToDateTime((uint) Int32.Parse(query[i + 5]));
+                purchase.UpdateDate = Utils.UnixTimeToDateTime((uint) Int32.Parse(query[i + 6]));
 
                 purchaseList.Add(purchase);
             }
 
             return purchaseList;
         }
-
+            
         #endregion
 
     }

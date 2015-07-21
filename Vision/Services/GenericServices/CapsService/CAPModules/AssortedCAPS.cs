@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,13 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.IO;
-using System.Web;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
+
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.PresenceInfo;
@@ -41,6 +35,12 @@ using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Profile;
 using Vision.Framework.Utilities;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.IO;
+using System.Web;
 using GridRegion = Vision.Framework.Services.GridRegion;
 
 namespace Vision.Services
@@ -108,6 +108,7 @@ namespace Vision.Services
                 Vector3 lookAt = new Vector3((float) lookat["X"].AsReal(),
                                              (float) lookat["Y"].AsReal(),
                                              (float) lookat["Z"].AsReal());
+                //int locationID = HomeLocation["LocationId"].AsInteger();
 
                 m_agentInfoService.SetHomePosition(agentID.ToString(), m_service.Region.RegionID, position, lookAt);
             }
@@ -169,7 +170,10 @@ namespace Vision.Services
             Vector3 position = new Vector3((float) pos["X"].AsReal(),
                                            (float) pos["Y"].AsReal(),
                                            (float) pos["Z"].AsReal());
-
+            /*OSDMap lookat = rm["LocationLookAt"] as OSDMap;
+            Vector3 lookAt = new Vector3((float)lookat["X"].AsReal(),
+                (float)lookat["Y"].AsReal(),
+                (float)lookat["Z"].AsReal());*/
             ulong RegionHandle = rm["RegionHandle"].AsULong();
             const uint tpFlags = 16;
 

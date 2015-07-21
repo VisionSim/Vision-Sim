@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,16 +25,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-using System;
-using System.Collections.Generic;
-using System.Data;
-using Nini.Config;
-using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Assets;
+using Nini.Config;
+using OpenMetaverse;
+using System;
+using System.Collections.Generic;
+using System.Data;
 
 namespace Vision.Services.DataService.Connectors.Database.Asset
 {
@@ -241,7 +240,7 @@ namespace Vision.Services.DataService.Connectors.Database.Asset
                     return LoadAssetFromDataRead(dr.DataReader);
                 }
                 if (showWarnings && MainConsole.Instance != null)
-					MainConsole.Instance.WarnFormat("[LocalAssetDatabase] GetAsset({0}) - Asset UUID({0}) was not found.", uuid);
+                    MainConsole.Instance.WarnFormat("[LocalAssetDatabase] GetAsset({0}) - Asset UUID({0}) was not found.", uuid);
             }
             catch (Exception e)
             {
@@ -287,7 +286,7 @@ namespace Vision.Services.DataService.Connectors.Database.Asset
                     AssetBase asset = GetAsset(id, false);
                     if (asset == null)
                         return false;
-                    if ((int) (asset.Flags & AssetFlags.Maptile) != 0 || //Depreciated, use Deletable instead
+                    if ((int) (asset.Flags & AssetFlags.Maptile) != 0 || //Depriated, use Deletable instead
                         (int) (asset.Flags & AssetFlags.Deletable) != 0)
                         ignoreFlags = true;
                 }

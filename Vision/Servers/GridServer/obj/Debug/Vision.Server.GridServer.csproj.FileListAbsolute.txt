@@ -1,0 +1,4 @@
+C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Vision.Server.GridServer.exe
+C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Vision.Server.GridServer.pdb
+C:\Users\Fred\Desktop\VisionSim-Master\Vision\Servers\GridServer\obj\Debug\Vision.Server.GridServer.exe
+C:\Users\Fred\Desktop\VisionSim-Master\Vision\Servers\GridServer\obj\Debug\Vision.Server.GridServer.pdb

@@ -203,10 +203,10 @@ namespace Vision.Modules.InventoryAccess
 
                     m_scene.InventoryService.UpdateItem(item);
 
-                    IScriptModule ScriptEngines = m_scene.RequestModuleInterface<IScriptModule>();
-                    if (ScriptEngines != null)
+                    IScriptModule ScriptEngine = m_scene.RequestModuleInterface<IScriptModule>();
+                    if (ScriptEngine != null)
                     {
-                        string Errors = ScriptEngines.TestCompileScript(item.AssetID, itemID);
+                        string Errors = ScriptEngine.TestCompileScript(item.AssetID, itemID);
                         if (Errors != "")
                             return FailedCompileScriptCAPSUpdate(item.AssetID, itemID, Errors);
                     }

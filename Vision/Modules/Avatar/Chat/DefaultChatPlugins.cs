@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,10 +29,10 @@ using System;
 using System.Collections.Generic;
 using OpenMetaverse;
 using Vision.Framework.ClientInterfaces;
-using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
+
 
 namespace Vision.Modules.Chat
 {
@@ -83,7 +83,7 @@ namespace Vision.Modules.Chat
                 {
                     float Num1 = float.Parse(operators[1]);
                     float Num2 = float.Parse(operators[2]);
-                    float RetVal = Num1 * Num2;
+                    float RetVal = Num1*Num2;
                     BuildAndSendResult(RetVal, c.Scene, c.Position);
                 }
             }
@@ -93,7 +93,7 @@ namespace Vision.Modules.Chat
                 {
                     float Num1 = float.Parse(operators[1]);
                     float Num2 = float.Parse(operators[2]);
-                    float RetVal = Num1 / Num2;
+                    float RetVal = Num1/Num2;
                     BuildAndSendResult(RetVal, c.Scene, c.Position);
                 }
             }
@@ -125,8 +125,7 @@ namespace Vision.Modules.Chat
         /// <param name="position"></param>
         static void BuildAndSendResult(float result, IScene scene, Vector3 position)
         {
-            var message = new OSChatMessage
-            {
+            var message = new OSChatMessage {
                 From = "Server",
                 Message = "Result: " + result,
                 Channel = 0,
@@ -186,6 +185,15 @@ namespace Vision.Modules.Chat
             chatModule = module;
             module.RegisterChatPlugin("Chat", this);
             module.RegisterChatPlugin("all", this);
+
+            // load web settings overrides (if any)
+            //IGenericsConnector generics = Framework.Utilities.DataManager.RequestPlugin<IGenericsConnector> ();
+            //if (generics != null)
+            //{
+            //    var settings = generics.GetGeneric<Vision.Modules.Web.GridSettings> (UUID.Zero, "GridSettings", "Settings");
+            //    if (settings != null)
+            //        WelcomeMessage = settings.WelcomeMessage;
+            //}
         }
 
         public bool OnNewChatMessageFromWorld(OSChatMessage c, out OSChatMessage newc)
@@ -202,11 +210,11 @@ namespace Vision.Modules.Chat
                         isGod = true;
 
                         // add to authorised users
-                        if (!m_authorizedSpeakers.Contains(c.SenderUUID))
-                            m_authorizedSpeakers.Add(c.SenderUUID);
+                        if (!m_authorizedSpeakers.Contains (c.SenderUUID))
+                            m_authorizedSpeakers.Add (c.SenderUUID);
 
-                        if (!m_authList.Contains(c.SenderUUID))
-                            m_authList.Add(c.SenderUUID);
+                        if (!m_authList.Contains (c.SenderUUID))
+                            m_authList.Add (c.SenderUUID);
                     }
 
                     //Check that the agent is allowed to speak in this reigon
@@ -334,23 +342,23 @@ namespace Vision.Modules.Chat
                 //Tell all the clients about the incoming client if it is enabled
                 if (m_announceNewAgents)
                 {
-                    client.Scene.ForEachScenePresence(delegate(IScenePresence presence)
-                    {
-                        if (presence.UUID != client.AgentId && !presence.IsChildAgent)
+                    client.Scene.ForEachScenePresence (delegate(IScenePresence presence)
                         {
-                            IEntityCountModule entityCountModule = client.Scene.RequestModuleInterface<IEntityCountModule>();
-                            if (entityCountModule != null)
-                                presence.ControllingClient.SendChatMessage(
-                                    client.Name + " has joined the region. Total Agents: " + (entityCountModule.RootAgents + 1),
-                                    1,
-                                    SP.AbsolutePosition,
-                                    "System",
-                                    UUID.Zero,
-                                    (byte)ChatSourceType.System,
-                                    (byte)ChatAudibleLevel.Fully
-                                );
+                            if (presence.UUID != client.AgentId && !presence.IsChildAgent)
+                            {
+                                IEntityCountModule entityCountModule = client.Scene.RequestModuleInterface<IEntityCountModule> ();
+                                if (entityCountModule != null)
+                                    presence.ControllingClient.SendChatMessage (
+                                        client.Name + " has joined the region. Total Agents: " + (entityCountModule.RootAgents + 1),
+                                        1,
+                                        SP.AbsolutePosition,
+                                        "System",
+                                        UUID.Zero,
+                                        (byte)ChatSourceType.System,
+                                        (byte)ChatAudibleLevel.Fully
+                                    );
+                            }
                         }
-                    }
                     );
                 }
 
@@ -364,8 +372,8 @@ namespace Vision.Modules.Chat
                             1, SP.AbsolutePosition,
                             "System",
                             UUID.Zero,
-                            (byte)ChatSourceType.System,
-                            (byte)ChatAudibleLevel.Fully
+                            (byte) ChatSourceType.System,
+                            (byte) ChatAudibleLevel.Fully
                         );
                     }
                 }
@@ -389,22 +397,22 @@ namespace Vision.Modules.Chat
                 if (m_announceClosedAgents)
                 {
                     scene.ForEachScenePresence(delegate(IScenePresence sP)
-                    {
-                        if (sP.UUID != clientID && !sP.IsChildAgent)
                         {
-                            IEntityCountModule entityCountModule = scene.RequestModuleInterface<IEntityCountModule>();
-                            if (entityCountModule != null)
-                                sP.ControllingClient.SendChatMessage(
-                                    presence.Name + " has left the region. Total Agents: " + (entityCountModule.RootAgents - 1),
-                                    1,
-                                    sP.AbsolutePosition,
-                                    "System",
-                                    UUID.Zero,
-                                    (byte)ChatSourceType.System,
-                                    (byte)ChatAudibleLevel.Fully
-                                );
+                            if (sP.UUID != clientID && !sP.IsChildAgent)
+                            {
+                                IEntityCountModule entityCountModule = scene.RequestModuleInterface<IEntityCountModule>();
+                                if (entityCountModule != null)
+                                    sP.ControllingClient.SendChatMessage(
+                                        presence.Name + " has left the region. Total Agents: " + (entityCountModule.RootAgents - 1),
+                                        1,
+                                        sP.AbsolutePosition,
+                                        "System",
+                                        UUID.Zero,
+                                        (byte) ChatSourceType.System,
+                                        (byte) ChatAudibleLevel.Fully
+                                    );
+                            }
                         }
-                    }
                     );
                 }
             }

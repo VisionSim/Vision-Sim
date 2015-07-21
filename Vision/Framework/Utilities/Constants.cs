@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,14 +35,14 @@ namespace Vision.Framework.Utilities
         // some predefined folders
         public const string DEFAULT_CONFIG_DIR = "../Config";
         public const string DEFAULT_DATA_DIR = "../Data";
-        public const string DEFAULT_ASSETCACHE_DIR = DEFAULT_DATA_DIR + "/AssetCache";
-        public const string DEFAULT_SCRIPTENGINE_DIR = DEFAULT_DATA_DIR + "/ScriptEngines";
-        public const string DEFAULT_FILEASSETS_DIR = DEFAULT_DATA_DIR + "/FileAssets";
-        public const string DEFAULT_AVATARARCHIVE_DIR = DEFAULT_DATA_DIR + "/AvatarArchives";
+        public const string DEFAULT_ASSETCACHE_DIR = DEFAULT_DATA_DIR+"/AssetCache";
+        public const string DEFAULT_SCRIPTENGINE_DIR = DEFAULT_DATA_DIR+"/ScriptEngines";
+        public const string DEFAULT_FILEASSETS_DIR = DEFAULT_DATA_DIR+"/FileAssets";
+        public const string DEFAULT_AVATARARCHIVE_DIR = DEFAULT_DATA_DIR+"/AvatarArchives";
         public const string DEFAULT_OARARCHIVE_DIR = DEFAULT_DATA_DIR + "/OarFiles";
-        public const string DEFAULT_USERINVENTORY_DIR = DEFAULT_DATA_DIR + "/UserArchives";
+        public const string DEFAULT_USERINVENTORY_DIR = DEFAULT_DATA_DIR+"/UserArchives";
 
-        public const string DEFAULT_USERHTML_DIR = DEFAULT_DATA_DIR + "/html/";
+        public const string DEFAULT_USERHTML_DIR = DEFAULT_DATA_DIR+"/html/";
 
         public const int RegionSize = 256;
         public const int RegionHeight = 10000;
@@ -51,7 +51,7 @@ namespace Vision.Framework.Utilities
         public const int MaxRegionSize = 4096;
         public const int MinRegionSize = 16;
 
-        public const int SystemUserCount = 5;
+		public const int SystemUserCount = 5;
 
         // System library Avatar Account
         public const string LibraryOwner = "11111111-1111-0000-0000-000100bba000";
@@ -59,19 +59,19 @@ namespace Vision.Framework.Utilities
 
         // System Real Estate Avatar Account
         public const string RealEstateOwnerUUID = "bbb55499-7938-4752-ab7c-f7136e36cced";
-        public const string RealEstateOwnerName = "RealEstate Owner";
+		public const string RealEstateOwnerName = "RealEstate Owner";
 
         // System Governor Avatar Account
         public const string GovernorUUID = "3d6181b0-6a4b-97ef-18d8-722652995cf1";
-        public const string GovernorName = "Governor Vision";
-
+        public const string GovernorName = "Governor White";
+        
         // System Estate
         public const string SystemEstateName = "Vision Estate";
         public const int SystemEstateID = 1;
 
         // System Real Estate Maintenance Group
-        public const string RealEstateGroupUUID = "dc7b21cd-3c89-fcaa-31c8-25f9ffd224cd";
-        public const string RealEstateGroupName = "Maintenance";
+		public const string RealEstateGroupUUID = "dc7b21cd-3c89-fcaa-31c8-25f9ffd224cd";
+		public const string RealEstateGroupName = "Maintenance";
 
         // System Banker Avatar
         public const string BankerUUID = "f4261829-2796-4688-bfe2-085190cb639b";
@@ -93,17 +93,16 @@ namespace Vision.Framework.Utilities
         public const int USER_GOD_MAINTENANCE = 250;
 
         // user flags (account types)
-        public const int USER_FLAG_GUEST = 0;          // Temporary: (Default) No payment info on account    
-        public const int USER_FLAG_RESIDENT = 200;        // Resident: Payment info on account
-        public const int USER_FLAG_PAY = 300;        // Testing: Payment info on account
-        public const int USER_FLAG_NOPAY = 400;        // Testing: No Payment info on account
-        public const int USER_FLAG_MEMBER = 600;        // Member Estate: Payment info on account
+        public const int USER_FLAG_GUEST      = 0;          // Temporary: (Default) No payment info on account    
+        public const int USER_FLAG_RESIDENT   = 200;        // Resident: Payment info on account
+        public const int USER_FLAG_PAY        = 300;        // Testing: Payment info on account
+        public const int USER_FLAG_NOPAY      = 400;        // Testing: No Payment info on account
+        public const int USER_FLAG_MEMBER     = 600;        // Member Estate: Payment info on account
         public const int USER_FLAG_CONTRACTOR = 800;        // Contracted
         public const int USER_FLAG_CHARTERMEMBER = 3840;    // Charter member
 
-        // stipend flags
         public const int SCHEDULER_INTERVAL = 300;          // seconds between scheduler checks
-  
+
         public const string STIPEND_PAY_DAY = "tuesday";    // the day stipend payments are processed
         public const string STIPEND_PAY_TIME = "00:05";     // the time, hh:mm, when stipend payments are processed
         public const string STIPEND_PAY_PERIOD = "week";    // how often we process stipends

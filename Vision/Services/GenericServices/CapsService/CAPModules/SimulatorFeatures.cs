@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,12 +25,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.IO;
-using OpenMetaverse.StructuredData;
+
 using Vision.Framework.Servers.HttpServer;
 using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Services;
+using OpenMetaverse.StructuredData;
+using System.IO;
 
 namespace Vision.Services
 {
@@ -64,10 +64,12 @@ namespace Vision.Services
                                             OSHttpRequest httpRequest, OSHttpResponse httpResponse)
         {
             OSDMap data = new OSDMap();
-            // AvatarHoverHeightEnabled
+            // 17-06-2015 Fly-Man- AvatarHoverHeight enabled
             data["AvatarHoverHeightEnabled"] = true;
-            // MaxMaterialsPerTransaction
+            
+            // 17-06-2015 Fly-Man- MaxMaterialsPerTransaction enabled
             data["MaxMaterialsPerTransaction"] = 50;
+            
             data["MeshRezEnabled"] = true;
             data["MeshUploadEnabled"] = true;
             data["MeshXferEnabled"] = true;

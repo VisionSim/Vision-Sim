@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -24,6 +24,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 
 using System;
 using Nini.Config;
@@ -118,6 +119,7 @@ namespace Vision.Modules.Chat
 
         void EventManager_OnClosingClient(IClientAPI client)
         {
+            //client.OnInstantMessage -= OnInstantMessage;
         }
 
         void EventManager_OnNewClient(IClientAPI client)
@@ -129,11 +131,11 @@ namespace Vision.Modules.Chat
         {
             byte dialog = im.Dialog;
 
-            if (dialog != (byte)InstantMessageDialog.MessageFromAgent
-                && dialog != (byte)InstantMessageDialog.StartTyping
-                && dialog != (byte)InstantMessageDialog.StopTyping
-                && dialog != (byte)InstantMessageDialog.BusyAutoResponse
-                && dialog != (byte)InstantMessageDialog.MessageFromObject)
+            if (dialog != (byte) InstantMessageDialog.MessageFromAgent
+                && dialog != (byte) InstantMessageDialog.StartTyping
+                && dialog != (byte) InstantMessageDialog.StopTyping
+                && dialog != (byte) InstantMessageDialog.BusyAutoResponse
+                && dialog != (byte) InstantMessageDialog.MessageFromObject)
             {
                 return;
             }
@@ -163,10 +165,10 @@ namespace Vision.Modules.Chat
         {
             byte dialog = msg.Dialog;
 
-            if (dialog != (byte)InstantMessageDialog.MessageFromAgent
-                && dialog != (byte)InstantMessageDialog.StartTyping
-                && dialog != (byte)InstantMessageDialog.StopTyping
-                && dialog != (byte)InstantMessageDialog.MessageFromObject)
+            if (dialog != (byte) InstantMessageDialog.MessageFromAgent
+                && dialog != (byte) InstantMessageDialog.StartTyping
+                && dialog != (byte) InstantMessageDialog.StopTyping
+                && dialog != (byte) InstantMessageDialog.MessageFromObject)
             {
                 return;
             }

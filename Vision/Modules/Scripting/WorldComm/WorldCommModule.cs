@@ -80,7 +80,7 @@ using System.Text.RegularExpressions;
  *    handle as the original filter.
  * 3. (TODO) handles should be script-local. Starting from 1.
  *    Might be actually easier to map the global handle into
- *    script-local handle in the ScriptEngines. Not sure if its
+ *    script-local handle in the ScriptEngine. Not sure if its
  *    worth the effort tho.
  *
  * **************************************************/
@@ -110,11 +110,11 @@ namespace Vision.Modules.Scripting
             int maxhandles = 64;
             try
             {
-                m_whisperdistance = config.Configs["VisionChat"].GetInt("whisper_distance", m_whisperdistance);
-                m_saydistance = config.Configs["VisionChat"].GetInt("say_distance", m_saydistance);
-                m_shoutdistance = config.Configs["VisionChat"].GetInt("shout_distance", m_shoutdistance);
-                maxlisteners = config.Configs["VisionChat"].GetInt("max_listens_per_region", maxlisteners);
-                maxhandles = config.Configs["VisionChat"].GetInt("max_listens_per_script", maxhandles);
+                m_whisperdistance = config.Configs["Chat"].GetInt("whisper_distance", m_whisperdistance);
+                m_saydistance = config.Configs["Chat"].GetInt("say_distance", m_saydistance);
+                m_shoutdistance = config.Configs["Chat"].GetInt("shout_distance", m_shoutdistance);
+                maxlisteners = config.Configs["Chat"].GetInt("max_listens_per_region", maxlisteners);
+                maxhandles = config.Configs["Chat"].GetInt("max_listens_per_script", maxhandles);
             }
             catch (Exception)
             {

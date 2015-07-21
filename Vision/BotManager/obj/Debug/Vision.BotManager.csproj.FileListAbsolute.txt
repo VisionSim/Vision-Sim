@@ -1,0 +1,5 @@
+C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Vision.BotManager.dll
+C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Vision.BotManager.pdb
+C:\Users\Fred\Desktop\VisionSim-Master\Vision\BotManager\obj\Debug\Vision.BotManager.csprojResolveAssemblyReference.cache
+C:\Users\Fred\Desktop\VisionSim-Master\Vision\BotManager\obj\Debug\Vision.BotManager.dll
+C:\Users\Fred\Desktop\VisionSim-Master\Vision\BotManager\obj\Debug\Vision.BotManager.pdb

@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -177,8 +177,8 @@ namespace Vision.Services.GenericServices.SystemAccountService
 
             VerifySystemUserInfo("Govenor", GovernorUUID, GovernorName, 250);
             VerifySystemUserInfo("RealEstate", SystemEstateOwnerUUID, SystemEstateOwnerName, 150);
-            VerifySystemUserInfo("Banker", BankerUUID, BankerName, 250);
-            VerifySystemUserInfo("Marketplace", MarketplaceOwnerUUID, MarketplaceOwnerName, 250);
+            VerifySystemUserInfo("Banker", BankerUUID, BankerName, 100);
+            VerifySystemUserInfo("Marketplace", MarketplaceOwnerUUID, MarketplaceOwnerName, 100);
 
         }
 
@@ -308,6 +308,7 @@ namespace Vision.Services.GenericServices.SystemAccountService
                 }
             }
         }
+
 
         #endregion
     }

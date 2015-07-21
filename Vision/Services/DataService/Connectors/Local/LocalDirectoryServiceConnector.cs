@@ -29,10 +29,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using EventFlags = OpenMetaverse.DirectoryManager.EventFlags;
-using GridRegion = Vision.Framework.Services.GridRegion;
 using Nini.Config;
 using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
@@ -41,6 +40,8 @@ using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Profile;
 using Vision.Framework.Utilities;
+using EventFlags = OpenMetaverse.DirectoryManager.EventFlags;
+using GridRegion = Vision.Framework.Services.GridRegion;
 
 namespace Vision.Services.DataService
 {
@@ -116,14 +117,14 @@ namespace Vision.Services.DataService
                                                                          args.RegionID,
                                                                          args.GlobalID,
                                                                          args.LocalID,
-                                                                         args.UserLocation.X,
-                                                                         args.UserLocation.Y, // This is actually the landing position for teleporting
+                                                                         args.UserLocation.X,       // this is actually the landing position for teleporting
+                                                                         args.UserLocation.Y,
                                                                          args.UserLocation.Z,
                                                                          args.Name,
                                                                          args.Description,
                                                                          args.Flags,
                                                                          args.Dwell,
-                                                                         UUID.Zero, // InfoUUID - This isn't used?
+                                                                         UUID.Zero,                 // infoUUID - not used?
                                                                          ((args.Flags & (uint) ParcelFlags.ForSale) ==
                                                                           (uint) ParcelFlags.ForSale)
                                                                              ? 1
@@ -131,8 +132,8 @@ namespace Vision.Services.DataService
                                                                          args.SalePrice,
                                                                          args.AuctionID,
                                                                          args.Area,
-                                                                         0, // EstateID - This isn't used?
-                                                                         args.Maturity, 
+                                                                         0,                         // Estate ID - not used?
+                                                                         args.Maturity,
                                                                          args.OwnerID,
                                                                          args.GroupID,
                                                                          ((args.Flags & (uint) ParcelFlags.ShowDirectory) ==
@@ -199,11 +200,11 @@ namespace Vision.Services.DataService
                 {
                 }
 
-                // Set some flags
+                // set some flags
                 if (uint.Parse (Query [i + 11]) != 0)
                     LandData.Flags |= (uint) ParcelFlags.ForSale;
-
-                if (uint.Parse(Query[i + 19]) != 0)
+                
+                if (uint.Parse (Query [i + 19]) != 0)
                     LandData.Flags |= (uint) ParcelFlags.ShowDirectory;
 
                 LandData.Category = (string.IsNullOrEmpty(Query[i + 22]))

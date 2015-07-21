@@ -55,9 +55,9 @@ namespace Vision.Framework.Modules
         /// <summary>
         ///     Disable/Enable the scripting engine, the collision events, and the physics engine
         /// </summary>
-        /// <param name="ScriptEngines"></param>
+        /// <param name="ScriptEngine"></param>
         /// <param name="CollisionEvents"></param>
         /// <param name="PhysicsEngine"></param>
-        void SetSceneCoreDebug(bool ScriptEngines, bool CollisionEvents, bool PhysicsEngine);
+        void SetSceneCoreDebug(bool ScriptEngine, bool CollisionEvents, bool PhysicsEngine);
     }
 }

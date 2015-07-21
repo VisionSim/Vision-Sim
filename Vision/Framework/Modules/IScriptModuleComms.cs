@@ -34,7 +34,7 @@ namespace Vision.Framework.Modules
     /// <summary>
     ///     Interface for communication between modules and in-world scripts
     /// </summary>
-    /// See Region.ScriptEngines.Shared.Api.MOD_Api.modSendCommand() for information on receiving messages
+    /// See Region.ScriptEngine.Shared.Api.MOD_Api.modSendCommand() for information on receiving messages
     /// from scripts in modules.
     public interface IScriptModuleComms
     {

@@ -527,7 +527,7 @@ namespace Vision.Modules.Startup
             ///     Synchronously delete the given object from the scene.
             /// </summary>
             /// <param name="group">Object Id</param>
-            /// <param name="DeleteScripts">Remove the scripts from the ScriptEngines as well</param>
+            /// <param name="DeleteScripts">Remove the scripts from the ScriptEngine as well</param>
             /// <param name="removeFromDatabase">Remove from the database?</param>
             protected bool DeleteSceneObject(ISceneEntity group, bool DeleteScripts, bool removeFromDatabase)
             {

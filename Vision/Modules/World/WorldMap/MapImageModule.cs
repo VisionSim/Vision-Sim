@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,22 +25,22 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Timers;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.Imaging;
-using OpenMetaverse.StructuredData;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Utilities;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.Imaging;
+using OpenMetaverse.StructuredData;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Timers;
 
 namespace Vision.Modules.WorldMap
 {
@@ -112,8 +112,9 @@ namespace Vision.Modules.WorldMap
                 drawPrimVolume = false;
             }
 
-            MainConsole.Instance.Info("[MapTileGenerator]: Generating maptile for {0}, using {1} ",
+            MainConsole.Instance.InfoFormat("[MapTileGenerator]: Generating Maptile for {0}, using {1} ",
                 m_scene.RegionInfo.RegionName, tileRenderer);
+
             terrainRenderer.Initialise(m_scene, m_config);
 
             mapBMP = null;
@@ -169,10 +170,13 @@ namespace Vision.Modules.WorldMap
             int start = Environment.TickCount;
             var renderer = new WarpTileRenderer();
 
+            MainConsole.Instance.InfoFormat ("[MapTileGenerator]: Generating worldview for {0}",
+                m_scene.RegionInfo.RegionName);
+
             renderer.Initialise(m_scene, m_config);
             Bitmap worldView = renderer.CreateViewImage (camPos, camDir, fov, width, height, useTextures);
 
-            MainConsole.Instance.InfoFormat("[MapTileGenerator]: Worldview took {0} ms",
+            MainConsole.Instance.InfoFormat("[MapTileGenerator]: Worldview generation took {0} ms",
                 (Environment.TickCount - start));
 
             return worldView;
@@ -183,11 +187,13 @@ namespace Vision.Modules.WorldMap
             int start = Environment.TickCount;
             var renderer = new WarpTileRenderer();
 
+             MainConsole.Instance.InfoFormat("[MapTileGenerator]: Generating world maptile for {0}",
+                        m_scene.RegionInfo.RegionName);
             renderer.Initialise(m_scene, m_config);
             Bitmap worldMap = renderer.TerrainToBitmap (null, size);
 
             MainConsole.Instance.InfoFormat("[MapTileGenerator]: World maptile generation took {0} ms",
-                m_scene.RegionInfo.RegionName, (Environment.TickCount - start));
+                (Environment.TickCount - start));
 
             return worldMap;
         }

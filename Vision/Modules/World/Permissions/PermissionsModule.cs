@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,12 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using Nini.Config;
-using OpenMetaverse;
+
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
@@ -39,6 +34,12 @@ using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Inventory;
+using Nini.Config;
+using OpenMetaverse;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace Vision.Modules.Permissions
 {
@@ -51,8 +52,10 @@ namespace Vision.Modules.Permissions
 
         // These are here for testing.  They will be taken out
 
+        //private uint PERM_ALL = (uint)2147483647;
         private uint PERM_COPY = 32768;
         private uint PERM_LOCKED = 540672;
+        //private uint PERM_MODIFY = (uint)16384;
         private uint PERM_MOVE = 524288;
         private uint PERM_TRANS = 8192;
 
@@ -865,9 +868,9 @@ namespace Vision.Modules.Permissions
 
         private bool CanControlPrimMedia(UUID agentID, UUID primID, int face)
         {
-            //MainConsole.Instance.DebugFormat(
-            //      "[PERMISSONS]: Performing CanControlPrimMedia check with agentID {0}, primID {1}, face {2}",
-            //    agentID, primID, face);
+//            MainConsole.Instance.DebugFormat(
+//                "[PERMISSONS]: Performing CanControlPrimMedia check with agentID {0}, primID {1}, face {2}",
+//                agentID, primID, face);
 
             if (null == m_moapModule)
                 return false;
@@ -882,18 +885,18 @@ namespace Vision.Modules.Permissions
             if (null == me)
                 return true;
 
-            //MainConsole.Instance.DebugFormat(
-            //    "[PERMISSIONS]: Checking CanControlPrimMedia for {0} on {1} face {2} with control permissions {3}", 
-            //    agentID, primID, face, me.ControlPermissions);
+//            MainConsole.Instance.DebugFormat(
+//                "[PERMISSIONS]: Checking CanControlPrimMedia for {0} on {1} face {2} with control permissions {3}", 
+//                agentID, primID, face, me.ControlPermissions);
 
             return GenericObjectPermission(part.UUID, agentID, true);
         }
 
         private bool CanInteractWithPrimMedia(UUID agentID, UUID primID, int face)
         {
-            //MainConsole.Instance.DebugFormat(
-            //    "[PERMISSONS]: Performing CanInteractWithPrimMedia check with agentID {0}, primID {1}, face {2}",
-            //    agentID, primID, face);
+//            MainConsole.Instance.DebugFormat(
+//                "[PERMISSONS]: Performing CanInteractWithPrimMedia check with agentID {0}, primID {1}, face {2}",
+//                agentID, primID, face);
 
             if (null == m_moapModule)
                 return false;
@@ -908,17 +911,17 @@ namespace Vision.Modules.Permissions
             if (null == me)
                 return true;
 
-            //MainConsole.Instance.DebugFormat(
-            //    "[PERMISSIONS]: Checking CanInteractWithPrimMedia for {0} on {1} face {2} with interact permissions {3}", 
-            //    agentID, primID, face, me.InteractPermissions);
+//            MainConsole.Instance.DebugFormat(
+//                "[PERMISSIONS]: Checking CanInteractWithPrimMedia for {0} on {1} face {2} with interact permissions {3}", 
+//                agentID, primID, face, me.InteractPermissions);
 
             return GenericPrimMediaPermission(part, agentID, me.InteractPermissions);
         }
 
         private bool GenericPrimMediaPermission(ISceneChildEntity part, UUID agentID, MediaPermission perms)
         {
-            //if (IsAdministrator(agentID))
-            //    return true;
+//            if (IsAdministrator(agentID))
+//                return true;
 
             if ((perms & MediaPermission.Anyone) == MediaPermission.Anyone)
                 return true;

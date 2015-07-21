@@ -1,0 +1,5 @@
+C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Vision.Services.SQLServices.dll
+C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Vision.Services.SQLServices.pdb
+C:\Users\Fred\Desktop\VisionSim-Master\Vision\Services\SQLServices\obj\Debug\Vision.Services.SQLServices.csprojResolveAssemblyReference.cache
+C:\Users\Fred\Desktop\VisionSim-Master\Vision\Services\SQLServices\obj\Debug\Vision.Services.SQLServices.dll
+C:\Users\Fred\Desktop\VisionSim-Master\Vision\Services\SQLServices\obj\Debug\Vision.Services.SQLServices.pdb

@@ -44,7 +44,7 @@ namespace Vision.Framework.Modules
         /// <summary>
         ///     The name of our script engine
         /// </summary>
-        string ScriptEnginesName { get; }
+        string ScriptEngineName { get; }
 
         /// <summary>
         ///     Adds an event to one script with the given parameters
@@ -93,7 +93,7 @@ namespace Vision.Framework.Modules
                           StateSource stateSource);
 
         /// <summary>
-        ///     Stops all scripts that the ScriptEngines is running
+        ///     Stops all scripts that the ScriptEngine is running
         /// </summary>
         void StopAllScripts();
 

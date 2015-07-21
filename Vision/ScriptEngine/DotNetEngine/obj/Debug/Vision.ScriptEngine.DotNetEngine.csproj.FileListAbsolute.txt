@@ -1,0 +1,5 @@
+C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Vision.ScriptEngine.DotNetEngine.dll
+C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Vision.ScriptEngine.DotNetEngine.pdb
+C:\Users\Fred\Desktop\VisionSim-Master\Vision\ScriptEngine\DotNetEngine\obj\Debug\Vision.ScriptEngine.DotNetEngine.csprojResolveAssemblyReference.cache
+C:\Users\Fred\Desktop\VisionSim-Master\Vision\ScriptEngine\DotNetEngine\obj\Debug\Vision.ScriptEngine.DotNetEngine.dll
+C:\Users\Fred\Desktop\VisionSim-Master\Vision\ScriptEngine\DotNetEngine\obj\Debug\Vision.ScriptEngine.DotNetEngine.pdb

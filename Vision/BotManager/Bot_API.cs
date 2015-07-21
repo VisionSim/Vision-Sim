@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, Vision-Sim, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,32 +25,33 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
-using Vision.ScriptEngines.DotNetEngine;
+using Vision.ScriptEngine.DotNetEngine;
 using OpenMetaverse;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Remoting.Lifetime;
-using LSL_Float = Vision.ScriptEngines.DotNetEngine.LSL_Types.LSLFloat;
-using LSL_Integer = Vision.ScriptEngines.DotNetEngine.LSL_Types.LSLInteger;
-using LSL_Key = Vision.ScriptEngines.DotNetEngine.LSL_Types.LSLString;
-using LSL_List = Vision.ScriptEngines.DotNetEngine.LSL_Types.list;
-using LSL_Rotation = Vision.ScriptEngines.DotNetEngine.LSL_Types.Quaternion;
-using LSL_String = Vision.ScriptEngines.DotNetEngine.LSL_Types.LSLString;
-using LSL_Vector = Vision.ScriptEngines.DotNetEngine.LSL_Types.Vector3;
-using ThreatLevel = Vision.ScriptEngines.DotNetEngine.ThreatLevel;
+using LSL_Float = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLFloat;
+using LSL_Integer = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLInteger;
+using LSL_Key = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLString;
+using LSL_List = Vision.ScriptEngine.DotNetEngine.LSL_Types.list;
+using LSL_Rotation = Vision.ScriptEngine.DotNetEngine.LSL_Types.Quaternion;
+using LSL_String = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLString;
+using LSL_Vector = Vision.ScriptEngine.DotNetEngine.LSL_Types.Vector3;
+using ThreatLevel = Vision.ScriptEngine.DotNetEngine.ThreatLevel;
 
 namespace Vision.BotManager
 {
     public class Bot_Api : MarshalByRefObject, IScriptApi
     {
         internal ScriptProtectionModule ScriptProtection;
-        internal IScriptModulePlugin m_ScriptEngines;
+        internal IScriptModulePlugin m_ScriptEngine;
         internal ISceneChildEntity m_host;
         internal UUID m_itemID;
 
@@ -296,11 +297,11 @@ namespace Vision.BotManager
 
         #region IScriptApi Members
 
-        public void Initialize(IScriptModulePlugin ScriptEngines, ISceneChildEntity host, uint localID, UUID itemID,
+        public void Initialize(IScriptModulePlugin ScriptEngine, ISceneChildEntity host, uint localID, UUID itemID,
                                ScriptProtectionModule module)
         {
             m_itemID = itemID;
-            m_ScriptEngines = ScriptEngines;
+            m_ScriptEngine = ScriptEngine;
             m_host = host;
             ScriptProtection = module;
         }

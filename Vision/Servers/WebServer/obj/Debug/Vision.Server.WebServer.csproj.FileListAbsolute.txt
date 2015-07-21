@@ -1,0 +1,4 @@
+C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Vision.Server.WebServer.exe
+C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Vision.Server.WebServer.pdb
+C:\Users\Fred\Desktop\VisionSim-Master\Vision\Servers\WebServer\obj\Debug\Vision.Server.WebServer.exe
+C:\Users\Fred\Desktop\VisionSim-Master\Vision\Servers\WebServer\obj\Debug\Vision.Server.WebServer.pdb

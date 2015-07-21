@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,16 +25,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Specialized;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Web;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.Servers;
@@ -43,12 +33,23 @@ using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Utilities;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
+using System;
+using System.Collections.Specialized;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Web;
 using Encoder = System.Drawing.Imaging.Encoder;
 
 namespace Vision.Services
 {
     public class AssetCAPS : IExternalCapsRequestHandler
-    {		
+    {
+		//const string missingTextureID = "aab281ce-a342-11e3-be40-425861b86ab6";		
         const string MISSING_TEXTURE_ID = "41fcdbb9-0896-495d-8889-1eb6fad88da3";       // texture to use when all else fails...
 
         protected IAssetService m_assetService;
@@ -161,8 +162,8 @@ namespace Vision.Services
 
                 if (texture != null)
                 {
-                    if (texture.Type != (sbyte) AssetType.Texture &&        // not actually a texture but it is valid
-                        texture.Type != (sbyte) AssetType.Unknown &&
+                    if (texture.Type != (sbyte) AssetType.Texture &&        // not actually a texture
+                        texture.Type != (sbyte) AssetType.Unknown &&        // .. but valid
                         texture.Type != (sbyte) AssetType.Simstate)     
                     {
                         httpResponse.StatusCode = (int) System.Net.HttpStatusCode.NotFound;
@@ -437,7 +438,8 @@ namespace Vision.Services
         {
             try
             {
-                //MainConsole.Instance.Debug("[CAPS]: UploadBakedTexture Request in region: " + m_regionName);
+                //MainConsole.Instance.Debug("[CAPS]: UploadBakedTexture Request in region: " +
+                //        m_regionName);
 
                 string uploadpath = "/CAPS/Upload/" + UUID.Random() + "/";
                 BakedTextureUploader uploader = new BakedTextureUploader(uploadpath);

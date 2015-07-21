@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,17 +25,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Utilities;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 
 namespace Vision.Modules.WorldMap
 {
@@ -132,6 +132,8 @@ namespace Vision.Modules.WorldMap
 
         #endregion
 
+        // private IConfigSource m_config; // not used currently
+
         // mapping from texture UUIDs to averaged color. This will contain all the textures in the sim.
         //   This could be considered a memory-leak, but it's *hopefully* taken care of after the terrain is generated
         private Dictionary<UUID, Color> m_mapping;
@@ -144,6 +146,7 @@ namespace Vision.Modules.WorldMap
         public void Initialise(IScene scene, IConfigSource source)
         {
             m_scene = scene;
+            // m_config = source; // not used currently
 
             // get cache dir
             m_assetCacheDir = source.Configs ["AssetCache"].GetString ("CacheDirectory",m_assetCacheDir);
@@ -164,6 +167,7 @@ namespace Vision.Modules.WorldMap
         {
             FastBitmap unsafeBMP = new FastBitmap(mapbmp);
             unsafeBMP.LockBitmap();
+            //DateTime start = DateTime.Now;
             //MainConsole.Instance.Info("[MAPTILE]: Generating Maptile Step 1: Terrain");
 
             // These textures should be in the AssetCache anyway, as every client conneting to this
@@ -208,6 +212,9 @@ namespace Vision.Modules.WorldMap
                         // add a bit noise for breaking up those flat colors:
                         // - a large-scale noise, for the "patches" (using an doubled s-curve for sharper contrast)
                         // - a small-scale noise, for bringing in some small scale variation
+                        //float bigNoise = (float)TerrainUtil.InterpolatedNoise(x / 8.0, y / 8.0) * .5f + .5f; // map to 0.0 - 1.0
+                        //float smallNoise = (float)TerrainUtil.InterpolatedNoise(x + 33, y + 43) * .5f + .5f;
+                        //float hmod = heightvalue + smallNoise * 3f + S(S(bigNoise)) * 10f;
                         float hmod =
                             heightvalue; // 0 - 10
 
@@ -430,6 +437,10 @@ namespace Vision.Modules.WorldMap
             return color;
         }
 
+        // S-curve: f(x) = 3x² - 2x³:
+        // f(0) = 0, f(0.5) = 0.5, f(1) = 1,
+        // f'(x) = 0 at x = 0 and x = 1; f'(0.5) = 1.5,
+        // f''(0.5) = 0, f''(x) != 0 for x != 0.5
         private float S(float v)
         {
             return (v*v*(3f - 2f*v));

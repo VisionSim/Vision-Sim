@@ -1,0 +1,4 @@
+C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Vision.Server.AvatarServer.exe
+C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Vision.Server.AvatarServer.pdb
+C:\Users\Fred\Desktop\VisionSim-Master\Vision\Servers\AvatarServer\obj\Debug\Vision.Server.AvatarServer.exe
+C:\Users\Fred\Desktop\VisionSim-Master\Vision\Servers\AvatarServer\obj\Debug\Vision.Server.AvatarServer.pdb

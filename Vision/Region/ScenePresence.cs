@@ -25,12 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using GridRegion = Vision.Framework.Services.GridRegion;
-using OpenMetaverse;
-using PrimType = Vision.Framework.SceneInfo.PrimType;
+
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
@@ -42,6 +37,12 @@ using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Other;
 using Vision.Framework.Utilities;
 using Vision.Region.Animation;
+using OpenMetaverse;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using GridRegion = Vision.Framework.Services.GridRegion;
+using PrimType = Vision.Framework.SceneInfo.PrimType;
 
 namespace Vision.Region
 {
@@ -2323,19 +2324,20 @@ namespace Vision.Region
                         double TargetY = Scene.RegionInfo.RegionLocY + (double) pos2.Y;
                         float halfRegionX = Scene.RegionInfo.RegionSizeX / 2;
                         float halfRegionY = Scene.RegionInfo.RegionSizeY / 2;
-                        //if (m_lastSigInfiniteRegionPos.X - AbsolutePosition.X > 128 ||
-                        //    m_lastSigInfiniteRegionPos.X - AbsolutePosition.X < -128 ||
-                        //    m_lastSigInfiniteRegionPos.Y - AbsolutePosition.Y > 128 ||
-                        //    m_lastSigInfiniteRegionPos.Y - AbsolutePosition.Y < -128)
-                        //{
-                        //m_lastSigInfiniteRegionPos = AbsolutePosition;
-                        //m_nearbyInfiniteRegions = Scene.GridService.GetRegionRange(
-                        //    ControllingClient.AllScopeIDs,
-                        //    (int) (TargetX - Scene.GridService.GetMaxRegionSize()),
-                        //    (int) (TargetX + 256),
-                        //    (int) (TargetY - Scene.GridService.GetMaxRegionSize()),
-                        //    (int) (TargetY + 256));
-                        //}
+
+//                        if (m_lastSigInfiniteRegionPos.X - AbsolutePosition.X > 128 ||
+//                            m_lastSigInfiniteRegionPos.X - AbsolutePosition.X < -128 ||
+//                            m_lastSigInfiniteRegionPos.Y - AbsolutePosition.Y > 128 ||
+//                            m_lastSigInfiniteRegionPos.Y - AbsolutePosition.Y < -128)
+//                        {
+//                        m_lastSigInfiniteRegionPos = AbsolutePosition;
+//                        m_nearbyInfiniteRegions = Scene.GridService.GetRegionRange(
+//                            ControllingClient.AllScopeIDs,
+//                            (int) (TargetX - Scene.GridService.GetMaxRegionSize()),
+//                            (int) (TargetX + 256),
+//                            (int) (TargetY - Scene.GridService.GetMaxRegionSize()),
+//                            (int) (TargetY + 256));
+//                    }
 
                         if (m_lastSigInfiniteRegionPos.X - AbsolutePosition.X > halfRegionX ||
                             m_lastSigInfiniteRegionPos.X - AbsolutePosition.X < -halfRegionX ||
@@ -2349,7 +2351,7 @@ namespace Vision.Region
                                 (int) (TargetX + Scene.RegionInfo.RegionSizeX),
                                 (int) (TargetY - Scene.GridService.GetMaxRegionSize()),
                                 (int) (TargetY + Scene.RegionInfo.RegionSizeY));
-                        
+                        }
                         GridRegion neighborRegion =
                             m_nearbyInfiniteRegions.FirstOrDefault(
                                 region =>

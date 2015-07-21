@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,12 +25,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.Drawing;
-using Nini.Config;
+
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
+using Nini.Config;
+using System;
+using System.Drawing;
 
 namespace Vision.Modules.WorldMap
 {
@@ -39,6 +40,7 @@ namespace Vision.Modules.WorldMap
         private static readonly Color WATER_COLOR = Color.FromArgb(29, 71, 95);
 
         private IScene m_scene;
+        //private IConfigSource m_config; // not used currently
 
         #region IMapTileTerrainRenderer Members
 

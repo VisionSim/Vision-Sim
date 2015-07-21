@@ -1392,7 +1392,7 @@
       </Files>
     </Project>
 
-    <Project frameworkVersion="v4_5" name="Vision.ScriptEngines.DotNetEngine" path="Vision/ScriptEngines/DotNetEngine" type="Library">
+    <Project frameworkVersion="v4_5" name="Vision.ScriptEngine.DotNetEngine" path="Vision/ScriptEngine/DotNetEngine" type="Library">
       <Configuration name="Debug" platform="x86">
         <Options>
           <OutputPath>../../../VisionSim/bin/</OutputPath>
@@ -1492,7 +1492,7 @@
 
       <Reference name="Vision.DataManager"/>
       <Reference name="Vision.Framework"/>
-      <Reference name="Vision.ScriptEngines.DotNetEngine"/>
+      <Reference name="Vision.ScriptEngine.DotNetEngine"/>
       
       <Reference name="Nini" path="../../VisionSim/bin/"/>
       <Reference name="OpenMetaverse" path="../../VisionSim/bin/"/>

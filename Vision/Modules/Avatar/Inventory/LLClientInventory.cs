@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,15 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
+
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
@@ -48,6 +40,15 @@ using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Services.ClassHelpers.Inventory;
 using Vision.Framework.Utilities;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
 
 namespace Vision.Modules.Inventory
 {
@@ -829,6 +830,7 @@ namespace Vision.Modules.Inventory
                     item.CreationDate = itemUpd.CreationDate == 0 ? Util.UnixTimeSinceEpoch() : itemUpd.CreationDate;
 
                     // TODO: Check if folder changed and move item
+                    //item.NextPermissions = itemUpd.Folder;
                     item.InvType = itemUpd.InvType;
                     item.SalePrice = itemUpd.SalePrice;
                     item.SaleType = itemUpd.SaleType;
@@ -960,7 +962,9 @@ namespace Vision.Modules.Inventory
             else
             {
                 MainConsole.Instance.ErrorFormat(
-                    "[PRIM INVENTORY]: " + "Couldn't find part {0} to request inventory data", primLocalID);
+                    "[PRIM INVENTORY]: " +
+                    "Couldn't find part {0} to request inventory data",
+                    primLocalID);
             }
         }
 
@@ -991,8 +995,10 @@ namespace Vision.Modules.Inventory
                 else
                 {
                     MainConsole.Instance.ErrorFormat(
-                        "[PRIM INVENTORY]: " + "Removal of item {0} requested of prim {1} but this prim does not exist",
-                        itemID, localID);
+                        "[PRIM INVENTORY]: " +
+                        "Removal of item {0} requested of prim {1} but this prim does not exist",
+                        itemID,
+                        localID);
                 }
             }
         }
@@ -1131,6 +1137,7 @@ namespace Vision.Modules.Inventory
                 // Explicity allow anyone to add to the inventory if the
                 // AllowInventoryDrop flag has been set. Don't however let
                 // them update an item unless they pass the external checks
+                //
                 if (!m_scene.Permissions.CanEditObjectInventory(part.UUID, remoteClient.AgentId)
                     && (currentItem != null || !allowInventoryDrop))
                     return;

@@ -1,16 +1,16 @@
 #!/bin/bash
-# Run prebuild to configure and create the appropriate Solution and Porject files for building Vision-Sim
+# Run prebuild to configure and create the appropriate Solution and Project files for building Vision-Sim
 #
-# April 2015
-# Britanyann Copperfield <britanyann@imperialestates.biz>
+# July 2015
+# BritanyannCopperfield
 
 # find and change to the current folder (bash does not start here by default)
 VSDIR="${0%/*}"
-cd $VSDIR
-echo $VSDIR
+cd $WCSDIR
+echo $WCSDIR
 
 # default setings
-ARCH="AnyCPU"
+ARCH="x64"
 CONFIG="Debug"
 BUILD=false
 VERSIONONLY=false
@@ -24,11 +24,19 @@ Options:
   -b|--build Build after configuration No (default) or Yes
   -v|--version Update version details only
 "
-
+# get the current system architecture
+if (( 1 == 1<<32 )); then
+    ARCH="x86";
+    echo "x86 architecture detected";
+else
+    echo "x64 architecture found";
+fi
 
 # check if prompting needed
 if [ $# -eq 0 ]; then
     read -p "Architecture to use? (AnyCPU, x86, x64) [$ARCH]: " bits
+    if [[ $bits == "x86" ]]; then ARCH="x86"; fi
+    if [[ $bits == "86" ]]; then ARCH="x86"; fi
     if [[ $bits == "x64" ]]; then ARCH="x64"; fi
     if [[ $bits == "64" ]]; then ARCH="x64"; fi
     if [[ $bits == "AnyCPU" ]]; then ARCH="AnyCPU"; fi
@@ -92,15 +100,18 @@ fi
 
 # Update version info
 if [ -d ".git" ]; then 
-  git log --pretty=format:"Vision (%cd.%h)" --date=short -n 1 > VisionSim/bin/.version; 
+  git log --pretty=format:"Vision 0.9.3 (%cd.%h)" --date=short -n 1 > VisionSim/bin/.version; 
   echo "Version info updated"
 fi
 
-# Build Vision
+# Build Vision-Sim
 if ${BUILD:=true} ; then
-  echo Building Vision
+  echo Building Vision-Sim
   xbuild /property:Configuration="$CONFIG" /property:Platform="$ARCH"
-  echo Finished Building Vision
+  echo Finished Building Vision-Sim
   echo Thank you for choosing Vision-Sim
   echo Please report any errors to our Github Issue Tracker https://github.com/VisionSim/Vision-Sim/issues
+else
+  echo "Vision-Sim has been configured to compile with $ARCH $CONFIG options"
+  echo "To manually build, enter 'xbuild Vision.sln' at the command prompt"
 fi

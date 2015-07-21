@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,11 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.IO;
 using Nini.Config;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
+using System;
+using System.IO;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Servers.HttpServer;
@@ -96,8 +96,6 @@ namespace Vision.Modules.Caps
 
         private byte[] ProcessLSLSyntax(Stream request, OSHttpResponse httpResponse, UUID agentID)
         {
-            /// <summary>
-            /// TODO
             // According to the information, this CAPS sends the LSL Syntax to the viewer
             // so new functions in LSL are reported correctly.
             //
@@ -108,9 +106,8 @@ namespace Vision.Modules.Caps
             // * If version of LSLSyntax.xml file is older, request the new version through the Caps
             //
             // * Including a bogus file for the time being in bin/Caps
-            /// Britanyann Copperfield
-            /// May 17, 2015
-            /// </summary>
+            //
+            // Fly-Man- 17 May 2015
             throw new NotImplementedException();
         }
     }

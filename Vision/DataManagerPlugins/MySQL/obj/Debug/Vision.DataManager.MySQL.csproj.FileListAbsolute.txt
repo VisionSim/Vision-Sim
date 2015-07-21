@@ -1,0 +1,5 @@
+C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Vision.DataManager.MySQL.dll
+C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Vision.DataManager.MySQL.pdb
+C:\Users\Fred\Desktop\VisionSim-Master\Vision\DataManagerPlugins\MySQL\obj\Debug\Vision.DataManager.MySQL.csprojResolveAssemblyReference.cache
+C:\Users\Fred\Desktop\VisionSim-Master\Vision\DataManagerPlugins\MySQL\obj\Debug\Vision.DataManager.MySQL.dll
+C:\Users\Fred\Desktop\VisionSim-Master\Vision\DataManagerPlugins\MySQL\obj\Debug\Vision.DataManager.MySQL.pdb

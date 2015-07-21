@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,20 +25,20 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Timers;
-using Nini.Config;
-using OpenMetaverse;
-using ProtoBuf;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Utilities;
 using Vision.Region;
+using Nini.Config;
+using OpenMetaverse;
+using ProtoBuf;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Timers;
 using Timer = System.Timers.Timer;
 
 namespace Vision.Modules
@@ -157,7 +157,7 @@ namespace Vision.Modules
             {
                 if (Path.GetFileName (regBak).StartsWith(regionName)) 
                 {
-                    // MainConsole.Instance.Debug ("Found: " + Path.GetFileNameWithoutExtension (regBak));
+                    //        MainConsole.Instance.Debug ("Found: " + Path.GetFileNameWithoutExtension (regBak));
                     regionBaks.Add ( regBak);
                 }
             }
@@ -359,23 +359,25 @@ namespace Vision.Modules
                 var sizeCheck = "";
                 do
                 {
-                    info.RegionSizeX = int.Parse(MainConsole.Instance.Prompt("Region size X", info.RegionSizeX.ToString()));
+                    info.RegionSizeX = int.Parse (MainConsole.Instance.Prompt ("Region size X", info.RegionSizeX.ToString ()));
                     if (info.RegionSizeX > Constants.MaxRegionSize)
                     {
-                        MainConsole.Instance.CleanInfo("      The currently recommended maximum size is " + "? (yes/no)", "no");
+                        MainConsole.Instance.CleanInfo ("    The currently recommended maximum size is " + Constants.MaxRegionSize);
+                        sizeCheck =  MainConsole.Instance.Prompt ("Continue with the X size of " + info.RegionSizeX + "? (yes/no)", "no");
                         haveSize = sizeCheck.ToLower().StartsWith("y");
                     }
-                } while (!haveSize);
+                } while (! haveSize);
 
                 // assume square regions
                 info.RegionSizeY = info.RegionSizeX;
 
                 do
                 {
-                    info.RegionSizeX = int.Parse(MainConsole.Instance.Prompt("Region size X", info.RegionSizeX.ToString()));
-                    if (info.RegionSizeX > Constants.MaxRegionSize)
+                    info.RegionSizeY = int.Parse (MainConsole.Instance.Prompt ("Region size Y", info.RegionSizeY.ToString ()));
+                    if ( (info.RegionSizeY > info.RegionSizeX) && (info.RegionSizeY > Constants.MaxRegionSize) )
                     {
-                        MainConsole.Instance.CleanInfo("      The currently recommended maximum size is " + "? (yes/no)", "no");
+                        MainConsole.Instance.CleanInfo ("    The currently recommended maximum size is " + Constants.MaxRegionSize);
+                        sizeCheck =  MainConsole.Instance.Prompt ("Continue with the Y size of " + info.RegionSizeY + "? (yes/no)", "no");
                         haveSize = sizeCheck.ToLower().StartsWith("y");
                     }
                 } while (! haveSize);
@@ -392,7 +394,7 @@ namespace Vision.Modules
                     (info.RegionType == "" ? "Estate" : info.RegionType));
 
                 // Region presets or advanced setup
-                string setupMode;
+                string setupMode;        
                 string terrainOpen = "Grassland";                             
                 string terrainFull = "Grassland";
                 var responses = new List<string>();
@@ -403,14 +405,14 @@ namespace Vision.Modules
                     responses.Add("Full Region");
                     responses.Add("Homestead");
                     responses.Add ("Openspace");
-                    responses.Add ("Vision");                            // TODO: remove?
+                    responses.Add ("Whitecore");                            // TODO: remove?
                     responses.Add ("Custom");                               
                     setupMode = MainConsole.Instance.Prompt("Mainland region type?", "Full Region", responses).ToLower ();
 
                     // allow specifying terrain for Openspace
                     if (bigRegion)
                         terrainOpen = "flatland";
-                    else if (setupMode.StartsWith("0"))
+                    else if (setupMode.StartsWith("o"))
                         terrainOpen = MainConsole.Instance.Prompt("Openspace terrain ( Grassland, Swamp, Aquatic)?", terrainOpen).ToLower();
 
                 } else
@@ -419,15 +421,14 @@ namespace Vision.Modules
                     info.RegionType = "Estate / ";                   
                     responses.Add("Full Region");
                     responses.Add("Homestead");
-                    responses.Add("Openspace");
-                    responses.Add ("Vision");                            // TODO: Vision 'standard' setup, rename??
+                    responses.Add ("Whitecore");                            // TODO: Vision 'standard' setup, rename??
                     responses.Add ("Custom");
                     setupMode = MainConsole.Instance.Prompt("Estate region type?","Full Region", responses).ToLower();
                 }
 
                 // terrain can be specified for Full or custom regions
                 if (bigRegion)
-                    terrainOpen = "flatland";
+                    terrainFull = "Flatland";
                 else if (setupMode.StartsWith ("f") || setupMode.StartsWith ("c"))
                 {
                     var tresp = new List<string>();
@@ -510,10 +511,12 @@ namespace Vision.Modules
                 {
                     // 'Homestead' setup
                     info.RegionType = info.RegionType + "Homestead";                   
+                    //info.RegionPort;            // use auto assigned port
                     if (bigRegion)
                         info.RegionTerrain = "Flatland";
-                    else if
+                    else
                         info.RegionTerrain = "Homestead";
+
                     info.Startup = StartupType.Medium;
                     info.SeeIntoThisSimFromNeighbor = true;
                     info.InfiniteRegion = false;

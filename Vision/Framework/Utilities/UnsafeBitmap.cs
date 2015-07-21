@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,13 +58,13 @@ namespace Vision.Framework.Utilities
 
             //Lock Image
             bitmapData = workingBitmap.LockBits(bounds, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-            pBase = (Byte*)bitmapData.Scan0.ToPointer();
+            pBase = (Byte*) bitmapData.Scan0.ToPointer();
         }
 
         public Color GetPixel(int x, int y)
         {
             pixelData = (PixelData*)(pBase + y * width + x * sizeof(PixelData));
-            return Color.FromArgb(pixelData->alpha, pixelData->red, pixelData->green, pixelData->blue);
+            return Color.FromArgb (pixelData->alpha, pixelData->red, pixelData->green, pixelData->blue);
         }
 
         public Color GetPixelNext()

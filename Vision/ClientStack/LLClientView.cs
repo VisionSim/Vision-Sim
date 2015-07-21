@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, Vision-Sim, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,18 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading;
-using System.Xml;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.Messages.Linden;
-using OpenMetaverse.Packets;
-using OpenMetaverse.StructuredData;
-using RegionFlags = OpenMetaverse.RegionFlags;
+
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
@@ -47,6 +36,18 @@ using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Services.ClassHelpers.Inventory;
 using Vision.Framework.Utilities;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.Messages.Linden;
+using OpenMetaverse.Packets;
+using OpenMetaverse.StructuredData;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Threading;
+using System.Xml;
+using RegionFlags = OpenMetaverse.RegionFlags;
 
 namespace Vision.ClientStack
 {
@@ -480,7 +481,7 @@ namespace Vision.ClientStack
                 m_allowUDPInv = advancedConfig.GetBoolean("AllowUDPInventory", m_allowUDPInv);
 
             //m_killRecord = new HashSet<uint>();
-            //m_attachmentsSent = new HashSet<uint>();
+//            m_attachmentsSent = new HashSet<uint>();
 
             m_assetService = m_scene.RequestModuleInterface<IAssetService>();
             m_GroupsModule = scene.RequestModuleInterface<IGroupsModule>();
@@ -3605,11 +3606,13 @@ namespace Vision.ClientStack
                     aw.WearableData[idx] = awb;
                     idx++;
 
-                    // MainConsole.Instance.DebugFormat(
-                    //    "[APPEARANCE]: Sending wearable item/asset {0} {1} (index {2}) for {3}", awb.ItemID, awb.AssetID, i, Name);
+                    //                                MainConsole.Instance.DebugFormat(
+                    //                                    "[APPEARANCE]: Sending wearable item/asset {0} {1} (index {2}) for {3}",
+                    //                                    awb.ItemID, awb.AssetID, i, Name);
                 }
             }
 
+            //            OutPacket(aw, ThrottleOutPacketType.Texture);
             OutPacket(aw, ThrottleOutPacketType.AvatarInfo);
         }
 
@@ -3636,7 +3639,7 @@ namespace Vision.ClientStack
                                              AppearanceVersion = (int)RegionProtocols.None
                                          }
                                      };
-            avp.AppearanceHover = new AvatarApearancePacket.AppearanceHoverBlock[1] {
+            avp.AppearanceHover = new AvatarAppearancePacket.AppearanceHoverBlock[1] { 
                 new AvatarAppearancePacket.AppearanceHoverBlock () {
                     HoverHeight = Vector3.Zero
                 }
@@ -3676,12 +3679,15 @@ namespace Vision.ClientStack
 
                 ani.AnimationSourceList[i] = new AvatarAnimationPacket.AnimationSourceListBlock
                                                  {ObjectID = animations.ObjectIDs[i]};
+                //if (objectIDs[i] == UUID.Zero)
+                //    ani.AnimationSourceList[i].ObjectID = sourceAgentId;
             }
             //We do this here to keep the numbers under control
             m_animationSequenceNumber += (animations.Animations.Length*2);
 
             ani.Header.Reliable = true;
             ani.HasVariableBlocks = false;
+            //            OutPacket(ani, ThrottleOutPacketType.Asset);
             OutPacket(ani, ThrottleOutPacketType.AvatarInfo, true, null,
                       delegate
                           { m_scene.GetScenePresence(AgentId).SceneViewer.FinishedAnimationPacketSend(animations); });
@@ -3853,6 +3859,13 @@ namespace Vision.ClientStack
                     //
                     // This doesn't appear to apply to child prims - a client will happily ignore these updates
                     // after the root prim has been deleted.
+                    /*if (m_killRecord.Contains(entity.LocalId))
+                        {
+                        MainConsole.Instance.ErrorFormat(
+                            "[CLIENT]: Preventing update for prim with local id {0} after client for user {1} told it was deleted. Mantis this at http://mantis.Vision-sim.org/bug_report_page.php !",
+                            entity.LocalId, Name);
+                        return;
+                        }*/
                     ISceneChildEntity ent = (ISceneChildEntity) entity;
                     if (ent.Shape.PCode == 9 && ent.Shape.State != 0)
                     {
@@ -4054,6 +4067,8 @@ namespace Vision.ClientStack
             // SECOND NOTE: These packets are back as Task for now... we shouldn't send them out as unknown
             //        as we cannot be sure that the UDP server is ready for us to send them, so we will
             //        requeue them... even though we probably could send them out fine.
+            //
+
             if (objectUpdateBlocks.IsValueCreated)
             {
                 List<ObjectUpdatePacket.ObjectDataBlock> blocks = objectUpdateBlocks.Value;
@@ -4065,6 +4080,9 @@ namespace Vision.ClientStack
 
                 for (int i = 0; i < blocks.Count; i++)
                     packet.ObjectData[i] = blocks[i];
+
+
+                //ObjectUpdatePacket oo = new ObjectUpdatePacket(packet.ToBytes(), ref ii);
 
                 OutPacket(packet, ThrottleOutPacketType.Task, true,
                           p => ResendPrimUpdates(fullUpdates, p),
@@ -4213,6 +4231,8 @@ namespace Vision.ClientStack
 
         private void ProcessTextureRequests(int numPackets)
         {
+            //note: tmp is never used
+            //int tmp = m_udpClient.GetCurTexPacksInQueue();
             if (m_imageManager != null)
                 m_imageManager.ProcessImageQueue(numPackets);
         }
@@ -4379,6 +4399,7 @@ namespace Vision.ClientStack
 
         public void SendObjectPropertiesReply(List<IEntity> parts)
         {
+            //ObjectPropertiesPacket proper = (ObjectPropertiesPacket)PacketPool.Instance.GetPacket(PacketType.ObjectProperties);
             // TODO: don't create new blocks if recycling an old packet
 
             //Theres automatic splitting, just let it go on through
@@ -5010,7 +5031,9 @@ namespace Vision.ClientStack
             data.CollisionPlane.ToBytes(objectData, 0);
             data.OffsetPosition.ToBytes(objectData, 16);
             data.Velocity.ToBytes(objectData, 28);
+            //data.Acceleration.ToBytes(objectData, 40);
             data.Rotation.ToBytes(objectData, 52);
+            //data.AngularVelocity.ToBytes(objectData, 64);
             string[] spl = data.Name.Split(' ');
             string first = spl[0], last = (spl.Length == 1 ? "" : Util.CombineParams(spl, 1));
 
@@ -5123,7 +5146,9 @@ namespace Vision.ClientStack
                                                                 Material = (byte) data.Material,
                                                                 MediaURL = Utils.StringToBytes(data.CurrentMediaVersion)
                                                             };
-
+            //update.JointAxisOrAnchor = Vector3.Zero; // These are deprecated
+            //update.JointPivot = Vector3.Zero;
+            //update.JointType = 0;
             if (data.IsAttachment)
             {
                 update.NameValue = Util.StringToBytes256("AttachItemID STRING RW SV " + data.FromUserInventoryItemID);
@@ -5183,8 +5208,9 @@ namespace Vision.ClientStack
                 }
             }
 
-            //MainConsole.Instance.DebugFormat(
-            //    "[LLCLIENTVIEW]: Constructing client update for part {0} {1} with flags {2}, localId {3}", data.Name, update.FullID, flags, update.ID);
+//            MainConsole.Instance.DebugFormat(
+//                "[LLCLIENTVIEW]: Constructing client update for part {0} {1} with flags {2}, localId {3}",
+//                data.Name, update.FullID, flags, update.ID);
 
             update.UpdateFlags = (uint) flags;
 
@@ -5284,6 +5310,7 @@ namespace Vision.ClientStack
                         Primitive.ParticleSystem Sys = new Primitive.ParticleSystem();
                         byte[] pdata = Sys.GetBytes();
                         objectData.Write(pdata, 0, pdata.Length);
+                        //updateFlags = updateFlags & ~CompressedFlags.HasParticles;
                     }
                     else
                         objectData.Write(part.ParticleSystem, 0, part.ParticleSystem.Length);
@@ -5660,6 +5687,7 @@ namespace Vision.ClientStack
             if (OnAgentUpdate != null)
             {
                 bool update = false;
+                //bool forcedUpdate = false;
                 AgentUpdatePacket agenUpdate = (AgentUpdatePacket) Pack;
 
                 #region Packet Session and User Check
@@ -5671,7 +5699,8 @@ namespace Vision.ClientStack
 
                 AgentUpdatePacket.AgentDataBlock x = agenUpdate.AgentData;
 
-                // We can only check when we have something to check against.
+                // We can only check when we have something to check
+                // against.
 
                 if (lastarg != null)
                 {
@@ -5693,6 +5722,7 @@ namespace Vision.ClientStack
                 }
                 else
                 {
+                    //forcedUpdate = true;
                     update = true;
                 }
 
@@ -6034,10 +6064,11 @@ namespace Vision.ClientStack
 
             #endregion
 
-            string fromName = String.Empty;
+            string fromName = String.Empty; //ClientAvatar.firstname + " " + ClientAvatar.lastname;
             byte[] message = inchatpack.ChatData.Message;
             byte type = inchatpack.ChatData.Type;
-            Vector3 fromPos = new Vector3();
+            Vector3 fromPos = new Vector3(); // ClientAvatar.Pos;
+            // UUID fromAgentID = AgentId;
 
             int channel = inchatpack.ChatData.Channel;
 
@@ -6690,13 +6721,14 @@ namespace Vision.ClientStack
                 DetachAttachmentIntoInvPacket detachtoInv = (DetachAttachmentIntoInvPacket) Pack;
 
                 #region Packet Session and User Check
-                
-                //TODO!
+
+//TODO!
                 // UNSUPPORTED ON THIS PACKET
 
                 #endregion
 
                 UUID itemID = detachtoInv.ObjectData.ItemID;
+                // UUID ATTACH_agentID = detachtoInv.ObjectData.AgentID;
 
                 handlerDetachAttachmentIntoInv(itemID, this);
             }
@@ -6917,7 +6949,7 @@ namespace Vision.ClientStack
 
             if (m_checkPackets)
             {
-                //TODO!
+//TODO!
                 // UNSUPPORTED ON THIS PACKET
             }
 
@@ -7341,6 +7373,8 @@ namespace Vision.ClientStack
             }
 
             #endregion
+
+//            ObjectDuplicatePacket.AgentDataBlock AgentandGroupData = dupe.AgentData;
 
             foreach (ObjectDuplicatePacket.ObjectDataBlock t in dupe.ObjectData)
             {
@@ -8130,6 +8164,7 @@ namespace Vision.ClientStack
 
             #endregion
 
+            //handlerTextureRequest = null;
             foreach (RequestImagePacket.RequestImageBlock t in imageRequest.RequestImage)
             {
                 TextureRequestArgs args = new TextureRequestArgs();
@@ -8170,7 +8205,9 @@ namespace Vision.ClientStack
 
             TransferRequestPacket transfer = (TransferRequestPacket) Pack;
             //MainConsole.Instance.Debug("Transfer Request: " + transfer.ToString());
-            // Validate inventory transfers have to be done here, because AssetCache can't do it
+            // Validate inventory transfers
+            // Has to be done here, because AssetCache can't do it
+            //
             UUID taskID = UUID.Zero;
             if (transfer.TransferInfo.SourceType == (int) SourceType.SimInventoryItem)
             {
@@ -8178,8 +8215,9 @@ namespace Vision.ClientStack
                 UUID itemID = new UUID(transfer.TransferInfo.Params, 64);
                 UUID requestID = new UUID(transfer.TransferInfo.Params, 80);
 
-                //MainConsole.Instance.DebugFormat(
-                //    "[CLIENT]: Got request for asset {0} from item {1} in prim {2} by {3}", requestID, itemID, taskID, Name);
+//                MainConsole.Instance.DebugFormat(
+//                    "[CLIENT]: Got request for asset {0} from item {1} in prim {2} by {3}",
+//                    requestID, itemID, taskID, Name);
 
                 if (!m_scene.Permissions.BypassPermissions())
                 {
@@ -8928,8 +8966,9 @@ namespace Vision.ClientStack
                                                                     (uint) updatetask.InventoryData.CreationDate
                                                             };
 
-                        // Is this unused?  Clicking share with group sets GroupPermissions instead, so perhaps this is something
+                        // Unused?  Clicking share with group sets GroupPermissions instead, so perhaps this is something
                         // different
+                        //newTaskItem.GroupOwned=updatetask.InventoryData.GroupOwned;
                         handlerUpdateTaskInventory(this, updatetask.InventoryData.TransactionID,
                                                    newTaskItem, updatetask.UpdateData.LocalID);
                     }
@@ -9753,7 +9792,21 @@ namespace Vision.ClientStack
                                                 convertParamStringToBool(messagePacket.ParamList[8].Parameter));
                     }
                     return true;
-
+                    //                            case "texturebase":
+                    //                                if (((Scene)m_scene).Permissions.CanIssueEstateCommand(AgentId, false))
+                    //                                {
+                    //                                    foreach (EstateOwnerMessagePacket.ParamListBlock block in messagePacket.ParamList)
+                    //                                    {
+                    //                                        string s = Utils.BytesToString(block.Parameter);
+                    //                                        string[] splitField = s.Split(' ');
+                    //                                        if (splitField.Length == 2)
+                    //                                        {
+                    //                                            UUID tempUUID = new UUID(splitField[1]);
+                    //                                            OnSetEstateTerrainBaseTexture(this, Convert.ToInt16(splitField[0]), tempUUID);
+                    //                                        }
+                    //                                    }
+                    //                                }
+                    //                                break;
                 case "texturedetail":
                     if (m_scene.Permissions.CanIssueEstateCommand(AgentId, false))
                     {
@@ -10116,6 +10169,9 @@ namespace Vision.ClientStack
 
         private bool HandleEstateCovenantRequest(IClientAPI sender, Packet Pack)
         {
+            //EstateCovenantRequestPacket.AgentDataBlock epack =
+            //     ((EstateCovenantRequestPacket)Pack).AgentData;
+
             EstateCovenantRequest handlerEstateCovenantRequest = OnEstateCovenantRequest;
             if (handlerEstateCovenantRequest != null)
             {
@@ -12421,6 +12477,8 @@ namespace Vision.ClientStack
                     }
                     else
                     {
+                        // UUID partId = part.UUID;
+
                         switch (block.Type)
                         {
                             case 1:
@@ -12463,7 +12521,7 @@ namespace Vision.ClientStack
                                 UpdateVector handlerUpdatePrimScale = OnUpdatePrimScale;
                                 if (handlerUpdatePrimScale != null)
                                 {
-                                    // MainConsole.Instance.Debug("new scale is " + scale4.X + " , " + scale4.Y + " , " + scale4.Z);
+                                    //                                     MainConsole.Instance.Debug("new scale is " + scale4.X + " , " + scale4.Y + " , " + scale4.Z);
                                     handlerUpdatePrimScale(localId, scale4, this);
                                 }
                                 break;
@@ -12512,7 +12570,7 @@ namespace Vision.ClientStack
                                 UpdatePrimGroupRotation handlerUpdatePrimGroupRotation = OnUpdatePrimGroupMouseRotation;
                                 if (handlerUpdatePrimGroupRotation != null)
                                 {
-                                    // MainConsole.Instance.Debug("new rotation position is " + pos.X + " , " + pos.Y + " , " + pos.Z);
+                                    //  MainConsole.Instance.Debug("new rotation position is " + pos.X + " , " + pos.Y + " , " + pos.Z);
                                     // MainConsole.Instance.Debug("new group mouse rotation is " + rot4.X + " , " + rot4.Y + " , " + rot4.Z + " , " + rot4.W);
                                     handlerUpdatePrimGroupRotation(localId, pos3, rot4, this);
                                 }
@@ -12524,7 +12582,7 @@ namespace Vision.ClientStack
                                 UpdateVector handlerUpdatePrimGroupScale = OnUpdatePrimGroupScale;
                                 if (handlerUpdatePrimGroupScale != null)
                                 {
-                                    // MainConsole.Instance.Debug("new scale is " + scale7.X + " , " + scale7.Y + " , " + scale7.Z);
+                                    //                                     MainConsole.Instance.Debug("new scale is " + scale7.X + " , " + scale7.Y + " , " + scale7.Z);
                                     handlerUpdatePrimGroupScale(localId, scale7, this);
                                 }
                                 break;
@@ -12763,6 +12821,7 @@ namespace Vision.ClientStack
                     {
                         MainConsole.Instance.Debug(t.ToString());
                     }
+                    //gmpack.MethodData.
                     break;
             }
         }
@@ -12830,6 +12889,7 @@ namespace Vision.ClientStack
 
             Primitive.TextureEntry ntex = new Primitive.TextureEntry(new UUID("89556747-24cb-43ed-920b-47caed15465f"));
             shape.TextureEntry = ntex.GetBytes();
+            //shape.Textures = ntex;
             return shape;
         }
 
@@ -13092,6 +13152,7 @@ namespace Vision.ClientStack
                 (RebakeAvatarTexturesPacket) PacketPool.Instance.GetPacket(PacketType.RebakeAvatarTextures);
 
             pack.TextureData = new RebakeAvatarTexturesPacket.TextureDataBlock {TextureID = textureID};
+            //            OutPacket(pack, ThrottleOutPacketType.Texture);
             OutPacket(pack, ThrottleOutPacketType.AvatarInfo);
         }
 
@@ -13233,6 +13294,9 @@ namespace Vision.ClientStack
 
                 OutPacket(packet, ThrottleOutPacketType.Task, true);
             }
+
+            //ControllingClient.SendAvatarTerseUpdate(new SendAvatarTerseData(m_rootRegionHandle, (ushort)(m_scene.TimeDilation * ushort.MaxValue), LocalId,
+            //        AbsolutePosition, Velocity, Vector3.Zero, m_bodyRot, new Vector4(0,0,1,AbsolutePosition.Z - 0.5f), m_uuid, null, GetUpdatePriority(ControllingClient)));
         }
 
         public void ForceSendOnAgentUpdate(IClientAPI client, AgentUpdateArgs args)

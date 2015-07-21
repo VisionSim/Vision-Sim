@@ -3,7 +3,7 @@
 ##
 
 Some people will find it very easy to run Vision-Sim.  It is easy for the most part.
-While running Vision-Sim and configuring it is simple for some the network and port forwarding
+While running WHiteCore-Sim and configuring it is simple for some the network and port forwarding
 is harder.  THis tutorial will help you learn how to make sure your network is forwarding the proper
 ports both in your firewall and your gateway (router/ modem).  The methods in this tutorial have been
 tested and fully work.  If you follow this guide you should be up and going in no tiem at all.
@@ -87,20 +87,20 @@ is set for Windows Firewall.  On to the Gateway stuff.......
   Q: I followed these instructions and the instructions in my modem's user manual but it still doesnt connect, Why?
   A: First double check you didnt mistype something or get the wrong setting.  If this does not work you can ask
      for assistance.  I am happy to help.  Just email your issue to secondgalaxy2013@gmail.com or you can often 
-     find me in #Vision-support on Freenode.
+     find me in #vision-support on Freenode.
 
 ##
 ## About this tutorial
 ##
   This tutorial was written by Emperor Starfinder for helping users of Vision-Sim at the request of Greythane.
   I am not a member of the Vision-Sim development team.  You can find out more about Vision-Sim at 
-  http://www.Vision-sim.org
+  http://www.vision-sim.org
 	
 ##
 ## Legal Stuff
 ##
 
-  The name Vision-Sim, Vision-sim.org, and the Vision-Sim logos and marks, are the property of their respective
+  The name Vision-Sim, vision-sim.org, and the Vision-Sim logos and marks, are the property of their respective
   creators. Namely Greythane or Fly-Man.
   Third party software and code contributed to Vision-Sim is done so under an opensource license.  For more information
   please see LICENSE.txt in VisionSim/VisionDocs/LICENSE.txt.

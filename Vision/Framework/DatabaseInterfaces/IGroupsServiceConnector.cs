@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -26,9 +26,9 @@
  */
 
 using System;
+using System.Collections.Generic;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
-using System.Collections.Generic;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
@@ -83,7 +83,7 @@ namespace Vision.Framework.DatabaseInterfaces
 
         uint GetNumberOfGroups(UUID requestingAgentID, Dictionary<string, bool> boolFields);
 
-        List<UUID> GetAllGroups(UUID requestingAgentID);
+        List <UUID> GetAllGroups (UUID requestingAgentID);
 
         GroupRecord GetGroupRecord(UUID requestingAgentID, UUID GroupID, string GroupName);
 

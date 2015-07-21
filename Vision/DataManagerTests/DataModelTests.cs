@@ -26,9 +26,9 @@
  */
 
 using System.IO;
+using Vision.DataManager.Repositories;
 using NUnit.Framework;
 using OpenMetaverse;
-using Vision.DataManager.Repositories;
 
 namespace Vision.DataManager.Tests
 {

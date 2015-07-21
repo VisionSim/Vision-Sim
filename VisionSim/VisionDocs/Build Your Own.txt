@@ -35,7 +35,7 @@ Checkout the ReadMe.txt file for the rest
 
 Questions?
 ==========
-Checkout the #Vision-support irc channel on freenode,
+Checkout the #vision-support irc channel on freenode,
 
 
 Rowan
