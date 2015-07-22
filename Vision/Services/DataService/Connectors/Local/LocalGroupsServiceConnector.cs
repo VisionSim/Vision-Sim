@@ -71,14 +71,14 @@ namespace Vision.Services.DataService
             }
 
             if (data != null)
-                data.ConnectToDatabase (defaultConnectionString, "Groups",
-                    source.Configs ["VisionConnectors"].GetBoolean ("ValidateTables", true));
+                data.ConnectToDatabase(defaultConnectionString, "Groups",
+                    source.Configs["VisionConnectors"].GetBoolean("ValidateTables", true));
 
-            Framework.Utilities.DataManager.RegisterPlugin (Name + "Local", this);
+            Framework.Utilities.DataManager.RegisterPlugin(Name + "Local", this);
 
-            if (source.Configs ["VisionConnectors"].GetString ("GroupsConnector", "LocalConnector") == "LocalConnector")
+            if (source.Configs["VisionConnectors"].GetString("GroupsConnector", "LocalConnector") == "LocalConnector")
             {
-                Framework.Utilities.DataManager.RegisterPlugin (this);
+                Framework.Utilities.DataManager.RegisterPlugin(this);
             }
 
             IConfig grpConfig = source.Configs["SystemUserService"];
@@ -87,15 +87,15 @@ namespace Vision.Services.DataService
                 realEstateGroupName = grpConfig.GetString("RealEstateGroupName", realEstateGroupName);
             }
 
-            Init (simBase, Name);
+            Init(simBase, Name);
 
             // check for system groups if we are local
             if (!m_doRemoteCalls)
             {
-                VerifySystemGroup ( 
-                    realEstateGroupName, 
-                    (UUID) Constants.RealEstateGroupUUID,
-                    (UUID) Constants.RealEstateOwnerUUID,
+                VerifySystemGroup(
+                    realEstateGroupName,
+                    (UUID)Constants.RealEstateGroupUUID,
+                    (UUID)Constants.RealEstateOwnerUUID,
                     "RealEstate maintenance group"
                 );
             }
@@ -116,18 +116,25 @@ namespace Vision.Services.DataService
         /// <param name="grpCharter">Group charter.</param>
         void VerifySystemGroup(string grpName, UUID grpUUID, UUID grpOwnerUUID, string grpCharter)
         {
-            if (GetGroupRecord (UUID.Zero, grpUUID, grpName) == null)
+            GroupRecord grpRec;
+            grpRec = GetGroupRecord(UUID.Zero, grpUUID, grpName);
+            if (grpRec == null)
             {
-                MainConsole.Instance.WarnFormat ("Creating System Group '{0}'", grpName);
+                MainConsole.Instance.WarnFormat("Creating System Group '{0}'", grpName);
 
-                CreateGroup (
+                CreateGroup(
                     grpUUID,                                            // Group UUID
                     grpName,                                            // Name
                     grpCharter,                                         // Charter / description
                     false,                                              // Show in list
-                    UUID.Zero, 0, false, false, true,                   // Insignia UUID, Membership fee, Open Enrolement, Allow publishing, Mature
+                    UUID.Zero, 0, false, false, false,                  // Insignia UUID, Membership fee, Open Enrolement, Allow publishing, Mature
                     grpOwnerUUID,                                       // founder UUID
-                    UUID.Random ());                                     // owner role UUID ??
+                    UUID.Random());                                     // owner role UUID
+            }
+            else
+            {
+                if (grpRec.FounderID != grpOwnerUUID)
+                    UpdateGroupFounder(grpUUID, grpOwnerUUID, false);
             }
         }
 
@@ -145,51 +152,66 @@ namespace Vision.Services.DataService
             if (remoteValue != null || m_doRemoteOnly)
                 return;
 
-           const ulong EveryonePowers = (ulong) (GroupPowers.AllowSetHome |
-                                            GroupPowers.Accountable |
-                                            GroupPowers.JoinChat |
-                                            GroupPowers.AllowVoiceChat |
-                                            GroupPowers.ReceiveNotices);
-           
-           const ulong OfficersPowers = (ulong) (GroupPowers.AllowSetHome |
-                                                 GroupPowers.Accountable |
-                                                 GroupPowers.JoinChat |
-                                                 GroupPowers.AllowVoiceChat |
-                                                 GroupPowers.ReceiveNotices |
-                                                 GroupPowers.ChangeIdentity | // Same as EveryonePowers
-                                                 GroupPowers.LandEjectAndFreeze |
-                                                 GroupPowers.LandEdit |
-                                                 GroupPowers.AllowFly |
-                                                 GroupPowers.AllowRez |
-                                                 GroupPowers.AllowLandmark |
-                                                 GroupPowers.LandChangeIdentity |
-                                                 GroupPowers.ChangeMedia |
-                                                 GroupPowers.LandDeed |
-                                                 GroupPowers.LandDivideJoin |
-                                                 GroupPowers.LandEdit |
-                                                 GroupPowers.FindPlaces |
-                                                 GroupPowers.LandGardening |
-                                                 GroupPowers.LandManageAllowed |
-                                                 GroupPowers.LandManageBanned |
-                                                 GroupPowers.LandManagePasses |
-                                                 GroupPowers.LandOptions |
-                                                 GroupPowers.LandRelease |
-                                                 GroupPowers.ReturnGroupOwned |
-                                                 GroupPowers.ReturnGroupSet |
-                                                 GroupPowers.ReturnNonGroup |
-                                                 GroupPowers.SetLandingPoint |
-                                                 GroupPowers.LandSetSale |
-                                                 GroupPowers.Eject |
-                                                 GroupPowers.Invite |
-                                                 GroupPowers.ChangeOptions |
-                                                 GroupPowers.MemberVisible |
-                                                 GroupPowers.SendNotices |
-                                                 GroupPowers.DeedObject |
-                                                 GroupPowers.ObjectManipulate |
-                                                 GroupPowers.ObjectSetForSale |
-                                                 GroupPowers.AssignMemberLimited |
-                                                 GroupPowers.RoleProperties |
-                                                 GroupPowers.ModerateChat);
+            const ulong EveryonePowers = (ulong)(
+                GroupPowers.Accountable |
+                GroupPowers.AllowSetHome |
+                GroupPowers.AllowVoiceChat |
+                GroupPowers.JoinChat |
+                GroupPowers.ReceiveNotices |
+                GroupPowers.StartProposal |
+                GroupPowers.VoteOnProposal
+            );
+
+            const ulong OfficersPowers = (ulong)(
+                 (GroupPowers)EveryonePowers |
+                 GroupPowers.AllowFly |
+                 GroupPowers.AllowLandmark |
+                 GroupPowers.AllowRez |
+                 GroupPowers.AssignMemberLimited |
+                 GroupPowers.ChangeIdentity |
+                 GroupPowers.ChangeMedia |
+                 GroupPowers.ChangeOptions |
+                 GroupPowers.DeedObject |
+                 GroupPowers.Eject |
+                 GroupPowers.FindPlaces |
+                 GroupPowers.Invite |
+                 GroupPowers.LandChangeIdentity |
+                 GroupPowers.LandDeed |
+                 GroupPowers.LandDivideJoin |
+                 GroupPowers.LandEdit |
+                 GroupPowers.LandEjectAndFreeze |
+                 GroupPowers.LandGardening |
+                 GroupPowers.LandManageAllowed |
+                 GroupPowers.LandManageBanned |
+                 GroupPowers.LandManagePasses |
+                 GroupPowers.LandOptions |
+                 GroupPowers.LandRelease |
+                 GroupPowers.LandSetSale |
+                 GroupPowers.MemberVisible |
+                 GroupPowers.ModerateChat |
+                 GroupPowers.ObjectManipulate |
+                 GroupPowers.ObjectSetForSale |
+                 GroupPowers.ReturnGroupOwned |
+                 GroupPowers.ReturnGroupSet |
+                 GroupPowers.ReturnNonGroup |
+                 GroupPowers.RoleProperties |
+                 GroupPowers.SendNotices |
+                 GroupPowers.SetLandingPoint
+              );
+
+            const ulong OwnersPowers = (ulong)(
+                (GroupPowers)OfficersPowers |
+                GroupPowers.AllowEditLand |
+                GroupPowers.AssignMember |
+                GroupPowers.ChangeActions |
+                GroupPowers.CreateRole |
+                GroupPowers.DeleteRole |
+                GroupPowers.ExperienceAdmin |
+                GroupPowers.ExperienceCreator |
+                GroupPowers.GroupBanAccess |
+                GroupPowers.HostEvent |
+                GroupPowers.RemoveMember
+            );
 
             Dictionary<string, object> row = new Dictionary<string, object>(11);
             row["GroupID"] = groupID;
@@ -206,19 +228,9 @@ namespace Vision.Services.DataService
 
             data.Insert("group_data", row);
 
-            // const ulong EveryonePowers = 8796495740928;             // >> 0x80018010000
-            //
-            // 03-07-2015 Fly-Man- Removed this part in favor of using the real values
-            //
-            
             //Add everyone role to group
             AddRoleToGroup(founderID, groupID, UUID.Zero, "Everyone", "Everyone in the group is in the everyone role.",
                            "Member of " + name, EveryonePowers);
-
-            // const ulong OfficersPowers = 436506116225230;           // >> 0x 18cfffffff8ce
-            //
-            // 03-07-2015 Fly-Man- Removed this part in favor of using the real values
-            //
 
             UUID officersRole = UUID.Random();
             //Add officers role to group
@@ -226,13 +238,13 @@ namespace Vision.Services.DataService
                            "The officers of the group, with more powers than regular members.", "Officer of " + name,
                            OfficersPowers);
 
-            const ulong OwnerPowers = 18446744073709551615;
+            // replaced with above //const ulong OwnerPowers = 18446744073709551615;
             // this is the uint maxvalue
             // the default above is : 349644697632766 >>  0x13dfffffffffe
-           
+
             //Add owner role to group
             AddRoleToGroup(founderID, groupID, OwnerRoleID, "Owners", "Owners of " + name, "Owner of " + name,
-                           OwnerPowers);
+                           OwnersPowers);
 
             //Add owner to the group as owner
             AddAgentToGroup(founderID, founderID, groupID, OwnerRoleID);
@@ -243,13 +255,8 @@ namespace Vision.Services.DataService
             SetAgentActiveGroup(founderID, groupID);
         }
 
-        //[CanBeReflected(ThreatLevel = ThreatLevel.Full)]
         public void UpdateGroupFounder(UUID groupID, UUID newOwner, bool keepOldOwnerInGroup)
         {
-            /*object remoteValue = DoRemote(groupID, newOwner, keepOldOwnerInGroup);
-            if (remoteValue != null || m_doRemoteOnly)
-                return;*/
-
             GroupRecord record = GetGroupRecord(UUID.Zero, groupID, "");
             bool newUserExists = GetAgentGroupMemberData(newOwner, groupID, newOwner) != null;
 
@@ -279,7 +286,7 @@ namespace Vision.Services.DataService
                 return;
 
             if (CheckGroupPermissions(requestingAgentID, groupID,
-                                      (ulong) (GroupPowers.ChangeOptions | GroupPowers.ChangeIdentity)))
+                                      (ulong)(GroupPowers.ChangeOptions | GroupPowers.ChangeIdentity)))
             {
                 Dictionary<string, object> values = new Dictionary<string, object>(6);
                 values["Charter"] = charter;
@@ -306,12 +313,12 @@ namespace Vision.Services.DataService
             if (remoteValue != null || m_doRemoteOnly)
                 return;
 
-            if (CheckGroupPermissions(requestingAgentID, groupID, (ulong) GroupPowers.SendNotices))
+            if (CheckGroupPermissions(requestingAgentID, groupID, (ulong)GroupPowers.SendNotices))
             {
                 Dictionary<string, object> row = new Dictionary<string, object>(10);
                 row["GroupID"] = groupID;
                 row["NoticeID"] = noticeID == UUID.Zero ? UUID.Random() : noticeID;
-                row["Timestamp"] = ((uint) Util.UnixTimeSinceEpoch());
+                row["Timestamp"] = ((uint)Util.UnixTimeSinceEpoch());
                 row["FromName"] = fromName;
                 row["Subject"] = subject;
                 row["Message"] = message;
@@ -330,11 +337,11 @@ namespace Vision.Services.DataService
             object remoteValue = DoRemote(requestingAgentID, groupID, noticeID, subject, message);
             if (remoteValue != null || m_doRemoteOnly)
             {
-                return (bool) remoteValue;
+                return (bool)remoteValue;
             }
 
             if (!agentsCanBypassGroupNoticePermsCheck.Contains(requestingAgentID) &&
-                !CheckGroupPermissions(requestingAgentID, groupID, (ulong) GroupPowers.SendNotices))
+                !CheckGroupPermissions(requestingAgentID, groupID, (ulong)GroupPowers.SendNotices))
             {
                 MainConsole.Instance.TraceFormat("Permission check failed when trying to edit group notice {0}.",
                                                  noticeID);
@@ -377,11 +384,11 @@ namespace Vision.Services.DataService
             object remoteValue = DoRemote(requestingAgentID, groupID, noticeID);
             if (remoteValue != null || m_doRemoteOnly)
             {
-                return (bool) remoteValue;
+                return (bool)remoteValue;
             }
 
             if (!agentsCanBypassGroupNoticePermsCheck.Contains(requestingAgentID) &&
-                !CheckGroupPermissions(requestingAgentID, groupID, (ulong) GroupPowers.SendNotices))
+                !CheckGroupPermissions(requestingAgentID, groupID, (ulong)GroupPowers.SendNotices))
             {
                 MainConsole.Instance.TraceFormat("Permission check failed when trying to edit group notice {0}.",
                                                  noticeID);
@@ -413,11 +420,11 @@ namespace Vision.Services.DataService
         {
             object remoteValue = DoRemote(AgentID, GroupID);
             if (remoteValue != null || m_doRemoteOnly)
-                return (string) remoteValue;
+                return (string)remoteValue;
 
             QueryFilter filter = new QueryFilter();
             filter.andFilters["AgentID"] = AgentID;
-            if (data.Query(new[] {"*"}, "group_agent", filter, null, null, null).Count != 0)
+            if (data.Query(new[] { "*" }, "group_agent", filter, null, null, null).Count != 0)
             {
                 Dictionary<string, object> values = new Dictionary<string, object>(1);
                 values["ActiveGroupID"] = GroupID;
@@ -440,11 +447,11 @@ namespace Vision.Services.DataService
         {
             object remoteValue = DoRemote(RequestingAgentID, AgentID);
             if (remoteValue != null || m_doRemoteOnly)
-                return (UUID) remoteValue; // note: this is bad, you can't cast a null object to a UUID
+                return (UUID)remoteValue; // note: this is bad, you can't cast a null object to a UUID
 
             QueryFilter filter = new QueryFilter();
             filter.andFilters["AgentID"] = AgentID;
-            List<string> groups = data.Query(new string[1] {"ActiveGroupID"}, "group_agent", filter, null, null, null);
+            List<string> groups = data.Query(new string[1] { "ActiveGroupID" }, "group_agent", filter, null, null, null);
 
             return (groups.Count != 0) ? UUID.Parse(groups[0]) : UUID.Zero;
         }
@@ -454,7 +461,7 @@ namespace Vision.Services.DataService
         {
             object remoteValue = DoRemote(AgentID, GroupID, RoleID);
             if (remoteValue != null || m_doRemoteOnly)
-                return (string) remoteValue;
+                return (string)remoteValue;
 
             Dictionary<string, object> values = new Dictionary<string, object>(1);
             values["SelectedRoleID"] = RoleID;
@@ -480,10 +487,10 @@ namespace Vision.Services.DataService
             where["AgentID"] = AgentID;
             where["GroupID"] = GroupID;
 
-            if (data.Query(new[] {"*"}, "group_membership", new QueryFilter
-                                                                 {
-                                                                     andFilters = where
-                                                                 }, null, null, null).Count != 0)
+            if (data.Query(new[] { "*" }, "group_membership", new QueryFilter
+            {
+                andFilters = where
+            }, null, null, null).Count != 0)
             {
                 MainConsole.Instance.Error("[AGM]: Agent " + AgentID + " is already in " + GroupID);
                 return;
@@ -513,9 +520,9 @@ namespace Vision.Services.DataService
             //Allow kicking yourself
             object remoteValue = DoRemote(requestingAgentID, AgentID, GroupID);
             if (remoteValue != null || m_doRemoteOnly)
-                return remoteValue != null && (bool) remoteValue;
+                return remoteValue != null && (bool)remoteValue;
 
-            if ((CheckGroupPermissions(requestingAgentID, GroupID, (ulong) GroupPowers.RemoveMember)) ||
+            if ((CheckGroupPermissions(requestingAgentID, GroupID, (ulong)GroupPowers.RemoveMember)) ||
                 (requestingAgentID == AgentID))
             {
                 QueryFilter filter = new QueryFilter();
@@ -550,7 +557,7 @@ namespace Vision.Services.DataService
             if (remoteValue != null || m_doRemoteOnly)
                 return;
 
-            if (CheckGroupPermissions(requestingAgentID, GroupID, (ulong) GroupPowers.CreateRole))
+            if (CheckGroupPermissions(requestingAgentID, GroupID, (ulong)GroupPowers.CreateRole))
             {
                 Dictionary<string, object> row = new Dictionary<string, object>(6);
                 row["GroupID"] = GroupID;
@@ -571,7 +578,7 @@ namespace Vision.Services.DataService
             if (remoteValue != null || m_doRemoteOnly)
                 return;
 
-            if (CheckGroupPermissions(requestingAgentID, GroupID, (ulong) GroupPowers.RoleProperties))
+            if (CheckGroupPermissions(requestingAgentID, GroupID, (ulong)GroupPowers.RoleProperties))
             {
                 Dictionary<string, object> values = new Dictionary<string, object>();
                 values["RoleID"] = RoleID;
@@ -603,7 +610,7 @@ namespace Vision.Services.DataService
             if (remoteValue != null || m_doRemoteOnly)
                 return;
 
-            if (CheckGroupPermissions(requestingAgentID, GroupID, (ulong) GroupPowers.DeleteRole))
+            if (CheckGroupPermissions(requestingAgentID, GroupID, (ulong)GroupPowers.DeleteRole))
             {
                 Dictionary<string, object> values = new Dictionary<string, object>(1);
                 values["SelectedRoleID"] = UUID.Zero;
@@ -629,10 +636,10 @@ namespace Vision.Services.DataService
             if (remoteValue != null || m_doRemoteOnly)
                 return;
 
-            if (!CheckGroupPermissions(requestingAgentID, GroupID, (ulong) GroupPowers.AssignMember))
+            if (!CheckGroupPermissions(requestingAgentID, GroupID, (ulong)GroupPowers.AssignMember))
             {
                 //This isn't an open and shut case, they could be setting the agent to their role, which would allow for AssignMemberLimited
-                if (!CheckGroupPermissions(requestingAgentID, GroupID, (ulong) GroupPowers.AssignMemberLimited))
+                if (!CheckGroupPermissions(requestingAgentID, GroupID, (ulong)GroupPowers.AssignMemberLimited))
                 {
                     GroupProfileData profile = GetGroupProfile(requestingAgentID, GroupID);
                     if (profile == null || !profile.OpenEnrollment || RoleID != UUID.Zero) //For open enrollment adding
@@ -651,7 +658,7 @@ namespace Vision.Services.DataService
             filter.andFilters["AgentID"] = AgentID;
             //Make sure they arn't already in this role
             if (
-                uint.Parse(data.Query(new[] {"COUNT(AgentID)"}, "group_role_membership", filter, null, null, null)[0]) ==
+                uint.Parse(data.Query(new[] { "COUNT(AgentID)" }, "group_role_membership", filter, null, null, null)[0]) ==
                 0)
             {
                 Dictionary<string, object> row = new Dictionary<string, object>(3);
@@ -669,7 +676,7 @@ namespace Vision.Services.DataService
             if (remoteValue != null || m_doRemoteOnly)
                 return;
 
-            if (CheckGroupPermissions(requestingAgentID, GroupID, (ulong) GroupPowers.AssignMember))
+            if (CheckGroupPermissions(requestingAgentID, GroupID, (ulong)GroupPowers.AssignMember))
             {
                 Dictionary<string, object> values = new Dictionary<string, object>(1);
                 values["SelectedRoleID"] = UUID.Zero;
@@ -695,7 +702,7 @@ namespace Vision.Services.DataService
             if (remoteValue != null || m_doRemoteOnly)
                 return;
 
-            if (!CheckGroupPermissions(requestingAgentID, GroupID, (ulong) GroupPowers.ChangeIdentity))
+            if (!CheckGroupPermissions(requestingAgentID, GroupID, (ulong)GroupPowers.ChangeIdentity))
             {
                 return;
             }
@@ -706,7 +713,7 @@ namespace Vision.Services.DataService
             values["ListInProfile"] = ListInProfile;
 
             QueryFilter filter = new QueryFilter();
-            // these look the wrong way around ~ SignpostMarv
+            // these look the wrong way around
             filter.andFilters["GroupID"] = AgentID;
             filter.andFilters["AgentID"] = GroupID;
 
@@ -721,7 +728,7 @@ namespace Vision.Services.DataService
             if (remoteValue != null || m_doRemoteOnly)
                 return;
 
-            if (CheckGroupPermissions(requestingAgentID, GroupID, (ulong) GroupPowers.Invite))
+            if (CheckGroupPermissions(requestingAgentID, GroupID, (ulong)GroupPowers.Invite))
             {
                 QueryFilter filter = new QueryFilter();
                 filter.andFilters["AgentID"] = AgentID;
@@ -758,7 +765,7 @@ namespace Vision.Services.DataService
             if (remoteValue != null || m_doRemoteOnly)
                 return;
 
-            if (CheckGroupPermissions(agentID, info.GroupID, (ulong) GroupPowers.StartProposal))
+            if (CheckGroupPermissions(agentID, info.GroupID, (ulong)GroupPowers.StartProposal))
                 GenericUtils.AddGeneric(info.GroupID, "Proposal", info.VoteID.ToString(), info.ToOSD(), data);
         }
 
@@ -767,9 +774,9 @@ namespace Vision.Services.DataService
         {
             object remoteValue = DoRemote(agentID, groupID);
             if (remoteValue != null || m_doRemoteOnly)
-                return (List<GroupProposalInfo>) remoteValue;
+                return (List<GroupProposalInfo>)remoteValue;
 
-            if (!CheckGroupPermissions(agentID, groupID, (ulong) GroupPowers.VoteOnProposal))
+            if (!CheckGroupPermissions(agentID, groupID, (ulong)GroupPowers.VoteOnProposal))
                 return new List<GroupProposalInfo>();
 
             List<GroupProposalInfo> proposals = GenericUtils.GetGenerics<GroupProposalInfo>(groupID, "Proposal", data);
@@ -785,9 +792,9 @@ namespace Vision.Services.DataService
         {
             object remoteValue = DoRemote(agentID, groupID);
             if (remoteValue != null || m_doRemoteOnly)
-                return (List<GroupProposalInfo>) remoteValue;
+                return (List<GroupProposalInfo>)remoteValue;
 
-            if (!CheckGroupPermissions(agentID, groupID, (ulong) GroupPowers.VoteOnProposal))
+            if (!CheckGroupPermissions(agentID, groupID, (ulong)GroupPowers.VoteOnProposal))
                 return new List<GroupProposalInfo>();
 
             List<GroupProposalInfo> proposals = GenericUtils.GetGenerics<GroupProposalInfo>(groupID, "Proposal", data);
@@ -809,10 +816,7 @@ namespace Vision.Services.DataService
                 }
                 if (yes + no < p.Quorum)
                     p.Result = false;
-                /*if (yes > no)
-                    p.Result = true;
-                else
-                    p.Result = false;*/
+                
                 p.HasCalculatedResult = true;
                 GenericUtils.AddGeneric(p.GroupID, "Proposal", p.VoteID.ToString(), p.ToOSD(), data);
             }
@@ -838,7 +842,7 @@ namespace Vision.Services.DataService
             if (remoteValue != null || m_doRemoteOnly)
                 return;
 
-            if (!CheckGroupPermissions(agentID, groupID, (ulong) GroupPowers.VoteOnProposal))
+            if (!CheckGroupPermissions(agentID, groupID, (ulong)GroupPowers.VoteOnProposal))
                 return;
 
             OpenMetaverse.StructuredData.OSDMap map = new OpenMetaverse.StructuredData.OSDMap();
@@ -851,9 +855,9 @@ namespace Vision.Services.DataService
         {
             object remoteValue = DoRemote(requestingAgentID, GroupID);
             if (remoteValue != null || m_doRemoteOnly)
-                return (uint) remoteValue; // note: this is bad, you can't cast a null object to a uint
+                return (uint)remoteValue; // note: this is bad, you can't cast a null object to a uint
 
-            List<UUID> GroupIDs = new List<UUID> {GroupID};
+            List<UUID> GroupIDs = new List<UUID> { GroupID };
             return GetNumberOfGroupNotices(requestingAgentID, GroupIDs);
         }
 
@@ -862,7 +866,7 @@ namespace Vision.Services.DataService
         {
             object remoteValue = DoRemote(requestingAgentID, GroupIDs);
             if (remoteValue != null || m_doRemoteOnly)
-                return (uint) remoteValue; // note: this is bad, you can't cast a null object to a uint
+                return (uint)remoteValue; // note: this is bad, you can't cast a null object to a uint
 
             bool had = GroupIDs.Count > 0;
 
@@ -871,7 +875,7 @@ namespace Vision.Services.DataService
             {
                 groupIDs.AddRange(
                     GroupIDs.Where(
-                        GroupID => CheckGroupPermissions(requestingAgentID, GroupID, (ulong) GroupPowers.ReceiveNotices)));
+                        GroupID => CheckGroupPermissions(requestingAgentID, GroupID, (ulong)GroupPowers.ReceiveNotices)));
             }
             else
             {
@@ -891,7 +895,7 @@ namespace Vision.Services.DataService
                 filter.orMultiFilters["GroupID"] = filterGroupIDs;
             }
 
-            return uint.Parse(data.Query(new[] {"COUNT(NoticeID)"}, "group_notice", filter, null, null, null)[0]);
+            return uint.Parse(data.Query(new[] { "COUNT(NoticeID)" }, "group_notice", filter, null, null, null)[0]);
         }
 
         [CanBeReflected(ThreatLevel = ThreatLevel.Low)]
@@ -899,11 +903,11 @@ namespace Vision.Services.DataService
         {
             object remoteValue = DoRemote(requestingAgentID, boolFields);
             if (remoteValue != null || m_doRemoteOnly)
-                return (uint) remoteValue; // note: this is bad, you can't cast a null object to a uint
+                return (uint)remoteValue; // note: this is bad, you can't cast a null object to a uint
 
             QueryFilter filter = new QueryFilter();
 
-            string[] BoolFields = {"OpenEnrollment", "ShowInList", "AllowPublish", "MaturePublish"};
+            string[] BoolFields = { "OpenEnrollment", "ShowInList", "AllowPublish", "MaturePublish" };
             foreach (string field in BoolFields)
             {
                 if (boolFields.ContainsKey(field))
@@ -912,33 +916,33 @@ namespace Vision.Services.DataService
                 }
             }
 
-            return uint.Parse(data.Query(new[] {"COUNT(GroupID)"}, "group_data", filter, null, null, null)[0]);
+            return uint.Parse(data.Query(new[] { "COUNT(GroupID)" }, "group_data", filter, null, null, null)[0]);
         }
 
         static GroupRecord GroupRecordQueryResult2GroupRecord(List<String> result)
         {
             return new GroupRecord
-                       {
-                           GroupID = UUID.Parse(result[0]),
-                           GroupName = result[1],
-                           Charter = result[2],
-                           GroupPicture = UUID.Parse(result[3]),
-                           FounderID = UUID.Parse(result[4]),
-                           MembershipFee = int.Parse(result[5]),
-                           OpenEnrollment = int.Parse(result[6]) == 1,
-                           ShowInList = int.Parse(result[7]) == 1,
-                           AllowPublish = int.Parse(result[8]) == 1,
-                           MaturePublish = int.Parse(result[9]) == 1,
-                           OwnerRoleID = UUID.Parse(result[10])
-                       };
+            {
+                GroupID = UUID.Parse(result[0]),
+                GroupName = result[1],
+                Charter = result[2],
+                GroupPicture = UUID.Parse(result[3]),
+                FounderID = UUID.Parse(result[4]),
+                MembershipFee = int.Parse(result[5]),
+                OpenEnrollment = int.Parse(result[6]) == 1,
+                ShowInList = int.Parse(result[7]) == 1,
+                AllowPublish = int.Parse(result[8]) == 1,
+                MaturePublish = int.Parse(result[9]) == 1,
+                OwnerRoleID = UUID.Parse(result[10])
+            };
         }
 
         [CanBeReflected(ThreatLevel = ThreatLevel.Low)]
-        public List <UUID> GetAllGroups(UUID requestingAgentID)
+        public List<UUID> GetAllGroups(UUID requestingAgentID)
         {
             object remoteValue = DoRemote(requestingAgentID);
             if (remoteValue != null || m_doRemoteOnly)
-                return (List<UUID>) remoteValue;
+                return (List<UUID>)remoteValue;
 
             // maybe check for system user??
             if (!Utilities.IsSystemUser(requestingAgentID))
@@ -948,11 +952,11 @@ namespace Vision.Services.DataService
             List<string> groupsData = data.Query(new[] { "GroupID" }, "group_data", filter, null, null, null);
 
             if (groupsData == null)
-                return new List <UUID>();
+                return new List<UUID>();
 
-            List <UUID> groupIDs = new List <UUID>();
+            List<UUID> groupIDs = new List<UUID>();
             foreach (var id in groupsData)
-                groupIDs.Add((UUID) id);
+                groupIDs.Add((UUID)id);
 
             return groupIDs;
         }
@@ -962,7 +966,7 @@ namespace Vision.Services.DataService
         {
             object remoteValue = DoRemote(requestingAgentID, GroupID, GroupName);
             if (remoteValue != null || m_doRemoteOnly)
-                return (GroupRecord) remoteValue;
+                return (GroupRecord)remoteValue;
 
             QueryFilter filter = new QueryFilter();
 
@@ -1003,10 +1007,10 @@ namespace Vision.Services.DataService
 
             object remoteValue = DoRemote(requestingAgentID, start, count, boolFields);
             if (remoteValue != null || m_doRemoteOnly)
-                return (List<GroupRecord>) remoteValue;
+                return (List<GroupRecord>)remoteValue;
 
-            string[] sortAndBool = {"OpenEnrollment", "MaturePublish"};
-            string[] BoolFields = {"OpenEnrollment", "ShowInList", "AllowPublish", "MaturePublish"};
+            string[] sortAndBool = { "OpenEnrollment", "MaturePublish" };
+            string[] BoolFields = { "OpenEnrollment", "ShowInList", "AllowPublish", "MaturePublish" };
 
             foreach (string field in sortAndBool)
             {
@@ -1059,7 +1063,7 @@ namespace Vision.Services.DataService
         {
             object remoteValue = DoRemote(requestingAgentID, GroupIDs);
             if (remoteValue != null || m_doRemoteOnly)
-                return (List<GroupRecord>) remoteValue;
+                return (List<GroupRecord>)remoteValue;
 
             List<GroupRecord> Reply = new List<GroupRecord>(0);
             if (GroupIDs.Count <= 0)
@@ -1105,9 +1109,9 @@ namespace Vision.Services.DataService
         {
             object remoteValue = DoRemote(requestingAgentID, GroupID, AgentID);
             if (remoteValue != null || m_doRemoteOnly)
-                return (GroupProfileData) remoteValue;
+                return (GroupProfileData)remoteValue;
 
-            if (!CheckGroupPermissions(requestingAgentID, GroupID, (ulong) GroupPowers.MemberVisible))
+            if (!CheckGroupPermissions(requestingAgentID, GroupID, (ulong)GroupPowers.MemberVisible))
                 return new GroupProfileData();
 
             GroupProfileData GPD = new GroupProfileData();
@@ -1128,9 +1132,9 @@ namespace Vision.Services.DataService
                                                      }, "group_membership", filter1, null, null, null);
 
             int GroupMemCount =
-                int.Parse(data.Query(new[] {"COUNT(AgentID)"}, "group_membership", filter2, null, null, null)[0]);
+                int.Parse(data.Query(new[] { "COUNT(AgentID)" }, "group_membership", filter2, null, null, null)[0]);
 
-            int GroupRoleCount = int.Parse(data.Query(new[] {"COUNT(RoleID)"}, "group_roles", filter2, null, null, null)[0]);
+            int GroupRoleCount = int.Parse(data.Query(new[] { "COUNT(RoleID)" }, "group_roles", filter2, null, null, null)[0]);
 
             QueryFilter filter3 = new QueryFilter();
             filter3.andFilters["RoleID"] = Membership[2];
@@ -1166,7 +1170,7 @@ namespace Vision.Services.DataService
         {
             object remoteValue = DoRemote(requestingAgentID, GroupID, AgentID);
             if (remoteValue != null || m_doRemoteOnly)
-                return (GroupMembershipData) remoteValue;
+                return (GroupMembershipData)remoteValue;
 
             if (GroupID == UUID.Zero)
                 GroupID = GetAgentActiveGroup(requestingAgentID, AgentID);
@@ -1175,9 +1179,9 @@ namespace Vision.Services.DataService
 
             QueryTables tables = new QueryTables();
             tables.AddTable("group_data", "osg");
-            tables.AddTable("group_membership", "osgm", JoinType.Inner, new[,] {{"osg.GroupID", "osgm.GroupID"}});
+            tables.AddTable("group_membership", "osgm", JoinType.Inner, new[,] { { "osg.GroupID", "osgm.GroupID" } });
             tables.AddTable("group_roles", "osr", JoinType.Inner,
-                            new[,] {{"osgm.SelectedRoleID", "osr.RoleID"}, {"osr.GroupID", "osg.GroupID"}});
+                            new[,] { { "osgm.SelectedRoleID", "osr.RoleID" }, { "osr.GroupID", "osg.GroupID" } });
 
             QueryFilter filter = new QueryFilter();
             filter.andFilters["osg.GroupID"] = GroupID;
@@ -1207,26 +1211,25 @@ namespace Vision.Services.DataService
                 return null;
 
             GroupMembershipData GMD = new GroupMembershipData
-                                          {
-                                              AcceptNotices = int.Parse(Membership[0]) == 1,
-                                              Active = true, //TODO: Figure out what this is and its effects if false
-                                              ActiveRole = UUID.Parse(Membership[3]),
-                                              AllowPublish = int.Parse(Membership[6]) == 1,
-                                              Charter = Membership[7],
-                                              Contribution = int.Parse(Membership[1]),
-                                              FounderID = UUID.Parse(Membership[8]),
-                                              GroupID = GroupID,
-                                              GroupName = Membership[9],
-                                              GroupPicture = UUID.Parse(Membership[10]),
-                                              GroupPowers = ulong.Parse(Membership[5]),
-                                              GroupTitle = Membership[4],
-                                              ListInProfile = int.Parse(Membership[2]) == 1,
-                                              MaturePublish = int.Parse(Membership[11]) == 1,
-                                              MembershipFee = int.Parse(Membership[12]),
-                                              OpenEnrollment = int.Parse(Membership[13]) == 1,
-                                              ShowInList = int.Parse(Membership[14]) == 1
-                                          };
-
+            {
+                AcceptNotices = int.Parse(Membership[0]) == 1,
+                Active = true, //TODO: Figure out what this is and its effects if false
+                ActiveRole = UUID.Parse(Membership[3]),
+                AllowPublish = int.Parse(Membership[6]) == 1,
+                Charter = Membership[7],
+                Contribution = int.Parse(Membership[1]),
+                FounderID = UUID.Parse(Membership[8]),
+                GroupID = GroupID,
+                GroupName = Membership[9],
+                GroupPicture = UUID.Parse(Membership[10]),
+                GroupPowers = ulong.Parse(Membership[5]),
+                GroupTitle = Membership[4],
+                ListInProfile = int.Parse(Membership[2]) == 1,
+                MaturePublish = int.Parse(Membership[11]) == 1,
+                MembershipFee = int.Parse(Membership[12]),
+                OpenEnrollment = int.Parse(Membership[13]) == 1,
+                ShowInList = int.Parse(Membership[14]) == 1
+            };
 
             return GMD;
         }
@@ -1236,15 +1239,14 @@ namespace Vision.Services.DataService
         {
             object remoteValue = DoRemote(requestingAgentID, GroupID);
             if (remoteValue != null || m_doRemoteOnly)
-                return (List<GroupTitlesData>) remoteValue;
+                return (List<GroupTitlesData>)remoteValue;
 
             QueryTables tables = new QueryTables();
             tables.AddTable("group_membership", "osgm");
             tables.AddTable("group_role_membership", "osgrm", JoinType.Inner,
-                            new[,] {{"osgm.AgentID", "osgrm.AgentID"}, {"osgm.GroupID", "osgrm.GroupID"}});
+                            new[,] { { "osgm.AgentID", "osgrm.AgentID" }, { "osgm.GroupID", "osgrm.GroupID" } });
             tables.AddTable("group_roles", "osr", JoinType.Inner,
-                            new[,] {{"osgrm.RoleID", "osr.RoleID"}, {"osgm.GroupID", "osr.GroupID"}});
-
+                            new[,] { { "osgrm.RoleID", "osr.RoleID" }, { "osgm.GroupID", "osr.GroupID" } });
 
             QueryFilter filter = new QueryFilter();
             filter.andFilters["osgm.AgentID"] = requestingAgentID;
@@ -1257,16 +1259,15 @@ namespace Vision.Services.DataService
                                                          "osr.Name"
                                                      }, tables, filter, null, null, null);
 
-
             List<GroupTitlesData> titles = new List<GroupTitlesData>();
             for (int loop = 0; loop < Membership.Count(); loop += 3)
             {
                 titles.Add(new GroupTitlesData
-                               {
-                                   Name = Membership[loop + 2],
-                                   UUID = UUID.Parse(Membership[loop + 1]),
-                                   Selected = Membership[loop + 0] == Membership[loop + 1]
-                               });
+                {
+                    Name = Membership[loop + 2],
+                    UUID = UUID.Parse(Membership[loop + 1]),
+                    Selected = Membership[loop + 0] == Membership[loop + 1]
+                });
             }
             return titles;
         }
@@ -1276,12 +1277,12 @@ namespace Vision.Services.DataService
         {
             object remoteValue = DoRemote(requestingAgentID, AgentID);
             if (remoteValue != null || m_doRemoteOnly)
-                return (List<GroupMembershipData>) remoteValue;
+                return (List<GroupMembershipData>)remoteValue;
 
             QueryTables tables = new QueryTables();
             tables.AddTable("group_data", "osg");
-            tables.AddTable("group_membership", "osgm", JoinType.Inner, new[,] {{"osg.GroupID", "osgm.GroupID"}});
-            tables.AddTable("group_roles", "osr", JoinType.Inner, new[,] {{"osgm.SelectedRoleID", "osr.RoleID"}});
+            tables.AddTable("group_membership", "osgm", JoinType.Inner, new[,] { { "osg.GroupID", "osgm.GroupID" } });
+            tables.AddTable("group_roles", "osr", JoinType.Inner, new[,] { { "osgm.SelectedRoleID", "osr.RoleID" } });
 
             QueryFilter filter = new QueryFilter();
             filter.andFilters["osgm.AgentID"] = AgentID;
@@ -1310,26 +1311,26 @@ namespace Vision.Services.DataService
             for (int loop = 0; loop < Membership.Count; loop += fields.Length)
             {
                 results.Add(new GroupMembershipData
-                                {
-                                    AcceptNotices = int.Parse(Membership[loop + 0]) == 1,
-                                    Active = true,
-                                    //TODO: Figure out what this is and its effects if false
-                                    ActiveRole = UUID.Parse(Membership[loop + 3]),
-                                    AllowPublish = int.Parse(Membership[loop + 6]) == 1,
-                                    Charter = Membership[loop + 7],
-                                    Contribution = int.Parse(Membership[loop + 1]),
-                                    FounderID = UUID.Parse(Membership[loop + 8]),
-                                    GroupID = UUID.Parse(Membership[loop + 15]),
-                                    GroupName = Membership[loop + 9],
-                                    GroupPicture = UUID.Parse(Membership[loop + 10]),
-                                    GroupPowers = ulong.Parse(Membership[loop + 5]),
-                                    GroupTitle = Membership[loop + 4],
-                                    ListInProfile = int.Parse(Membership[loop + 2]) == 1,
-                                    MaturePublish = int.Parse(Membership[loop + 11]) == 1,
-                                    MembershipFee = int.Parse(Membership[loop + 12]),
-                                    OpenEnrollment = int.Parse(Membership[loop + 13]) == 1,
-                                    ShowInList = int.Parse(Membership[loop + 14]) == 1
-                                });
+                {
+                    AcceptNotices = int.Parse(Membership[loop + 0]) == 1,
+                    Active = true,
+                    //TODO: Figure out what this is and its effects if false
+                    ActiveRole = UUID.Parse(Membership[loop + 3]),
+                    AllowPublish = int.Parse(Membership[loop + 6]) == 1,
+                    Charter = Membership[loop + 7],
+                    Contribution = int.Parse(Membership[loop + 1]),
+                    FounderID = UUID.Parse(Membership[loop + 8]),
+                    GroupID = UUID.Parse(Membership[loop + 15]),
+                    GroupName = Membership[loop + 9],
+                    GroupPicture = UUID.Parse(Membership[loop + 10]),
+                    GroupPowers = ulong.Parse(Membership[loop + 5]),
+                    GroupTitle = Membership[loop + 4],
+                    ListInProfile = int.Parse(Membership[loop + 2]) == 1,
+                    MaturePublish = int.Parse(Membership[loop + 11]) == 1,
+                    MembershipFee = int.Parse(Membership[loop + 12]),
+                    OpenEnrollment = int.Parse(Membership[loop + 13]) == 1,
+                    ShowInList = int.Parse(Membership[loop + 14]) == 1
+                });
             }
             return results;
         }
@@ -1339,7 +1340,7 @@ namespace Vision.Services.DataService
         {
             object remoteValue = DoRemote(requestingAgentID, inviteID);
             if (remoteValue != null || m_doRemoteOnly)
-                return (GroupInviteInfo) remoteValue;
+                return (GroupInviteInfo)remoteValue;
 
             GroupInviteInfo invite = new GroupInviteInfo();
 
@@ -1347,10 +1348,10 @@ namespace Vision.Services.DataService
             where["AgentID"] = requestingAgentID;
             where["InviteID"] = inviteID;
 
-            List<string> groupInvite = data.Query(new[] {"*"}, "group_invite", new QueryFilter
-                                                                                    {
-                                                                                        andFilters = where
-                                                                                    }, null, null, null);
+            List<string> groupInvite = data.Query(new[] { "*" }, "group_invite", new QueryFilter
+            {
+                andFilters = where
+            }, null, null, null);
 
             if (groupInvite.Count == 0)
             {
@@ -1373,22 +1374,22 @@ namespace Vision.Services.DataService
 
             object remoteValue = DoRemote(requestingAgentID);
             if (remoteValue != null || m_doRemoteOnly)
-                return (List<GroupInviteInfo>) remoteValue;
+                return (List<GroupInviteInfo>)remoteValue;
 
-            List<string> groupInvite = data.Query(new[] {"*"}, "group_invite", filter, null, null, null);
+            List<string> groupInvite = data.Query(new[] { "*" }, "group_invite", filter, null, null, null);
 
             List<GroupInviteInfo> invites = new List<GroupInviteInfo>();
 
             for (int i = 0; i < groupInvite.Count; i += 6)
             {
                 invites.Add(new GroupInviteInfo
-                                {
-                                    AgentID = UUID.Parse(groupInvite[i + 3]),
-                                    GroupID = UUID.Parse(groupInvite[i + 1]),
-                                    InviteID = UUID.Parse(groupInvite[i]),
-                                    RoleID = UUID.Parse(groupInvite[i + 2]),
-                                    FromAgentName = groupInvite[i + 5]
-                                });
+                {
+                    AgentID = UUID.Parse(groupInvite[i + 3]),
+                    GroupID = UUID.Parse(groupInvite[i + 1]),
+                    InviteID = UUID.Parse(groupInvite[i]),
+                    RoleID = UUID.Parse(groupInvite[i + 2]),
+                    FromAgentName = groupInvite[i + 5]
+                });
             }
 
             return invites;
@@ -1399,8 +1400,7 @@ namespace Vision.Services.DataService
         {
             object remoteValue = DoRemote(requestingAgentID, GroupID, AgentID);
             if (remoteValue != null || m_doRemoteOnly)
-                return (GroupMembersData) remoteValue;
-
+                return (GroupMembersData)remoteValue;
 
             QueryFilter filter = new QueryFilter();
             filter.andFilters["GroupID"] = GroupID;
@@ -1449,16 +1449,16 @@ namespace Vision.Services.DataService
                                                      }, "group_role_membership", filter, null, null, null)[0]) == 1;
 
             return new GroupMembersData
-                       {
-                           AcceptNotices = (Membership[0]) == "1",
-                           AgentID = AgentID,
-                           Contribution = int.Parse(Membership[1]),
-                           IsOwner = IsOwner,
-                           ListInProfile = (Membership[2]) == "1",
-                           AgentPowers = ulong.Parse(GroupRole[1]),
-                           Title = GroupRole[0],
-                           OnlineStatus = "(Online)"
-                       };
+            {
+                AcceptNotices = (Membership[0]) == "1",
+                AgentID = AgentID,
+                Contribution = int.Parse(Membership[1]),
+                IsOwner = IsOwner,
+                ListInProfile = (Membership[2]) == "1",
+                AgentPowers = ulong.Parse(GroupRole[1]),
+                Title = GroupRole[0],
+                OnlineStatus = "(Online)"
+            };
         }
 
         [CanBeReflected(ThreatLevel = ThreatLevel.Low)]
@@ -1466,11 +1466,11 @@ namespace Vision.Services.DataService
         {
             object remoteValue = DoRemote(requestingAgentID, GroupID);
             if (remoteValue != null || m_doRemoteOnly)
-                return (List<GroupMembersData>) remoteValue;
+                return (List<GroupMembersData>)remoteValue;
 
             QueryFilter filter = new QueryFilter();
             filter.andFilters["GroupID"] = GroupID;
-            List<string> Agents = data.Query(new[] {"AgentID"}, "group_membership", filter, null, null, null);
+            List<string> Agents = data.Query(new[] { "AgentID" }, "group_membership", filter, null, null, null);
 
             List<GroupMembersData> list = new List<GroupMembersData>();
             foreach (string agent in Agents)
@@ -1497,7 +1497,7 @@ namespace Vision.Services.DataService
         {
             object remoteValue = DoRemote(requestingAgentID, search, start, count, queryflags);
             if (remoteValue != null || m_doRemoteOnly)
-                return (List<DirGroupsReplyData>) remoteValue;
+                return (List<DirGroupsReplyData>)remoteValue;
 
             QueryFilter filter = new QueryFilter();
             filter.andLikeFilters["Name"] = "%" + search + "%";
@@ -1520,8 +1520,8 @@ namespace Vision.Services.DataService
                     continue;
                 }
 
-                if ((queryflags & (uint) DirectoryManager.DirFindFlags.IncludeMature) !=
-                    (uint) DirectoryManager.DirFindFlags.IncludeMature)
+                if ((queryflags & (uint)DirectoryManager.DirFindFlags.IncludeMature) !=
+                    (uint)DirectoryManager.DirFindFlags.IncludeMature)
                 {
                     if (retVal[i + 4] == "1") // (MaturePublish param) Check for pg,mature
                     {
@@ -1530,14 +1530,14 @@ namespace Vision.Services.DataService
                 }
 
                 DirGroupsReplyData dirgroup = new DirGroupsReplyData
-                                                  {
-                                                      groupID = UUID.Parse(retVal[i]),
-                                                      groupName = retVal[i + 1]
-                                                  };
+                {
+                    groupID = UUID.Parse(retVal[i]),
+                    groupName = retVal[i + 1]
+                };
                 filter = new QueryFilter();
                 filter.andFilters["GroupID"] = dirgroup.groupID;
                 dirgroup.members =
-                    int.Parse(data.Query(new[] {"COUNT(AgentID)"}, "group_membership", filter, null, null, null)[0]);
+                    int.Parse(data.Query(new[] { "COUNT(AgentID)" }, "group_membership", filter, null, null, null)[0]);
 
                 Reply.Add(dirgroup);
             }
@@ -1550,13 +1550,13 @@ namespace Vision.Services.DataService
             // I couldn't actually get this function to call when testing changes
             object remoteValue = DoRemote(requestingAgentID, AgentID, GroupID);
             if (remoteValue != null || m_doRemoteOnly)
-                return (List<GroupRolesData>) remoteValue;
+                return (List<GroupRolesData>)remoteValue;
 
             //No permissions check necessary, we are checking only roles that they are in, so if they arn't in the group, that isn't a problem
 
             QueryTables tables = new QueryTables();
             tables.AddTable("group_role_membership", "osgm");
-            tables.AddTable("group_roles", "osr", JoinType.Inner, new[,] {{"osgm.RoleID", "osr.RoleID"}});
+            tables.AddTable("group_roles", "osr", JoinType.Inner, new[,] { { "osgm.RoleID", "osr.RoleID" } });
 
             QueryFilter filter = new QueryFilter();
             filter.andFilters["osgm.AgentID"] = AgentID;
@@ -1579,13 +1579,13 @@ namespace Vision.Services.DataService
             for (int loop = 0; loop < Roles.Count; loop += fields.Length)
             {
                 RolesData.Add(new GroupRolesData
-                                  {
-                                      RoleID = UUID.Parse(Roles[loop + 4]),
-                                      Name = Roles[loop + 0],
-                                      Description = Roles[loop + 1],
-                                      Powers = ulong.Parse(Roles[loop + 3]),
-                                      Title = Roles[loop + 2]
-                                  });
+                {
+                    RoleID = UUID.Parse(Roles[loop + 4]),
+                    Name = Roles[loop + 0],
+                    Description = Roles[loop + 1],
+                    Powers = ulong.Parse(Roles[loop + 3]),
+                    Title = Roles[loop + 2]
+                });
             }
 
             return RolesData;
@@ -1597,9 +1597,9 @@ namespace Vision.Services.DataService
             // Can't use joins here without a group by as well
             object remoteValue = DoRemote(requestingAgentID, GroupID);
             if (remoteValue != null || m_doRemoteOnly)
-                return (List<GroupRolesData>) remoteValue;
+                return (List<GroupRolesData>)remoteValue;
 
-            if (!CheckGroupPermissions(requestingAgentID, GroupID, (ulong) GroupPowers.None))
+            if (!CheckGroupPermissions(requestingAgentID, GroupID, (ulong)GroupPowers.None))
             {
                 return new List<GroupRolesData>(0);
             }
@@ -1624,17 +1624,17 @@ namespace Vision.Services.DataService
             {
                 filter.andFilters["RoleID"] = UUID.Parse(Roles[i + 4]);
                 int Count =
-                    int.Parse(data.Query(new[] {"COUNT(AgentID)"}, "group_role_membership", filter, null, null, null)[0]);
+                    int.Parse(data.Query(new[] { "COUNT(AgentID)" }, "group_role_membership", filter, null, null, null)[0]);
 
                 GroupRoles.Add(new GroupRolesData
-                                   {
-                                       Members = Count,
-                                       RoleID = UUID.Parse(Roles[i + 4]),
-                                       Name = Roles[i + 0],
-                                       Description = Roles[i + 1],
-                                       Powers = ulong.Parse(Roles[i + 3]),
-                                       Title = Roles[i + 2]
-                                   });
+                {
+                    Members = Count,
+                    RoleID = UUID.Parse(Roles[i + 4]),
+                    Name = Roles[i + 0],
+                    Description = Roles[i + 1],
+                    Powers = ulong.Parse(Roles[i + 3]),
+                    Title = Roles[i + 2]
+                });
             }
             return GroupRoles;
         }
@@ -1644,13 +1644,13 @@ namespace Vision.Services.DataService
         {
             object remoteValue = DoRemote(requestingAgentID, GroupID);
             if (remoteValue != null || m_doRemoteOnly)
-                return (List<GroupRoleMembersData>) remoteValue;
+                return (List<GroupRoleMembersData>)remoteValue;
 
             List<GroupRoleMembersData> RoleMembers = new List<GroupRoleMembersData>();
 
             QueryTables tables = new QueryTables();
             tables.AddTable("group_role_membership", "osgrm");
-            tables.AddTable("group_roles", "osr", JoinType.Inner, new[,] {{"osr.RoleID", "osgrm.RoleID"}});
+            tables.AddTable("group_roles", "osr", JoinType.Inner, new[,] { { "osr.RoleID", "osgrm.RoleID" } });
 
             QueryFilter filter = new QueryFilter();
             filter.andFilters["osgrm.GroupID"] = GroupID;
@@ -1667,10 +1667,10 @@ namespace Vision.Services.DataService
             for (int i = 0; i < Roles.Count; i += fields.Length)
             {
                 GroupRoleMembersData RoleMember = new GroupRoleMembersData
-                                                      {
-                                                          RoleID = UUID.Parse(Roles[i]),
-                                                          MemberID = UUID.Parse(Roles[i + 1])
-                                                      };
+                {
+                    RoleID = UUID.Parse(Roles[i]),
+                    MemberID = UUID.Parse(Roles[i + 1])
+                };
 
                 // if they are a member, they can see everyone, otherwise, only the roles that are supposed to be shown
                 if (GMD != null ||
@@ -1688,7 +1688,7 @@ namespace Vision.Services.DataService
             object remoteValue = DoRemote(requestingAgentID, noticeID);
             if (remoteValue != null || m_doRemoteOnly)
             {
-                return (GroupNoticeData) remoteValue;
+                return (GroupNoticeData)remoteValue;
             }
 
             QueryFilter filter = new QueryFilter();
@@ -1713,18 +1713,18 @@ namespace Vision.Services.DataService
             }
 
             GroupNoticeData GND = new GroupNoticeData
-                                      {
-                                          GroupID = UUID.Parse(notice[0]),
-                                          NoticeID = noticeID,
-                                          Timestamp = uint.Parse(notice[1]),
-                                          FromName = notice[2],
-                                          Subject = notice[3],
-                                          HasAttachment = int.Parse(notice[5]) == 1
-                                      };
+            {
+                GroupID = UUID.Parse(notice[0]),
+                NoticeID = noticeID,
+                Timestamp = uint.Parse(notice[1]),
+                FromName = notice[2],
+                Subject = notice[3],
+                HasAttachment = int.Parse(notice[5]) == 1
+            };
             if (GND.HasAttachment)
             {
                 GND.ItemID = UUID.Parse(notice[4]);
-                GND.AssetType = (byte) int.Parse(notice[7]);
+                GND.AssetType = (byte)int.Parse(notice[7]);
                 GND.ItemName = notice[8];
             }
 
@@ -1736,7 +1736,7 @@ namespace Vision.Services.DataService
         {
             object remoteValue = DoRemote(requestingAgentID, noticeID);
             if (remoteValue != null || m_doRemoteOnly)
-                return (GroupNoticeInfo) remoteValue;
+                return (GroupNoticeInfo)remoteValue;
 
             QueryFilter filter = new QueryFilter();
             filter.andFilters["NoticeID"] = noticeID;
@@ -1760,30 +1760,30 @@ namespace Vision.Services.DataService
             }
 
             GroupNoticeData GND = new GroupNoticeData
-                                      {
-                                          NoticeID = noticeID,
-                                          Timestamp = uint.Parse(notice[1]),
-                                          FromName = notice[2],
-                                          Subject = notice[3],
-                                          HasAttachment = int.Parse(notice[5]) == 1
-                                      };
+            {
+                NoticeID = noticeID,
+                Timestamp = uint.Parse(notice[1]),
+                FromName = notice[2],
+                Subject = notice[3],
+                HasAttachment = int.Parse(notice[5]) == 1
+            };
             if (GND.HasAttachment)
             {
                 GND.ItemID = UUID.Parse(notice[4]);
-                GND.AssetType = (byte) int.Parse(notice[7]);
+                GND.AssetType = (byte)int.Parse(notice[7]);
                 GND.ItemName = notice[8];
             }
 
             GroupNoticeInfo info = new GroupNoticeInfo
-                                       {
-                                           BinaryBucket = new byte[0],
-                                           GroupID = UUID.Parse(notice[0]),
-                                           Message = notice[6],
-                                           noticeData = GND
-                                       };
+            {
+                BinaryBucket = new byte[0],
+                GroupID = UUID.Parse(notice[0]),
+                Message = notice[6],
+                noticeData = GND
+            };
 
             return (!agentsCanBypassGroupNoticePermsCheck.Contains(requestingAgentID) &&
-                    !CheckGroupPermissions(requestingAgentID, info.GroupID, (ulong) GroupPowers.ReceiveNotices))
+                    !CheckGroupPermissions(requestingAgentID, info.GroupID, (ulong)GroupPowers.ReceiveNotices))
                        ? null
                        : info;
         }
@@ -1791,18 +1791,18 @@ namespace Vision.Services.DataService
         static GroupNoticeData GroupNoticeQueryResult2GroupNoticeData(List<string> result)
         {
             GroupNoticeData GND = new GroupNoticeData
-                                      {
-                                          GroupID = UUID.Parse(result[0]),
-                                          NoticeID = UUID.Parse(result[6]),
-                                          Timestamp = uint.Parse(result[1]),
-                                          FromName = result[2],
-                                          Subject = result[3],
-                                          HasAttachment = int.Parse(result[5]) == 1
-                                      };
+            {
+                GroupID = UUID.Parse(result[0]),
+                NoticeID = UUID.Parse(result[6]),
+                Timestamp = uint.Parse(result[1]),
+                FromName = result[2],
+                Subject = result[3],
+                HasAttachment = int.Parse(result[5]) == 1
+            };
             if (GND.HasAttachment)
             {
                 GND.ItemID = UUID.Parse(result[4]);
-                GND.AssetType = (byte) int.Parse(result[8]);
+                GND.AssetType = (byte)int.Parse(result[8]);
                 GND.ItemName = result[9];
             }
             return GND;
@@ -1813,9 +1813,9 @@ namespace Vision.Services.DataService
         {
             object remoteValue = DoRemote(requestingAgentID, start, count, GroupID);
             if (remoteValue != null || m_doRemoteOnly)
-                return (List<GroupNoticeData>) remoteValue;
+                return (List<GroupNoticeData>)remoteValue;
 
-            return GetGroupNotices(requestingAgentID, start, count, new List<UUID>(new[] {GroupID}));
+            return GetGroupNotices(requestingAgentID, start, count, new List<UUID>(new[] { GroupID }));
         }
 
         [CanBeReflected(ThreatLevel = ThreatLevel.Low)]
@@ -1823,14 +1823,14 @@ namespace Vision.Services.DataService
         {
             object remoteValue = DoRemote(requestingAgentID, start, count, GroupIDs);
             if (remoteValue != null || m_doRemoteOnly)
-                return (List<GroupNoticeData>) remoteValue;
+                return (List<GroupNoticeData>)remoteValue;
 
             List<UUID> groupIDs = new List<UUID>();
             if (!agentsCanBypassGroupNoticePermsCheck.Contains(requestingAgentID))
             {
                 groupIDs.AddRange(
                     GroupIDs.Where(
-                        GroupID => CheckGroupPermissions(requestingAgentID, GroupID, (ulong) GroupPowers.ReceiveNotices)));
+                        GroupID => CheckGroupPermissions(requestingAgentID, GroupID, (ulong)GroupPowers.ReceiveNotices)));
             }
             else
             {
@@ -1884,7 +1884,7 @@ namespace Vision.Services.DataService
         {
             object remoteValue = DoRemote(requestingAgentID, GroupID);
             if (remoteValue != null || m_doRemoteOnly)
-                return (GroupProfileData) remoteValue;
+                return (GroupProfileData)remoteValue;
 
             GroupProfileData profile = new GroupProfileData();
 

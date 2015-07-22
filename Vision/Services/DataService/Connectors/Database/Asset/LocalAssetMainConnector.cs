@@ -25,15 +25,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
+using System.Data;
+using Nini.Config;
+using OpenMetavere;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Assets;
-using Nini.Config;
-using OpenMetaverse;
-using System;
-using System.Collections.Generic;
-using System.Data;
 
 namespace Vision.Services.DataService.Connectors.Database.Asset
 {
@@ -240,7 +240,7 @@ namespace Vision.Services.DataService.Connectors.Database.Asset
                     return LoadAssetFromDataRead(dr.DataReader);
                 }
                 if (showWarnings && MainConsole.Instance != null)
-                    MainConsole.Instance.WarnFormat("[LocalAssetDatabase] GetAsset({0}) - Asset UUID({0}) was not found.", uuid);
+                    MainConsole.Instance.WarnFormat("[LocalAssetDatabase] GetAsset({0}) - Asset UUID was not found.", uuid);
             }
             catch (Exception e)
             {
