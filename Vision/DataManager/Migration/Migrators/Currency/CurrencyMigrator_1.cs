@@ -37,7 +37,7 @@ namespace Base.Currency
         public CurrencyMigrator_1()
         {
             Version = new Version(0, 0, 1);
-            MigrationName = "Currency";
+            MigrationName = "BaseCurrency";
 
             schema = new List<SchemaDefinition>();
 

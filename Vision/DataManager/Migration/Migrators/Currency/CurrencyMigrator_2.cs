@@ -37,7 +37,7 @@ namespace Base.Currency
         public CurrencyMigrator_2()
         {
             Version = new Version(0, 0, 2);
-            MigrationName = "Currency";
+            MigrationName = "BaseCurrency";
 
             schema = new List<SchemaDefinition>();
 
@@ -83,7 +83,7 @@ namespace Base.Currency
                     ));
 
             // this is actually used for all purchases now.. a better name would be _purchased
-            AddSchema("purchased", ColDefs(
+            AddSchema("currency_purchased", ColDefs(
                 ColDef("PurchaseID", ColumnTypes.String36),
                 ColDef("PrincipalID", ColumnTypes.String36),
                 ColDef("IP", ColumnTypes.String64),
