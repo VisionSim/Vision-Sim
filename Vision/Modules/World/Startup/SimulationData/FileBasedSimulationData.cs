@@ -25,20 +25,19 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Modules;
-using Vision.Framework.SceneInfo;
-using Vision.Framework.SceneInfo.Entities;
-using Vision.Framework.Utilities;
-using Vision.Region;
-using Nini.Config;
-using OpenMetaverse;
-using ProtoBuf;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Timers;
+using Nini.Config;
+using OpenMetaverse;
+using ProtoBuf;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Modules;
+using Vision.Framework.SceneInfo;
+using Vision.Framework.SceneInfo.Entities;
+using Vision.Framework.Utilities;
 using Timer = System.Timers.Timer;
 
 namespace Vision.Modules
@@ -130,7 +129,6 @@ namespace Vision.Modules
 
         public virtual List<string> FindRegionInfos(out bool newRegion, ISimulationBase simBase)
         {
-//			List<string> regions = new List<string>(Directory.GetFiles(".", "*.sim", SearchOption.TopDirectoryOnly));
 			ReadConfig(simBase);
 			MainConsole.Instance.Info("Looking for previous sims in: "+ m_storeDirectory);
 			List<string> regions = new List<string>(Directory.GetFiles(m_storeDirectory, "*.sim", SearchOption.TopDirectoryOnly));
@@ -157,7 +155,7 @@ namespace Vision.Modules
             {
                 if (Path.GetFileName (regBak).StartsWith(regionName)) 
                 {
-                    //        MainConsole.Instance.Debug ("Found: " + Path.GetFileNameWithoutExtension (regBak));
+                    //MainConsole.Instance.Debug ("Found: " + Path.GetFileNameWithoutExtension (regBak));
                     regionBaks.Add ( regBak);
                 }
             }
@@ -348,12 +346,6 @@ namespace Vision.Modules
                     ((info.RegionLocY == 0 
                             ? 1000 
                             : info.RegionLocY / Constants.RegionSize)).ToString ())) * Constants.RegionSize;
-            
-                //info.RegionLocZ =
-                //    int.Parse (MainConsole.Instance.Prompt ("Region location Z",
-                //        ((info.RegionLocZ == 0 
-                //            ? 0 
-                //            : info.RegionLocZ / Constants.RegionSize)).ToString ())) * Constants.RegionSize;
 
                 var haveSize = true;
                 var sizeCheck = "";
@@ -405,7 +397,7 @@ namespace Vision.Modules
                     responses.Add("Full Region");
                     responses.Add("Homestead");
                     responses.Add ("Openspace");
-                    responses.Add ("Whitecore");                            // TODO: remove?
+                    responses.Add ("Vision");                            // TODO: remove?
                     responses.Add ("Custom");                               
                     setupMode = MainConsole.Instance.Prompt("Mainland region type?", "Full Region", responses).ToLower ();
 
@@ -421,7 +413,7 @@ namespace Vision.Modules
                     info.RegionType = "Estate / ";                   
                     responses.Add("Full Region");
                     responses.Add("Homestead");
-                    responses.Add ("Whitecore");                            // TODO: Vision 'standard' setup, rename??
+                    responses.Add ("Vision");                            // TODO: Vision 'standard' setup, rename??
                     responses.Add ("Custom");
                     setupMode = MainConsole.Instance.Prompt("Estate region type?","Full Region", responses).ToLower();
                 }
@@ -472,24 +464,21 @@ namespace Vision.Modules
                                                : info.ObjectCapacity.ToString ()));
                 } 
 
-                if (setupMode.StartsWith("w"))
+                if (setupMode.StartsWith("v"))
                 {
                     // 'standard' setup
-                    info.RegionType = info.RegionType + "Whitecore";                   
-                    //info.RegionPort;            // use auto assigned port
+                    info.RegionType = info.RegionType + "Vision";                   
                     info.RegionTerrain = "Flatland";
                     info.Startup = StartupType.Normal;
                     info.SeeIntoThisSimFromNeighbor = true;
-                    info.InfiniteRegion = false;
-                    info.ObjectCapacity = 50000;
+                    info.InfiniteRegion = true;
+                    info.ObjectCapacity = 100000;
 
                 }
                 if (setupMode.StartsWith("o"))       
                 {
                     // 'Openspace' setup
                     info.RegionType = info.RegionType + "Openspace";                   
-                    //info.RegionPort;            // use auto assigned port
-
                     if (terrainOpen.StartsWith("a"))
                         info.RegionTerrain = "Aquatic";
                     else if (terrainOpen.StartsWith("s"))
@@ -501,8 +490,8 @@ namespace Vision.Modules
 
                     info.Startup = StartupType.Medium;
                     info.SeeIntoThisSimFromNeighbor = true;
-                    info.InfiniteRegion = false;
-                    info.ObjectCapacity = 750;
+                    info.InfiniteRegion = true;
+                    info.ObjectCapacity = 25000;
                     info.RegionSettings.AgentLimit = 10;
                     info.RegionSettings.AllowLandJoinDivide = false;
                     info.RegionSettings.AllowLandResell = false;
@@ -511,7 +500,6 @@ namespace Vision.Modules
                 {
                     // 'Homestead' setup
                     info.RegionType = info.RegionType + "Homestead";                   
-                    //info.RegionPort;            // use auto assigned port
                     if (bigRegion)
                         info.RegionTerrain = "Flatland";
                     else
@@ -519,8 +507,8 @@ namespace Vision.Modules
 
                     info.Startup = StartupType.Medium;
                     info.SeeIntoThisSimFromNeighbor = true;
-                    info.InfiniteRegion = false;
-                    info.ObjectCapacity = 3750;
+                    info.InfiniteRegion = true;
+                    info.ObjectCapacity = 50000;
                     info.RegionSettings.AgentLimit = 20;
                     info.RegionSettings.AllowLandJoinDivide = false;
                     info.RegionSettings.AllowLandResell = false;
@@ -530,12 +518,11 @@ namespace Vision.Modules
                 {
                     // 'Full Region' setup
                     info.RegionType = info.RegionType + "Full Region";                   
-                    //info.RegionPort;            // use auto assigned port
                     info.RegionTerrain = terrainFull;
                     info.Startup = StartupType.Normal;
                     info.SeeIntoThisSimFromNeighbor = true;
-                    info.InfiniteRegion = false;
-                    info.ObjectCapacity = 15000;
+                    info.InfiniteRegion = ture;
+                    info.ObjectCapacity = 100000;
                     info.RegionSettings.AgentLimit = 100;
                     if (info.RegionType.StartsWith ("M"))                           // defaults are 'true'
                     {
@@ -809,8 +796,7 @@ namespace Vision.Modules
                 m_timeBetweenSaves = config.GetInt("TimeBetweenSaves", m_timeBetweenSaves);
                 m_keepOldSave = config.GetBoolean("SavePreviousBackup", m_keepOldSave);
 
-                // directories are references from the bin directory
-                // As of V0.9.2 the data is saved relative to the bin dirs
+                // the data is saved relative to the bin dirs
                 m_oldSaveDirectory =
                     PathHelpers.ComputeFullPath(config.GetString("PreviousBackupDirectory", m_oldSaveDirectory));
                 m_storeDirectory =
@@ -1051,7 +1037,6 @@ namespace Vision.Modules
                 return;
             }
 
-            //RegionData data = _regionLoader.LoadBackup(filename + ".tmp");
             if (!isOldSave)
             {
                 if (File.Exists(filename))
@@ -1089,7 +1074,6 @@ namespace Vision.Modules
 
         string BuildSaveFileName()
         {
-            //return (m_storeDirectory == "" || m_storeDirectory == "/")
             // the'/' diretcory is valid an someone might use it to store backups so don't
             // fudge it to mean './' ... as it previously was...
 
