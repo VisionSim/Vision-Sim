@@ -29,7 +29,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using Nini.Config;
-using OpenMetavere;
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.Services;
