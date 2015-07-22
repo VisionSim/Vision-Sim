@@ -38,6 +38,7 @@ using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Utilities;
+using Vision.Region;
 using Timer = System.Timers.Timer;
 
 namespace Vision.Modules
@@ -521,7 +522,7 @@ namespace Vision.Modules
                     info.RegionTerrain = terrainFull;
                     info.Startup = StartupType.Normal;
                     info.SeeIntoThisSimFromNeighbor = true;
-                    info.InfiniteRegion = ture;
+                    info.InfiniteRegion = true;
                     info.ObjectCapacity = 100000;
                     info.RegionSettings.AgentLimit = 100;
                     if (info.RegionType.StartsWith ("M"))                           // defaults are 'true'
