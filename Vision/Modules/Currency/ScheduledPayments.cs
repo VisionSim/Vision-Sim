@@ -422,6 +422,13 @@ namespace Vision.Modules.Currency
 
             DateTime nxtPayTime = (today.Date + new TimeSpan(stipHour, stipMin, 0)).AddDays (dayOffset);
 
+            if (nxtPayTime < DateTime.Now)
+            {
+                // Must be today and process time was earlier
+                var cycleDays = PaymentCycleDays();
+                nxtPayTime = nxtPayTime.AddDays((double)cycleDays);
+            }
+
             return nxtPayTime;  
 
         }
