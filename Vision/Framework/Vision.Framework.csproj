@@ -337,7 +337,7 @@
 	  <Compile Include="ClientInterfaces\ViewerEffectEventHandlerArg.cs">
 		<SubType>Code</SubType>
 	  </Compile>
-	  <Compile Include="ClientInterfaces\WhitecoreLandData.cs">
+	  <Compile Include="ClientInterfaces\VisionLandData.cs">
 		<SubType>Code</SubType>
 	  </Compile>
 	  <Compile Include="Configuration\ConfigurationLoader.cs">
@@ -406,7 +406,7 @@
 	  <Compile Include="DatabaseInterfaces\IUserStatsDataConnector.cs">
 		<SubType>Code</SubType>
 	  </Compile>
-	  <Compile Include="ModuleLoader\WhiteCoreModuleLoader.cs">
+	  <Compile Include="ModuleLoader\VisionModuleLoader.cs">
 		<SubType>Code</SubType>
 	  </Compile>
 	  <Compile Include="Modules\IAgentAssetTransactions.cs">
@@ -619,13 +619,13 @@
 	  <Compile Include="Modules\IVegetationModule.cs">
 		<SubType>Code</SubType>
 	  </Compile>
+	  <Compile Include="Modules\IVisionBackupModule.cs">
+		<SubType>Code</SubType>
+	  </Compile>
 	  <Compile Include="Modules\IVoiceModule.cs">
 		<SubType>Code</SubType>
 	  </Compile>
 	  <Compile Include="Modules\IWebInterfaceModule.cs">
-		<SubType>Code</SubType>
-	  </Compile>
-	  <Compile Include="Modules\IWhiteCoreBackupModule.cs">
 		<SubType>Code</SubType>
 	  </Compile>
 	  <Compile Include="Modules\IWindModelPlugin.cs">
@@ -679,10 +679,10 @@
 	  <Compile Include="PresenceInfo\ISceneViewer.cs">
 		<SubType>Code</SubType>
 	  </Compile>
-	  <Compile Include="SceneInfo\AgentCircuitManager.cs">
+	  <Compile Include="Properties\AssemblyInfo.cs">
 		<SubType>Code</SubType>
 	  </Compile>
-	  <Compile Include="SceneInfo\AssemblyInfo.cs">
+	  <Compile Include="SceneInfo\AgentCircuitManager.cs">
 		<SubType>Code</SubType>
 	  </Compile>
 	  <Compile Include="SceneInfo\ClientManager.cs">
@@ -970,7 +970,7 @@
 	  <Compile Include="Services\ClassHelpers\Other\SyncMessageHelper.cs">
 		<SubType>Code</SubType>
 	  </Compile>
-	  <Compile Include="Services\ClassHelpers\Other\WhiteCoreEventManager.cs">
+	  <Compile Include="Services\ClassHelpers\Other\VisionEventManager.cs">
 		<SubType>Code</SubType>
 	  </Compile>
 	  <Compile Include="Services\ClassHelpers\Profile\IUserProfileInfo.cs">
@@ -1093,13 +1093,13 @@
 	  <Compile Include="Utilities\VersionInfo.cs">
 		<SubType>Code</SubType>
 	  </Compile>
+	  <Compile Include="Utilities\VisionThreadPool.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="Utilities\VisionXmlDocument.cs">
+		<SubType>Code</SubType>
+	  </Compile>
 	  <Compile Include="Utilities\WebUtils.cs">
-		<SubType>Code</SubType>
-	  </Compile>
-	  <Compile Include="Utilities\WhiteCoreThreadPool.cs">
-		<SubType>Code</SubType>
-	  </Compile>
-	  <Compile Include="Utilities\WhiteCoreXmlDocument.cs">
 		<SubType>Code</SubType>
 	  </Compile>
   </ItemGroup>

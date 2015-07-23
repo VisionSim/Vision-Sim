@@ -303,7 +303,7 @@
 	  <Compile Include="Archivers\Region\SerializerModule.cs">
 		<SubType>Code</SubType>
 	  </Compile>
-	  <Compile Include="Archivers\Region\WhiteCoreArchiver.cs">
+	  <Compile Include="Archivers\Region\VisionArchiver.cs">
 		<SubType>Code</SubType>
 	  </Compile>
 	  <Compile Include="Avatar\AbuseReports\AbuseReportsModule.cs">
@@ -767,9 +767,6 @@
 		<SubType>Code</SubType>
 	  </Compile>
 	  <Compile Include="World\InventoryAccess\InventoryAccessModule.cs">
-		<SubType>Code</SubType>
-	  </Compile>
-	  <Compile Include="World\InworldRestartSerializer\InworldRestartSerializer.cs">
 		<SubType>Code</SubType>
 	  </Compile>
 	  <Compile Include="World\Land\LandObject.cs">

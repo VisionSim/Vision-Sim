@@ -27,6 +27,7 @@
 
 using System;
 using System.Collections.Generic;
+using OpenMetaverse;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.Services;
 

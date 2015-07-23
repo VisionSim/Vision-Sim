@@ -27,7 +27,7 @@
 
 using System;
 using System.Collections.Generic;
-using OpenMetverse;
+using OpenMetaverse;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.Physics;
