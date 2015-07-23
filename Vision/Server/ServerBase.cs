@@ -30,7 +30,6 @@ using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Simulation.Base;
 
-
 namespace Vision.Server
 {
     public class VisionBase : SimulationBase

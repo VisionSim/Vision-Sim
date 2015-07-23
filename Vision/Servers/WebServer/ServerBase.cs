@@ -25,11 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Simulation.Base;
-using System;
 
 namespace Vision.Server
 {

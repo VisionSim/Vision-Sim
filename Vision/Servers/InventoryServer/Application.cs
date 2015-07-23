@@ -25,11 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
 using Vision.Framework.Modules;
 using Vision.Framework.Services;
 using Vision.Simulation.Base;
-using System;
-using System.Collections.Generic;
 
 namespace Vision.Servers.InventoryServer
 {

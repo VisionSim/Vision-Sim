@@ -27,7 +27,6 @@
 
 using Vision.Simulation.Base;
 
-
 namespace Vision.Server
 {
     /// <summary>

@@ -27,9 +27,9 @@
 
 using System;
 using System.Collections.Generic;
+using Vision.Framework.Modules;
 using Vision.Framework.Services;
 using Vision.Simulation.Base;
-using Vision.Framework.Modules;
 
 namespace Vision.Servers.AvatarServer
 {
