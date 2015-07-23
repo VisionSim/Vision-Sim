@@ -25,10 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using Nini.Config;
 using Vision.Framework.Modules;
 using Vision.Framework.Services;
 using Vision.Services.DataService;
-using Nini.Config;
 
 namespace Vision.CoreApplicationPlugins.VisionData
 {

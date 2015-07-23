@@ -25,11 +25,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
+using Nini.Config;
 using Vision.Framework.ModuleLoader;
 using Vision.Framework.Modules;
 using Vision.Framework.Services;
-using Nini.Config;
-using System.Collections.Generic;
 
 namespace Vision.CoreApplicationPlugins.ServicesLoader
 {
