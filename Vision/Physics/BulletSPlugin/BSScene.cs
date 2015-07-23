@@ -30,11 +30,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Nini.Config;
 using OpenMetaverse;
-using Vision.Framework.Physics;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
-using Vision.Framework.Utilities;
+using Vision.Framework.Physics;
 using Vision.Framework.SceneInfo;
+using Vision.Framework.Utilities;
 
 namespace Vision.Region.Physics.BulletSPlugin
 {

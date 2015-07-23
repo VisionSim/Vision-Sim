@@ -25,7 +25,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// Hover isn't implemented in BulletSim 2.80
+/*
+ * Hover isn't implemented in BulletSim 2.80
+ */
 
 using System;
 using System.Linq;

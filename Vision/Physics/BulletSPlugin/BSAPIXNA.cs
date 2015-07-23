@@ -28,11 +28,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using OpenMetaverse;
 using BulletXNA;
 using BulletXNA.LinearMath;
 using BulletXNA.BulletCollision;
 using BulletXNA.BulletDynamics;
+using OpenMetaverse;
 using Vision.Framework.Utilities;
 
 namespace Vision.Region.Physics.BulletSPlugin

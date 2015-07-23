@@ -31,13 +31,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.Physics;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
 
 namespace Vision.Physics.OpenDynamicsEngine
 {

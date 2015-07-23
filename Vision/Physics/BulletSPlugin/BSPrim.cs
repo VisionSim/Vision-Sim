@@ -27,10 +27,10 @@
 
 using System;
 using OMV = OpenMetaverse;
-using Vision.Framework.SceneInfo;
-using Vision.Framework.Physics;
-using Vision.Framework.Utilities;
 using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Physics;
+using Vision.Framework.SceneInfo;
+using Vision.Framework.Utilities;
 
 namespace Vision.Region.Physics.BulletSPlugin
 {

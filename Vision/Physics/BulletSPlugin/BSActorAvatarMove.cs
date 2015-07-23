@@ -25,10 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.Physics;
-using Vision.Framework.Utilities;
 using System;
 using System.Collections.Generic;
+using Vision.Framework.Physics;
+using Vision.Framework.Utilities;
 using OMV = OpenMetaverse;
 
 namespace Vision.Region.Physics.BulletSPlugin
