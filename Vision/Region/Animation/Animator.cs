@@ -26,14 +26,14 @@
  */
 
 using System;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.Physics;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
 
 
 namespace Vision.Region.Animation

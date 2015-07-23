@@ -25,18 +25,18 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Xml;
+using Nini.Config;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Serialization;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse.StructuredData;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Xml;
 
 namespace Vision.Region.Components
 {

@@ -25,14 +25,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-using Vision.Framework.ClientInterfaces;
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Modules;
-using Vision.Framework.SceneInfo;
-using Vision.Framework.SceneInfo.Entities;
-using Vision.Framework.Serialization;
-using OpenMetaverse;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -40,7 +32,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using OpenMetaverse;
 using OpenMetaverse.StructuredData;
+using Vision.Framework.ClientInterfaces;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Modules;
+using Vision.Framework.SceneInfo;
+using Vision.Framework.SceneInfo.Entities;
+using Vision.Framework.Serialization;
 
 namespace Vision.Region.Serialization
 {

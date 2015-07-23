@@ -25,16 +25,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using System;
-using System.Collections.Generic;
 
 /*
  * Steps to add a new prioritization policy:

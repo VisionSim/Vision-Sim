@@ -25,7 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using OpenMetaverse;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
@@ -37,10 +40,6 @@ using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Other;
 using Vision.Framework.Utilities;
 using Vision.Region.Animation;
-using OpenMetaverse;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using GridRegion = Vision.Framework.Services.GridRegion;
 using PrimType = Vision.Framework.SceneInfo.PrimType;
 

@@ -25,19 +25,18 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Serialization;
-using OpenMetaverse;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Vision.Region
 {

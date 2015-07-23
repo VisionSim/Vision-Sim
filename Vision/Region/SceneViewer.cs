@@ -29,19 +29,19 @@
 
 #define UseDictionaryForEntityUpdates
 
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Modules;
-using Vision.Framework.PresenceInfo;
-using Vision.Framework.SceneInfo;
-using Vision.Framework.SceneInfo.Entities;
-using Vision.Framework.Utilities;
-using OpenMetaverse;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Timers;
+using OpenMetaverse;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Modules;
+using Vision.Framework.PresenceInfo;
+using Vision.Framework.SceneInfo;
+using Vision.Framework.SceneInfo.Entities;
+using Vision.Framework.Utilities;
 using GridRegion = Vision.Framework.Services.GridRegion;
 
 namespace Vision.Region

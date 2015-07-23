@@ -25,7 +25,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Xml.Serialization;
+using OpenMetaverse;
+using OpenMetaverse.Packets;
+using OpenMetaverse.StructuredData;
+using ProtoBuf;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
@@ -35,15 +43,6 @@ using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Serialization;
 using Vision.Framework.Utilities;
-using OpenMetaverse;
-using OpenMetaverse.Packets;
-using OpenMetaverse.StructuredData;
-using ProtoBuf;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Xml.Serialization;
 using GridRegion = Vision.Framework.Services.GridRegion;
 
 namespace Vision.Region
