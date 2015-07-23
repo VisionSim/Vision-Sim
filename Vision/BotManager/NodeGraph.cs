@@ -27,9 +27,8 @@
 
 using System;
 using System.Collections.Generic;
-
-using Vision.Framework.Modules;
 using OpenMetaverse;
+using Vision.Framework.Modules;
 
 namespace Vision.BotManager
 {

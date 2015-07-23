@@ -25,6 +25,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Timers;
+using OpenMetaverse;
+using OpenMetaverse.Packets;
+using Vision.BotManager.AStar;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
@@ -35,14 +43,6 @@ using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Services.ClassHelpers.Inventory;
 using Vision.Framework.Services.ClassHelpers.Other;
 using Vision.Framework.Utilities;
-using OpenMetaverse;
-using OpenMetaverse.Packets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Timers;
-using Vision.BotManager.AStar;
 
 namespace Vision.BotManager
 {
