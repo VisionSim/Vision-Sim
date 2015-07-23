@@ -29,8 +29,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using Vision.Framework.Utilities;
 using OpenMetaverse;
+using Vision.Framework.Utilities;
 
 namespace Vision.ScriptEngine.DotNetEngine.Runtime
 {

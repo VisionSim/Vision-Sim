@@ -27,10 +27,10 @@
 
 using System;
 using System.Collections.Generic;
-using Vision.Framework.Modules;
-using Vision.Framework.SceneInfo;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
+using Vision.Framework.Modules;
+using Vision.Framework.SceneInfo;
 
 namespace Vision.ScriptEngine.DotNetEngine.Plugins
 {

@@ -25,6 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
 using System.CodeDom.Compiler;
 
 namespace Vision.ScriptEngine.DotNetEngine.CompilerTools

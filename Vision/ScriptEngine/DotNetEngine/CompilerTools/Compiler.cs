@@ -25,9 +25,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.ModuleLoader;
-using OpenMetaverse;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -35,6 +32,9 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using OpenMetaverse;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.ModuleLoader;
 
 namespace Vision.ScriptEngine.DotNetEngine.CompilerTools
 {

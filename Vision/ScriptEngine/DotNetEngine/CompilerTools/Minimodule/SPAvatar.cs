@@ -29,11 +29,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security;
+using OpenMetaverse;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
-using OpenMetaverse;
 
 namespace Vision.ScriptEngine.DotNetEngine.MiniModule
 {

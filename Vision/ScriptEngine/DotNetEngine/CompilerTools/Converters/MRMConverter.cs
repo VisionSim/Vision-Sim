@@ -29,9 +29,9 @@ using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
-using Vision.ScriptEngine.DotNetEngine.MiniModule;
 using Microsoft.CSharp;
 using OpenMetaverse;
+using Vision.ScriptEngine.DotNetEngine.MiniModule;
 
 //using Microsoft.JScript;
 

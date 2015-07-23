@@ -28,9 +28,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using OpenMetaverse;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
-using OpenMetaverse;
 
 namespace Vision.ScriptEngine.DotNetEngine.MiniModule
 {

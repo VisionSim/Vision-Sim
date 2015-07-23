@@ -25,7 +25,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 namespace Vision.ScriptEngine.DotNetEngine.MiniModule
 {
     public interface IHost

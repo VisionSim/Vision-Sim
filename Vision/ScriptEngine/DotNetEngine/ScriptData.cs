@@ -25,16 +25,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.ClientInterfaces;
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Modules;
-using Vision.Framework.PresenceInfo;
-using Vision.Framework.SceneInfo;
-using Vision.Framework.SceneInfo.Entities;
-using Vision.Framework.Utilities;
-using Vision.ScriptEngine.DotNetEngine.Runtime;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -44,6 +34,16 @@ using System.Linq;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Lifetime;
 using System.Threading;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
+using Vision.Framework.ClientInterfaces;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Modules;
+using Vision.Framework.PresenceInfo;
+using Vision.Framework.SceneInfo;
+using Vision.Framework.SceneInfo.Entities;
+using Vision.Framework.Utilities;
+using Vision.ScriptEngine.DotNetEngine.Runtime;
 
 namespace Vision.ScriptEngine.DotNetEngine
 {

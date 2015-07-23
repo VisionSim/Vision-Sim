@@ -25,7 +25,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Remoting.Lifetime;
+using System.Xml;
+using OpenMetaverse;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
@@ -33,12 +38,6 @@ using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
 using Vision.ScriptEngine.DotNetEngine.Runtime;
-using OpenMetaverse;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Lifetime;
-using System.Xml;
 using LSL_Float = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLFloat;
 using LSL_Integer = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLInteger;
 using LSL_Key = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLString;

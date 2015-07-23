@@ -35,8 +35,12 @@ using System.Net;
 using System.Runtime.Remoting.Lifetime;
 using System.Text;
 using System.Text.RegularExpressions;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
+using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
@@ -46,9 +50,6 @@ using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Utilities;
 using Vision.ScriptEngine.DotNetEngine.Runtime;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
 using GridRegion = Vision.Framework.Services.GridRegion;
 using Group = System.Text.RegularExpressions.Group;
 using LSL_Float = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLFloat;
@@ -58,7 +59,6 @@ using LSL_List = Vision.ScriptEngine.DotNetEngine.LSL_Types.list;
 using LSL_Rotation = Vision.ScriptEngine.DotNetEngine.LSL_Types.Quaternion;
 using LSL_String = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLString;
 using LSL_Vector = Vision.ScriptEngine.DotNetEngine.LSL_Types.Vector3;
-using Vision.Framework.DatabaseInterfaces;
 
 namespace Vision.ScriptEngine.DotNetEngine.APIs
 {

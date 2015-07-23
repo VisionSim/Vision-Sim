@@ -27,8 +27,8 @@
 
 using System;
 using System.Drawing;
-using Vision.Framework.SceneInfo;
 using OpenMetaverse;
+using Vision.Framework.SceneInfo;
 
 namespace Vision.ScriptEngine.DotNetEngine.MiniModule
 {

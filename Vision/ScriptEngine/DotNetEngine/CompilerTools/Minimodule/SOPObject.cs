@@ -27,12 +27,12 @@
 
 using System;
 using System.Security;
+using OpenMetaverse;
+using OpenMetaverse.Packets;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
-using OpenMetaverse;
-using OpenMetaverse.Packets;
 
 namespace Vision.ScriptEngine.DotNetEngine.MiniModule
 {

@@ -25,14 +25,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Runtime.Remoting.Lifetime;
+using OpenMetaverse;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 using Vision.ScriptEngine.DotNetEngine.Runtime;
-using OpenMetaverse;
-using System;
-using System.Runtime.Remoting.Lifetime;
 using LSL_Float = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLFloat;
 using LSL_Integer = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLInteger;
 using LSL_Key = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLString;

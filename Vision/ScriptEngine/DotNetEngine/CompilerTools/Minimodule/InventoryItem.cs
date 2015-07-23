@@ -26,10 +26,10 @@
  */
 
 using System;
-using Vision.Framework.SceneInfo;
-using Vision.Framework.Services.ClassHelpers.Assets;
 using OpenMetaverse;
 using OpenMetaverse.Assets;
+using Vision.Framework.SceneInfo;
+using Vision.Framework.Services.ClassHelpers.Assets;
 
 namespace Vision.ScriptEngine.DotNetEngine.MiniModule
 {

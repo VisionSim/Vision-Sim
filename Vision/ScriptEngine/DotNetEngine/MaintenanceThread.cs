@@ -31,11 +31,11 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Utilities;
-using OpenMetaverse;
 
 namespace Vision.ScriptEngine.DotNetEngine
 {
