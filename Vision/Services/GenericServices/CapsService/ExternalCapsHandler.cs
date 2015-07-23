@@ -25,17 +25,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.Modules;
-using Vision.Framework.Servers;
-using Vision.Framework.Services;
-using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
+using Vision.Framework.Modules;
+using Vision.Framework.Servers;
+using Vision.Framework.Services;
+using Vision.Framework.Utilities;
 using GridRegion = Vision.Framework.Services.GridRegion;
 
 namespace Vision.Services.GenericServices.CapsService

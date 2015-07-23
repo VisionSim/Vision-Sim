@@ -25,11 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using OpenMetaverse;
 using Vision.Framework.Modules;
 using Vision.Framework.Services;
-using OpenMetaverse;
-using System.Collections.Generic;
 using GridRegion = Vision.Framework.Services.GridRegion;
 
 namespace Vision.Services

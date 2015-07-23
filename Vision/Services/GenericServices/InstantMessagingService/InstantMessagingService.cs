@@ -25,6 +25,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.Messages.Linden;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.DatabaseInterfaces;
@@ -32,12 +39,6 @@ using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.Messages.Linden;
-using OpenMetaverse.StructuredData;
-using System.Collections.Generic;
-using System.Linq;
 using ChatSessionMember = Vision.Framework.DatabaseInterfaces.ChatSessionMember;
 
 namespace Vision.Services

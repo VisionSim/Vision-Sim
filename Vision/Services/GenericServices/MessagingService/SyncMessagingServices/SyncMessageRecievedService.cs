@@ -25,11 +25,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.Modules;
-using Vision.Framework.Services;
+using System;
+using System.Linq;
 using Nini.Config;
 using OpenMetaverse.StructuredData;
-using System.Linq;
+using Vision.Framework.Modules;
+using Vision.Framework.Services;
 
 namespace Vision.Services
 {

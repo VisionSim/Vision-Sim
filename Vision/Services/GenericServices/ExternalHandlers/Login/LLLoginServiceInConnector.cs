@@ -25,18 +25,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections;
+using System.Net;
+using Nini.Config;
+using Nwc.XmlRpc;
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using Nwc.XmlRpc;
-using OpenMetaverse;
-using System;
-using System.Collections;
-using System.Net;
 
 namespace Vision.Services
 {

@@ -25,18 +25,18 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.PresenceInfo;
-using Vision.Framework.Services;
-using Vision.Framework.Services.ClassHelpers.Inventory;
-using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using Nini.Config;
+using OpenMetaverse;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.PresenceInfo;
+using Vision.Framework.Services;
+using Vision.Framework.Services.ClassHelpers.Inventory;
+using Vision.Framework.Utilities;
 using FriendInfo = Vision.Framework.Services.FriendInfo;
 using GridRegion = Vision.Framework.Services.GridRegion;
 

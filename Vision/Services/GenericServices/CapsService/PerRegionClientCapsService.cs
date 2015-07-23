@@ -25,7 +25,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.ModuleLoader;
 using Vision.Framework.Modules;
@@ -34,12 +39,6 @@ using Vision.Framework.Servers.HttpServer;
 using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Services;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
 using GridRegion = Vision.Framework.Services.GridRegion;
 
 namespace Vision.Services

@@ -25,6 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using Sider;
+using System;
+using System.IO;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
@@ -32,11 +37,6 @@ using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Utilities;
 using Vision.RedisServices.ConnectionHelpers;
-using Nini.Config;
-using OpenMetaverse;
-using Sider;
-using System;
-using System.IO;
 
 namespace Vision.RedisServices.AssetService
 {

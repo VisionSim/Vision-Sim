@@ -25,6 +25,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Net;
+using System.Text.RegularExpressions;
+using System.Xml;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.DatabaseInterfaces;
@@ -36,14 +44,6 @@ using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Inventory;
 using Vision.Framework.Services.ClassHelpers.Profile;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Net;
-using System.Text.RegularExpressions;
-using System.Xml;
 using FriendInfo = Vision.Framework.Services.FriendInfo;
 using GridRegion = Vision.Framework.Services.GridRegion;
 using GridSettings = Vision.Modules.Web.GridSettings;

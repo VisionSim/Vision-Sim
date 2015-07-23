@@ -32,13 +32,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.Modules;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Inventory;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
 
 namespace Vision.Services.DataService
 {

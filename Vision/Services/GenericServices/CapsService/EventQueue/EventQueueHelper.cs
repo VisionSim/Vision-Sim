@@ -28,13 +28,12 @@
 using System;
 using System.Linq;
 using System.Net;
-using Vision.Framework.SceneInfo;
-using Vision.Framework.Utilities;
 using OpenMetaverse;
 using OpenMetaverse.Messages.Linden;
 using OpenMetaverse.Packets;
 using OpenMetaverse.StructuredData;
-
+using Vision.Framework.SceneInfo;
+using Vision.Framework.Utilities;
 
 namespace Vision.Services
 {

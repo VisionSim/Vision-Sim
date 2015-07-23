@@ -25,12 +25,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.IO;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.Servers.HttpServer;
 using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Services;
-using OpenMetaverse.StructuredData;
-using System.IO;
 
 namespace Vision.Services
 {

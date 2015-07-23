@@ -25,17 +25,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Services;
-using Nini.Config;
-using OpenMetaverse;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Vision.Services
 {

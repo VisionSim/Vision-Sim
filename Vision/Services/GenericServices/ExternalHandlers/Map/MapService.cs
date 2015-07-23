@@ -25,6 +25,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Linq;
+using Nini.Config;
+using ProtoBuf;
 using Vision.Framework.Modules;
 using Vision.Framework.Servers;
 using Vision.Framework.Servers.HttpServer;
@@ -32,14 +40,6 @@ using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using ProtoBuf;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
 using GridRegion = Vision.Framework.Services.GridRegion;
 
 namespace Vision.Services

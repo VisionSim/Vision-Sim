@@ -25,19 +25,18 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using System.IO;
+using Nini.Config;
+using Nini.Ini;
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.ModuleLoader;
 using Vision.Framework.Modules;
+using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Inventory;
-using Nini.Ini;
-using Nini.Config;
-using OpenMetaverse;
-using System;
-using System.IO;
-using System.Collections.Generic;
-using Vision.Framework.SceneInfo;
 using Vision.Framework.Utilities;
 
 namespace Vision.Services.SQLServices.InventoryService

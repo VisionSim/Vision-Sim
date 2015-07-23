@@ -25,6 +25,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.Assets;
+using OpenMetaverse.Imaging;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
@@ -35,14 +43,6 @@ using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Services.ClassHelpers.Inventory;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.Assets;
-using OpenMetaverse.Imaging;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using TextureData = OpenMetaverse.AppearanceManager.TextureData;
 using WearableData = OpenMetaverse.AppearanceManager.WearableData;
 

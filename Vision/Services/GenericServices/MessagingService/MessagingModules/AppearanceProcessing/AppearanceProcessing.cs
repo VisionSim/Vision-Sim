@@ -25,14 +25,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using Nini.Config;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
-using Nini.Config;
-using OpenMetaverse.StructuredData;
 using GridRegion = Vision.Framework.Services.GridRegion;
 
 namespace Vision.Services

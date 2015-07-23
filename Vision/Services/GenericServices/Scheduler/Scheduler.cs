@@ -25,17 +25,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Timers;
+using Nini.Config;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Other;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Timers;
 
 namespace Vision.Services
 {
