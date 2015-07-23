@@ -27,11 +27,6 @@
 
 //#define BlockUnsupportedVersions
 
-using Vision.Framework.Configuration;
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Modules;
-using Vision.Framework.Utilities;
-using Nini.Config;
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -39,6 +34,11 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
+using Nini.Config;
+using Vision.Framework.Configuration;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Modules;
+using Vision.Framework.Utilities;
 
 namespace Vision.Simulation.Base
 {

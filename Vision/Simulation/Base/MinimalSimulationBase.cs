@@ -25,7 +25,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Timers;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.Configuration;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.ModuleLoader;
@@ -38,12 +43,6 @@ using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Other;
 using Vision.Framework.Utilities;
 using Vision.Services.DataService;
-using Nini.Config;
-using OpenMetaverse;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Timers;
 
 namespace Vision.Simulation.Base
 {
