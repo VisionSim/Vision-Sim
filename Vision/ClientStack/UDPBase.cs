@@ -28,8 +28,8 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
-using Vision.Framework.ConsoleFramework;
 using OpenMetaverse;
+using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Utilities;
 
 namespace Vision.ClientStack

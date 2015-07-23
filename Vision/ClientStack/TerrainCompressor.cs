@@ -25,11 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-using Vision.Framework.Utilities;
+using System;
 using OpenMetaverse;
 using OpenMetaverse.Packets;
-using System;
+using Vision.Framework.Utilities;
 
 namespace Vision.ClientStack
 {

@@ -27,16 +27,15 @@
 
 //#define Debug
 
-
-using Vision.Framework.ClientInterfaces;
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Modules;
-using Vision.Framework.Utilities;
-using OpenMetaverse;
 using System;
 using System.Collections.Concurrent;
 using System.Net;
 using System.Threading;
+using OpenMetaverse;
+using Vision.Framework.ClientInterfaces;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Modules;
+using Vision.Framework.Utilities;
 
 namespace Vision.ClientStack
 {

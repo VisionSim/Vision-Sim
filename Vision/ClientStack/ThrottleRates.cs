@@ -26,8 +26,8 @@
  */
 
 using System;
-using Vision.Framework.ClientInterfaces;
 using Nini.Config;
+using Vision.Framework.ClientInterfaces;
 
 
 namespace Vision.ClientStack
