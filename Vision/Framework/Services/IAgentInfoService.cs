@@ -27,10 +27,10 @@
 
 using System;
 using System.Collections.Generic;
-using Vision.Framework.Modules;
 using Nini.Config;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
+using Vision.Framework.Modules;
 
 namespace Vision.Framework.Services
 {

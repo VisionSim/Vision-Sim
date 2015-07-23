@@ -25,9 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
 using System.Drawing;
-using Vision.Framework.SceneInfo;
 using Nini.Config;
+using Vision.Framework.SceneInfo;
 
 namespace Vision.Framework.Modules
 {

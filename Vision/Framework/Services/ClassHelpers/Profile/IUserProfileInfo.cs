@@ -26,10 +26,10 @@
  */
 
 using System;
-using Vision.Framework.Modules;
-using Vision.Framework.Utilities;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
+using Vision.Framework.Modules;
+using Vision.Framework.Utilities;
 
 namespace Vision.Framework.Services.ClassHelpers.Profile
 {

@@ -25,10 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
 using System.Collections.Generic;
-using Vision.Framework.SceneInfo;
 using Nini.Config;
 using OpenMetaverse;
+using Vision.Framework.SceneInfo;
 
 namespace Vision.Framework.Modules
 {

@@ -25,11 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using Nini.Config;
 using Vision.Framework.Configuration;
 using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Services.ClassHelpers.Other;
-using Nini.Config;
-using System;
 
 namespace Vision.Framework.Modules
 {

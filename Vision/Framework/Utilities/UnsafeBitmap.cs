@@ -25,8 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-//Downloaded from
-//Visual C# Kicks - http://www.vcskicks.com/
+/*
+ * Downloaded from
+ * Visual C# Kicks - http://www.vcskicks.com/
+ */
 
 using System;
 using System.Drawing;

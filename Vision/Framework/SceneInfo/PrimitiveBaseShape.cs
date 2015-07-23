@@ -32,10 +32,10 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-using Vision.Framework.ConsoleFramework;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
 using ProtoBuf;
+using Vision.Framework.ConsoleFramework;
 
 namespace Vision.Framework.SceneInfo
 {

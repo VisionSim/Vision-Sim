@@ -30,8 +30,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
-using Vision.Framework.SceneInfo;
 using OpenMetaverse;
+using Vision.Framework.SceneInfo;
 
 namespace Vision.Framework.Serialization.External
 {

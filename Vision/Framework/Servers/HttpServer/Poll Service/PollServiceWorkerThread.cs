@@ -28,11 +28,11 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
+using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Utilities;
-using Vision.Framework.ConsoleFramework;
-using System.Net;
 
 namespace Vision.Framework.Servers.HttpServer
 {

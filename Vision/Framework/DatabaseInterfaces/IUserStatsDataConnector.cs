@@ -25,10 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
 using System.Collections.Generic;
-using Vision.Framework.Services;
 using OpenMetaverse;
 using OpenMetaverse.Messages.Linden;
+using Vision.Framework.Services;
 
 namespace Vision.Framework.DatabaseInterfaces
 {

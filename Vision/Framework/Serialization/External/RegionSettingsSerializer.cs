@@ -28,9 +28,9 @@
 using System.IO;
 using System.Text;
 using System.Xml;
+using OpenMetaverse;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Utilities;
-using OpenMetaverse;
 
 namespace Vision.Framework.Serialization.External
 {

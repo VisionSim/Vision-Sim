@@ -26,10 +26,10 @@
  */
 
 using System;
-using Vision.Framework.ClientInterfaces;
-using Vision.Framework.Services.ClassHelpers.Assets;
 using OpenMetaverse;
+using Vision.Framework.ClientInterfaces;
 using Vision.Framework.SceneInfo;
+using Vision.Framework.Services.ClassHelpers.Assets;
 
 namespace Vision.Framework.Modules
 {

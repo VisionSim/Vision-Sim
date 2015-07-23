@@ -25,11 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.ConsoleFramework;
 using System;
 using System.Collections.Concurrent;
 using System.Net;
 using System.Threading;
+using Vision.Framework.ConsoleFramework;
 
 namespace Vision.Framework.Servers.HttpServer
 {

@@ -25,10 +25,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Servers.HttpServer.Implementation;
-using Vision.Framework.Servers.HttpServer.Interfaces;
-using Nwc.XmlRpc;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -36,6 +32,10 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Xml;
+using Nwc.XmlRpc;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Servers.HttpServer.Implementation;
+using Vision.Framework.Servers.HttpServer.Interfaces;
 
 namespace Vision.Framework.Servers.HttpServer
 {

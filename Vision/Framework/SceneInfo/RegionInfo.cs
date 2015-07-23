@@ -25,15 +25,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.Modules;
-using Vision.Framework.Utilities;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
-using ProtoBuf;
 using System;
 using System.IO;
 using System.Xml.Serialization;
 using System.Xml;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
+using ProtoBuf;
+using Vision.Framework.Modules;
+using Vision.Framework.Utilities;
 
 namespace Vision.Framework.SceneInfo
 {

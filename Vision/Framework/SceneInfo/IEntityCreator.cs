@@ -25,8 +25,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.SceneInfo.Entities;
 using OpenMetaverse;
+using Vision.Framework.SceneInfo.Entities;
 
 namespace Vision.Framework.SceneInfo
 {

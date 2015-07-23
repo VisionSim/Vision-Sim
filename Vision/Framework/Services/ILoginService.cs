@@ -25,12 +25,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
 using System.Collections;
 using System.Net;
-using Vision.Framework.Modules;
-using Vision.Framework.Services.ClassHelpers.Profile;
 using Nini.Config;
 using OpenMetaverse;
+using Vision.Framework.Modules;
+using Vision.Framework.Services.ClassHelpers.Profile;
 
 namespace Vision.Framework.Services
 {

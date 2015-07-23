@@ -27,11 +27,11 @@
 
 using System;
 using System.Linq;
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Modules;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
 using ProtoBuf;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Modules;
 
 namespace Vision.Framework.ClientInterfaces
 {

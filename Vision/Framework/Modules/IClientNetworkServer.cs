@@ -25,11 +25,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.PresenceInfo;
-using Vision.Framework.SceneInfo;
+using System;
+using System.Net;
 using Nini.Config;
 using OpenMetaverse;
-using System.Net;
+using Vision.Framework.PresenceInfo;
+using Vision.Framework.SceneInfo;
 
 namespace Vision.Framework.Modules
 {

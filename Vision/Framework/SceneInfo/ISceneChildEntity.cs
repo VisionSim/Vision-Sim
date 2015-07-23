@@ -28,13 +28,13 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using OpenMetaverse;
+using OpenMetaverse.Packets;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.Physics;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo.Entities;
-using OpenMetaverse;
-using OpenMetaverse.Packets;
-using OpenMetaverse.StructuredData;
 
 namespace Vision.Framework.SceneInfo
 {

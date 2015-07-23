@@ -26,8 +26,8 @@
  */
 
 using System;
-using Vision.Framework.SceneInfo;
 using OpenMetaverse;
+using Vision.Framework.SceneInfo;
 
 namespace Vision.Framework.Physics
 {

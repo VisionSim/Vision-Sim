@@ -25,16 +25,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Diagnostics;
+using System.Security.Cryptography;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
+using ProtoBuf;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.Utilities;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
-using ProtoBuf;
-using System;
-using System.Diagnostics;
-using System.Security.Cryptography;
 
 namespace Vision.Framework.Services.ClassHelpers.Assets
 {

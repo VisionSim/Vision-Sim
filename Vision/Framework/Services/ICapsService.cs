@@ -28,11 +28,11 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.Servers.HttpServer.Interfaces;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
 
 namespace Vision.Framework.Services
 {

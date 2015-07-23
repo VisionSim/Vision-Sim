@@ -25,8 +25,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.ConsoleFramework;
-using OpenMetaverse.StructuredData;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -41,6 +39,8 @@ using System.Net;
 using Vision.Framework.Servers.HttpServer;
 #endif
 using System.Xml;
+using OpenMetaverse.StructuredData;
+using Vision.Framework.ConsoleFramework;
 
 namespace Vision.Framework.Utilities
 {

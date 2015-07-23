@@ -29,8 +29,8 @@ using System;
 using System.IO;
 using System.Text;
 using System.Xml;
-using Vision.Framework.Services.ClassHelpers.Inventory;
 using OpenMetaverse;
+using Vision.Framework.Services.ClassHelpers.Inventory;
 
 namespace Vision.Framework.Serialization.External
 {

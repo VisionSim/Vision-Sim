@@ -25,10 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
 using System.Collections.Generic;
-using Vision.Framework.Modules;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
+using Vision.Framework.Modules;
 
 namespace Vision.Framework.ClientInterfaces
 {

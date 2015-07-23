@@ -25,8 +25,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.Modules;
 using OpenMetaverse.StructuredData;
+using Vision.Framework.Modules;
 
 namespace Vision.Framework.Services
 {

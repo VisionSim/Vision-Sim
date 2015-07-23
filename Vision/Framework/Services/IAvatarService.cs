@@ -25,8 +25,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.ClientInterfaces;
 using OpenMetaverse;
+using Vision.Framework.ClientInterfaces;
 
 namespace Vision.Framework.Services
 {

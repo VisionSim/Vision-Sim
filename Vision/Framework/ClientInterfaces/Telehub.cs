@@ -25,13 +25,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using Vision.Framework.Modules;
+using System.Xml;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
-using System.Xml;
-using System.IO;
+using Vision.Framework.Modules;
 
 namespace Vision.Framework.ClientInterfaces
 {

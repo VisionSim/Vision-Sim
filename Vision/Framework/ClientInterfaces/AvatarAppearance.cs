@@ -28,12 +28,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Utilities;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
 
 namespace Vision.Framework.ClientInterfaces
 {

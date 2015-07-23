@@ -26,9 +26,9 @@
  */
 
 using System;
+using OpenMetaverse;
 using Vision.Framework.Modules;
 using Vision.Framework.Utilities;
-using OpenMetaverse;
 
 namespace Vision.Framework.SceneInfo
 {

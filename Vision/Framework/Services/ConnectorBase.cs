@@ -31,6 +31,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using Nini.Config;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.Servers;
@@ -38,8 +40,6 @@ using Vision.Framework.Servers.HttpServer;
 using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse.StructuredData;
 
 namespace Vision.Framework.Services
 {

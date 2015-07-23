@@ -25,10 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using OpenMetaverse;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.Physics;
 using Vision.Framework.SceneInfo;
-using OpenMetaverse;
 
 namespace Vision.Framework.Modules
 {

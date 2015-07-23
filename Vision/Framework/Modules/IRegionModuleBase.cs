@@ -26,8 +26,8 @@
  */
 
 using System;
-using Vision.Framework.SceneInfo;
 using Nini.Config;
+using Vision.Framework.SceneInfo;
 
 namespace Vision.Framework.Modules
 {

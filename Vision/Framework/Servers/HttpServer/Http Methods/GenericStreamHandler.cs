@@ -25,10 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System.IO;
-using Vision.Framework.Servers.HttpServer.Implementation;
-using System.Text;
 using System;
+using System.IO;
+using System.Text;
+using Vision.Framework.Servers.HttpServer.Implementation;
 
 namespace Vision.Framework.Servers.HttpServer
 {

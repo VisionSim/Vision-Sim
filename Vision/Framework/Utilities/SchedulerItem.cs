@@ -26,9 +26,9 @@
  */
 
 using System;
-using Vision.Framework.Modules;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
+using Vision.Framework.Modules;
 
 namespace Vision.Framework.Utilities
 {

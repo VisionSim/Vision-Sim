@@ -27,13 +27,13 @@
 
 using System;
 using System.Collections.Generic;
-using Vision.Framework.Physics;
-using Vision.Framework.PresenceInfo;
-using Vision.Framework.Services.ClassHelpers.Inventory;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
 using ProtoBuf;
 using Vision.Framework.Modules;
+using Vision.Framework.Physics;
+using Vision.Framework.PresenceInfo;
+using Vision.Framework.Services.ClassHelpers.Inventory;
 
 namespace Vision.Framework.SceneInfo.Entities
 {

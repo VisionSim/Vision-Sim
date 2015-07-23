@@ -25,8 +25,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.Physics;
 using OpenMetaverse;
+using Vision.Framework.Physics;
 
 namespace Vision.Framework.Modules
 {

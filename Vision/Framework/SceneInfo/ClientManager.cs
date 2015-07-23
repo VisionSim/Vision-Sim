@@ -25,11 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.PresenceInfo;
-using OpenMetaverse;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using OpenMetaverse;
+using Vision.Framework.PresenceInfo;
 
 namespace Vision.Framework.SceneInfo
 {

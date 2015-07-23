@@ -28,9 +28,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenMetaverse;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo.Entities;
-using OpenMetaverse;
 
 namespace Vision.Framework.SceneInfo
 {

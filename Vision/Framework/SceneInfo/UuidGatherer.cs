@@ -25,21 +25,21 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.SceneInfo.Entities;
-using Vision.Framework.Serialization;
-using Vision.Framework.Services;
-using Vision.Framework.Services.ClassHelpers.Assets;
-using Vision.Framework.Utilities;
-using OpenMetaverse;
-using OpenMetaverse.Assets;
-using OpenMetaverse.StructuredData;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using OpenMetaverse;
+using OpenMetaverse.Assets;
+using OpenMetaverse.StructuredData;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.SceneInfo.Entities;
+using Vision.Framework.Serialization;
+using Vision.Framework.Services;
+using Vision.Framework.Services.ClassHelpers.Assets;
+using Vision.Framework.Utilities;
 
 namespace Vision.Framework.SceneInfo
 {

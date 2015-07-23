@@ -26,10 +26,10 @@
  */
 
 using System;
-using System.Text.RegularExpressions;
-using System.IO;
-using Vision.Framework.ConsoleFramework;
 using System.Collections.Generic;
+using System.IO;
+using System.Text.RegularExpressions;
+using Vision.Framework.ConsoleFramework;
 
 namespace Vision.Framework.Utilities
 {

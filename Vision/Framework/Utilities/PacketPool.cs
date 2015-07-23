@@ -29,9 +29,9 @@
 
 using System;
 using System.Collections.Generic;
-using Vision.Framework.ConsoleFramework;
 using OpenMetaverse;
 using OpenMetaverse.Packets;
+using Vision.Framework.ConsoleFramework;
 
 namespace Vision.Framework.Utilities
 {

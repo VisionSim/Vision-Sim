@@ -27,12 +27,12 @@
 
 using System;
 using System.Collections.Generic;
+using OpenMetverse;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.Physics;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
-using OpenMetaverse;
 using GridRegion = Vision.Framework.Services.GridRegion;
 
 namespace Vision.Framework.PresenceInfo

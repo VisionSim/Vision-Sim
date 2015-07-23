@@ -27,9 +27,9 @@
 
 using System;
 using System.Collections.Generic;
+using OpenMetaverse;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
-using OpenMetaverse;
 
 namespace Vision.Framework.ClientInterfaces
 {

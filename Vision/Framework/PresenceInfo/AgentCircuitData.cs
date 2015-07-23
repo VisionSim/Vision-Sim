@@ -26,11 +26,11 @@
  */
 
 using System;
-using Vision.Framework.Modules;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
-using Vision.Framework.Services;
 using ProtoBuf;
+using Vision.Framework.Modules;
+using Vision.Framework.Services;
 
 namespace Vision.Framework.PresenceInfo
 {

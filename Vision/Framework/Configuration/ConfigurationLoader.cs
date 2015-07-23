@@ -29,9 +29,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Vision.Framework.Utilities;
 using Nini.Config;
 using Nini.Ini;
+using Vision.Framework.Utilities;
 
 namespace Vision.Framework.Configuration
 {

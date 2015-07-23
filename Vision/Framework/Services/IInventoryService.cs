@@ -27,10 +27,10 @@
 
 using System;
 using System.Collections.Generic;
-using Vision.Framework.SceneInfo;
-using Vision.Framework.Services.ClassHelpers.Inventory;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
+using Vision.Framework.SceneInfo;
+using Vision.Framework.Services.ClassHelpers.Inventory;
 
 namespace Vision.Framework.Services
 {
