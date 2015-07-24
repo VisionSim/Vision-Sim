@@ -163,7 +163,7 @@ namespace Vision.Modules.Currency
             return 0;
         }
 
-        public bool Charge(UUID agentID, int amount, string text, TransactionType type)
+        public bool Charge(UUID agentID, int amount, string description, TransactionType type)
         {
             return true;
         }

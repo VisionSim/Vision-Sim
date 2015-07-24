@@ -38,9 +38,9 @@ namespace Vision.Services.DataService.Connectors.Database.Scheduler
 {
     public class LocalSchedulerConnector : ISchedulerDataPlugin
     {
-        private IGenericData m_Gd;
+        IGenericData m_Gd;
 
-        private readonly string[] theFields = new[]
+        readonly string[] theFields = new[]
                                                   {
                                                       "id", "fire_function", "fire_params", "run_once", "run_every",
                                                       "runs_next", "keep_history", "require_reciept", "last_history_id",
@@ -109,14 +109,21 @@ namespace Vision.Services.DataService.Connectors.Database.Scheduler
             return I.id;
         }
 
-        public void SchedulerRemove(string id)
+        public void SchedulerRemoveID(string id)
         {
             QueryFilter filter = new QueryFilter();
             filter.andFilters["id"] = id;
             m_Gd.Delete("scheduler", filter);
         }
 
-        private object[] GetDBValues(SchedulerItem I)
+        public void SchedulerRemoveFunction(string identifier)
+        {
+            QueryFilter filter = new QueryFilter();
+            filter.andFilters["fire_function"] = identifier;
+            m_Gd.Delete("scheduler", filter);
+        }
+
+        object[] GetDBValues(SchedulerItem I)
         {
             return new object[]
                        {
@@ -125,7 +132,7 @@ namespace Vision.Services.DataService.Connectors.Database.Scheduler
                            I.FireParams,
                            I.RunOnce,
                            I.RunEvery,
-                           I.TimeToRun,
+                           I.TimeToRun,         // "run_next" field in db
                            I.HistoryKeep,
                            I.HistoryReceipt,
                            I.HistoryLastID,
@@ -141,11 +148,11 @@ namespace Vision.Services.DataService.Connectors.Database.Scheduler
         {
             QueryFilter filter = new QueryFilter();
             filter.andFilters["id"] = id;
-            return m_Gd.Query(new string[] {"id"}, "scheduler", filter, null, null, null).Count >= 1;
+            return m_Gd.Query(new string[] { "id" }, "scheduler", filter, null, null, null).Count >= 1;
         }
 
 
-        public List<SchedulerItem> ToRun()
+        public List<SchedulerItem> ToRun(DateTime timeToRun)
         {
             List<SchedulerItem> returnValue = new List<SchedulerItem>();
             DataReaderConnection dr = null;
@@ -153,7 +160,8 @@ namespace Vision.Services.DataService.Connectors.Database.Scheduler
             {
                 dr =
                     m_Gd.QueryData(
-                        "WHERE enabled = 1 AND runs_next < '" + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm") +
+                    //   "WHERE enabled = 1 AND runs_next < '" + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm") +
+                        "WHERE enabled = 1 AND runs_next <='" + timeToRun.ToString("yyyy-MM-dd HH:mm") +
                         "' ORDER BY runs_next desc", "scheduler", string.Join(", ", theFields));
                 if (dr != null && dr.DataReader != null)
                 {
@@ -256,48 +264,60 @@ namespace Vision.Services.DataService.Connectors.Database.Scheduler
             return null;
         }
 
-        private SchedulerItem LoadFromDataReader(IDataReader dr)
+        public SchedulerItem GetFunctionItem(string fireFunction)
         {
-            return new SchedulerItem
-                       {
-                           id = dr["id"].ToString(),
-                           FireFunction = dr["fire_function"].ToString(),
-                           FireParams = dr["fire_params"].ToString(),
-                           HistoryKeep = bool.Parse(dr["keep_history"].ToString()),
-                           Enabled = bool.Parse(dr["enabled"].ToString()),
-                           CreateTime = DateTime.Parse(dr["create_time"].ToString()),
-                           HistoryLastID = dr["last_history_id"].ToString(),
-                           TimeToRun = DateTime.Parse(dr["runs_next"].ToString()),
-                           HistoryReceipt = bool.Parse(dr["require_reciept"].ToString()),
-                           RunEvery = int.Parse(dr["run_every"].ToString()),
-                           RunOnce = bool.Parse(dr["run_once"].ToString()),
-                           RunEveryType = (RepeatType) int.Parse(dr["run_every_type"].ToString()),
-                           StartTime = DateTime.Parse(dr["start_time"].ToString()),
-                           ScheduleFor = UUID.Parse(dr["schedule_for"].ToString())
-                       };
+            QueryFilter filter = new QueryFilter();
+            filter.andFilters["fire_function"] = fireFunction;
+            List<string> results = m_Gd.Query(theFields, "scheduler", filter, null, null, null);
+
+            if (results == null || results.Count == 0)
+                return null;
+
+            return LoadFromList(results);
         }
 
-        private SchedulerItem LoadFromList(List<string> values)
+        SchedulerItem LoadFromDataReader(IDataReader dr)
+        {
+            return new SchedulerItem
+            {
+                id = dr["id"].ToString(),
+                FireFunction = dr["fire_function"].ToString(),
+                FireParams = dr["fire_params"].ToString(),
+                HistoryKeep = bool.Parse(dr["keep_history"].ToString()),
+                Enabled = bool.Parse(dr["enabled"].ToString()),
+                CreateTime = DateTime.Parse(dr["create_time"].ToString()),
+                HistoryLastID = dr["last_history_id"].ToString(),
+                TimeToRun = DateTime.Parse(dr["runs_next"].ToString()),
+                HistoryReceipt = bool.Parse(dr["require_reciept"].ToString()),
+                RunEvery = int.Parse(dr["run_every"].ToString()),
+                RunOnce = bool.Parse(dr["run_once"].ToString()),
+                RunEveryType = (RepeatType)int.Parse(dr["run_every_type"].ToString()),
+                StartTime = DateTime.Parse(dr["start_time"].ToString()),
+                ScheduleFor = UUID.Parse(dr["schedule_for"].ToString())
+            };
+        }
+
+        SchedulerItem LoadFromList(List<string> values)
         {
             if (values == null) return null;
             if (values.Count == 0) return null;
             return new SchedulerItem
-                       {
-                           id = values[0],
-                           FireFunction = values[1],
-                           FireParams = values[2],
-                           RunOnce = bool.Parse(values[3]),
-                           RunEvery = int.Parse(values[4]),
-                           TimeToRun = DateTime.Parse(values[5]),
-                           HistoryKeep = bool.Parse(values[6]),
-                           HistoryReceipt = bool.Parse(values[7]),
-                           HistoryLastID = values[8],
-                           CreateTime = DateTime.Parse(values[9]),
-                           StartTime = DateTime.Parse(values[10]),
-                           RunEveryType = (RepeatType) int.Parse(values[11]),
-                           Enabled = bool.Parse(values[12]),
-                           ScheduleFor = UUID.Parse(values[13])
-                       };
+            {
+                id = values[0],
+                FireFunction = values[1],
+                FireParams = values[2],
+                RunOnce = bool.Parse(values[3]),
+                RunEvery = int.Parse(values[4]),
+                TimeToRun = DateTime.Parse(values[5]),
+                HistoryKeep = bool.Parse(values[6]),
+                HistoryReceipt = bool.Parse(values[7]),
+                HistoryLastID = values[8],
+                CreateTime = DateTime.Parse(values[9]),
+                StartTime = DateTime.Parse(values[10]),
+                RunEveryType = (RepeatType)int.Parse(values[11]),
+                Enabled = bool.Parse(values[12]),
+                ScheduleFor = UUID.Parse(values[13])
+            };
         }
 
         #endregion

@@ -30,7 +30,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
 using Nini.Config;
-using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Other;
@@ -41,10 +40,8 @@ namespace Vision.Services
     public class Scheduler : ConnectorBase, IScheduleService, IService
     {
         public VisionEventManager EventManager = new VisionEventManager();
-        private ISchedulerDataPlugin m_database;
-        private bool m_enabled = false;
-
-        private readonly Timer scheduleTimer = new Timer();
+        ISchedulerDataPlugin m_database;
+        //        bool m_enabled;
 
         #region Implementation of IService
 
@@ -56,7 +53,8 @@ namespace Vision.Services
         public void Initialize(IConfigSource config, IRegistryCore registry)
         {
             registry.RegisterModuleInterface<IScheduleService>(this);
-            base.Init(registry, "Scheduler");
+
+            Init(registry, "Scheduler");
         }
 
         /// <summary>
@@ -76,16 +74,9 @@ namespace Vision.Services
             if (!m_doRemoteCalls)
             {
                 m_database = Framework.Utilities.DataManager.RequestPlugin<ISchedulerDataPlugin>();
-                if (m_database != null)
-                    m_enabled = true;
+                //if (m_database != null)
+                //    m_enabled = true;
 
-                if (m_enabled)
-                {
-                    // don't want to start to soon
-                    scheduleTimer.Interval = 60000;
-                    scheduleTimer.Elapsed += t_Elapsed;
-                    scheduleTimer.Start();
-                }
             }
         }
 
@@ -93,45 +84,41 @@ namespace Vision.Services
 
         #region Implementation of IScheduleService
 
-        public bool Register(SchedulerItem I, OnGenericEventHandler handler)
-        {
-            if (m_doRemoteCalls) return false;
-            EventManager.RegisterEventHandler(I.FireFunction, handler);
-            return true;
-        }
-
-
-        public bool Register(string fName, OnGenericEventHandler handler)
-        {
-            if (m_doRemoteCalls) return false;
-            EventManager.RegisterEventHandler(fName, handler);
-            return true;
-        }
-
         [CanBeReflected(ThreatLevel = ThreatLevel.High, RenamedMethod = "SchedulerSave")]
         public string Save(SchedulerItem I)
         {
             if (m_doRemoteCalls)
-                return (string) DoRemote(I);
+                return (string)DoRemote(I);
             return m_database.SchedulerSave(I);
         }
 
-        [CanBeReflected(ThreatLevel = ThreatLevel.High, RenamedMethod = "SchedulerRemove")]
-        public void Remove(string id)
+        [CanBeReflected(ThreatLevel = ThreatLevel.High)]
+        public void RemoveID(string id)
         {
             if (m_doRemoteCalls)
             {
                 DoRemotePost(id);
                 return;
             }
-            m_database.SchedulerRemove(id);
+            m_database.SchedulerRemoveID(id);
+        }
+
+        [CanBeReflected(ThreatLevel = ThreatLevel.High)]
+        public void RemoveFireFunction(string identifier)
+        {
+            if (m_doRemoteCalls)
+            {
+                DoRemotePost(identifier);
+                return;
+            }
+            m_database.SchedulerRemoveFunction(identifier);
         }
 
         [CanBeReflected(ThreatLevel = ThreatLevel.Low, RenamedMethod = "SchedulerExist")]
         public bool Exist(string scdID)
         {
             if (m_doRemoteCalls)
-                return (bool) DoRemote(scdID);
+                return (bool)DoRemote(scdID);
             return m_database.SchedulerExist(scdID);
         }
 
@@ -139,7 +126,7 @@ namespace Vision.Services
         public SchedulerItem Get(string ID)
         {
             if (m_doRemoteCalls)
-                return (SchedulerItem) DoRemote(ID);
+                return (SchedulerItem)DoRemote(ID);
             return m_database.Get(ID);
         }
 
@@ -147,70 +134,16 @@ namespace Vision.Services
         public SchedulerItem Get(string scheduleFor, string fireFunction)
         {
             if (m_doRemoteCalls)
-                return (SchedulerItem) DoRemote(scheduleFor, fireFunction);
+                return (SchedulerItem)DoRemote(scheduleFor, fireFunction);
             return m_database.Get(scheduleFor, fireFunction);
         }
 
-        #endregion
-
-        #region Timer
-
-        private void t_Elapsed(object sender, ElapsedEventArgs e)
+        [CanBeReflected(ThreatLevel = ThreatLevel.Low)]
+        public SchedulerItem GetFunctionItem(string fireFunction)
         {
-            scheduleTimer.Enabled = false;
-            try
-            {
-                List<SchedulerItem> CurrentSchedule = m_database.ToRun();
-                foreach (SchedulerItem I in CurrentSchedule)
-                {
-                    FireEvent(I);
-                }
-            }
-            catch (Exception ee)
-            {
-                MainConsole.Instance.ErrorFormat("[Scheduler] t_Elapsed Error {0}", ee.ToString());
-            }
-            finally
-            {
-                scheduleTimer.Enabled = true;
-            }
-        }
-
-        private void FireEvent(SchedulerItem I)
-        {
-            try
-            {
-                // save changes before it fires in case its changed during the fire
-                I = m_database.SaveHistory(I);
-
-                if (I.RunOnce) I.Enabled = false;
-                if (I.Enabled) I.CalculateNextRunTime(I.TimeToRun);
-
-                if (!I.HistoryKeep)
-                    m_database.HistoryDeleteOld(I);
-                m_database.SchedulerSave(I);
-
-                // now fire
-                List<Object> reciept = EventManager.FireGenericEventHandler(I.FireFunction, I.FireParams);
-                if (!I.HistoryReceipt)
-                    I = m_database.SaveHistoryComplete(I);
-                else
-                {
-                    foreach (string results in reciept.Cast<string>().Where(results => results != ""))
-                    {
-                        m_database.SaveHistoryCompleteReciept(I.HistoryLastID, results);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                MainConsole.Instance.ErrorFormat("[Scheduler] FireEvent Error {0}: {1}", I.id, e.ToString());
-            }
-        }
-
-        public void MarkComplete(string history_id, string reciept)
-        {
-            m_database.SaveHistoryCompleteReciept(history_id, reciept);
+            if (m_doRemoteCalls)
+                return (SchedulerItem)DoRemote(fireFunction);
+            return m_database.GetFunctionItem(fireFunction);
         }
 
         #endregion
