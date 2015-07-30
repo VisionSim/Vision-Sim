@@ -88,8 +88,7 @@ namespace Vision.Modules.Currency
             ISceneManager manager = m_registry.RequestModuleInterface<ISceneManager>();
             if (manager != null)
             {
-                manager.OnAddedScene += (scene) =>
-                {
+                manager.OnAddedScene += (scene) => {
                     m_scenes.Add(scene);
                     scene.EventManager.OnNewClient += OnNewClient;
                     scene.EventManager.OnClosingClient += OnClosingClient;
@@ -97,8 +96,7 @@ namespace Vision.Modules.Currency
                     scene.EventManager.OnValidateBuyLand += EventManager_OnValidateBuyLand;
                     scene.RegisterModuleInterface<IMoneyModule>(this);
                 };
-                manager.OnCloseScene += (scene) =>
-                {
+                manager.OnCloseScene += (scene) => {
                     scene.EventManager.OnNewClient -= OnNewClient;
                     scene.EventManager.OnClosingClient -= OnClosingClient;
                     scene.EventManager.OnMakeRootAgent -= OnMakeRootAgent;
@@ -108,18 +106,13 @@ namespace Vision.Modules.Currency
                 };
             }
 
-
             // these are only valid if we are local
             if (!m_connector.DoRemoteCalls)
             {
-                //if ((m_connector.GetConfig().GiveStipends) && (m_connector.GetConfig().Stipend > 0))
-                //       new GiveStipends(m_connector.GetConfig(), m_registry, m_connector);
-
                 m_userInfoService = m_registry.RequestModuleInterface<IAgentInfoService>();
                 m_userAccountService = m_registry.RequestModuleInterface<IUserAccountService>();
 
                 AddCommands();
-
             }
         }
 
@@ -149,7 +142,6 @@ namespace Vision.Modules.Currency
 
                     // not validated
                     e.landValidated = false;
-
                 }
             }
             return false;
@@ -190,13 +182,6 @@ namespace Vision.Modules.Currency
                     "show user purchases",
                     "Display user purchases for a period.",
                     HandleShowPurchases, false, true);
-
-                /*MainConsole.Instance.Commands.AddCommand(
-                      "stipend set",
-                      "stipend set",
-                      "Sets the next date for stipend",
-                      HandleStipendSet, false, true);
-                                    */
             }
         }
 
@@ -205,6 +190,11 @@ namespace Vision.Modules.Currency
         public string InWorldCurrencySymbol
         {
             get { return m_connector.InWorldCurrency; }
+        }
+
+        public bool IsLocal
+        {
+            get { return !m_connector.DoRemoteCalls; }
         }
 
         public int UploadCharge
@@ -319,6 +309,7 @@ namespace Vision.Modules.Currency
         {
             return m_connector.GetTransactionHistory(period, periodType, start, count);
         }
+
 
         public uint NumberOfPurchases(UUID UserID)
         {
@@ -665,16 +656,17 @@ namespace Vision.Modules.Currency
                     string rawDate = MainConsole.Instance.Prompt("Date to pay next Stipend? (MM/dd/yyyy)");
                     if (rawDate == "")
                         return;
-            
+
                     // Make a new DateTime from rawDate
                     DateTime newDate = DateTime.ParseExact(rawDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
-        //            GiveStipends.StipendDate = newDate;
+                    //GiveStipends.StipendDate = newDate;
 
                     // Code needs to be added to run through the scheduler and change the 
                     // RunsNext to the date that the user wants the scheduler to be
                     MainConsole.Instance.Info("Stipend Date has been set to" + newDate);
                 }
         */
+
         protected void HandleShowTransactions(IScene scene, string[] cmd)
         {
             UserAccount account = GetUserAccount();
