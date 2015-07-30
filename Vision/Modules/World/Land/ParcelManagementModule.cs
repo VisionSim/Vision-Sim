@@ -237,6 +237,8 @@ namespace Vision.Modules.Land
             get { return "LandManagementModule"; }
         }
 
+        public string AbandonmentData { get; private set; }
+
         #endregion
 
         #region MoneyModule pieces (for parcel directory payment)
