@@ -25,7 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.IO;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
@@ -36,11 +40,6 @@ using Vision.Framework.Servers.HttpServer;
 using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
-using System;
-using System.IO;
 
 namespace Vision.Modules.Auction
 {
@@ -144,7 +143,9 @@ namespace Vision.Modules.Auction
                     return;
                 landObject.LandData.SnapshotID = SnapshotID;
                 landObject.LandData.AuctionID = (uint) Util.RandomClass.Next(0, int.MaxValue);
-                landObject.LandData.Status = ParcelStatus.Abandoned;
+                //landObject.LandData.Status = ParcelStatus.Abandoned;
+                // Only when a parcel is Abandoned the will the Status change to Abandoned
+                // During an Auction the Status of the parcel stays Leased
                 landObject.SendLandUpdateToAvatarsOverMe();
             }
         }
