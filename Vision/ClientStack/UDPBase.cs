@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,8 +28,8 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
-using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
+using OpenMetaverse;
 using Vision.Framework.Utilities;
 
 namespace Vision.ClientStack
@@ -79,11 +79,11 @@ namespace Vision.ClientStack
         protected abstract void PacketReceived(UDPPacketBuffer buffer);
 
         /// <summary>
-        ///     Default initialiser
+        ///     Default Initialization
         /// </summary>
         /// <param name="bindAddress">Local IP address to bind the server to</param>
         /// <param name="port">Port to listening for incoming UDP packets on</param>
-        public virtual void Initialise(IPAddress bindAddress, int port)
+        public virtual void Initialize(IPAddress bindAddress, int port)
         {
             m_localBindAddress = bindAddress;
             m_udpPort = port;
@@ -128,7 +128,7 @@ namespace Vision.ClientStack
 
                 try
                 {
-                    // This udp socket flag is not supported under mono, 
+                    // This UDP socket flag is not supported under mono, 
                     // so we'll catch the exception and continue
                     if(Util.IsWindows())
                         m_udpSocket.IOControl(SIO_UDP_CONNRESET, new byte[] {0}, null);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,10 +28,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.Utilities;
+using OpenMetaverse;
 
 namespace Vision.Framework.SceneInfo.Entities
 {
@@ -275,7 +275,7 @@ namespace Vision.Framework.SceneInfo.Entities
         }
 
         /// <summary>
-        ///     Retrives the SceneObjectGroup of this child
+        ///     Retrieves the SceneObjectGroup of this child
         /// </summary>
         /// <param name="childkey"></param>
         /// <param name="obj"></param>
@@ -295,7 +295,7 @@ namespace Vision.Framework.SceneInfo.Entities
         }
 
         /// <summary>
-        ///     Retrives the SceneObjectGroup of this child
+        ///     Retrieves the SceneObjectGroup of this child
         /// </summary>
         /// <param name="childkey"></param>
         /// <param name="obj"></param>

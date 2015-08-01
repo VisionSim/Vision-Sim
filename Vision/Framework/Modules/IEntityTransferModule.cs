@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,12 +25,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using OpenMetaverse;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Services;
+using OpenMetaverse;
 using GridRegion = Vision.Framework.Services.GridRegion;
 
 namespace Vision.Framework.Modules
@@ -52,7 +52,7 @@ namespace Vision.Framework.Modules
         ///     Teleports the given agent to their home, and if it is not available, a welcome region
         /// </summary>
         /// <param name="id">The UUID of the client to teleport home</param>
-        /// <param name="client">The client to teleport hom</param>
+        /// <param name="client">The client to teleport home</param>
         bool TeleportHome(UUID id, IClientAPI client);
 
         /// <summary>

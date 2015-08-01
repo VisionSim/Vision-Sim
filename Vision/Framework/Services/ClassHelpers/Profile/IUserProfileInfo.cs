@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -26,10 +26,10 @@
  */
 
 using System;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
 using Vision.Framework.Modules;
 using Vision.Framework.Utilities;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 
 namespace Vision.Framework.Services.ClassHelpers.Profile
 {
@@ -90,7 +90,7 @@ namespace Vision.Framework.Services.ClassHelpers.Profile
         public int MaxMaturity = 2;
         
         /// <summary>
-        /// 	Hoverheight of the user
+        /// 	Hover height of the user
         /// </summary>
         public double HoverHeight = 0.0;
         
@@ -103,7 +103,7 @@ namespace Vision.Framework.Services.ClassHelpers.Profile
         
         /// <summary>
         ///     Other information can be stored in here.
-        ///     For ex, temperary ban info for this user
+        ///     For ex, temporary ban info for this user
         /// </summary>
         public OSDMap OtherAgentInformation = new OSDMap ();
 

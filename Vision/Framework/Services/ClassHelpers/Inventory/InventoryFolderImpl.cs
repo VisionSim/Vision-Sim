@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -310,12 +310,12 @@ namespace Vision.Framework.Services.ClassHelpers.Inventory
         /// <summary>
         ///     Find a folder given a PATH_DELIMITER delimited path starting from this folder
         /// </summary>
-        /// This method does not handle paths that contain multiple delimitors
+        /// This method does not handle paths that contain multiple delimiters
         /// 
         /// FIXME: We do not yet handle situations where folders have the same name.  We could handle this by some
         /// XPath like expression
         /// 
-        /// FIXME: Delimitors which occur in names themselves are not currently escapable.
+        /// FIXME: Delimiters which occur in names themselves are not currently escapable.
         /// <param name="path">
         ///     The path to the required folder.
         ///     It this is empty or consists only of the PATH_DELIMTER then this folder itself is returned.
@@ -351,10 +351,10 @@ namespace Vision.Framework.Services.ClassHelpers.Inventory
 
         /// <summary>
         ///     Find an item given a PATH_DELIMITOR delimited path starting from this folder.
-        ///     This method does not handle paths that contain multiple delimitors
+        ///     This method does not handle paths that contain multiple delimiters
         ///     FIXME: We do not yet handle situations where folders or items have the same name.  We could handle this by some
         ///     XPath like expression
-        ///     FIXME: Delimitors which occur in names themselves are not currently escapable.
+        ///     FIXME: Delimiters which occur in names themselves are not currently escapable.
         /// </summary>
         /// <param name="path">
         ///     The path to the required item.

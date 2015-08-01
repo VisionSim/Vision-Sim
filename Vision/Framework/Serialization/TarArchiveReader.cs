@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -103,7 +103,7 @@ namespace Vision.Framework.Serialization
         /// <summary>
         ///     Read the next 512 byte chunk of data as a tar header.
         /// </summary>
-        /// <returns>A tar header struct.  null if we have reached the end of the archive.</returns>
+        /// <returns>A tar header structure.  null if we have reached the end of the archive.</returns>
         protected TarHeader ReadHeader()
         {
             byte[] header = m_br.ReadBytes(512);

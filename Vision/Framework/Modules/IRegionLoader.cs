@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,8 +25,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Nini.Config;
 using Vision.Framework.SceneInfo;
+using Nini.Config;
 
 namespace Vision.Framework.Modules
 {
@@ -56,7 +56,7 @@ namespace Vision.Framework.Modules
         /// </summary>
         /// <param name="configSource"></param>
         /// <param name="simBase"></param>
-        void Initialise(IConfigSource configSource, ISimulationBase simBase);
+        void Initialize(IConfigSource configSource, ISimulationBase simBase);
 
         /// <summary>
         ///     Loads the region from all enabled plugins
@@ -65,7 +65,7 @@ namespace Vision.Framework.Modules
         RegionInfo LoadRegion();
 
         /// <summary>
-        ///     This updates a Regions info given by the param 'oldName' to the new region info given
+        ///     This updates a Regions info given by the parameter 'oldName' to the new region info given
         /// </summary>
         /// <param name="oldName"></param>
         /// <param name="regionInfo"></param>

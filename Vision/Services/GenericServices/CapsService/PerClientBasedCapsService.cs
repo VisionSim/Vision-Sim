@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,11 +28,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using OpenMetaverse;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Services;
+using OpenMetaverse;
+
 
 namespace Vision.Services
 {
@@ -94,7 +95,7 @@ namespace Vision.Services
             get { return m_CapsService.HostUri; }
         }
 
-        public void Initialise(ICapsService server, UUID agentID)
+        public void Initialize(ICapsService server, UUID agentID)
         {
             m_CapsService = server;
             m_agentID = agentID;
@@ -206,7 +207,7 @@ namespace Vision.Services
                 IRegionCapsService regionCaps = m_CapsService.GetCapsForRegion(regionID);
 
                 PerRegionClientCapsService regionClient = new PerRegionClientCapsService();
-                regionClient.Initialise(this, regionCaps, CAPSBase, circuitData, port);
+                regionClient.Initialize(this, regionCaps, CAPSBase, circuitData, port);
                 m_RegionCapsServices[regionID] = regionClient;
 
                 //Now get and add them

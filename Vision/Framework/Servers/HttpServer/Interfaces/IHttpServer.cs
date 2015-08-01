@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,12 +45,12 @@ namespace Vision.Framework.Servers.HttpServer.Interfaces
         string ServerURI { get; }
 
         /// <summary>
-        ///     The hostname (external IP or dns name) that this server is on (without http(s)://)
+        ///     The hostname (external IP or DNS name) that this server is on (without http(s)://)
         /// </summary>
         string HostName { get; set; }
 
         /// <summary>
-        ///     The hostname (external IP or dns name) that this server is on (with http(s)://)
+        ///     The hostname (external IP or DNS name) that this server is on (with http(s)://)
         /// </summary>
         string FullHostName { get; }
 

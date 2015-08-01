@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Aurora-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -75,7 +75,7 @@ namespace Vision.Modules.Currency
         // - Are the parcels in Search ?
         // - Yes, make a GroupLiability Task for each of the Parcels (Amount comes out of INI -> PriceDirectoryFee)
         // - Check if there's money in the Group
-        // - If there's money already there, substract the money by calling the Tasks
+        // - If there's money already there, subtract the money by calling the Tasks
         // - If there's no money, check which users have the "Accountability" role task and pull money from their accounts
         // into the group so the payments can be done
 

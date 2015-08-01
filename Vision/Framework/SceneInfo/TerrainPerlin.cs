@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -23,9 +23,7 @@
  * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
-/*
+ * 
  * Adapted for Vision from an article in gamedev magazine, with some additional ideas
  * from Christopher Breinholt: http://breinygames.blogspot.com.au
  * Rowan D <greythane@gmail.com> , Oct 2013
@@ -97,7 +95,7 @@ namespace Vision.Framework.SceneInfo
             int width = perlinNoise.Length;
             int height = perlinNoise[0].Length;
 
-            Color[][] image = GetEmptyArray<Color>(width, height); //an array of colours
+            Color[][] image = GetEmptyArray<Color>(width, height); //an array of colors
 
             for (int i = 0; i < width; i++)
             {
@@ -169,7 +167,7 @@ namespace Vision.Framework.SceneInfo
             int height = baseNoise[0].Length;
 
             float[][] smoothNoise;
-            float[][] perlinNoise = GetEmptyArray<float>(width, height); //an array of floats initialised to 0
+            float[][] perlinNoise = GetEmptyArray<float>(width, height); //an array of floats initialized to 0
 
             float persistance = 0.25f;
             float amplitude = 1.0f;
@@ -194,7 +192,7 @@ namespace Vision.Framework.SceneInfo
             // try and free up the bucket of memory we may have just used
             GC.Collect();
 
-            //normalisation
+            //normalization
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
@@ -424,7 +422,7 @@ namespace Vision.Framework.SceneInfo
             int width = image1.Length;
             int height = image1[0].Length;
 
-	        Color[][] image = GetEmptyArray<Color>(width, height); //an array of colours for the new image
+	        Color[][] image = GetEmptyArray<Color>(width, height); //an array of colors for the new image
             
             for (int i = 0; i < width; i++)
             {

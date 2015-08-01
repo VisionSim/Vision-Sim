@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,19 +28,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Web;
 using System.Xml;
-using Nini.Config;
-using OpenMetaverse;
 using Vision.Framework.Modules;
 using Vision.Framework.Servers;
 using Vision.Framework.Servers.HttpServer;
-using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Servers.HttpServer.Interfaces;
+using Nini.Config;
+using OpenMetaverse;
+using Vision.Framework.Servers.HttpServer.Implementation;
+using System.IO;
+using System.Text;
 
 namespace Vision.Framework.ConsoleFramework
 {

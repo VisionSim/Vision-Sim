@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,7 @@ using Vision.Framework.Services.ClassHelpers.Other;
 namespace Vision.Framework.SceneInfo
 {
     /// <value>
-    ///     Indicate what action to take on an object derez request
+    ///     Indicate what action to take on an object de-rez request
     /// </value>
     public enum DeRezAction : byte
     {

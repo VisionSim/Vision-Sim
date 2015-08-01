@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,7 +66,7 @@ using System.Text.RegularExpressions;
  * digest, with a list of recent messages by UUID.  This can
  * be used to prevent in-world repeater loops.  However, the
  * linden functions do not have this capability, so for now
- * thats the way it works.
+ * that's the way it works.
  * Instead it blocks messages originating from the same prim.
  * (not Object!)
  *
@@ -102,7 +102,7 @@ namespace Vision.Modules.Scripting
 
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource config)
+        public void Initialize(IConfigSource config)
         {
             // wrap this in a try block so that defaults will work if
             // the config file doesn't specify otherwise.
@@ -110,11 +110,11 @@ namespace Vision.Modules.Scripting
             int maxhandles = 64;
             try
             {
-                m_whisperdistance = config.Configs["Chat"].GetInt("whisper_distance", m_whisperdistance);
-                m_saydistance = config.Configs["Chat"].GetInt("say_distance", m_saydistance);
-                m_shoutdistance = config.Configs["Chat"].GetInt("shout_distance", m_shoutdistance);
-                maxlisteners = config.Configs["Chat"].GetInt("max_listens_per_region", maxlisteners);
-                maxhandles = config.Configs["Chat"].GetInt("max_listens_per_script", maxhandles);
+                m_whisperdistance = config.Configs["VisionChat"].GetInt("whisper_distance", m_whisperdistance);
+                m_saydistance = config.Configs["VisionChat"].GetInt("say_distance", m_saydistance);
+                m_shoutdistance = config.Configs["VisionChat"].GetInt("shout_distance", m_shoutdistance);
+                maxlisteners = config.Configs["VisionChat"].GetInt("max_listens_per_region", maxlisteners);
+                maxhandles = config.Configs["VisionChat"].GetInt("max_listens_per_script", maxhandles);
             }
             catch (Exception)
             {
@@ -294,7 +294,7 @@ namespace Vision.Modules.Scripting
         /// <summary>
         ///     Are there any listen events ready to be dispatched?
         /// </summary>
-        /// <returns>boolean indication</returns>
+        /// <returns>Boolean indication</returns>
         public bool HasMessages()
         {
             return m_pending.Count != 0;
@@ -700,12 +700,12 @@ namespace Vision.Modules.Scripting
 
         public ListenerInfo(int handle, UUID ItemID, UUID hostID, int channel, string name, UUID id, string message, int regexBitfield)
         {
-            Initialise(handle, ItemID, hostID, channel, name, id, message, regexBitfield);
+            Initialize(handle, ItemID, hostID, channel, name, id, message, regexBitfield);
         }
 
         public ListenerInfo(ListenerInfo li, string name, UUID id, string message)
         {
-            Initialise(li.m_handle, li.m_itemID, li.m_hostID, li.m_channel, name, id, message, 0);
+            Initialize(li.m_handle, li.m_itemID, li.m_hostID, li.m_channel, name, id, message, 0);
         }
 
         #region IWorldCommListenerInfo Members
@@ -776,7 +776,7 @@ namespace Vision.Modules.Scripting
 
         #endregion
 
-        private void Initialise(int handle, UUID ItemID, UUID hostID, int channel, string name,
+        private void Initialize(int handle, UUID ItemID, UUID hostID, int channel, string name,
                                 UUID id, string message, int regexBitfield)
         {
             m_active = true;

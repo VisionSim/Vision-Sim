@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,7 +57,7 @@ namespace Vision.Modules.Startup
 
         #region ISharedRegionStartupModule Members
 
-        public void Initialise(IScene scene, IConfigSource source, ISimulationBase simBase)
+        public void Initialize(IScene scene, IConfigSource source, ISimulationBase simBase)
         {
             if (MainConsole.Instance != null && m_backup.Count == 0) //Only add them once
             {
@@ -82,20 +82,20 @@ namespace Vision.Modules.Startup
             	MainConsole.Instance.Commands.AddCommand(
                     "disable backup",
                     "disable backup",
-                    "Disables persistance until re-enabled", 
+                    "Disables persistence until re-enabled", 
                     DisableBackup, true, false);
                 
             	MainConsole.Instance.Commands.AddCommand(
                     "enable backup",
                     "enable backup",
-                    "Enables persistance after 'disable backup' has been run",
+                    "Enables persistence after 'disable backup' has been run",
                     EnableBackup, true, false);
             }
             //Set up the backup for the scene
             m_backup[scene] = new InternalSceneBackup(scene);
         }
 
-        public void PostInitialise(IScene scene, IConfigSource source, ISimulationBase simBase)
+        public void PostInitialize(IScene scene, IConfigSource source, ISimulationBase simBase)
         {
         }
 

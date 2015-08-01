@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,40 +39,40 @@ namespace Vision.Framework.Modules
     {
         SystemGenerated = 0,
         // One-Time Charges
-        GroupCreate = 1002,
-        GroupJoin = 1004,
-        UploadCharge = 1101,
-        LandAuction = 1102,
-        ClassifiedCharge = 1103,
+        GroupCreate    	= 1002,
+        GroupJoin      	= 1004,
+        UploadCharge   	= 1101,
+        LandAuction    	= 1102,
+        ClassifiedCharge= 1103,
         // Recurrent Charges
-        ParcelDirFee = 2003,
+        ParcelDirFee  	= 2003,
         ClassifiedRenew = 2005,
-        ScheduledFee = 2900,
+        ScheduledFee    = 2900,
         // Inventory Transactions
-        GiveInventory = 3000,
+        GiveInventory   = 3000,
         // Transfers Between Users
-        ObjectSale = 5000,
-        Gift = 5001,
-        LandSale = 5002,
-        ReferBonus = 5003,
-        InvntorySale = 5004,
-        RefundPurchase = 5005,
-        LandPassSale = 5006,
-        DwellBonus = 5007,
-        PayObject = 5008,
-        ObjectPays = 5009,
-        BuyMoney = 5010,
-        MoveMoney = 5011,
+        ObjectSale     	= 5000,
+        Gift           	= 5001,
+        LandSale       	= 5002,
+        ReferBonus     	= 5003,
+        InvntorySale   	= 5004,
+        RefundPurchase 	= 5005,
+        LandPassSale   	= 5006,
+        DwellBonus     	= 5007,
+        PayObject      	= 5008,
+        ObjectPays     	= 5009,
+        BuyMoney       	= 5010,
+        MoveMoney      	= 5011,
         // Group Transactions
-        GroupLiability = 6003,
-        GroupDividend = 6004,
+        GroupLiability 	= 6003,
+        GroupDividend  	= 6004,
         // Event Transactions
-        EventFee = 9003,
-        EventPrize = 9004,
+        EventFee        = 9003,
+        EventPrize      = 9004,
         // Stipend Credits
-        StipendPayment = 10000
+        StipendPayment 	= 10000
     }
-
+            
     public class GroupBalance : IDataTransferable
     {
         public int TotalTierDebit = 0;
@@ -129,20 +129,21 @@ namespace Vision.Framework.Modules
 
         public override void FromOSD(OpenMetaverse.StructuredData.OSDMap map)
         {
-            ID = map["ID"];
-            Description = map["Description"];
-            FromAgent = map["FromAgent"];
-            FromAgentName = map["FromAgentName"];
-            ToAgent = map["ToAgent"];
-            ToAgentName = map["ToAgentName"];
-            Amount = map["Amount"];
-            TransferType = (TransactionType)Int32.Parse(map["TransferType"]);
-            TransferDate = map["TransferDate"];
-            ToBalance = map["ToBalance"];
-            FromBalance = map["FromBalance"];
-            FromObjectName = map["FromObjectName"];
-            ToObjectName = map["ToObjectName"];
-            RegionName = map["RegionName"];
+            ID = map ["ID"];
+            Description = map ["Description"];
+            FromAgent = map ["FromAgent"];
+            FromAgentName = map ["FromAgentName"];
+            ToAgent = map ["ToAgent"];
+            ToAgentName = map ["ToAgentName"];
+            Amount = map ["Amount"];
+            TransferType = (TransactionType)Int32.Parse (map ["TransferType"]);
+            TransferDate = map ["TransferDate"];
+            ToBalance = map ["ToBalance"];
+            FromBalance = map ["FromBalance"];
+            FromObjectName = map ["FromObjectName"];
+            ToObjectName = map ["ToObjectName"];
+            RegionName = map ["RegionName"];
+
         }
 
         public override OpenMetaverse.StructuredData.OSDMap ToOSD()
@@ -207,7 +208,7 @@ namespace Vision.Framework.Modules
     public interface IMoneyModule
     {
         string InWorldCurrencySymbol { get; }
-        bool IsLocal { get; }
+
         int UploadCharge { get; }
         int GroupCreationCharge { get; }
         int DirectoryFeeCharge { get; }
@@ -239,18 +240,18 @@ namespace Vision.Framework.Modules
 
         uint NumberOfTransactions(UUID toAgent, UUID fromAgent);
 
-        List<AgentTransfer> GetTransactionHistory(UUID toAgentID, UUID fromAgentID, DateTime dateStart, DateTime dateEnd, uint? start, uint? count);
-        List<AgentTransfer> GetTransactionHistory(UUID toAgentID, UUID fromAgentID, int period, string periodType);
-        List<AgentTransfer> GetTransactionHistory(UUID toAgentID, int period, string periodType);
-        List<AgentTransfer> GetTransactionHistory(DateTime dateStart, DateTime dateEnd, uint? start, uint? count);
-        List<AgentTransfer> GetTransactionHistory(int period, string periodType, uint? start, uint? count);
+        List<AgentTransfer> GetTransactionHistory (UUID toAgentID, UUID fromAgentID, DateTime dateStart, DateTime dateEnd, uint? start, uint? count);
+        List<AgentTransfer> GetTransactionHistory (UUID toAgentID, UUID fromAgentID, int period, string periodType);
+        List<AgentTransfer> GetTransactionHistory (UUID toAgentID, int period, string periodType);
+        List<AgentTransfer> GetTransactionHistory (DateTime dateStart, DateTime dateEnd, uint? start, uint? count);
+        List<AgentTransfer> GetTransactionHistory (int period, string periodType, uint? start, uint? count);
 
         uint NumberOfPurchases(UUID UserID);
 
-        List<AgentPurchase> GetPurchaseHistory(UUID UserID, DateTime dateStart, DateTime dateEnd, uint? start, uint? count);
-        List<AgentPurchase> GetPurchaseHistory(UUID toAgentID, int period, string periodType);
-        List<AgentPurchase> GetPurchaseHistory(DateTime dateStart, DateTime dateEnd, uint? start, uint? count);
-        List<AgentPurchase> GetPurchaseHistory(int period, string periodType, uint? start, uint? count);
+        List<AgentPurchase> GetPurchaseHistory (UUID UserID, DateTime dateStart, DateTime dateEnd, uint? start, uint? count);
+        List<AgentPurchase> GetPurchaseHistory (UUID toAgentID, int period, string periodType);
+        List<AgentPurchase> GetPurchaseHistory (DateTime dateStart, DateTime dateEnd, uint? start, uint? count);
+        List<AgentPurchase> GetPurchaseHistory (int period, string periodType, uint? start, uint? count);
 
     }
 
@@ -270,11 +271,19 @@ namespace Vision.Framework.Modules
         bool Charge(UUID agentID, int amount, string description, TransactionType transType, string identifier, bool chargeImmediately, bool runOnce);
         void RemoveFromScheduledCharge(string identifier);
         void RemoveDirFeeScheduledCharge(string identifier);
-        DateTime GetStipendPaytime(int minsOffset);
+        DateTime GetStipendPaytime (int minsOffset);
 
     }
 
     public interface IBaseCurrencyConnector : IVisionDataPlugin
     {
+        /*BaseCurrencyConfig GetConfig();
+        UserCurrency GetUserCurrency(UUID agentId);
+        bool UserCurrencyUpdate(UserCurrency agent);
+        GroupBalance GetGroupBalance(UUID groupID);
+
+        bool UserCurrencyTransfer(UUID toID, UUID fromID, UUID toObjectID, UUID fromObjectID, uint amount,
+                                  string description, TransactionType type, UUID transactionID);
+        */                          
     }
 }

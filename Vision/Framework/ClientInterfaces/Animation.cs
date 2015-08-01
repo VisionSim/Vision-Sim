@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -72,7 +72,7 @@ namespace Vision.Framework.ClientInterfaces
         }
 
         /// <summary>
-        ///     Animation from OSDMap from LLSD XML or LLSD json
+        ///     Animation from OSDMap from LLSD XML or LLSD JSON
         /// </summary>
         /// <param name="args"></param>
         public Animation(OSDMap args)
@@ -81,7 +81,7 @@ namespace Vision.Framework.ClientInterfaces
         }
 
         /// <summary>
-        ///     Pack this object up as an OSDMap for transferring via LLSD XML or LLSD json
+        ///     Pack this object up as an OSDMap for transferring via LLSD XML or LLSD JSON
         /// </summary>
         /// <returns></returns>
         public OSDMap ToOSD()

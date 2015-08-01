@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,7 +59,7 @@ namespace Vision.Modules.Wind.Plugins
             get { return "ConfigurableWind"; }
         }
 
-        public void Initialise()
+        public void Initialize()
         {
         }
 
@@ -208,8 +208,8 @@ namespace Vision.Modules.Wind.Plugins
         {
             MainConsole.Instance.InfoFormat("[ConfigurableWind] Average Strength   : {0}", m_avgStrength);
             MainConsole.Instance.InfoFormat("[ConfigurableWind] Average Direction  : {0}", m_avgDirection);
-            MainConsole.Instance.InfoFormat("[ConfigurableWind] Varience Strength  : {0}", m_varStrength);
-            MainConsole.Instance.InfoFormat("[ConfigurableWind] Varience Direction : {0}", m_varDirection);
+            MainConsole.Instance.InfoFormat("[ConfigurableWind] Variance Strength  : {0}", m_varStrength);
+            MainConsole.Instance.InfoFormat("[ConfigurableWind] Variance Direction : {0}", m_varDirection);
             MainConsole.Instance.InfoFormat("[ConfigurableWind] Rate Change        : {0}", m_rateChange);
         }
     }

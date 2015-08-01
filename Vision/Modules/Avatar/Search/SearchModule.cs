@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -326,7 +326,7 @@ namespace Vision.Modules.Search
         public virtual void HandleMapItemRequest (IClientAPI remoteClient, uint flags,
                                                  uint EstateID, bool godlike, uint itemtype, ulong regionhandle)
         {
-            //All the parts are in for this, except for popular places and those are not in as they are not reqested anymore.
+            //All the parts are in for this, except for popular places and those are not in as they are not requested anymore.
 
             List<mapItemReply> mapitems = new List<mapItemReply> ();
             mapItemReply mapitem = new mapItemReply ();
@@ -399,7 +399,7 @@ namespace Vision.Modules.Search
                         continue; //Not a PG land 
                     if (m_Scene.RegionInfo.RegionID == landdata.RegionID)
                     {
-                        //Global coords, so add the meters
+                        //Global coordinates, so add the meters
                         locX = m_Scene.RegionInfo.RegionLocX;
                         locY = m_Scene.RegionInfo.RegionLocY;
                     } else
@@ -423,7 +423,7 @@ namespace Vision.Modules.Search
                         Extra = landDir.actualArea,
                         Extra2 = landDir.salePrice
                     };
-                    //Global coords, so make sure its in meters
+                    //Global coordinates, so make sure its in meters
                     mapitems.Add (mapitem);
                 }
                 //Send all the map items
@@ -476,7 +476,7 @@ namespace Vision.Modules.Search
                         Extra = landDir.actualArea,
                         Extra2 = landDir.salePrice
                     };
-                    //Global coords, so make sure its in meters
+                    //Global coordinates, so make sure its in meters
 
                     mapitems.Add (mapitem);
                 }
@@ -664,7 +664,7 @@ namespace Vision.Modules.Search
 
         #region INonSharedRegionModule Members
 
-        public void Initialise (IConfigSource config)
+        public void Initialize (IConfigSource config)
         {
             IConfig searchConfig = config.Configs ["Search"];
             if (searchConfig != null) //Check whether we are enabled

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -504,7 +504,7 @@ namespace Vision.Modules.Ban
             }
             else if (GrieferAllowLevel == AllowLevel.AllowSuspected)
             {
-                //Block all alts of knowns, and suspected alts of knowns
+                //Block all alts of known, and suspected alts of known
                 if ((info.Flags & PresenceInfo.PresenceInfoFlags.Known) == PresenceInfo.PresenceInfoFlags.Known ||
                     (info.Flags & PresenceInfo.PresenceInfoFlags.SuspectedAltAccountOfKnown) ==
                     PresenceInfo.PresenceInfoFlags.SuspectedAltAccountOfKnown ||

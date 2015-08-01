@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -70,6 +70,7 @@ namespace Vision.Framework.Services.ClassHelpers.Inventory
 
         public UUID ParentID { get; set; }
 
+
         /* Current Inventory folder types (as they do not appear to be listed anywhere)
             -1  User Defined
             0	Textures
@@ -79,7 +80,7 @@ namespace Vision.Framework.Services.ClassHelpers.Inventory
             5	Clothing
             6	Objects
             7	Notecards
-            9	My Inventory ( OpenSimulator 0.7.x / WhiteCore)
+            9	My Inventory ( OpenSimulator 0.7.x / Vision)
             10	Scripts
             13	Body Parts
             14	Trash
@@ -97,7 +98,6 @@ namespace Vision.Framework.Services.ClassHelpers.Inventory
             53	Marketplace Listings
             100	My Suitcase
         */
-
         public short Type { get; set; }
 
         public ushort Version { get; set; }

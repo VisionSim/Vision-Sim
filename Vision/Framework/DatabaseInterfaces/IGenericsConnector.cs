@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,20 +25,18 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
 using Vision.Framework.Modules;
 using Vision.Framework.Services;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
+using System.Collections.Generic;
 
 namespace Vision.Framework.DatabaseInterfaces
 {
     /// <summary>
     ///     Some background to this class
     ///     This class saves any class that implements the IDataTransferable interface.
-    ///     When implementing the IDataTransferable interface, it is heavily recommending to implement ToOSD and FromOSD first, then use the Utility methods to convert OSDMaps into Dictionarys, as shown in the LandData class.
+    ///     When implementing the IDataTransferable interface, it is heavily recommending to implement ToOSD and FromOSD first, then use the Utility methods to convert OSDMaps into Dictionary's, as shown in the LandData class.
     ///     This method of saving uses 4 columns in the database, OwnerID, Type, Key, and Value
     ///     - OwnerID : This is a way to be able to save Agent or Region or anything with a UUID into the database and have it be set to that UUID only.
     ///     - Type : What made this data? This just tells what module created the given row in the database.

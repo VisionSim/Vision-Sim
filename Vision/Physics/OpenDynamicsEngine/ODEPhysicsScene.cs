@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,13 +31,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
-using Nini.Config;
-using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.Physics;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Utilities;
+using Nini.Config;
+using OpenMetaverse;
 
 namespace Vision.Physics.OpenDynamicsEngine
 {
@@ -251,7 +251,7 @@ namespace Vision.Physics.OpenDynamicsEngine
         }
 
         // Initialize the mesh plugin
-        public override void Initialise(IMesher meshmerizer, IScene scene)
+        public override void Initialize(IMesher meshmerizer, IScene scene)
         {
             mesher = meshmerizer;
             m_region = scene.RegionInfo;
@@ -259,7 +259,7 @@ namespace Vision.Physics.OpenDynamicsEngine
             WorldExtents = new Vector2(m_region.RegionSizeX, m_region.RegionSizeY);
         }
 
-        public override void PostInitialise(IConfigSource config)
+        public override void PostInitialize(IConfigSource config)
         {
             m_rayCastManager = new VisionODERayCastRequestManager(this);
             m_config = config;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,15 +25,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using Nini.Config;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.ModuleLoader;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
+using Nini.Config;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace Vision.CoreApplicationPlugins.RegionModulesController
 {
@@ -61,7 +61,7 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
         // The root of all evil.
         // This is where we handle adding the modules to scenes when they
         // load. This means that here we deal with replaceable interfaces,
-        // nonshared modules, etc.
+        // non-shared modules, etc.
         //
 
         protected Dictionary<IScene, Dictionary<string, IRegionModuleBase>> RegionModules =
@@ -78,7 +78,7 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
             Type s = scene.GetType();
             MethodInfo mi = s.GetMethod("RequestModuleInterface");
 
-            // Scan for, and load, nonshared modules
+            // Scan for, and load, non-shared modules
             List<INonSharedRegionModule> list = new List<INonSharedRegionModule>();
             List<INonSharedRegionModule> m_nonSharedModules = VisionModuleLoader.PickupModules<INonSharedRegionModule>();
             foreach (INonSharedRegionModule module in m_nonSharedModules)
@@ -103,8 +103,8 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
                 //MainConsole.Instance.DebugFormat("[REGIONMODULE]: Adding scene {0} to non-shared module {1}",
                 //                  scene.RegionInfo.RegionName, module.Name);
 
-                // Initialise the module
-                module.Initialise(m_simBase.ConfigSource);
+                // Initialize the module
+                module.Initialize(m_simBase.ConfigSource);
 
                 IRegionModuleBaseModules.Add(module);
                 list.Add(module);
@@ -112,7 +112,7 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
 
             // Now add the modules that we found to the scene. If a module
             // wishes to override a replaceable interface, it needs to
-            // register it in Initialise, so that the deferred module
+            // register it in Initialize, so that the deferred module
             // won't load.
             foreach (INonSharedRegionModule module in list)
             {
@@ -127,7 +127,7 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
                 AddRegionModule(scene, module.Name, module);
             }
 
-            // Same thing for nonshared modules, load them unless overridden
+            // Same thing for non-shared modules, load them unless overridden
             List<INonSharedRegionModule> deferredlist =
                 new List<INonSharedRegionModule>();
 
@@ -152,7 +152,7 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
 
                 try
                 {
-                    module.Initialise(m_simBase.ConfigSource);
+                    module.Initialize(m_simBase.ConfigSource);
                 }
                 catch (Exception ex)
                 {
@@ -185,7 +185,7 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
             // interface would be successful only depending on load order,
             // which can't be depended upon, or modules would need to resort
             // to ugly kludges to attempt to request interfaces when needed
-            // and unneccessary caching logic repeated in all modules.
+            // and unnecessary caching logic repeated in all modules.
             // The extra function stub is just that much cleaner
             //
             foreach (INonSharedRegionModule module in list)
@@ -259,7 +259,7 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
             {
                 try
                 {
-                    module.Initialise(config);
+                    module.Initialize(config);
                 }
                 catch (Exception ex)
                 {
@@ -268,7 +268,7 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
             }
         }
 
-        public void PostInitialise()
+        public void PostInitialize()
         {
         }
 

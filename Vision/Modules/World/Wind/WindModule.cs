@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -24,6 +24,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.ModuleLoader;
@@ -60,7 +61,7 @@ namespace Vision.Modules.Wind
 
         #region IRegion Methods
 
-        public void Initialise(IConfigSource config)
+        public void Initialize(IConfigSource config)
         {
             windConfig = config.Configs["Wind"];
             desiredWindPlugin = m_dWindPluginName;
@@ -104,7 +105,7 @@ namespace Vision.Modules.Wind
 
                     if (windConfig != null)
                     {
-                        m_activeWindPlugin.Initialise();
+                        m_activeWindPlugin.Initialize();
                         m_activeWindPlugin.WindConfig(m_scene, windConfig);
                     }
                 }
@@ -263,11 +264,11 @@ namespace Vision.Modules.Wind
         /// </summary>
         private void HandleConsoleParamCommand(IScene scene, string[] cmdparams)
         {
-            // wind <plugin> <param> [value]
+            // wind <plugin> <parameter> [value]
             if ((cmdparams.Length != 4)
                 && (cmdparams.Length != 3))
             {
-                MainConsole.Instance.Info("[WIND] Usage: wind <plugin> <param> [value]");
+                MainConsole.Instance.Info("[WIND] Usage: wind <plugin> <parameter> [value]");
                 return;
             }
 

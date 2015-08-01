@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,13 +25,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
 using System.Collections.Generic;
-using Nini.Config;
-using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
+using Nini.Config;
+using OpenMetaverse;
 
 namespace Vision.Framework.Physics
 {
@@ -102,8 +101,8 @@ namespace Vision.Framework.Physics
 
         public virtual int StatCollisionAccountingTime { get; protected set; }
 
-        public abstract void Initialise(IMesher meshmerizer, IScene scene);
-        public abstract void PostInitialise(IConfigSource config);
+        public abstract void Initialize(IMesher meshmerizer, IScene scene);
+        public abstract void PostInitialize(IConfigSource config);
         public abstract string EngineType { get; }
 
         public abstract PhysicsActor AddAvatar(string avName, Vector3 position, Quaternion rotation, Vector3 size,
@@ -220,12 +219,12 @@ namespace Vision.Framework.Physics
             get { return false; }
         }
 
-        public override void Initialise(IMesher meshmerizer, IScene scene)
+        public override void Initialize(IMesher meshmerizer, IScene scene)
         {
             // Does nothing right now
         }
 
-        public override void PostInitialise(IConfigSource config)
+        public override void PostInitialize(IConfigSource config)
         {
         }
 

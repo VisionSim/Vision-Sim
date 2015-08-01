@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,11 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.IO;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
+
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
@@ -40,6 +36,11 @@ using Vision.Framework.Servers.HttpServer;
 using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Utilities;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
+using System;
+using System.IO;
 
 namespace Vision.Modules.Auction
 {
@@ -49,7 +50,7 @@ namespace Vision.Modules.Auction
 
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource pSource)
+        public void Initialize(IConfigSource pSource)
         {
         }
 
@@ -143,9 +144,7 @@ namespace Vision.Modules.Auction
                     return;
                 landObject.LandData.SnapshotID = SnapshotID;
                 landObject.LandData.AuctionID = (uint) Util.RandomClass.Next(0, int.MaxValue);
-                //landObject.LandData.Status = ParcelStatus.Abandoned;
-                // Only when a parcel is Abandoned the will the Status change to Abandoned
-                // During an Auction the Status of the parcel stays Leased
+                landObject.LandData.Status = ParcelStatus.Abandoned;
                 landObject.SendLandUpdateToAvatarsOverMe();
             }
         }

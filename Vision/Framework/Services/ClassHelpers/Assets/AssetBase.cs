@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,16 +25,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.Diagnostics;
-using System.Security.Cryptography;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
-using ProtoBuf;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.Utilities;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
+using ProtoBuf;
+using System;
+using System.Diagnostics;
+using System.Security.Cryptography;
 
 namespace Vision.Framework.Services.ClassHelpers.Assets
 {
@@ -42,7 +42,7 @@ namespace Vision.Framework.Services.ClassHelpers.Assets
     public enum AssetFlags
     {
         Normal = 0, // Immutable asset
-        Maptile = 1, // Depriated, use Deletable instead: What it says
+        Maptile = 1, // Deprecated, use Deletable instead: What it says
         Rewritable = 2, // Content can be rewritten
         Collectable = 4, // Can be GC'ed after some time
         Deletable = 8, // The asset can be deleted

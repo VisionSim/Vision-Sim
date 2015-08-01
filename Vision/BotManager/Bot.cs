@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,14 +25,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Timers;
-using OpenMetaverse;
-using OpenMetaverse.Packets;
-using Vision.BotManager.AStar;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
@@ -43,6 +35,14 @@ using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Services.ClassHelpers.Inventory;
 using Vision.Framework.Services.ClassHelpers.Other;
 using Vision.Framework.Utilities;
+using OpenMetaverse;
+using OpenMetaverse.Packets;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Timers;
+using Vision.BotManager.AStar;
 
 namespace Vision.BotManager
 {
@@ -897,7 +897,7 @@ namespace Vision.BotManager
         void FollowDecision()
         {
             // FOLLOW an avatar - this is looking for an avatar UUID so wont follow a prim here  - yet
-            //Call this each iteration so that if the av leaves, we don't get stuck following a null person
+            //Call this each iteration so that if the avatar leaves, we don't get stuck following a null person
             FollowSP = m_controller.GetScene().GetScenePresence(FollowUUID);
             //If its still null, the person doesn't exist, cancel the follow and return
             if (FollowSP == null)
@@ -1224,7 +1224,7 @@ namespace Vision.BotManager
             if (failedToMove > 1)
             {
                 return Vector3.Zero;
-                //CleanUpPos (raycastEntities, entites, ref newPos);
+                //CleanUpPos (raycastEntities, entities, ref newPos);
             }
             return newPos;
         }
@@ -1968,7 +1968,7 @@ namespace Vision.BotManager
 
         public void Close(bool p)
         {
-            //raiseevent on the packet server to Shutdown the circuit
+            //raise event on the packet server to Shutdown the circuit
             if (OnLogout != null)
                 OnLogout(this);
             if (OnConnectionClosed != null)

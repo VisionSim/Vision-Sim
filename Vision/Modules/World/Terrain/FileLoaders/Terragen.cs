@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,6 +28,7 @@
 using System;
 using System.IO;
 using System.Text;
+
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Utilities;
@@ -109,7 +110,7 @@ namespace Vision.Modules.Terrain.FileLoaders
 
                             // if our region isn't the first X section of the areas to be landscaped, then
                             // advance the stream to the X start pos of our section in the file
-                            // i.e. eat X upto where we start
+                            // i.e. eat X up to where we start
                             while (currFileXOffset < offsetX)
                             {
                                 bs.ReadBytes(sectionWidth*2); // 2 bytes = short
@@ -265,7 +266,7 @@ namespace Vision.Modules.Terrain.FileLoaders
             bs.Write(Convert.ToInt16(0)); // necessary padding
 
             bs.Write(enc.GetBytes("SCAL"));
-            bs.Write(ToLittleEndian(1f)); //we're going to say that 1 terrain unit is 1 metre
+            bs.Write(ToLittleEndian(1f)); //we're going to say that 1 terrain unit is 1 meter
             bs.Write(ToLittleEndian(1f));
             bs.Write(ToLittleEndian(1f));
 
@@ -313,8 +314,8 @@ namespace Vision.Modules.Terrain.FileLoaders
         }
 
         /// <summary>
-        ///     terragen SCAL floats need to be written intel ordered regardless of
-        ///     big or little endian system
+        ///     Terragen SCAL floats need to be written Intel ordered regardless of
+        ///     big or little Endian system
         /// </summary>
         /// <param name="number"></param>
         /// <returns></returns>

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -26,10 +26,10 @@
  */
 
 using System;
-using OpenMetaverse;
 using Vision.Framework.ClientInterfaces;
-using Vision.Framework.SceneInfo;
 using Vision.Framework.Services.ClassHelpers.Assets;
+using OpenMetaverse;
+using Vision.Framework.SceneInfo;
 
 namespace Vision.Framework.Modules
 {
@@ -169,7 +169,7 @@ namespace Vision.Framework.Modules
         float UnackedBytes { get; }
 
         /// <summary>
-        ///     The number of downloads that the client has requested, but has not recieved at this time
+        ///     The number of downloads that the client has requested, but has not received at this time
         /// </summary>
         float PendingDownloads { get; }
 

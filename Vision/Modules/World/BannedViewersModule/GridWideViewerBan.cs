@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -105,7 +105,7 @@ namespace Vision.Modules.Ban
                 if (m_map == null)
                     return; //Can't find it
 
-                //This is the givaway texture!
+                //This is the giveaway texture!
                 for (int i = 0; i < textureEntry.FaceTextures.Length; i++)
                 {
                     if (textureEntry.FaceTextures[i] != null)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,9 +27,9 @@
 
 using System;
 using System.Collections.Generic;
-using OpenMetaverse;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
+using OpenMetaverse;
 
 namespace Vision.Framework.ClientInterfaces
 {
@@ -72,7 +72,7 @@ namespace Vision.Framework.ClientInterfaces
         }
 
         /// <summary>
-        ///     The type of message, eg say, shout, broadcast.
+        ///     The type of message, e.g. say, shout, broadcast.
         /// </summary>
         public ChatTypeEnum Type
         {

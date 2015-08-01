@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@ namespace Vision.Modules.Entities.ObjectDelete
     }
 
     /// <summary>
-    ///     Asynchronously derez objects.  This is used to derez large number of objects to inventory without holding
+    ///     Asynchronously de-rez objects.  This is used to de-rez large number of objects to inventory without holding
     ///     up the main client thread.
     /// </summary>
     public class AsyncSceneObjectGroupDeleter : INonSharedRegionModule, IAsyncSceneObjectGroupDeleter
@@ -63,7 +63,7 @@ namespace Vision.Modules.Entities.ObjectDelete
         private bool DeleteLoopInUse;
 
         /// <value>
-        ///     Is the deleter currently enabled?
+        ///     Is the module currently enabled?
         /// </value>
         public bool Enabled;
 
@@ -81,7 +81,7 @@ namespace Vision.Modules.Entities.ObjectDelete
             get { return null; }
         }
 
-        public void Initialise(IConfigSource source)
+        public void Initialize(IConfigSource source)
         {
         }
 

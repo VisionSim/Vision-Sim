@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,15 +25,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using Nini.Config;
 using Vision.DataManager.MySQL;
 using Vision.DataManager.SQLite;
+
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.ModuleLoader;
 using Vision.Framework.Modules;
 using Vision.Framework.Services;
+using Nini.Config;
+using System;
+using System.Collections.Generic;
 
 namespace Vision.Services.DataService
 {
@@ -42,7 +43,7 @@ namespace Vision.Services.DataService
         private string ConnectionString = "";
         private string StorageProvider = "";
 
-        public void Initialise(IConfigSource source, IRegistryCore simBase)
+        public void Initialize(IConfigSource source, IRegistryCore simBase)
         {
             IConfig m_config = source.Configs["VisionData"];
             if (m_config != null)
@@ -96,7 +97,7 @@ namespace Vision.Services.DataService
             }
         }
 
-        public void Initialise(IConfigSource source, IRegistryCore simBase, List<Type> types)
+        public void Initialize(IConfigSource source, IRegistryCore simBase, List<Type> types)
         {
             IConfig m_config = source.Configs["VisionData"];
             if (m_config != null)

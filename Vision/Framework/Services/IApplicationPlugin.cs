@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,12 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Nini.Config;
 using Vision.Framework.Modules;
+using Nini.Config;
 
 namespace Vision.Framework.Services
 {
@@ -60,7 +59,7 @@ namespace Vision.Framework.Services
         /// <summary>
         ///     Called when the application initialization is completed
         /// </summary>
-        void PostInitialise();
+        void PostInitialize();
 
         /// <summary>
         ///     Called when the application loading is completed
@@ -93,7 +92,7 @@ namespace Vision.Framework.Services
         /// </summary>
         /// <param name="table">table to update</param>
         /// <param name="values">dictionary of table fields and new values</param>
-        /// <param name="incrementValues">dictionary of table fields and integer to increment by (use negative ints to decrement)</param>
+        /// <param name="incrementValues">dictionary of table fields and integer to increment by (use negative integers to decrement)</param>
         /// <param name="queryFilter">filter to control which rows get updated</param>
         /// <param name="start">LIMIT start or LIMIT start, count</param>
         /// <param name="count">LIMIT start, count</param>

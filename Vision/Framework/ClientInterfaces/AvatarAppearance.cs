@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -28,12 +28,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Utilities;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 
 namespace Vision.Framework.ClientInterfaces
 {
@@ -274,7 +274,7 @@ namespace Vision.Framework.ClientInterfaces
 
         /// <summary>
         ///     Set up appearance textures.
-        ///     Returns boolean that indicates whether the new entries actually change the
+        ///     Returns Boolean that indicates whether the new entries actually change the
         ///     existing values.
         /// </summary>
         public bool SetTextureEntries(Primitive.TextureEntry textureEntry, out List<UUID> ChangedTextures)
@@ -320,7 +320,7 @@ namespace Vision.Framework.ClientInterfaces
 
         /// <summary>
         ///     Set up visual parameters for the avatar and refresh the avatar height
-        ///     Returns boolean that indicates whether the new entries actually change the
+        ///     Returns Boolean that indicates whether the new entries actually change the
         ///     existing values.
         /// </summary>
         public bool SetVisualParams(byte[] visualParams)
@@ -414,7 +414,7 @@ namespace Vision.Framework.ClientInterfaces
 
         /// <summary>
         ///     Get a list of the attachments, note that there may be
-        ///     duplicate attachpoints
+        ///     duplicate attach points
         /// </summary>
         public List<AvatarAttachment> GetAttachments()
         {
@@ -424,7 +424,7 @@ namespace Vision.Framework.ClientInterfaces
 
         /// <summary>
         ///     Get a list of the attachments, note that there may be
-        ///     duplicate attachpoints
+        ///     duplicate attach points
         /// </summary>
         public Dictionary<int, List<AvatarAttachment>> GetAttachmentsDictionary()
         {
@@ -472,10 +472,10 @@ namespace Vision.Framework.ClientInterfaces
 
         /// <summary>
         ///     DEPRECATED: USE SetAttachments now
-        ///     Add an attachment, if the attachpoint has the
+        ///     Add an attachment, if the attach point has the
         ///     0x80 bit set then we assume this is an append
         ///     operation otherwise we replace whatever is
-        ///     currently attached at the attachpoint
+        ///     currently attached at the attach point
         /// </summary>
         public bool SetAttachment(int attachpoint, UUID item, UUID asset)
         {

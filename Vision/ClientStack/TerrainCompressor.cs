@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,10 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
+
+using Vision.Framework.Utilities;
 using OpenMetaverse;
 using OpenMetaverse.Packets;
-using Vision.Framework.Utilities;
+using System;
 
 namespace Vision.ClientStack
 {
@@ -281,7 +282,7 @@ namespace Vision.ClientStack
                     uint minWbits = ((uint)wbits >> 1);
                     int wbitsMaxValue;
         */
-            // goal is to determ minimum number of bits to use so all data fits
+            // goal is to determine minimum number of bits to use so all data fits
             /*
                     wbits = (int)minWbits;
                     wbitsMaxValue = (1 << wbits);
@@ -405,8 +406,8 @@ namespace Vision.ClientStack
 
         private static void DCTLine16(float[] linein, float[] lineout, int line)
         {
-            // outputs transpose data (lines exchanged with coluns )
-            // so to save a bit of cpu when doing coluns
+            // outputs transpose data (lines exchanged with columns )
+            // so to save a bit of cpu when doing columns
             float total = 0.0f;
             int lineSize = line*Constants.TerrainPatchSize;
 

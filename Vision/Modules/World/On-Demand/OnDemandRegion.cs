@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,7 +62,7 @@ namespace Vision.Modules.OnDemand
 
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource source)
+        public void Initialize(IConfigSource source)
         {
         }
 
@@ -132,7 +132,7 @@ namespace Vision.Modules.OnDemand
                 if (m_zombieAgents.Contains(presence.UUID))
                 {
                     m_zombieAgents.Remove(presence.UUID);
-                    return; //It'll be readding an agent, don't kill the sim immediately
+                    return; //It'll be reading an agent, don't kill the sim immediately
                 }
                 //If all clients are out of the region, we can close it again
                 if (m_scene.RegionInfo.Startup == StartupType.Medium)

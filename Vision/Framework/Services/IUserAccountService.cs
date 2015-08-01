@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
 using System.Collections.Generic;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
@@ -168,7 +167,7 @@ namespace Vision.Framework.Services
         List<UserAccount> GetUserAccounts (List<UUID> scopeIDs, string query);
 
         /// <summary>
-        ///     Returns a paginated list of avatars that matches both the search criteriion and the scope ID passed
+        ///     Returns a paginated list of avatars that matches both the search criterion and the scope ID passed
         /// </summary>
         /// <param name="scopeIDs"></param>
         /// <param name="query"></param>
@@ -178,7 +177,7 @@ namespace Vision.Framework.Services
         List<UserAccount> GetUserAccounts (List<UUID> scopeIDs, string query, uint? start, uint? count);
 
         /// <summary>
-        ///     Returns a paginated list of avatars that matches both the search criteriion and the scope ID passed
+        ///     Returns a paginated list of avatars that matches both the search criterion and the scope ID passed
         /// </summary>
         /// <param name="scopeIDs"></param>
         /// <param name="level">greater than or equal to clause is used</param>
@@ -195,7 +194,7 @@ namespace Vision.Framework.Services
         uint NumberOfUserAccounts (List<UUID> scopeIDs, string query);
 
         /// <summary>
-        ///     Store the data given, wich replaces the stored data, therefore must be complete.
+        ///     Store the data given, which replaces the stored data, therefore must be complete.
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
@@ -239,7 +238,7 @@ namespace Vision.Framework.Services
         /// </summary>
         /// <param name="userID">The user's ID</param>
         /// <param name="password">The user's password</param>
-        /// <param name="archiveInformation">Whether or not we should store the account's name and account information so that the user's information inworld does not go null</param>
+        /// <param name="archiveInformation">Whether or not we should store the account's name and account information so that the user's information in world does not go null</param>
         /// <param name="wipeFromDatabase">Whether or not we should remove all of the user's data from other locations in the database</param>
         void DeleteUser (UUID userID, string name, string password, bool archiveInformation, bool wipeFromDatabase);
 
@@ -253,7 +252,7 @@ namespace Vision.Framework.Services
     }
 
     /// <summary>
-    ///     An interface for connecting to the user accounts datastore
+    ///     An interface for connecting to the user accounts data-store
     /// </summary>
     public interface IUserAccountData : IVisionDataPlugin
     {

@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,12 +27,12 @@
 
 using System;
 using System.Collections.Generic;
-using OpenMetaverse;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.Physics;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
+using OpenMetaverse;
 using GridRegion = Vision.Framework.Services.GridRegion;
 
 namespace Vision.Framework.PresenceInfo
@@ -60,7 +60,7 @@ namespace Vision.Framework.PresenceInfo
         IScene Scene { get; set; }
 
         /// <summary>
-        ///     The actual client base (it sends and recieves packets)
+        ///     The actual client base (it sends and receives packets)
         /// </summary>
         IClientAPI ControllingClient { get; }
 
@@ -135,7 +135,7 @@ namespace Vision.Framework.PresenceInfo
         bool IsBusy { get; set; }
 
         /// <summary>
-        ///     What state the avatar is in (has some OpenMetaverse enum for it)
+        ///     What state the avatar is in (has some OpenMetaverse Enum for it)
         /// </summary>
         byte State { get; set; }
 

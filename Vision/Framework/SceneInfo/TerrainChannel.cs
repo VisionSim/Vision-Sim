@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -26,9 +26,9 @@
  */
 
 using System;
-using OpenMetaverse;
 using Vision.Framework.Modules;
 using Vision.Framework.Utilities;
+using OpenMetaverse;
 
 namespace Vision.Framework.SceneInfo
 {
@@ -295,7 +295,7 @@ namespace Vision.Framework.SceneInfo
                 CreateFlatlandTerrain ();
             else if (tType.StartsWith("i"))                             // island
 				CreateIslandTerrain (min, max, smoothing);
-            else if (tType.StartsWith("a"))                             // auqatic
+            else if (tType.StartsWith("a"))                             // aquatic
                 CreateIslandTerrain (min, max, smoothing);              // TODO: fully sort this one out
             else if (tType.StartsWith("n"))                             // null space
                 CreateNullSpaceTerrain ();   
@@ -473,7 +473,7 @@ namespace Vision.Framework.SceneInfo
 			}
 		}
 
-		// original island from opensim
+		// original island from Opensim
 		void CreateAtolIslandTerrain()
 		{
 			m_map = null;

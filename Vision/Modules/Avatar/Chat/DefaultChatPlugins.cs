@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -209,7 +209,7 @@ namespace Vision.Modules.Chat
                     {
                         isGod = true;
 
-                        // add to authorised users
+                        // add to authorized users
                         if (!m_authorizedSpeakers.Contains (c.SenderUUID))
                             m_authorizedSpeakers.Add (c.SenderUUID);
 
@@ -217,7 +217,7 @@ namespace Vision.Modules.Chat
                             m_authList.Add (c.SenderUUID);
                     }
 
-                    //Check that the agent is allowed to speak in this reigon
+                    //Check that the agent is allowed to speak in this region
                     if (!m_authorizedSpeakers.Contains(c.SenderUUID))
                     {
                         //They can't talk, so block it
@@ -238,21 +238,21 @@ namespace Vision.Modules.Chat
                     {
                         chatModule.SayDistance = Convert.ToInt32(message[2]);
                         chatModule.TrySendChatMessage(senderSP, c.Position,
-                                                      UUID.Zero, "Chat", ChatTypeEnum.Region,
+                                                      UUID.Zero, "VisionChat", ChatTypeEnum.Region,
                                                       message[1] + " changed.", ChatSourceType.System, -1);
                     }
                     if (message[1] == "WhisperDistance")
                     {
                         chatModule.WhisperDistance = Convert.ToInt32(message[2]);
                         chatModule.TrySendChatMessage(senderSP, c.Position,
-                                                      UUID.Zero, "Chat", ChatTypeEnum.Region,
+                                                      UUID.Zero, "VisionChat", ChatTypeEnum.Region,
                                                       message[1] + " changed.", ChatSourceType.System, -1);
                     }
                     if (message[1] == "ShoutDistance")
                     {
                         chatModule.ShoutDistance = Convert.ToInt32(message[2]);
                         chatModule.TrySendChatMessage(senderSP, c.Position,
-                                                      UUID.Zero, "Chat", ChatTypeEnum.Region,
+                                                      UUID.Zero, "VisionChat", ChatTypeEnum.Region,
                                                       message[1] + " changed.", ChatSourceType.System, -1);
                     }
                     //Add the user to the list of allowed speakers and 'chat' admins
@@ -262,7 +262,7 @@ namespace Vision.Modules.Chat
                         c.Scene.TryGetAvatarByName(message[2], out NewSP);
                         m_authList.Add(NewSP.UUID);
                         chatModule.TrySendChatMessage(senderSP, c.Position,
-                                                      UUID.Zero, "Chat", ChatTypeEnum.Region,
+                                                      UUID.Zero, "VisionChat", ChatTypeEnum.Region,
                                                       message[2] + " added.", ChatSourceType.System, -1);
                     }
                     if (message[1] == "RemoveFromAuth")
@@ -271,7 +271,7 @@ namespace Vision.Modules.Chat
                         c.Scene.TryGetAvatarByName(message[2], out NewSP);
                         m_authList.Remove(NewSP.UUID);
                         chatModule.TrySendChatMessage(senderSP, c.Position,
-                                                      UUID.Zero, "Chat", ChatTypeEnum.Region,
+                                                      UUID.Zero, "VisionChat", ChatTypeEnum.Region,
                                                       message[2] + " added.", ChatSourceType.System, -1);
                     }
                     //Block chat from those not in the auth list
@@ -279,7 +279,7 @@ namespace Vision.Modules.Chat
                     {
                         m_blockChat = true;
                         chatModule.TrySendChatMessage(senderSP, c.Position,
-                                                      UUID.Zero, "Chat", ChatTypeEnum.Region, "Chat blocked.",
+                                                      UUID.Zero, "VisionChat", ChatTypeEnum.Region, "Chat blocked.",
                                                       ChatSourceType.System, -1);
                     }
                     //Allow chat from all again
@@ -287,17 +287,17 @@ namespace Vision.Modules.Chat
                     {
                         m_blockChat = false;
                         chatModule.TrySendChatMessage(senderSP, c.Position,
-                                                      UUID.Zero, "Chat", ChatTypeEnum.Region, "Chat allowed.",
+                                                      UUID.Zero, "VisionChat", ChatTypeEnum.Region, "Chat allowed.",
                                                       ChatSourceType.System, -1);
                     }
-                    //Remove speaking priviledges from an individual
+                    //Remove speaking privileges from an individual
                     if (message[1] == "RevokeSpeakingRights")
                     {
                         IScenePresence NewSP;
                         c.Scene.TryGetAvatarByName(message[2], out NewSP);
                         m_authorizedSpeakers.Remove(NewSP.UUID);
                         chatModule.TrySendChatMessage(senderSP, c.Position,
-                                                      UUID.Zero, "Chat", ChatTypeEnum.Region,
+                                                      UUID.Zero, "VisionChat", ChatTypeEnum.Region,
                                                       message[2] + " - revoked.", ChatSourceType.System, -1);
                     }
                     //Allow an individual to speak again
@@ -307,7 +307,7 @@ namespace Vision.Modules.Chat
                         c.Scene.TryGetAvatarByName(message[2], out NewSP);
                         m_authorizedSpeakers.Add(NewSP.UUID);
                         chatModule.TrySendChatMessage(senderSP, c.Position,
-                                                      UUID.Zero, "Chat", ChatTypeEnum.Region,
+                                                      UUID.Zero, "VisionChat", ChatTypeEnum.Region,
                                                       message[2] + " - revoked.", ChatSourceType.System, -1);
                     }
                 }

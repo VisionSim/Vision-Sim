@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,9 +27,9 @@
 
 using System;
 using System.Collections.Generic;
-using OpenMetaverse;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
+using OpenMetaverse;
 
 namespace Vision.Framework.Physics
 {
@@ -157,7 +157,7 @@ namespace Vision.Framework.Physics
         public virtual void RequestPhysicsterseUpdate()
         {
             // Make a temporary copy of the event to avoid possibility of
-            // a race condition if the last subscriber unsubscribes
+            // a race condition if the last subscriber unsubscribe's
             // immediately after the null check and before the event is raised.
             RequestTerseUpdate handler = OnRequestTerseUpdate;
 
@@ -168,7 +168,7 @@ namespace Vision.Framework.Physics
         public virtual void RaiseOutOfBounds(Vector3 pos)
         {
             // Make a temporary copy of the event to avoid possibility of
-            // a race condition if the last subscriber unsubscribes
+            // a race condition if the last subscriber unsubscribe's
             // immediately after the null check and before the event is raised.
             OutOfBounds handler = OnOutOfBounds;
 
@@ -310,7 +310,7 @@ namespace Vision.Framework.Physics
         public virtual bool CheckForRegionCrossing()
         {
             // Make a temporary copy of the event to avoid possibility of
-            // a race condition if the last subscriber unsubscribes
+            // a race condition if the last subscriber unsubscribe's
             // immediately after the null check and before the event is raised.
             checkForRegionCrossing handler = OnCheckForRegionCrossing;
 

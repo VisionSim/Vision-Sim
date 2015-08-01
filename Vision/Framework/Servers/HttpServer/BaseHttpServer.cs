@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,6 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Servers.HttpServer.Implementation;
+using Vision.Framework.Servers.HttpServer.Interfaces;
+using Nwc.XmlRpc;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,10 +36,6 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Xml;
-using Nwc.XmlRpc;
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Servers.HttpServer.Implementation;
-using Vision.Framework.Servers.HttpServer.Interfaces;
 
 namespace Vision.Framework.Servers.HttpServer
 {
@@ -90,7 +90,7 @@ namespace Vision.Framework.Servers.HttpServer
         }
 
         /// <summary>
-        /// The hostname (external IP or dns name) that this server is on (without http(s)://)
+        /// The hostname (external IP or DNS name) that this server is on (without http(s)://)
         /// </summary>
         /// <value>The name of the host.</value>
         public string HostName
@@ -100,7 +100,7 @@ namespace Vision.Framework.Servers.HttpServer
         }
 
         /// <summary>
-        /// The hostname (external IP or dns name) that this server is on (with http(s)://)
+        /// The hostname (external IP or DNS name) that this server is on (with http(s)://)
         /// </summary>
         /// <value>The full name of the host.</value>
         public string FullHostName
@@ -290,14 +290,14 @@ namespace Vision.Framework.Servers.HttpServer
         private string getDefaultHTTP404()
         {
             return
-                "<HTML><HEAD><TITLE>404 Page not found</TITLE><BODY><BR /><H1>Ooops!</H1><P>The page you requested has been obsconded with by knomes. Find hippos quick!</P><P>If you are trying to log-in, your link parameters should have: &quot;-loginpage " +
+                "<HTML><HEAD><TITLE>404 Page not found</TITLE><BODY><BR /><H1>Ooops!</H1><P>The page you requested has been absconded with by gnomes. Find hippos quick!</P><P>If you are trying to log-in, your link parameters should have: &quot;-loginpage " +
                  ServerURI + "/?method=login -loginuri " + ServerURI + "/&quot; in your link </P></BODY></HTML>";
         }
 
         private static string getDefaultHTTP500()
         {
             return
-                "<HTML><HEAD><TITLE>500 Internal Server Error</TITLE><BODY><BR /><H1>Ooops!</H1><P>The server you requested is overun by knomes! Find hippos quick!</P></BODY></HTML>";
+                "<HTML><HEAD><TITLE>500 Internal Server Error</TITLE><BODY><BR /><H1>Ooops!</H1><P>The server you requested is overrun by gnomes! Find hippos quick!</P></BODY></HTML>";
         }
 
         #endregion

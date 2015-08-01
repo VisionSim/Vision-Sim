@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,7 +63,7 @@ namespace Vision.Modules.InventoryAccess
             get { return "BasicInventoryAccessModule"; }
         }
 
-        public virtual void Initialise(IConfigSource source)
+        public virtual void Initialize(IConfigSource source)
         {
             IConfig moduleConfig = source.Configs["Modules"];
             if (moduleConfig != null)
@@ -77,7 +77,7 @@ namespace Vision.Modules.InventoryAccess
             }
         }
 
-        public virtual void PostInitialise()
+        public virtual void PostInitialize()
         {
         }
 
@@ -482,7 +482,7 @@ namespace Vision.Modules.InventoryAccess
                         item.EveryOnePermissions = group.RootChild.EveryoneMask & group.RootChild.NextOwnerMask;
                         item.GroupPermissions = group.RootChild.GroupMask & group.RootChild.NextOwnerMask;
 
-                        // Magic number badness. Maybe this deserves an enum.
+                        // Magic number badness. Maybe this deserves an Enum.
                         // bit 4 (16) is the "Slam" bit, it means treat as passed
                         // and apply next owner perms on rez
                         item.CurrentPermissions |= 16; // Slam!

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -72,7 +72,7 @@ namespace Vision.Framework.Utilities
         /// <summary>
         /// Returns a formatted date string depending upon the system Locale.
         /// </summary>
-        /// <returns>The localised date.</returns>
+        /// <returns>The localized date.</returns>
         /// <param name="userDateTime">User date time.</param>
         /// <param name="dtFormat">DateTime format if required.</param>
         public static string LocaleDate(DateTime userDateTime, string dtFormat )

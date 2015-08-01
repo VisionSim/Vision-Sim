@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -102,12 +102,12 @@ namespace Vision.Framework.Utilities
                     else
                     {
                         // workers have no business on pool waiting times
-                        // that whould make interrelations very hard to debug
-                        // If a worker wants to delay its requeue, then he should for now sleep before
-                        // asking to be requeued.
+                        // that would make interrelations very hard to debug
+                        // If a worker wants to delay its re-queue, then he should for now sleep before
+                        // asking to be re-queued.
                         // in future we should add a trigger time delay as parameter to the queue request.
                         // so to release the thread sooner, like .net and mono can now do.
-                        // This control loop whould then have to look for those delayed requests.
+                        // This control loop would then have to look for those delayed requests.
                         // UBIT
                         OurSleepTime = m_info.InitialSleepTime;
                         item.Invoke();

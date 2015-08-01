@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,7 +44,7 @@ namespace Vision.Framework.Utilities
         /// <summary>
         ///     Register an interface to a region module.  This allows module methods to be called directly as
         ///     well as via events.  If there is already a module registered for this interface, it is not replaced
-        ///     (is this the best behaviour?)
+        ///     (is this the best behavior?)
         /// </summary>
         /// <param name="mod"></param>
         public void RegisterModuleInterface<T>(T mod)

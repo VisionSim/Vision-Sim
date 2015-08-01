@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,7 +57,7 @@ namespace Vision.Modules.Selection
 
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource source)
+        public void Initialize(IConfigSource source)
         {
 			IConfig visionstartupConfig = source.Configs["VisionStartup"];
 			if (visionstartupConfig != null)
@@ -191,7 +191,7 @@ namespace Vision.Modules.Selection
                         prim.ParentEntity.IsSelected = true;
                     }
                 }
-                //Check for avies! They arn't prims!
+                //Check for avatars! They aren't prims!
                 if (scene.GetScenePresence(primLocalID) != null)
                     continue;
 
@@ -226,7 +226,7 @@ namespace Vision.Modules.Selection
         }
 
         /// <summary>
-        ///     Handle the deselection of a prim from the client.
+        ///     Handle the de-selection of a prim from the client.
         /// </summary>
         /// <param name="primLocalID"></param>
         /// <param name="remoteClient"></param>
@@ -382,7 +382,7 @@ namespace Vision.Modules.Selection
                     return;
 
                 ISceneChildEntity SOP = m_SelectedUUID;
-                if (SOP == null) //This IS nesessary, this is how we can clear this out
+                if (SOP == null) //This IS necessary, this is how we can clear this out
                 {
                     IsSelecting = false;
                     return;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
 using System.Collections.Generic;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo.Entities;
@@ -56,9 +55,9 @@ namespace Vision.Framework.SceneInfo
         string BackupFile { get; set; }
 
         /// <summary>
-        ///     Initialises the data storage engine
+        ///     Initializes the data storage engine
         /// </summary>
-        void Initialise();
+        void Initialize();
 
         /// <summary>
         ///     Entirely removes the region, this includes everything about the region
@@ -137,7 +136,7 @@ namespace Vision.Framework.SceneInfo
         RegionInfo CreateNewRegion(ISimulationBase simBase, RegionInfo regionInfo, Dictionary<string, int> currentInfo);
 
         /// <summary>
-        ///     Load all region infos available
+        ///     Load all region info available
         /// </summary>
         /// <param name="simBase"></param>
         /// <param name="newRegion"></param>
@@ -159,7 +158,7 @@ namespace Vision.Framework.SceneInfo
         void SetRegion(IScene scene);
 
         /// <summary>
-        ///     Forces the datastore to backup the region
+        ///     Forces the data-store to backup the region
         /// </summary>
         void ForceBackup();
 

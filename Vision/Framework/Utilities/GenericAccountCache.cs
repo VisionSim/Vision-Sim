@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
 using System.Collections.Generic;
 using OpenMetaverse;
 
@@ -40,7 +39,7 @@ namespace Vision.Framework.Utilities
     public class GenericAccountCache<T> where T : BaseCacheAccount
     {
         private double CACHE_EXPIRATION_SECONDS = 6*60*1000;
-        // 6 hour cache on useraccounts, since they should not change
+        // 6 hour cache on user accounts, since they should not change
 
         private bool m_allowNullCaching = true;
         private readonly ExpiringCache<string, UUID> m_NameCache;

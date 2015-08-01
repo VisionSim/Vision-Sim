@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,7 +55,7 @@ namespace Vision.Modules.ObjectCache
 
         #region INonSharedRegionModule
 
-        public virtual void Initialise(IConfigSource source)
+        public virtual void Initialize(IConfigSource source)
         {
             IConfig moduleConfig = source.Configs["ObjectCache"];
             if (moduleConfig != null)
@@ -181,7 +181,7 @@ namespace Vision.Modules.ObjectCache
             catch
             {
                 //It has an error, destroy the cache
-                //null will tell the caller that it errored out and needs to be removed
+                //null will tell the caller that it has errors and needs to be removed
                 cache = null;
             }
             return cache;
@@ -241,7 +241,7 @@ namespace Vision.Modules.ObjectCache
 
         #endregion
 
-        public virtual void PostInitialise()
+        public virtual void PostInitialize()
         {
         }
 

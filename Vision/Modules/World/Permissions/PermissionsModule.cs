@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -226,7 +226,7 @@ namespace Vision.Modules.Permissions
 
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource config)
+        public void Initialize(IConfigSource config)
         {
             PermissionsConfig = config.Configs["Permissions"];
 
@@ -836,7 +836,7 @@ namespace Vision.Modules.Permissions
 
         private bool CanPushObject(UUID userID, ILandObject parcel)
         {
-            //This is used to check who is pusing objects in the parcel
+            //This is used to check who is pushing objects in the parcel
             //When this is called, the AllowPushObject flag has already been checked
 
             return GenericParcelPermission(userID, parcel, (ulong) GroupPowers.ObjectManipulate);

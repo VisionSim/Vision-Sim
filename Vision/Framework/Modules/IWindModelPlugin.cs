@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,18 +25,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
 using System.Collections.Generic;
+using Vision.Framework.SceneInfo;
 using Nini.Config;
 using OpenMetaverse;
-using Vision.Framework.SceneInfo;
 
 namespace Vision.Framework.Modules
 {
     public interface IWindModelPlugin
     {
         /// <summary>
-        ///     Brief description of this plugin's wind model
+        ///     Brief description of this Wind model plugin
         /// </summary>
         string Description { get; }
 
@@ -83,6 +82,6 @@ namespace Vision.Framework.Modules
         /// </summary>
         float WindParamGet(string param);
 
-        void Initialise();
+        void Initialize();
     }
 }

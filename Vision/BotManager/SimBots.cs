@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,7 @@ namespace Vision.BotManager
         ///     This is used to search the current map for
         ///     Items that the bot needs. Like when he is hungry he will search for 9 on the map
         ///     Fun is 7 and Comfort is 8 etc.
-        ///     This returns the x and y to BotMe and then he passes them on to Astar and builds a list of waypoints to
+        ///     This returns the x and y to Bot(Me) and then he passes them on to Astar and builds a list of waypoints to
         ///     Reach the goal.
         /// </summary>
         public static double distTarget
@@ -52,7 +52,7 @@ namespace Vision.BotManager
         public static int[] CheckMap(int[,] currentMap, int xsize, int ysize, int botx, int boty, int type)
         {
             // This searches the current map for the number of his needs
-            // It grabs the closest one and then returns it to Botme so he can path to it
+            // It grabs the closest one and then returns it to Bot(me) so he can path to it
             // Hunger = 6   Comfort = 7   Fun = 8  Personal = 9     5 is reserved for walls
             target = 500;
             int i = 0;

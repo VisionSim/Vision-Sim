@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,7 +31,7 @@ using System.Collections;
 namespace Vision.BotManager.AStar
 {
     /// <summary>
-    ///     Test class for doing A* pathfinding on a 2D map.
+    ///     Test class for doing A* path finding on a 2D map.
     /// </summary>
     internal class MainClass
     {

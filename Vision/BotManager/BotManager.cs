@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,7 +51,7 @@ namespace Vision.BotManager
 
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource source)
+        public void Initialize(IConfigSource source)
         {
         }
 
@@ -90,7 +90,7 @@ namespace Vision.BotManager
         #region IBotManager
 
         /// <summary>
-        ///     Creates a new bot inworld
+        ///     Creates a new bot in world
         /// </summary>
         /// <param name="firstName"></param>
         /// <param name="lastName"></param>
@@ -144,7 +144,7 @@ namespace Vision.BotManager
             }
 
             scene.AuthenticateHandler.AgentCircuits.Add(m_character.CircuitCode, m_aCircuitData);
-            //This adds them to the scene and sets them inworld
+            //This adds them to the scene and sets them in world
             AddAndWaitUntilAgentIsAdded(scene, m_character);
 
             IScenePresence SP = scene.GetScenePresence(m_character.AgentId);

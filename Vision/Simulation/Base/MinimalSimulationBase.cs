@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,12 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Timers;
-using Nini.Config;
-using OpenMetaverse;
+
 using Vision.Framework.Configuration;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.ModuleLoader;
@@ -43,6 +38,12 @@ using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Other;
 using Vision.Framework.Utilities;
 using Vision.Services.DataService;
+using Nini.Config;
+using OpenMetaverse;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Timers;
 
 namespace Vision.Simulation.Base
 {
@@ -310,7 +311,7 @@ namespace Vision.Simulation.Base
         public virtual void InitializeModules()
         {
             LocalDataService lds = new LocalDataService();
-            lds.Initialise(ConfigSource, ApplicationRegistry, m_dataPlugins);
+            lds.Initialize(ConfigSource, ApplicationRegistry, m_dataPlugins);
 
             List<dynamic> modules = new List<dynamic>();
             foreach (Type t in m_servicePlugins)

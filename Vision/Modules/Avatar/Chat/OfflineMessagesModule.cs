@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -53,7 +53,7 @@ namespace Vision.Modules.Chat
         Dictionary<UUID, List<GridInstantMessage>> m_offlineMessagesCache =
             new Dictionary<UUID, List<GridInstantMessage>>();
 
-        public void Initialise(IConfigSource config)
+        public void Initialize(IConfigSource config)
         {
             IConfig cnf = config.Configs["Messaging"];
             if (cnf != null)
@@ -93,7 +93,7 @@ namespace Vision.Modules.Chat
                     m_Scene = null;
 
                     MainConsole.Instance.Error(
-                        "[OFFLINE MESSAGING] No message transfer module or OfflineMessagesConnector is enabled. Diabling offline messages");
+                        "[OFFLINE MESSAGING] No message transfer module or OfflineMessagesConnector is enabled. Disabling offline messages");
                     return;
                 }
                 m_TransferModule.OnUndeliveredMessage += UndeliveredMessage;

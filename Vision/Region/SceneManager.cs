@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -24,6 +24,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 
 using System;
 using System.Collections;
@@ -134,7 +135,7 @@ namespace Vision.Region
                 Console.Read(); //Wait till they see
                 Environment.Exit(0);
             }
-            m_selectedDataService.Initialise();
+            m_selectedDataService.Initialize();
 
             AddConsoleCommands();
 
@@ -149,11 +150,11 @@ namespace Vision.Region
             foreach (IScene scene in m_scenes)
             {
                 scene.Config = config;
-                scene.PhysicsScene.PostInitialise(config);
+                scene.PhysicsScene.PostInitialize(config);
             }
         }
 
-        public void PostInitialise()
+        public void PostInitialize()
         {
         }
 
@@ -455,7 +456,7 @@ namespace Vision.Region
             //First, Initialize the SharedRegionStartupModule
             foreach (ISharedRegionStartupModule module in m_startupPlugins)
             {
-                module.Initialise(scene, m_config, m_SimBase);
+                module.Initialize(scene, m_config, m_SimBase);
             }
             //Then do the ISharedRegionModule and INonSharedRegionModules
             MainConsole.Instance.Debug("[Modules]: Loading region modules");
@@ -469,7 +470,7 @@ namespace Vision.Region
             //Then finish the rest of the SharedRegionStartupModules
             foreach (ISharedRegionStartupModule module in m_startupPlugins)
             {
-                module.PostInitialise(scene, m_config, m_SimBase);
+                module.PostInitialize(scene, m_config, m_SimBase);
             }
             foreach (ISharedRegionStartupModule module in m_startupPlugins)
             {
@@ -1107,7 +1108,7 @@ namespace Vision.Region
                 (m_scenes.IndexOf(scene) == 0) )
             {
                 MainConsole.Instance.Info ("[SceneManager]: Operating on the 'root' scene will run this command for all regions");
-                //if (MainConsole.Instance.Prompt ("Are you sure you want to do this? (yes/no)", "no") != "yes")
+                //    if (MainConsole.Instance.Prompt ("Are you sure you want to do this? (yes/no)", "no") != "yes")
                 //    return;
             }
            

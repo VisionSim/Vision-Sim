@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -49,7 +49,7 @@ namespace Vision.Modules
 
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource source)
+        public void Initialize(IConfigSource source)
         {
         }
 
@@ -88,13 +88,13 @@ namespace Vision.Modules
         {
             OSDMap retVal = new OSDMap();
             retVal["EnvironmentSettings"] = CapsUtil.CreateCAPS("EnvironmentSettings", "");
-            //Sets the windlight settings
+            //Sets the Windlight settings
             server.AddStreamHandler(new GenericStreamHandler("POST", retVal["EnvironmentSettings"],
                                                              delegate(string path, Stream request,
                                                                       OSHttpRequest httpRequest,
                                                                       OSHttpResponse httpResponse)
                                                                  { return SetEnvironment(request, agentID); }));
-            //Sets the windlight settings
+            //Sets the Windlight settings
             server.AddStreamHandler(new GenericStreamHandler("GET", retVal["EnvironmentSettings"],
                                                              delegate(string path, Stream request,
                                                                       OSHttpRequest httpRequest,
@@ -120,7 +120,7 @@ namespace Vision.Modules
             }
             else
             {
-                fail_reason = "You don't have permissions to set the windlight settings here.";
+                fail_reason = "You don't have permissions to set the Windlight settings here.";
                 SP.ControllingClient.SendAlertMessage(
                     "You don't have the correct permissions to set the Windlight Settings");
             }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -140,12 +140,12 @@ namespace Vision.Modules.DefaultInventoryIARLoader
 
             if (alreadyExists)
             {
-                MainConsole.Instance.InfoFormat("[LIBRARY INVENTORY]: Found previously loaded iar file {0}, ignoring.",
+                MainConsole.Instance.InfoFormat("[LIBRARY INVENTORY]: Found previously loaded IAR file {0}, ignoring.",
                                                 iarFileName);
                 return;
             }
 
-            MainConsole.Instance.InfoFormat("[LIBRARY INVENTORY]: Loading iar file {0}", iarFileName);
+            MainConsole.Instance.InfoFormat("[LIBRARY INVENTORY]: Loading IAR file {0}", iarFileName);
             InventoryFolderBase rootFolder = m_MockScene.InventoryService.GetRootFolder(uinfo.PrincipalID);
 
             if (null == rootFolder)

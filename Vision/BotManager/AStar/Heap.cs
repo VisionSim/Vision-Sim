@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -453,7 +453,7 @@ namespace Vision.BotManager.AStar
 
         /// <summary>
         ///     Removes all duplicates in the list.
-        ///     Each value encountered will have only one representant.
+        ///     Each value encountered will have only one representant
         /// </summary>
         public void RemoveDuplicates()
         {

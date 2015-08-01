@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,10 +27,10 @@
 
 using System;
 using System.Collections.Generic;
+using Vision.Framework.Modules;
 using Nini.Config;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
-using Vision.Framework.Modules;
 
 namespace Vision.Framework.Services
 {
@@ -123,14 +123,14 @@ namespace Vision.Framework.Services
         IAgentInfoService InnerService { get; }
 
         /// <summary>
-        ///     Get the user infos for the given user
+        ///     Get the user info for the given user
         /// </summary>
         /// <param name="userID">The ID of the user to fetch info of</param>
         /// <returns></returns>
         UserInfo GetUserInfo(string userID);
 
         /// <summary>
-        ///     Get the user infos for the given users
+        ///     Get the user info's for the given users
         /// </summary>
         /// <param name="userIDs">A List of IDs for users to fetch info of</param>
         /// <returns></returns>

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,7 @@ namespace Vision.Modules.Caps
 
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource pSource)
+        public void Initialize(IConfigSource pSource)
         {
         }
 
@@ -140,7 +140,7 @@ namespace Vision.Modules.Caps
             Vector3 scale = Vector3.Zero;
             int state = 0;
 
-            if (r.Type != OSDType.Map) // not a proper req
+            if (r.Type != OSDType.Map) // not a proper request
                 return MainServer.BadRequest;
 
             OSDMap rm = (OSDMap) r;

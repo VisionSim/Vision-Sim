@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,11 +31,11 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
-using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Utilities;
+using OpenMetaverse;
 
 namespace Vision.ScriptEngine.DotNetEngine
 {
@@ -690,16 +690,16 @@ namespace Vision.ScriptEngine.DotNetEngine
             if (QIS.functionName != "link_message" &&
                 QIS.VersionID != Interlocked.Read(ref QIS.ID.VersionID))
             {
-                MainConsole.Instance.DebugFormat("[WDNE]: Found bad version ID in queue, resetting, {0} to {1}",
+                MainConsole.Instance.DebugFormat("[DNE]: Found bad version ID in queue, resetting, {0} to {1}",
                                                 QIS.VersionID, Interlocked.Read(ref QIS.ID.VersionID));
-                MainConsole.Instance.DebugFormat("[WDNE]:     Function: '{0}' in region {1}",
+                MainConsole.Instance.DebugFormat("[DNE]:     Function: '{0}' in region {1}",
 					QIS.functionName == "" ? QIS.functionName : "unknown",
                     QIS.ID.Part.ParentEntity.Scene.RegionInfo.RegionName);
                 //return;
             }
 
             if(MainConsole.Instance.IsTraceEnabled)
-                MainConsole.Instance.TraceFormat("[WDNE]: Running Event {0} in object {1} in region {2}",
+                MainConsole.Instance.TraceFormat("[DNE]: Running Event {0} in object {1} in region {2}",
                                            QIS.functionName, QIS.ID.Part,
                                            QIS.ID.Part.ParentEntity.Scene.RegionInfo.RegionName);
             if (!EventSchProcessQIS(ref QIS)) //Execute the event

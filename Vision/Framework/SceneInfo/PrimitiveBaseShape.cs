@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,10 +32,10 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using Vision.Framework.ConsoleFramework;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
 using ProtoBuf;
-using Vision.Framework.ConsoleFramework;
 
 namespace Vision.Framework.SceneInfo
 {
@@ -202,7 +202,7 @@ namespace Vision.Framework.SceneInfo
                 if (!Enum.IsDefined(typeof (HollowShape), hollowShapeByte))
                 {
                     MainConsole.Instance.WarnFormat(
-                        "[SHAPE]: Attempt to set a ProfileCurve with a hollow shape value of {0}, which isn't a valid enum.  Replacing with default shape.",
+                        "[SHAPE]: Attempt to set a ProfileCurve with a hollow shape value of {0}, which isn't a valid Enum.  Replacing with default shape.",
                         hollowShapeByte);
 
                     this._hollowShape = HollowShape.Same;
@@ -218,7 +218,7 @@ namespace Vision.Framework.SceneInfo
                 if (!Enum.IsDefined(typeof (ProfileShape), profileShapeByte))
                 {
                     MainConsole.Instance.WarnFormat(
-                        "[SHAPE]: Attempt to set a ProfileCurve with a profile shape value of {0}, which isn't a valid enum.  Replacing with square.",
+                        "[SHAPE]: Attempt to set a ProfileCurve with a profile shape value of {0}, which isn't a valid Enum.  Replacing with square.",
                         profileShapeByte);
 
                     this._profileShape = ProfileShape.Square;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,7 +31,7 @@ using OpenMetaverse.Packets;
 namespace Vision.Framework.ClientInterfaces
 {
     /// <summary>
-    ///     Enapsulate statistics for a simulator/scene.
+    ///     Encapsulate statistics for a simulator/scene.
     /// </summary>
     public class SimStats
     {

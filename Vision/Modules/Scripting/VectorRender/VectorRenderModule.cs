@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -105,7 +105,7 @@ namespace Vision.Modules.Scripting
 
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource config)
+        public void Initialize(IConfigSource config)
         {
             IConfig cfg = config.Configs["VectorRender"];
             if (null != cfg)
@@ -151,8 +151,8 @@ namespace Vision.Modules.Scripting
 
         private void Draw(string data, UUID id, string extraParams)
         {
-            // We need to cater for old scripts that didnt use extraParams neatly, they use either an integer size which represents both width and height, or setalpha
-            // we will now support multiple comma seperated params in the form  width:256,height:512,alpha:255
+            // We need to cater for old scripts that didn't use extraParams neatly, they use either an integer size which represents both width and height, or setalpha
+            // we will now support multiple comma separated parameters in the form  width:256,height:512,alpha:255
             int width = 256;
             int height = 256;
             int alpha = 255; // 0 is transparent
@@ -258,16 +258,16 @@ namespace Vision.Modules.Scripting
                     case "":
                         // blank string has been passed do nothing just use defaults
                         break;
-                    default: // this is all for backwards compat, all a bit ugly hopfully can be removed in future
+                    default: // this is all for backwards compatibility, all a bit ugly hopefully can be removed in future
                         // could be either set alpha or just an int
                         if (name == "setalpha")
                         {
-                            alpha = 0; // set the texture to have transparent background (maintains backwards compat)
+                            alpha = 0; // set the texture to have transparent background (maintains backwards compatibility)
                         }
                         else
                         {
                             // this function used to accept an int on its own that represented both 
-                            // width and height, this is to maintain backwards compat, could be removed
+                            // width and height, this is to maintain backwards compatibility, could be removed
                             // but would break existing scripts
                             temp = parseIntParam(name);
                             if (temp != -1)

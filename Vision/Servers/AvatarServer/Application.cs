@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,14 +27,14 @@
 
 using System;
 using System.Collections.Generic;
-using Vision.Framework.Modules;
 using Vision.Framework.Services;
 using Vision.Simulation.Base;
+using Vision.Framework.Modules;
 
 namespace Vision.Servers.AvatarServer
 {
     /// <summary>
-    ///     Starting class for the Vision Server
+    ///     Starting class for the Vision Sim Server
     /// </summary>
     public class Application
     {

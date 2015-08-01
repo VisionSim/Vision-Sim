@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -75,7 +75,7 @@ namespace Vision.Modules.Inventory
 
         #region INonSharedRegionModule members
 
-        public void Initialise(IConfigSource source)
+        public void Initialize(IConfigSource source)
         {
         }
 
@@ -190,7 +190,7 @@ namespace Vision.Modules.Inventory
     /// <param name="ownerID"></param>
         protected void HandleFetchInventory(IClientAPI remoteClient, UUID itemID, UUID ownerID)
         {
-            //MainConsole.Instance.Warn("[Scene.PacketHandler]: Depriated UDP Inventory request!");
+            //MainConsole.Instance.Warn("[Scene.PacketHandler]: Deprecated UDP Inventory request!");
             InventoryItemBase item = new InventoryItemBase(itemID, remoteClient.AgentId);
             item = m_scene.InventoryService.GetItem(item);
 
@@ -213,7 +213,7 @@ namespace Vision.Modules.Inventory
         protected void HandleFetchInventoryDescendents(IClientAPI remoteClient, UUID folderID, UUID ownerID,
                                                     bool fetchFolders, bool fetchItems, int sortOrder)
         {
-            //MainConsole.Instance.Warn("[Scene.PacketHandler]: Depriated UDP FetchInventoryDescendents request!");
+            //MainConsole.Instance.Warn("[Scene.PacketHandler]: Deprecated UDP FetchInventoryDescendents request!");
             if (folderID == UUID.Zero)
                 return;
 

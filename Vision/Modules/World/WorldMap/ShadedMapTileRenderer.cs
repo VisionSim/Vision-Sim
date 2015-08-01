@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,7 +44,7 @@ namespace Vision.Modules.WorldMap
 
         #region IMapTileTerrainRenderer Members
 
-        public void Initialise(IScene scene, IConfigSource config)
+        public void Initialize(IScene scene, IConfigSource config)
         {
             m_scene = scene;
             // m_config = config; // not used currently
@@ -79,7 +79,7 @@ namespace Vision.Modules.WorldMap
             {
                 for (int y = 0; y < m_scene.RegionInfo.RegionSizeY; y++)
                 {
-                    // Y flip the cordinates for the bitmap: hf origin is lower left, bm origin is upper left
+                    // Y flip the coordinates for the bitmap: hf origin is lower left, bm origin is upper left
                     int yr = (m_scene.RegionInfo.RegionSizeY - 1) - y;
 
                     float heightvalue = heightmap[x, y];

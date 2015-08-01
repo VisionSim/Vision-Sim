@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,10 +27,10 @@
 
 using System;
 using System.Collections.Generic;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Services.ClassHelpers.Inventory;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 
 namespace Vision.Framework.Services
 {
@@ -101,7 +101,7 @@ namespace Vision.Framework.Services
         bool ItemExists (UUID itemID);
 
         /// <summary>
-        /// Gets an exsting user folder.
+        /// Gets an existing user folder.
         /// </summary>
         /// <returns>The user folder.</returns>
         /// <param name="principalID">Principal I.</param>

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -328,7 +328,7 @@ namespace Vision.Modules.Ban
                      info.Flags == PresenceInfo.PresenceInfoFlags.Known ||
                      info.Flags == PresenceInfo.PresenceInfoFlags.SuspectedAltAccountOfKnown)
             {
-                //Flag 'em
+                //Flag them
                 AddFlag(ref info, PresenceInfo.PresenceInfoFlags.SuspectedAltAccountOfKnown);
                 AddFlag(ref suspectedInfo, PresenceInfo.PresenceInfoFlags.SuspectedAltAccountOfKnown);
             }
@@ -380,7 +380,7 @@ namespace Vision.Modules.Ban
                                  info.Flags == PresenceInfo.PresenceInfoFlags.Known ||
                                  info.Flags == PresenceInfo.PresenceInfoFlags.SuspectedAltAccountOfKnown)
                         {
-                            //Flag 'em
+                            //Flag them
                             AddFlag(ref altInfo, PresenceInfo.PresenceInfoFlags.SuspectedAltAccountOfKnown);
                         }
                         altInfo.KnownAlts = new List<string>(alts.Where(s => s != altInfo.AgentID.ToString()));

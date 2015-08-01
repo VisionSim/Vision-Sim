@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -207,7 +207,7 @@ namespace Vision.Modules.Chat
 
         #region INonSharedRegionModule Members
 
-        public void Initialise (IConfigSource config)
+        public void Initialize (IConfigSource config)
         {
             IConfig m_config = config.Configs ["Dialog"];
             if (m_config != null)
@@ -308,7 +308,7 @@ namespace Vision.Modules.Chat
 
                     MainConsole.Instance.InfoFormat ("[DIALOG]: Sending broadcast alert to all regions with message '{0}'",  message);
 
-                    // broadcst the message
+                    // broadcast the message
                     foreach (IScene scn in MainConsole.Instance.ConsoleScenes)
                     {
                         scn.ForEachScenePresence (delegate(IScenePresence sp) {

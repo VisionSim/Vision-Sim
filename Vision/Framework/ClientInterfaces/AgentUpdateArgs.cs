@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,7 +60,7 @@ namespace Vision.Framework.ClientInterfaces
         public Vector3 ClientAgentPosition;
 
         /// <summary>
-        ///     Bitflag field for agent movement.  Fly, forward, backward, turn left, turn right, go up, go down, Straffe, etc.
+        ///     Bitflag field for agent movement.  Fly, forward, backward, turn left, turn right, go up, go down, Strafe, etc.
         /// </summary>
         public uint ControlFlags;
 

@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,9 +25,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using Vision.Framework.ClientInterfaces;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
-using Vision.Framework.ClientInterfaces;
 
 namespace Vision.Framework.Services
 {
@@ -64,7 +64,7 @@ namespace Vision.Framework.Services
         void CreateGroupChat(UUID agentID, GridInstantMessage im);
 
         /// <summary>
-        ///     Checks to make sure a group conference session exsits for the given group
+        ///     Checks to make sure a group conference session exists for the given group
         /// </summary>
         /// <param name="groupID"></param>
         void EnsureSessionIsStarted(UUID groupID);

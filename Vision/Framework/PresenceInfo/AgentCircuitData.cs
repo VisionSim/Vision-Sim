@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -26,11 +26,11 @@
  */
 
 using System;
+using Vision.Framework.Modules;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
-using ProtoBuf;
-using Vision.Framework.Modules;
 using Vision.Framework.Services;
+using ProtoBuf;
 
 namespace Vision.Framework.PresenceInfo
 {
@@ -88,7 +88,7 @@ namespace Vision.Framework.PresenceInfo
         public uint CircuitCode;
 
         /// <summary>
-        ///     The real child boolean, OpenSim always sends false, so we read this for Vision regions
+        ///     The real child Boolean, OpenSim always sends false, so we read this for Vision regions
         /// </summary>
         [ProtoMember(8)]
         public bool IsChildAgent;

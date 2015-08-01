@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -131,7 +131,7 @@ textures 1
 
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource config)
+        public void Initialize(IConfigSource config)
         {
             if (config != null)
             {
@@ -957,7 +957,7 @@ textures 1
                     // the avatar finishes updating its appearance
                     SendAppearanceToAllOtherAgents();
 
-                    // This agent just became roo t. We are going to tell everyone about it. The process of
+                    // This agent just became root. We are going to tell everyone about it. The process of
                     // getting other avatars information was initiated in the constructor... don't do it 
                     // again here... 
                     SendAvatarDataToAllAgents(true);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -103,7 +103,7 @@ namespace Vision.Modules.Combat
             get { return null; }
         }
 
-        public void Initialise(IConfigSource source)
+        public void Initialize(IConfigSource source)
         {
             m_config = source.Configs["CombatModule"];
             if (m_config != null)
@@ -642,7 +642,7 @@ namespace Vision.Modules.Combat
                             HasLeftCombat = true;
                             Timer t = new Timer
                                           {Interval = m_combatModule.m_SecondsBeforeRespawn*1000, AutoReset = false};
-                            //Use this to reenable movement and combat
+                            //Use this to re-enable movement and combat
                             //Only once
                             t.Elapsed += respawn_Elapsed;
                             t.Start();

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -24,6 +24,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
@@ -64,7 +65,7 @@ namespace Vision.Modules.Land
         private readonly Dictionary<UUID, int> m_SimwideCounts =
             new Dictionary<UUID, int>();
 
-        // For now, a simple simwide taint to get this up. Later parcel based
+        // For now, a simple sim-wide taint to get this up. Later parcel based
         // taint to allow recounting a parcel if only ownership has changed
         // without recounting the whole sim.
         private readonly Object m_TaintLock = new Object();
@@ -78,7 +79,7 @@ namespace Vision.Modules.Land
             get { return null; }
         }
 
-        public void Initialise(IConfigSource source)
+        public void Initialize(IConfigSource source)
         {
         }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -216,7 +216,7 @@ namespace Vision.Modules.Scripting
 
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource config)
+        public void Initialize(IConfigSource config)
         {
         }
 
@@ -380,7 +380,7 @@ namespace Vision.Modules.Scripting
                     }
 
                     // I'm pretty sure we always want to force this to true
-                    // I'm pretty sure noone whats to set fullbright true if it wasn't true before.
+                    // I'm pretty sure no one wants to set fullbright true if it wasn't true before.
                     // tmptex.DefaultTexture.Fullbright = true;
 
                     part.UpdateTexture(tmptex, true);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -71,7 +71,7 @@ namespace Vision.Modules.Terrain.PaintBrushes
                         if (!map.Scene.Permissions.CanTerraformLand(userID, new Vector3(x, y, 0)))
                             continue;
 
-                        // Calculate a sphere and add it to the heighmap
+                        // Calculate a sphere and add it to the heightmap
                         float z = 0;
                         if (duration < 4.0)
                             z = TerrainUtil.SphericalFactor(x, y, rx, ry, strength)*duration*0.25f;

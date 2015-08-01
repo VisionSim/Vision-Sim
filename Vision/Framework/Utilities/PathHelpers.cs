@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -26,10 +26,10 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Text.RegularExpressions;
+using System.IO;
 using Vision.Framework.ConsoleFramework;
+using System.Collections.Generic;
 
 namespace Vision.Framework.Utilities
 {
@@ -93,7 +93,7 @@ namespace Vision.Framework.Utilities
         }
 
         /// <summary>
-        /// Verifies a file for writeing setting some defaults if needed.
+        /// Verifies a file for writing setting some defaults if needed.
         /// </summary>
         /// <returns>The write file.</returns>
         /// <param name="fileName">File name.</param>

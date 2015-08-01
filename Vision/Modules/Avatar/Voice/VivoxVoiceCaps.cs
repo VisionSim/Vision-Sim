@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -195,7 +195,7 @@ namespace Vision.Modules
                     String.IsNullOrEmpty(m_vivoxAdminUser) ||
                     String.IsNullOrEmpty(m_vivoxAdminPassword))
                 {
-                    MainConsole.Instance.Error("[VivoxVoice] plugin mis-configured");
+                    MainConsole.Instance.Error("[VivoxVoice] plugin has wrong configuration");
                     MainConsole.Instance.Info("[VivoxVoice] plugin disabled: incomplete configuration");
                     return;
                 }
@@ -417,7 +417,7 @@ namespace Vision.Modules
 
                 // Make sure that all local channels are deleted.
                 // So we have to search for the children, and then do an
-                // iteration over the set of chidren identified.
+                // iteration over the set of children identified.
                 // This assumes that there is just one directory per
                 // region.
 
@@ -506,7 +506,7 @@ namespace Vision.Modules
 
             lock (vlock)
             {
-                // Added by Adam to help debug channel not availible errors.
+                // Added by Adam to help debug channel not available errors.
                 if (VivoxTryGetChannel(voiceParentID, landUUID, out channelId, out channelUri))
                     MainConsole.Instance.DebugFormat("[VivoxVoice] Found existing channel at " + channelUri);
                 else if (VivoxTryCreateChannel(voiceParentID, landUUID, landName, out channelUri))
@@ -776,7 +776,7 @@ namespace Vision.Modules
                         !XmlFind(resp, "response.level0.channel-search.channels.channels.level4.parent", i, out parent))
                     {
                         MainConsole.Instance.Debug("[VivoxVoice] Skipping Channel " + i + "/" + name +
-                                                   " as it's parent doesnt match");
+                                                   " as it's parent doesn't match");
                         continue;
                     }
 
@@ -1075,7 +1075,7 @@ namespace Vision.Modules
         ///     If the whole hierarchy is resolved, the InnerText
         ///     value at that point is returned. Note that this
         ///     may itself be a sub-hierarchy of the entire
-        ///     document. The function returns a boolean indicator
+        ///     document. The function returns a Boolean indicator
         ///     of the search's success. The search is performed
         ///     by the recursive Search method.
         /// </summary>

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -26,6 +26,16 @@
  */
 
 using Amib.Threading;
+
+using Vision.Framework.ClientInterfaces;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Modules;
+using Vision.Framework.PresenceInfo;
+using Vision.Framework.SceneInfo;
+using Vision.Framework.Utilities;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.Packets;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -33,15 +43,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.Packets;
-using Vision.Framework.ClientInterfaces;
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Modules;
-using Vision.Framework.PresenceInfo;
-using Vision.Framework.SceneInfo;
-using Vision.Framework.Utilities;
 
 namespace Vision.ClientStack
 {
@@ -193,7 +194,7 @@ namespace Vision.ClientStack
 
         #region IClientNetworkServer Members
 
-        public void Initialise(uint port, IConfigSource configSource, AgentCircuitManager circuitManager)
+        public void Initialize(uint port, IConfigSource configSource, AgentCircuitManager circuitManager)
         {
             IConfig networkConfig = configSource.Configs["Network"];
             IPAddress internalIP = IPAddress.Any;
@@ -202,7 +203,7 @@ namespace Vision.ClientStack
 
             InitThreadPool(15);
 
-            base.Initialise(internalIP, (int)port);
+            base.Initialize(internalIP, (int)port);
 
             #region Environment.TickCount Measurement
 
@@ -286,7 +287,7 @@ namespace Vision.ClientStack
             if (networkConfig != null)
                 IPAddress.TryParse(networkConfig.GetString("internal_ip", "0.0.0.0"), out internalIP);
             
-            base.Initialise(internalIP, (int)port);
+            base.Initialize(internalIP, (int)port);
         }
 
         public void Start()
@@ -476,7 +477,7 @@ namespace Vision.ClientStack
             // Frequency analysis of outgoing packet sizes shows a large clump of packets at each end of the spectrum.
             // The vast majority of packets are less than 200 bytes, although due to asset transfers and packet splitting
             // there are a decent number of packets in the 1000-1140 byte range. We allocate one of two sizes of data here
-            // to accomodate for both common scenarios and provide ample room for ACK appending in both
+            // to accommodate for both common scenarios and provide ample room for ACK appending in both
             int bufferSize = dataLength*2;
 
             UDPPacketBuffer buffer = new UDPPacketBuffer(udpClient.RemoteEndPoint, bufferSize);
@@ -604,7 +605,7 @@ namespace Vision.ClientStack
             {
                 //MainConsole.Instance.Debug("[LLUDPSERVER]: Resending " + expiredPackets.Count + " packets to " + udpClient.AgentID + ", RTO=" + udpClient.RTO);
 
-                // Exponential backoff of the retransmission timeout
+                // Exponential back off of the retransmission timeout
                 udpClient.BackoffRTO();
 
                 foreach (OutgoingPacket t in expiredPackets.Where(t => t.UnackedMethod != null))
@@ -796,7 +797,7 @@ namespace Vision.ClientStack
                 else
                     // Don't create circuits for unauthorized clients
                     MainConsole.Instance.WarnFormat(
-                        "[LLUDPServer]: Connection request for client {0} connecting with unnotified circuit code {1} from {2}",
+                        "[LLUDPServer]: Connection request for client {0} connecting with un-notified circuit code {1} from {2}",
                         cPacket.CircuitCode.ID, cPacket.CircuitCode.Code, remoteEndPoint);
 
                 return;

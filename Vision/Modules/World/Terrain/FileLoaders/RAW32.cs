@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -84,7 +84,7 @@ namespace Vision.Modules.Terrain.FileLoaders
 
                 // if our region isn't the first X section of the areas to be landscaped, then
                 // advance the stream to the X start pos of our section in the file
-                // i.e. eat X upto where we start
+                // i.e. eat X up to where we start
                 while (currFileXOffset < offsetX)
                 {
                     bs.ReadBytes(sectionWidth*4); // 4 bytes = single

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -49,7 +49,7 @@ namespace Vision.Modules.ActivityDetectors
 
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource source)
+        public void Initialize(IConfigSource source)
         {
         }
 
@@ -85,7 +85,7 @@ namespace Vision.Modules.ActivityDetectors
             {
                 m_presenceUpdateTimer = new Timer {Interval = 1000*60*28};
                 //As agents move around, they could get to regions that won't update them in time, so we cut 
-                // the time in half, and then a bit less so that they are updated consistantly
+                // the time in half, and then a bit less so that they are updated consistently
                 m_presenceUpdateTimer.Elapsed += m_presenceUpdateTimer_Elapsed;
                 m_presenceUpdateTimer.Start();
             }

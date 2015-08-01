@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -108,7 +108,7 @@ namespace Vision.Framework.Serialization
             WebResponse response = request.GetResponse();
             Stream file = response.GetResponseStream();
 
-            // justincc: gonna ignore the content type for now and just try anything
+            // justincc: going to ignore the content type for now and just try anything
             //if (response.ContentType != "application/x-oar")
             //    throw new Exception(String.Format("{0} does not identify an OAR file", uri.ToString()));
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -161,7 +161,7 @@ namespace Vision.Modules.Sun
 
         #region IRegion Methods
 
-        public void Initialise(IConfigSource config)
+        public void Initialize(IConfigSource config)
         {
             m_frame = 0;
             m_config = config;
@@ -399,7 +399,7 @@ namespace Vision.Modules.Sun
         private void GenSunPos()
         {
             if (!m_sunIsReadyToRun)
-                return; //We havn't set up the time for this region yet!
+                return; //We haven't set up the time for this region yet!
             // Time in seconds since UTC to use to calculate sun position.
             PosTime = (CurrentTime/TICKS_PER_SECOND);
 

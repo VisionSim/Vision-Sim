@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,14 +25,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using OpenMetaverse;
 using System;
 using System.Collections.Generic;
-using OpenMetaverse;
 
 namespace Vision.Framework.Services
 {
     /// <summary>
-    ///     An interface for connecting to the authentication datastore
+    ///     An interface for connecting to the authentication data-store
     /// </summary>
     public interface IRegionData : IVisionDataPlugin
     {
@@ -58,7 +58,7 @@ namespace Vision.Framework.Services
         uint Count(RegionFlags includeFlags, RegionFlags excludeFlags);
 
         /// <summary>
-        ///     Gets the neighbouring regions, taking into account variable-sized regions
+        ///     Gets the neighboring regions, taking into account variable-sized regions
         /// </summary>
         /// <param name="regionID"></param>
         /// <param name="scopeIDs"></param>
@@ -95,9 +95,9 @@ namespace Vision.Framework.Services
     {
         DefaultRegion = 1, // Used for new Rez. Random if multiple defined
         FallbackRegion = 2, // Regions we redirect to when the destination is down
-        RegionOnline = 4, // Set when a region comes online, unset when it unregisters and DeleteOnUnregister is false
+        RegionOnline = 4, // Set when a region comes online, unset when it un-registers and DeleteOnUnregister is false
         NoDirectLogin = 8, // Region unavailable for direct logins (by name)
-        Persistent = 16, // Don't remove on unregister
+        Persistent = 16, // Don't remove on un-register
         LockedOut = 32, // Don't allow registration
         NoMove = 64, // Don't allow moving this region
         Reservation = 128, // This is an inactive reservation

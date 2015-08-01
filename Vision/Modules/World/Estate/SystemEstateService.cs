@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -344,7 +344,7 @@ namespace Vision.Modules.Estate
             {
                 MainConsole.Instance.WarnFormat ("[USER ACCOUNT SERVICE]: The user, '{0}' was not found!", estateOwner);
 
-                // temporary fix until remote user creation can be implmented
+                // temporary fix until remote user creation can be implemented
                 if (!accountService.RemoteCalls ())
                 {
                     string createUser = MainConsole.Instance.Prompt ("Do you wish to create this user?  (yes/no)", "yes").ToLower ();
@@ -430,7 +430,7 @@ namespace Vision.Modules.Estate
                 estateOwner = MainConsole.Instance.Prompt ("New owner for this estate", ownerAccount.Name); 
             } else
             {
-                estateOwner = Util.CombineParams (cmd, 5); // in case of spaces in the name eg Allan Allard
+                estateOwner = Util.CombineParams (cmd, 5); // in case of spaces in the name e.g. Allan Allard
             }
             if (estateOwner == "")
                 return;
@@ -532,7 +532,7 @@ namespace Vision.Modules.Estate
             var region = gridService.GetRegionByName (null, regionName);
             if (region == null)
             {
-                MainConsole.Instance.ErrorFormat ("[EstateService]: The requestes region '{0}' does not exist!", regionName);
+                MainConsole.Instance.ErrorFormat ("[EstateService]: The requested region '{0}' does not exist!", regionName);
                 return;
             }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,6 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
 using System;
 using System.Collections.Generic;
 using Nini.Config;
@@ -42,7 +43,7 @@ namespace Vision.Modules.Agent.AssetTransaction
         ///     Each agent has its own singleton collection of transactions
         /// </summary>
         readonly Dictionary<UUID, AgentAssetTransactions> AgentTransactions =
-            new Dictionary<UUID, AgentAssetTransactions>();
+            new Dictionary<UUID, AgentAssetTransactions> ();
 
         IScene m_scene;
 
@@ -54,7 +55,7 @@ namespace Vision.Modules.Agent.AssetTransaction
 
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource config)
+        public void Initialize(IConfigSource config)
         {
         }
 
@@ -106,13 +107,13 @@ namespace Vision.Modules.Agent.AssetTransaction
             client.OnXferReceive += HandleXfer;
         }
 
-        void OnClosingClient(IClientAPI client)
+        void OnClosingClient (IClientAPI client)
         {
             client.OnAssetUploadRequest -= HandleUDPUploadRequest;
             client.OnXferReceive -= HandleXfer;
         }
 
-        void OnRemovePresence(IScenePresence SP)
+        void OnRemovePresence (IScenePresence SP)
         {
             if (SP != null && !SP.IsChildAgent)
                 RemoveAgentAssetTransactions(SP.UUID);
@@ -154,8 +155,8 @@ namespace Vision.Modules.Agent.AssetTransaction
                                                       uint callbackID, string description, string name, sbyte invType,
                                                       sbyte type, byte wearableType, uint nextOwnerMask)
         {
-            //MainConsole.Instance.DebugFormat(
-            //    "[TRANSACTIONS MANAGER] Called HandleItemCreationFromTransaction with item {0}", name);
+            //            MainConsole.Instance.DebugFormat(
+            //                "[TRANSACTIONS MANAGER] Called HandleItemCreationFromTransaction with item {0}", name);
 
             AgentAssetTransactions transactions = GetUserTransactions(remoteClient.AgentId);
 
@@ -174,7 +175,7 @@ namespace Vision.Modules.Agent.AssetTransaction
         /// <summary>
         ///     Update an inventory item with data that has been received through a transaction.
         ///     This is called when clothing or body parts are updated (for instance, with new textures or
-        ///     colours).  It may also be called in other situations.
+        ///     colors).  It may also be called in other situations.
         /// </summary>
         /// <param name="remoteClient"></param>
         /// <param name="transactionID"></param>
@@ -182,8 +183,9 @@ namespace Vision.Modules.Agent.AssetTransaction
         public void HandleItemUpdateFromTransaction(IClientAPI remoteClient, UUID transactionID,
                                                     InventoryItemBase item)
         {
-            //MainConsole.Instance.DebugFormat(
-            //    "[TRANSACTIONS MANAGER] Called HandleItemUpdateFromTransaction with item {0}", item.Name);
+            //            MainConsole.Instance.DebugFormat(
+            //                "[TRANSACTIONS MANAGER] Called HandleItemUpdateFromTransaction with item {0}",
+            //                item.Name);
 
             AgentAssetTransactions transactions = GetUserTransactions(remoteClient.AgentId);
 
@@ -210,8 +212,9 @@ namespace Vision.Modules.Agent.AssetTransaction
         public void HandleTaskItemUpdateFromTransaction(
             IClientAPI remoteClient, ISceneChildEntity part, UUID transactionID, TaskInventoryItem item)
         {
-            //MainConsole.Instance.DebugFormat(
-            //    "[TRANSACTIONS MANAGER] Called HandleTaskItemUpdateFromTransaction with item {0}", item.Name);
+            //            MainConsole.Instance.DebugFormat(
+            //                "[TRANSACTIONS MANAGER] Called HandleTaskItemUpdateFromTransaction with item {0}",
+            //                item.Name);
 
             AgentAssetTransactions transactions = GetUserTransactions(remoteClient.AgentId);
 
@@ -231,7 +234,7 @@ namespace Vision.Modules.Agent.AssetTransaction
         /// </summary>
         /// <param name="userID"></param>
         /// <returns></returns>
-        AgentAssetTransactions GetUserTransactions(UUID userID)
+        AgentAssetTransactions GetUserTransactions (UUID userID)
         {
             lock (AgentTransactions)
             {
@@ -258,8 +261,7 @@ namespace Vision.Modules.Agent.AssetTransaction
         public void HandleUDPUploadRequest(IClientAPI remoteClient, UUID assetID, UUID transaction, sbyte type,
                                            byte[] data, bool storeLocal, bool tempFile)
         {
-            //MainConsole.Instance.Debug(
-            //"HandleUDPUploadRequest - assetID: " + assetID.ToString() + " transaction: " + transaction.ToString() + " type: " + type.ToString() + " storelocal: " + storeLocal + " tempFile: " + tempFile);
+//            MainConsole.Instance.Debug("HandleUDPUploadRequest - assetID: " + assetID.ToString() + " transaction: " + transaction.ToString() + " type: " + type.ToString() + " storelocal: " + storeLocal + " tempFile: " + tempFile);
 
             if (((AssetType)type == AssetType.Texture ||
                 (AssetType)type == AssetType.Sound ||
@@ -272,7 +274,7 @@ namespace Vision.Modules.Agent.AssetTransaction
 
                 if (mm != null)
                 {
-                    if (!mm.Charge(remoteClient.AgentId, mm.UploadCharge, "Upload asset", TransactionType.UploadCharge))
+                    if (!mm.Charge (remoteClient.AgentId, mm.UploadCharge, "Upload asset", TransactionType.UploadCharge))
                     {
                         remoteClient.SendAgentAlertMessage("Unable to upload asset. Insufficient funds.", false);
                         return;

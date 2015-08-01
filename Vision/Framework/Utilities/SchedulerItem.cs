@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,7 +56,7 @@ namespace Vision.Framework.Utilities
         /// <param name="sName">Schedule name.</param>
         /// <param name="sParams">parameters.</param>
         /// <param name="runOnce">If set to <c>true</c> run once.</param>
-        /// <param name="runSchedule">DateTime (utc) to run the schedule.</param>
+        /// <param name="runSchedule">DateTime (UTC) to run the schedule.</param>
         /// <param name="agentID">AgentID of the schedule.</param>
         public SchedulerItem(string sName, string sParams, bool runOnce, DateTime runSchedule, UUID agentID)
         {
@@ -72,6 +72,7 @@ namespace Vision.Framework.Utilities
             ScheduleFor = agentID;
             Enabled = true;
         }
+
 
         void SimpleInitialize()
         {
@@ -151,7 +152,7 @@ namespace Vision.Framework.Utilities
             RunOnce = map["RunOnce"].AsBoolean();
             RunEvery = map["RunEvery"].AsInteger();
             CreateTime = map["CreateTime"].AsDate();
-            RunEveryType = (RepeatType)map["RunEveryType"].AsInteger();
+            RunEveryType = (RepeatType) map["RunEveryType"].AsInteger();
             StartTime = map["StartTime"].AsDate();
             ScheduleFor = map["ScheduleFor"].AsUUID();
         }

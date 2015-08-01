@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,7 +31,7 @@ using OpenMetaverse;
 namespace Vision.Framework.ClientInterfaces
 {
     /// <summary>
-    ///     Args to return to a client that queries picker data
+    ///     Arguments to return to a client that queries picker data
     /// </summary>
     public class AvatarPickerReplyAgentDataArgs : EventArgs
     {

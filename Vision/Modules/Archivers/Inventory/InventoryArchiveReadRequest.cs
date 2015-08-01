@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -111,7 +111,7 @@ namespace Vision.Modules.Archivers
             m_loadStream = new GZipStream(str, CompressionMode.Decompress);
             m_overridecreator = overwriteCreator;
 
-            // we will need thse at some time
+            // we will need these at some time
             m_assetService = m_registry.RequestModuleInterface<IAssetService>();
             m_assetData = Framework.Utilities.DataManager.RequestPlugin<IAssetDataPlugin>();
             m_inventoryService = m_registry.RequestModuleInterface<IInventoryService> ();

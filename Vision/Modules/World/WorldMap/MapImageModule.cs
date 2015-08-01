@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -115,7 +115,7 @@ namespace Vision.Modules.WorldMap
             MainConsole.Instance.InfoFormat("[MapTileGenerator]: Generating Maptile for {0}, using {1} ",
                 m_scene.RegionInfo.RegionName, tileRenderer);
 
-            terrainRenderer.Initialise(m_scene, m_config);
+            terrainRenderer.Initialize(m_scene, m_config);
 
             mapBMP = null;
             terrainBMP = new Bitmap(Constants.RegionSize, Constants.RegionSize, PixelFormat.Format24bppRgb);
@@ -173,7 +173,7 @@ namespace Vision.Modules.WorldMap
             MainConsole.Instance.InfoFormat ("[MapTileGenerator]: Generating worldview for {0}",
                 m_scene.RegionInfo.RegionName);
 
-            renderer.Initialise(m_scene, m_config);
+            renderer.Initialize(m_scene, m_config);
             Bitmap worldView = renderer.CreateViewImage (camPos, camDir, fov, width, height, useTextures);
 
             MainConsole.Instance.InfoFormat("[MapTileGenerator]: Worldview generation took {0} ms",
@@ -189,7 +189,7 @@ namespace Vision.Modules.WorldMap
 
              MainConsole.Instance.InfoFormat("[MapTileGenerator]: Generating world maptile for {0}",
                         m_scene.RegionInfo.RegionName);
-            renderer.Initialise(m_scene, m_config);
+            renderer.Initialize(m_scene, m_config);
             Bitmap worldMap = renderer.TerrainToBitmap (null, size);
 
             MainConsole.Instance.InfoFormat("[MapTileGenerator]: World maptile generation took {0} ms",
@@ -218,7 +218,7 @@ namespace Vision.Modules.WorldMap
 
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource source)
+        public void Initialize(IConfigSource source)
         {
             m_config = source;
         }
@@ -409,7 +409,7 @@ namespace Vision.Modules.WorldMap
                 return;
             }
 
-            // Cannot create a map for a nonexistant heightmap.
+            // Cannot create a map for a nonexistent heightmap.
             ITerrainChannel heightmap = m_scene.RequestModuleInterface<ITerrainChannel>();
             if (heightmap == null)
                  return;
@@ -710,7 +710,7 @@ namespace Vision.Modules.WorldMap
                         {
                             Vector3 pos = part.GetWorldPosition();
 
-                            // skip prim outside of retion
+                            // skip prim outside of region
                             if (pos.X < 0f || pos.X > 256f || pos.Y < 0f || pos.Y > 256f)
                                 continue;
 
@@ -1116,18 +1116,18 @@ namespace Vision.Modules.WorldMap
             catch (DllNotFoundException)
             {
                 MainConsole.Instance.ErrorFormat(
-                    "[TexturedMapTileRenderer]: OpenJpeg is not installed correctly on this system.   Asset Data is emtpy for {0}",
+                    "[TexturedMapTileRenderer]: OpenJpeg is not installed correctly on this system.   Asset Data is empty for {0}",
                     id);
             }
             catch (IndexOutOfRangeException)
             {
                 MainConsole.Instance.ErrorFormat(
-                    "[TexturedMapTileRenderer]: OpenJpeg was unable to encode this.   Asset Data is emtpy for {0}", id);
+                    "[TexturedMapTileRenderer]: OpenJpeg was unable to encode this.   Asset Data is empty for {0}", id);
             }
             catch (Exception)
             {
                 MainConsole.Instance.ErrorFormat(
-                    "[TexturedMapTileRenderer]: OpenJpeg was unable to encode this.   Asset Data is emtpy for {0}", id);
+                    "[TexturedMapTileRenderer]: OpenJpeg was unable to encode this.   Asset Data is empty for {0}", id);
             }
             return null;
         }

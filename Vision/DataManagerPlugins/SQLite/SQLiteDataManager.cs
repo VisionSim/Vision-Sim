@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -80,7 +80,7 @@ namespace Vision.DataManager.SQLite
             string filePath = Path.GetDirectoryName (s1[0]);
             string fileName = Path.GetFileName (s1[0]);
 
-            if (filePath == "") //Only add this if we arn't an absolute path already
+            if (filePath == "") //Only add this if we aren't an absolute path already
             {
                 filePath = Util.BasePathCombine ("");
                 _connectionString = string.Format ("Data Source=file://{0}", Path.Combine (Util.BasePathCombine (""), fileName));

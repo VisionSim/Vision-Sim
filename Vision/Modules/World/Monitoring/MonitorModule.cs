@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -150,7 +150,7 @@ namespace Vision.Modules.Monitoring
                     sb[i] = new SimStatsPacket.StatBlock();
                 }
 
-                //As we arn't a scene, we add all of the monitors that do not need the scene and run for the entire instance
+                //As we aren't a scene, we add all of the monitors that do not need the scene and run for the entire instance
                 AddDefaultMonitors();
             }
 
@@ -363,7 +363,7 @@ namespace Vision.Modules.Monitoring
             public byte[] StatsPage(string path, Stream request, OSHttpRequest httpRequest, OSHttpResponse httpResponse)
             {
                 // If request was for a specific monitor
-                // eg url/?monitor=Monitor.Name
+                // e.g. url/?monitor=Monitor.Name
                 if (httpRequest.QueryString.Get("monitor") != null)
                 {
                     string monID = httpRequest.QueryString.Get("monitor");
@@ -956,7 +956,7 @@ namespace Vision.Modules.Monitoring
         {
         }
 
-        public void PostInitialise()
+        public void PostInitialize()
         {
             ISceneManager manager = m_simulationBase.ApplicationRegistry.RequestModuleInterface<ISceneManager>();
             if (manager != null)

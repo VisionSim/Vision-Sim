@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,7 +25,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
 using System.Collections.Generic;
 using OpenMetaverse;
 using Vision.Framework.ClientInterfaces;
@@ -82,7 +81,7 @@ namespace Vision.Framework.Modules
         /// <summary>
         /// Gets a list of all groups.
         /// </summary>
-        /// <returns>Alist of group UUIDs</returns>
+        /// <returns>A list of group UUIDs</returns>
         List <UUID> GetAllGroups ( UUID RequestingAgentID);
         List<GroupMembersData> GetGroupMembers (UUID requestingAgentID, UUID GroupID);
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@ namespace Vision.Framework.Modules
         event InventoryArchiveSaved OnInventoryArchiveSaved;
 
         /// <summary>
-        ///     Dearchive a user's inventory folder from the given stream
+        ///     De-archive a user's inventory folder from the given stream
         /// </summary>
         /// <param name="firstName"></param>
         /// <param name="lastName"></param>

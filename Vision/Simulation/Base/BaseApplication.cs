@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,6 +27,11 @@
 
 //#define BlockUnsupportedVersions
 
+using Vision.Framework.Configuration;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Modules;
+using Vision.Framework.Utilities;
+using Nini.Config;
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -34,16 +39,11 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
-using Nini.Config;
-using Vision.Framework.Configuration;
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Modules;
-using Vision.Framework.Utilities;
 
 namespace Vision.Simulation.Base
 {
     /// <summary>
-    ///     Starting class for the Vision Server
+    ///     Starting class for the Vision Sim Server
     /// </summary>
     public class BaseApplication
     {

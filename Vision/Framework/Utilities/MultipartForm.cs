@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -101,7 +101,7 @@ namespace Vision.Framework.Utilities
                     {
                         File file = (File) param;
 
-                        // Add just the first part of this param, since we will write the file data directly to the Stream
+                        // Add just the first part of this parameter, since we will write the file data directly to the Stream
                         string header =
                             string.Format(
                                 "--{0}\r\nContent-Disposition: form-data; name=\"{1}\"; filename=\"{2}\";\r\nContent-Type: {3}\r\n\r\n",
@@ -586,7 +586,7 @@ namespace Vision.Framework.Utilities
         /// <param name="uri">Uri to append the query to</param>
         /// <param name="query">
         ///     Query string to append. Can either start with ?
-        ///     or just containg key/value pairs
+        ///     or just contains key/value pairs
         /// </param>
         /// <returns>
         ///     String representation of the Uri with the query string

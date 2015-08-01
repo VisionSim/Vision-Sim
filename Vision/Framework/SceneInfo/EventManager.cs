@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,10 +25,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.PresenceInfo;
@@ -37,6 +33,10 @@ using Vision.Framework.Servers;
 using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
+using System;
+using System.Collections.Generic;
 using GridRegion = Vision.Framework.Services.GridRegion;
 
 namespace Vision.Framework.SceneInfo
@@ -53,7 +53,7 @@ namespace Vision.Framework.SceneInfo
         public delegate void OnNewClientDelegate(IClientAPI client);
 
         /// <summary>
-        ///     Deprecated in favour of OnClientConnect.
+        ///     Deprecated in favor of OnClientConnect.
         ///     Will be marked Obsolete after IClientCore has 100% of IClientAPI interfaces.
         /// </summary>
         public event OnNewClientDelegate OnNewClient;
@@ -298,7 +298,7 @@ namespace Vision.Framework.SceneInfo
         /// <summary>
         ///     Called when an oar file has finished saving
         ///     Message is non empty string if there were problems saving the oar file
-        ///     If a guid was supplied on the original call to identify, the request, this is returned.  Otherwise
+        ///     If a GUID was supplied on the original call to identify, the request, this is returned.  Otherwise
         ///     Guid.Empty is returned.
         /// </summary>
         public delegate void OarFileSaved(Guid guid, string message);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -247,7 +247,7 @@ namespace Vision.Modules.Groups
                     if (!money.Charge(GetRequestingAgentID(remoteClient), money.GroupCreationCharge, "Group Creation", TransactionType.GroupCreate))
                     {
                         remoteClient.SendCreateGroupReply(UUID.Zero, false,
-                                                          "You have got insuficient funds to create a group.");
+                                                          "You have got insufficient funds to create a group.");
                         return UUID.Zero;
                     }
                 }
@@ -263,7 +263,7 @@ namespace Vision.Modules.Groups
                                                     insigniaID, membershipFee, openEnrollment, allowPublish,
                                                     maturePublish, GetRequestingAgentID(remoteClient), UUID.Random());
 
-            remoteClient.SendCreateGroupReply(groupID, true, "Group created successfullly");
+            remoteClient.SendCreateGroupReply(groupID, true, "Group created successfully");
             m_cachedGroupTitles[remoteClient.AgentId] =
                 AttemptFindGroupMembershipData(remoteClient.AgentId, remoteClient.AgentId, groupID);
             m_cachedGroupMemberships.Remove(remoteClient.AgentId);
@@ -782,10 +782,9 @@ namespace Vision.Modules.Groups
 
             // Try root avatar first
             IScenePresence user;
-
             foreach (IScene scene in MainConsole.Instance.ConsoleScenes)
             {
-                if (m_scene.TryGetScenePresence(agentID, out user))
+                if (scene.TryGetScenePresence (agentID, out user))
                 {
                     if (!user.IsChildAgent)
                         return user.ControllingClient;
@@ -1062,7 +1061,7 @@ namespace Vision.Modules.Groups
 
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource config)
+        public void Initialize(IConfigSource config)
         {
             IConfig groupsConfig = config.Configs["Groups"];
 

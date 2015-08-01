@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,15 +27,16 @@
 
 //#define Debug
 
-using System;
-using System.Collections.Concurrent;
-using System.Net;
-using System.Threading;
-using OpenMetaverse;
+
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.Utilities;
+using OpenMetaverse;
+using System;
+using System.Collections.Concurrent;
+using System.Net;
+using System.Threading;
 
 namespace Vision.ClientStack
 {
@@ -104,7 +105,7 @@ namespace Vision.ClientStack
             if ((promotioncntr[prio] & promotionratemask) == 0)
                 // keep top free of lower priority things
                 // time to move objects up in priority
-                // so they don't get stalled if high trafic on higher levels               
+                // so they don't get stalled if high traffic on higher levels               
             {
                 int i = prio;
 
@@ -131,7 +132,7 @@ namespace Vision.ClientStack
                 pack = (OutgoingPacket) o;
                 Interlocked.Decrement(ref Count);
                 return true;
-                // else  do call to a funtion that will return the packet or whatever
+                // else  do call to a function that will return the packet or whatever
             }
 
             pack = null;
@@ -203,7 +204,7 @@ namespace Vision.ClientStack
         private readonly int m_maxRTO = 20000;
 
         private readonly UDPprioQueue m_outbox = new UDPprioQueue(8, 0x01);
-        // 8  priority levels (7 max , 0 lowest), autopromotion on every 2 enqueues
+        // 8  priority levels (7 max , 0 lowest), auto-promotion on every 2 enqueues
 
         /// <summary>
         ///     Throttle bucket for this agent's connection
@@ -467,7 +468,7 @@ namespace Vision.ClientStack
             int transfer = (int) (asset*TRANSFER_ASSET_PERCENTAGE);
             asset -= transfer;
 
-            // avatar info cames out from state
+            // avatar info comes out from state
             int avatarinfo = (int) (state*AVATAR_INFO_STATE_PERCENTAGE);
             state -= avatarinfo;
 
@@ -490,7 +491,7 @@ namespace Vision.ClientStack
             TotalRateMin = (int) (total*0.1);
             if (TotalRateMin < MINPERCLIENTRATE)
                 TotalRateMin = MINPERCLIENTRATE;
-            total = TotalRateMin; // let it grow slowlly
+            total = TotalRateMin; // let it grow slowly
 
 
             //MainConsole.Instance.WarnFormat("[LLUDPCLIENT]: {0} is setting throttles. Resend={1}, Land={2}, Wind={3}, Cloud={4}, Task={5}, Texture={6}, Asset={7}, State={8}, AvatarInfo={9}, Transfer={10}, TaskFull={11}, Total={12}",

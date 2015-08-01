@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,9 +29,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Vision.Framework.Utilities;
 using Nini.Config;
 using Nini.Ini;
-using Vision.Framework.Utilities;
 
 namespace Vision.Framework.Configuration
 {
@@ -45,7 +45,7 @@ namespace Vision.Framework.Configuration
         public string iniFilePath = "";
 
         /// <summary>
-        ///     Should we save all merging of the .ini files to the filesystem?
+        ///     Should we save all merging of the .ini files to the file-system?
         /// </summary>
         protected bool inidbg;
 
@@ -278,7 +278,7 @@ namespace Vision.Framework.Configuration
                     ReadConfig(sources[i] + ".example", i, m_config);
             }
 
-            // add override paramteres if they exist ONLY for standalone operation
+            // add override parameters if they exist ONLY for standalone operation
             if (! mainIniFileName.Contains("GridServer"))
             {
                 string  worldIniFilePath = Path.Combine(mainIniDirectory, worldIniFileName);

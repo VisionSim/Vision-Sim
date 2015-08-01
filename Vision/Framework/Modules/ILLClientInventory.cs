@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,13 +25,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using OpenMetaverse;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Services.ClassHelpers.Inventory;
+using OpenMetaverse;
+using System.Collections.Generic;
 
 namespace Vision.Framework.Modules
 {
@@ -44,7 +43,7 @@ namespace Vision.Framework.Modules
         string DefaultLSLScript { get; set; }
 
         /// <summary>
-        ///     Add the given inventory item to a user's inventory asyncronously.
+        ///     Add the given inventory item to a user's inventory asynchronously.
         /// </summary>
         /// <param name="item">The item to add</param>
         void AddInventoryItemAsync(InventoryItemBase item);
@@ -111,7 +110,7 @@ namespace Vision.Framework.Modules
         /// <param name="destId">The UUID of the prim that the </param>
         /// <param name="pin">The ScriptAccessPin of the prim</param>
         /// <param name="running">Whether the script should be running when it is started</param>
-        /// <param name="start_param">The start param to pass to the script</param>
+        /// <param name="start_param">The start parameter to pass to the script</param>
         void RezScript(UUID srcId, ISceneChildEntity m_host, UUID destId, int pin, int running, int start_param);
     }
 }

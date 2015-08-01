@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,7 @@ namespace Vision.Framework.Modules
     public interface IRegionSerialiserModule
     {
         /// <summary>
-        ///     Deserializes a scene object from its xml2 representation.  This does not load the object into the scene.
+        ///     De-serializes a scene object from its xml2 representation.  This does not load the object into the scene.
         /// </summary>
         /// <param name="xmlString"></param>
         /// <param name="scene"></param>
@@ -41,7 +41,7 @@ namespace Vision.Framework.Modules
         ISceneEntity DeserializeGroupFromXml2(string xmlString, IScene scene);
 
         /// <summary>
-        ///     Deserializes a scene object from its xml2 representation.  This does not load the object into the scene.
+        ///     De-serializes a scene object from its xml2 representation.  This does not load the object into the scene.
         /// </summary>
         /// <param name="xml"></param>
         /// <param name="scene"></param>

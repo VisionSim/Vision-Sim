@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -393,7 +393,7 @@ namespace Vision.Modules.Installer
             {
                 plugin.PreStartup(m_registry.RequestModuleInterface<ISimulationBase>());
                 plugin.Initialize(m_registry.RequestModuleInterface<ISimulationBase>());
-                plugin.PostInitialise();
+                plugin.PostInitialize();
                 plugin.Start();
                 plugin.PostStart();
             }
@@ -405,7 +405,7 @@ namespace Vision.Modules.Installer
                 {
                     foreach (IScene scene in manager.Scenes)
                     {
-                        nsrm.Initialise(m_config);
+                        nsrm.Initialize(m_config);
                         nsrm.AddRegion(scene);
                         nsrm.RegionLoaded(scene);
                         rmc.AllModules.Add(nsrm);
