@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -872,7 +872,7 @@ namespace Vision.Modules.EntityTransfer
                 MainConsole.Instance.InfoFormat("[Scene]: Zombie scene presence detected for {0} in {1}", agent.AgentID,
                                                 scene.RegionInfo.RegionName);
                 //Tell everyone about it
-                scene.VisionEventManager.FireGenericEventHandler("AgentIsAZombie", sp.UUID);
+                scene.WhiteCoreEventManager.FireGenericEventHandler("AgentIsAZombie", sp.UUID);
                 //Send the killing message (DisableSimulator)
                 scene.RemoveAgent(sp, true);
                 sp = null;
@@ -881,7 +881,7 @@ namespace Vision.Modules.EntityTransfer
             response.CapsURIs = scene.EventManager.TriggerOnRegisterCaps(agent.AgentID);
             response.OurIPForClient = MainServer.Instance.HostName;
 
-            scene.VisionEventManager.FireGenericEventHandler("NewUserConnection", agent);
+            scene.WhiteCoreEventManager.FireGenericEventHandler("NewUserConnection", agent);
 
             //Add the circuit at the end
             scene.AuthenticateHandler.AddNewCircuit(agent.CircuitCode, agent);

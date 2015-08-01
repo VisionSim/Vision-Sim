@@ -55,7 +55,7 @@ namespace Vision.Physics.OpenDynamicsEngine
     /// <summary>
     ///     Various properties that ODE uses for AMotors but isn't exposed in ODE.NET so we must define them ourselves.
     /// </summary>
-    public class VisionODEPrim : PhysicsActor
+    public class WhiteCoreODEPrim : PhysicsActor
     {
         private const CollisionCategories m_default_collisionFlags = (CollisionCategories.Geom
                                                                       | CollisionCategories.Space
@@ -65,11 +65,11 @@ namespace Vision.Physics.OpenDynamicsEngine
 
         private static readonly Dictionary<ulong, IntPtr> m_MeshToTriMeshMap = new Dictionary<ulong, IntPtr>();
         private static readonly Dictionary<ulong, Vector3> m_MeshToCentroidMap = new Dictionary<ulong, Vector3>();
-        private readonly VisionODEPhysicsScene _parent_scene;
+        private readonly WhiteCoreODEPhysicsScene _parent_scene;
 
         private readonly Vector3 _torque = Vector3.Zero;
         private readonly int body_autodisable_frames = 20;
-        private readonly VisionODEDynamics m_vehicle;
+        private readonly WhiteCoreODEDynamics m_vehicle;
         private IntPtr Amotor = IntPtr.Zero;
         public IntPtr Body { get; private set; }
         private CollisionEventUpdate CollisionEventsThisFrame;
@@ -88,7 +88,7 @@ namespace Vision.Physics.OpenDynamicsEngine
         private bool _zeroFlag;
         private bool _zeroFlagForceSet;
         internal volatile bool childPrim;
-        internal List<VisionODEPrim> childrenPrim = new List<VisionODEPrim>();
+        internal List<WhiteCoreODEPrim> childrenPrim = new List<WhiteCoreODEPrim>();
         private int fakeori; // control the use of above
         private int fakepos; // control the use of above
         private bool hasOOBoffsetFromMesh; // if true we did compute it form mesh centroid, else from aabb
@@ -148,10 +148,10 @@ namespace Vision.Physics.OpenDynamicsEngine
         private string _name;
         private Vector3 showposition; // a temp hack for now rest of code expects position to be changed immediately
 
-        public VisionODEPrim(string name, byte physicsType, PrimitiveBaseShape shape, Vector3 position, Vector3 size, Quaternion rotation, 
-            int material, float friction, float restitution, float gravityMultiplier, float density, VisionODEPhysicsScene parent_scene)
+        public WhiteCoreODEPrim(string name, byte physicsType, PrimitiveBaseShape shape, Vector3 position, Vector3 size, Quaternion rotation, 
+            int material, float friction, float restitution, float gravityMultiplier, float density, WhiteCoreODEPhysicsScene parent_scene)
         {
-            m_vehicle = new VisionODEDynamics();
+            m_vehicle = new WhiteCoreODEDynamics();
 
             // correct for changed timestep
             PID_D /= (parent_scene.ODE_STEPSIZE*50f); // original ode fps of 50
@@ -213,7 +213,7 @@ namespace Vision.Physics.OpenDynamicsEngine
                                                               }
                                                               if (!childPrim && childrenPrim.Count > 0)
                                                               {
-                                                                  foreach (VisionODEPrim prm in childrenPrim)
+                                                                  foreach (WhiteCoreODEPrim prm in childrenPrim)
                                                                       prm.BlockPhysicalReconstruction = value;
                                                               }
                                                           });
@@ -268,7 +268,7 @@ namespace Vision.Physics.OpenDynamicsEngine
             get
             {
                 if (childPrim && _parent != null) // root prim defines if is physical or not
-                    return ((VisionODEPrim) _parent).m_isphysical;
+                    return ((WhiteCoreODEPrim) _parent).m_isphysical;
                 else
                     return m_isphysical;
             }
@@ -548,9 +548,9 @@ namespace Vision.Physics.OpenDynamicsEngine
 
             if (childPrim)
             {
-                if (_parent != null && _parent is VisionODEPrim)
+                if (_parent != null && _parent is WhiteCoreODEPrim)
                 {
-                    VisionODEPrim parent = (VisionODEPrim) _parent;
+                    WhiteCoreODEPrim parent = (WhiteCoreODEPrim) _parent;
                     //Console.WriteLine("SetGeom calls ChildSetGeom");
                     parent.ChildSetGeom(this);
                 }
@@ -648,7 +648,7 @@ namespace Vision.Physics.OpenDynamicsEngine
 
                 lock (childrenPrim)
                 {
-                    foreach (VisionODEPrim prm in childrenPrim)
+                    foreach (WhiteCoreODEPrim prm in childrenPrim)
                     {
                         if (prm.prim_geom == IntPtr.Zero)
                         {
@@ -731,7 +731,7 @@ namespace Vision.Physics.OpenDynamicsEngine
 
             lock (childrenPrim)
             {
-                foreach (VisionODEPrim prm in childrenPrim)
+                foreach (WhiteCoreODEPrim prm in childrenPrim)
                 {
                     if (prm.prim_geom == IntPtr.Zero)
                         continue;
@@ -769,7 +769,7 @@ namespace Vision.Physics.OpenDynamicsEngine
             _parent_scene.addActivePrim(this);
         }
 
-        private void SetInStaticSpace(VisionODEPrim prm)
+        private void SetInStaticSpace(WhiteCoreODEPrim prm)
         {
             if (prm.m_targetSpace != IntPtr.Zero && prm.m_targetSpace == _parent_scene.space)
             {
@@ -803,7 +803,7 @@ namespace Vision.Physics.OpenDynamicsEngine
                     {
                         lock (childrenPrim)
                         {
-                            foreach (VisionODEPrim prm in childrenPrim)
+                            foreach (WhiteCoreODEPrim prm in childrenPrim)
                             {
                                 _parent_scene.remActivePrim(prm);
                                 prm.m_collisionCategories &= ~CollisionCategories.Body;
@@ -856,7 +856,7 @@ namespace Vision.Physics.OpenDynamicsEngine
             m_angularlock = newlock;
         }
 
-        private void changelink(VisionODEPrim newparent)
+        private void changelink(WhiteCoreODEPrim newparent)
         {
             // If the newly set parent is not null
             // create link
@@ -868,11 +868,11 @@ namespace Vision.Physics.OpenDynamicsEngine
                 // destroy link
             else if (_parent != null)
             {
-                if (_parent is VisionODEPrim)
+                if (_parent is WhiteCoreODEPrim)
                 {
                     if (newparent != _parent)
                     {
-                        VisionODEPrim obj = (VisionODEPrim) _parent;
+                        WhiteCoreODEPrim obj = (WhiteCoreODEPrim) _parent;
                         obj.ChildDelink(this);
                         childPrim = false;
 
@@ -889,7 +889,7 @@ namespace Vision.Physics.OpenDynamicsEngine
 
         // I'm the parent
         // prim is the child
-        public void ParentPrim(VisionODEPrim prim)
+        public void ParentPrim(WhiteCoreODEPrim prim)
         {
             //Console.WriteLine("ParentPrim  " + m_primName);
             if (this.m_localID != prim.m_localID)
@@ -898,7 +898,7 @@ namespace Vision.Physics.OpenDynamicsEngine
 
                 lock (childrenPrim)
                 {
-                    foreach (VisionODEPrim prm in prim.childrenPrim.Where(prm => !childrenPrim.Contains(prm)))
+                    foreach (WhiteCoreODEPrim prm in prim.childrenPrim.Where(prm => !childrenPrim.Contains(prm)))
                     {
                         childrenPrim.Add(prm);
                     }
@@ -920,7 +920,7 @@ namespace Vision.Physics.OpenDynamicsEngine
             }
         }
 
-        private void ChildSetGeom(VisionODEPrim odePrim)
+        private void ChildSetGeom(WhiteCoreODEPrim odePrim)
         {
             DestroyBody();
             MakeBody();
@@ -930,7 +930,7 @@ namespace Vision.Physics.OpenDynamicsEngine
         {
             if (childrenPrim.Count > 0)
             {
-                foreach (VisionODEPrim prm in childrenPrim)
+                foreach (WhiteCoreODEPrim prm in childrenPrim)
                     prm.UpdateDataFromGeom();
             }
         }
@@ -954,7 +954,7 @@ namespace Vision.Physics.OpenDynamicsEngine
             }
         }
 
-        private void ChildDelink(VisionODEPrim odePrim)
+        private void ChildDelink(WhiteCoreODEPrim odePrim)
         {
             // Okay, we have a delinked child.. destroy all body and remake
             if (odePrim != this && !childrenPrim.Contains(odePrim))
@@ -964,14 +964,14 @@ namespace Vision.Physics.OpenDynamicsEngine
 
             if (odePrim == this)
             {
-                VisionODEPrim newroot = null;
+                WhiteCoreODEPrim newroot = null;
                 lock (childrenPrim)
                 {
                     if (childrenPrim.Count > 0)
                     {
                         newroot = childrenPrim[0];
                         childrenPrim.RemoveAt(0);
-                        foreach (VisionODEPrim prm in childrenPrim)
+                        foreach (WhiteCoreODEPrim prm in childrenPrim)
                         {
                             newroot.childrenPrim.Add(prm);
                         }
@@ -1001,7 +1001,7 @@ namespace Vision.Physics.OpenDynamicsEngine
             MakeBody();
         }
 
-        private void ChildRemove(VisionODEPrim odePrim)
+        private void ChildRemove(WhiteCoreODEPrim odePrim)
         {
             // Okay, we have a delinked child.. destroy all body and remake
             if (odePrim != this && !childrenPrim.Contains(odePrim))
@@ -1011,14 +1011,14 @@ namespace Vision.Physics.OpenDynamicsEngine
 
             if (odePrim == this)
             {
-                VisionODEPrim newroot = null;
+                WhiteCoreODEPrim newroot = null;
                 lock (childrenPrim)
                 {
                     if (childrenPrim.Count > 0)
                     {
                         newroot = childrenPrim[0];
                         childrenPrim.RemoveAt(0);
-                        foreach (VisionODEPrim prm in childrenPrim)
+                        foreach (WhiteCoreODEPrim prm in childrenPrim)
                         {
                             newroot.childrenPrim.Add(prm);
                         }
@@ -1177,7 +1177,7 @@ namespace Vision.Physics.OpenDynamicsEngine
                             {
                                 if (_parent != null)
                                 {
-                                    VisionODEPrim parent = (VisionODEPrim)_parent;
+                                    WhiteCoreODEPrim parent = (WhiteCoreODEPrim)_parent;
                                     parent.ChildDelink(this);
                                 }
                             }
@@ -1512,7 +1512,7 @@ namespace Vision.Physics.OpenDynamicsEngine
                         d.BodySetForce(Body, 0, 0, 0);
                         d.BodySetLinearVel(Body, 0, 0, 0);
                         d.BodySetAngularVel(Body, 0, 0, 0);
-                        _parent_scene.BadPrim(this.childPrim ? (VisionODEPrim) _parent : this);
+                        _parent_scene.BadPrim(this.childPrim ? (WhiteCoreODEPrim) _parent : this);
                     }
                     else
                     {
@@ -1951,11 +1951,11 @@ namespace Vision.Physics.OpenDynamicsEngine
         public void changeprimsizeshape()
         {
             _parent_scene.actor_name_map.Remove(prim_geom);
-            VisionODEPrim parent = null;
+            WhiteCoreODEPrim parent = null;
 
             bool chp = childPrim;
             if (chp)
-                parent = (VisionODEPrim) _parent;
+                parent = (WhiteCoreODEPrim) _parent;
 
             // Cleanup of old prim geometry and Bodies
             if (chp)
@@ -2088,7 +2088,7 @@ namespace Vision.Physics.OpenDynamicsEngine
             m_primIsRemoved = true;
             lock (childrenPrim)
             {
-                foreach (VisionODEPrim prm in childrenPrim)
+                foreach (WhiteCoreODEPrim prm in childrenPrim)
                 {
                     prm.m_primIsRemoved = true;
                 }
@@ -2098,7 +2098,7 @@ namespace Vision.Physics.OpenDynamicsEngine
                                                   {
                                                       if (_parent != null)
                                                       {
-                                                          VisionODEPrim parent = (VisionODEPrim) _parent;
+                                                          WhiteCoreODEPrim parent = (WhiteCoreODEPrim) _parent;
                                                           parent.ChildRemove(this);
                                                       }
                                                       else
@@ -2118,7 +2118,7 @@ namespace Vision.Physics.OpenDynamicsEngine
             m_primIsRemoved = true;
             lock (childrenPrim)
             {
-                foreach (VisionODEPrim prm in childrenPrim)
+                foreach (WhiteCoreODEPrim prm in childrenPrim)
                 {
                     prm.m_primIsRemoved = true;
                 }
@@ -2131,7 +2131,7 @@ namespace Vision.Physics.OpenDynamicsEngine
         {
             if (_parent != null)
             {
-                VisionODEPrim parent = (VisionODEPrim) _parent;
+                WhiteCoreODEPrim parent = (WhiteCoreODEPrim) _parent;
                 parent.DestroyBody();
             }
             else
@@ -2222,13 +2222,13 @@ namespace Vision.Physics.OpenDynamicsEngine
 
         public override void link(PhysicsActor obj)
         {
-            _parent_scene.AddSimulationChange(() => changelink((VisionODEPrim) obj));
+            _parent_scene.AddSimulationChange(() => changelink((WhiteCoreODEPrim) obj));
         }
 
         public override void linkGroupToThis(PhysicsActor[] objs)
         {
             for(int i = 0 ; i < objs.Length; i++)
-                _parent_scene.AddSimulationChange(() => ((VisionODEPrim) objs[i]).changelink(this));
+                _parent_scene.AddSimulationChange(() => ((WhiteCoreODEPrim) objs[i]).changelink(this));
         }
 
         public override void delink()
@@ -2531,10 +2531,10 @@ namespace Vision.Physics.OpenDynamicsEngine
             int vehicleType = 0;
             if ((_parent != null && (vehicleType = _parent.VehicleType) != (int) Vehicle.TYPE_NONE) ||
                 (vehicleType = VehicleType) != (int) Vehicle.TYPE_NONE ||
-                (actor is VisionODEPrim && ((VisionODEPrim) actor).Parent != null &&
-                 (vehicleType = ((VisionODEPrim) actor).Parent.VehicleType) != (int) Vehicle.TYPE_NONE) ||
-                (actor is VisionODEPrim &&
-                 (vehicleType = ((VisionODEPrim) actor).VehicleType) != (int) Vehicle.TYPE_NONE))
+                (actor is WhiteCoreODEPrim && ((WhiteCoreODEPrim) actor).Parent != null &&
+                 (vehicleType = ((WhiteCoreODEPrim) actor).Parent.VehicleType) != (int) Vehicle.TYPE_NONE) ||
+                (actor is WhiteCoreODEPrim &&
+                 (vehicleType = ((WhiteCoreODEPrim) actor).VehicleType) != (int) Vehicle.TYPE_NONE))
             {
                 if (vehicleType == (int) Vehicle.TYPE_CAR)
                 {

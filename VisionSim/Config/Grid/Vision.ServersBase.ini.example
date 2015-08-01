@@ -2,7 +2,7 @@
 ;; Advanced configs
 http_listener_port = 8003
 
-;; HTTPS configs (See HTTPS.txt in VisionDocs/)
+;; HTTPS configs (See HTTPS.txt in WhiteCoreDocs/)
 use_https = false
 
 ;; The number of threads to concurrently process incoming http requests

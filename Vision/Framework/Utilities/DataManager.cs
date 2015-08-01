@@ -35,12 +35,12 @@ namespace Vision.Framework.Utilities
     /// </summary>
     public static class DataManager
     {
-        private static readonly Dictionary<string, IVisionDataPlugin> Plugins =
-            new Dictionary<string, IVisionDataPlugin>();
+        private static readonly Dictionary<string, IWhiteCoreDataPlugin> Plugins =
+            new Dictionary<string, IWhiteCoreDataPlugin>();
 
-        public static List<IVisionDataPlugin> GetPlugins()
+        public static List<IWhiteCoreDataPlugin> GetPlugins()
         {
-            return new List<IVisionDataPlugin>(Plugins.Values);
+            return new List<IWhiteCoreDataPlugin>(Plugins.Values);
         }
 
         /// <summary>
@@ -48,11 +48,11 @@ namespace Vision.Framework.Utilities
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static T RequestPlugin<T>() where T : IVisionDataPlugin
+        public static T RequestPlugin<T>() where T : IWhiteCoreDataPlugin
         {
             if (Plugins.ContainsKey(typeof (T).Name))
             {
-                IVisionDataPlugin Plugin;
+                IWhiteCoreDataPlugin Plugin;
                 Plugins.TryGetValue(typeof (T).Name, out Plugin);
                 return (T) Plugin;
             }
@@ -65,11 +65,11 @@ namespace Vision.Framework.Utilities
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static T RequestPlugin<T>(string name) where T : IVisionDataPlugin
+        public static T RequestPlugin<T>(string name) where T : IWhiteCoreDataPlugin
         {
             if (Plugins.ContainsKey(name))
             {
-                IVisionDataPlugin Plugin;
+                IWhiteCoreDataPlugin Plugin;
                 Plugins.TryGetValue(name, out Plugin);
                 return (T) Plugin;
             }
@@ -81,7 +81,7 @@ namespace Vision.Framework.Utilities
         ///     Register a new plugin to the registry
         /// </summary>
         /// <param name="plugin"></param>
-        public static void RegisterPlugin(IVisionDataPlugin plugin)
+        public static void RegisterPlugin(IWhiteCoreDataPlugin plugin)
         {
             RegisterPlugin(plugin.Name, plugin);
         }
@@ -91,7 +91,7 @@ namespace Vision.Framework.Utilities
         /// </summary>
         /// <param name="name"></param>
         /// <param name="plugin"></param>
-        public static void RegisterPlugin(string name, IVisionDataPlugin plugin)
+        public static void RegisterPlugin(string name, IWhiteCoreDataPlugin plugin)
         {
             if (!Plugins.ContainsKey(name))
                 Plugins.Add(name, plugin);

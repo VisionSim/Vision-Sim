@@ -61,7 +61,7 @@ namespace Vision.Framework.Utilities
         public static string GetServerReleaseNotesURL()
         {
 			return (MainServer.Instance.Secure ? "https://" : "http://") + MainServer.Instance.HostName +
-                   ":" + MainServer.Instance.Port + "/VisionServerRelease" + VisionServerVersion() + ".html";
+                   ":" + MainServer.Instance.Port + "/WhiteCoreServerRelease" + WhiteCoreServerVersion() + ".html";
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace Vision.Framework.Utilities
         ///     What is our version?
         /// </summary>
         /// <returns></returns>
-        public static string VisionServerVersion()
+        public static string WhiteCoreServerVersion()
         {
             return VersionInfo.VERSION_NUMBER;
         }

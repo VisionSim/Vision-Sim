@@ -30,9 +30,9 @@ using Vision.Framework.Services;
 using Vision.Services.DataService;
 using Nini.Config;
 
-namespace Vision.CoreApplicationPlugins.VisionData
+namespace Vision.CoreApplicationPlugins.WhiteCoreData
 {
-    public class VisionDataStartupPlugin : IApplicationPlugin
+    public class WhiteCoreDataStartupPlugin : IApplicationPlugin
     {
         #region IApplicationPlugin Members
 
@@ -46,7 +46,7 @@ namespace Vision.CoreApplicationPlugins.VisionData
             service.Initialize(simBase.ConfigSource, simBase.ApplicationRegistry);
         }
 
-        public void PostInitialize()
+        public void PostInitialise()
         {
         }
 

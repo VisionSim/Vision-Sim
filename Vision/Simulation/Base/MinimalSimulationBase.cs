@@ -87,9 +87,9 @@ namespace Vision.Simulation.Base
             get { return m_applicationRegistry; }
         }
 
-        protected VisionEventManager m_eventManager = new VisionEventManager();
+        protected WhiteCoreEventManager m_eventManager = new WhiteCoreEventManager();
 
-        public VisionEventManager EventManager
+        public WhiteCoreEventManager EventManager
         {
             get { return m_eventManager; }
         }
@@ -217,9 +217,9 @@ namespace Vision.Simulation.Base
             if (MainConsole.Instance != null)
             {
                 MainConsole.Instance.DefaultPrompt = m_consolePrompt;
-                MainConsole.Instance.Info(string.Format("[MINVision]: STARTING MIN Vision ({0})...",
+                MainConsole.Instance.Info(string.Format("[MINWhiteCore]: STARTING MIN Vision ({0})...",
                                                         (IntPtr.Size == 4 ? "x86" : "x64")));
-                MainConsole.Instance.Info("[MINVision]: Version: " + Version + "\n");
+                MainConsole.Instance.Info("[MINWhiteCore]: Version: " + Version + "\n");
             }
         }
 
@@ -228,7 +228,7 @@ namespace Vision.Simulation.Base
         /// </summary>
         public virtual void Startup()
         {
-            MainConsole.Instance.Info("[MINVision]: Startup completed in " +
+            MainConsole.Instance.Info("[MINWhiteCore]: Startup completed in " +
                                       (DateTime.Now - this.StartupTime).TotalSeconds);
         }
 
@@ -316,7 +316,7 @@ namespace Vision.Simulation.Base
             List<dynamic> modules = new List<dynamic>();
             foreach (Type t in m_servicePlugins)
             {
-                var mods = VisionModuleLoader.PickupModules(t);
+                var mods = WhiteCoreModuleLoader.PickupModules(t);
                 modules.AddRange(mods);
             }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -1742,7 +1742,7 @@ namespace Vision.Region
                 object[] o = new object[2];
                 o[0] = this;
                 o[1] = flag;
-                m_parentGroup.Scene.VisionEventManager.FireGenericEventHandler("ObjectAddedFlag", o);
+                m_parentGroup.Scene.WhiteCoreEventManager.FireGenericEventHandler("ObjectAddedFlag", o);
                 return true;
             }
             return false;
@@ -2125,7 +2125,7 @@ namespace Vision.Region
                 object[] o = new object[2];
                 o[0] = this;
                 o[1] = flag;
-                m_parentGroup.Scene.VisionEventManager.FireGenericEventHandler("ObjectRemovedFlag", o);
+                m_parentGroup.Scene.WhiteCoreEventManager.FireGenericEventHandler("ObjectRemovedFlag", o);
                 return true;
             }
             return false;
@@ -3215,7 +3215,7 @@ namespace Vision.Region
                 RemFlag(PrimFlags.TemporaryOnRez);
 
             if (UsePhysics != wasUsingPhysics) //Fire the event
-                ParentGroup.Scene.VisionEventManager.FireGenericEventHandler("ObjectChangedPhysicalStatus", ParentGroup);
+                ParentGroup.Scene.WhiteCoreEventManager.FireGenericEventHandler("ObjectChangedPhysicalStatus", ParentGroup);
 
             ParentGroup.HasGroupChanged = true;
             ScheduleUpdate(PrimUpdateFlags.PrimFlags);

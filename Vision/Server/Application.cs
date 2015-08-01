@@ -31,13 +31,13 @@ using Vision.Simulation.Base;
 namespace Vision.Server
 {
     /// <summary>
-    ///     Starting class for the Vision Sim Server
+    ///     Starting class for the Vision Server
     /// </summary>
     public class Application
     {
         public static void Main(string[] args)
         {
-            BaseApplication.BaseMain(args, "Vision.Server.ini", new VisionBase());
+            BaseApplication.BaseMain(args, "Vision.Server.ini", new WhiteCoreBase());
         }
     }
 }

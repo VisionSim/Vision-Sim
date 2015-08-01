@@ -32,7 +32,7 @@ using System.Collections.Generic;
 
 namespace Vision.Framework.DatabaseInterfaces
 {
-    public interface IEstateConnector : IVisionDataPlugin
+    public interface IEstateConnector : IWhiteCoreDataPlugin
     {
         /// <summary>
         /// Are we doing local or remote calls.

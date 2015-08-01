@@ -59,7 +59,7 @@ namespace Vision.Region
                 m_simBase.ApplicationRegistry.RegisterModuleInterface<ISceneLoader>(this);
         }
 
-        public void PostInitialize()
+        public void PostInitialise()
         {
         }
 
@@ -96,7 +96,7 @@ namespace Vision.Region
         public IScene CreateScene(ISimulationDataStore dataStore, RegionInfo regionInfo)
         {
             AgentCircuitManager circuitManager = new AgentCircuitManager();
-            List<IClientNetworkServer> clientServers = VisionModuleLoader.PickupModules<IClientNetworkServer>();
+            List<IClientNetworkServer> clientServers = WhiteCoreModuleLoader.PickupModules<IClientNetworkServer>();
             List<IClientNetworkServer> allClientServers = new List<IClientNetworkServer>();
             foreach (IClientNetworkServer clientServer in clientServers)
             {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,7 +59,7 @@ namespace Vision.Modules.ActivityDetectors
 
         public void AddRegion(IScene scene)
         {
-            scene.VisionEventManager.RegisterEventHandler("AgentIsAZombie", OnGenericEvent);
+            scene.WhiteCoreEventManager.RegisterEventHandler("AgentIsAZombie", OnGenericEvent);
             scene.EventManager.OnNewClient += OnNewClient;
             scene.EventManager.OnClosingClient += OnClosingClient;
         }

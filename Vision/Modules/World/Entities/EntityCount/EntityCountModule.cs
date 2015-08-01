@@ -94,7 +94,7 @@ namespace Vision.Modules.Entities.EntityCount
             scene.EventManager.OnObjectBeingAddedToScene += OnObjectBeingAddedToScene;
             scene.EventManager.OnObjectBeingRemovedFromScene += OnObjectBeingRemovedFromScene;
 
-            scene.VisionEventManager.RegisterEventHandler("ObjectChangedPhysicalStatus", OnGenericEvent);
+            scene.WhiteCoreEventManager.RegisterEventHandler("ObjectChangedPhysicalStatus", OnGenericEvent);
         }
 
         public void RegionLoaded(IScene scene)

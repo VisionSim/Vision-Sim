@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -184,8 +184,8 @@ namespace Vision.Modules.Land
             m_scene.EventManager.OnRegisterCaps += EventManagerOnRegisterCaps;
             m_scene.EventManager.OnClosingClient += OnClosingClient;
             m_scene.EventManager.OnFrame += EventManager_OnFrame;
-            m_scene.VisionEventManager.RegisterEventHandler("ObjectAddedFlag", VisionEventManager_OnGenericEvent);
-            m_scene.VisionEventManager.RegisterEventHandler("ObjectRemovedFlag", VisionEventManager_OnGenericEvent);
+            m_scene.WhiteCoreEventManager.RegisterEventHandler("ObjectAddedFlag", WhiteCoreEventManager_OnGenericEvent);
+            m_scene.WhiteCoreEventManager.RegisterEventHandler("ObjectRemovedFlag", WhiteCoreEventManager_OnGenericEvent);
             if (m_UpdateDirectoryOnTimer)
                 m_scene.EventManager.OnStartupComplete += EventManager_OnStartupComplete;
 
@@ -311,7 +311,7 @@ namespace Vision.Modules.Land
             }
         }
 
-        object VisionEventManager_OnGenericEvent(string FunctionName, object parameters)
+        object WhiteCoreEventManager_OnGenericEvent(string FunctionName, object parameters)
         {
             if (FunctionName == "ObjectAddedFlag")
             {
@@ -926,7 +926,7 @@ namespace Vision.Modules.Land
                         param[0] = group;
                         param[1] = over.LandData.GlobalID;
                         param[2] = oldParcelUUID;
-                        m_scene.VisionEventManager.FireGenericEventHandler("ObjectEnteringNewParcel", param);
+                        m_scene.WhiteCoreEventManager.FireGenericEventHandler("ObjectEnteringNewParcel", param);
                     }
                 }
             }

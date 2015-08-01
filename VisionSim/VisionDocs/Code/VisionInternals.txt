@@ -8,7 +8,7 @@ Each of these deal with a different part of Vision and implement the key pieces 
 The IScene interface is the interface that implements what the client sees and deals with keeping the region running while the client is there.
 It deals with running the heartbeat threads which keep the region running, syncronizing modules, firing events, and connecting clients.
 It implements the IRegistryCore interface, which will be discussed later, and this allows it to connect module interfaces.
-It also fires events (through the VisionEventManager and the EventManager), that tell listening modules things that are going on in the Scene so that they can act upon it.
+It also fires events (through the WhiteCoreEventManager and the EventManager), that tell listening modules things that are going on in the Scene so that they can act upon it.
 
 The ISimulationBase is the base of both Vision and Vision.Server. It is the first interface to be started when running Vision, and it deals with the loading of the configuration files, the console, 
 and the startup of the IApplicationPlugins. It also creates the first instance of the IRegistryCore interface, and all modules that register with the ISimulationBase will be accessable to any other 

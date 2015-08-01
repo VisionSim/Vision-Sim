@@ -1,5 +1,0 @@
-C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Vision.Services.GenericServices.dll
-C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Vision.Services.GenericServices.pdb
-C:\Users\Fred\Desktop\VisionSim-Master\Vision\Services\GenericServices\obj\Debug\Vision.Services.GenericServices.csprojResolveAssemblyReference.cache
-C:\Users\Fred\Desktop\VisionSim-Master\Vision\Services\GenericServices\obj\Debug\Vision.Services.GenericServices.dll
-C:\Users\Fred\Desktop\VisionSim-Master\Vision\Services\GenericServices\obj\Debug\Vision.Services.GenericServices.pdb

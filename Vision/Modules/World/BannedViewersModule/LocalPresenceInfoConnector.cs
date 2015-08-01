@@ -44,7 +44,7 @@ namespace Vision.Modules.Ban
         public void Initialize(IGenericData GenericData, IConfigSource source, IRegistryCore registry,
                                string DefaultConnectionString)
         {
-            if (source.Configs["VisionConnectors"].GetString("PresenceInfoConnector", "LocalConnector") ==
+            if (source.Configs["WhiteCoreConnectors"].GetString("PresenceInfoConnector", "LocalConnector") ==
                 "LocalConnector")
             {
                 GD = GenericData;

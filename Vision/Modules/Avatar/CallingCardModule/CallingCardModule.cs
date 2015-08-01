@@ -100,7 +100,7 @@ namespace Vision.Modules.CallingCards
 
         public string Name
         {
-            get { return "VisionCallingCardModule"; }
+            get { return "WhiteCoreCallingCardModule"; }
         }
 
         #endregion

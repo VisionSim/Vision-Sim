@@ -68,12 +68,12 @@ namespace Vision.ScriptEngine.DotNetEngine
         public bool ScriptChangeIsRunning;
 
         private int SleepingScriptEventCount;
-        public VisionThreadPool cmdThreadpool;
+        public WhiteCoreThreadPool cmdThreadpool;
         private int m_CheckingEvents;
         private int m_CheckingSleepers;
         public bool m_Started;
-        public VisionThreadPool scriptChangeThreadpool;
-        public VisionThreadPool scriptThreadpool;
+        public WhiteCoreThreadPool scriptChangeThreadpool;
+        public WhiteCoreThreadPool scriptThreadpool;
 
         public bool Started
         {
@@ -110,7 +110,7 @@ namespace Vision.ScriptEngine.DotNetEngine
             //There IS a reason we start this, even if RunInMain is enabled
             // If this isn't enabled, we run into issues with the CmdHandlerQueue,
             // as it always must be async, so we must run the pool anyway
-            VisionThreadPoolStartInfo info = new VisionThreadPoolStartInfo
+            WhiteCoreThreadPoolStartInfo info = new WhiteCoreThreadPoolStartInfo
                                                  {
                                                      priority = ThreadPriority.Normal,
                                                      Threads = 1,
@@ -118,9 +118,9 @@ namespace Vision.ScriptEngine.DotNetEngine
                                                      SleepIncrementTime = Engine.Config.GetInt("SleepIncrementTime", 1),
                                                      Name = "Script Cmd Thread Pools"
                                                  };
-            cmdThreadpool = new VisionThreadPool(info);
+            cmdThreadpool = new WhiteCoreThreadPool(info);
             
-            VisionThreadPoolStartInfo scinfo = new VisionThreadPoolStartInfo
+            WhiteCoreThreadPoolStartInfo scinfo = new WhiteCoreThreadPoolStartInfo
                                                  {
                                                      priority = ThreadPriority.Normal,
                                                      Threads = 1,
@@ -129,10 +129,10 @@ namespace Vision.ScriptEngine.DotNetEngine
                                                      Name = "Script Loading Thread Pools"
                                                  };
         
-            scriptChangeThreadpool = new VisionThreadPool(scinfo);
+            scriptChangeThreadpool = new WhiteCoreThreadPool(scinfo);
 
             MaxScriptThreads = Engine.Config.GetInt("MaxScriptThreads", 100); // leave control threads out of user option
-            VisionThreadPoolStartInfo sinfo = new VisionThreadPoolStartInfo
+            WhiteCoreThreadPoolStartInfo sinfo = new WhiteCoreThreadPoolStartInfo
                                                   {
                                                       priority = ThreadPriority.Normal,
                                                       Threads = MaxScriptThreads,
@@ -141,7 +141,7 @@ namespace Vision.ScriptEngine.DotNetEngine
                                                       KillThreadAfterQueueClear = true,
                                                       Name = "Script Event Thread Pools"
                                                   };
-            scriptThreadpool = new VisionThreadPool(sinfo);
+            scriptThreadpool = new WhiteCoreThreadPool(sinfo);
 
             AppDomain.CurrentDomain.AssemblyResolve += m_ScriptEngine.AssemblyResolver.OnAssemblyResolve;
         }

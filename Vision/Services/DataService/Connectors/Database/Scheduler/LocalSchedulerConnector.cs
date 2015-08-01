@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,7 +48,7 @@ namespace Vision.Services.DataService.Connectors.Database.Scheduler
                                                       "schedule_for"
                                                   };
 
-        #region Implementation of IVisionDataPlugin
+        #region Implementation of IWhiteCoreDataPlugin
 
         /// <summary>
         ///     Returns the plugin name
@@ -69,14 +69,14 @@ namespace Vision.Services.DataService.Connectors.Database.Scheduler
         public void Initialize(IGenericData GenericData, IConfigSource source, IRegistryCore simBase,
                                string DefaultConnectionString)
         {
-            if (source.Configs["VisionConnectors"].GetString("SchedulerConnector", "LocalConnector") != "LocalConnector")
+            if (source.Configs["WhiteCoreConnectors"].GetString("SchedulerConnector", "LocalConnector") != "LocalConnector")
                 return;
 
             if (source.Configs[Name] != null)
                 DefaultConnectionString = source.Configs[Name].GetString("ConnectionString", DefaultConnectionString);
             if (GenericData != null)
                 GenericData.ConnectToDatabase(DefaultConnectionString, "Scheduler",
-                                              source.Configs["VisionConnectors"].GetBoolean("ValidateTables", true));
+                                              source.Configs["WhiteCoreConnectors"].GetBoolean("ValidateTables", true));
 
             m_Gd = GenericData;
             Framework.Utilities.DataManager.RegisterPlugin(this);

@@ -274,7 +274,7 @@ namespace Vision.BotManager
         ///     HereEvent - Triggered when a script passes TRIGGER_HERE_EVENT via botSetMap
         ///     ChangedState = Triggered when the state of a bot changes
         /// </summary>
-        public VisionEventManager EventManager = new VisionEventManager();
+        public WhiteCoreEventManager EventManager = new WhiteCoreEventManager();
 
         public BotState m_currentState = BotState.Idle;
         public BotState m_previousState = BotState.Idle;

@@ -1058,7 +1058,7 @@ namespace Vision.Modules.Estate
             }
         }
 
-        public void PostInitialize (IScene scene, IConfigSource source, ISimulationBase simBase)
+        public void PostInitialise (IScene scene, IConfigSource source, ISimulationBase simBase)
         {
         }
 

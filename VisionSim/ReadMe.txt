@@ -1,4 +1,4 @@
-Vision-Dev 0.9.3+ (git)
+Vision-Dev 1.0.1+ (git)
 Rowan Deppeler <greythane@gmail.com>
 June 2014
 Fly-Man-
@@ -71,7 +71,7 @@ Note:  You will need to use both the 'grid' and 'sim' startup scripts.
 
 ** Updating **
 ==============
-Checkout the 'Build Your Own.txt' file in the 'VisionDocs' folder for details
+Checkout the 'Build Your Own.txt' file in the 'WhiteCoreDocs' folder for details
  if you want to build from source.
 Re-compile and copy/paste the new 'VisionSim/bin' subdirectory from your build environment.
 
@@ -93,7 +93,7 @@ re-start..
 
 Questions?
 ==========
-Checkout the #Vision-support irc channel on freenode,
+Checkout the #vision-support irc channel on freenode,
 or check into the Google+ AuroraSim/VisionSim group at 
 https://plus.google.com/communitites/113034607546142208907
 

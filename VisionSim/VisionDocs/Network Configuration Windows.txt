@@ -103,4 +103,4 @@ is set for Windows Firewall.  On to the Gateway stuff.......
   The name Vision-Sim, vision-sim.org, and the Vision-Sim logos and marks, are the property of their respective
   creators. Namely Greythane or Fly-Man.
   Third party software and code contributed to Vision-Sim is done so under an opensource license.  For more information
-  please see LICENSE.txt in VisionSim/VisionDocs/LICENSE.txt.
+  please see LICENSE.txt in VisionSim/WhiteCoreDocs/LICENSE.txt.

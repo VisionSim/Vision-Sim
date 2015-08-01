@@ -1,5 +1,5 @@
 #!/bin/bash
-# Start the WhiteCore-Sim Grid server
+# Start the Vision-Sim Grid server
 # Version 0.9.2+
 #
 # May 2014
@@ -10,8 +10,8 @@ cd $WOASDIR
 echo $WOASDIR
 
 cd ./bin
-echo Starting WhiteCore Grid server...
-mono WhiteCore.Server.exe -skipconfig
+echo Starting Vision Grid server...
+mono Vision.Server.exe -skipconfig
 wait
 
 exit

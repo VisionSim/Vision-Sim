@@ -87,9 +87,9 @@ namespace Vision.Simulation.Base
             get { return m_applicationRegistry; }
         }
 
-        protected VisionEventManager m_eventManager = new VisionEventManager();
+        protected WhiteCoreEventManager m_eventManager = new WhiteCoreEventManager();
 
-        public VisionEventManager EventManager
+        public WhiteCoreEventManager EventManager
         {
             get { return m_eventManager; }
         }
@@ -209,17 +209,17 @@ namespace Vision.Simulation.Base
 				        string.Format("==================== STARTING Vision ({0}) ======================",
                               (IntPtr.Size == 4 ? "x86" : "x64")));
             MainConsole.Instance.Info("====================================================================");
-            MainConsole.Instance.Info("[VisionStartup]: Version: " + Version + "\n");
+            MainConsole.Instance.Info("[WhiteCoreStartup]: Version: " + Version + "\n");
             if (Environment.Is64BitOperatingSystem)
-                MainConsole.Instance.Info("[VisionStartup]: Running on 64 bit architecture");
+                MainConsole.Instance.Info("[WhiteCoreStartup]: Running on 64 bit architecture");
             // get memory allocation
             Process proc = Process.GetCurrentProcess();
-            MainConsole.Instance.Info("[VisionStartup]: Allocated RAM " + proc.WorkingSet64);
+            MainConsole.Instance.Info("[WhiteCoreStartup]: Allocated RAM " + proc.WorkingSet64);
             if (Utilities.IsLinuxOs)
             {
                 var pc = new PerformanceCounter ("Mono Memory", "Total Physical Memory");
                 var bytes = pc.RawValue;
-                MainConsole.Instance.InfoFormat ("[VisionStartup]: Physical RAM (Mbytes): {0}", bytes / 1024000);
+                MainConsole.Instance.InfoFormat ("[WhiteCoreStartup]: Physical RAM (Mbytes): {0}", bytes / 1024000);
             }
 
             SetUpHTTPServer();
@@ -329,7 +329,7 @@ namespace Vision.Simulation.Base
 
         public virtual void InitializeModules()
         {
-            m_applicationPlugins = VisionModuleLoader.PickupModules<IApplicationPlugin>();
+            m_applicationPlugins = WhiteCoreModuleLoader.PickupModules<IApplicationPlugin>();
             foreach (IApplicationPlugin plugin in m_applicationPlugins)
                 plugin.PreStartup(this);
         }
@@ -343,7 +343,7 @@ namespace Vision.Simulation.Base
                 plugin.Initialize(this);
 
             foreach (IApplicationPlugin plugin in m_applicationPlugins)
-                plugin.PostInitialize();
+                plugin.PostInitialise();
 
             foreach (IApplicationPlugin plugin in m_applicationPlugins)
                 plugin.Start();

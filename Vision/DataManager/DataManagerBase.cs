@@ -48,7 +48,7 @@ namespace Vision.DataManager
         public abstract bool TableExists(string table);
         public abstract void CreateTable(string table, ColumnDefinition[] columns, IndexDefinition[] indexDefinitions);
 
-        public Version GetVisionVersion(string migratorName)
+        public Version GetWhiteCoreVersion(string migratorName)
         {
             if (!TableExists(VERSION_TABLE_NAME))
             {
@@ -90,7 +90,7 @@ namespace Vision.DataManager
             return null;
         }
 
-        public void WriteVisionVersion(Version version, string MigrationName)
+        public void WriteWhiteCoreVersion(Version version, string MigrationName)
         {
             if (!TableExists(VERSION_TABLE_NAME))
             {

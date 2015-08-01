@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -334,7 +334,7 @@ namespace Vision.Region
                 {
                     m_DrawDistance = value;
                     //Fire the event
-                    Scene.VisionEventManager.FireGenericEventHandler("DrawDistanceChanged", this);
+                    Scene.WhiteCoreEventManager.FireGenericEventHandler("DrawDistanceChanged", this);
                     if (!IsChildAgent)
                     {
                         //Send an update to all child agents if we are a root agent
@@ -1158,7 +1158,7 @@ namespace Vision.Region
             if (Util.GetFlatDistanceTo(agentData.CameraCenter, m_lastCameraCenter) > SIGNIFICANT_MOVEMENT*10)
             {
                 m_lastCameraCenter = agentData.CameraCenter;
-                Scene.VisionEventManager.FireGenericEventHandler("SignficantCameraMovement", this);
+                Scene.WhiteCoreEventManager.FireGenericEventHandler("SignficantCameraMovement", this);
             }
 
             // Camera location in world.  We'll need to raytrace
@@ -2764,7 +2764,7 @@ namespace Vision.Region
         /// </summary>
         public virtual void AddToPhysicalScene(bool isFlying, bool AddAvHeightToPosition)
         {
-            //Make sure we arn't already doing this
+            //Make sure we aren't already doing this
             if (m_creatingPhysicalRepresentation)
                 return;
 

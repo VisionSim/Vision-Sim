@@ -67,7 +67,7 @@ Directory: Config/Sim
 
   /Main.ini : change includes from Standalone to Grid mode
 	    	Add comment    ';' ->	 ;Include-Standalone = Configuration/Standalone/StandaloneCommon.ini
-			Remove comment ';' ->    Include-Grid = Configuration/Grid/VisionGridCommon.ini
+			Remove comment ';' ->    Include-Grid = Configuration/Grid/WhiteCoreGridCommon.ini
 
  /Grid/GridCommon.ini :  If you are not running the Grid services on the same system as the simulator, you
  								  will need to change the Address of where to find the GridServerURI.

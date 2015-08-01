@@ -52,7 +52,7 @@ namespace Vision.Services
         public void Start(IConfigSource config, IRegistryCore registry)
         {
             m_config = config;
-            IConfig handlerConfig = config.Configs["VisionConnectors"];
+            IConfig handlerConfig = config.Configs["WhiteCoreConnectors"];
             if (!handlerConfig.GetBoolean("AllowRemoteCalls", false))
                 return;
 

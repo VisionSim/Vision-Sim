@@ -1,4 +1,0 @@
-C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Physics\Vision.Physics.BasicPhysicsPlugin.dll
-C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Physics\Vision.Physics.BasicPhysicsPlugin.pdb
-C:\Users\Fred\Desktop\VisionSim-Master\Vision\Physics\BasicPhysicsPlugin\obj\Debug\Vision.Physics.BasicPhysicsPlugin.dll
-C:\Users\Fred\Desktop\VisionSim-Master\Vision\Physics\BasicPhysicsPlugin\obj\Debug\Vision.Physics.BasicPhysicsPlugin.pdb

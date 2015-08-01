@@ -114,7 +114,7 @@ namespace Vision.Framework.Services
             {
                 IConfigSource source = registry.RequestModuleInterface<ISimulationBase>().ConfigSource;
                 IConfig config;
-                if ((config = source.Configs["VisionConnectors"]) != null)
+                if ((config = source.Configs["WhiteCoreConnectors"]) != null)
                 {
                     m_doRemoteCalls = config.Contains(name + "DoRemoteCalls")
                                           ? config.GetBoolean(name + "DoRemoteCalls", false)

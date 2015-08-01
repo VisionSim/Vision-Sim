@@ -103,7 +103,7 @@ namespace Vision.ScriptEngine.DotNetEngine.CompilerTools
             //Find the default compiler
             FindDefaultCompiler();
 
-#if DNE_DEBUG
+#if WDNE_DEBUG
             TestScripts();
         }
         
@@ -182,7 +182,7 @@ namespace Vision.ScriptEngine.DotNetEngine.CompilerTools
 
         private void SetupCompilers()
         {
-            converters = VisionModuleLoader.PickupModules<IScriptConverter>();
+            converters = WhiteCoreModuleLoader.PickupModules<IScriptConverter>();
             foreach (IScriptConverter convert in converters)
             {
                 convert.Initialize(this);

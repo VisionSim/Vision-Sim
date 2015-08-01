@@ -31,7 +31,7 @@ using OpenMetaverse;
 
 namespace Vision.Framework.DatabaseInterfaces
 {
-    public interface IRegionInfoConnector : IVisionDataPlugin
+    public interface IRegionInfoConnector : IWhiteCoreDataPlugin
     {
         /// <summary>
         ///     Gets RegionInfos for the database region connector

@@ -36,7 +36,7 @@ using System.Collections.Generic;
 
 namespace Vision.Framework.DatabaseInterfaces
 {
-    public interface IDirectoryServiceConnector : IVisionDataPlugin
+    public interface IDirectoryServiceConnector : IWhiteCoreDataPlugin
     {
         #region Regions
 

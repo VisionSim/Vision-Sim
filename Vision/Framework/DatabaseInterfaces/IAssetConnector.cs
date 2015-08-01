@@ -30,7 +30,7 @@ using Vision.Framework.Services;
 
 namespace Vision.Framework.DatabaseInterfaces
 {
-    public interface IAssetConnector : IVisionDataPlugin
+    public interface IAssetConnector : IWhiteCoreDataPlugin
     {
         /// <summary>
         ///     Adds data from the AA commands to the database to be saved.

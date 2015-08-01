@@ -7,7 +7,7 @@ Vision.exe -RegionDataFileName=test.sim
 ;; Change the log file name from Vision.log to Vision<file>.log
 ;; For example
 Vision.exe -LogAppendName=test
-;; Makes a log file with Visiontest.log
+;; Makes a log file with WhiteCoretest.log
 
 ;; Change the http port set
 ;; Overrides whatever is set in [Network]
@@ -41,12 +41,12 @@ Vision.exe -mainIniDirectory=C:\Config
 ;; This option sets the name of the first .ini file to load
 ;; The default for this option is Vision.ini
 ;; Example
-Vision.exe -mainIniFileName=VisionTesting.ini
+Vision.exe -mainIniFileName=WhiteCoreTesting.ini
 
 ;; This options sets the secondary file to load. This loads after the mainIniFileName file has loaded and can be used to override options from it
 ;; The default for this option is ""
 ;; Example
-Vision.exe -secondaryIniFileName=VisionSecondaryTesting.ini
+Vision.exe -secondaryIniFileName=WhiteCoreSecondaryTesting.ini
 
 
 ;; Old Style Command line functions for .ini configuration

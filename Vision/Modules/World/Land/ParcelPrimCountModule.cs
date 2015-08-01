@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -95,8 +95,8 @@ namespace Vision.Modules.Land
                 OnObjectBeingRemovedFromScene;
             m_Scene.EventManager.OnLandObjectAdded += OnLandObjectAdded;
             m_Scene.EventManager.OnLandObjectRemoved += OnLandObjectRemoved;
-            m_Scene.VisionEventManager.RegisterEventHandler("ObjectChangedOwner", OnGenericEvent);
-            m_Scene.VisionEventManager.RegisterEventHandler("ObjectEnteringNewParcel", OnGenericEvent);
+            m_Scene.WhiteCoreEventManager.RegisterEventHandler("ObjectChangedOwner", OnGenericEvent);
+            m_Scene.WhiteCoreEventManager.RegisterEventHandler("ObjectEnteringNewParcel", OnGenericEvent);
             m_Scene.EventManager.OnSceneGroupMove += EventManager_OnSceneGroupMove;
         }
 
@@ -127,8 +127,8 @@ namespace Vision.Modules.Land
                 OnObjectBeingRemovedFromScene;
             m_Scene.EventManager.OnLandObjectAdded -= OnLandObjectAdded;
             m_Scene.EventManager.OnLandObjectRemoved -= OnLandObjectRemoved;
-            m_Scene.VisionEventManager.UnregisterEventHandler("ObjectChangedOwner", OnGenericEvent);
-            m_Scene.VisionEventManager.UnregisterEventHandler("ObjectEnteringNewParcel", OnGenericEvent);
+            m_Scene.WhiteCoreEventManager.UnregisterEventHandler("ObjectChangedOwner", OnGenericEvent);
+            m_Scene.WhiteCoreEventManager.UnregisterEventHandler("ObjectEnteringNewParcel", OnGenericEvent);
             m_Scene.EventManager.OnSceneGroupMove -= EventManager_OnSceneGroupMove;
             m_Scene = null;
         }

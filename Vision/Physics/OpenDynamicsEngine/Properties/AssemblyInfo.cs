@@ -34,7 +34,7 @@ using System.Runtime.InteropServices;
 // change them to the information which is associated with the assembly
 // you compile.
 
-[assembly: AssemblyTitle("VisionOdePlugin")]
+[assembly: AssemblyTitle("WhiteCoreOdePlugin")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("http://Vision-sim.org")]

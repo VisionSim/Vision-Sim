@@ -1,4 +1,0 @@
-C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Vision.Region.dll
-C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Vision.Region.pdb
-C:\Users\Fred\Desktop\VisionSim-Master\Vision\Region\obj\Debug\Vision.Region.dll
-C:\Users\Fred\Desktop\VisionSim-Master\Vision\Region\obj\Debug\Vision.Region.pdb

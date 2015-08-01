@@ -2,7 +2,7 @@
 # Run prebuild to configure and create the appropriate Solution and Project files for building Vision-Sim
 #
 # July 2015
-# BritanyannCopperfield
+# Rowan Deppeler <greythane@gmail.com>
 
 ARCH="x64"
 CONFIG="Debug"
@@ -94,7 +94,7 @@ fi
 
 # Update version info
 if [ -d ".git" ]; then 
-  git log --pretty=format:"Vision 0.9.3 (%cd.%h)" --date=short -n 1 > VisionSim/bin/.version; 
+  git log --pretty=format:"Vision 1.0.1 (%cd.%h)" --date=short -n 1 > VisionSim/bin/.version; 
   echo "Version info updated"
 fi
 
@@ -102,9 +102,9 @@ fi
 if $BUILD ; then
   echo Building Vision-Sim
   xbuild /property:Configuration="$CONFIG" /property:Platform="$ARCH"
-  echo Finished Building Vision-Sim
+  echo Finished Building Vision
   echo Thank you for choosing Vision-Sim
-  echo Please report any errors to our Github Issue Tracker https://github.com/VisionSim/Vision-Sim/issues
+  echo Please report any errors to our Github Issue Tracker https://github.com/VisionSim/Vision-Dev/issues
 else
   echo "Vision-Sim has been configured to compile with $ARCH $CONFIG options"
   echo "To manually build, enter 'xbuild Vision.sln' at the command prompt"

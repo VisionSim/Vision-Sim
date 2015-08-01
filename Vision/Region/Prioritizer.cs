@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -86,7 +86,7 @@ namespace Vision.Region
         public bool ShowEntityToClient(IScenePresence client, IEntity entity, IScene scene, int currentTickCount)
         {
             if (!m_useCulling)
-                return true; //If we arn't using culling, return true by default to show all prims
+                return true; //If we aren't using culling, return true by default to show all prims
             if (entity == null || client == null || scene == null)
                 return false;
 

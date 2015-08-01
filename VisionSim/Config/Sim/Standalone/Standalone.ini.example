@@ -7,7 +7,7 @@
 EntityTransferModule = BasicEntityTransferModule
 InventoryAccessModule = BasicInventoryAccessModule
 
-[VisionConnectors]
+[WhiteCoreConnectors]
 AbuseReportsConnector = LocalConnector
 AssetConnector = LocalConnector
 AvatarArchiverConnector = LocalConnector

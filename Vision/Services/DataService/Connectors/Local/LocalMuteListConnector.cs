@@ -53,11 +53,11 @@ namespace Vision.Services.DataService
 
             if (GD != null)
                 GD.ConnectToDatabase(defaultConnectionString, "Generics",
-                                     source.Configs["VisionConnectors"].GetBoolean("ValidateTables", true));
+                                     source.Configs["WhiteCoreConnectors"].GetBoolean("ValidateTables", true));
 
             Framework.Utilities.DataManager.RegisterPlugin(Name + "Local", this);
 
-            if (source.Configs["VisionConnectors"].GetString("MuteListConnector", "LocalConnector") == "LocalConnector")
+            if (source.Configs["WhiteCoreConnectors"].GetString("MuteListConnector", "LocalConnector") == "LocalConnector")
             {
                 Framework.Utilities.DataManager.RegisterPlugin(this);
             }

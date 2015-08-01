@@ -251,7 +251,7 @@ namespace Vision.Region.Physics.BulletSPlugin
             m_initialized = true;
         }
 
-        public override void PostInitialize(IConfigSource config)
+        public override void PostInitialise(IConfigSource config)
         {
         }
 

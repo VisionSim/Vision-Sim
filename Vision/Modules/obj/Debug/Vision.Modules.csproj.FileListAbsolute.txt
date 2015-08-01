@@ -1,5 +1,0 @@
-C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Vision.Modules.dll
-C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Vision.Modules.pdb
-C:\Users\Fred\Desktop\VisionSim-Master\Vision\Modules\obj\Debug\Vision.Modules.csprojResolveAssemblyReference.cache
-C:\Users\Fred\Desktop\VisionSim-Master\Vision\Modules\obj\Debug\Vision.Modules.dll
-C:\Users\Fred\Desktop\VisionSim-Master\Vision\Modules\obj\Debug\Vision.Modules.pdb

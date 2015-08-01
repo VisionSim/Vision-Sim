@@ -405,7 +405,7 @@ namespace Vision.Modules
                     responses.Add("Full Region");
                     responses.Add("Homestead");
                     responses.Add ("Openspace");
-                    responses.Add ("Whitecore");                            // TODO: remove?
+                    responses.Add ("Vision");                            // TODO: remove?
                     responses.Add ("Custom");                               
                     setupMode = MainConsole.Instance.Prompt("Mainland region type?", "Full Region", responses).ToLower ();
 
@@ -421,7 +421,7 @@ namespace Vision.Modules
                     info.RegionType = "Estate / ";                   
                     responses.Add("Full Region");
                     responses.Add("Homestead");
-                    responses.Add ("Whitecore");                            // TODO: Vision 'standard' setup, rename??
+                    responses.Add ("Vision");                            // TODO: Vision 'standard' setup, rename??
                     responses.Add ("Custom");
                     setupMode = MainConsole.Instance.Prompt("Estate region type?","Full Region", responses).ToLower();
                 }
@@ -475,7 +475,7 @@ namespace Vision.Modules
                 if (setupMode.StartsWith("w"))
                 {
                     // 'standard' setup
-                    info.RegionType = info.RegionType + "Whitecore";                   
+                    info.RegionType = info.RegionType + "Vision";                   
                     //info.RegionPort;            // use auto assigned port
                     info.RegionTerrain = "Flatland";
                     info.Startup = StartupType.Normal;
@@ -577,7 +577,7 @@ namespace Vision.Modules
 
         public virtual void SetRegion(IScene scene)
         {
-            scene.VisionEventManager.RegisterEventHandler("Backup", VisionEventManager_OnGenericEvent);
+            scene.WhiteCoreEventManager.RegisterEventHandler("Backup", WhiteCoreEventManager_OnGenericEvent);
             m_scene = scene;
         }
 
@@ -858,7 +858,7 @@ namespace Vision.Modules
         /// <param name="FunctionName"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        object VisionEventManager_OnGenericEvent(string FunctionName, object parameters)
+        object WhiteCoreEventManager_OnGenericEvent(string FunctionName, object parameters)
         {
             if (FunctionName == "Backup")
             {

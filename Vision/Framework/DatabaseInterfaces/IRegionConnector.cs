@@ -31,7 +31,7 @@ using OpenMetaverse;
 
 namespace Vision.Framework.DatabaseInterfaces
 {
-    public interface IRegionConnector : IVisionDataPlugin
+    public interface IRegionConnector : IWhiteCoreDataPlugin
     {
         /// <summary>
         ///     Adds a telehub for the region

@@ -74,7 +74,7 @@ namespace Vision.Modules.Startup
             scene.PhysicsScene = pScene;
         }
 
-        public void PostInitialize(IScene scene, IConfigSource source, ISimulationBase simBase)
+        public void PostInitialise(IScene scene, IConfigSource source, ISimulationBase simBase)
         {
         }
 

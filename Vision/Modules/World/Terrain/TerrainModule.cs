@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -140,9 +140,9 @@ namespace Vision.Modules.Terrain
             m_scene.EventManager.OnNewClient += EventManager_OnNewClient;
             m_scene.EventManager.OnClosingClient += OnClosingClient;
             m_scene.EventManager.OnSignificantClientMovement += EventManager_OnSignificantClientMovement;
-            m_scene.VisionEventManager.RegisterEventHandler("DrawDistanceChanged", VisionEventManager_OnGenericEvent);
-            m_scene.VisionEventManager.RegisterEventHandler("SignficantCameraMovement",
-                                                            VisionEventManager_OnGenericEvent);
+            m_scene.WhiteCoreEventManager.RegisterEventHandler("DrawDistanceChanged", WhiteCoreEventManager_OnGenericEvent);
+            m_scene.WhiteCoreEventManager.RegisterEventHandler("SignficantCameraMovement",
+                                                            WhiteCoreEventManager_OnGenericEvent);
             m_scene.EventManager.OnNewPresence += OnNewPresence;
 
             m_queueTimer.Enabled = false;
@@ -161,10 +161,10 @@ namespace Vision.Modules.Terrain
             m_scene.EventManager.OnNewClient -= EventManager_OnNewClient;
             m_scene.EventManager.OnClosingClient -= OnClosingClient;
             m_scene.EventManager.OnSignificantClientMovement -= EventManager_OnSignificantClientMovement;
-            m_scene.VisionEventManager.UnregisterEventHandler("DrawDistanceChanged",
-                                                              VisionEventManager_OnGenericEvent);
-            m_scene.VisionEventManager.UnregisterEventHandler("SignficantCameraMovement",
-                                                              VisionEventManager_OnGenericEvent);
+            m_scene.WhiteCoreEventManager.UnregisterEventHandler("DrawDistanceChanged",
+                                                              WhiteCoreEventManager_OnGenericEvent);
+            m_scene.WhiteCoreEventManager.UnregisterEventHandler("SignficantCameraMovement",
+                                                              WhiteCoreEventManager_OnGenericEvent);
             m_scene.EventManager.OnNewPresence -= OnNewPresence;
 
             // remove the interface
@@ -682,7 +682,7 @@ namespace Vision.Modules.Terrain
             if (!Directory.Exists(plugineffectsPath))
                 return;
 
-            ITerrainLoader[] loaders = VisionModuleLoader.PickupModules<ITerrainLoader>().ToArray();
+            ITerrainLoader[] loaders = WhiteCoreModuleLoader.PickupModules<ITerrainLoader>().ToArray();
             foreach (ITerrainLoader terLoader in loaders)
             {
                 m_loaders[terLoader.FileExtension] = terLoader;
@@ -772,7 +772,7 @@ namespace Vision.Modules.Terrain
             }
         }
 
-        object VisionEventManager_OnGenericEvent(string FunctionName, object parameters)
+        object WhiteCoreEventManager_OnGenericEvent(string FunctionName, object parameters)
         {
             if (FunctionName == "DrawDistanceChanged" || FunctionName == "SignficantCameraMovement")
             {

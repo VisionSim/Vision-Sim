@@ -56,10 +56,10 @@ namespace Vision.Services.DataService
 
             if (GD != null)
                 GD.ConnectToDatabase(defaultConnectionString, "Agent",
-                                     source.Configs["VisionConnectors"].GetBoolean("ValidateTables", true));
+                                     source.Configs["WhiteCoreConnectors"].GetBoolean("ValidateTables", true));
             Framework.Utilities.DataManager.RegisterPlugin(Name + "Local", this);
 
-            if (source.Configs["VisionConnectors"].GetString("AgentConnector", "LocalConnector") == "LocalConnector")
+            if (source.Configs["WhiteCoreConnectors"].GetString("AgentConnector", "LocalConnector") == "LocalConnector")
             {
                 Framework.Utilities.DataManager.RegisterPlugin(this);
             }

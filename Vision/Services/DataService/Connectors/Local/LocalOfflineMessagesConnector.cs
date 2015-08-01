@@ -54,12 +54,12 @@ namespace Vision.Services.DataService
 
             if (GD != null)
                 GD.ConnectToDatabase(defaultConnectionString, "Generics",
-                                     source.Configs["VisionConnectors"].GetBoolean("ValidateTables", true));
+                                     source.Configs["WhiteCoreConnectors"].GetBoolean("ValidateTables", true));
 
             Framework.Utilities.DataManager.RegisterPlugin(Name + "Local", this);
 
-            m_maxOfflineMessages = source.Configs["VisionConnectors"].GetInt("MaxOfflineMessages", m_maxOfflineMessages);
-            if (source.Configs["VisionConnectors"].GetString("OfflineMessagesConnector", "LocalConnector") ==
+            m_maxOfflineMessages = source.Configs["WhiteCoreConnectors"].GetInt("MaxOfflineMessages", m_maxOfflineMessages);
+            if (source.Configs["WhiteCoreConnectors"].GetString("OfflineMessagesConnector", "LocalConnector") ==
                 "LocalConnector")
             {
                 Framework.Utilities.DataManager.RegisterPlugin(this);

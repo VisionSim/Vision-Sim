@@ -1,4 +1,0 @@
-C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Vision.Server.InventoryServer.exe
-C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Vision.Server.InventoryServer.pdb
-C:\Users\Fred\Desktop\VisionSim-Master\Vision\Servers\InventoryServer\obj\Debug\Vision.Server.InventoryServer.exe
-C:\Users\Fred\Desktop\VisionSim-Master\Vision\Servers\InventoryServer\obj\Debug\Vision.Server.InventoryServer.pdb

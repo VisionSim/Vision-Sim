@@ -42,9 +42,9 @@ namespace Vision.Modules.Currency
     public class BaseCurrencyConnector : ConnectorBase, IBaseCurrencyConnector
     {
         #region Declares
-        const string _REALM = "base_currency";
-        const string _REALMHISTORY = "base_currency_history";
-        const string _REALMPURCHASE = "currency_purchased";
+        const string _REALM = "simple_currency";
+        const string _REALMHISTORY = "simple_currency_history";
+        const string _REALMPURCHASE = "simple_purchased";
 
         IGenericData m_gd;
         BaseCurrencyConfig m_config;
@@ -57,7 +57,7 @@ namespace Vision.Modules.Currency
         
         #endregion
 
-        #region IVisionDataPlugin Members
+        #region IWhiteCoreDataPlugin Members
 
         public string Name
         {
@@ -85,7 +85,7 @@ namespace Vision.Modules.Currency
                 defaultConnectionString = source.Configs[Name].GetString("ConnectionString", defaultConnectionString);
 
             if (GenericData != null)
-                GenericData.ConnectToDatabase(defaultConnectionString, "BaseCurrency", true);
+                GenericData.ConnectToDatabase(defaultConnectionString, "SimpleCurrency", true);
             Framework.Utilities.DataManager.RegisterPlugin(Name, this);
 
             m_config = new BaseCurrencyConfig(config);

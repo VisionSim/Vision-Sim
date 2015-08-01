@@ -1,5 +1,0 @@
-C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Vision.CoreApplicationPlugins.dll
-C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Vision.CoreApplicationPlugins.pdb
-C:\Users\Fred\Desktop\VisionSim-Master\Vision\CoreApplicationPlugins\obj\Debug\Vision.CoreApplicationPlugins.csprojResolveAssemblyReference.cache
-C:\Users\Fred\Desktop\VisionSim-Master\Vision\CoreApplicationPlugins\obj\Debug\Vision.CoreApplicationPlugins.dll
-C:\Users\Fred\Desktop\VisionSim-Master\Vision\CoreApplicationPlugins\obj\Debug\Vision.CoreApplicationPlugins.pdb

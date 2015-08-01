@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,7 @@ using System;
 
 namespace Vision.ClientStack
 {
-    public static class VisionTerrainCompressor
+    public static class WhiteCoreTerrainCompressor
     {
         public const int END_OF_PATCHES = 97;
 
@@ -59,7 +59,7 @@ namespace Vision.ClientStack
         private static readonly float[] QuantizeTable16 =
             new float[Constants.TerrainPatchSize*Constants.TerrainPatchSize];
 
-        static VisionTerrainCompressor()
+        static WhiteCoreTerrainCompressor()
         {
             // Initialize the decompression tables
             BuildDequantizeTable16();

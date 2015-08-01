@@ -73,7 +73,7 @@ If you are using the master build, you will need to compile Vision-Sim before yo
 	
 	#END COPYING
 	
-	Then in [VisionConnectors],
+	Then in [WhiteCoreConnectors],
 	
 	#START COPYING
 	

@@ -30,18 +30,18 @@ using System.Collections.Generic;
 using Vision.DataManager.Migration;
 using Vision.Framework.Utilities;
 
-namespace Base.Currency
+namespace Simple.Currency
 {
     public class CurrencyMigrator_0 : Migrator
     {
         public CurrencyMigrator_0()
         {
             Version = new Version(0, 0, 0);
-            MigrationName = "BaseCurrency";
+            MigrationName = "SimpleCurrency";
 
             schema = new List<SchemaDefinition>();
 
-            AddSchema("currency", ColDefs(
+            AddSchema("simple_currency", ColDefs(
                 ColDef("PrincipalID", ColumnTypes.String50),
                 ColDef("Amount", ColumnTypes.Integer30),
                 ColDef("LandInUse", ColumnTypes.Integer30),

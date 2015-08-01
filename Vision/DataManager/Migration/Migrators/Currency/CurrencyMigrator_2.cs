@@ -30,18 +30,18 @@ using System.Collections.Generic;
 using Vision.DataManager.Migration;
 using Vision.Framework.Utilities;
 
-namespace Base.Currency
+namespace Simple.Currency
 {
     public class CurrencyMigrator_2 : Migrator
     {
         public CurrencyMigrator_2()
         {
             Version = new Version(0, 0, 2);
-            MigrationName = "BaseCurrency";
+            MigrationName = "SimpleCurrency";
 
             schema = new List<SchemaDefinition>();
 
-            AddSchema("currency", ColDefs(
+            AddSchema("simple_currency", ColDefs(
                 ColDef("PrincipalID", ColumnTypes.String50),
                 ColDef("Amount", ColumnTypes.Integer30),
                 ColDef("LandInUse", ColumnTypes.Integer30),
@@ -63,7 +63,7 @@ namespace Base.Currency
                           ));
 
             // Currency Transaction Logs
-            AddSchema("currency_history", ColDefs(
+            AddSchema("simple_currency_history", ColDefs(
                 ColDef("TransactionID", ColumnTypes.String36),
                 ColDef("Description", ColumnTypes.String128),
                 ColDef("FromPrincipalID", ColumnTypes.String36),
@@ -83,7 +83,7 @@ namespace Base.Currency
                     ));
 
             // this is actually used for all purchases now.. a better name would be _purchased
-            AddSchema("currency_purchased", ColDefs(
+            AddSchema("simple_purchased", ColDefs(
                 ColDef("PurchaseID", ColumnTypes.String36),
                 ColDef("PrincipalID", ColumnTypes.String36),
                 ColDef("IP", ColumnTypes.String64),

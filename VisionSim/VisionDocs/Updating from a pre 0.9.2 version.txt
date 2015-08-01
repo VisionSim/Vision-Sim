@@ -70,7 +70,7 @@ Config folder
   'Vision.ini'
     'Includes' directives
       = Configuration/*   ==>>  = Sim/*
-  'VisionServer.ini'
+  'WhiteCoreServer.ini'
      'Includes' directives
         = ServerConfiguration/*   ==>>  = Grid/ServerConfiguration/*
 
@@ -100,7 +100,7 @@ Sim folder
      ==>>  StoreBackupDirectory = "../Regions/"
 	 ==>>  PreviousBackupDirectory = "../RegionBak/"
 	 
-   'Sim/Grid/GridCommon.ini'  (Note: if you have 'VisionGridCommon.ini, rename to GridCommon.ini)
+   'Sim/Grid/GridCommon.ini'  (Note: if you have 'WhiteCoreGridCommon.ini, rename to GridCommon.ini)
      ==>>   GridServerURI = "http://ServersHostname:8012/grid/"
 
    'Sim/Modules/AssetCache/FlotsamCache.ini

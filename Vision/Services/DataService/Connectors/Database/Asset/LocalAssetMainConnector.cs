@@ -41,7 +41,7 @@ namespace Vision.Services.DataService.Connectors.Database.Asset
     {
         private IGenericData m_Gd;
 
-        #region Implementation of IVisionDataPlugin
+        #region Implementation of IWhiteCoreDataPlugin
 
         public string Name
         {
@@ -51,7 +51,7 @@ namespace Vision.Services.DataService.Connectors.Database.Asset
         public void Initialize(IGenericData genericData, IConfigSource source, IRegistryCore simBase,
                                string defaultConnectionString)
         {
-            if (source.Configs["VisionConnectors"].GetString("AssetConnector", "LocalConnector") != "LocalConnector")
+            if (source.Configs["WhiteCoreConnectors"].GetString("AssetConnector", "LocalConnector") != "LocalConnector")
                 return;
             m_Gd = genericData;
 
@@ -60,7 +60,7 @@ namespace Vision.Services.DataService.Connectors.Database.Asset
 
             if (genericData != null)
                 genericData.ConnectToDatabase(defaultConnectionString, "Asset",
-                                              source.Configs["VisionConnectors"].GetBoolean("ValidateTables", true));
+                                              source.Configs["WhiteCoreConnectors"].GetBoolean("ValidateTables", true));
             Framework.Utilities.DataManager.RegisterPlugin(this);
         }
 

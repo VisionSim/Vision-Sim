@@ -33,7 +33,7 @@ using OpenMetaverse;
 
 namespace Vision.Physics.OpenDynamicsEngine
 {
-    public class ODESpecificAvatar : VisionODECharacter
+    public class ODESpecificAvatar : WhiteCoreODECharacter
     {
         #region Declares
 
@@ -43,7 +43,7 @@ namespace Vision.Physics.OpenDynamicsEngine
 
         #region Constructor
 
-        public ODESpecificAvatar(String avName, VisionODEPhysicsScene parent_scene, Vector3 pos, Quaternion rotation,
+        public ODESpecificAvatar(String avName, WhiteCoreODEPhysicsScene parent_scene, Vector3 pos, Quaternion rotation,
                                  Vector3 size) : base(avName, parent_scene, pos, rotation, size)
         {
             base._parent_ref = this;

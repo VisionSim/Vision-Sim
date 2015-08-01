@@ -152,7 +152,7 @@ namespace Vision.Modules.Web
                 if (regionPreset.StartsWith("w"))
                 {
                     // 'standard' setup
-                    newRegion.RegionType = newRegion.RegionType + "Whitecore";                   
+                    newRegion.RegionType = newRegion.RegionType + "Vision";                   
                     //info.RegionPort;            // use auto assigned port
                     newRegion.RegionTerrain = "Flatland";
                     newRegion.Startup = StartupType.Normal;

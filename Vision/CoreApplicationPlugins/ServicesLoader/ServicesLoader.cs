@@ -52,7 +52,7 @@ namespace Vision.CoreApplicationPlugins.ServicesLoader
         {
         }
 
-        public void PostInitialize()
+        public void PostInitialise()
         {
         }
 
@@ -62,7 +62,7 @@ namespace Vision.CoreApplicationPlugins.ServicesLoader
             if (handlerConfig.GetString("ServicesLoader", "") != Name)
                 return;
 
-            List<IService> serviceConnectors = VisionModuleLoader.PickupModules<IService>();
+            List<IService> serviceConnectors = WhiteCoreModuleLoader.PickupModules<IService>();
             foreach (IService connector in serviceConnectors)
             {
                 try

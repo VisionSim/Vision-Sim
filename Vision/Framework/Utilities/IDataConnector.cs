@@ -61,14 +61,14 @@ namespace Vision.Framework.Utilities
         ///     Get the latest version of the database
         /// </summary>
         /// <returns></returns>
-        Version GetVisionVersion(string migratorName);
+        Version GetWhiteCoreVersion(string migratorName);
 
         /// <summary>
         ///     Set the version of the database
         /// </summary>
         /// <param name="version"></param>
         /// <param name="MigrationName"></param>
-        void WriteVisionVersion(Version version, string MigrationName);
+        void WriteWhiteCoreVersion(Version version, string MigrationName);
 
         /// <summary>
         ///     copy tables

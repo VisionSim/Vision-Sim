@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,7 +32,7 @@ using Vision.Framework.Utilities;
 
 namespace Vision.Framework.Services
 {
-    public interface ISchedulerDataPlugin : IVisionDataPlugin
+    public interface ISchedulerDataPlugin : IWhiteCoreDataPlugin
     {
         /// <summary>
         /// Save a Scheduler item.

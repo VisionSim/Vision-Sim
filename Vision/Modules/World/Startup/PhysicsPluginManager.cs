@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -81,7 +81,7 @@ namespace Vision.Modules.Startup
                 MainConsole.Instance.Debug("[Physics]: Loading physics engine: " + physEngineName);
                 PhysicsScene result = _PhysPlugins[physEngineName].GetScene();
                 result.Initialize(meshEngine, scene);
-                result.PostInitialize(config);
+                result.PostInitialise(config);
                 return result;
             }
             else
@@ -98,10 +98,10 @@ namespace Vision.Modules.Startup
         public void LoadPluginsFromAssemblies(string assembliesPath)
         {
             List<IPhysicsPlugin> physicsPlugins =
-                VisionModuleLoader.LoadModules<IPhysicsPlugin>(assembliesPath);
+                WhiteCoreModuleLoader.LoadModules<IPhysicsPlugin>(assembliesPath);
             List<IMeshingPlugin> meshingPlugins =
-                VisionModuleLoader.LoadModules<IMeshingPlugin>(assembliesPath);
-            meshingPlugins.AddRange(VisionModuleLoader.LoadModules<IMeshingPlugin>(""));
+                WhiteCoreModuleLoader.LoadModules<IMeshingPlugin>(assembliesPath);
+            meshingPlugins.AddRange(WhiteCoreModuleLoader.LoadModules<IMeshingPlugin>(""));
 
             foreach (IPhysicsPlugin plug in physicsPlugins)
             {

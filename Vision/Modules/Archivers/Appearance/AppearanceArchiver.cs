@@ -49,7 +49,7 @@ namespace Vision.Modules.Archivers
     /// <summary>
     ///     This module loads/saves the avatar's appearance from/down into an "Avatar Archive", also known as an AA.
     /// </summary>
-    public class VisionAvatarAppearanceArchiver : IService, IAvatarAppearanceArchiver
+    public class WhiteCoreAvatarAppearanceArchiver : IService, IAvatarAppearanceArchiver
     {
         #region Declares
 
@@ -745,7 +745,7 @@ namespace Vision.Modules.Archivers
             }
 
             bool remoteCalls = false;
-            IConfig connectorConfig = config.Configs ["VisionConnectors"];
+            IConfig connectorConfig = config.Configs ["WhiteCoreConnectors"];
             if ((connectorConfig != null) && connectorConfig.Contains ("DoRemoteCalls"))
                 remoteCalls = connectorConfig.GetBoolean ("DoRemoteCalls", false);
 

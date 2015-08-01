@@ -1,5 +1,5 @@
 #!/bin/bash
-# Start the WhiteCore-Sim Standalone server
+# Start the Vision-Sim Standalone server
 # Version 0.9.2+
 #
 # May 2014
@@ -10,8 +10,8 @@ cd $WOASDIR
 echo $WOASDIR
 
 cd ./bin
-echo Starting WhiteCore Standalone Simulator...
-mono WhiteCore.exe -skipconfig
+echo Starting Vision Standalone Simulator...
+mono Vision.exe -skipconfig
 wait
 
 exit

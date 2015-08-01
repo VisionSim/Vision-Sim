@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -77,7 +77,7 @@ namespace Vision.Modules.InventoryAccess
             }
         }
 
-        public virtual void PostInitialize()
+        public virtual void PostInitialise()
         {
         }
 
@@ -543,7 +543,7 @@ namespace Vision.Modules.InventoryAccess
 
             if (objectGroups.Count == 1)
             {
-                m_scene.VisionEventManager.FireGenericEventHandler("DeleteToInventory", objectGroups[0]);
+                m_scene.WhiteCoreEventManager.FireGenericEventHandler("DeleteToInventory", objectGroups[0]);
                 AssetXML = objectGroups[0].ToXml2();
             }
             else
@@ -564,7 +564,7 @@ namespace Vision.Modules.InventoryAccess
 
                     objectGroup.AbsolutePosition = inventoryStoredPosition;
 
-                    m_scene.VisionEventManager.FireGenericEventHandler("DeleteToInventory", objectGroup);
+                    m_scene.WhiteCoreEventManager.FireGenericEventHandler("DeleteToInventory", objectGroup);
                     AssetXML += objectGroup.ToXml2();
 
                     objectGroup.AbsolutePosition = originalPosition;

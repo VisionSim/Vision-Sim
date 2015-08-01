@@ -59,10 +59,10 @@ namespace Vision.Modules.Selection
 
         public void Initialize(IConfigSource source)
         {
-			IConfig visionstartupConfig = source.Configs["VisionStartup"];
-			if (visionstartupConfig != null)
+			IConfig whitecorestartupConfig = source.Configs["WhiteCoreStartup"];
+			if (whitecorestartupConfig != null)
             {
-				m_UseSelectionParticles = visionstartupConfig.GetBoolean("UseSelectionParticles", true);
+				m_UseSelectionParticles = whitecorestartupConfig.GetBoolean("UseSelectionParticles", true);
             }
         }
 

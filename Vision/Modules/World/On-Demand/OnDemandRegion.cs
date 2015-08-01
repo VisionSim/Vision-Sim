@@ -75,8 +75,8 @@ namespace Vision.Modules.OnDemand
                 scene.ShouldRunHeartbeat = false;
 
                 scene.EventManager.OnRemovePresence += OnRemovePresence;
-                scene.VisionEventManager.RegisterEventHandler("NewUserConnection", OnGenericEvent);
-                scene.VisionEventManager.RegisterEventHandler("AgentIsAZombie", OnGenericEvent);
+                scene.WhiteCoreEventManager.RegisterEventHandler("NewUserConnection", OnGenericEvent);
+                scene.WhiteCoreEventManager.RegisterEventHandler("AgentIsAZombie", OnGenericEvent);
             }
         }
 
@@ -115,7 +115,7 @@ namespace Vision.Modules.OnDemand
                     m_isRunning = true;
                     if (m_scene.RegionInfo.Startup == StartupType.Medium)
                     {
-                        m_scene.VisionEventManager.FireGenericEventHandler("MediumStartup", m_scene);
+                        m_scene.WhiteCoreEventManager.FireGenericEventHandler("MediumStartup", m_scene);
                         MediumStartup();
                     }
                 }
@@ -137,7 +137,7 @@ namespace Vision.Modules.OnDemand
                 //If all clients are out of the region, we can close it again
                 if (m_scene.RegionInfo.Startup == StartupType.Medium)
                 {
-                    m_scene.VisionEventManager.FireGenericEventHandler("MediumShutdown", m_scene);
+                    m_scene.WhiteCoreEventManager.FireGenericEventHandler("MediumShutdown", m_scene);
                     MediumShutdown();
                 }
                 m_isRunning = false;

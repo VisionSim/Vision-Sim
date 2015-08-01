@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -1418,7 +1418,7 @@ namespace Vision.Region
             IGroupsModule module = Scene.RequestModuleInterface<IGroupsModule>();
             if (module != null)
                 if (GroupID2 != UUID.Zero && !module.GroupPermissionCheck(attemptingUserID, GroupID2, GroupPowers.None))
-                    return; // No settings to groups you arn't in
+                    return; // No settings to groups you aren't in
             foreach (SceneObjectPart part in m_partsList)
             {
                 part.SetGroup(GroupID2);
@@ -2644,7 +2644,7 @@ namespace Vision.Region
             if (RootPart.PhysicsType == (byte)PhysicsShapeType.None ||
                 ((RootPart.Flags & PrimFlags.Phantom) == PrimFlags.Phantom && !RootPart.VolumeDetectActive))
             {
-                Scene.VisionEventManager.FireGenericEventHandler("ObjectChangedPhysicalStatus", this);
+                Scene.WhiteCoreEventManager.FireGenericEventHandler("ObjectChangedPhysicalStatus", this);
                 if (OnFinishedPhysicalRepresentationBuilding != null)
                     OnFinishedPhysicalRepresentationBuilding();
                 OnFinishedPhysicalRepresentationBuilding = null;
@@ -2716,7 +2716,7 @@ namespace Vision.Region
             if (m_scene.PhysicsScene.AllowGroupLink)
                 RootPart.PhysActor.linkGroupToThis(actors);
 
-            Scene.VisionEventManager.FireGenericEventHandler("ObjectChangedPhysicalStatus", this);
+            Scene.WhiteCoreEventManager.FireGenericEventHandler("ObjectChangedPhysicalStatus", this);
 
             FixVehicleParams(RootPart);
 
@@ -3521,7 +3521,7 @@ namespace Vision.Region
             if (IsTemporary)
             {
                 // Remove from database and parcel prim count
-                // Temporary objects arn't saved to the database ever, so we don't need to do anything
+                // Temporary objects aren't saved to the database ever, so we don't need to do anything
             }
 
             if (selectionPart != null)

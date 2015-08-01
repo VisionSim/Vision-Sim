@@ -1,5 +1,0 @@
-C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Vision.Framework.dll
-C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Vision.Framework.pdb
-C:\Users\Fred\Desktop\VisionSim-Master\Vision\Framework\obj\Debug\Vision.Framework.csprojResolveAssemblyReference.cache
-C:\Users\Fred\Desktop\VisionSim-Master\Vision\Framework\obj\Debug\Vision.Framework.dll
-C:\Users\Fred\Desktop\VisionSim-Master\Vision\Framework\obj\Debug\Vision.Framework.pdb

@@ -436,7 +436,7 @@ namespace Vision.Modules.Chat
 
         void FindChatPlugins ()
         {
-            AllChatPlugins = VisionModuleLoader.PickupModules<IChatPlugin> ();
+            AllChatPlugins = WhiteCoreModuleLoader.PickupModules<IChatPlugin> ();
             foreach (IChatPlugin plugin in AllChatPlugins)
             {
                 plugin.Initialize (this);

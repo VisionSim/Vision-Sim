@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,7 +57,7 @@ namespace Vision.Services
 
         private void SetUpConsole(IConfigSource config, IRegistryCore registry)
         {
-            List<ICommandConsole> Plugins = VisionModuleLoader.PickupModules<ICommandConsole>();
+            List<ICommandConsole> Plugins = WhiteCoreModuleLoader.PickupModules<ICommandConsole>();
             foreach (ICommandConsole plugin in Plugins)
             {
                 plugin.Initialize(config, registry.RequestModuleInterface<ISimulationBase>());
@@ -85,7 +85,7 @@ namespace Vision.Services
                                                      HandleGetLogLevel, false, true);
         }
 
-        public void PostInitialize()
+        public void PostInitialise()
         {
         }
 

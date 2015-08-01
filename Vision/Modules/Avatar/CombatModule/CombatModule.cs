@@ -664,7 +664,7 @@ namespace Vision.Modules.Combat
                     }
                 }
 
-                m_SP.Scene.VisionEventManager.FireGenericEventHandler("OnAvatarDeath", m_SP);
+                m_SP.Scene.WhiteCoreEventManager.FireGenericEventHandler("OnAvatarDeath", m_SP);
             }
 
             #endregion

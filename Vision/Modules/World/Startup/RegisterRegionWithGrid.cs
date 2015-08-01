@@ -253,7 +253,7 @@ namespace Vision.Modules.Startup
             RegisterRegionWithGrid (scene, false, true, m_RegisterRegionPassword);
         }
 
-        public void PostInitialize (IScene scene, IConfigSource source, ISimulationBase simBase)
+        public void PostInitialise (IScene scene, IConfigSource source, ISimulationBase simBase)
         {
         }
 

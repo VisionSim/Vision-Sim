@@ -324,7 +324,7 @@ namespace Vision.Services
         {
             if (m_connectors.Count == 0)
             {
-                m_connectors = VisionModuleLoader.PickupModules<ICapsServiceConnector>();
+                m_connectors = WhiteCoreModuleLoader.PickupModules<ICapsServiceConnector>();
             }
             return m_connectors;
         }

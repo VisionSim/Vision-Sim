@@ -40,7 +40,7 @@ using Vision.Framework.Utilities;
 
 namespace Vision.Modules.Estate
 {
-    public class EstateInitializer : ISharedRegionStartupModule, IVisionBackupModule
+    public class EstateInitializer : ISharedRegionStartupModule, IWhiteCoreBackupModule
     {
         string LastEstateName = "";
         string LastEstateOwner = Constants.RealEstateOwnerName;
@@ -49,12 +49,12 @@ namespace Vision.Modules.Estate
 
         public void Initialize(IScene scene, IConfigSource source, ISimulationBase simBase)
         {
-            scene.StackModuleInterface<IVisionBackupModule>(this);
+            scene.StackModuleInterface<IWhiteCoreBackupModule>(this);
             m_registry = simBase.ApplicationRegistry;
         }
 
 
-        public void PostInitialize(IScene scene, IConfigSource source, ISimulationBase simBase)
+        public void PostInitialise(IScene scene, IConfigSource source, ISimulationBase simBase)
         {
         }
 

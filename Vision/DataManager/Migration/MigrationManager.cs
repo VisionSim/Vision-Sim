@@ -50,7 +50,7 @@ namespace Vision.DataManager.Migration
             this.genericData = genericData;
             this.migratorName = migratorName;
             this.validateTables = validateTables;
-            List<IMigrator> allMigrators = VisionModuleLoader.PickupModules<IMigrator>();
+            List<IMigrator> allMigrators = WhiteCoreModuleLoader.PickupModules<IMigrator>();
 
             foreach (
                 IMigrator m in
@@ -75,7 +75,7 @@ namespace Vision.DataManager.Migration
             if (migratorName == "")
                 return;
             executed = false;
-            Version currentVersion = genericData.GetVisionVersion(migratorName);
+            Version currentVersion = genericData.GetWhiteCoreVersion(migratorName);
 
             //if there is no Vision version, this is likely an entirely new installation
             if (currentVersion == null)

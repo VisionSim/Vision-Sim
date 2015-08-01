@@ -110,7 +110,7 @@
 			return 'is-' + this.name;
 		},
 		
-		/** Initialise the plugin.
+		/** Initialize the plugin.
 			Create the jQuery bridge - plugin name <code>xyz</code>
 			produces <code>$.xyz</code> and <code>$.fn.xyz</code>. */
 		_init: function() {
@@ -160,7 +160,7 @@
 			return $.inArray(name, this._getters) > -1;
 		},
 		
-		/** Initialise an element. Called internally only.
+		/** Initialize an element. Called internally only.
 			Adds an instance object as data named for the plugin.
 			@param elem {Element} The element to enhance.
 			@param options {object} Overriding settings. */

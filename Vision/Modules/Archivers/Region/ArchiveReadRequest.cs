@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -67,7 +67,7 @@ namespace Vision.Modules.Archivers
         /// </value>
         protected bool m_merge;
 
-        protected VisionThreadPool m_threadpool;
+        protected WhiteCoreThreadPool m_threadpool;
 
         /// <value>
         ///     Should we ignore any assets when reloading the archive?
@@ -173,7 +173,7 @@ namespace Vision.Modules.Archivers
             TarArchiveReader archive = new TarArchiveReader(m_loadStream);
 
             if (!m_skipAssets)
-                m_threadpool = new VisionThreadPool(new VisionThreadPoolStartInfo()
+                m_threadpool = new WhiteCoreThreadPool(new WhiteCoreThreadPoolStartInfo()
                                                                          {
                                                                              Threads = 1,
                                                                              priority =

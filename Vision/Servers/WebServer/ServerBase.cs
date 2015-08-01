@@ -33,7 +33,7 @@ using System;
 
 namespace Vision.Server
 {
-    public class VisionBase : SimulationBase
+    public class WhiteCoreBase : SimulationBase
     {
         /// <summary>
         ///     Performs initialisation of the scene, such as loading configuration from disk.
@@ -46,14 +46,14 @@ namespace Vision.Server
             if (MainConsole.Instance != null)
             {
                 MainConsole.Instance.DefaultPrompt = "Vision.WebServer ";
-                MainConsole.Instance.Info("[VisionSTARTUP]: Startup completed in " +
+                MainConsole.Instance.Info("[WhiteCoreSTARTUP]: Startup completed in " +
                                           (DateTime.Now - this.StartupTime).TotalSeconds);
             }
         }
 
         public override ISimulationBase Copy()
         {
-            return new VisionBase();
+            return new WhiteCoreBase();
         }
     }
 }

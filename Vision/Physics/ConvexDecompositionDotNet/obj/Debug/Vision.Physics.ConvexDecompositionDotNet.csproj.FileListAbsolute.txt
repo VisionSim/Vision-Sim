@@ -1,5 +1,0 @@
-C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Physics\Vision.Physics.ConvexDecompositionDotNet.dll
-C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Physics\Vision.Physics.ConvexDecompositionDotNet.pdb
-C:\Users\Fred\Desktop\VisionSim-Master\Vision\Physics\ConvexDecompositionDotNet\obj\Debug\Vision.Physics.ConvexDecompositionDotNet.csprojResolveAssemblyReference.cache
-C:\Users\Fred\Desktop\VisionSim-Master\Vision\Physics\ConvexDecompositionDotNet\obj\Debug\Vision.Physics.ConvexDecompositionDotNet.dll
-C:\Users\Fred\Desktop\VisionSim-Master\Vision\Physics\ConvexDecompositionDotNet\obj\Debug\Vision.Physics.ConvexDecompositionDotNet.pdb

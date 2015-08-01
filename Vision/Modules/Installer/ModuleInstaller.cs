@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -379,10 +379,10 @@ namespace Vision.Modules.Installer
 
         private void LoadModulesFromDllFile(string copiedDllFile)
         {
-            List<IService> services = VisionModuleLoader.LoadPlugins<IService>(copiedDllFile);
-            List<IApplicationPlugin> appPlugins = VisionModuleLoader.LoadPlugins<IApplicationPlugin>(copiedDllFile);
+            List<IService> services = WhiteCoreModuleLoader.LoadPlugins<IService>(copiedDllFile);
+            List<IApplicationPlugin> appPlugins = WhiteCoreModuleLoader.LoadPlugins<IApplicationPlugin>(copiedDllFile);
             List<INonSharedRegionModule> nsregionModule =
-                VisionModuleLoader.LoadPlugins<INonSharedRegionModule>(copiedDllFile);
+                WhiteCoreModuleLoader.LoadPlugins<INonSharedRegionModule>(copiedDllFile);
             foreach (IService service in services)
             {
                 service.Initialize(m_config, m_registry);
@@ -393,7 +393,7 @@ namespace Vision.Modules.Installer
             {
                 plugin.PreStartup(m_registry.RequestModuleInterface<ISimulationBase>());
                 plugin.Initialize(m_registry.RequestModuleInterface<ISimulationBase>());
-                plugin.PostInitialize();
+                plugin.PostInitialise();
                 plugin.Start();
                 plugin.PostStart();
             }

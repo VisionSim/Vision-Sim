@@ -241,7 +241,7 @@ namespace Vision.Modules.ObjectCache
 
         #endregion
 
-        public virtual void PostInitialize()
+        public virtual void PostInitialise()
         {
         }
 

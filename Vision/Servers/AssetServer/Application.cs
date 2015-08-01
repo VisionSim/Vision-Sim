@@ -34,7 +34,7 @@ using Vision.Framework.Modules;
 namespace Vision.Servers.AssetServer
 {
     /// <summary>
-    ///     Starting class for the Vision Sim Server
+    ///     Starting class for the Vision Server
     /// </summary>
     public class Application
     {

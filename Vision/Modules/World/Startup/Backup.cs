@@ -95,7 +95,7 @@ namespace Vision.Modules.Startup
             m_backup[scene] = new InternalSceneBackup(scene);
         }
 
-        public void PostInitialize(IScene scene, IConfigSource source, ISimulationBase simBase)
+        public void PostInitialise(IScene scene, IConfigSource source, ISimulationBase simBase)
         {
         }
 
@@ -133,7 +133,7 @@ namespace Vision.Modules.Startup
         /// <param name="cmdparams">Additional arguments passed to the command</param>
         public void RunCommand(IScene scene, string[] cmdparams)
         {
-            scene.VisionEventManager.FireGenericEventHandler("Backup", null);
+            scene.WhiteCoreEventManager.FireGenericEventHandler("Backup", null);
         }
 
         public void EditScale(IScene scene, string[] cmdparams)
@@ -189,7 +189,7 @@ namespace Vision.Modules.Startup
 
         #region Per region backup class
 
-        protected class InternalSceneBackup : IBackupModule, IVisionBackupModule
+        protected class InternalSceneBackup : IBackupModule, IWhiteCoreBackupModule
         {
             #region Declares
 
@@ -203,7 +203,7 @@ namespace Vision.Modules.Startup
             public InternalSceneBackup(IScene scene)
             {
                 m_scene = scene;
-                m_scene.StackModuleInterface<IVisionBackupModule>(this);
+                m_scene.StackModuleInterface<IWhiteCoreBackupModule>(this);
                 m_scene.RegisterModuleInterface<IBackupModule>(this);
 
                 if (MainConsole.Instance != null)
@@ -580,7 +580,7 @@ namespace Vision.Modules.Startup
 
             #endregion
 
-            #region IVisionBackupModule Methods
+            #region IWhiteCoreBackupModule Methods
 
             bool m_isArchiving = false;
             readonly List<UUID> m_missingAssets = new List<UUID>();
@@ -664,7 +664,7 @@ namespace Vision.Modules.Startup
 
                 IDictionary<UUID, AssetType> assets = new Dictionary<UUID, AssetType>();
                 UuidGatherer assetGatherer = new UuidGatherer(m_scene.AssetService);
-                IVisionBackupArchiver archiver = m_scene.RequestModuleInterface<IVisionBackupArchiver>();
+                IWhiteCoreBackupArchiver archiver = m_scene.RequestModuleInterface<IWhiteCoreBackupArchiver>();
                 bool saveAssets = false;
                 if (archiver.AllowPrompting)
                     saveAssets =

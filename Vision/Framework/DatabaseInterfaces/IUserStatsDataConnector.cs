@@ -32,7 +32,7 @@ using OpenMetaverse.Messages.Linden;
 
 namespace Vision.Framework.DatabaseInterfaces
 {
-    public interface IUserStatsDataConnector : IVisionDataPlugin
+    public interface IUserStatsDataConnector : IWhiteCoreDataPlugin
     {
         /// <summary>
         ///     Add/Update a user's stats in the database

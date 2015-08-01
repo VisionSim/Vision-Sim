@@ -35,7 +35,7 @@ using System.Collections.Generic;
 namespace Vision.Servers.GridServer
 {
     /// <summary>
-    ///     Starting class for the Vision Sim Server
+    ///     Starting class for the Vision Server
     /// </summary>
     public class Application
     {

@@ -10,7 +10,7 @@ and a set of features around stability and simplified usability for users.
 It is advised to Linux users to use a Mono version higher then 3.2.8, following a report about GC.Collect() not cleaning up memory correctly. The most current version of Mono is 4.0.1 (Released 28th April 2015)*
 
 ## Configuration
-*To see how to configure WhiteCore, look at "Setting up VisionSim.txt" in the VisionDocs folder for more information*
+*To see how to configure Vision, look at "Setting up VisionSim.txt" in the VisionDocs folder for more information*
 
 Windows:
    Run the 'runprebuild.bat' file.

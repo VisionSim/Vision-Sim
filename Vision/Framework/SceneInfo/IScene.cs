@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -83,7 +83,7 @@ namespace Vision.Framework.SceneInfo
         #region Core
 
         RegionInfo RegionInfo { get; set; }
-        VisionEventManager VisionEventManager { get; }
+        WhiteCoreEventManager WhiteCoreEventManager { get; }
         EntityManager Entities { get; }
         EventManager EventManager { get; }
         ScenePermissions Permissions { get; }

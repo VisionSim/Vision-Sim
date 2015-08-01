@@ -1,5 +1,0 @@
-C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Vision.DataManager.SQLite.dll
-C:\Users\Fred\Desktop\VisionSim-Master\VisionSim\bin\Vision.DataManager.SQLite.pdb
-C:\Users\Fred\Desktop\VisionSim-Master\Vision\DataManagerPlugins\SQLite\obj\Debug\Vision.DataManager.SQLite.csprojResolveAssemblyReference.cache
-C:\Users\Fred\Desktop\VisionSim-Master\Vision\DataManagerPlugins\SQLite\obj\Debug\Vision.DataManager.SQLite.dll
-C:\Users\Fred\Desktop\VisionSim-Master\Vision\DataManagerPlugins\SQLite\obj\Debug\Vision.DataManager.SQLite.pdb

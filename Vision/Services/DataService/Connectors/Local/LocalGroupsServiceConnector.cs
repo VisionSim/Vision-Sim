@@ -52,7 +52,7 @@ namespace Vision.Services.DataService
 
         #endregion
 
-        #region IVisionDataPlugin members
+        #region IWhiteCoreDataPlugin members
 
         public void Initialize(IGenericData GenericData, IConfigSource source, IRegistryCore simBase,
                                string defaultConnectionString)
@@ -72,11 +72,11 @@ namespace Vision.Services.DataService
 
             if (data != null)
                 data.ConnectToDatabase (defaultConnectionString, "Groups",
-                    source.Configs ["VisionConnectors"].GetBoolean ("ValidateTables", true));
+                    source.Configs ["WhiteCoreConnectors"].GetBoolean ("ValidateTables", true));
 
             Framework.Utilities.DataManager.RegisterPlugin (Name + "Local", this);
 
-            if (source.Configs ["VisionConnectors"].GetString ("GroupsConnector", "LocalConnector") == "LocalConnector")
+            if (source.Configs ["WhiteCoreConnectors"].GetString ("GroupsConnector", "LocalConnector") == "LocalConnector")
             {
                 Framework.Utilities.DataManager.RegisterPlugin (this);
             }
@@ -671,7 +671,7 @@ namespace Vision.Services.DataService
             filter.andFilters["GroupID"] = GroupID;
             filter.andFilters["RoleID"] = RoleID;
             filter.andFilters["AgentID"] = AgentID;
-            //Make sure they arn't already in this role
+            //Make sure they aren't already in this role
             if (
                 uint.Parse(data.Query(new[] {"COUNT(AgentID)"}, "group_role_membership", filter, null, null, null)[0]) ==
                 0)
@@ -1574,7 +1574,7 @@ namespace Vision.Services.DataService
             if (remoteValue != null || m_doRemoteOnly)
                 return (List<GroupRolesData>) remoteValue;
 
-            //No permissions check necessary, we are checking only roles that they are in, so if they arn't in the group, that isn't a problem
+            //No permissions check necessary, we are checking only roles that they are in, so if they aren't in the group, that isn't a problem
 
             QueryTables tables = new QueryTables();
             tables.AddTable("group_role_membership", "osgm");

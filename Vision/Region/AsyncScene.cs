@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -78,7 +78,7 @@ namespace Vision.Region
         protected ThreadMonitor monitor = new ThreadMonitor();
         protected ThreadMonitor physmonitor = new ThreadMonitor();
 
-        protected VisionEventManager m_VisionEventManager;
+        protected WhiteCoreEventManager m_WhiteCoreEventManager;
         protected EventManager m_eventManager;
 
         /// <value>
@@ -93,9 +93,9 @@ namespace Vision.Region
         /// <summary>
         ///     Generic manager to send and receive events. Used mainly by region modules
         /// </summary>
-        public VisionEventManager VisionEventManager
+        public WhiteCoreEventManager WhiteCoreEventManager
         {
-            get { return m_VisionEventManager; }
+            get { return m_WhiteCoreEventManager; }
         }
 
         ISceneManager m_sceneManager;
@@ -295,7 +295,7 @@ namespace Vision.Region
             m_config = m_sceneManager.ConfigSource;
             m_authenticateHandler = authen;
 
-            m_VisionEventManager = new VisionEventManager();
+            m_WhiteCoreEventManager = new WhiteCoreEventManager();
             m_eventManager = new EventManager();
             m_permissions = new ScenePermissions(this);
 
@@ -303,12 +303,12 @@ namespace Vision.Region
 
             #region Region Config
 
-			IConfig visionstartupConfig = m_config.Configs["VisionStartup"];
-			if (visionstartupConfig != null)
+			IConfig whitecorestartupConfig = m_config.Configs["WhiteCoreStartup"];
+			if (whitecorestartupConfig != null)
             {
                 //Region specific is still honored here, the RegionInfo checks for it, and if it is 0, it didn't set it
                 if (RegionInfo.ObjectCapacity == 0)
-					RegionInfo.ObjectCapacity = visionstartupConfig.GetInt("ObjectCapacity", 80000);
+					RegionInfo.ObjectCapacity = whitecorestartupConfig.GetInt("ObjectCapacity", 80000);
             }
 
             IConfig packetConfig = m_config.Configs["PacketPool"];
@@ -440,7 +440,7 @@ namespace Vision.Region
             ILLClientInventory inventoryModule = RequestModuleInterface<ILLClientInventory>();
             while (true)
             {
-                if (!ShouldRunHeartbeat) //If we arn't supposed to be running, kill ourselves
+                if (!ShouldRunHeartbeat) //If we aren't supposed to be running, kill ourselves
                     return false;
                 
                 int maintc = Util.EnvironmentTickCount();
@@ -529,7 +529,7 @@ namespace Vision.Region
 
             while (true)
             {
-                if (!ShouldRunHeartbeat) //If we arn't supposed to be running, kill ourselves
+                if (!ShouldRunHeartbeat) //If we aren't supposed to be running, kill ourselves
                     return false;
 
                 int maintc = Util.EnvironmentTickCount();

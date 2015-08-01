@@ -32,12 +32,12 @@ using OpenMetaverse;
 
 namespace Vision.Physics.OpenDynamicsEngine
 {
-    public class VisionODECharacter : PhysicsActor
+    public class WhiteCoreODECharacter : PhysicsActor
     {
         #region Declares
 
         protected readonly CollisionEventUpdate CollisionEventsThisFrame = new CollisionEventUpdate();
-        protected VisionODEPhysicsScene _parent_scene;
+        protected WhiteCoreODEPhysicsScene _parent_scene;
         public float CAPSULE_LENGTH = 2.140599f;
         public float CAPSULE_RADIUS = 0.37f;
         public float MinimumGroundFlightOffset = 3f;
@@ -114,7 +114,7 @@ namespace Vision.Physics.OpenDynamicsEngine
 
         #region Constructor
 
-        public VisionODECharacter(String avName, VisionODEPhysicsScene parent_scene, Vector3 pos, Quaternion rotation,
+        public WhiteCoreODECharacter(String avName, WhiteCoreODEPhysicsScene parent_scene, Vector3 pos, Quaternion rotation,
                                   Vector3 size)
         {
             m_uuid = UUID.Random();

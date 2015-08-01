@@ -47,14 +47,14 @@ namespace Vision.ScriptEngine.DotNetEngine
 
         public void AddScene(IScene scene)
         {
-            scene.VisionEventManager.RegisterEventHandler("DeleteToInventory", VisionEventManager_OnGenericEvent);
+            scene.WhiteCoreEventManager.RegisterEventHandler("DeleteToInventory", WhiteCoreEventManager_OnGenericEvent);
         }
 
         public void Close()
         {
         }
 
-        private object VisionEventManager_OnGenericEvent(string FunctionName, object parameters)
+        private object WhiteCoreEventManager_OnGenericEvent(string FunctionName, object parameters)
         {
             if (FunctionName == "DeleteToInventory")
             {

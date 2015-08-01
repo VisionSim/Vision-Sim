@@ -235,27 +235,27 @@ namespace Vision.ScriptEngine.DotNetEngine
                     MainConsole.Instance.Commands.AddCommand("DNE restart", 
                 	                                         "DNE restart",
                                                              "Restarts all scripts and clears all script caches",
-                                                             VisionDotNetRestart, false, false);
+                                                             WhiteCoreDotNetRestart, false, false);
                     
                 	MainConsole.Instance.Commands.AddCommand("DNE stop",
                 	                                         "DNE stop", 
                 	                                         "Stops all scripts",
-                                                             VisionDotNetStop, false, false);
+                                                             WhiteCoreDotNetStop, false, false);
                     
                 	MainConsole.Instance.Commands.AddCommand("DNE stats",
                 	                                         "DNE stats",
                                                              "Tells stats about the script engine", 
-                                                             VisionDotNetStats, false, false);
+                                                             WhiteCoreDotNetStats, false, false);
                     
                 	MainConsole.Instance.Commands.AddCommand("DNE disable",
                 	                                         "DNE disable",
                                                              "Disables the script engine temperarily",
-                                                             VisionDotNetDisable, false, false);
+                                                             WhiteCoreDotNetDisable, false, false);
                     
                 	MainConsole.Instance.Commands.AddCommand("DNE enable",
                 	                                         "DNE enable", 
                 	                                         "Reenables the script engine",
-                                                             VisionDotNetEnable, false, false);
+                                                             WhiteCoreDotNetEnable, false, false);
                 }
 
                 // Create all objects we'll be using
@@ -414,7 +414,7 @@ namespace Vision.ScriptEngine.DotNetEngine
             }
         }
 
-        protected void VisionDotNetRestart(IScene scene, string[] cmdparams)
+        protected void WhiteCoreDotNetRestart(IScene scene, string[] cmdparams)
         {
             string go =
                 MainConsole.Instance.Prompt(
@@ -449,7 +449,7 @@ namespace Vision.ScriptEngine.DotNetEngine
             }
         }
 
-        protected void VisionDotNetStop(IScene scene, string[] cmdparams)
+        protected void WhiteCoreDotNetStop(IScene scene, string[] cmdparams)
         {
             string go = MainConsole.Instance.Prompt("Are you sure you want to stop all scripts?", "no");
             if (go.Contains("yes") || go.Contains("Yes"))
@@ -464,7 +464,7 @@ namespace Vision.ScriptEngine.DotNetEngine
             }
         }
 
-        protected void VisionDotNetStats(IScene scene, string[] cmdparams)
+        protected void WhiteCoreDotNetStats(IScene scene, string[] cmdparams)
         {
             MainConsole.Instance.Info ("Vision DotNet Script Engine Stats:");
             MainConsole.Instance.CleanInfo ("    Region: " + scene.RegionInfo.RegionName);
@@ -484,13 +484,13 @@ namespace Vision.ScriptEngine.DotNetEngine
             //MaintenanceThread.Stats();
         }
 
-        protected void VisionDotNetDisable(IScene scene, string[] cmdparams)
+        protected void WhiteCoreDotNetDisable(IScene scene, string[] cmdparams)
         {
             ConsoleDisabled = true;
             MainConsole.Instance.Warn("[DNE]: DNE has been disabled.");
         }
 
-        protected void VisionDotNetEnable(IScene scene, string[] cmdparams)
+        protected void WhiteCoreDotNetEnable(IScene scene, string[] cmdparams)
         {
             ConsoleDisabled = false;
             MaintenanceThread.Started = true;
@@ -1174,7 +1174,7 @@ namespace Vision.ScriptEngine.DotNetEngine
         {
             if (m_APIs.Length == 0)
             {
-                m_APIs = VisionModuleLoader.PickupModules<IScriptApi>().ToArray();
+                m_APIs = WhiteCoreModuleLoader.PickupModules<IScriptApi>().ToArray();
                 //Only add Apis that are considered safe
                 m_APIs = m_APIs.Where(api => ScriptProtection.CheckAPI(api.Name)).ToArray();
             }
@@ -1262,7 +1262,7 @@ namespace Vision.ScriptEngine.DotNetEngine
         /// </summary>
         public void StartSharedScriptPlugins()
         {
-            List<IScriptPlugin> sharedPlugins = VisionModuleLoader.PickupModules<IScriptPlugin>();
+            List<IScriptPlugin> sharedPlugins = WhiteCoreModuleLoader.PickupModules<IScriptPlugin>();
             foreach (IScriptPlugin plugin in sharedPlugins)
             {
                 plugin.Initialize(this);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -119,10 +119,10 @@ namespace Vision.Region
             m_presence.OnSignificantClientMovement += SignificantClientMovement;
             m_presence.Scene.EventManager.OnMakeChildAgent += EventManager_OnMakeChildAgent;
             m_scene.EventManager.OnClosingClient += EventManager_OnClosingClient;
-            m_presence.Scene.VisionEventManager.RegisterEventHandler("DrawDistanceChanged",
-                                                                     VisionEventManager_OnGenericEvent);
-            m_presence.Scene.VisionEventManager.RegisterEventHandler("SignficantCameraMovement",
-                                                                     VisionEventManager_OnGenericEvent);
+            m_presence.Scene.WhiteCoreEventManager.RegisterEventHandler("DrawDistanceChanged",
+                                                                     WhiteCoreEventManager_OnGenericEvent);
+            m_presence.Scene.WhiteCoreEventManager.RegisterEventHandler("SignficantCameraMovement",
+                                                                     WhiteCoreEventManager_OnGenericEvent);
             m_prioritizer = new Prioritizer(presence.Scene);
             m_culler = new Culler(presence.Scene);
         }
@@ -139,7 +139,7 @@ namespace Vision.Region
             RemoveAvatarFromView(presence);
         }
 
-        private object VisionEventManager_OnGenericEvent(string FunctionName, object parameters)
+        private object WhiteCoreEventManager_OnGenericEvent(string FunctionName, object parameters)
         {
             if (m_culler != null && m_culler.UseCulling && FunctionName == "DrawDistanceChanged")
             {
@@ -280,7 +280,7 @@ namespace Vision.Region
 
             //Send a terse as well, since we are sending an animation
             if (m_presence.LocalId == presence.LocalId &&
-                presence.SittingOnUUID == UUID.Zero) //As long as we arn't sitting, in which we don't get terse updates
+                presence.SittingOnUUID == UUID.Zero) //As long as we aren't sitting, in which we don't get terse updates
             {
                 //Is this really necessary? -7/21
                 //Very much so... the client cannot get a terse update before a full update -7/25
@@ -904,10 +904,10 @@ namespace Vision.Region
             m_presence.OnSignificantClientMovement -= SignificantClientMovement;
             m_presence.Scene.EventManager.OnMakeChildAgent -= EventManager_OnMakeChildAgent;
             m_scene.EventManager.OnClosingClient -= EventManager_OnClosingClient;
-            m_presence.Scene.VisionEventManager.UnregisterEventHandler("DrawDistanceChanged",
-                                                                       VisionEventManager_OnGenericEvent);
-            m_presence.Scene.VisionEventManager.UnregisterEventHandler("SignficantCameraMovement",
-                                                                       VisionEventManager_OnGenericEvent);
+            m_presence.Scene.WhiteCoreEventManager.UnregisterEventHandler("DrawDistanceChanged",
+                                                                       WhiteCoreEventManager_OnGenericEvent);
+            m_presence.Scene.WhiteCoreEventManager.UnregisterEventHandler("SignficantCameraMovement",
+                                                                       WhiteCoreEventManager_OnGenericEvent);
             m_presence = null;
         }
 

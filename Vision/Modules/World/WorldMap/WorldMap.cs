@@ -50,7 +50,7 @@ using RegionFlags = Vision.Framework.Services.RegionFlags;
 
 namespace Vision.Modules.WorldMap
 {
-    public class VisionWorldMapModule : INonSharedRegionModule, IWorldMapModule
+    public class WhiteCoreWorldMapModule : INonSharedRegionModule, IWorldMapModule
     {
         const string DEFAULT_WORLD_MAP_EXPORT_PATH = "exportmap.jpg";
 
@@ -62,8 +62,8 @@ namespace Vision.Modules.WorldMap
 
         readonly ConcurrentQueue<MapItemRequester> m_itemsToRequest = new ConcurrentQueue<MapItemRequester>();
         bool itemRequesterIsRunning;
-        static VisionThreadPool threadpool;
-        static VisionThreadPool blockthreadpool;
+        static WhiteCoreThreadPool threadpool;
+        static WhiteCoreThreadPool blockthreadpool;
         int MapViewLength = 8;
 
         #region INonSharedRegionModule Members
@@ -73,8 +73,8 @@ namespace Vision.Modules.WorldMap
             if (source.Configs["MapModule"] != null)
             {
                 if (source.Configs["MapModule"].GetString(
-                    "WorldMapModule", "VisionWorldMapModule") !=
-                    "VisionWorldMapModule")
+                    "WorldMapModule", "WhiteCoreWorldMapModule") !=
+                    "WhiteCoreWorldMapModule")
                     return;
                 m_Enabled = true;
                 MapViewLength = source.Configs["MapModule"].GetInt("MapViewLength", MapViewLength);
@@ -106,10 +106,10 @@ namespace Vision.Modules.WorldMap
             if (!m_Enabled)
                 return;
 
-            VisionThreadPoolStartInfo info = new VisionThreadPoolStartInfo
+            WhiteCoreThreadPoolStartInfo info = new WhiteCoreThreadPoolStartInfo
                                                  {priority = ThreadPriority.Lowest, Threads = 1};
-            threadpool = new VisionThreadPool(info);
-            blockthreadpool = new VisionThreadPool(info);
+            threadpool = new WhiteCoreThreadPool(info);
+            blockthreadpool = new WhiteCoreThreadPool(info);
         }
 
         public virtual void Close()
@@ -123,7 +123,7 @@ namespace Vision.Modules.WorldMap
 
         public virtual string Name
         {
-            get { return "VisionWorldMapModule"; }
+            get { return "WhiteCoreWorldMapModule"; }
         }
 
         #endregion

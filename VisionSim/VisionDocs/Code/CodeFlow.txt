@@ -8,7 +8,7 @@ The only difference between Vision.Server.exe and Vision.exe is what modules tha
 1): During Startup, the Application starts off with loading the configuration options from the commands passed into it by the application that started it.
 2): It then reads the basic configuration files (.ini files) and sets up the error/crash reporting and logging utilities.
 3): It loads the ISimulationBase, which begins the main process of staring the Standalone, and it loads the ICommandConsole interface first, so that the console is fully loaded.
-4): It then lets the IApplicationPlugins take over, which begin the loading of the IService modules and the VisionDataPlugins, which connect to the database and establish connections as necessary.
+4): It then lets the IApplicationPlugins take over, which begin the loading of the IService modules and the WhiteCoreDataPlugins, which connect to the database and establish connections as necessary.
 
 If you are following the Region (standalone or grid attached region, continue on), if you are following Vision.Server, skip to the second 5):
 

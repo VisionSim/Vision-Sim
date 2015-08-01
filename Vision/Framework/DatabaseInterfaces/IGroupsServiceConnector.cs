@@ -36,7 +36,7 @@ using Vision.Framework.Services;
 
 namespace Vision.Framework.DatabaseInterfaces
 {
-    public interface IGroupsServiceConnector : IVisionDataPlugin
+    public interface IGroupsServiceConnector : IWhiteCoreDataPlugin
     {
         void CreateGroup(UUID groupID, string name, string charter, bool showInList, UUID insigniaID, int membershipFee,
                          bool openEnrollment, bool allowPublish, bool maturePublish, UUID founderID, UUID OwnerRoleID);

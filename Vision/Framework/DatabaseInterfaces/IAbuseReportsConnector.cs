@@ -30,7 +30,7 @@ using Vision.Framework.Services;
 
 namespace Vision.Framework.DatabaseInterfaces
 {
-    public interface IAbuseReportsConnector : IVisionDataPlugin
+    public interface IAbuseReportsConnector : IWhiteCoreDataPlugin
     {
         /// <summary>
         ///     Gets the abuse report associated with the number and uses the pass to authenticate.

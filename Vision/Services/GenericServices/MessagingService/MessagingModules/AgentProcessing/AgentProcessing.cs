@@ -721,7 +721,7 @@ namespace Vision.Services
                                            clientCaps.GetCapsService(destination.RegionID);
                                        if (ourRegionCaps == null)
                                            return;
-                                       //If they handles arn't the same, the agent moved, and we can't be sure that we should close these agents
+                                       //If they handles aren't the same, the agent moved, and we can't be sure that we should close these agents
                                        if (rootRegionCaps.RegionHandle != ourRegionCaps.RegionHandle &&
                                            !clientCaps.InTeleport)
                                            return;
