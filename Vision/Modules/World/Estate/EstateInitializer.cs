@@ -31,13 +31,13 @@ using System.Linq;
 using Nini.Config;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.DatabaseInterfaces;
-using Vision.Framework.Modules;
-using Vision.Framework.SceneInfo;
-using Vision.Framework.Serialization;
-using Vision.Framework.Services;
-using Vision.Framework.Utilities;
+using WhiteCore.Framework.ConsoleFramework;
+using WhiteCore.Framework.DatabaseInterfaces;
+using WhiteCore.Framework.Modules;
+using WhiteCore.Framework.SceneInfo;
+using WhiteCore.Framework.Serialization;
+using WhiteCore.Framework.Services;
+using WhiteCore.Framework.Utilities;
 
 namespace Vision.Modules.Estate
 {
