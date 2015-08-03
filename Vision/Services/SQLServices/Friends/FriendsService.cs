@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -133,7 +133,7 @@ namespace Vision.Services
                 foreach (FriendInfo friend in friends)
                 {
                     if (friend.TheirFlags == -1 || friend.MyFlags == -1)
-                        continue; //Not validiated yet!
+                        continue; //Not validated yet!
                     UUID FriendToInform = UUID.Zero;
                     if (!UUID.TryParse(friend.Friend, out FriendToInform))
                         continue;
@@ -158,7 +158,7 @@ namespace Vision.Services
                 foreach (FriendInfo friend in friends)
                 {
                     if (friend.TheirFlags == -1 || friend.MyFlags == -1)
-                        continue; //Not validiated yet!
+                        continue; //Not validated yet!
                     UUID FriendToInform = UUID.Zero;
                     if (!UUID.TryParse(friend.Friend, out FriendToInform))
                         continue;

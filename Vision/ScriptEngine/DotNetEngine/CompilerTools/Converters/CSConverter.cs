@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,7 +47,7 @@ namespace Vision.ScriptEngine.DotNetEngine.CompilerTools
             get { return ""; }
         }
 
-        public void Initialize(Compiler compiler)
+        public void Initialise(Compiler compiler)
         {
         }
 
@@ -181,7 +181,7 @@ namespace Vision.ScriptEngine.DotNetEngine.CompilerTools
             get { return ""; }
         }
 
-        public void Initialize(Compiler compiler)
+        public void Initialise(Compiler compiler)
         {
             m_compiler = compiler;
         }

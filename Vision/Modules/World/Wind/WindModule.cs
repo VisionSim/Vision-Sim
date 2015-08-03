@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,7 +61,7 @@ namespace Vision.Modules.Wind
 
         #region IRegion Methods
 
-        public void Initialize(IConfigSource config)
+        public void Initialise(IConfigSource config)
         {
             windConfig = config.Configs["Wind"];
             desiredWindPlugin = m_dWindPluginName;
@@ -105,7 +105,7 @@ namespace Vision.Modules.Wind
 
                     if (windConfig != null)
                     {
-                        m_activeWindPlugin.Initialize();
+                        m_activeWindPlugin.Initialise();
                         m_activeWindPlugin.WindConfig(m_scene, windConfig);
                     }
                 }

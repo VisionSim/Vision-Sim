@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -516,7 +516,7 @@ namespace Vision.Services
         }
 
         /// <summary>
-        ///     Converts the inventory library skeleton into the form required by the rpc request.
+        ///     Converts the inventory library skeleton into the form required by the RPC request.
         /// </summary>
         /// <returns></returns>
         protected virtual ArrayList GetInventoryLibrary(ILibraryService library, IInventoryService inventoryService)

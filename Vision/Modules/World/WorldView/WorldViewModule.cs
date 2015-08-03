@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,7 @@ namespace Vision.Modules.WorldView
         bool m_cacheEnabled = true;
         float m_cacheExpires = 24;
 
-        public void Initialize(IConfigSource config)
+        public void Initialise(IConfigSource config)
         {
          
             IConfig moduleConfig = config.Configs ["WorldViewModule"];

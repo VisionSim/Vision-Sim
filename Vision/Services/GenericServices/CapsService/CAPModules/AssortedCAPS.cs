@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -179,7 +179,7 @@ namespace Vision.Services
 
             if (m_service.ClientCaps.GetRootCapsService().RegionHandle != m_service.RegionHandle)
             {
-                retVal.Add("reason", "Contacted by non-root region for teleport. Protocol implemention is wrong.");
+                retVal.Add("reason", "Contacted by non-root region for teleport. Protocol implementation is wrong.");
                 retVal.Add("success", OSD.FromBoolean(false));
                 return OSDParser.SerializeLLSDXmlBytes(retVal);
             }

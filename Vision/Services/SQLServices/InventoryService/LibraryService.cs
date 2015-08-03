@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,7 +48,7 @@ namespace Vision.Services.SQLServices.InventoryService
     /// </summary>
     public class LibraryService : ILibraryService, IService
     {
-        // moved to Constants to allow for easier comparision from the WebUI
+        // moved to Constants to allow for easier comparison from the WebUI
         // readonly UUID libOwner = new UUID("11111111-1111-0000-0000-000100bba000");
         readonly UUID libOwner = new UUID (Constants.LibraryOwner);
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -138,7 +138,7 @@ namespace Vision.Services
             {
                 if (regionCaps == null || clientCaps == null)
                     return null;
-                //Recieved a callback
+                //Received a callback
                 if (clientCaps.InTeleport) //Only set this if we are in a teleport, 
                     //  otherwise (such as on login), this won't check after the first tp!
                     clientCaps.CallbackHasCome = true;
@@ -328,7 +328,7 @@ namespace Vision.Services
             {
                 foreach (IRegionClientCapsService regionClientCaps in fullregionCaps.GetClients())
                 {
-                    //We can send this here, because we ONLY send this when the region is going down for a loong time
+                    //We can send this here, because we ONLY send this when the region is going down for a long time
                     eqs.DisableSimulator(regionClientCaps.AgentID, regionClientCaps.RegionHandle,
                                          regionClientCaps.Region.RegionID);
                 }
@@ -639,7 +639,7 @@ namespace Vision.Services
                                                   otherRegion.Region.RegionID);
 
                     // TeleportFinish makes the client send CompleteMovementIntoRegion (at the destination), which
-                    // trigers a whole shebang of things there, including MakeRoot. So let's wait for confirmation
+                    // triggers a whole shebang of things there, including MakeRoot. So let's wait for confirmation
                     // that the client contacted the destination before we send the attachments and close things here.
 
                     result = WaitForCallback(AgentID, out callWasCanceled);
@@ -671,7 +671,7 @@ namespace Vision.Services
 
                         // Next, let's close the child agent connections that are too far away.
                         //if (useCallbacks || oldRegion != destination)//Only close it if we are using callbacks (Vision region)
-                        //Why? OpenSim regions need closed too, even if the protocol is kinda stupid
+                        //Why? OpenSim regions need closed too, even if the protocol is kind of stupid
                         CloseNeighborAgents(regionCaps.Region, destination, AgentID);
                         IAgentInfoService agentInfoService = m_registry.RequestModuleInterface<IAgentInfoService>();
                         if (agentInfoService != null)
@@ -823,7 +823,7 @@ namespace Vision.Services
                 Thread.Sleep(10);
                 count--;
             }
-            //If we made it through the whole loop, we havn't been canceled,
+            //If we made it through the whole loop, we haven't been canceled,
             //    as we either have timed out or made it, so no checks are needed
             callWasCanceled = false;
             return clientCaps.CallbackHasCome;
@@ -1069,7 +1069,7 @@ namespace Vision.Services
             if (SimulationService != null)
             {
                 // The client is in the region, we need to make sure it gets the right Caps
-                // If CreateAgent is successful, it passes back a OSDMap of params that the client 
+                // If CreateAgent is successful, it passes back a OSDMap of parameters that the client 
                 //    wants to inform us about, and it includes the Caps SEED url for the region
                 IRegionClientCapsService regionClientCaps = null;
                 IClientCapsService clientCaps = null;

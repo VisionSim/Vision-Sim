@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,9 +39,9 @@ using System.Collections.Generic;
 /*
  * Steps to add a new prioritization policy:
  * 
- *  - Add a new value to the UpdatePrioritizationSchemes enum.
+ *  - Add a new value to the UpdatePrioritizationSchemes Enum.
  *  - Specify this new value in the [InterestManagement] section of your
- *    Vision.ini. The name in the config file must match the enum value name
+ *    Vision.ini. The name in the config file must match the Enum value name
  *    (although it is not case sensitive).
  *  - Write a new GetPriorityBy*() method in this class.
  *  - Add a new entry to the switch statement in GetUpdatePriority() that calls

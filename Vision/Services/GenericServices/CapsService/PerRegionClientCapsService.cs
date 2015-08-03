@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -170,7 +170,7 @@ namespace Vision.Services
 
         #region Initialize
 
-        public void Initialize(IClientCapsService clientCapsService, IRegionCapsService regionCapsService,
+        public void Initialise(IClientCapsService clientCapsService, IRegionCapsService regionCapsService,
                                string capsBase, AgentCircuitData circuitData, uint port)
         {
             m_clientCapsService = clientCapsService;

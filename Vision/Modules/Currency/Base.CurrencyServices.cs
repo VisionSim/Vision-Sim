@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -106,10 +106,8 @@ namespace Vision.Modules.Currency
 
 
             // these are only valid if we are local
-            if (!m_connector.DoRemoteCalls) {
-                //               if ((m_connector.GetConfig().GiveStipends) && (m_connector.GetConfig().Stipend > 0))
-                //                   new GiveStipends(m_connector.GetConfig(), m_registry, m_connector);
-
+            if (!m_connector.DoRemoteCalls)
+            {
                 m_userInfoService = m_registry.RequestModuleInterface<IAgentInfoService> ();
                 m_userAccountService = m_registry.RequestModuleInterface<IUserAccountService> ();
                     
@@ -183,12 +181,6 @@ namespace Vision.Modules.Currency
                     "Display user purchases for a period.",
                     HandleShowPurchases, false, true);
 
-/*                MainConsole.Instance.Commands.AddCommand(
-                    "stipend set",
-                    "stipend set",
-                    "Sets the next date for stipend",
-                    HandleStipendSet, false, true);
-                    */
             }
         }
 
@@ -196,6 +188,10 @@ namespace Vision.Modules.Currency
 
         public string InWorldCurrencySymbol {
             get { return m_connector.InWorldCurrency; }
+        }
+
+        public bool IsLocal {
+            get { return !m_connector.DoRemoteCalls; }
         }
 
         public int UploadCharge {

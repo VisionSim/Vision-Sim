@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -77,7 +77,7 @@ namespace Vision.Services
                 UUID FriendToInformID = innerMessage["FriendToInformID"].AsUUID();
                 bool NewStatus = innerMessage["NewStatus"].AsBoolean();
 
-                //Do this since IFriendsModule is a scene module, not a ISimulationBase module (not interchangable)
+                //Do this since IFriendsModule is a scene module, not a ISimulationBase module (not interchangeable)
                 ISceneManager manager = m_registry.RequestModuleInterface<ISceneManager>();
                 if (manager != null)
                 {
@@ -104,7 +104,7 @@ namespace Vision.Services
                 UUID FriendToInformID = innerMessage["FriendToInformID"].AsUUID();
                 bool NewStatus = innerMessage["NewStatus"].AsBoolean();
 
-                //Do this since IFriendsModule is a scene module, not a ISimulationBase module (not interchangable)
+                //Do this since IFriendsModule is a scene module, not a ISimulationBase module (not interchangeable)
                 ISceneManager manager = m_registry.RequestModuleInterface<ISceneManager>();
                 if (manager != null)
                 {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -101,7 +101,7 @@ namespace Vision.Framework.Physics
 
         public virtual int StatCollisionAccountingTime { get; protected set; }
 
-        public abstract void Initialize(IMesher meshmerizer, IScene scene);
+        public abstract void Initialise(IMesher meshmerizer, IScene scene);
         public abstract void PostInitialise(IConfigSource config);
         public abstract string EngineType { get; }
 
@@ -219,7 +219,7 @@ namespace Vision.Framework.Physics
             get { return false; }
         }
 
-        public override void Initialize(IMesher meshmerizer, IScene scene)
+        public override void Initialise(IMesher meshmerizer, IScene scene)
         {
             // Does nothing right now
         }

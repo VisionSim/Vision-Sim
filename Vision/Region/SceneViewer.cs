@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -147,7 +147,7 @@ namespace Vision.Region
                 if (sp.UUID != m_presence.UUID)
                     return null; //Only want our av
 
-                //Draw Distance chagned, force a cull check
+                //Draw Distance changed, force a cull check
                 m_forceCullCheck = true;
                 //Don't do this immediately as the viewer may keep changing the draw distance
                 lock (m_drawDistanceTimerLock)
@@ -163,7 +163,7 @@ namespace Vision.Region
             }
             else if (FunctionName == "SignficantCameraMovement")
             {
-                //Camera chagned, do a cull check
+                //Camera changed, do a cull check
                 m_forceCullCheck = true;
                 //Don't do this immediately as the viewer may keep changing the camera quickly
                 lock (m_drawDistanceTimerLock)
@@ -258,7 +258,7 @@ namespace Vision.Region
                     if ((o.Flags & flags) == o.Flags)
                         return; //Same, leave it alone!
                     o.Flags |= flags;
-                    return; //All done, its updated, no need to readd
+                    return; //All done, its updated, no need to re-add
                 }
 
                 m_presenceUpdatesToSend[presence.LocalId] = o;
@@ -323,7 +323,7 @@ namespace Vision.Region
                    m_presence.DrawDistance > m_presence.Scene.RegionInfo.RegionSizeY)) &&
                 !lastGrpsInView.Contains(part.ParentEntity))
             {
-                //This object entered our draw distance on its own, and we havn't seen it before
+                //This object entered our draw distance on its own, and we haven't seen it before
                 flags = PrimUpdateFlags.ForcedFullUpdate;
                 lock (m_objectUpdatesToSendLock)
                 {

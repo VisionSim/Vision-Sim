@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -168,7 +168,8 @@ namespace Vision.Simulation.Base
         {
             IConfig startupConfig = m_config.Configs["Startup"];
 
-            int stpMaxThreads = 15;
+            int stpMinThreads = 15;
+            int stpMaxThreads = 300;
 
             if (startupConfig != null)
             {
@@ -192,15 +193,23 @@ namespace Vision.Simulation.Base
                     Utils.EnumTryParse(asyncCallMethodStr, out asyncCallMethod))
                     Util.FireAndForgetMethod = asyncCallMethod;
 
-                stpMaxThreads = SystemConfig.GetInt("MaxPoolThreads", 15);
+                stpMinThreads = SystemConfig.GetInt("MinPoolThreads", stpMinThreads);
+                stpMaxThreads = SystemConfig.GetInt("MaxPoolThreads", stpMaxThreads);
+
+                if (stpMinThreads < 2)
+                    stpMinThreads = 2;
+                if (stpMaxThreads < 2)
+                    stpMaxThreads = 2;
+                if (stpMinThreads > stpMaxThreads)
+                    stpMinThreads = stpMaxThreads;
             }
 
             if (Util.FireAndForgetMethod == FireAndForgetMethod.SmartThreadPool)
-                Util.InitThreadPool(stpMaxThreads);
+                Util.InitThreadPool(stpMinThreads, stpMaxThreads);
         }
 
         /// <summary>
-        ///     Performs initialisation of the application, such as loading the HTTP server and modules
+        ///     Performs initialization of the application, such as loading the HTTP server and modules
         /// </summary>
         public virtual void Startup()
         {

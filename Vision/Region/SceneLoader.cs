@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -100,7 +100,7 @@ namespace Vision.Region
             List<IClientNetworkServer> allClientServers = new List<IClientNetworkServer>();
             foreach (IClientNetworkServer clientServer in clientServers)
             {
-                clientServer.Initialize((uint)regionInfo.RegionPort, m_configSource, circuitManager);
+                clientServer.Initialise((uint)regionInfo.RegionPort, m_configSource, circuitManager);
                 allClientServers.Add(clientServer);
             }
 

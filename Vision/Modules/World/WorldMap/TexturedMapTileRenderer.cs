@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -143,7 +143,7 @@ namespace Vision.Modules.WorldMap
 
         #region IMapTileTerrainRenderer Members
 
-        public void Initialize(IScene scene, IConfigSource source)
+        public void Initialise(IScene scene, IConfigSource source)
         {
             m_scene = scene;
             // m_config = source; // not used currently

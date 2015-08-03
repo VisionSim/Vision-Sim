@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -206,9 +206,9 @@ namespace Vision.Services
             }
         }
 
-        public void MarkComplete(string history_id, string reciept)
+        public void MarkComplete(string history_id, string receipt)
         {
-            m_database.SaveHistoryCompleteReciept(history_id, reciept);
+            m_database.SaveHistoryCompleteReciept(history_id, receipt);
         }
 
         #endregion

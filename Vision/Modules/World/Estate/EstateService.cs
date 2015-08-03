@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -954,7 +954,7 @@ namespace Vision.Modules.Estate
 
         #region ISharedRegionStartupModule Members
 
-        public void Initialize (IScene scene, IConfigSource source, ISimulationBase simBase)
+        public void Initialise (IScene scene, IConfigSource source, ISimulationBase simBase)
         {
             IConfig config = source.Configs ["EstateSettingsModule"];
             if (config != null)

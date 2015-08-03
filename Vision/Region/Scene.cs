@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -406,7 +406,7 @@ namespace Vision.Region
             }
             catch
             {
-                MainConsole.Instance.WarnFormat("[Scene]: Could not start udp server on port {0}, is this port already in use?", RegionInfo.RegionPort);
+                MainConsole.Instance.WarnFormat("[Scene]: Could not start UDP server on port {0}, is this port already in use?", RegionInfo.RegionPort);
                 RegionInfo.RegionPort = int.Parse(MainConsole.Instance.Prompt("Region Port: "));
                 foreach (IClientNetworkServer clientServer in m_clientServers)
                     clientServer.UpdatePort((uint)RegionInfo.RegionPort);

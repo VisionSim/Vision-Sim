@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,13 +63,13 @@ namespace Vision.Framework.Utilities
 
         // System Governor Avatar Account
         public const string GovernorUUID = "3d6181b0-6a4b-97ef-18d8-722652995cf1";
-        public const string GovernorName = "Governor Vision";
-        
-		// System Estate
-		public const string MainlandEstateName = "Vision Mainland";
-		public const int MainlandEstateID = 1;
-		public const string SystemEstateName = "Vision Estate";
-		public const int SystemEstateID = 10;
+        public const string GovernorName = "Governor White";
+
+        // System Estate
+        public const string MainlandEstateName = "Vision Mainland";
+        public const int MainlandEstateID = 1;
+        public const string SystemEstateName = "Vision Estate";
+        public const int SystemEstateID = 10;
 
         // System Real Estate Maintenance Group
 		public const string RealEstateGroupUUID = "dc7b21cd-3c89-fcaa-31c8-25f9ffd224cd";
@@ -114,5 +114,6 @@ namespace Vision.Framework.Utilities
         public const int SCHEDULED_PAYMENTS_DELAY = 15;     // minutes to wait after stipend payments before processing scheduled payments
         public const int GROUP_PAYMENTS_DELAY = 30;         // minutes to wait after stipend payments before processing group payments
         public const int DIRECTORYFEE_GRACE_PERIOD = 2;     // hours grace period before a fee will be charged at least once
+
     }
 }

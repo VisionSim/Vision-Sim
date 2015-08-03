@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -127,7 +127,7 @@ namespace Vision.Services.DataService
                     grpName,                                            // Name
                     grpCharter,                                         // Charter / description
                     false,                                              // Show in list
-                    UUID.Zero, 0, false, false, false,                  // Insignia UUID, Membership fee, Open Enrolement, Allow publishing, Mature
+                    UUID.Zero, 0, false, false, false,                  // Insignia UUID, Membership fee, Open Enrollment, Allow publishing, Mature
                     grpOwnerUUID,                                       // founder UUID
                     UUID.Random ());                                    // owner role UUID
             } else
@@ -1574,7 +1574,7 @@ namespace Vision.Services.DataService
             if (remoteValue != null || m_doRemoteOnly)
                 return (List<GroupRolesData>) remoteValue;
 
-            //No permissions check necessary, we are checking only roles that they are in, so if they aren't in the group, that isn't a problem
+            //No permissions check necessary, we are checking only roles that they are in, so if they arn't in the group, that isn't a problem
 
             QueryTables tables = new QueryTables();
             tables.AddTable("group_role_membership", "osgm");

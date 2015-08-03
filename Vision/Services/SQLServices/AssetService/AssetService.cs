@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -307,7 +307,7 @@ namespace Vision.Services.SQLServices.AssetService
         }
 
         /// <summary>
-        /// Handles the delete asset commad.
+        /// Handles the delete asset command.
         /// </summary>
         /// <param name="scene">Scene.</param>
         /// <param name="args">Arguments.</param>

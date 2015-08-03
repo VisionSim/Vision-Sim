@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,13 +33,13 @@ namespace Vision.Framework.Modules
     public interface ISharedRegionStartupModule
     {
         /// <summary>
-        ///     Initialize and load the configuration of the module
+        ///     Initialise and load the configuration of the module
         ///     This is used by IServices, DO NOT USE ANYTHING THAT REQUIRES IService here!
         /// </summary>
         /// <param name="scene"></param>
         /// <param name="source"></param>
         /// <param name="simBase"></param>
-        void Initialize(IScene scene, IConfigSource source, ISimulationBase simBase);
+        void Initialise(IScene scene, IConfigSource source, ISimulationBase simBase);
 
         /// <summary>
         ///     PostInitialise the module

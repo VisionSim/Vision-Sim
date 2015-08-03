@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,7 @@ namespace Vision.Modules.Auction
 
         #region INonSharedRegionModule Members
 
-        public void Initialize(IConfigSource pSource)
+        public void Initialise(IConfigSource pSource)
         {
         }
 
@@ -144,7 +144,10 @@ namespace Vision.Modules.Auction
                     return;
                 landObject.LandData.SnapshotID = SnapshotID;
                 landObject.LandData.AuctionID = (uint) Util.RandomClass.Next(0, int.MaxValue);
-                landObject.LandData.Status = ParcelStatus.Abandoned;
+                // landObject.LandData.Status = ParcelStatus.Abandoned;
+                // 150730 Fly-Man- Only when an parcel is Abandoned the Status is changed to Abandoned.
+                // During an Auction, the Status of an parcel stays "Leased"
+                landObject.LandData.Status = ParcelStatus.Leased;
                 landObject.SendLandUpdateToAvatarsOverMe();
             }
         }

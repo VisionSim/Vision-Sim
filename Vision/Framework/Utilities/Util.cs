@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -1815,15 +1815,38 @@ namespace Vision.Framework.Utilities
             FireAndForget(callback, null);
         }
 
-        public static void InitThreadPool(int maxThreads)
+        public static void InitThreadPool(int minThreads, int maxThreads)
         {
-            if (maxThreads < 2)
-                throw new ArgumentOutOfRangeException("maxThreads", "maxThreads must be greater than 2");
             if (m_ThreadPool != null)
-                throw new InvalidOperationException("SmartThreadPool is already initialized");
+            {
+                MainConsole.Instance.Warn ("SmartThreadPool is already initialized");
+                return;
+            }
 
+            // should not be necessary but you never can tell...
+            if (maxThreads < 2)
+            {
+                maxThreads = 2;
+                MainConsole.Instance.Warn("[STP]: maxThreads must be greater than 2");
+            }
+
+            if (minThreads > maxThreads || minThreads < 2)
+            {
+                minThreads = 2;
+                MainConsole.Instance.Warn ("[STP]: minThreads must be greater than 2 and <= maxThreads");
+            }
+            
+
+            STPStartInfo startInfo = new STPStartInfo ();
+            startInfo.ThreadPoolName = "Util";
+            startInfo.IdleTimeout = 2000;
+            startInfo.MinWorkerThreads = minThreads;
+            startInfo.MaxWorkerThreads = maxThreads;
+
+            m_ThreadPool = new SmartThreadPool(startInfo);
             m_threadPoolRunning = true;
-            m_ThreadPool = new SmartThreadPool(2000, maxThreads, 2);
+            //  old - remove if OK //m_ThreadPool = new SmartThreadPool(2000, maxThreads, 2);
+
         }
 
         public static void CloseThreadPool()
@@ -1880,7 +1903,7 @@ namespace Vision.Framework.Utilities
                     break;
                 case FireAndForgetMethod.SmartThreadPool:
                     if (m_ThreadPool == null)
-                        InitThreadPool(15);
+                        InitThreadPool(2, 15);
                     if (m_threadPoolRunning) //Check if the thread pool should be running
                         m_ThreadPool.QueueWorkItem((WorkItemCallback) SmartThreadPoolCallback, new[] {callback, obj});
                     break;

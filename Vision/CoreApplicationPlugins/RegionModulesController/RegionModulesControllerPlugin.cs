@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -104,7 +104,7 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
                 //                  scene.RegionInfo.RegionName, module.Name);
 
                 // Initialize the module
-                module.Initialize(m_simBase.ConfigSource);
+                module.Initialise(m_simBase.ConfigSource);
 
                 IRegionModuleBaseModules.Add(module);
                 list.Add(module);
@@ -112,7 +112,7 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
 
             // Now add the modules that we found to the scene. If a module
             // wishes to override a replaceable interface, it needs to
-            // register it in Initialize, so that the deferred module
+            // register it in Initialise, so that the deferred module
             // won't load.
             foreach (INonSharedRegionModule module in list)
             {
@@ -152,7 +152,7 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
 
                 try
                 {
-                    module.Initialize(m_simBase.ConfigSource);
+                    module.Initialise(m_simBase.ConfigSource);
                 }
                 catch (Exception ex)
                 {
@@ -259,7 +259,7 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
             {
                 try
                 {
-                    module.Initialize(config);
+                    module.Initialise(config);
                 }
                 catch (Exception ex)
                 {

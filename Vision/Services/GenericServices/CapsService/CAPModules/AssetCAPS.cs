@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -254,7 +254,7 @@ namespace Vision.Services
 
             }
 
-            // found the texture in th cache
+            // found the texture in the cache
             if (texture.Type != (sbyte) AssetType.Texture &&
                 texture.Type != (sbyte) AssetType.Unknown &&
                 texture.Type != (sbyte) AssetType.Simstate)
@@ -422,7 +422,7 @@ namespace Vision.Services
             return data;
         }
 
-        // From msdn
+        // From MSDN
         static ImageCodecInfo GetEncoderInfo(String mimeType)
         {
             ImageCodecInfo[] encoders = ImageCodecInfo.GetImageEncoders();
