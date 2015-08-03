@@ -11,7 +11,7 @@ Include-WebInterface = Sim/Standalone/WebInterface.ini
 ;; The syntax is: Region_<RegionName> = <flags>
 ;; where <flags> can be DefaultRegion, FallbackRegion, NoDirectLogin, Persistent, LockedOut
 ;; For example:
-;Region_WhiteCore = DefaultRegion, FallbackRegion
+;Region_Vision = DefaultRegion, FallbackRegion
 
 ;; The maximum size a region can be
 ;; Note: 0 disables this check
@@ -39,7 +39,7 @@ UseVariableRegionSightDistance = false
 MaxDistanceVariableRegionSightDistance = 512
 
 [LibraryService]
-;; Set this if you want to change the name or owner of the Vision Library
+;; Set these if you want to change the name or owner of the Vision Library
 ;;  (This is the system default inventory)
 LibraryName = "Vision Library"
 LibraryOwnerName = "Library Owner"
@@ -52,7 +52,8 @@ BankerName = "Vision Banker"
 MarketplaceOwnerName = "Marketplace Concierge"
 
 [EstateService]
-;;  Modify this if you want to change the Vision system Estate name
+;;  Modify these if you want to change the Vision system Estate names
+MainlandEstateName = "Vision Mainland"
 SystemEstateName = "Vision Estate"
 
 [LoginService]
