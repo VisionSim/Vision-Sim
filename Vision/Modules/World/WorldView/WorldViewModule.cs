@@ -50,7 +50,7 @@ namespace Vision.Modules.WorldView
         bool m_cacheEnabled = true;
         float m_cacheExpires = 24;
 
-        public void Initialise(IConfigSource config)
+        public void Initialize(IConfigSource config)
         {
          
             IConfig moduleConfig = config.Configs ["WorldViewModule"];

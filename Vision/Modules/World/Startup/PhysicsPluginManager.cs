@@ -80,7 +80,7 @@ namespace Vision.Modules.Startup
             {
                 MainConsole.Instance.Debug("[Physics]: Loading physics engine: " + physEngineName);
                 PhysicsScene result = _PhysPlugins[physEngineName].GetScene();
-                result.Initialise(meshEngine, scene);
+                result.Initialize(meshEngine, scene);
                 result.PostInitialise(config);
                 return result;
             }
@@ -98,10 +98,10 @@ namespace Vision.Modules.Startup
         public void LoadPluginsFromAssemblies(string assembliesPath)
         {
             List<IPhysicsPlugin> physicsPlugins =
-                WhiteCoreModuleLoader.LoadModules<IPhysicsPlugin>(assembliesPath);
+                VisionModuleLoader.LoadModules<IPhysicsPlugin>(assembliesPath);
             List<IMeshingPlugin> meshingPlugins =
-                WhiteCoreModuleLoader.LoadModules<IMeshingPlugin>(assembliesPath);
-            meshingPlugins.AddRange(WhiteCoreModuleLoader.LoadModules<IMeshingPlugin>(""));
+                VisionModuleLoader.LoadModules<IMeshingPlugin>(assembliesPath);
+            meshingPlugins.AddRange(VisionModuleLoader.LoadModules<IMeshingPlugin>(""));
 
             foreach (IPhysicsPlugin plug in physicsPlugins)
             {

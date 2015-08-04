@@ -349,7 +349,7 @@ namespace Vision.Modules.Chat
 
         #region INonSharedRegionModule Members
 
-        public virtual void Initialise (IConfigSource config)
+        public virtual void Initialize (IConfigSource config)
         {
             m_config = config.Configs ["Chat"];
 
@@ -436,7 +436,7 @@ namespace Vision.Modules.Chat
 
         void FindChatPlugins ()
         {
-            AllChatPlugins = WhiteCoreModuleLoader.PickupModules<IChatPlugin> ();
+            AllChatPlugins = VisionModuleLoader.PickupModules<IChatPlugin> ();
             foreach (IChatPlugin plugin in AllChatPlugins)
             {
                 plugin.Initialize (this);

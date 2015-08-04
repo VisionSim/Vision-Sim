@@ -105,7 +105,7 @@ namespace Vision.Modules.Terrain
         ///     Creates and initializes a terrain module for a region
         /// </summary>
         /// <param name="config">Config for the region</param>
-        public void Initialise(IConfigSource config)
+        public void Initialize(IConfigSource config)
         {
             if (config.Configs["TerrainModule"] != null)
             {
@@ -682,7 +682,7 @@ namespace Vision.Modules.Terrain
             if (!Directory.Exists(plugineffectsPath))
                 return;
 
-            ITerrainLoader[] loaders = WhiteCoreModuleLoader.PickupModules<ITerrainLoader>().ToArray();
+            ITerrainLoader[] loaders = VisionModuleLoader.PickupModules<ITerrainLoader>().ToArray();
             foreach (ITerrainLoader terLoader in loaders)
             {
                 m_loaders[terLoader.FileExtension] = terLoader;

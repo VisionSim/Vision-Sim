@@ -61,7 +61,7 @@ namespace Vision.Modules.Wind
 
         #region IRegion Methods
 
-        public void Initialise(IConfigSource config)
+        public void Initialize(IConfigSource config)
         {
             windConfig = config.Configs["Wind"];
             desiredWindPlugin = m_dWindPluginName;
@@ -90,7 +90,7 @@ namespace Vision.Modules.Wind
                 m_frame = 0;
 
                 // Register all the Wind Model Plug-ins
-                foreach (IWindModelPlugin windPlugin in WhiteCoreModuleLoader.PickupModules<IWindModelPlugin>())
+                foreach (IWindModelPlugin windPlugin in VisionModuleLoader.PickupModules<IWindModelPlugin>())
                 {
                     //MainConsole.Instance.InfoFormat("[WIND] Found Plugin: {0}", windPlugin.Name);
                     m_availableWindPlugins.Add(windPlugin.Name, windPlugin);
@@ -105,7 +105,7 @@ namespace Vision.Modules.Wind
 
                     if (windConfig != null)
                     {
-                        m_activeWindPlugin.Initialise();
+                        m_activeWindPlugin.Initialize();
                         m_activeWindPlugin.WindConfig(m_scene, windConfig);
                     }
                 }

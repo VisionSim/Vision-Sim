@@ -57,7 +57,7 @@ namespace Vision.Modules.Selection
 
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource source)
+        public void Initialize(IConfigSource source)
         {
 			IConfig whitecorestartupConfig = source.Configs["WhiteCoreStartup"];
 			if (whitecorestartupConfig != null)

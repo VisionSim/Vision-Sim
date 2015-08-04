@@ -161,7 +161,7 @@ namespace Vision.Modules.Sun
 
         #region IRegion Methods
 
-        public void Initialise(IConfigSource config)
+        public void Initialize(IConfigSource config)
         {
             m_frame = 0;
             m_config = config;

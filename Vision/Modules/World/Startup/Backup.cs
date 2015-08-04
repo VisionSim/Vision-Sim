@@ -57,7 +57,7 @@ namespace Vision.Modules.Startup
 
         #region ISharedRegionStartupModule Members
 
-        public void Initialise(IScene scene, IConfigSource source, ISimulationBase simBase)
+        public void Initialize(IScene scene, IConfigSource source, ISimulationBase simBase)
         {
             if (MainConsole.Instance != null && m_backup.Count == 0) //Only add them once
             {

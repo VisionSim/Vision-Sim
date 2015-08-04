@@ -182,10 +182,10 @@ namespace Vision.ScriptEngine.DotNetEngine.CompilerTools
 
         private void SetupCompilers()
         {
-            converters = WhiteCoreModuleLoader.PickupModules<IScriptConverter>();
+            converters = VisionModuleLoader.PickupModules<IScriptConverter>();
             foreach (IScriptConverter convert in converters)
             {
-                convert.Initialise(this);
+                convert.Initialize(this);
             }
         }
 

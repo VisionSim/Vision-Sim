@@ -124,7 +124,7 @@ namespace Vision.Modules.Web
         {
             Registry = registry;
 
-            var webPages = WhiteCoreModuleLoader.PickupModules<IWebInterfacePage>();
+            var webPages = VisionModuleLoader.PickupModules<IWebInterfacePage>();
             foreach (var pages in webPages)
             {
                 foreach (var page in pages.FilePath)
@@ -133,7 +133,7 @@ namespace Vision.Modules.Web
                 }
             }
 
-            _translators = WhiteCoreModuleLoader.PickupModules<ITranslator>();
+            _translators = VisionModuleLoader.PickupModules<ITranslator>();
             _defaultTranslator = _translators[0];
         }
 

@@ -80,7 +80,7 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
 
             // Scan for, and load, non-shared modules
             List<INonSharedRegionModule> list = new List<INonSharedRegionModule>();
-            List<INonSharedRegionModule> m_nonSharedModules = WhiteCoreModuleLoader.PickupModules<INonSharedRegionModule>();
+            List<INonSharedRegionModule> m_nonSharedModules = VisionModuleLoader.PickupModules<INonSharedRegionModule>();
             foreach (INonSharedRegionModule module in m_nonSharedModules)
             {
                 Type replaceableInterface = module.ReplaceableInterface;
@@ -104,7 +104,7 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
                 //                  scene.RegionInfo.RegionName, module.Name);
 
                 // Initialize the module
-                module.Initialise(m_simBase.ConfigSource);
+                module.Initialize(m_simBase.ConfigSource);
 
                 IRegionModuleBaseModules.Add(module);
                 list.Add(module);
@@ -112,7 +112,7 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
 
             // Now add the modules that we found to the scene. If a module
             // wishes to override a replaceable interface, it needs to
-            // register it in Initialise, so that the deferred module
+            // register it in Initialize, so that the deferred module
             // won't load.
             foreach (INonSharedRegionModule module in list)
             {
@@ -152,7 +152,7 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
 
                 try
                 {
-                    module.Initialise(m_simBase.ConfigSource);
+                    module.Initialize(m_simBase.ConfigSource);
                 }
                 catch (Exception ex)
                 {
@@ -259,7 +259,7 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
             {
                 try
                 {
-                    module.Initialise(config);
+                    module.Initialize(config);
                 }
                 catch (Exception ex)
                 {

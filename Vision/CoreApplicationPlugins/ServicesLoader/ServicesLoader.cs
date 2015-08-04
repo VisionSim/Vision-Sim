@@ -62,7 +62,7 @@ namespace Vision.CoreApplicationPlugins.ServicesLoader
             if (handlerConfig.GetString("ServicesLoader", "") != Name)
                 return;
 
-            List<IService> serviceConnectors = WhiteCoreModuleLoader.PickupModules<IService>();
+            List<IService> serviceConnectors = VisionModuleLoader.PickupModules<IService>();
             foreach (IService connector in serviceConnectors)
             {
                 try

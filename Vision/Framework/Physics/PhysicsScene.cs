@@ -101,7 +101,7 @@ namespace Vision.Framework.Physics
 
         public virtual int StatCollisionAccountingTime { get; protected set; }
 
-        public abstract void Initialise(IMesher meshmerizer, IScene scene);
+        public abstract void Initialize(IMesher meshmerizer, IScene scene);
         public abstract void PostInitialise(IConfigSource config);
         public abstract string EngineType { get; }
 
@@ -219,7 +219,7 @@ namespace Vision.Framework.Physics
             get { return false; }
         }
 
-        public override void Initialise(IMesher meshmerizer, IScene scene)
+        public override void Initialize(IMesher meshmerizer, IScene scene)
         {
             // Does nothing right now
         }

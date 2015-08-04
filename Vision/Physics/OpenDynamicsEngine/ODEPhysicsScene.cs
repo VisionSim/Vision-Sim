@@ -251,7 +251,7 @@ namespace Vision.Physics.OpenDynamicsEngine
         }
 
         // Initialize the mesh plugin
-        public override void Initialise(IMesher meshmerizer, IScene scene)
+        public override void Initialize(IMesher meshmerizer, IScene scene)
         {
             mesher = meshmerizer;
             m_region = scene.RegionInfo;

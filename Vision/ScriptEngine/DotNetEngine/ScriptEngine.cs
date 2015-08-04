@@ -202,7 +202,7 @@ namespace Vision.ScriptEngine.DotNetEngine
 
         #region ISharedRegionModule
 
-        public void Initialise(IConfigSource config)
+        public void Initialize(IConfigSource config)
         {
             m_ConfigSource = config;
             ScriptConfigSource = config.Configs[ScriptEngineName];
@@ -1174,7 +1174,7 @@ namespace Vision.ScriptEngine.DotNetEngine
         {
             if (m_APIs.Length == 0)
             {
-                m_APIs = WhiteCoreModuleLoader.PickupModules<IScriptApi>().ToArray();
+                m_APIs = VisionModuleLoader.PickupModules<IScriptApi>().ToArray();
                 //Only add Apis that are considered safe
                 m_APIs = m_APIs.Where(api => ScriptProtection.CheckAPI(api.Name)).ToArray();
             }
@@ -1262,7 +1262,7 @@ namespace Vision.ScriptEngine.DotNetEngine
         /// </summary>
         public void StartSharedScriptPlugins()
         {
-            List<IScriptPlugin> sharedPlugins = WhiteCoreModuleLoader.PickupModules<IScriptPlugin>();
+            List<IScriptPlugin> sharedPlugins = VisionModuleLoader.PickupModules<IScriptPlugin>();
             foreach (IScriptPlugin plugin in sharedPlugins)
             {
                 plugin.Initialize(this);

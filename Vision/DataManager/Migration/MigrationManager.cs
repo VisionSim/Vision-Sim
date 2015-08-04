@@ -50,7 +50,7 @@ namespace Vision.DataManager.Migration
             this.genericData = genericData;
             this.migratorName = migratorName;
             this.validateTables = validateTables;
-            List<IMigrator> allMigrators = WhiteCoreModuleLoader.PickupModules<IMigrator>();
+            List<IMigrator> allMigrators = VisionModuleLoader.PickupModules<IMigrator>();
 
             foreach (
                 IMigrator m in

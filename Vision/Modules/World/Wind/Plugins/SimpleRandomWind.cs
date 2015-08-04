@@ -53,7 +53,7 @@ namespace Vision.Modules.Wind.Plugins
             get { return "SimpleRandomWind"; }
         }
 
-        public void Initialise()
+        public void Initialize()
         {
         }
 

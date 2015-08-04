@@ -63,7 +63,7 @@ namespace Vision.Modules.InventoryAccess
             get { return "BasicInventoryAccessModule"; }
         }
 
-        public virtual void Initialise(IConfigSource source)
+        public virtual void Initialize(IConfigSource source)
         {
             IConfig moduleConfig = source.Configs["Modules"];
             if (moduleConfig != null)

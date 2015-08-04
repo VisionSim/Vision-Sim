@@ -194,7 +194,7 @@ namespace Vision.Region.Physics.BulletSPlugin
 
         #region Construction and Initialization
 
-        public override void Initialise(IMesher meshmerizer, IScene scene)
+        public override void Initialize(IMesher meshmerizer, IScene scene)
         {
             Scene = scene;
             mesher = meshmerizer;

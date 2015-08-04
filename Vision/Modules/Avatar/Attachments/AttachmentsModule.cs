@@ -69,7 +69,7 @@ namespace Vision.Modules.Attachments
 
         #region INonSharedRegionModule Methods
 
-        public void Initialise(IConfigSource source)
+        public void Initialize(IConfigSource source)
         {
             if (source.Configs["Attachments"] != null)
             {

@@ -114,7 +114,7 @@ namespace Vision.Region
                 name = simConfig.GetString("DatabaseLoaderName", "FileBasedDatabase");
             }
 
-            ISimulationDataStore[] stores = WhiteCoreModuleLoader.PickupModules<ISimulationDataStore>().ToArray();
+            ISimulationDataStore[] stores = VisionModuleLoader.PickupModules<ISimulationDataStore>().ToArray();
             
             List<string> storeNames = new List<string>();
             foreach (ISimulationDataStore store in stores)
@@ -135,12 +135,12 @@ namespace Vision.Region
                 Console.Read(); //Wait till they see
                 Environment.Exit(0);
             }
-            m_selectedDataService.Initialise();
+            m_selectedDataService.Initialize();
 
             AddConsoleCommands();
 
             //Load the startup modules for the region
-            m_startupPlugins = WhiteCoreModuleLoader.PickupModules<ISharedRegionStartupModule>();
+            m_startupPlugins = VisionModuleLoader.PickupModules<ISharedRegionStartupModule>();
         }
 
         public void ReloadConfiguration(IConfigSource config)
@@ -221,7 +221,7 @@ namespace Vision.Region
 
             m_startupTime = m_SimBase.StartupTime;                  // finished this timing period
 
-            WhiteCoreModuleLoader.ClearCache();
+            VisionModuleLoader.ClearCache();
             // In 99.9% of cases it is a bad idea to manually force garbage collection. However,
             // this is a rare case where we know we have just went through a long cycle of heap
             // allocations, and there is no more work to be done until someone logs in
@@ -456,7 +456,7 @@ namespace Vision.Region
             //First, Initialize the SharedRegionStartupModule
             foreach (ISharedRegionStartupModule module in m_startupPlugins)
             {
-                module.Initialise(scene, m_config, m_SimBase);
+                module.Initialize(scene, m_config, m_SimBase);
             }
             //Then do the ISharedRegionModule and INonSharedRegionModules
             MainConsole.Instance.Debug("[Modules]: Loading region modules");

@@ -170,7 +170,7 @@ namespace Vision.Services
 
         #region Initialize
 
-        public void Initialise(IClientCapsService clientCapsService, IRegionCapsService regionCapsService,
+        public void Initialize(IClientCapsService clientCapsService, IRegionCapsService regionCapsService,
                                string capsBase, AgentCircuitData circuitData, uint port)
         {
             m_clientCapsService = clientCapsService;
@@ -324,7 +324,7 @@ namespace Vision.Services
         {
             if (m_connectors.Count == 0)
             {
-                m_connectors = WhiteCoreModuleLoader.PickupModules<ICapsServiceConnector>();
+                m_connectors = VisionModuleLoader.PickupModules<ICapsServiceConnector>();
             }
             return m_connectors;
         }

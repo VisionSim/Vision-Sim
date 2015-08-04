@@ -190,7 +190,7 @@ namespace Vision.Services
                 RegisterCommands();
             }
 
-            LoginModules = WhiteCoreModuleLoader.PickupModules<ILoginModule>();
+            LoginModules = VisionModuleLoader.PickupModules<ILoginModule>();
             foreach (ILoginModule module in LoginModules)
             {
                 module.Initialize(this, m_config, registry);

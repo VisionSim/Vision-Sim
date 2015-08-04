@@ -75,7 +75,7 @@ namespace Vision.Modules.Inventory
 
         #region INonSharedRegionModule members
 
-        public void Initialise(IConfigSource source)
+        public void Initialize(IConfigSource source)
         {
         }
 

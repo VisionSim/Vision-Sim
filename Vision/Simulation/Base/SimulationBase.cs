@@ -338,7 +338,7 @@ namespace Vision.Simulation.Base
 
         public virtual void InitializeModules()
         {
-            m_applicationPlugins = WhiteCoreModuleLoader.PickupModules<IApplicationPlugin>();
+            m_applicationPlugins = VisionModuleLoader.PickupModules<IApplicationPlugin>();
             foreach (IApplicationPlugin plugin in m_applicationPlugins)
                 plugin.PreStartup(this);
         }

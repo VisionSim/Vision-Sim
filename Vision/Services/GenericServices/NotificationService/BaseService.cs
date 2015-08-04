@@ -57,7 +57,7 @@ namespace Vision.Services
 
         private void SetUpConsole(IConfigSource config, IRegistryCore registry)
         {
-            List<ICommandConsole> Plugins = WhiteCoreModuleLoader.PickupModules<ICommandConsole>();
+            List<ICommandConsole> Plugins = VisionModuleLoader.PickupModules<ICommandConsole>();
             foreach (ICommandConsole plugin in Plugins)
             {
                 plugin.Initialize(config, registry.RequestModuleInterface<ISimulationBase>());

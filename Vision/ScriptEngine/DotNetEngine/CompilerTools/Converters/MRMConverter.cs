@@ -48,7 +48,7 @@ namespace Vision.ScriptEngine.DotNetEngine.CompilerTools
             get { return ""; }
         }
 
-        public void Initialise(Compiler compiler)
+        public void Initialize(Compiler compiler)
         {
         }
 

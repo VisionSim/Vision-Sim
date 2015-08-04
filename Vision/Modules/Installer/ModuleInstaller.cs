@@ -379,10 +379,10 @@ namespace Vision.Modules.Installer
 
         private void LoadModulesFromDllFile(string copiedDllFile)
         {
-            List<IService> services = WhiteCoreModuleLoader.LoadPlugins<IService>(copiedDllFile);
-            List<IApplicationPlugin> appPlugins = WhiteCoreModuleLoader.LoadPlugins<IApplicationPlugin>(copiedDllFile);
+            List<IService> services = VisionModuleLoader.LoadPlugins<IService>(copiedDllFile);
+            List<IApplicationPlugin> appPlugins = VisionModuleLoader.LoadPlugins<IApplicationPlugin>(copiedDllFile);
             List<INonSharedRegionModule> nsregionModule =
-                WhiteCoreModuleLoader.LoadPlugins<INonSharedRegionModule>(copiedDllFile);
+                VisionModuleLoader.LoadPlugins<INonSharedRegionModule>(copiedDllFile);
             foreach (IService service in services)
             {
                 service.Initialize(m_config, m_registry);
@@ -405,7 +405,7 @@ namespace Vision.Modules.Installer
                 {
                     foreach (IScene scene in manager.Scenes)
                     {
-                        nsrm.Initialise(m_config);
+                        nsrm.Initialize(m_config);
                         nsrm.AddRegion(scene);
                         nsrm.RegionLoaded(scene);
                         rmc.AllModules.Add(nsrm);
