@@ -73,7 +73,7 @@ VisionSim/Data/FileAssets/*
 VisionSim/Data/Governor.txt
 VisionSim/Data/OarFiles/*
 VisionSim/Data/Marketplace.txt
-VisionSim/Data/RealEstateUser.txt
+VisionSim/Data/RealEstate.txt
 VisionSim/Data/RegionBak/*.sim
 VisionSim/Data/Region/*.sim
 VisionSim/Data/ScriptEngines/*-*-*-*-*
