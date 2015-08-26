@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,7 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Text;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
@@ -34,19 +38,13 @@ using Vision.Framework.Servers.HttpServer;
 using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
-using System;
-using System.Text;
 
 namespace Vision.Modules.Voice
 {
     public class GenericVoiceModule : INonSharedRegionModule
     {
-        private string configToSend = "SLVoice";
-        private bool m_enabled = true;
-        private IScene m_scene;
+        bool m_enabled = true;
+        IScene m_scene;
 
         #region INonSharedRegionModule Members
 
@@ -55,17 +53,13 @@ namespace Vision.Modules.Voice
             IConfig voiceconfig = config.Configs["Voice"];
             if (voiceconfig == null)
                 return;
-            m_enabled = false;
+
             const string voiceModule = "GenericVoice";
             if (voiceconfig.GetString("Module", voiceModule) != voiceModule)
                 return;
+
+            // We use GenericVoice calls to keep the viewer happy
             m_enabled = true;
-            IConfig m_config = config.Configs["GenericVoice"];
-
-            if (m_config == null)
-                return;
-
-            configToSend = m_config.GetString("ModuleToSend", configToSend);
         }
 
         public void AddRegion(IScene scene)
@@ -111,7 +105,7 @@ namespace Vision.Modules.Voice
         #endregion
 
         // OnRegisterCaps is invoked via the scene.EventManager
-        // every time Vision hands out capabilities to a client
+        // every time Vision server hands out capabilities to a client
         // (login, region crossing). We contribute two capabilities to
         // the set of capabilities handed back to the client:
         // ProvisionVoiceAccountRequest and ParcelVoiceInfoRequest.
@@ -175,7 +169,7 @@ namespace Vision.Modules.Voice
 
         #region Region-side message sending
 
-        private OSDMap syncRecievedService_OnMessageReceived(OSDMap message)
+        OSDMap syncRecievedService_OnMessageReceived(OSDMap message)
         {
             string method = message["Method"];
             if (method == "GetParcelChannelInfo")
