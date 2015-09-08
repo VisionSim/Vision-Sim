@@ -48,7 +48,7 @@ namespace Vision.Services.DataService.Connectors.Database.Scheduler
                                                       "schedule_for"
                                                   };
 
-        #region Implementation of IUniverseDataPlugin
+        #region Implementation of IVisionDataPlugin
 
         /// <summary>
         ///     Returns the plugin name
@@ -69,14 +69,14 @@ namespace Vision.Services.DataService.Connectors.Database.Scheduler
         public void Initialize(IGenericData GenericData, IConfigSource source, IRegistryCore simBase,
                                string DefaultConnectionString)
         {
-            if (source.Configs["UniverseConnectors"].GetString("SchedulerConnector", "LocalConnector") != "LocalConnector")
+            if (source.Configs["VisionConnectors"].GetString("SchedulerConnector", "LocalConnector") != "LocalConnector")
                 return;
 
             if (source.Configs[Name] != null)
                 DefaultConnectionString = source.Configs[Name].GetString("ConnectionString", DefaultConnectionString);
             if (GenericData != null)
                 GenericData.ConnectToDatabase(DefaultConnectionString, "Scheduler",
-                                              source.Configs["UniverseConnectors"].GetBoolean("ValidateTables", true));
+                                              source.Configs["VisionConnectors"].GetBoolean("ValidateTables", true));
 
             m_Gd = GenericData;
             Framework.Utilities.DataManager.RegisterPlugin(this);

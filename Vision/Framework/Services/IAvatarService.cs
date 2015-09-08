@@ -76,7 +76,7 @@ namespace Vision.Framework.Services
         AvatarAppearance BakeAppearance(UUID agentID, int cof_version);
     }
     
-    public interface IAvatarData : IUniverseDataPlugin
+    public interface IAvatarData : IVisionDataPlugin
     {
         AvatarAppearance Get(UUID PrincipalID);
         bool Store(UUID PrincipalID, AvatarAppearance data);

@@ -65,7 +65,7 @@ namespace Vision.Modules.Ban
         }
     }
 
-    public interface IPresenceInfo : IUniverseDataPlugin
+    public interface IPresenceInfo : IVisionDataPlugin
     {
         PresenceInfo GetPresenceInfo(UUID agentID);
         void UpdatePresenceInfo(PresenceInfo agent);

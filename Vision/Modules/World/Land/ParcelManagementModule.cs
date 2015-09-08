@@ -184,8 +184,8 @@ namespace Vision.Modules.Land
             m_scene.EventManager.OnRegisterCaps += EventManagerOnRegisterCaps;
             m_scene.EventManager.OnClosingClient += OnClosingClient;
             m_scene.EventManager.OnFrame += EventManager_OnFrame;
-            m_scene.VisionEventManager.RegisterEventHandler("ObjectAddedFlag", UniverseEventManager_OnGenericEvent);
-            m_scene.VisionEventManager.RegisterEventHandler("ObjectRemovedFlag", UniverseEventManager_OnGenericEvent);
+            m_scene.VisionEventManager.RegisterEventHandler("ObjectAddedFlag", VisionEventManager_OnGenericEvent);
+            m_scene.VisionEventManager.RegisterEventHandler("ObjectRemovedFlag", VisionEventManager_OnGenericEvent);
             if (m_UpdateDirectoryOnTimer)
                 m_scene.EventManager.OnStartupComplete += EventManager_OnStartupComplete;
 
@@ -311,7 +311,7 @@ namespace Vision.Modules.Land
             }
         }
 
-        object UniverseEventManager_OnGenericEvent(string FunctionName, object parameters)
+        object VisionEventManager_OnGenericEvent(string FunctionName, object parameters)
         {
             if (FunctionName == "ObjectAddedFlag")
             {

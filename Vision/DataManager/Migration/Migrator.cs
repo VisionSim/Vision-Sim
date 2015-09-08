@@ -62,7 +62,7 @@ namespace Vision.DataManager.Migration
 
         public bool Validate(IDataConnector genericData)
         {
-            if (genericData.GetUniverseVersion(MigrationName) != Version)
+            if (genericData.GetVisionVersion(MigrationName) != Version)
             {
                 return false;
             }
@@ -87,7 +87,7 @@ namespace Vision.DataManager.Migration
         public void Migrate(IDataConnector genericData)
         {
             DoMigrate(genericData);
-            genericData.WriteUniverseVersion(Version, MigrationName);
+            genericData.WriteVisionVersion(Version, MigrationName);
         }
 
         protected virtual void DoMigrate(IDataConnector genericData)
@@ -97,7 +97,7 @@ namespace Vision.DataManager.Migration
         public void CreateDefaults(IDataConnector genericData)
         {
             DoCreateDefaults(genericData);
-            genericData.WriteUniverseVersion(Version, MigrationName);
+            genericData.WriteVisionVersion(Version, MigrationName);
         }
 
         protected virtual void DoCreateDefaults(IDataConnector genericData)

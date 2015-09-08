@@ -95,11 +95,11 @@ namespace Vision.Region
             m_parentScene.EventManager.OnNewClient += SubscribeToClientEvents;
             m_parentScene.EventManager.OnClosingClient += UnSubscribeToClientEvents;
 
-			IConfig UniversestartupConfig = parent.Config.Configs["UniverseStartup"];
-			if (UniversestartupConfig != null)
+			IConfig VisionstartupConfig = parent.Config.Configs["VisionStartup"];
+			if (VisionstartupConfig != null)
             {
-				m_DefaultObjectName = UniversestartupConfig.GetString("DefaultObjectName", m_DefaultObjectName);
-				EnableFakeRaycasting = UniversestartupConfig.GetBoolean("EnableFakeRaycasting", false);
+				m_DefaultObjectName = VisionstartupConfig.GetString("DefaultObjectName", m_DefaultObjectName);
+				EnableFakeRaycasting = VisionstartupConfig.GetBoolean("EnableFakeRaycasting", false);
             }
         }
 

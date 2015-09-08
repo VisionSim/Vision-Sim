@@ -74,7 +74,7 @@ namespace Vision.Region
             get { return m_clientServers; }
         }
 
-        protected VisionEventManager m_UniverseEventManager;
+        protected VisionEventManager m_VisionEventManager;
         protected EventManager m_eventManager;
 
         /// <value>
@@ -91,7 +91,7 @@ namespace Vision.Region
         /// </summary>
         public VisionEventManager VisionEventManager
         {
-            get { return m_UniverseEventManager; }
+            get { return m_VisionEventManager; }
         }
 
         ISceneManager m_sceneManager;
@@ -289,7 +289,7 @@ namespace Vision.Region
             m_config = m_sceneManager.ConfigSource;
             m_authenticateHandler = authen;
 
-            m_UniverseEventManager = new VisionEventManager();
+            m_VisionEventManager = new VisionEventManager();
             m_eventManager = new EventManager();
             m_permissions = new ScenePermissions(this);
 

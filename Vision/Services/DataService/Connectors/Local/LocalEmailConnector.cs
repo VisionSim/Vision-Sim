@@ -52,11 +52,11 @@ namespace Vision.Services.DataService
 
             if (GD != null)
                 GD.ConnectToDatabase(defaultConnectionString, "Generics",
-                                     source.Configs["UniverseConnectors"].GetBoolean("ValidateTables", true));
+                                     source.Configs["VisionConnectors"].GetBoolean("ValidateTables", true));
 
             Framework.Utilities.DataManager.RegisterPlugin(Name + "Local", this);
 
-            if (source.Configs["UniverseConnectors"].GetString("EmailConnector", "LocalConnector") ==
+            if (source.Configs["VisionConnectors"].GetString("EmailConnector", "LocalConnector") ==
                 "LocalConnector")
             {
                 Framework.Utilities.DataManager.RegisterPlugin(this);

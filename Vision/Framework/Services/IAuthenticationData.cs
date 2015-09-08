@@ -40,7 +40,7 @@ namespace Vision.Framework.Services
     /// <summary>
     ///     An interface for connecting to the authentication data-store
     /// </summary>
-    public interface IAuthenticationData : IUniverseDataPlugin
+    public interface IAuthenticationData : IVisionDataPlugin
     {
         AuthData Get(UUID principalID, string authType);
 

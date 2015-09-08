@@ -52,7 +52,7 @@ namespace Vision.Services.DataService
 
         #endregion
 
-        #region IUniverseDataPlugin members
+        #region IVisionDataPlugin members
 
         public void Initialize(IGenericData GenericData, IConfigSource source, IRegistryCore simBase,
                                string defaultConnectionString)
@@ -72,11 +72,11 @@ namespace Vision.Services.DataService
 
             if (data != null)
                 data.ConnectToDatabase (defaultConnectionString, "Groups",
-                    source.Configs ["UniverseConnectors"].GetBoolean ("ValidateTables", true));
+                    source.Configs ["VisionConnectors"].GetBoolean ("ValidateTables", true));
 
             Framework.Utilities.DataManager.RegisterPlugin (Name + "Local", this);
 
-            if (source.Configs ["UniverseConnectors"].GetString ("GroupsConnector", "LocalConnector") == "LocalConnector")
+            if (source.Configs ["VisionConnectors"].GetString ("GroupsConnector", "LocalConnector") == "LocalConnector")
             {
                 Framework.Utilities.DataManager.RegisterPlugin (this);
             }

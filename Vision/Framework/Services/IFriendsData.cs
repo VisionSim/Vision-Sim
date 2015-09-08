@@ -32,7 +32,7 @@ namespace Vision.Framework.Services
     /// <summary>
     ///     An interface for connecting to the friends data-store
     /// </summary>
-    public interface IFriendsData : IUniverseDataPlugin
+    public interface IFriendsData : IVisionDataPlugin
     {
         /// <summary>
         ///     Adds/updates a friend in the database

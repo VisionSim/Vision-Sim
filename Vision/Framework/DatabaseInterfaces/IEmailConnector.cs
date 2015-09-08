@@ -65,7 +65,7 @@ namespace Vision.Framework.DatabaseInterfaces
         }
     }
 
-    public interface IEmailConnector : IUniverseDataPlugin
+    public interface IEmailConnector : IVisionDataPlugin
     {
         /// <summary>
         ///     Adds an email to the database for the prim to get later

@@ -1156,7 +1156,7 @@ namespace Vision.ClientStack
                 {
                     type++;
                 }
-                LayerDataPacket layerpack = UniverseTerrainCompressor.CreateLandPacket(map, xs, ys, type,
+                LayerDataPacket layerpack = VisionTerrainCompressor.CreateLandPacket(map, xs, ys, type,
                                                                                      m_scene.RegionInfo.RegionSizeX,
                                                                                      m_scene.RegionInfo.RegionSizeY);
                 layerpack.Header.Zerocoded = true;
@@ -1215,7 +1215,7 @@ namespace Vision.ClientStack
                 {
                     type++;
                 }
-                LayerDataPacket layerpack = UniverseTerrainCompressor.CreateLandPacket(map, x, y, type,
+                LayerDataPacket layerpack = VisionTerrainCompressor.CreateLandPacket(map, x, y, type,
                                                                                      m_scene.RegionInfo.RegionSizeX,
                                                                                      m_scene.RegionInfo.RegionSizeY);
 
@@ -1261,7 +1261,7 @@ namespace Vision.ClientStack
                     Array.Copy(y, i, yTemp, 0, Size);
 
                     //Build the packet
-                    LayerDataPacket layerpack = UniverseTerrainCompressor.CreateLandPacket(map, xTemp, yTemp, type,
+                    LayerDataPacket layerpack = VisionTerrainCompressor.CreateLandPacket(map, xTemp, yTemp, type,
                                                                                          m_scene.RegionInfo.RegionSizeX,
                                                                                          m_scene.RegionInfo.RegionSizeY);
 
@@ -1347,7 +1347,7 @@ namespace Vision.ClientStack
             {
                 type += 2;
             }
-            LayerDataPacket layerpack = UniverseTerrainCompressor.CreateLayerDataPacket(patches, type,
+            LayerDataPacket layerpack = VisionTerrainCompressor.CreateLayerDataPacket(patches, type,
                                                                                       m_scene.RegionInfo.RegionSizeX,
                                                                                       m_scene.RegionInfo.RegionSizeY);
             layerpack.Header.Zerocoded = true;
@@ -1378,7 +1378,7 @@ namespace Vision.ClientStack
             {
                 type += 2;
             }
-            LayerDataPacket layerpack = UniverseTerrainCompressor.CreateLayerDataPacket(patches, type,
+            LayerDataPacket layerpack = VisionTerrainCompressor.CreateLayerDataPacket(patches, type,
                                                                                       m_scene.RegionInfo.RegionSizeX,
                                                                                       m_scene.RegionInfo.RegionSizeY);
             layerpack.Header.Zerocoded = true;

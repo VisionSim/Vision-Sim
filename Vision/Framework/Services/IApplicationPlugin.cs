@@ -659,7 +659,7 @@ namespace Vision.Framework.Services
         }
     }
 
-    public interface IUniverseDataPlugin
+    public interface IVisionDataPlugin
     {
         /// <summary>
         ///     Returns the plugin name

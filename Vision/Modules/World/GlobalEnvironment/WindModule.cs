@@ -90,7 +90,7 @@ namespace Vision.Modules.GlobalEnvironment
                 m_frame = 0;
 
                 // Register all the Wind Model Plug-ins
-                foreach (IWindModelPlugin windPlugin in UniverseModuleLoader.PickupModules<IWindModelPlugin>())
+                foreach (IWindModelPlugin windPlugin in VisionModuleLoader.PickupModules<IWindModelPlugin>())
                 {
                     //MainConsole.Instance.InfoFormat("[WIND] Found Plugin: {0}", windPlugin.Name);
                     m_availableWindPlugins.Add (windPlugin.Name, windPlugin);

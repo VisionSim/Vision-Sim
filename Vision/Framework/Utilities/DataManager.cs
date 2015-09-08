@@ -35,12 +35,12 @@ namespace Vision.Framework.Utilities
     /// </summary>
     public static class DataManager
     {
-        private static readonly Dictionary<string, IUniverseDataPlugin> Plugins =
-            new Dictionary<string, IUniverseDataPlugin>();
+        private static readonly Dictionary<string, IVisionDataPlugin> Plugins =
+            new Dictionary<string, IVisionDataPlugin>();
 
-        public static List<IUniverseDataPlugin> GetPlugins()
+        public static List<IVisionDataPlugin> GetPlugins()
         {
-            return new List<IUniverseDataPlugin>(Plugins.Values);
+            return new List<IVisionDataPlugin>(Plugins.Values);
         }
 
         /// <summary>
@@ -48,11 +48,11 @@ namespace Vision.Framework.Utilities
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static T RequestPlugin<T>() where T : IUniverseDataPlugin
+        public static T RequestPlugin<T>() where T : IVisionDataPlugin
         {
             if (Plugins.ContainsKey(typeof (T).Name))
             {
-                IUniverseDataPlugin Plugin;
+                IVisionDataPlugin Plugin;
                 Plugins.TryGetValue(typeof (T).Name, out Plugin);
                 return (T) Plugin;
             }
@@ -65,11 +65,11 @@ namespace Vision.Framework.Utilities
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static T RequestPlugin<T>(string name) where T : IUniverseDataPlugin
+        public static T RequestPlugin<T>(string name) where T : IVisionDataPlugin
         {
             if (Plugins.ContainsKey(name))
             {
-                IUniverseDataPlugin Plugin;
+                IVisionDataPlugin Plugin;
                 Plugins.TryGetValue(name, out Plugin);
                 return (T) Plugin;
             }
@@ -81,7 +81,7 @@ namespace Vision.Framework.Utilities
         ///     Register a new plugin to the registry
         /// </summary>
         /// <param name="plugin"></param>
-        public static void RegisterPlugin(IUniverseDataPlugin plugin)
+        public static void RegisterPlugin(IVisionDataPlugin plugin)
         {
             RegisterPlugin(plugin.Name, plugin);
         }
@@ -91,7 +91,7 @@ namespace Vision.Framework.Utilities
         /// </summary>
         /// <param name="name"></param>
         /// <param name="plugin"></param>
-        public static void RegisterPlugin(string name, IUniverseDataPlugin plugin)
+        public static void RegisterPlugin(string name, IVisionDataPlugin plugin)
         {
             if (!Plugins.ContainsKey(name))
                 Plugins.Add(name, plugin);

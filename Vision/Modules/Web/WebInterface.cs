@@ -125,7 +125,7 @@ namespace Vision.Modules.Web
         {
             Registry = registry;
 
-            var webPages = UniverseModuleLoader.PickupModules<IWebInterfacePage>();
+            var webPages = VisionModuleLoader.PickupModules<IWebInterfacePage>();
             foreach (var pages in webPages)
             {
                 foreach (var page in pages.FilePath)
@@ -134,7 +134,7 @@ namespace Vision.Modules.Web
                 }
             }
 
-            _translators = UniverseModuleLoader.PickupModules<ITranslator>();
+            _translators = VisionModuleLoader.PickupModules<ITranslator>();
             _defaultTranslator = _translators[0];
         }
 
@@ -228,7 +228,7 @@ namespace Vision.Modules.Web
                                             : new Dictionary<string, object>();
                 if (filename.EndsWith(".xsl"))
                 {
-                    UniverseXmlDocument vars = GetXML(filename, httpRequest, httpResponse, requestParameters);
+                    VisionXmlDocument vars = GetXML(filename, httpRequest, httpResponse, requestParameters);
 
                     var xslt = new XslCompiledTransform();
                     if (File.Exists(path)) xslt.Load(GetFileNameFromHTMLPath(path, httpRequest.Query));
@@ -328,7 +328,7 @@ namespace Vision.Modules.Web
             return null;
         }
 
-        private UniverseXmlDocument GetXML(string filename, OSHttpRequest httpRequest, OSHttpResponse httpResponse,
+        private VisionXmlDocument GetXML(string filename, OSHttpRequest httpRequest, OSHttpResponse httpResponse,
                                          Dictionary<string, object> requestParameters)
         {
             IWebInterfacePage page = GetPage(filename);
@@ -353,7 +353,7 @@ namespace Vision.Modules.Web
                 }
                 string response = null;
                 return
-                    (UniverseXmlDocument)
+                    (VisionXmlDocument)
                     page.Fill(this, filename, httpRequest, httpResponse, requestParameters, translator, out response)[
                         "xml"];
             }

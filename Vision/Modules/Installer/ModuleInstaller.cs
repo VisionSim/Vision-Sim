@@ -379,10 +379,10 @@ namespace Vision.Modules.Installer
 
         private void LoadModulesFromDllFile(string copiedDllFile)
         {
-            List<IService> services = UniverseModuleLoader.LoadPlugins<IService>(copiedDllFile);
-            List<IApplicationPlugin> appPlugins = UniverseModuleLoader.LoadPlugins<IApplicationPlugin>(copiedDllFile);
+            List<IService> services = VisionModuleLoader.LoadPlugins<IService>(copiedDllFile);
+            List<IApplicationPlugin> appPlugins = VisionModuleLoader.LoadPlugins<IApplicationPlugin>(copiedDllFile);
             List<INonSharedRegionModule> nsregionModule =
-                UniverseModuleLoader.LoadPlugins<INonSharedRegionModule>(copiedDllFile);
+                VisionModuleLoader.LoadPlugins<INonSharedRegionModule>(copiedDllFile);
             foreach (IService service in services)
             {
                 service.Initialize(m_config, m_registry);

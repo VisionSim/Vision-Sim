@@ -36,7 +36,7 @@ namespace Vision.Server.WebServer
     {
         public static void Main(string[] args)
         {
-            BaseApplication.BaseMain(args, "Vision.WebServer.ini", new UniverseBase());
+            BaseApplication.BaseMain(args, "Vision.WebServer.ini", new VisionBase());
         }
     }
 }

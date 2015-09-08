@@ -161,7 +161,7 @@ namespace Vision.Services.GenericServices.CapsService
                 List<IExternalCapsRequestHandler> caps;
                 if (!m_caps.TryGetValue(agentID ^ regionID, out caps))
                 {
-                    caps = Vision.Framework.ModuleLoader.UniverseModuleLoader.PickupModules<IExternalCapsRequestHandler>();
+                    caps = Vision.Framework.ModuleLoader.VisionModuleLoader.PickupModules<IExternalCapsRequestHandler>();
                     m_caps.Add(agentID ^ regionID, caps);
                 }
                 return caps;

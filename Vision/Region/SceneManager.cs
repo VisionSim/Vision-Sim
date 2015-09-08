@@ -114,7 +114,7 @@ namespace Vision.Region
                 name = simConfig.GetString("DatabaseLoaderName", "FileBasedDatabase");
             }
 
-            ISimulationDataStore[] stores = UniverseModuleLoader.PickupModules<ISimulationDataStore>().ToArray();
+            ISimulationDataStore[] stores = VisionModuleLoader.PickupModules<ISimulationDataStore>().ToArray();
             
             List<string> storeNames = new List<string>();
             foreach (ISimulationDataStore store in stores)
@@ -140,7 +140,7 @@ namespace Vision.Region
             AddConsoleCommands();
 
             //Load the startup modules for the region
-            m_startupPlugins = UniverseModuleLoader.PickupModules<ISharedRegionStartupModule>();
+            m_startupPlugins = VisionModuleLoader.PickupModules<ISharedRegionStartupModule>();
         }
 
         public void ReloadConfiguration(IConfigSource config)
@@ -221,7 +221,7 @@ namespace Vision.Region
 
             m_startupTime = m_SimBase.StartupTime;                  // finished this timing period
 
-            UniverseModuleLoader.ClearCache();
+            VisionModuleLoader.ClearCache();
             // In 99.9% of cases it is a bad idea to manually force garbage collection. However,
             // this is a rare case where we know we have just went through a long cycle of heap
             // allocations, and there is no more work to be done until someone logs in

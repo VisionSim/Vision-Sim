@@ -140,9 +140,9 @@ namespace Vision.Modules.Terrain
             m_scene.EventManager.OnNewClient += EventManager_OnNewClient;
             m_scene.EventManager.OnClosingClient += OnClosingClient;
             m_scene.EventManager.OnSignificantClientMovement += EventManager_OnSignificantClientMovement;
-            m_scene.VisionEventManager.RegisterEventHandler("DrawDistanceChanged", UniverseEventManager_OnGenericEvent);
+            m_scene.VisionEventManager.RegisterEventHandler("DrawDistanceChanged", VisionEventManager_OnGenericEvent);
             m_scene.VisionEventManager.RegisterEventHandler("SignficantCameraMovement",
-                                                            UniverseEventManager_OnGenericEvent);
+                                                            VisionEventManager_OnGenericEvent);
             m_scene.EventManager.OnNewPresence += OnNewPresence;
 
             m_queueTimer.Enabled = false;
@@ -162,9 +162,9 @@ namespace Vision.Modules.Terrain
             m_scene.EventManager.OnClosingClient -= OnClosingClient;
             m_scene.EventManager.OnSignificantClientMovement -= EventManager_OnSignificantClientMovement;
             m_scene.VisionEventManager.UnregisterEventHandler("DrawDistanceChanged",
-                                                              UniverseEventManager_OnGenericEvent);
+                                                              VisionEventManager_OnGenericEvent);
             m_scene.VisionEventManager.UnregisterEventHandler("SignficantCameraMovement",
-                                                              UniverseEventManager_OnGenericEvent);
+                                                              VisionEventManager_OnGenericEvent);
             m_scene.EventManager.OnNewPresence -= OnNewPresence;
 
             // remove the interface
@@ -682,7 +682,7 @@ namespace Vision.Modules.Terrain
             if (!Directory.Exists(plugineffectsPath))
                 return;
 
-            ITerrainLoader[] loaders = UniverseModuleLoader.PickupModules<ITerrainLoader>().ToArray();
+            ITerrainLoader[] loaders = VisionModuleLoader.PickupModules<ITerrainLoader>().ToArray();
             foreach (ITerrainLoader terLoader in loaders)
             {
                 m_loaders[terLoader.FileExtension] = terLoader;
@@ -772,7 +772,7 @@ namespace Vision.Modules.Terrain
             }
         }
 
-        object UniverseEventManager_OnGenericEvent(string FunctionName, object parameters)
+        object VisionEventManager_OnGenericEvent(string FunctionName, object parameters)
         {
             if (FunctionName == "DrawDistanceChanged" || FunctionName == "SignficantCameraMovement")
             {

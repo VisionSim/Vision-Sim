@@ -97,7 +97,7 @@ namespace Vision.Region
         public IScene CreateScene(ISimulationDataStore dataStore, RegionInfo regionInfo)
         {
             AgentCircuitManager circuitManager = new AgentCircuitManager();
-            List<IClientNetworkServer> clientServers = UniverseModuleLoader.PickupModules<IClientNetworkServer>();
+            List<IClientNetworkServer> clientServers = VisionModuleLoader.PickupModules<IClientNetworkServer>();
             List<IClientNetworkServer> allClientServers = new List<IClientNetworkServer>();
             foreach (IClientNetworkServer clientServer in clientServers)
             {

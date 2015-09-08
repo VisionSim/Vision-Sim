@@ -30,9 +30,9 @@ using Vision.Framework.Services;
 using Vision.Services.DataService;
 using Nini.Config;
 
-namespace Vision.CoreApplicationPlugins.UniverseData
+namespace Vision.CoreApplicationPlugins.VisionData
 {
-    public class UniverseDataStartupPlugin : IApplicationPlugin
+    public class VisionDataStartupPlugin : IApplicationPlugin
     {
         #region IApplicationPlugin Members
 

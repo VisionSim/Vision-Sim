@@ -32,7 +32,7 @@ using OpenMetaverse;
 
 namespace Vision.Framework.DatabaseInterfaces
 {
-    public interface IMuteListConnector : IUniverseDataPlugin
+    public interface IMuteListConnector : IVisionDataPlugin
     {
         /// <summary>
         ///     Gets the full mute list for the given agent.

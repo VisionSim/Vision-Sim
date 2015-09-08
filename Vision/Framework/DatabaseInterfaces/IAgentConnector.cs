@@ -31,7 +31,7 @@ using OpenMetaverse;
 
 namespace Vision.Framework.DatabaseInterfaces
 {
-    public interface IAgentConnector : IUniverseDataPlugin
+    public interface IAgentConnector : IVisionDataPlugin
     {
         /// <summary>
         ///     Gets the info about the agent (TOS data, maturity info, language, etc)

@@ -103,7 +103,7 @@ namespace Vision.DataManager.Tests
             var technology = DataManagerTechnology.SQLite;
             //var technology = DataManagerTechnology.MySql;
 
-            var mysqlconnectionstring = "Data Source=localhost;Database=Universetest;User ID=Universetest;Password=test;";
+            var mysqlconnectionstring = "Data Source=localhost;Database=Visiontest;User ID=Visiontest;Password=test;";
             var sqliteconnectionstring = string.Format("URI=file:{0},version=3", dbFileName);
             string connectionString = (technology==DataManagerTechnology.SQLite)?sqliteconnectionstring:mysqlconnectionstring;
 
@@ -130,7 +130,7 @@ namespace Vision.DataManager.Tests
             try
             {
                 migrationManager.ExecuteOperation();
-                Assert.AreEqual(testMigrator0.Version, genericData.GetUniverseVersion(), "Version of settings is updated");
+                Assert.AreEqual(testMigrator0.Version, genericData.GetVisionVersion(), "Version of settings is updated");
             }
             catch(MigrationOperationException)
             {

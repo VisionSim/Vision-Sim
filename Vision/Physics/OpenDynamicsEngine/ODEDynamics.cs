@@ -48,7 +48,7 @@ using OpenMetaverse;
 
 namespace Vision.Physics.OpenDynamicsEngine
 {
-    public class UniverseODEDynamics
+    public class VisionODEDynamics
     {
         public float Mass;
         private int frcount; // Used to limit dynamics debug output to
@@ -331,7 +331,7 @@ namespace Vision.Physics.OpenDynamicsEngine
 
 //end ProcessVehicleFlags
 
-        internal void ProcessTypeChange(UniverseODEPrim parent, Vehicle pType, float timestep)
+        internal void ProcessTypeChange(VisionODEPrim parent, Vehicle pType, float timestep)
         {
             // Set Defaults For Type
             m_type = pType;
@@ -517,7 +517,7 @@ namespace Vision.Physics.OpenDynamicsEngine
 
 //end SetDefaultsForType
 
-        internal void Enable(IntPtr pBody, UniverseODEPrim parent, UniverseODEPhysicsScene pParentScene)
+        internal void Enable(IntPtr pBody, VisionODEPrim parent, VisionODEPhysicsScene pParentScene)
         {
             if (m_enabled)
                 return;
@@ -533,7 +533,7 @@ namespace Vision.Physics.OpenDynamicsEngine
             GetMass(pBody);
         }
 
-        internal void Disable(UniverseODEPrim parent)
+        internal void Disable(VisionODEPrim parent)
         {
             if (!m_enabled || m_type == Vehicle.TYPE_NONE)
                 return;
@@ -558,7 +558,7 @@ namespace Vision.Physics.OpenDynamicsEngine
         }
 
 
-        internal void Step(IntPtr pBody, float pTimestep, UniverseODEPhysicsScene pParentScene, UniverseODEPrim parent)
+        internal void Step(IntPtr pBody, float pTimestep, VisionODEPhysicsScene pParentScene, VisionODEPrim parent)
         {
             m_body = pBody;
             if (pBody == IntPtr.Zero || m_type == Vehicle.TYPE_NONE)
@@ -584,7 +584,7 @@ namespace Vision.Physics.OpenDynamicsEngine
 
         // end Step
 
-        private void MoveLinear(float pTimestep, UniverseODEPhysicsScene _pParentScene, UniverseODEPrim parent)
+        private void MoveLinear(float pTimestep, VisionODEPhysicsScene _pParentScene, VisionODEPrim parent)
         {
             bool ishovering = false;
             bool bypass_buoyancy = false;
@@ -912,7 +912,7 @@ namespace Vision.Physics.OpenDynamicsEngine
 
         }
 
-        private void MoveAngular(float pTimestep, UniverseODEPhysicsScene _pParentScene, UniverseODEPrim parent)
+        private void MoveAngular(float pTimestep, VisionODEPhysicsScene _pParentScene, VisionODEPrim parent)
         {
             bool ishovering = false;
             d.Vector3 d_angularVelocity = d.BodyGetAngularVel(Body);

@@ -54,11 +54,11 @@ namespace Vision.Services.DataService
             if (GD != null)
             {
                 GD.ConnectToDatabase(defaultConnectionString, "AbuseReports",
-                    source.Configs["UniverseConnectors"].GetBoolean("ValidateTables", true));
+                    source.Configs["VisionConnectors"].GetBoolean("ValidateTables", true));
 
 
                 Framework.Utilities.DataManager.RegisterPlugin(Name + "Local", this);
-                if (source.Configs["UniverseConnectors"].GetString("AbuseReportsConnector", "LocalConnector") ==
+                if (source.Configs["VisionConnectors"].GetString("AbuseReportsConnector", "LocalConnector") ==
                     "LocalConnector")
                 {
                     m_enabled = true;

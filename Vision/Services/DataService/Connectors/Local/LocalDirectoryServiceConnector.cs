@@ -66,11 +66,11 @@ namespace Vision.Services.DataService
 
             if (GD != null)
                 GD.ConnectToDatabase(defaultConnectionString, "Directory",
-                                     source.Configs["UniverseConnectors"].GetBoolean("ValidateTables", true));
+                                     source.Configs["VisionConnectors"].GetBoolean("ValidateTables", true));
 
             Framework.Utilities.DataManager.RegisterPlugin(Name + "Local", this);
 
-            if (source.Configs["UniverseConnectors"].GetString("DirectoryServiceConnector", "LocalConnector") ==
+            if (source.Configs["VisionConnectors"].GetString("DirectoryServiceConnector", "LocalConnector") ==
                 "LocalConnector")
             {
                 Framework.Utilities.DataManager.RegisterPlugin(this);

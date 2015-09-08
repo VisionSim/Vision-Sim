@@ -50,7 +50,7 @@ using RegionFlags = Vision.Framework.Services.RegionFlags;
 
 namespace Vision.Modules.WorldMap
 {
-    public class UniverseWorldMapModule : INonSharedRegionModule, IWorldMapModule
+    public class VisionWorldMapModule : INonSharedRegionModule, IWorldMapModule
     {
         const string DEFAULT_WORLD_MAP_EXPORT_PATH = "exportmap.jpg";
 
@@ -62,8 +62,8 @@ namespace Vision.Modules.WorldMap
 
         readonly ConcurrentQueue<MapItemRequester> m_itemsToRequest = new ConcurrentQueue<MapItemRequester>();
         bool itemRequesterIsRunning;
-        static UniverseThreadPool threadpool;
-        static UniverseThreadPool blockthreadpool;
+        static VisionThreadPool threadpool;
+        static VisionThreadPool blockthreadpool;
         int MapViewLength = 8;
 
         #region INonSharedRegionModule Members
@@ -73,8 +73,8 @@ namespace Vision.Modules.WorldMap
             if (source.Configs["MapModule"] != null)
             {
                 if (source.Configs["MapModule"].GetString(
-                    "WorldMapModule", "UniverseWorldMapModule") !=
-                    "UniverseWorldMapModule")
+                    "WorldMapModule", "VisionWorldMapModule") !=
+                    "VisionWorldMapModule")
                     return;
                 m_Enabled = true;
                 MapViewLength = source.Configs["MapModule"].GetInt("MapViewLength", MapViewLength);
@@ -106,10 +106,10 @@ namespace Vision.Modules.WorldMap
             if (!m_Enabled)
                 return;
 
-            UniverseThreadPoolStartInfo info = new UniverseThreadPoolStartInfo
+            VisionThreadPoolStartInfo info = new VisionThreadPoolStartInfo
                                                  {priority = ThreadPriority.Lowest, Threads = 1};
-            threadpool = new UniverseThreadPool(info);
-            blockthreadpool = new UniverseThreadPool(info);
+            threadpool = new VisionThreadPool(info);
+            blockthreadpool = new VisionThreadPool(info);
         }
 
         public virtual void Close()
@@ -123,7 +123,7 @@ namespace Vision.Modules.WorldMap
 
         public virtual string Name
         {
-            get { return "UniverseWorldMapModule"; }
+            get { return "VisionWorldMapModule"; }
         }
 
         #endregion

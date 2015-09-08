@@ -31,16 +31,16 @@ using Vision.Framework.Utilities;
 
 namespace Vision.DataManager.Migration.Migrators.Asset
 {
-    public class UniverseAssetMigrator_2 : Migrator
+    public class VisionAssetMigrator_2 : Migrator
     {
-        public UniverseAssetMigrator_2()
+        public VisionAssetMigrator_2()
         {
             Version = new Version(0, 0, 2);
             MigrationName = "BlackholeAsset";
 
             schema = new List<SchemaDefinition>();
 
-			AddSchema("Universeassets_A", ColDefs(
+			AddSchema("Visionassets_A", ColDefs(
                 ColDef("id", ColumnTypes.String36),
                 ColDef("hash_code", ColumnTypes.String64),
                 ColDef("parent_id", ColumnTypes.String36),
@@ -59,7 +59,7 @@ namespace Vision.DataManager.Migration.Migrators.Asset
                                                 IndexDef(new string[1] {"hash_code"}, IndexType.Index)
                                                    ));
 
-			AddSchema("Universeassets_B", ColDefs(
+			AddSchema("Visionassets_B", ColDefs(
                 ColDef("id", ColumnTypes.String36),
                 ColDef("hash_code", ColumnTypes.String64),
                 ColDef("parent_id", ColumnTypes.String36),
@@ -78,7 +78,7 @@ namespace Vision.DataManager.Migration.Migrators.Asset
                                                 IndexDef(new string[1] {"hash_code"}, IndexType.Index)
                                                    ));
 
-			AddSchema("Universeassets_C", ColDefs(
+			AddSchema("Visionassets_C", ColDefs(
                 ColDef("id", ColumnTypes.String36),
                 ColDef("hash_code", ColumnTypes.String64),
                 ColDef("parent_id", ColumnTypes.String36),
@@ -97,7 +97,7 @@ namespace Vision.DataManager.Migration.Migrators.Asset
                                                 IndexDef(new string[1] {"hash_code"}, IndexType.Index)
                                                    ));
 
-			AddSchema("Universeassets_D", ColDefs(
+			AddSchema("Visionassets_D", ColDefs(
                 ColDef("id", ColumnTypes.String36),
                 ColDef("hash_code", ColumnTypes.String64),
                 ColDef("parent_id", ColumnTypes.String36),
@@ -116,7 +116,7 @@ namespace Vision.DataManager.Migration.Migrators.Asset
                                                 IndexDef(new string[1] {"hash_code"}, IndexType.Index)
                                                    ));
 
-			AddSchema("Universeassets_E", ColDefs(
+			AddSchema("Visionassets_E", ColDefs(
                 ColDef("id", ColumnTypes.String36),
                 ColDef("hash_code", ColumnTypes.String64),
                 ColDef("parent_id", ColumnTypes.String36),
@@ -135,7 +135,7 @@ namespace Vision.DataManager.Migration.Migrators.Asset
                                                 IndexDef(new string[1] {"hash_code"}, IndexType.Index)
                                                    ));
 
-			AddSchema("Universeassets_F", ColDefs(
+			AddSchema("Visionassets_F", ColDefs(
                 ColDef("id", ColumnTypes.String36),
                 ColDef("hash_code", ColumnTypes.String64),
                 ColDef("parent_id", ColumnTypes.String36),
@@ -154,7 +154,7 @@ namespace Vision.DataManager.Migration.Migrators.Asset
                                                 IndexDef(new string[1] {"hash_code"}, IndexType.Index)
                                                    ));
 
-			AddSchema("Universeassets_0", ColDefs(
+			AddSchema("Visionassets_0", ColDefs(
                 ColDef("id", ColumnTypes.String36),
                 ColDef("hash_code", ColumnTypes.String64),
                 ColDef("parent_id", ColumnTypes.String36),
@@ -173,7 +173,7 @@ namespace Vision.DataManager.Migration.Migrators.Asset
                                                 IndexDef(new string[1] {"hash_code"}, IndexType.Index)
                                                    ));
 
-			AddSchema("Universeassets_1", ColDefs(
+			AddSchema("Visionassets_1", ColDefs(
                 ColDef("id", ColumnTypes.String36),
                 ColDef("hash_code", ColumnTypes.String64),
                 ColDef("parent_id", ColumnTypes.String36),
@@ -192,7 +192,7 @@ namespace Vision.DataManager.Migration.Migrators.Asset
                                                 IndexDef(new string[1] {"hash_code"}, IndexType.Index)
                                                    ));
 
-			AddSchema("Universeassets_2", ColDefs(
+			AddSchema("Visionassets_2", ColDefs(
                 ColDef("id", ColumnTypes.String36),
                 ColDef("hash_code", ColumnTypes.String64),
                 ColDef("parent_id", ColumnTypes.String36),
@@ -211,7 +211,7 @@ namespace Vision.DataManager.Migration.Migrators.Asset
                                                 IndexDef(new string[1] {"hash_code"}, IndexType.Index)
                                                    ));
 
-			AddSchema("Universeassets_3", ColDefs(
+			AddSchema("Visionassets_3", ColDefs(
                 ColDef("id", ColumnTypes.String36),
                 ColDef("hash_code", ColumnTypes.String64),
                 ColDef("parent_id", ColumnTypes.String36),
@@ -230,7 +230,7 @@ namespace Vision.DataManager.Migration.Migrators.Asset
                                                 IndexDef(new string[1] {"hash_code"}, IndexType.Index)
                                                    ));
 
-			AddSchema("Universeassets_4", ColDefs(
+			AddSchema("Visionassets_4", ColDefs(
                 ColDef("id", ColumnTypes.String36),
                 ColDef("hash_code", ColumnTypes.String64),
                 ColDef("parent_id", ColumnTypes.String36),
@@ -249,7 +249,7 @@ namespace Vision.DataManager.Migration.Migrators.Asset
                                                 IndexDef(new string[1] {"hash_code"}, IndexType.Index)
                                                    ));
 
-			AddSchema("Universeassets_5", ColDefs(
+			AddSchema("Visionassets_5", ColDefs(
                 ColDef("id", ColumnTypes.String36),
                 ColDef("hash_code", ColumnTypes.String64),
                 ColDef("parent_id", ColumnTypes.String36),
@@ -268,7 +268,7 @@ namespace Vision.DataManager.Migration.Migrators.Asset
                                                 IndexDef(new string[1] {"hash_code"}, IndexType.Index)
                                                    ));
 
-			AddSchema("Universeassets_6", ColDefs(
+			AddSchema("Visionassets_6", ColDefs(
                 ColDef("id", ColumnTypes.String36),
                 ColDef("hash_code", ColumnTypes.String64),
                 ColDef("parent_id", ColumnTypes.String36),
@@ -287,7 +287,7 @@ namespace Vision.DataManager.Migration.Migrators.Asset
                                                 IndexDef(new string[1] {"hash_code"}, IndexType.Index)
                                                    ));
 
-			AddSchema("Universeassets_7", ColDefs(
+			AddSchema("Visionassets_7", ColDefs(
                 ColDef("id", ColumnTypes.String36),
                 ColDef("hash_code", ColumnTypes.String64),
                 ColDef("parent_id", ColumnTypes.String36),
@@ -306,7 +306,7 @@ namespace Vision.DataManager.Migration.Migrators.Asset
                                                 IndexDef(new string[1] {"hash_code"}, IndexType.Index)
                                                    ));
 
-			AddSchema("Universeassets_8", ColDefs(
+			AddSchema("Visionassets_8", ColDefs(
                 ColDef("id", ColumnTypes.String36),
                 ColDef("hash_code", ColumnTypes.String64),
                 ColDef("parent_id", ColumnTypes.String36),
@@ -325,7 +325,7 @@ namespace Vision.DataManager.Migration.Migrators.Asset
                                                 IndexDef(new string[1] {"hash_code"}, IndexType.Index)
                                                    ));
 
-			AddSchema("Universeassets_9", ColDefs(
+			AddSchema("Visionassets_9", ColDefs(
                 ColDef("id", ColumnTypes.String36),
                 ColDef("hash_code", ColumnTypes.String64),
                 ColDef("name", ColumnTypes.String64),
@@ -344,7 +344,7 @@ namespace Vision.DataManager.Migration.Migrators.Asset
                                                 IndexDef(new string[1] {"hash_code"}, IndexType.Index)
                                                    ));
 
-			AddSchema("Universeassets_old", ColDefs(
+			AddSchema("Visionassets_old", ColDefs(
                 ColDef("id", ColumnTypes.String36),
                 ColDef("hash_code", ColumnTypes.String64),
                 ColDef("parent_id", ColumnTypes.String36),
@@ -364,7 +364,7 @@ namespace Vision.DataManager.Migration.Migrators.Asset
                                                   IndexDef(new string[1] {"hash_code"}, IndexType.Index)
                                                      ));
 
-			AddSchema("Universeassets_tasks", ColDefs(
+			AddSchema("Visionassets_tasks", ColDefs(
                 ColDef("id", ColumnTypes.String36),
                 ColDef("task_type", ColumnTypes.String64),
                 ColDef("task_values", ColumnTypes.String255)
@@ -372,7 +372,7 @@ namespace Vision.DataManager.Migration.Migrators.Asset
                                                     IndexDef(new string[1] {"id"}, IndexType.Primary)
                                                        ));
 
-			AddSchema("Universeassets_temp", ColDefs(
+			AddSchema("Visionassets_temp", ColDefs(
                 ColDef("id", ColumnTypes.String36),
                 ColDef("hash_code", ColumnTypes.String64),
                 ColDef("creator_id", ColumnTypes.String36)

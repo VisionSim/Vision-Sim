@@ -44,11 +44,11 @@ using Vision.Framework.Utilities;
 
 namespace Vision.Modules.Archivers
 {
-    public class UniverseArchiver : IService, IUniverseBackupArchiver
+    public class VisionArchiver : IService, IVisionBackupArchiver
     {
         Int64 m_AllowPrompting;
 
-        #region IUniverseBackupArchiver Members
+        #region IVisionBackupArchiver Members
 
         public bool AllowPrompting
         {
@@ -66,11 +66,11 @@ namespace Vision.Modules.Archivers
         {
             writer.WriteDir("assets"); //Used by many, create it by default
 
-            IUniverseBackupModule[] modules = scene.RequestModuleInterfaces<IUniverseBackupModule>();
-            foreach (IUniverseBackupModule module in modules)
+            IVisionBackupModule[] modules = scene.RequestModuleInterfaces<IVisionBackupModule>();
+            foreach (IVisionBackupModule module in modules)
                 module.SaveModuleToArchive(writer, scene);
 
-            foreach (IUniverseBackupModule module in modules)
+            foreach (IVisionBackupModule module in modules)
             {
                 while (module.IsArchiving) //Wait until all are done
                     Thread.Sleep(100);
@@ -83,26 +83,26 @@ namespace Vision.Modules.Archivers
 
         public void LoadRegionBackup(TarArchiveReader reader, IScene scene)
         {
-            IUniverseBackupModule[] modules = scene.RequestModuleInterfaces<IUniverseBackupModule>();
+            IVisionBackupModule[] modules = scene.RequestModuleInterfaces<IVisionBackupModule>();
 
             byte[] data;
             string filePath;
             TarArchiveReader.TarEntryType entryType;
 
-            foreach (IUniverseBackupModule module in modules)
+            foreach (IVisionBackupModule module in modules)
                 module.BeginLoadModuleFromArchive(scene);
 
             while ((data = reader.ReadEntry(out filePath, out entryType)) != null)
             {
                 if (TarArchiveReader.TarEntryType.TYPE_DIRECTORY == entryType)
                     continue;
-                foreach (IUniverseBackupModule module in modules)
+                foreach (IVisionBackupModule module in modules)
                     module.LoadModuleFromArchive(data, filePath, entryType, scene);
             }
 
             reader.Close();
 
-            foreach (IUniverseBackupModule module in modules)
+            foreach (IVisionBackupModule module in modules)
                 module.EndLoadModuleFromArchive(scene);
         }
 
@@ -118,13 +118,13 @@ namespace Vision.Modules.Archivers
                     "save archive",
                     "save archive",
                     "Saves a Virtual Vision '.abackup' archive (depriecated)",
-                    SaveUniverseArchive, true, false);
+                    SaveVisionArchive, true, false);
 
                 MainConsole.Instance.Commands.AddCommand(
                     "load archive",
                     "load archive",
                     "Loads a Virtual Vision '.abackup' archive",
-                    LoadUniverseArchive, true, false);
+                    LoadVisionArchive, true, false);
             }
 
 #if ISWIN
@@ -145,7 +145,7 @@ namespace Vision.Modules.Archivers
 #endif
 
             //Register the interface
-            registry.RegisterModuleInterface<IUniverseBackupArchiver>(this);
+            registry.RegisterModuleInterface<IVisionBackupArchiver>(this);
 
         }
 
@@ -159,7 +159,7 @@ namespace Vision.Modules.Archivers
 
         #endregion
 
-        void LoadUniverseArchive(IScene scene, string[] cmd)
+        void LoadVisionArchive(IScene scene, string[] cmd)
         {
             string fileName = MainConsole.Instance.Prompt("What file name should we load?",
                                   scene.RegionInfo.RegionName + ".abackup");
@@ -191,7 +191,7 @@ namespace Vision.Modules.Archivers
             GC.Collect();
         }
 
-        void SaveUniverseArchive(IScene scene, string[] cmd)
+        void SaveVisionArchive(IScene scene, string[] cmd)
         {
             string fileName = MainConsole.Instance.Prompt("What file name will this be saved as?",
                                   scene.RegionInfo.RegionName + ".abackup");

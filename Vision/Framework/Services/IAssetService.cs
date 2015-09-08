@@ -126,7 +126,7 @@ namespace Vision.Framework.Services
         void FinishedStartup();
     }
 
-    public interface IAssetDataPlugin : IUniverseDataPlugin
+    public interface IAssetDataPlugin : IVisionDataPlugin
     {
         AssetBase GetAsset(UUID uuid);
         AssetBase GetAsset(UUID uuid, bool showWarnings);

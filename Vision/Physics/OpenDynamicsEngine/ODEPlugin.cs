@@ -40,10 +40,10 @@ namespace Vision.Physics.OpenDynamicsEngine
     /// <summary>
     ///     ODE plugin
     /// </summary>
-    public class UniverseODEPlugin : IPhysicsPlugin
+    public class VisionODEPlugin : IPhysicsPlugin
     {
         private static bool m_initialized;
-        private UniverseODEPhysicsScene _mScene;
+        private VisionODEPhysicsScene _mScene;
         private static object m_lock = new object();
 
         #region IPhysicsPlugin Members
@@ -67,7 +67,7 @@ namespace Vision.Physics.OpenDynamicsEngine
                         m_initialized = true;
                     }
 
-                    _mScene = new UniverseODEPhysicsScene();
+                    _mScene = new VisionODEPhysicsScene();
                 }
             }
 

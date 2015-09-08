@@ -80,7 +80,7 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
 
             // Scan for, and load, non-shared modules
             List<INonSharedRegionModule> list = new List<INonSharedRegionModule>();
-            List<INonSharedRegionModule> m_nonSharedModules = UniverseModuleLoader.PickupModules<INonSharedRegionModule>();
+            List<INonSharedRegionModule> m_nonSharedModules = VisionModuleLoader.PickupModules<INonSharedRegionModule>();
             foreach (INonSharedRegionModule module in m_nonSharedModules)
             {
                 Type replaceableInterface = module.ReplaceableInterface;

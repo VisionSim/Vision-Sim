@@ -138,7 +138,7 @@ namespace Vision.Services.SQLServices.InventoryService
                     "Could not find DefaultInventory/Inventory.ini or DefaultInventory/Inventory.ini.example");
                 return;
             }
-            List<IDefaultLibraryLoader> Loaders = UniverseModuleLoader.PickupModules<IDefaultLibraryLoader>();
+            List<IDefaultLibraryLoader> Loaders = VisionModuleLoader.PickupModules<IDefaultLibraryLoader>();
             try
             {
                 if (!File.Exists("DefaultInventory/Inventory.ini"))

@@ -583,7 +583,7 @@ namespace Vision.Modules
 
         public virtual void SetRegion(IScene scene)
         {
-            scene.VisionEventManager.RegisterEventHandler("Backup", UniverseEventManager_OnGenericEvent);
+            scene.VisionEventManager.RegisterEventHandler("Backup", VisionEventManager_OnGenericEvent);
             m_scene = scene;
         }
 
@@ -870,7 +870,7 @@ namespace Vision.Modules
         /// <param name="FunctionName"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        object UniverseEventManager_OnGenericEvent(string FunctionName, object parameters)
+        object VisionEventManager_OnGenericEvent(string FunctionName, object parameters)
         {
             if (FunctionName == "Backup")
             {

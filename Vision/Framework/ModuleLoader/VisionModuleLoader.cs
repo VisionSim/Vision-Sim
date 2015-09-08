@@ -35,7 +35,7 @@ using Vision.Framework.Utilities;
 
 namespace Vision.Framework.ModuleLoader
 {
-    public static class UniverseModuleLoader
+    public static class VisionModuleLoader
     {
         private static bool ALLOW_CACHE = true;
         private static List<string> dllBlackList;

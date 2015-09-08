@@ -32,7 +32,7 @@ using OpenMetaverse;
 
 namespace Vision.Framework.DatabaseInterfaces
 {
-    public interface IOfflineMessagesConnector : IUniverseDataPlugin
+    public interface IOfflineMessagesConnector : IVisionDataPlugin
     {
         /// <summary>
         ///     Gets all offline messages for the user in GridInstantMessage format.

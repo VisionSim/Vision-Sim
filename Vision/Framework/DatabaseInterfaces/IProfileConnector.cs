@@ -38,7 +38,7 @@ namespace Vision.Framework.DatabaseInterfaces
         void Init(string remoteURL, IRegistryCore registry);
     }
 
-    public interface IProfileConnector : IUniverseDataPlugin
+    public interface IProfileConnector : IVisionDataPlugin
     {
         /// <summary>
         ///     Gets the profile for an agent

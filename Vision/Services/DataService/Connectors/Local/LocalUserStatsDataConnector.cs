@@ -45,7 +45,7 @@ namespace Vision.Services.DataService
         public void Initialize(IGenericData GenericData, IConfigSource source, IRegistryCore simBase,
                                string defaultConnectionString)
         {
-            if (source.Configs["UniverseConnectors"].GetString("WebStatsDataConnector", "LocalConnector") ==
+            if (source.Configs["VisionConnectors"].GetString("WebStatsDataConnector", "LocalConnector") ==
                 "LocalConnector")
             {
                 GD = GenericData;
@@ -56,7 +56,7 @@ namespace Vision.Services.DataService
                 if (GD != null)
                 {
                     GD.ConnectToDatabase(defaultConnectionString, "Stats",
-                        source.Configs["UniverseConnectors"].GetBoolean("ValidateTables", true));
+                        source.Configs["VisionConnectors"].GetBoolean("ValidateTables", true));
 
                     Framework.Utilities.DataManager.RegisterPlugin(Name, this);
                 }

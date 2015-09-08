@@ -97,10 +97,10 @@ namespace Vision.Modules.Startup
         public void LoadPluginsFromAssemblies(string assembliesPath)
         {
             List<IPhysicsPlugin> physicsPlugins =
-                UniverseModuleLoader.LoadModules<IPhysicsPlugin>(assembliesPath);
+                VisionModuleLoader.LoadModules<IPhysicsPlugin>(assembliesPath);
             List<IMeshingPlugin> meshingPlugins =
-                UniverseModuleLoader.LoadModules<IMeshingPlugin>(assembliesPath);
-            meshingPlugins.AddRange(UniverseModuleLoader.LoadModules<IMeshingPlugin>(""));
+                VisionModuleLoader.LoadModules<IMeshingPlugin>(assembliesPath);
+            meshingPlugins.AddRange(VisionModuleLoader.LoadModules<IMeshingPlugin>(""));
 
             foreach (IPhysicsPlugin plug in physicsPlugins)
             {

@@ -44,7 +44,7 @@ namespace Vision.Framework.DatabaseInterfaces
     ///     - Value : The value of the row
     ///     This class deals with the Getting/Setting/Removing of these generic interfaces.
     /// </summary>
-    public interface IGenericsConnector : IUniverseDataPlugin
+    public interface IGenericsConnector : IVisionDataPlugin
     {
         /// <summary>
         ///     Gets a Generic type as set by the ownerID, Type, and Key

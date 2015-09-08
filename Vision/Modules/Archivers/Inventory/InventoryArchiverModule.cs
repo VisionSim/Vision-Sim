@@ -142,7 +142,7 @@ namespace Vision.Modules.Archivers
             m_archiveDirectory = Path.Combine(defpath, Constants.DEFAULT_USERINVENTORY_DIR);
 
             // check if this is a local service
-            IConfig connectorConfig = config.Configs["UniverseConnectors"];
+            IConfig connectorConfig = config.Configs["VisionConnectors"];
             if ((connectorConfig != null) && connectorConfig.Contains("DoRemoteCalls"))
                 isLocal = !connectorConfig.GetBoolean("DoRemoteCalls", false);
 

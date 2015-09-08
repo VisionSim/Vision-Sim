@@ -35,7 +35,7 @@ using System.Runtime.InteropServices;
 // change them to the information which is associated with the assembly
 // you compile.
 
-[assembly: AssemblyTitle("UniverseOdePlugin")]
+[assembly: AssemblyTitle("VisionOdePlugin")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("http://virtual-planets.org")]

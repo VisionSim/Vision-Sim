@@ -32,7 +32,7 @@ using Vision.Simulation.Base;
 
 namespace Vision.Server
 {
-    public class UniverseBase : SimulationBase
+    public class VisionBase : SimulationBase
     {
         /// <summary>
         ///     Performs initialisation of the scene, such as loading configuration from disk.
@@ -52,7 +52,7 @@ namespace Vision.Server
 
         public override ISimulationBase Copy()
         {
-            return new UniverseBase();
+            return new VisionBase();
         }
     }
 }

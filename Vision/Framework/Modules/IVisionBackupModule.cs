@@ -30,14 +30,14 @@ using Vision.Framework.Serialization;
 
 namespace Vision.Framework.Modules
 {
-    public interface IUniverseBackupArchiver
+    public interface IVisionBackupArchiver
     {
         bool AllowPrompting { get; set; }
         void SaveRegionBackup(TarArchiveWriter writer, IScene scene);
         void LoadRegionBackup(TarArchiveReader reader, IScene scene);
     }
 
-    public interface IUniverseBackupModule
+    public interface IVisionBackupModule
     {
         bool IsArchiving { get; }
         void SaveModuleToArchive(TarArchiveWriter writer, IScene scene);

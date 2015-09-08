@@ -67,7 +67,7 @@ namespace Vision.Modules.Archivers
         /// </value>
         protected bool m_merge;
 
-        protected UniverseThreadPool m_threadpool;
+        protected VisionThreadPool m_threadpool;
 
         /// <value>
         ///     Should we ignore any assets when reloading the archive?
@@ -173,7 +173,7 @@ namespace Vision.Modules.Archivers
             TarArchiveReader archive = new TarArchiveReader(m_loadStream);
 
             if (!m_skipAssets)
-                m_threadpool = new UniverseThreadPool(new UniverseThreadPoolStartInfo()
+                m_threadpool = new VisionThreadPool(new VisionThreadPoolStartInfo()
                                                                          {
                                                                              Threads = 1,
                                                                              priority =

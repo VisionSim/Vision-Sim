@@ -195,7 +195,7 @@ namespace Vision.Framework.Services
         void Initialize(IConfigSource config, IRegistryCore registry);
     }
 
-    public interface IAgentInfoConnector : IUniverseDataPlugin
+    public interface IAgentInfoConnector : IVisionDataPlugin
     {
         bool Set(UserInfo info);
         void Update(string userID, Dictionary<string, object> values);

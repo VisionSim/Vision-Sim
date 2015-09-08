@@ -52,7 +52,7 @@ namespace Vision.Services
         public void Start(IConfigSource config, IRegistryCore registry)
         {
             m_config = config;
-            IConfig handlerConfig = config.Configs["UniverseConnectors"];
+            IConfig handlerConfig = config.Configs["VisionConnectors"];
             if (!handlerConfig.GetBoolean("AllowRemoteCalls", false))
                 return;
 

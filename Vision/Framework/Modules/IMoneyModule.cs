@@ -276,7 +276,7 @@ namespace Vision.Framework.Modules
 
     }
 
-    public interface IBaseCurrencyConnector : IUniverseDataPlugin
+    public interface IBaseCurrencyConnector : IVisionDataPlugin
     {
         /*SimpleCurrencyConfig GetConfig();
         UserCurrency GetUserCurrency(UUID agentId);

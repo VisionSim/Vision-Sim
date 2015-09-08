@@ -34,7 +34,7 @@ namespace Vision.Framework.Services
     /// <summary>
     ///     An interface for connecting to the authentication data-store
     /// </summary>
-    public interface IRegionData : IUniverseDataPlugin
+    public interface IRegionData : IVisionDataPlugin
     {
         GridRegion Get(UUID regionID, List<UUID> scopeIDs);
         List<GridRegion> Get(string regionName, List<UUID> scopeIDs, uint? start, uint? count);

@@ -110,11 +110,11 @@ namespace Vision.Modules.Scripting
             int maxhandles = 64;
             try
             {
-                m_whisperdistance = config.Configs["UniverseChat"].GetInt("whisper_distance", m_whisperdistance);
-                m_saydistance = config.Configs["UniverseChat"].GetInt("say_distance", m_saydistance);
-                m_shoutdistance = config.Configs["UniverseChat"].GetInt("shout_distance", m_shoutdistance);
-                maxlisteners = config.Configs["UniverseChat"].GetInt("max_listens_per_region", maxlisteners);
-                maxhandles = config.Configs["UniverseChat"].GetInt("max_listens_per_script", maxhandles);
+                m_whisperdistance = config.Configs["VisionChat"].GetInt("whisper_distance", m_whisperdistance);
+                m_saydistance = config.Configs["VisionChat"].GetInt("say_distance", m_saydistance);
+                m_shoutdistance = config.Configs["VisionChat"].GetInt("shout_distance", m_shoutdistance);
+                maxlisteners = config.Configs["VisionChat"].GetInt("max_listens_per_region", maxlisteners);
+                maxhandles = config.Configs["VisionChat"].GetInt("max_listens_per_script", maxhandles);
             }
             catch (Exception)
             {

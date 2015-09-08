@@ -33,7 +33,7 @@ using System;
 
 namespace Vision.ClientStack
 {
-    public static class UniverseTerrainCompressor
+    public static class VisionTerrainCompressor
     {
         public const int END_OF_PATCHES = 97;
 
@@ -59,7 +59,7 @@ namespace Vision.ClientStack
         private static readonly float[] QuantizeTable16 =
             new float[Constants.TerrainPatchSize*Constants.TerrainPatchSize];
 
-        static UniverseTerrainCompressor()
+        static VisionTerrainCompressor()
         {
             // Initialize the decompression tables
             BuildDequantizeTable16();

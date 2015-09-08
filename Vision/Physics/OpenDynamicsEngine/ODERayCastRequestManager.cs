@@ -42,7 +42,7 @@ namespace Vision.Physics.OpenDynamicsEngine
     ///     This ensures that it's thread safe and there will be no conflicts.
     ///     Requests get returned by a different thread then they were requested by.
     /// </summary>
-    public class UniverseODERayCastRequestManager
+    public class VisionODERayCastRequestManager
     {
         /// <summary>
         ///     ODE contact array to be filled by the collision testing
@@ -70,10 +70,10 @@ namespace Vision.Physics.OpenDynamicsEngine
         /// <summary>
         ///     Scene that created this object.
         /// </summary>
-        private UniverseODEPhysicsScene m_scene;
+        private VisionODEPhysicsScene m_scene;
 
 
-        public UniverseODERayCastRequestManager(UniverseODEPhysicsScene pScene)
+        public VisionODERayCastRequestManager(VisionODEPhysicsScene pScene)
         {
             m_scene = pScene;
             nearCallback = near;
@@ -385,11 +385,11 @@ namespace Vision.Physics.OpenDynamicsEngine
 
                 if (p1 != null)
                 {
-                    if (p1 is UniverseODEPrim)
+                    if (p1 is VisionODEPrim)
                     {
                         ContactResult collisionresult = new ContactResult
                                                             {
-                                                                ConsumerID = ((UniverseODEPrim) p1).LocalID,
+                                                                ConsumerID = ((VisionODEPrim) p1).LocalID,
                                                                 Pos =
                                                                     new Vector3(curContact.pos.X, curContact.pos.Y,
                                                                                 curContact.pos.Z),

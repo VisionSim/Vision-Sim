@@ -242,31 +242,31 @@ namespace Vision.ScriptEngine.DotNetEngine
                         "WDNE restart", 
                         "WDNE restart",
                         "Restarts all scripts and clears all script caches",
-                        UniverseDotNetRestart, false, false);
+                        VisionDotNetRestart, false, false);
                     
                 	MainConsole.Instance.Commands.AddCommand(
                         "WDNE stop",
                         "WDNE stop", 
                         "Stops all scripts",
-                        UniverseDotNetStop, false, false);
+                        VisionDotNetStop, false, false);
                     
                 	MainConsole.Instance.Commands.AddCommand(
                         "WDNE stats",
                         "WDNE stats",
                         "Tells stats about the script engine", 
-                        UniverseDotNetStats, false, false);
+                        VisionDotNetStats, false, false);
                     
                 	MainConsole.Instance.Commands.AddCommand(
                         "WDNE disable",
                         "WDNE disable",
                         "Disables the script engine temperarily",
-                        UniverseDotNetDisable, false, false);
+                        VisionDotNetDisable, false, false);
                     
                 	MainConsole.Instance.Commands.AddCommand(
                         "WDNE enable",
                         "WDNE enable", 
                         "Reenables the script engine",
-                        UniverseDotNetEnable, false, false);
+                        VisionDotNetEnable, false, false);
                 }
 
                 // Create all objects we'll be using
@@ -425,7 +425,7 @@ namespace Vision.ScriptEngine.DotNetEngine
             }
         }
 
-        protected void UniverseDotNetRestart(IScene scene, string[] cmdparams)
+        protected void VisionDotNetRestart(IScene scene, string[] cmdparams)
         {
             string go =
                 MainConsole.Instance.Prompt(
@@ -460,7 +460,7 @@ namespace Vision.ScriptEngine.DotNetEngine
             }
         }
 
-        protected void UniverseDotNetStop(IScene scene, string[] cmdparams)
+        protected void VisionDotNetStop(IScene scene, string[] cmdparams)
         {
             string go = MainConsole.Instance.Prompt("Are you sure you want to stop all scripts?", "no");
             if (go.Contains("yes") || go.Contains("Yes"))
@@ -475,7 +475,7 @@ namespace Vision.ScriptEngine.DotNetEngine
             }
         }
 
-        protected void UniverseDotNetStats(IScene scene, string[] cmdparams)
+        protected void VisionDotNetStats(IScene scene, string[] cmdparams)
         {
             MainConsole.Instance.Info ("Vision DotNet Script Engine Stats:");
             MainConsole.Instance.CleanInfo ("    Region: " + scene.RegionInfo.RegionName);
@@ -495,13 +495,13 @@ namespace Vision.ScriptEngine.DotNetEngine
             //MaintenanceThread.Stats();
         }
 
-        protected void UniverseDotNetDisable(IScene scene, string[] cmdparams)
+        protected void VisionDotNetDisable(IScene scene, string[] cmdparams)
         {
             ConsoleDisabled = true;
             MainConsole.Instance.Warn("[WDNE]: WDNE has been disabled.");
         }
 
-        protected void UniverseDotNetEnable(IScene scene, string[] cmdparams)
+        protected void VisionDotNetEnable(IScene scene, string[] cmdparams)
         {
             ConsoleDisabled = false;
             MaintenanceThread.Started = true;
@@ -1182,7 +1182,7 @@ namespace Vision.ScriptEngine.DotNetEngine
         {
             if (m_APIs.Length == 0)
             {
-                m_APIs = UniverseModuleLoader.PickupModules<IScriptApi>().ToArray();
+                m_APIs = VisionModuleLoader.PickupModules<IScriptApi>().ToArray();
                 //Only add Apis that are considered safe
                 m_APIs = m_APIs.Where(api => ScriptProtection.CheckAPI(api.Name)).ToArray();
             }
@@ -1269,7 +1269,7 @@ namespace Vision.ScriptEngine.DotNetEngine
         /// </summary>
         public void StartSharedScriptPlugins()
         {
-            List<IScriptPlugin> sharedPlugins = UniverseModuleLoader.PickupModules<IScriptPlugin>();
+            List<IScriptPlugin> sharedPlugins = VisionModuleLoader.PickupModules<IScriptPlugin>();
             foreach (IScriptPlugin plugin in sharedPlugins)
             {
                 plugin.Initialize(this);

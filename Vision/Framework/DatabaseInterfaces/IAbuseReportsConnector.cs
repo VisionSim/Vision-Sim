@@ -30,7 +30,7 @@ using Vision.Framework.Services;
 
 namespace Vision.Framework.DatabaseInterfaces
 {
-    public interface IAbuseReportsConnector : IUniverseDataPlugin
+    public interface IAbuseReportsConnector : IVisionDataPlugin
     {
         /// <summary>
         /// Abuse reports connector is enabled.

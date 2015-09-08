@@ -78,7 +78,7 @@ namespace Vision.Region
         protected ThreadMonitor monitor = new ThreadMonitor();
         protected ThreadMonitor physmonitor = new ThreadMonitor();
 
-        protected VisionEventManager m_UniverseEventManager;
+        protected VisionEventManager m_VisionEventManager;
         protected EventManager m_eventManager;
 
         /// <value>
@@ -95,7 +95,7 @@ namespace Vision.Region
         /// </summary>
         public VisionEventManager VisionEventManager
         {
-            get { return m_UniverseEventManager; }
+            get { return m_VisionEventManager; }
         }
 
         ISceneManager m_sceneManager;
@@ -295,7 +295,7 @@ namespace Vision.Region
             m_config = m_sceneManager.ConfigSource;
             m_authenticateHandler = authen;
 
-            m_UniverseEventManager = new VisionEventManager();
+            m_VisionEventManager = new VisionEventManager();
             m_eventManager = new EventManager();
             m_permissions = new ScenePermissions(this);
 
@@ -303,12 +303,12 @@ namespace Vision.Region
 
             #region Region Config
 
-			IConfig UniversestartupConfig = m_config.Configs["UniverseStartup"];
-			if (UniversestartupConfig != null)
+			IConfig VisionstartupConfig = m_config.Configs["VisionStartup"];
+			if (VisionstartupConfig != null)
             {
                 //Region specific is still honored here, the RegionInfo checks for it, and if it is 0, it didn't set it
                 if (RegionInfo.ObjectCapacity == 0)
-					RegionInfo.ObjectCapacity = UniversestartupConfig.GetInt("ObjectCapacity", 80000);
+					RegionInfo.ObjectCapacity = VisionstartupConfig.GetInt("ObjectCapacity", 80000);
             }
 
             IConfig packetConfig = m_config.Configs["PacketPool"];

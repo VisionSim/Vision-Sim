@@ -45,7 +45,7 @@ namespace Vision.Services.DataService
 
         public void Initialize(IConfigSource source, IRegistryCore simBase)
         {
-            IConfig m_config = source.Configs["UniverseData"];
+            IConfig m_config = source.Configs["VisionData"];
             if (m_config != null)
             {
                 StorageProvider = m_config.GetString("StorageProvider", StorageProvider);
@@ -54,7 +54,7 @@ namespace Vision.Services.DataService
 
             IGenericData DataConnector = null;
             if (StorageProvider == "MySQL")
-                //Allow for fallback when UniverseData isn't set
+                //Allow for fallback when VisionData isn't set
             {
                 MySQLDataLoader GenericData = new MySQLDataLoader();
 
@@ -73,15 +73,15 @@ namespace Vision.Services.DataService
                 DataConnector = GenericData;
             }*/
             else if (StorageProvider == "SQLite")
-                //Allow for fallback when UniverseData isn't set
+                //Allow for fallback when VisionData isn't set
             {
                 SQLiteLoader GenericData = new SQLiteLoader();
 
                 DataConnector = GenericData;
             }
 
-            List<IUniverseDataPlugin> Plugins = UniverseModuleLoader.PickupModules<IUniverseDataPlugin>();
-            foreach (IUniverseDataPlugin plugin in Plugins)
+            List<IVisionDataPlugin> Plugins = VisionModuleLoader.PickupModules<IVisionDataPlugin>();
+            foreach (IVisionDataPlugin plugin in Plugins)
             {
                 try
                 {
@@ -99,7 +99,7 @@ namespace Vision.Services.DataService
 
         public void Initialize(IConfigSource source, IRegistryCore simBase, List<Type> types)
         {
-            IConfig m_config = source.Configs["UniverseData"];
+            IConfig m_config = source.Configs["VisionData"];
             if (m_config != null)
             {
                 StorageProvider = m_config.GetString("StorageProvider", StorageProvider);
@@ -108,7 +108,7 @@ namespace Vision.Services.DataService
 
             IGenericData DataConnector = null;
             if (StorageProvider == "MySQL")
-                //Allow for fallback when UniverseData isn't set
+                //Allow for fallback when VisionData isn't set
             {
                 MySQLDataLoader GenericData = new MySQLDataLoader();
 
@@ -127,7 +127,7 @@ namespace Vision.Services.DataService
                 DataConnector = GenericData;
             }*/
             else if (StorageProvider == "SQLite")
-                //Allow for fallback when UniverseData isn't set
+                //Allow for fallback when VisionData isn't set
             {
                 SQLiteLoader GenericData = new SQLiteLoader();
 
@@ -136,7 +136,7 @@ namespace Vision.Services.DataService
 
             foreach (Type t in types)
             {
-                List<dynamic> Plugins = UniverseModuleLoader.PickupModules(t);
+                List<dynamic> Plugins = VisionModuleLoader.PickupModules(t);
                 foreach (dynamic plugin in Plugins)
                 {
                     try

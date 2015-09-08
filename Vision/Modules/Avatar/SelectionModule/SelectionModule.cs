@@ -59,10 +59,10 @@ namespace Vision.Modules.Selection
 
         public void Initialize(IConfigSource source)
         {
-			IConfig UniversestartupConfig = source.Configs["UniverseStartup"];
-			if (UniversestartupConfig != null)
+			IConfig VisionstartupConfig = source.Configs["VisionStartup"];
+			if (VisionstartupConfig != null)
             {
-				m_UseSelectionParticles = UniversestartupConfig.GetBoolean("UseSelectionParticles", true);
+				m_UseSelectionParticles = VisionstartupConfig.GetBoolean("UseSelectionParticles", true);
             }
         }
 

@@ -57,7 +57,7 @@ namespace Vision.Modules.Currency
         
         #endregion
 
-        #region IUniverseDataPlugin Members
+        #region IVisionDataPlugin Members
 
         public string Name
         {

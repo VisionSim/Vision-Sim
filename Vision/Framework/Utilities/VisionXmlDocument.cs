@@ -34,22 +34,22 @@ namespace Vision.Framework.Utilities
     /// <summary>
     ///     Summary description for NSXML.
     /// </summary>
-    public sealed class UniverseXmlDocument : XmlDocument
+    public sealed class VisionXmlDocument : XmlDocument
     {
         #region Constructors
 
         /// <summary>
         ///     Default Constructor
         /// </summary>
-        public UniverseXmlDocument()
+        public VisionXmlDocument()
         {
         }
 
         /// <summary>
-        ///     Creates a UniverseXmlDocument and loads it with the xml
+        ///     Creates a VisionXmlDocument and loads it with the xml
         /// </summary>
         /// <param name="xml"></param>
-        public UniverseXmlDocument(string xml)
+        public VisionXmlDocument(string xml)
             : this()
         {
             LoadXml(xml);
@@ -60,13 +60,13 @@ namespace Vision.Framework.Utilities
         #region root work
 
         /// <summary>
-        ///     Creates a new UniverseXmlDocument with the specified rootName
+        ///     Creates a new VisionXmlDocument with the specified rootName
         /// </summary>
         /// <param name="rootName"></param>
         /// <returns></returns>
-        public static UniverseXmlDocument NewXmlDocumentWithRoot(string rootName)
+        public static VisionXmlDocument NewXmlDocumentWithRoot(string rootName)
         {
-            return new UniverseXmlDocument("<" + rootName + "/>");
+            return new VisionXmlDocument("<" + rootName + "/>");
         }
 
         /// <summary>
@@ -249,7 +249,7 @@ namespace Vision.Framework.Utilities
         /// <param name="xPathFrom">XPath to the node or nodes you want to move</param>
         /// <param name="xPathTo">XPath to the node that you want to place the xml</param>
         /// <returns></returns>
-        public UniverseXmlDocument AddXMLDoc(UniverseXmlDocument XmlDoc, string xPathFrom, string xPathTo)
+        public VisionXmlDocument AddXMLDoc(VisionXmlDocument XmlDoc, string xPathFrom, string xPathTo)
         {
             if (DocumentElement == null) throw new Exception("DocumentElemnt is null");
             XmlNode node = XmlDoc.SelectSingleNode(xPathFrom);

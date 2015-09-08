@@ -120,9 +120,9 @@ namespace Vision.Region
             m_presence.Scene.EventManager.OnMakeChildAgent += EventManager_OnMakeChildAgent;
             m_scene.EventManager.OnClosingClient += EventManager_OnClosingClient;
             m_presence.Scene.VisionEventManager.RegisterEventHandler("DrawDistanceChanged",
-                                                                     UniverseEventManager_OnGenericEvent);
+                                                                     VisionEventManager_OnGenericEvent);
             m_presence.Scene.VisionEventManager.RegisterEventHandler("SignficantCameraMovement",
-                                                                     UniverseEventManager_OnGenericEvent);
+                                                                     VisionEventManager_OnGenericEvent);
             m_prioritizer = new Prioritizer(presence.Scene);
             m_culler = new Culler(presence.Scene);
         }
@@ -139,7 +139,7 @@ namespace Vision.Region
             RemoveAvatarFromView(presence);
         }
 
-        private object UniverseEventManager_OnGenericEvent(string FunctionName, object parameters)
+        private object VisionEventManager_OnGenericEvent(string FunctionName, object parameters)
         {
             if (m_culler != null && m_culler.UseCulling && FunctionName == "DrawDistanceChanged")
             {
@@ -905,9 +905,9 @@ namespace Vision.Region
             m_presence.Scene.EventManager.OnMakeChildAgent -= EventManager_OnMakeChildAgent;
             m_scene.EventManager.OnClosingClient -= EventManager_OnClosingClient;
             m_presence.Scene.VisionEventManager.UnregisterEventHandler("DrawDistanceChanged",
-                                                                       UniverseEventManager_OnGenericEvent);
+                                                                       VisionEventManager_OnGenericEvent);
             m_presence.Scene.VisionEventManager.UnregisterEventHandler("SignficantCameraMovement",
-                                                                       UniverseEventManager_OnGenericEvent);
+                                                                       VisionEventManager_OnGenericEvent);
             m_presence = null;
         }
 

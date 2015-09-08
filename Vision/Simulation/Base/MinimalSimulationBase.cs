@@ -337,7 +337,7 @@ namespace Vision.Simulation.Base
             List<dynamic> modules = new List<dynamic>();
             foreach (Type t in m_servicePlugins)
             {
-                var mods = UniverseModuleLoader.PickupModules(t);
+                var mods = VisionModuleLoader.PickupModules(t);
                 modules.AddRange(mods);
             }
 

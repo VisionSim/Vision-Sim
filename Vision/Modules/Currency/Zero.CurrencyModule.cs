@@ -56,7 +56,7 @@ namespace Vision.Modules.Currency
 
         public bool IsLocal
         {
-            get { return !m_config.Configs ["UniverseConnectors"].GetBoolean("DoRemoteCalls", false); }
+            get { return !m_config.Configs ["VisionConnectors"].GetBoolean("DoRemoteCalls", false); }
         }
 
         public int UploadCharge

@@ -32,7 +32,7 @@ using Vision.Framework.Utilities;
 
 namespace Vision.Framework.Services
 {
-    public interface ISchedulerDataPlugin : IUniverseDataPlugin
+    public interface ISchedulerDataPlugin : IVisionDataPlugin
     {
         /// <summary>
         /// Save a Scheduler item.

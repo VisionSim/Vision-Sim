@@ -342,7 +342,7 @@ namespace Vision.Framework.Services
 
     public delegate void GiveItemParam(InventoryItemBase item);
 
-    public interface IInventoryData : IUniverseDataPlugin
+    public interface IInventoryData : IVisionDataPlugin
     {
         bool FolderExists (UUID folderID);
         bool FolderItemExists (UUID folderID, UUID itemID);

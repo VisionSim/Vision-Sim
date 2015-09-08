@@ -190,7 +190,7 @@ namespace Vision.Modules.Startup
 
         #region Per region backup class
 
-        protected class InternalSceneBackup : IBackupModule, IUniverseBackupModule
+        protected class InternalSceneBackup : IBackupModule, IVisionBackupModule
         {
             #region Declares
 
@@ -204,7 +204,7 @@ namespace Vision.Modules.Startup
             public InternalSceneBackup(IScene scene)
             {
                 m_scene = scene;
-                m_scene.StackModuleInterface<IUniverseBackupModule>(this);
+                m_scene.StackModuleInterface<IVisionBackupModule>(this);
                 m_scene.RegisterModuleInterface<IBackupModule>(this);
 
                 if (MainConsole.Instance != null)
@@ -580,7 +580,7 @@ namespace Vision.Modules.Startup
 
             #endregion
 
-            #region IUniverseBackupModule Methods
+            #region IVisionBackupModule Methods
 
             bool m_isArchiving = false;
             readonly List<UUID> m_missingAssets = new List<UUID>();
@@ -662,7 +662,7 @@ namespace Vision.Modules.Startup
 
                 IDictionary<UUID, AssetType> assets = new Dictionary<UUID, AssetType>();
                 UuidGatherer assetGatherer = new UuidGatherer(m_scene.AssetService);
-                IUniverseBackupArchiver archiver = m_scene.RequestModuleInterface<IUniverseBackupArchiver>();
+                IVisionBackupArchiver archiver = m_scene.RequestModuleInterface<IVisionBackupArchiver>();
                 bool saveAssets = false;
                 if (archiver.AllowPrompting)
                     saveAssets =

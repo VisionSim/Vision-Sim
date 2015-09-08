@@ -256,7 +256,7 @@ namespace Vision.Framework.Services
     /// <summary>
     ///     An interface for connecting to the user accounts data-store
     /// </summary>
-    public interface IUserAccountData : IUniverseDataPlugin
+    public interface IUserAccountData : IVisionDataPlugin
     {
         string Realm { get; }
 
