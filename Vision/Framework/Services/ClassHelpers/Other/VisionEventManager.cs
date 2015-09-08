@@ -40,7 +40,7 @@ namespace Vision.Framework.Services.ClassHelpers.Other
     /// <summary>
     ///     A generic event manager that fires one event for many generic events
     /// </summary>
-    public class UniverseEventManager
+    public class VisionEventManager
     {
         private readonly Dictionary<string, List<OnGenericEventHandler>> m_events =
             new Dictionary<string, List<OnGenericEventHandler>>();

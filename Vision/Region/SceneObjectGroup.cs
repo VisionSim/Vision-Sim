@@ -2644,7 +2644,7 @@ namespace Vision.Region
             if (RootPart.PhysicsType == (byte)PhysicsShapeType.None ||
                 ((RootPart.Flags & PrimFlags.Phantom) == PrimFlags.Phantom && !RootPart.VolumeDetectActive))
             {
-                Scene.UniverseEventManager.FireGenericEventHandler("ObjectChangedPhysicalStatus", this);
+                Scene.VisionEventManager.FireGenericEventHandler("ObjectChangedPhysicalStatus", this);
                 if (OnFinishedPhysicalRepresentationBuilding != null)
                     OnFinishedPhysicalRepresentationBuilding();
                 OnFinishedPhysicalRepresentationBuilding = null;
@@ -2716,7 +2716,7 @@ namespace Vision.Region
             if (m_scene.PhysicsScene.AllowGroupLink)
                 RootPart.PhysActor.linkGroupToThis(actors);
 
-            Scene.UniverseEventManager.FireGenericEventHandler("ObjectChangedPhysicalStatus", this);
+            Scene.VisionEventManager.FireGenericEventHandler("ObjectChangedPhysicalStatus", this);
 
             FixVehicleParams(RootPart);
 

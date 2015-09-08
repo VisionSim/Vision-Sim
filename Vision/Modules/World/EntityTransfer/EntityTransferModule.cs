@@ -872,7 +872,7 @@ namespace Vision.Modules.EntityTransfer
                 MainConsole.Instance.InfoFormat("[Scene]: Zombie scene presence detected for {0} in {1}", agent.AgentID,
                                                 scene.RegionInfo.RegionName);
                 //Tell everyone about it
-                scene.UniverseEventManager.FireGenericEventHandler("AgentIsAZombie", sp.UUID);
+                scene.VisionEventManager.FireGenericEventHandler("AgentIsAZombie", sp.UUID);
                 //Send the killing message (DisableSimulator)
                 scene.RemoveAgent(sp, true);
                 sp = null;
@@ -881,7 +881,7 @@ namespace Vision.Modules.EntityTransfer
             response.CapsURIs = scene.EventManager.TriggerOnRegisterCaps(agent.AgentID);
             response.OurIPForClient = MainServer.Instance.HostName;
 
-            scene.UniverseEventManager.FireGenericEventHandler("NewUserConnection", agent);
+            scene.VisionEventManager.FireGenericEventHandler("NewUserConnection", agent);
 
             //Add the circuit at the end
             scene.AuthenticateHandler.AddNewCircuit(agent.CircuitCode, agent);

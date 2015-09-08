@@ -133,7 +133,7 @@ namespace Vision.Modules.Startup
         /// <param name="cmdparams">Additional arguments passed to the command</param>
         public void RunCommand(IScene scene, string[] cmdparams)
         {
-            scene.UniverseEventManager.FireGenericEventHandler("Backup", null);
+            scene.VisionEventManager.FireGenericEventHandler("Backup", null);
         }
 
         public void EditScale(IScene scene, string[] cmdparams)

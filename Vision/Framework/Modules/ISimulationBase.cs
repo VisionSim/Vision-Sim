@@ -53,7 +53,7 @@ namespace Vision.Framework.Modules
         /// <summary>
         ///     The event manager for the simulation base
         /// </summary>
-        UniverseEventManager EventManager { get; }
+        VisionEventManager EventManager { get; }
 
         /// <summary>
         ///     The version string of Vision

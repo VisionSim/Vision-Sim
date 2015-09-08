@@ -47,7 +47,7 @@ namespace Vision.ScriptEngine.DotNetEngine
 
         public void AddScene(IScene scene)
         {
-            scene.UniverseEventManager.RegisterEventHandler("DeleteToInventory", UniverseEventManager_OnGenericEvent);
+            scene.VisionEventManager.RegisterEventHandler("DeleteToInventory", UniverseEventManager_OnGenericEvent);
         }
 
         public void Close()

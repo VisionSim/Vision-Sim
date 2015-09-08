@@ -83,7 +83,7 @@ namespace Vision.Framework.SceneInfo
         #region Core
 
         RegionInfo RegionInfo { get; set; }
-        UniverseEventManager UniverseEventManager { get; }
+        VisionEventManager VisionEventManager { get; }
         EntityManager Entities { get; }
         EventManager EventManager { get; }
         ScenePermissions Permissions { get; }

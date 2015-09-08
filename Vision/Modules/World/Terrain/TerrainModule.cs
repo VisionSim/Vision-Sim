@@ -140,8 +140,8 @@ namespace Vision.Modules.Terrain
             m_scene.EventManager.OnNewClient += EventManager_OnNewClient;
             m_scene.EventManager.OnClosingClient += OnClosingClient;
             m_scene.EventManager.OnSignificantClientMovement += EventManager_OnSignificantClientMovement;
-            m_scene.UniverseEventManager.RegisterEventHandler("DrawDistanceChanged", UniverseEventManager_OnGenericEvent);
-            m_scene.UniverseEventManager.RegisterEventHandler("SignficantCameraMovement",
+            m_scene.VisionEventManager.RegisterEventHandler("DrawDistanceChanged", UniverseEventManager_OnGenericEvent);
+            m_scene.VisionEventManager.RegisterEventHandler("SignficantCameraMovement",
                                                             UniverseEventManager_OnGenericEvent);
             m_scene.EventManager.OnNewPresence += OnNewPresence;
 
@@ -161,9 +161,9 @@ namespace Vision.Modules.Terrain
             m_scene.EventManager.OnNewClient -= EventManager_OnNewClient;
             m_scene.EventManager.OnClosingClient -= OnClosingClient;
             m_scene.EventManager.OnSignificantClientMovement -= EventManager_OnSignificantClientMovement;
-            m_scene.UniverseEventManager.UnregisterEventHandler("DrawDistanceChanged",
+            m_scene.VisionEventManager.UnregisterEventHandler("DrawDistanceChanged",
                                                               UniverseEventManager_OnGenericEvent);
-            m_scene.UniverseEventManager.UnregisterEventHandler("SignficantCameraMovement",
+            m_scene.VisionEventManager.UnregisterEventHandler("SignficantCameraMovement",
                                                               UniverseEventManager_OnGenericEvent);
             m_scene.EventManager.OnNewPresence -= OnNewPresence;
 

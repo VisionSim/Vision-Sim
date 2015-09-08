@@ -184,8 +184,8 @@ namespace Vision.Modules.Land
             m_scene.EventManager.OnRegisterCaps += EventManagerOnRegisterCaps;
             m_scene.EventManager.OnClosingClient += OnClosingClient;
             m_scene.EventManager.OnFrame += EventManager_OnFrame;
-            m_scene.UniverseEventManager.RegisterEventHandler("ObjectAddedFlag", UniverseEventManager_OnGenericEvent);
-            m_scene.UniverseEventManager.RegisterEventHandler("ObjectRemovedFlag", UniverseEventManager_OnGenericEvent);
+            m_scene.VisionEventManager.RegisterEventHandler("ObjectAddedFlag", UniverseEventManager_OnGenericEvent);
+            m_scene.VisionEventManager.RegisterEventHandler("ObjectRemovedFlag", UniverseEventManager_OnGenericEvent);
             if (m_UpdateDirectoryOnTimer)
                 m_scene.EventManager.OnStartupComplete += EventManager_OnStartupComplete;
 
@@ -926,7 +926,7 @@ namespace Vision.Modules.Land
                         param[0] = group;
                         param[1] = over.LandData.GlobalID;
                         param[2] = oldParcelUUID;
-                        m_scene.UniverseEventManager.FireGenericEventHandler("ObjectEnteringNewParcel", param);
+                        m_scene.VisionEventManager.FireGenericEventHandler("ObjectEnteringNewParcel", param);
                     }
                 }
             }

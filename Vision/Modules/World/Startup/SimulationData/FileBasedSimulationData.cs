@@ -583,7 +583,7 @@ namespace Vision.Modules
 
         public virtual void SetRegion(IScene scene)
         {
-            scene.UniverseEventManager.RegisterEventHandler("Backup", UniverseEventManager_OnGenericEvent);
+            scene.VisionEventManager.RegisterEventHandler("Backup", UniverseEventManager_OnGenericEvent);
             m_scene = scene;
         }
 

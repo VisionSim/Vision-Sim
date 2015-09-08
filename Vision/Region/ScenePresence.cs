@@ -334,7 +334,7 @@ namespace Vision.Region
                 {
                     m_DrawDistance = value;
                     //Fire the event
-                    Scene.UniverseEventManager.FireGenericEventHandler("DrawDistanceChanged", this);
+                    Scene.VisionEventManager.FireGenericEventHandler("DrawDistanceChanged", this);
                     if (!IsChildAgent)
                     {
                         //Send an update to all child agents if we are a root agent
@@ -1158,7 +1158,7 @@ namespace Vision.Region
             if (Util.GetFlatDistanceTo(agentData.CameraCenter, m_lastCameraCenter) > SIGNIFICANT_MOVEMENT*10)
             {
                 m_lastCameraCenter = agentData.CameraCenter;
-                Scene.UniverseEventManager.FireGenericEventHandler("SignficantCameraMovement", this);
+                Scene.VisionEventManager.FireGenericEventHandler("SignficantCameraMovement", this);
             }
 
             // Camera location in world.  We'll need to raytrace

@@ -94,9 +94,9 @@ namespace Vision.Simulation.Base
             get { return m_applicationRegistry; }
         }
 
-        protected UniverseEventManager m_eventManager = new UniverseEventManager();
+        protected VisionEventManager m_eventManager = new VisionEventManager();
 
-        public UniverseEventManager EventManager
+        public VisionEventManager EventManager
         {
             get { return m_eventManager; }
         }

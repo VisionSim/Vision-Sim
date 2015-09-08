@@ -1064,7 +1064,7 @@ namespace Vision.Region
                     sog.ApplyNextOwnerPermissions();
                 }
                 //Trigger the prim count event so that this parcel gets changed!
-                m_parentScene.UniverseEventManager.FireGenericEventHandler("ObjectChangedOwner", sog);
+                m_parentScene.VisionEventManager.FireGenericEventHandler("ObjectChangedOwner", sog);
             }
 
             foreach (uint localID in localIDs)

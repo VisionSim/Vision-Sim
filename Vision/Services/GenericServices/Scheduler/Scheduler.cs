@@ -36,7 +36,7 @@ namespace Vision.Services
 {
     public class Scheduler : ConnectorBase, IScheduleService, IService
     {
-        public UniverseEventManager EventManager = new UniverseEventManager();
+        public VisionEventManager EventManager = new VisionEventManager();
         ISchedulerDataPlugin m_database;
 //        bool m_enabled;
 

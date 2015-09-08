@@ -1742,7 +1742,7 @@ namespace Vision.Region
                 object[] o = new object[2];
                 o[0] = this;
                 o[1] = flag;
-                m_parentGroup.Scene.UniverseEventManager.FireGenericEventHandler("ObjectAddedFlag", o);
+                m_parentGroup.Scene.VisionEventManager.FireGenericEventHandler("ObjectAddedFlag", o);
                 return true;
             }
             return false;
@@ -2125,7 +2125,7 @@ namespace Vision.Region
                 object[] o = new object[2];
                 o[0] = this;
                 o[1] = flag;
-                m_parentGroup.Scene.UniverseEventManager.FireGenericEventHandler("ObjectRemovedFlag", o);
+                m_parentGroup.Scene.VisionEventManager.FireGenericEventHandler("ObjectRemovedFlag", o);
                 return true;
             }
             return false;
@@ -3215,7 +3215,7 @@ namespace Vision.Region
                 RemFlag(PrimFlags.TemporaryOnRez);
 
             if (UsePhysics != wasUsingPhysics) //Fire the event
-                ParentGroup.Scene.UniverseEventManager.FireGenericEventHandler("ObjectChangedPhysicalStatus", ParentGroup);
+                ParentGroup.Scene.VisionEventManager.FireGenericEventHandler("ObjectChangedPhysicalStatus", ParentGroup);
 
             ParentGroup.HasGroupChanged = true;
             ScheduleUpdate(PrimUpdateFlags.PrimFlags);

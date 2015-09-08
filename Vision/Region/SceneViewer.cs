@@ -119,9 +119,9 @@ namespace Vision.Region
             m_presence.OnSignificantClientMovement += SignificantClientMovement;
             m_presence.Scene.EventManager.OnMakeChildAgent += EventManager_OnMakeChildAgent;
             m_scene.EventManager.OnClosingClient += EventManager_OnClosingClient;
-            m_presence.Scene.UniverseEventManager.RegisterEventHandler("DrawDistanceChanged",
+            m_presence.Scene.VisionEventManager.RegisterEventHandler("DrawDistanceChanged",
                                                                      UniverseEventManager_OnGenericEvent);
-            m_presence.Scene.UniverseEventManager.RegisterEventHandler("SignficantCameraMovement",
+            m_presence.Scene.VisionEventManager.RegisterEventHandler("SignficantCameraMovement",
                                                                      UniverseEventManager_OnGenericEvent);
             m_prioritizer = new Prioritizer(presence.Scene);
             m_culler = new Culler(presence.Scene);
@@ -904,9 +904,9 @@ namespace Vision.Region
             m_presence.OnSignificantClientMovement -= SignificantClientMovement;
             m_presence.Scene.EventManager.OnMakeChildAgent -= EventManager_OnMakeChildAgent;
             m_scene.EventManager.OnClosingClient -= EventManager_OnClosingClient;
-            m_presence.Scene.UniverseEventManager.UnregisterEventHandler("DrawDistanceChanged",
+            m_presence.Scene.VisionEventManager.UnregisterEventHandler("DrawDistanceChanged",
                                                                        UniverseEventManager_OnGenericEvent);
-            m_presence.Scene.UniverseEventManager.UnregisterEventHandler("SignficantCameraMovement",
+            m_presence.Scene.VisionEventManager.UnregisterEventHandler("SignficantCameraMovement",
                                                                        UniverseEventManager_OnGenericEvent);
             m_presence = null;
         }

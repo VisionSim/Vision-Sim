@@ -536,7 +536,7 @@ namespace Vision.Modules.InventoryAccess
 
             if (objectGroups.Count == 1)
             {
-                m_scene.UniverseEventManager.FireGenericEventHandler("DeleteToInventory", objectGroups[0]);
+                m_scene.VisionEventManager.FireGenericEventHandler("DeleteToInventory", objectGroups[0]);
                 AssetXML = objectGroups[0].ToXml2();
             }
             else
@@ -557,7 +557,7 @@ namespace Vision.Modules.InventoryAccess
 
                     objectGroup.AbsolutePosition = inventoryStoredPosition;
 
-                    m_scene.UniverseEventManager.FireGenericEventHandler("DeleteToInventory", objectGroup);
+                    m_scene.VisionEventManager.FireGenericEventHandler("DeleteToInventory", objectGroup);
                     AssetXML += objectGroup.ToXml2();
 
                     objectGroup.AbsolutePosition = originalPosition;

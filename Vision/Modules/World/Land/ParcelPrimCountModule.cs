@@ -95,8 +95,8 @@ namespace Vision.Modules.Land
                 OnObjectBeingRemovedFromScene;
             m_Scene.EventManager.OnLandObjectAdded += OnLandObjectAdded;
             m_Scene.EventManager.OnLandObjectRemoved += OnLandObjectRemoved;
-            m_Scene.UniverseEventManager.RegisterEventHandler("ObjectChangedOwner", OnGenericEvent);
-            m_Scene.UniverseEventManager.RegisterEventHandler("ObjectEnteringNewParcel", OnGenericEvent);
+            m_Scene.VisionEventManager.RegisterEventHandler("ObjectChangedOwner", OnGenericEvent);
+            m_Scene.VisionEventManager.RegisterEventHandler("ObjectEnteringNewParcel", OnGenericEvent);
             m_Scene.EventManager.OnSceneGroupMove += EventManager_OnSceneGroupMove;
         }
 
@@ -127,8 +127,8 @@ namespace Vision.Modules.Land
                 OnObjectBeingRemovedFromScene;
             m_Scene.EventManager.OnLandObjectAdded -= OnLandObjectAdded;
             m_Scene.EventManager.OnLandObjectRemoved -= OnLandObjectRemoved;
-            m_Scene.UniverseEventManager.UnregisterEventHandler("ObjectChangedOwner", OnGenericEvent);
-            m_Scene.UniverseEventManager.UnregisterEventHandler("ObjectEnteringNewParcel", OnGenericEvent);
+            m_Scene.VisionEventManager.UnregisterEventHandler("ObjectChangedOwner", OnGenericEvent);
+            m_Scene.VisionEventManager.UnregisterEventHandler("ObjectEnteringNewParcel", OnGenericEvent);
             m_Scene.EventManager.OnSceneGroupMove -= EventManager_OnSceneGroupMove;
             m_Scene = null;
         }

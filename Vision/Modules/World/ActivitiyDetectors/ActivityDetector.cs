@@ -59,7 +59,7 @@ namespace Vision.Modules.ActivityDetectors
 
         public void AddRegion(IScene scene)
         {
-            scene.UniverseEventManager.RegisterEventHandler("AgentIsAZombie", OnGenericEvent);
+            scene.VisionEventManager.RegisterEventHandler("AgentIsAZombie", OnGenericEvent);
             scene.EventManager.OnNewClient += OnNewClient;
             scene.EventManager.OnClosingClient += OnClosingClient;
         }
