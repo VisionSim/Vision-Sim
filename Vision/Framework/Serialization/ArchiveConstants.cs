@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -115,24 +115,19 @@ namespace Vision.Framework.Serialization
             ASSET_TYPE_TO_EXTENSION[(int) AssetType.ImageJPEG] = ASSET_EXTENSION_SEPARATOR + "image.jpg";
             ASSET_TYPE_TO_EXTENSION[(int) AssetType.ImageTGA] = ASSET_EXTENSION_SEPARATOR + "image.tga";
             ASSET_TYPE_TO_EXTENSION[(int) AssetType.Landmark] = ASSET_EXTENSION_SEPARATOR + "landmark.txt";
-            ASSET_TYPE_TO_EXTENSION[(int) AssetType.LostAndFoundFolder] = ASSET_EXTENSION_SEPARATOR + "lostandfoundfolder.txt";
             // Not sure if we'll ever see this
             ASSET_TYPE_TO_EXTENSION[(int) AssetType.LSLBytecode] = ASSET_EXTENSION_SEPARATOR + "bytecode.lso";
             ASSET_TYPE_TO_EXTENSION[(int) AssetType.LSLText] = ASSET_EXTENSION_SEPARATOR + "script.lsl";
             ASSET_TYPE_TO_EXTENSION[(int) AssetType.Mesh] = ASSET_EXTENSION_SEPARATOR + "mesh.llmesh";
             ASSET_TYPE_TO_EXTENSION[(int) AssetType.Notecard] = ASSET_EXTENSION_SEPARATOR + "notecard.txt";
             ASSET_TYPE_TO_EXTENSION[(sbyte) AssetType.Object] = ASSET_EXTENSION_SEPARATOR + "object.xml";
-            ASSET_TYPE_TO_EXTENSION[(int) AssetType.RootFolder] = ASSET_EXTENSION_SEPARATOR + "rootfolder.txt";
             // Not sure if we'll ever see this
             ASSET_TYPE_TO_EXTENSION[(int) AssetType.Simstate] = ASSET_EXTENSION_SEPARATOR + "simstate.bin";
-            // Not sure if we'll ever see this
-            ASSET_TYPE_TO_EXTENSION[(int) AssetType.SnapshotFolder] = ASSET_EXTENSION_SEPARATOR + "snapshotfolder.txt";
             // Not sure if we'll ever see this
             ASSET_TYPE_TO_EXTENSION[(int) AssetType.Sound] = ASSET_EXTENSION_SEPARATOR + "sound.ogg";
             ASSET_TYPE_TO_EXTENSION[(int) AssetType.SoundWAV] = ASSET_EXTENSION_SEPARATOR + "sound.wav";
             ASSET_TYPE_TO_EXTENSION[(int) AssetType.Texture] = ASSET_EXTENSION_SEPARATOR + "texture.jp2";
             ASSET_TYPE_TO_EXTENSION[(int) AssetType.TextureTGA] = ASSET_EXTENSION_SEPARATOR + "texture.tga";
-            ASSET_TYPE_TO_EXTENSION[(int) AssetType.TrashFolder] = ASSET_EXTENSION_SEPARATOR + "trashfolder.txt";
             // Not sure if we'll ever see this
 
             EXTENSION_TO_ASSET_TYPE[ASSET_EXTENSION_SEPARATOR + "animation.bvh"] = AssetType.Animation;
@@ -144,20 +139,17 @@ namespace Vision.Framework.Serialization
             EXTENSION_TO_ASSET_TYPE[ASSET_EXTENSION_SEPARATOR + "image.jpg"] = AssetType.ImageJPEG;
             EXTENSION_TO_ASSET_TYPE[ASSET_EXTENSION_SEPARATOR + "image.tga"] = AssetType.ImageTGA;
             EXTENSION_TO_ASSET_TYPE[ASSET_EXTENSION_SEPARATOR + "landmark.txt"] = AssetType.Landmark;
-            EXTENSION_TO_ASSET_TYPE[ASSET_EXTENSION_SEPARATOR + "lostandfoundfolder.txt"] = AssetType.LostAndFoundFolder;
             EXTENSION_TO_ASSET_TYPE[ASSET_EXTENSION_SEPARATOR + "bytecode.lso"] = AssetType.LSLBytecode;
             EXTENSION_TO_ASSET_TYPE[ASSET_EXTENSION_SEPARATOR + "script.lsl"] = AssetType.LSLText;
             EXTENSION_TO_ASSET_TYPE[ASSET_EXTENSION_SEPARATOR + "mesh.llmesh"] = AssetType.Mesh;
             EXTENSION_TO_ASSET_TYPE[ASSET_EXTENSION_SEPARATOR + "notecard.txt"] = AssetType.Notecard;
             EXTENSION_TO_ASSET_TYPE[ASSET_EXTENSION_SEPARATOR + "object.xml"] = AssetType.Object;
-            EXTENSION_TO_ASSET_TYPE[ASSET_EXTENSION_SEPARATOR + "rootfolder.txt"] = AssetType.RootFolder;
             EXTENSION_TO_ASSET_TYPE[ASSET_EXTENSION_SEPARATOR + "simstate.bin"] = AssetType.Simstate;
-            EXTENSION_TO_ASSET_TYPE[ASSET_EXTENSION_SEPARATOR + "snapshotfolder.txt"] = AssetType.SnapshotFolder;
             EXTENSION_TO_ASSET_TYPE[ASSET_EXTENSION_SEPARATOR + "sound.ogg"] = AssetType.Sound;
             EXTENSION_TO_ASSET_TYPE[ASSET_EXTENSION_SEPARATOR + "sound.wav"] = AssetType.SoundWAV;
             EXTENSION_TO_ASSET_TYPE[ASSET_EXTENSION_SEPARATOR + "texture.jp2"] = AssetType.Texture;
             EXTENSION_TO_ASSET_TYPE[ASSET_EXTENSION_SEPARATOR + "texture.tga"] = AssetType.TextureTGA;
-            EXTENSION_TO_ASSET_TYPE[ASSET_EXTENSION_SEPARATOR + "trashfolder.txt"] = AssetType.TrashFolder;
+// new type??            EXTENSION_TO_ASSET_TYPE[ASSET_EXTENSION_SEPARATOR + "material.xml"] = AssetType.Material;
         }
 
         /// <summary>

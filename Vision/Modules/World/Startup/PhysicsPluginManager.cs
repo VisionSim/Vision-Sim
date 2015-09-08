@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,14 +25,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using Nini.Config;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.ModuleLoader;
 using Vision.Framework.Physics;
 using Vision.Framework.SceneInfo;
-using Nini.Config;
-using System;
-using System.Collections.Generic;
 
 namespace Vision.Modules.Startup
 {
@@ -81,7 +80,7 @@ namespace Vision.Modules.Startup
                 MainConsole.Instance.Debug("[Physics]: Loading physics engine: " + physEngineName);
                 PhysicsScene result = _PhysPlugins[physEngineName].GetScene();
                 result.Initialize(meshEngine, scene);
-                result.PostInitialise(config);
+                result.PostInitialize(config);
                 return result;
             }
             else
@@ -98,10 +97,10 @@ namespace Vision.Modules.Startup
         public void LoadPluginsFromAssemblies(string assembliesPath)
         {
             List<IPhysicsPlugin> physicsPlugins =
-                VisionModuleLoader.LoadModules<IPhysicsPlugin>(assembliesPath);
+                UniverseModuleLoader.LoadModules<IPhysicsPlugin>(assembliesPath);
             List<IMeshingPlugin> meshingPlugins =
-                VisionModuleLoader.LoadModules<IMeshingPlugin>(assembliesPath);
-            meshingPlugins.AddRange(VisionModuleLoader.LoadModules<IMeshingPlugin>(""));
+                UniverseModuleLoader.LoadModules<IMeshingPlugin>(assembliesPath);
+            meshingPlugins.AddRange(UniverseModuleLoader.LoadModules<IMeshingPlugin>(""));
 
             foreach (IPhysicsPlugin plug in physicsPlugins)
             {

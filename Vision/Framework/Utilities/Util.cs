@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -773,7 +773,7 @@ namespace Vision.Framework.Utilities
 
         public static bool LoadArchSpecificWindowsDll(string libraryName)
         {
-            // We do this so that OpenSimulator on Windows loads the correct native library depending on whether
+            // We do this so that Vision on Windows loads the correct native library depending on whether
             // it's running as a 32-bit process or a 64-bit one.  By invoking LoadLibary here, later DLLImports
             // will find it already loaded later on.
             //
@@ -795,10 +795,9 @@ namespace Vision.Framework.Utilities
 
                 return false;
             }
-            else
-            {
-                return true;
-            }
+
+            return true;
+
         }
 
         /// <summary>

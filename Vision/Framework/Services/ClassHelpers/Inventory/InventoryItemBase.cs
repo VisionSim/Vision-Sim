@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -36,25 +36,25 @@ namespace Vision.Framework.Services.ClassHelpers.Inventory
     /// </summary>
     public sealed class InventoryItemBase : InventoryNodeBase, ICloneable
     {
-        private UUID m_assetID;
-        private int m_assetType;
-        private uint m_basePermissions;
-        private int m_creationDate = (int) (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds;
-        private string m_creatorData = string.Empty;
-        private string m_creatorId;
-        private UUID m_creatorIdAsUuid = UUID.Zero;
-        private uint m_currentPermissions;
-        private string m_description = String.Empty;
-        private uint m_everyonePermissions;
-        private uint m_flags;
-        private UUID m_folder;
-        private UUID m_groupID;
-        private bool m_groupOwned;
-        private uint m_groupPermissions;
-        private int m_invType;
-        private uint m_nextPermissions;
-        private int m_salePrice;
-        private byte m_saleType;
+        UUID m_assetID;
+        int m_assetType;
+        uint m_basePermissions;
+        int m_creationDate = (int) (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds;
+        string m_creatorData = string.Empty;
+        string m_creatorId;
+        UUID m_creatorIdAsUuid = UUID.Zero;
+        uint m_currentPermissions;
+        string m_description = String.Empty;
+        uint m_everyonePermissions;
+        uint m_flags;
+        UUID m_folder;
+        UUID m_groupID;
+        bool m_groupOwned;
+        uint m_groupPermissions;
+        int m_invType;
+        uint m_nextPermissions;
+        int m_salePrice;
+        byte m_saleType;
 
         public InventoryItemBase()
         {
@@ -143,8 +143,8 @@ namespace Vision.Framework.Services.ClassHelpers.Inventory
             {
                 if (!string.IsNullOrEmpty(m_creatorData))
                     return m_creatorId + ';' + m_creatorData;
-                else
-                    return m_creatorId;
+                
+                return m_creatorId;
             }
             set
             {
@@ -345,28 +345,28 @@ namespace Vision.Framework.Services.ClassHelpers.Inventory
 
         public override void FromOSD(OSDMap map)
         {
-            this.AssetID = map["AssetID"];
-            this.AssetType = map["AssetType"];
-            this.BasePermissions = map["BasePermissions"];
-            this.CreationDate = map["CreationDate"];
-            this.CreatorData = map["CreatorData"];
-            this.CreatorId = map["CreatorId"];
-            this.CreatorIdentification = map["CreatorIdentification"];
-            this.CurrentPermissions = map["CurrentPermissions"];
-            this.Description = map["Description"];
-            this.EveryOnePermissions = map["EveryOnePermissions"];
-            this.Flags = map["Flags"];
-            this.Folder = map["Folder"];
-            this.GroupID = map["GroupID"];
-            this.GroupOwned = map["GroupOwned"];
-            this.GroupPermissions = map["GroupPermissions"];
-            this.ID = map["ID"];
-            this.InvType = map["InvType"];
-            this.Name = map["Name"];
-            this.NextPermissions = map["NextPermissions"];
-            this.Owner = map["Owner"];
-            this.SalePrice = map["SalePrice"];
-            this.SaleType = (byte) (int) map["SaleType"];
+            AssetID = map["AssetID"];
+            AssetType = map["AssetType"];
+            BasePermissions = map["BasePermissions"];
+            CreationDate = map["CreationDate"];
+            CreatorData = map["CreatorData"];
+            CreatorId = map["CreatorId"];
+            CreatorIdentification = map["CreatorIdentification"];
+            CurrentPermissions = map["CurrentPermissions"];
+            Description = map["Description"];
+            EveryOnePermissions = map["EveryOnePermissions"];
+            Flags = map["Flags"];
+            Folder = map["Folder"];
+            GroupID = map["GroupID"];
+            GroupOwned = map["GroupOwned"];
+            GroupPermissions = map["GroupPermissions"];
+            ID = map["ID"];
+            InvType = map["InvType"];
+            Name = map["Name"];
+            NextPermissions = map["NextPermissions"];
+            Owner = map["Owner"];
+            SalePrice = map["SalePrice"];
+            SaleType = (byte) (int) map["SaleType"];
         }
 
         #endregion

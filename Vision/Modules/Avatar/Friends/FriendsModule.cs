@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -99,7 +99,7 @@ namespace Vision.Modules.Friends
             IClientAPI friendClient = LocateClientObject (FriendToInformID);
             if (friendClient != null)
             {
-                MainConsole.Instance.InfoFormat ("[FriendsModule]: Local Status Notify {0} that {1} users are {2}", FriendToInformID, userIDs.Length, online);
+                MainConsole.Instance.InfoFormat ("[Friends Service]: Local Status Notify {0} that {1} users are {2}", FriendToInformID, userIDs.Length, online);
                 // the  friend in this sim as root agent
                 if (online)
                     friendClient.SendAgentOnline (userIDs);
@@ -109,7 +109,7 @@ namespace Vision.Modules.Friends
                 return;
             }
 
-            MainConsole.Instance.ErrorFormat ("[FriendsModule]: Could not send status update to non-existent client {0}.", 
+            MainConsole.Instance.ErrorFormat ("[Friends Service]: Could not send status update to non-existent client {0}.", 
                 FriendToInformID);
 
         }
@@ -299,7 +299,7 @@ namespace Vision.Modules.Friends
                 UserAccount reciever = m_scene.UserAccountService.GetUserAccount (m_scene.RegionInfo.AllScopeIDs,
                                            friendID);
 
-                MainConsole.Instance.DebugFormat ("[FRIENDS]: {0} offered friendship to {1}", sender.Name, reciever.Name);
+                MainConsole.Instance.DebugFormat ("[Friends Service]: {0} offered friendship to {1}", sender.Name, reciever.Name);
                 // This user wants to be friends with the other user.
                 // Let's add the relation backwards, in case the other is not online
                 FriendsService.StoreFriend (friendID, principalID.ToString (), 0);
@@ -330,7 +330,7 @@ namespace Vision.Modules.Friends
 
         void OnApproveFriendRequest (IClientAPI client, UUID agentID, UUID friendID, List<UUID> callingCardFolders)
         {
-            MainConsole.Instance.DebugFormat ("[FRIENDS]: {0} accepted friendship from {1}", agentID, friendID);
+            MainConsole.Instance.DebugFormat ("[Friends Service]: {0} accepted friendship from {1}", agentID, friendID);
 
             FriendsService.StoreFriend (agentID, friendID.ToString (), 1);
             FriendsService.StoreFriend (friendID, agentID.ToString (), 1);
@@ -351,8 +351,7 @@ namespace Vision.Modules.Friends
             {
                 UserAccount account = client.Scene.UserAccountService.GetUserAccount (client.AllScopeIDs, friendID);
                 UUID folderID =
-                    client.Scene.InventoryService.GetFolderForType (agentID, InventoryType.Unknown, AssetType.CallingCard)
-                          .ID;
+                    client.Scene.InventoryService.GetFolderForType (agentID, InventoryType.Unknown, FolderType.CallingCard).ID;
                 if (account != null)
                     ccmodule.CreateCallingCard (client, friendID, folderID, account.Name);
             }
@@ -366,7 +365,7 @@ namespace Vision.Modules.Friends
 
         void OnDenyFriendRequest (IClientAPI client, UUID agentID, UUID friendID, List<UUID> callingCardFolders)
         {
-            MainConsole.Instance.DebugFormat ("[FRIENDS]: {0} denied friendship to {1}", agentID, friendID);
+            MainConsole.Instance.DebugFormat ("[Friends Service]: {0} denied friendship to {1}", agentID, friendID);
 
 
             FriendInfo[] friends = FriendsService.GetFriendsRequest (agentID).ToArray ();
@@ -422,7 +421,7 @@ namespace Vision.Modules.Friends
             if (friends.Length == 0)
                 return;
 
-            MainConsole.Instance.DebugFormat ("[FRIENDS MODULE]: User {0} changing rights to {1} for friend {2}",
+            MainConsole.Instance.DebugFormat ("[Friends Service]: User {0} changing rights to {1} for friend {2}",
                 requester, rights,
                 target);
 
@@ -548,8 +547,7 @@ namespace Vision.Modules.Friends
                     UserAccount account = friendClient.Scene.UserAccountService.GetUserAccount (friendClient.AllScopeIDs,
                                               userID);
                     UUID folderID =
-                        friendClient.Scene.InventoryService.GetFolderForType (friendID, InventoryType.Unknown,
-                            AssetType.CallingCard).ID;
+                        friendClient.Scene.InventoryService.GetFolderForType (friendID, InventoryType.Unknown, FolderType.CallingCard).ID;
                     ccmodule.CreateCallingCard (friendClient, userID, folderID, account.Name);
                 }
                 // we're done
@@ -590,7 +588,7 @@ namespace Vision.Modules.Friends
                 // update local cache
                 UpdateFriendsCache (exfriendID);
                 // the friend in this sim as root agent
-                // you do NOT send the friend his uuid...  /me sighs...    - Revolution
+                // you do NOT send the friend his uuid.
                 friendClient.SendTerminateFriend (terminatingUser);
                 return true;
             }

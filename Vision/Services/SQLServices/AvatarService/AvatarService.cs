@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -73,10 +73,12 @@ namespace Vision.Services.SQLServices.AvatarService
             registry.RegisterModuleInterface<IAvatarService>(this);
 
             if (MainConsole.Instance != null)
-                MainConsole.Instance.Commands.AddCommand("reset avatar appearance", 
-            	                                         "reset avatar appearance [Name]",
-                                                         "Resets the given avatar's appearance to the default",
-                                                         ResetAvatarAppearance, false, true);
+                MainConsole.Instance.Commands.AddCommand(
+                    "reset avatar appearance", 
+                    "reset avatar appearance [Name]",
+                    "Resets the given avatar's appearance to the default",
+                    ResetAvatarAppearance, false, true);
+
             Init(registry, Name, serverPath: "/avatar/", serverHandlerName: "AvatarServerURI");
         }
 
@@ -148,12 +150,8 @@ namespace Vision.Services.SQLServices.AvatarService
                 return;
             }
 
-            m_registry.RequestModuleInterface<ISimulationBase>().EventManager.FireGenericEventHandler("SetAppearance",
-                                                                                                      new object[2]
-                                                                                                          {
-                                                                                                              principalID,
-                                                                                                              appearance
-                                                                                                          });
+            var simBase = m_registry.RequestModuleInterface<ISimulationBase> ();
+            simBase.EventManager.FireGenericEventHandler("SetAppearance", new object[2] { principalID, appearance });
             m_Database.Store(principalID, appearance);
         }
 
@@ -169,7 +167,7 @@ namespace Vision.Services.SQLServices.AvatarService
             m_Database.Delete(principalID);
         }
 
-        private object DeleteUserInformation(string name, object param)
+        object DeleteUserInformation(string name, object param)
         {
             UUID user = (UUID) param;
             ResetAvatar(user);
@@ -182,8 +180,10 @@ namespace Vision.Services.SQLServices.AvatarService
 
         public void ResetAvatarAppearance(IScene scene, string[] cmd)
         {
-            string name = "";
-            name = cmd.Length == 3 ? MainConsole.Instance.Prompt("Avatar Name") : Util.CombineParams(cmd, 3);
+            string name;
+            name = cmd.Length == 3 
+                ? MainConsole.Instance.Prompt("Avatar Name") 
+                : Util.CombineParams(cmd, 3);
             UserAccount acc = m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccount(null, name);
             if (acc == null)
             {
@@ -191,8 +191,7 @@ namespace Vision.Services.SQLServices.AvatarService
                 return;
             }
             ResetAvatar(acc.PrincipalID);
-            InventoryFolderBase folder = m_invService.GetFolderForType(acc.PrincipalID, (InventoryType) 0,
-                                                                       AssetType.CurrentOutfitFolder);
+            InventoryFolderBase folder = m_invService.GetFolderForType(acc.PrincipalID, (InventoryType) 0, FolderType.CurrentOutfit);
             if (folder != null)
                 m_invService.ForcePurgeFolder(folder);
 

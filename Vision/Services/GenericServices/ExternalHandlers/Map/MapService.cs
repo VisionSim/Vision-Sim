@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -53,7 +53,7 @@ namespace Vision.Services
         bool m_cacheEnabled = true;
         float m_cacheExpires = 24;
         IAssetService m_assetService;
-        string m_assetCacheDir = Constants.DEFAULT_ASSETCACHE_DIR;
+        string m_assetCacheDir = "";
         string m_assetMapCacheDir;
         IGridService m_gridService;
         IJ2KDecoder m_j2kDecoder;
@@ -78,6 +78,11 @@ namespace Vision.Services
             if (m_cacheEnabled)
             {
                 m_assetCacheDir = config.Configs ["AssetCache"].GetString ("CacheDirectory",m_assetCacheDir);
+                if (m_assetCacheDir == "")
+                {
+                    var defpath = registry.RequestModuleInterface<ISimulationBase> ().DefaultDataPath;
+                    m_assetCacheDir = Path.Combine (defpath, Constants.DEFAULT_ASSETCACHE_DIR);
+                }
                 CreateCacheDirectories (m_assetCacheDir);
             }
 

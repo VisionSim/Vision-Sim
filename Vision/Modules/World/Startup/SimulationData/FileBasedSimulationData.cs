@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,20 +25,20 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Timers;
+using Nini.Config;
+using OpenMetaverse;
+using ProtoBuf;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Utilities;
 using Vision.Region;
-using Nini.Config;
-using OpenMetaverse;
-using ProtoBuf;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Timers;
 using Timer = System.Timers.Timer;
 
 namespace Vision.Modules
@@ -51,9 +51,9 @@ namespace Vision.Modules
         protected Timer m_backupSaveTimer;
 
         protected string m_fileName = "";
-        protected string m_storeDirectory = Constants.DEFAULT_DATA_DIR + "/Region";
+        protected string m_storeDirectory = "";
         protected bool m_keepOldSave = true;
-        protected string m_oldSaveDirectory = Constants.DEFAULT_DATA_DIR + "/RegionBak";
+        protected string m_oldSaveDirectory = "";
         protected bool m_oldSaveHasBeenSaved;
         protected bool m_requiresSave = true;
         protected bool m_displayNotSavingNotice = true;
@@ -130,17 +130,20 @@ namespace Vision.Modules
 
         public virtual List<string> FindRegionInfos(out bool newRegion, ISimulationBase simBase)
         {
-//			List<string> regions = new List<string>(Directory.GetFiles(".", "*.sim", SearchOption.TopDirectoryOnly));
 			ReadConfig(simBase);
 			MainConsole.Instance.Info("Looking for previous regions in: "+ m_storeDirectory);
+
 			List<string> regions = new List<string>(Directory.GetFiles(m_storeDirectory, "*.sim", SearchOption.TopDirectoryOnly));
             newRegion = regions.Count == 0;
             List<string> retVals = new List<string>();
+
 			foreach (string r in regions)
-				if (Path.GetExtension (r) == ".sim") {
-				MainConsole.Instance.Info ("Found: " + Path.GetFileNameWithoutExtension (r));
+				if (Path.GetExtension (r) == ".sim") 
+                {
+				    MainConsole.Instance.Info ("Found: " + Path.GetFileNameWithoutExtension (r));
 					retVals.Add (Path.GetFileNameWithoutExtension (r));
 				}
+            
             return retVals;
         }
 
@@ -153,11 +156,12 @@ namespace Vision.Modules
 
             List<string> regionBaks = new List<string>();
             regionName += "--";                                 // name & timestamp delimiter
+
             foreach (string regBak in allBackups)
             {
                 if (Path.GetFileName (regBak).StartsWith(regionName)) 
                 {
-                    //        MainConsole.Instance.Debug ("Found: " + Path.GetFileNameWithoutExtension (regBak));
+                    //MainConsole.Instance.Debug ("Found: " + Path.GetFileNameWithoutExtension (regBak));
                     regionBaks.Add ( regBak);
                 }
             }
@@ -252,11 +256,10 @@ namespace Vision.Modules
 
                 ForceBackup();
 
-				MainConsole.Instance.Info("[FileBasedSimulationData]: Save completed.");
+				MainConsole.Instance.Info("[File Based Simulation Data]: Save completed.");
 			}
 
 			return regionInfo;
-
         }
 
         public virtual RegionInfo LoadRegionInfo(string fileName, ISimulationBase simBase)
@@ -264,6 +267,7 @@ namespace Vision.Modules
             ReadConfig(simBase);
             ReadBackup(fileName);
             BackupFile = fileName;
+
             return _regionData.RegionInfo;
         }
 
@@ -389,7 +393,8 @@ namespace Vision.Modules
                 // * Mainland / Openspace
                 //
                 // * Estate / Full Region   (Private)
-                //
+                // * Estate / Homestead
+                // * Estate / Openspace
                 info.RegionType = MainConsole.Instance.Prompt ("Region Type (Mainland/Estate)",
                     (info.RegionType == "" ? "Estate" : info.RegionType));
 
@@ -421,6 +426,7 @@ namespace Vision.Modules
                     info.RegionType = "Estate / ";                   
                     responses.Add("Full Region");
                     responses.Add("Homestead");
+					responses.Add ("Openspace");
                     responses.Add ("Vision");                            // TODO: Vision 'standard' setup, rename??
                     responses.Add ("Custom");
                     setupMode = MainConsole.Instance.Prompt("Estate region type?","Full Region", responses).ToLower();
@@ -472,7 +478,7 @@ namespace Vision.Modules
                                                : info.ObjectCapacity.ToString ()));
                 } 
 
-                if (setupMode.StartsWith("w"))
+                if (setupMode.StartsWith("u"))
                 {
                     // 'standard' setup
                     info.RegionType = info.RegionType + "Vision";                   
@@ -480,8 +486,8 @@ namespace Vision.Modules
                     info.RegionTerrain = "Flatland";
                     info.Startup = StartupType.Normal;
                     info.SeeIntoThisSimFromNeighbor = true;
-                    info.InfiniteRegion = false;
-                    info.ObjectCapacity = 50000;
+                    info.InfiniteRegion = true;
+                    info.ObjectCapacity = 100000;
 
                 }
                 if (setupMode.StartsWith("o"))       
@@ -501,8 +507,8 @@ namespace Vision.Modules
 
                     info.Startup = StartupType.Medium;
                     info.SeeIntoThisSimFromNeighbor = true;
-                    info.InfiniteRegion = false;
-                    info.ObjectCapacity = 750;
+                    info.InfiniteRegion = true;
+                    info.ObjectCapacity = 50000;
                     info.RegionSettings.AgentLimit = 10;
                     info.RegionSettings.AllowLandJoinDivide = false;
                     info.RegionSettings.AllowLandResell = false;
@@ -519,8 +525,8 @@ namespace Vision.Modules
 
                     info.Startup = StartupType.Medium;
                     info.SeeIntoThisSimFromNeighbor = true;
-                    info.InfiniteRegion = false;
-                    info.ObjectCapacity = 3750;
+                    info.InfiniteRegion = true;
+                    info.ObjectCapacity = 75000;
                     info.RegionSettings.AgentLimit = 20;
                     info.RegionSettings.AllowLandJoinDivide = false;
                     info.RegionSettings.AllowLandResell = false;
@@ -534,8 +540,8 @@ namespace Vision.Modules
                     info.RegionTerrain = terrainFull;
                     info.Startup = StartupType.Normal;
                     info.SeeIntoThisSimFromNeighbor = true;
-                    info.InfiniteRegion = false;
-                    info.ObjectCapacity = 15000;
+                    info.InfiniteRegion = true;
+                    info.ObjectCapacity = 100000;
                     info.RegionSettings.AgentLimit = 100;
                     if (info.RegionType.StartsWith ("M"))                           // defaults are 'true'
                     {
@@ -569,7 +575,7 @@ namespace Vision.Modules
 
                 m_scene.SimulationDataService.ForceBackup();
 
-                MainConsole.Instance.InfoFormat("[FileBasedSimulationData]: Save of {0} completed.",info.RegionName);
+                MainConsole.Instance.InfoFormat("[File Based Simulation Data]: Save of {0} completed.",info.RegionName);
             }
 
             return info;
@@ -577,7 +583,7 @@ namespace Vision.Modules
 
         public virtual void SetRegion(IScene scene)
         {
-            scene.WhiteCoreEventManager.RegisterEventHandler("Backup", WhiteCoreEventManager_OnGenericEvent);
+            scene.UniverseEventManager.RegisterEventHandler("Backup", UniverseEventManager_OnGenericEvent);
             m_scene = scene;
         }
 
@@ -749,7 +755,7 @@ namespace Vision.Modules
             }
             catch (Exception ex)
             {
-                MainConsole.Instance.Error("[FileBasedSimulationData]: Failed to save backup, exception occurred " + ex);
+                MainConsole.Instance.Error("[File Based Simulation Data]: Failed to save backup, exception occurred " + ex);
             }
         }
 
@@ -773,7 +779,7 @@ namespace Vision.Modules
             }
             catch (Exception ex)
             {
-                MainConsole.Instance.Error("[FileBasedSimulationData]: Failed to save backup, exception occurred " + ex);
+                MainConsole.Instance.Error("[File Based Simulation Data]: Failed to save backup, exception occurred " + ex);
             }
             if (m_saveTimer != null)
                 m_saveTimer.Start(); //Restart it as we just did a backup
@@ -809,16 +815,21 @@ namespace Vision.Modules
                 m_timeBetweenSaves = config.GetInt("TimeBetweenSaves", m_timeBetweenSaves);
                 m_keepOldSave = config.GetBoolean("SavePreviousBackup", m_keepOldSave);
 
-                // directories are references from the bin directory
-                // As of V0.9.2 the data is saved relative to the bin dir
-                m_oldSaveDirectory =
-                    PathHelpers.ComputeFullPath(config.GetString("PreviousBackupDirectory", m_oldSaveDirectory));
+                // As of V0.9.2, data is saved in the '../Data' directory relative to the bin dir
+                // or as configured
+
+                // Get and save the default Data path
+                string defaultDataPath = simBase.DefaultDataPath;
+
                 m_storeDirectory =
                     PathHelpers.ComputeFullPath(config.GetString("StoreBackupDirectory", m_storeDirectory));
                 if (m_storeDirectory == "")
-                    m_storeDirectory = Constants.DEFAULT_DATA_DIR + "/Region";
+                    m_storeDirectory = Path.Combine(defaultDataPath, "Region");
+       
+                m_oldSaveDirectory =
+                    PathHelpers.ComputeFullPath(config.GetString("PreviousBackupDirectory", m_oldSaveDirectory));
                 if (m_oldSaveDirectory == "")
-                    m_oldSaveDirectory = Constants.DEFAULT_DATA_DIR + "/RegionBak";
+                    m_oldSaveDirectory = Path.Combine(defaultDataPath, "RegionBak");
 
                 m_removeArchiveDays = config.GetInt("ArchiveDays", m_removeArchiveDays);
                                
@@ -829,6 +840,7 @@ namespace Vision.Modules
                 if (!Directory.Exists(m_oldSaveDirectory))
                     Directory.CreateDirectory(m_oldSaveDirectory);
 
+       
                 string regionNameSeed = config.GetString("RegionNameSeed", "");
                 if (regionNameSeed != "")
                     m_regionNameSeed = regionNameSeed.Split (',');
@@ -839,7 +851,7 @@ namespace Vision.Modules
 
             if (m_saveChanges && m_timeBetweenSaves != 0)
             {
-                m_saveTimer = new Timer(m_timeBetweenSaves*60*1000);
+                m_saveTimer = new Timer(m_timeBetweenSaves * 60 * 1000);
                 m_saveTimer.Elapsed += m_saveTimer_Elapsed;
                 m_saveTimer.Start();
             }
@@ -858,7 +870,7 @@ namespace Vision.Modules
         /// <param name="FunctionName"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        object WhiteCoreEventManager_OnGenericEvent(string FunctionName, object parameters)
+        object UniverseEventManager_OnGenericEvent(string FunctionName, object parameters)
         {
             if (FunctionName == "Backup")
             {
@@ -891,7 +903,7 @@ namespace Vision.Modules
                 }
                 catch (Exception ex)
                 {
-                    MainConsole.Instance.Error("[FileBasedSimulationData]: Failed to save backup, exception occurred " +
+                    MainConsole.Instance.Error("[File Based Simulation Data]: Failed to save backup, exception occurred " +
                                                ex);
                 }
                 m_saveTimer.Start(); //Restart it as we just did a backup
@@ -899,7 +911,7 @@ namespace Vision.Modules
             else if (m_displayNotSavingNotice)
             {
                 m_displayNotSavingNotice = false;
-                MainConsole.Instance.Info("[FileBasedSimulationData]: Not saving backup, not required");
+                MainConsole.Instance.Info("[File Based Simulation Data]: Not saving backup, not required");
             }
         }
 
@@ -923,7 +935,7 @@ namespace Vision.Modules
             }
             catch (Exception ex)
             {
-                MainConsole.Instance.Error("[FileBasedSimulationData]: Failed to save backup, exception occurred " + ex);
+                MainConsole.Instance.Error("[File Based Simulation Data]: Failed to save backup, exception occurred " + ex);
             }
         }
 
@@ -987,7 +999,7 @@ namespace Vision.Modules
                 MainConsole.Instance.WarnFormat("[Backup]: Exception caught: {0}", ex);
             }
 
-            MainConsole.Instance.Info("[FileBasedSimulationData]: Backing up " +
+            MainConsole.Instance.Info("[File Based Simulation Data]: Backing up " +
                                       m_scene.RegionInfo.RegionName);
 
             RegionData regiondata = new RegionData();
@@ -1046,12 +1058,11 @@ namespace Vision.Modules
             {
                 if (File.Exists(filename + (isOldSave ? "" : ".tmp")))
                     File.Delete(filename + (isOldSave ? "" : ".tmp")); //Remove old tmp files
-                MainConsole.Instance.Error("[FileBasedSimulationData]: Failed to save backup for region " +
+                MainConsole.Instance.Error("[File Based Simulation Data]: Failed to save backup for region " +
                                            m_scene.RegionInfo.RegionName + "!");
                 return;
             }
 
-            //RegionData data = _regionLoader.LoadBackup(filename + ".tmp");
             if (!isOldSave)
             {
                 if (File.Exists(filename))
@@ -1077,7 +1088,7 @@ namespace Vision.Modules
             regiondata.Dispose();
             //Now make it the full file again
             MapTileNeedsGenerated = true;
-            MainConsole.Instance.Info("[FileBasedSimulationData]: Saved Backup for region " +
+            MainConsole.Instance.Info("[File Based Simulation Data]: Saved Backup for region " +
                                       m_scene.RegionInfo.RegionName);
         }
 
@@ -1123,7 +1134,7 @@ namespace Vision.Modules
         {
             BackupFile = fileName;
             string simName = Path.GetFileName(fileName); 
-            MainConsole.Instance.Info("[FileBasedSimulationData]: Restoring sim backup for region " + simName + "...");
+            MainConsole.Instance.Info("[File Based Simulation Data]: Restoring sim backup for region " + simName + "...");
 
             _regionData = _regionLoader.LoadBackup(BuildSaveFileName());
             if (_regionData == null)

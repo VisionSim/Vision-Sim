@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,7 +25,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
@@ -33,9 +35,6 @@ using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Inventory;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using System;
 
 namespace Vision.Modules.Gestures
 {
@@ -109,7 +108,7 @@ namespace Vision.Modules.Gestures
             else {
 				if(invService.GetItem(libOwner, gestureId) == null) {
 					MainConsole.Instance.WarnFormat(
-						"[GESTURES]: Unable to find gesture {0} to activate for {1}", gestureId, client.Name);
+						"[Gestures]: Unable to find gesture {0} to activate for {1}", gestureId, client.Name);
 				}
 			}
         }
@@ -128,7 +127,7 @@ namespace Vision.Modules.Gestures
             else
 				if(invService.GetItem(libOwner, gestureId) == null) {
 					MainConsole.Instance.ErrorFormat(
-						"[GESTURES]: Unable to find gesture to deactivate {0} for {1}", gestureId, client.Name);
+						"[Gestures]: Unable to find gesture to deactivate {0} for {1}", gestureId, client.Name);
 				}
         }
     }

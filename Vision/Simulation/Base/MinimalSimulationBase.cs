@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -24,6 +24,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 
 using System;
 using System.Collections.Generic;
@@ -57,7 +58,7 @@ namespace Vision.Simulation.Base
         protected ConfigurationLoader m_configurationLoader;
 
         /// <value>
-        ///     The config information passed into the Vision server.
+        ///     The config information passed into the Virtual Vision server.
         /// </value>
         protected IConfigSource m_config;
 
@@ -79,6 +80,13 @@ namespace Vision.Simulation.Base
             get { return m_version; }
         }
 
+        protected string m_defaultDataPath = Constants.DEFAULT_DATA_DIR;
+        public string DefaultDataPath
+        { 
+            get { return m_defaultDataPath;}
+            set { m_defaultDataPath = value;}
+        }
+
         protected IRegistryCore m_applicationRegistry = new RegistryCore();
 
         public IRegistryCore ApplicationRegistry
@@ -86,9 +94,9 @@ namespace Vision.Simulation.Base
             get { return m_applicationRegistry; }
         }
 
-        protected WhiteCoreEventManager m_eventManager = new WhiteCoreEventManager();
+        protected UniverseEventManager m_eventManager = new UniverseEventManager();
 
-        public WhiteCoreEventManager EventManager
+        public UniverseEventManager EventManager
         {
             get { return m_eventManager; }
         }
@@ -156,8 +164,7 @@ namespace Vision.Simulation.Base
             m_configurationLoader = configLoader;
 
             // This thread will go on to become the console listening thread
-            if (System.Threading.Thread.CurrentThread.Name != "ConsoleThread")
-                System.Threading.Thread.CurrentThread.Name = "ConsoleThread";
+            System.Threading.Thread.CurrentThread.Name = "ConsoleThread";
 
             //Register the interface
             ApplicationRegistry.RegisterModuleInterface<ISimulationBase>(this);
@@ -182,6 +189,10 @@ namespace Vision.Simulation.Base
 
             if (startupConfig != null)
             {
+                m_defaultDataPath = startupConfig.GetString("DataDirectory", Constants.DEFAULT_DATA_DIR);
+                if (m_defaultDataPath == "")
+                    m_defaultDataPath = Constants.DEFAULT_DATA_DIR;
+                
                 m_startupCommandsFile = startupConfig.GetString("startup_console_commands_file", "startup_commands.txt");
                 m_shutdownCommandsFile = startupConfig.GetString("shutdown_console_commands_file",
                                                                  "shutdown_commands.txt");
@@ -215,6 +226,7 @@ namespace Vision.Simulation.Base
                 
             }
 
+
             if (Util.FireAndForgetMethod == FireAndForgetMethod.SmartThreadPool)
                 Util.InitThreadPool(stpMinThreads, stpMaxThreads);
 
@@ -226,9 +238,9 @@ namespace Vision.Simulation.Base
             if (MainConsole.Instance != null)
             {
                 MainConsole.Instance.DefaultPrompt = m_consolePrompt;
-                MainConsole.Instance.Info(string.Format("[MINWhiteCore]: STARTING MIN Vision ({0})...",
+                MainConsole.Instance.Info(string.Format("[Min Virtual Vision]: Starting Min Virtual Vision ({0})...",
                                                         (IntPtr.Size == 4 ? "x86" : "x64")));
-                MainConsole.Instance.Info("[MINWhiteCore]: Version: " + Version + "\n");
+                MainConsole.Instance.Info("[Min Virtual Vision]: Version: " + Version + "\n");
             }
         }
 
@@ -237,7 +249,7 @@ namespace Vision.Simulation.Base
         /// </summary>
         public virtual void Startup()
         {
-            MainConsole.Instance.Info("[MINWhiteCore]: Startup completed in " +
+            MainConsole.Instance.Info("[Min Virtual Vision]: Startup completed in " +
                                       (DateTime.Now - this.StartupTime).TotalSeconds);
         }
 
@@ -325,7 +337,7 @@ namespace Vision.Simulation.Base
             List<dynamic> modules = new List<dynamic>();
             foreach (Type t in m_servicePlugins)
             {
-                var mods = VisionModuleLoader.PickupModules(t);
+                var mods = UniverseModuleLoader.PickupModules(t);
                 modules.AddRange(mods);
             }
 
@@ -452,9 +464,9 @@ namespace Vision.Simulation.Base
 
         private void HandleQuit(IScene scene, string[] args)
         {
-			var ok = MainConsole.Instance.Prompt ("[CONSOLE]: Shutdown the simulator. Are you sure? (yes/no)", "no").ToLower();
-			if (ok.StartsWith("y"))
-				Shutdown(true);
+            var ok = MainConsole.Instance.Prompt ("[CONSOLE]: Shutdown the simulator. Are you sure? (yes/no)", "no").ToLower();
+            if (ok.StartsWith("y"))
+                Shutdown(true);
         }
 
         /// <summary>
@@ -490,7 +502,7 @@ namespace Vision.Simulation.Base
         public virtual void HandleForceGC(IScene scene, string[] cmd)
         {
             GC.Collect();
-            MainConsole.Instance.Warn("Garbage collection finished");
+            MainConsole.Instance.Warn("[Garbage Collector]: Garbage collection finished");
         }
 
         public virtual void runConfig(IScene scene, string[] cmd)

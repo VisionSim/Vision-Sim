@@ -105,7 +105,7 @@ namespace Vision.Modules.Voice
         #endregion
 
         // OnRegisterCaps is invoked via the scene.EventManager
-        // every time Vision server hands out capabilities to a client
+        // every time Vision hands out capabilities to a client
         // (login, region crossing). We contribute two capabilities to
         // the set of capabilities handed back to the client:
         // ProvisionVoiceAccountRequest and ParcelVoiceInfoRequest.

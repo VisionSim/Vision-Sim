@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -184,8 +184,8 @@ namespace Vision.Modules.Land
             m_scene.EventManager.OnRegisterCaps += EventManagerOnRegisterCaps;
             m_scene.EventManager.OnClosingClient += OnClosingClient;
             m_scene.EventManager.OnFrame += EventManager_OnFrame;
-            m_scene.WhiteCoreEventManager.RegisterEventHandler("ObjectAddedFlag", WhiteCoreEventManager_OnGenericEvent);
-            m_scene.WhiteCoreEventManager.RegisterEventHandler("ObjectRemovedFlag", WhiteCoreEventManager_OnGenericEvent);
+            m_scene.UniverseEventManager.RegisterEventHandler("ObjectAddedFlag", UniverseEventManager_OnGenericEvent);
+            m_scene.UniverseEventManager.RegisterEventHandler("ObjectRemovedFlag", UniverseEventManager_OnGenericEvent);
             if (m_UpdateDirectoryOnTimer)
                 m_scene.EventManager.OnStartupComplete += EventManager_OnStartupComplete;
 
@@ -311,7 +311,7 @@ namespace Vision.Modules.Land
             }
         }
 
-        object WhiteCoreEventManager_OnGenericEvent(string FunctionName, object parameters)
+        object UniverseEventManager_OnGenericEvent(string FunctionName, object parameters)
         {
             if (FunctionName == "ObjectAddedFlag")
             {
@@ -926,7 +926,7 @@ namespace Vision.Modules.Land
                         param[0] = group;
                         param[1] = over.LandData.GlobalID;
                         param[2] = oldParcelUUID;
-                        m_scene.WhiteCoreEventManager.FireGenericEventHandler("ObjectEnteringNewParcel", param);
+                        m_scene.UniverseEventManager.FireGenericEventHandler("ObjectEnteringNewParcel", param);
                     }
                 }
             }

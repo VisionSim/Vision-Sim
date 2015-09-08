@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -27,11 +27,11 @@
 
 using System;
 using System.Collections.Generic;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
-using Nini.Config;
-using OpenMetaverse;
 
 
 namespace Vision.Modules.OnDemand
@@ -52,11 +52,11 @@ namespace Vision.Modules.OnDemand
     {
         #region Declares
 
-        private readonly List<UUID> m_zombieAgents = new List<UUID>();
-        private bool m_isRunning;
-        private bool m_isShuttingDown;
-        private bool m_isStartingUp;
-        private IScene m_scene;
+        readonly List<UUID> m_zombieAgents = new List<UUID>();
+        bool m_isRunning;
+        bool m_isShuttingDown;
+        bool m_isStartingUp;
+        IScene m_scene;
 
         #endregion
 
@@ -75,8 +75,8 @@ namespace Vision.Modules.OnDemand
                 scene.ShouldRunHeartbeat = false;
 
                 scene.EventManager.OnRemovePresence += OnRemovePresence;
-                scene.WhiteCoreEventManager.RegisterEventHandler("NewUserConnection", OnGenericEvent);
-                scene.WhiteCoreEventManager.RegisterEventHandler("AgentIsAZombie", OnGenericEvent);
+                scene.UniverseEventManager.RegisterEventHandler("NewUserConnection", OnGenericEvent);
+                scene.UniverseEventManager.RegisterEventHandler("AgentIsAZombie", OnGenericEvent);
             }
         }
 
@@ -106,7 +106,7 @@ namespace Vision.Modules.OnDemand
 
         #region Private Events
 
-        private object OnGenericEvent(string FunctionName, object parameters)
+        object OnGenericEvent(string FunctionName, object parameters)
         {
             if (FunctionName == "NewUserConnection")
             {
@@ -115,7 +115,7 @@ namespace Vision.Modules.OnDemand
                     m_isRunning = true;
                     if (m_scene.RegionInfo.Startup == StartupType.Medium)
                     {
-                        m_scene.WhiteCoreEventManager.FireGenericEventHandler("MediumStartup", m_scene);
+                        m_scene.UniverseEventManager.FireGenericEventHandler("MediumStartup", m_scene);
                         MediumStartup();
                     }
                 }
@@ -125,7 +125,7 @@ namespace Vision.Modules.OnDemand
             return null;
         }
 
-        private void OnRemovePresence(IScenePresence presence)
+        void OnRemovePresence(IScenePresence presence)
         {
             if (m_scene.GetScenePresences().Count == 1) //This presence hasn't been removed yet, so we check against one
             {
@@ -137,7 +137,7 @@ namespace Vision.Modules.OnDemand
                 //If all clients are out of the region, we can close it again
                 if (m_scene.RegionInfo.Startup == StartupType.Medium)
                 {
-                    m_scene.WhiteCoreEventManager.FireGenericEventHandler("MediumShutdown", m_scene);
+                    m_scene.UniverseEventManager.FireGenericEventHandler("MediumShutdown", m_scene);
                     MediumShutdown();
                 }
                 m_isRunning = false;
@@ -148,7 +148,7 @@ namespace Vision.Modules.OnDemand
 
         #region Private Shutdown Methods
 
-        private void MediumShutdown()
+        void MediumShutdown()
         {
             //Only shut down one at a time
             if (m_isShuttingDown)
@@ -161,7 +161,7 @@ namespace Vision.Modules.OnDemand
         /// <summary>
         ///     This shuts down the heartbeats so that everything is dead again
         /// </summary>
-        private void GenericShutdown()
+        void GenericShutdown()
         {
             //After the next iteration, the threads will kill themselves
             m_scene.ShouldRunHeartbeat = false;
@@ -176,7 +176,7 @@ namespace Vision.Modules.OnDemand
         ///     we don't have anything else to load,
         ///     so we just need to get the heartbeats back on track
         /// </summary>
-        private void MediumStartup()
+        void MediumStartup()
         {
             //Only start up one at a time
             if (m_isStartingUp)
@@ -191,7 +191,7 @@ namespace Vision.Modules.OnDemand
         /// <summary>
         ///     This sets up the heartbeats so that they are running again, which is needed
         /// </summary>
-        private void GenericStartup()
+        void GenericStartup()
         {
             m_scene.ShouldRunHeartbeat = true;
             m_scene.StartHeartbeat();

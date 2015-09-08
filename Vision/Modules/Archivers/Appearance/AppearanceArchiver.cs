@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,6 +25,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Linq;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.Imaging;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
@@ -32,33 +42,24 @@ using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Services.ClassHelpers.Inventory;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
-using OpenMetaverse.Imaging;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using Vision.Framework.Utilities;
-using System.Drawing;
-using System.Drawing.Imaging;
 
 namespace Vision.Modules.Archivers
 {
     /// <summary>
     ///     This module loads/saves the avatar's appearance from/down into an "Avatar Archive", also known as an AA.
     /// </summary>
-    public class WhiteCoreAvatarAppearanceArchiver : IService, IAvatarAppearanceArchiver
+    public class UniverseAvatarAppearanceArchiver : IService, IAvatarAppearanceArchiver
     {
         #region Declares
 
         IAssetService assetService;
+        UuidGatherer assetGatherer;
         IAvatarService avatarService;
         IInventoryService inventoryService;
         IUserAccountService userAccountService;
         IRegistryCore m_registry;
-        string m_storeDirectory = Constants.DEFAULT_AVATARARCHIVE_DIR;
+        string m_storeDirectory = "";
 
         #endregion
 
@@ -70,7 +71,7 @@ namespace Vision.Modules.Archivers
             UserAccount account = userAccountService.GetUserAccount(null, principalID);
             if (account == null)
             {
-                MainConsole.Instance.Error("[AvatarArchive]: User not found!");
+                MainConsole.Instance.Error("[Avatar Archive]: User not found!");
                 return null;
             }
 
@@ -78,10 +79,10 @@ namespace Vision.Modules.Archivers
             fileName = PathHelpers.VerifyReadFile (fileName, ".aa", m_storeDirectory);
             if (!File.Exists(fileName))
             {
-                MainConsole.Instance.Error("[AvatarArchive]: Unable to load from file: file does not exist!");
+                MainConsole.Instance.Error("[Avatar Archive]: Unable to load from file: file does not exist!");
                 return null;
             }
-            MainConsole.Instance.Info("[AvatarArchive]: Loading archive from " + fileName);
+            MainConsole.Instance.Info("[Avatar Archive]: Loading archive from " + fileName);
 
             archive.FromOSD((OSDMap)OSDParser.DeserializeLLSDXml(File.ReadAllText(fileName)));
 
@@ -91,14 +92,14 @@ namespace Vision.Modules.Archivers
 
             InventoryFolderBase AppearanceFolder = inventoryService.GetFolderForType(account.PrincipalID,
                                                                                      InventoryType.Wearable,
-                                                                                     AssetType.Clothing);
+                                                                                     FolderType.Clothing);
 
             if (AppearanceFolder == null)
             {
                 AppearanceFolder = new InventoryFolderBase (); // does not exist so...
                 AppearanceFolder.Owner = account.PrincipalID;
                 AppearanceFolder.ID = UUID.Random ();  
-                AppearanceFolder.Type = (short) InventoryType.Wearable;
+                AppearanceFolder.Type = (short) FolderType.Clothing;
             }
 
             List<InventoryItemBase> items;
@@ -106,7 +107,7 @@ namespace Vision.Modules.Archivers
             InventoryFolderBase folderForAppearance
                 = new InventoryFolderBase(
                     UUID.Random(), archive.FolderName, account.PrincipalID,
-                    -1, AppearanceFolder.ID, 1);
+                (short) FolderType.None, AppearanceFolder.ID, 1);
 
             inventoryService.AddFolder(folderForAppearance);
 
@@ -120,10 +121,22 @@ namespace Vision.Modules.Archivers
             }
             catch (Exception ex)
             {
-                MainConsole.Instance.Warn("[AvatarArchiver]: Error loading assets and items, " + ex);
+                MainConsole.Instance.Warn("[Avatar Archiver]: Error loading assets and items, " + ex);
             }
 
-            MainConsole.Instance.Info("[AvatarArchive]: Loaded archive from " + fileName);
+            /*  implement fully if we need to
+            // inform the client if needed
+
+            ScenePresence SP;
+            MainConsole.Instance.ConsoleScenes[0].TryGetScenePresence(account.PrincipalID, out SP);
+            if (SP == null)
+                return; // nobody home!
+
+            SP.ControllingClient.SendAlertMessage("Appearance loading in progress...");
+            SP.ControllingClient.SendBulkUpdateInventory(folderForAppearance);
+            */
+
+            MainConsole.Instance.Info("[Avatar Archive]: Loaded archive from " + fileName);
             archive.Appearance = appearance;
             return archive;
         }
@@ -137,19 +150,21 @@ namespace Vision.Modules.Archivers
         /// <param name="folderName">Folder name.</param>
         /// <param name="snapshotUUID">Snapshot UUI.</param>
         /// <param name="isPublic">If set to <c>true</c> is public.</param>
-        public bool SaveAvatarArchive(string fileName, UUID principalID, string folderName, UUID snapshotUUID, bool isPublic)
+        /// <param name="isPortable">If set to <c>true</c> create a portable archive.</param>
+        public bool SaveAvatarArchive(string fileName, UUID principalID, string folderName,
+            UUID snapshotUUID, bool isPublic, bool isPortable)
         {
             UserAccount account = userAccountService.GetUserAccount(null, principalID);
             if (account == null)
             {
-                MainConsole.Instance.Error("[AvatarArchive]: User not found!");
+                MainConsole.Instance.Error("[Avatar Archive]: User not found!");
                 return false;
             }
 
             AvatarAppearance appearance = avatarService.GetAppearance(account.PrincipalID);
             if (appearance == null)
             {
-                MainConsole.Instance.Error("[AvatarArchive] Appearance not found!");
+                MainConsole.Instance.Error("[Avatar Archive] Appearance not found!");
                 return false;
             }
 
@@ -166,25 +181,26 @@ namespace Vision.Modules.Archivers
                 for (int i = 0; i < wear.Count; i++)
                 {
                     WearableItem w = wear[i];
+
                     if (w.AssetID != UUID.Zero)
                     {
                         SaveItem(w.ItemID, ref archive);
-                        SaveAsset(w.AssetID, ref archive);
+                        SaveAsset(w.AssetID, ref archive, isPortable);
                         wearCount++;
                     }
                 }
             }
-            MainConsole.Instance.InfoFormat("[AvatarArchive] Adding {0} wearables to {1}",wearCount, archiveName);
+            MainConsole.Instance.InfoFormat("[Avatar Archive] Adding {0} wearables to {1}",wearCount, archiveName);
 
             int attachCount = 0;
             List<AvatarAttachment> attachments = appearance.GetAttachments();
             foreach (AvatarAttachment a in attachments.Where(a => a.AssetID != UUID.Zero))
             {
                 SaveItem(a.ItemID, ref archive);
-                SaveAsset(a.AssetID, ref archive);
+                SaveAsset(a.AssetID, ref archive, isPortable);
                 attachCount++;
             }
-            MainConsole.Instance.InfoFormat("[AvatarArchive] Adding {0} attachments to {1}", attachCount, archiveName);
+            MainConsole.Instance.InfoFormat("[Avatar Archive] Adding {0} attachments to {1}", attachCount, archiveName);
 
             //InventoryFolderBase clothingFolder = inventoryService.GetFolderForType(principalID, AssetType.Clothing);
 
@@ -194,6 +210,7 @@ namespace Vision.Modules.Archivers
             archive.FolderName = folderName;
             archive.Snapshot = snapshotUUID;
             archive.IsPublic = isPublic;
+            archive.IsPortable = isPortable;
 
             File.WriteAllText(fileName, OSDParser.SerializeLLSDXmlString(archive.ToOSD()));
 
@@ -201,10 +218,10 @@ namespace Vision.Modules.Archivers
             {
 
                 ExportArchiveImage (snapshotUUID, archiveName, filePath);
-                MainConsole.Instance.Info("[AvatarArchive] Saved archive snapshot");
+                MainConsole.Instance.Info("[Avatar Archive] Saved archive snapshot");
             }
 
-            MainConsole.Instance.Info("[AvatarArchive] Saved archive to " + fileName);
+            MainConsole.Instance.Info("[Avatar Archive] Saved archive to " + fileName);
 
             return true;
         }
@@ -265,8 +282,9 @@ namespace Vision.Modules.Archivers
                     archiveNames.Add (Path.GetFileNameWithoutExtension (file));
              
                 return archiveNames;
-            } else
-                return archives;
+            }
+
+            return archives;
         }
 
         /// <summary>
@@ -310,7 +328,7 @@ namespace Vision.Modules.Archivers
             UserAccount account = userAccountService.GetUserAccount(null, userName);
             if (account == null)
             {
-                MainConsole.Instance.Info("[AvatarArchive]: Sorry, unable to find an account for " + userName +"!");
+                MainConsole.Instance.Info("[Avatar Archive]: Sorry, unable to find an account for " + userName +"!");
                 return;
             }
 
@@ -359,12 +377,17 @@ namespace Vision.Modules.Archivers
             string foldername;
             UUID snapshotUUID = UUID.Zero;
             bool isPublic = true;
+            bool isPortable = false;
 
             // check for switch options
             var parms = new List <string>();
             for (int i = 3; i < cmdparams.Length;)
             {
-                if (cmdparams [i].StartsWith ("--private"))
+                if (cmdparams [i].StartsWith ("--portable"))
+                {
+                    isPortable = true;
+                    i++;
+                } else if (cmdparams [i].StartsWith ("--private"))
                 {
                     isPublic = false;
                     i++;
@@ -400,7 +423,7 @@ namespace Vision.Modules.Archivers
             UserAccount account = userAccountService.GetUserAccount(null, userName);
             if (account == null)
             {
-                MainConsole.Instance.Error("[AvatarArchive]: User '" + userName + "' not found!");
+                MainConsole.Instance.Error("[Avatar Archive]: User '" + userName + "' not found!");
                 return;
             }
 
@@ -426,7 +449,7 @@ namespace Vision.Modules.Archivers
                 foldername = OSD.FromString(cmdparams[3]);
             foldername = foldername.Replace (' ', '_');    
 
-            SaveAvatarArchive(fileName, account.PrincipalID, foldername, snapshotUUID, isPublic);
+            SaveAvatarArchive(fileName, account.PrincipalID, foldername, snapshotUUID, isPublic, isPortable);
         }
 
         #endregion
@@ -459,7 +482,7 @@ namespace Vision.Modules.Archivers
             if (parentFolder == null)
             {
                 InventoryFolderBase folder = inventoryService.GetFolderForType(recipient, InventoryType.Unknown,
-                                                                               (AssetType)itemCopy.AssetType);
+                                                                               (FolderType)itemCopy.AssetType);
 
                 if (folder != null)
                     itemCopy.Folder = folder.ID;
@@ -501,13 +524,13 @@ namespace Vision.Modules.Archivers
             {
                 InventoryItemBase item = new InventoryItemBase();
                 item.FromOSD((OSDMap)kvp.Value);
-                MainConsole.Instance.Info("[AvatarArchive]: Loading item " + item.ID.ToString());
+                MainConsole.Instance.Info("[Avatar Archive]: Loading item " + item.ID);
                 litems.Add(item);
             }
             
             // Wearables
             AvatarWearable[] wearables = avatarAppearance.Wearables;
-            MainConsole.Instance.InfoFormat("[AvatarArchive] Adding {0} wearables", wearables.Length);
+            MainConsole.Instance.InfoFormat("[Avatar Archive] Adding {0} wearables", wearables.Length);
 
             for (int i = 0; i < wearables.Length; i++)
             {
@@ -533,7 +556,7 @@ namespace Vision.Modules.Archivers
                                                                                                             .ID,
                                                                                                         false, false);
                             items.Add(destinationItem);
-                            MainConsole.Instance.DebugFormat("[AvatarArchive]: Added item {0} to folder {1}",
+                            MainConsole.Instance.DebugFormat("[Avatar Archive]: Added item {0} to folder {1}",
                                                              destinationItem.ID, destinationFolder.ID);
 
                             // Wear item
@@ -543,7 +566,7 @@ namespace Vision.Modules.Archivers
                         }
                         else
                         {
-                            MainConsole.Instance.WarnFormat("[AvatarArchive]: Unable to transfer {0} to folder {1}",
+                            MainConsole.Instance.WarnFormat("[Avatar Archive]: Unable to transfer {0} to folder {1}",
                                                             wearable[ii].ItemID, destinationFolder.ID);
                         }
                     }
@@ -552,7 +575,7 @@ namespace Vision.Modules.Archivers
 
             // Attachments
             List<AvatarAttachment> attachments = avatarAppearance.GetAttachments();
-            MainConsole.Instance.InfoFormat("[AvatarArchive] Adding {0} attachments",attachments.Count);
+            MainConsole.Instance.InfoFormat("[Avatar Archive] Adding {0} attachments",attachments.Count);
 
             foreach (AvatarAttachment attachment in attachments)
             {
@@ -578,16 +601,16 @@ namespace Vision.Modules.Archivers
                                                                                                     destinationFolder.ID,
                                                                                                     false, false);
                         items.Add(destinationItem);
-                        MainConsole.Instance.DebugFormat("[AvatarArchive]: Added item {0} to folder {1}", destinationItem.ID,
+                        MainConsole.Instance.DebugFormat("[Avatar Archive]: Added item {0} to folder {1}", destinationItem.ID,
                                                          destinationFolder.ID);
 
                         // Attach item
                         avatarAppearance.SetAttachment(attachpoint, destinationItem.ID, destinationItem.AssetID);
-                        MainConsole.Instance.DebugFormat("[AvatarArchive]: Attached {0}", destinationItem.ID);
+                        MainConsole.Instance.DebugFormat("[Avatar Archive]: Attached {0}", destinationItem.ID);
                     }
                     else
                     {
-                        MainConsole.Instance.WarnFormat("[AvatarArchive]: Error transferring {0} to folder {1}", itemID,
+                        MainConsole.Instance.WarnFormat("[Avatar Archive]: Error transferring {0} to folder {1}", itemID,
                                                         destinationFolder.ID);
                     }
                 }
@@ -602,25 +625,34 @@ namespace Vision.Modules.Archivers
             return appearance;
         }
 
-        void SaveAsset(UUID AssetID, ref AvatarArchive archive)
+        void SaveAsset(UUID AssetID, ref AvatarArchive archive, bool isPortable)
         {
-            try
+            IDictionary<UUID, AssetType> assetUuids = new Dictionary<UUID, AssetType> (); 
+
+            AssetBase assetBase = assetService.Get(AssetID.ToString());
+            if (assetBase == null)
+                return;
+
+             if (isPortable)
+                assetGatherer.GatherAssetUuids (assetBase.ID, assetBase.TypeAsset, assetUuids);
+            else
+                // we need this one at least
+                assetUuids [assetBase.ID] = assetBase.TypeAsset;
+            
+            // save the required assets
+            foreach (KeyValuePair<UUID, AssetType> kvp in assetUuids)
             {
-                AssetBase asset = assetService.Get(AssetID.ToString());
+                var asset = assetService.Get(kvp.Key.ToString());
                 if (asset != null)
                 {
-                    MainConsole.Instance.Info("[AvatarArchive]: Saving asset " + asset.ID);
+                    MainConsole.Instance.Debug("[Avatar Archive]: Saving asset " + asset.ID);
                     archive.AssetsMap[asset.ID.ToString()] = asset.ToOSD();
                 }
                 else
                 {
-                    MainConsole.Instance.Warn("[AvatarArchive]: Could not find asset to save: " + AssetID.ToString());
+                    MainConsole.Instance.Debug("[Avatar Archive]: Could not find asset to save: " + asset.ID);
                     return;
                 }
-            }
-            catch (Exception ex)
-            {
-                MainConsole.Instance.Warn("[AvatarArchive]: Could not save asset: " + AssetID.ToString() + ", " + ex);
             }
         }
 
@@ -636,10 +668,10 @@ namespace Vision.Modules.Archivers
             InventoryItemBase saveItem = inventoryService.GetItem(UUID.Zero, ItemID);
             if (saveItem == null)
             {
-                MainConsole.Instance.Warn("[AvatarArchive]: Could not find item to save: " + ItemID);
+                MainConsole.Instance.Warn("[Avatar Archive]: Could not find item to save: " + ItemID);
                 return;
             }
-            MainConsole.Instance.Info("[AvatarArchive]: Saving item " + ItemID.ToString());
+            MainConsole.Instance.Info("[Avatar Archive]: Saving item " + ItemID);
             archive.ItemsMap[ItemID.ToString()] = saveItem.ToOSD();
         }
 
@@ -650,20 +682,22 @@ namespace Vision.Modules.Archivers
                 UUID AssetID = UUID.Parse(kvp.Key);
                 OSDMap assetMap = (OSDMap) kvp.Value;
 
-                MainConsole.Instance.Info("[AvatarArchive]: Loading asset " + AssetID);
-
-                AssetBase asset = assetService.Get(AssetID.ToString());
-                if (asset == null) //Don't overwrite if asset exists
+                // check if this assets alreasy exists in the database
+                AssetBase asset = assetService.Get(AssetID.ToString(), false);
+                if (asset == null) // Only save if it does not exist
                 {
-                    asset = LoadAssetBase(assetMap);
-                    asset.ID = assetService.Store(asset);
-                }
+                    MainConsole.Instance.Info ("[Avatar Archive]: Saving asset " + AssetID);
+
+                    asset = LoadAssetBase (assetMap);
+                    asset.ID = assetService.Store (asset);
+                } else
+                    MainConsole.Instance.Debug ("[Avatar Archive]: Asset " + AssetID + " already exists.");
             }
         }
 
         void ExportArchiveImage(UUID imageUUID, string archiveName, string filePath)
         {
-            byte[] jpeg = new byte[0];
+            byte[] jpeg;
 
             using (MemoryStream imgstream = new MemoryStream())
             {
@@ -675,7 +709,7 @@ namespace Vision.Modules.Archivers
                 if (imageAsset != null)
                 {
                     // Decode image to System.Drawing.Image
-                    Image image = null;
+                    Image image;
                     ManagedImage managedImage;
                     if (OpenJPEG.DecodeToImage(imageAsset, out managedImage, out image))
                     {
@@ -739,42 +773,42 @@ namespace Vision.Modules.Archivers
             if (avatarConfig != null)
             {
                 m_storeDirectory =
-                    PathHelpers.ComputeFullPath (avatarConfig.GetString ("AvatarArchiveDirectory", m_storeDirectory));
+                    PathHelpers.ComputeFullPath(avatarConfig.GetString("AvatarArchiveDirectory", m_storeDirectory));
                 if (m_storeDirectory == "")
-                    m_storeDirectory = Constants.DEFAULT_AVATARARCHIVE_DIR;
-            }
-
-            bool remoteCalls = false;
-            IConfig connectorConfig = config.Configs ["WhiteCoreConnectors"];
-            if ((connectorConfig != null) && connectorConfig.Contains ("DoRemoteCalls"))
-                remoteCalls = connectorConfig.GetBoolean ("DoRemoteCalls", false);
-
-            // Lock out if remote 
-            if (!remoteCalls)
-            {
-                if (MainConsole.Instance != null)
                 {
-                    MainConsole.Instance.Commands.AddCommand (
-                        "save avatar archive",
-                        "save avatar archive [<First> <Last> [<Filename>]] [FolderNameToSaveInto] (--snapshot <UUID>) (--private)",
-                        "Saves appearance to an avatar archive (.aa is the recommended file extension)\n" +
-                        " Note: Put \"\" around the FolderName if you have spaces. \n" +
-                        "     : e.g. \"../Data/MyAvatars/Male Avatar.aa\" \n" +
-                    //"  Put all attachments in BodyParts folder before saving the archive) \n" +
-                        "  Both --snapshot and --private are optional.\n" +
-                        "   --snapshot sets a picture to display on the web interface if this archive is being used as a default avatar.\n" +
-                        "   --private tells any web interfaces that they cannot display this as a default avatar.",
-                        HandleSaveAvatarArchive, false, true);
-
-                    MainConsole.Instance.Commands.AddCommand (
-                        "load avatar archive",
-                        "load avatar archive [<First> <Last> [<Filename>]]",
-                        "Loads appearance from an avatar archive",
-                        HandleLoadAvatarArchive, false, true);
+                    var defpath = registry.RequestModuleInterface<ISimulationBase>().DefaultDataPath;
+                    m_storeDirectory = Path.Combine(defpath, Constants.DEFAULT_AVATARARCHIVE_DIR);
                 }
             }
-        }
 
+            bool isLocal = true;
+            IConfig connectorConfig = config.Configs["UniverseConnectors"];
+            if ((connectorConfig != null) && connectorConfig.Contains("DoRemoteCalls"))
+                isLocal = !connectorConfig.GetBoolean("DoRemoteCalls", false);
+
+            // Lock out if remote 
+            if (isLocal && (MainConsole.Instance != null))
+            {
+                MainConsole.Instance.Commands.AddCommand(
+                    "save avatar archive",
+                    "save avatar archive [<First> <Last> [<Filename>]] [FolderNameToSaveInto] (--snapshot <UUID>) (--private) (--portable)",
+                    "Saves appearance to an avatar archive (.aa is the recommended file extension)\n" +
+                    " Note: Put \"\" around the FolderName if you have spaces. \n" +
+                    "     : e.g. \"../Data/MyAvatars/Male Avatar.aa\" \n" +
+                //"  Put all attachments in BodyParts folder before saving the archive) \n" +
+                    "   --snapshot --private and --portable are optional.\n" +
+                    "   --snapshot sets a picture to display on the web interface if this archive is being used as a default avatar.\n" +
+                    "   --private tells any web interfaces that they cannot display this as a default avatar.\n" +
+                    "   --portable includes full asset tells any web interfaces that they cannot display this as a default avatar.",
+                    HandleSaveAvatarArchive, false, true);
+
+                MainConsole.Instance.Commands.AddCommand(
+                    "load avatar archive",
+                    "load avatar archive [<First> <Last> [<Filename>]]",
+                    "Loads appearance from an avatar archive",
+                    HandleLoadAvatarArchive, false, true);
+            }
+        }
 
         public void Start(IConfigSource config, IRegistryCore registry)
         {
@@ -782,6 +816,7 @@ namespace Vision.Modules.Archivers
             userAccountService = registry.RequestModuleInterface<IUserAccountService>();
             avatarService = registry.RequestModuleInterface<IAvatarService>();
             assetService = registry.RequestModuleInterface<IAssetService>();
+            assetGatherer = new UuidGatherer(assetService);
             inventoryService = registry.RequestModuleInterface<IInventoryService>();
             m_registry.RegisterModuleInterface<IAvatarAppearanceArchiver>(this);
         }

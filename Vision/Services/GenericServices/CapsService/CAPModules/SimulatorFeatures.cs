@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -26,23 +26,34 @@
  */
 
 
+using System;
+using System.Collections.Generic;
+using System.IO;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.Servers.HttpServer;
 using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Services;
-using OpenMetaverse.StructuredData;
-using System.IO;
+using Vision.Framework.Utilities;
 
 namespace Vision.Services
 {
     public class SimulatorFeatures : ICapsServiceConnector
     {
-        private IRegionClientCapsService m_service;
+        IRegionClientCapsService m_service;
+
+        // Configuration
+        static List<String> m_lastNames = new List<String>();
+        static List<String> m_fullNames = new List<String>();
+
 
         #region ICapsServiceConnector Members
 
         public void RegisterCaps(IRegionClientCapsService service)
         {
             m_service = service;
+
+            // retrieve our god's if needed
+            InitGodNames ();
 
             m_service.AddStreamHandler("SimulatorFeatures",
                                        new GenericStreamHandler("GET", m_service.CreateCAPS("SimulatorFeatures", ""),
@@ -60,7 +71,7 @@ namespace Vision.Services
 
         #endregion
 
-        private byte[] SimulatorFeaturesCAP(string path, Stream request,
+        byte[] SimulatorFeaturesCAP(string path, Stream request,
                                             OSHttpRequest httpRequest, OSHttpResponse httpResponse)
         {
             OSDMap data = new OSDMap();
@@ -83,8 +94,101 @@ namespace Vision.Services
 
             data["PhysicsShapeTypes"] = typesMap;
 
+            // some additional features
+            data["god_names"] = GodNames(httpRequest);
+
             //Send back data
             return OSDParser.SerializeLLSDXmlBytes(data);
         }
+
+        #region helpers
+
+        void InitGodNames()
+        {
+            if (m_fullNames.Count > 0)
+                return;
+            
+            IUserAccountService userService = m_service.Registry.RequestModuleInterface<IUserAccountService>();
+            var gods = userService.GetUserAccounts(null, "*");
+            foreach (UserAccount user in gods)
+                if (user.UserLevel >= Constants.USER_GOD_LIASON)
+                {
+                    m_lastNames.Add(user.LastName);
+                    m_fullNames.Add(user.Name);
+                }
+        }
+
+        OSDMap GodNames(OSHttpRequest httpRequest)
+        {
+
+
+            OSDMap namesmap = new OSDMap();
+            if (httpRequest.Query.ContainsKey ("god_names"))
+            {
+                OSD nmap = httpRequest.Query ["god_names"].ToString ();
+                namesmap = (OSDMap)nmap;
+            }
+ 
+            OSDArray fnames = new OSDArray();
+            foreach (string name in m_fullNames) {
+                fnames.Add(name);
+            }
+            namesmap["full_names"] = fnames;
+
+            OSDArray lnames = new OSDArray();
+            foreach (string name in m_lastNames) {
+                lnames.Add(name);
+            }
+            namesmap["last_names"] = lnames;
+
+            return namesmap;
+        }
+
+        void CameraOnllyModeRequest(OSHttpRequest httpRequest)
+        {
+            //if (ShouldSend(m_service.AgentID,m_service.RegionID) && UserLevel(m_service.AgentID) <= m_UserLevel)
+            //{
+            OSDMap extrasMap = new OSDMap();
+            if (httpRequest.Query.ContainsKey ("OpenSimExtras"))
+            {
+                OSD nmap = httpRequest.Query ["OpenSimExtras"].ToString ();
+                extrasMap = (OSDMap)nmap;
+            }
+
+            extrasMap["camera-only-mode"] = OSDMap.FromString("true");
+
+            // TODO: Need to find out how this is determined  i.e. sent from viewer??
+            // Detach agent attachments
+            //Util.FireAndForget(delegate { DetachAttachments(agentID); });
+
+            //}
+        }
+
+/*        void DetachAttachments(UUID agentID)
+        {
+            ScenePresence sp = m_scene.GetScenePresence(agentID);
+            if ((sp.TeleportFlags & TeleportFlags.ViaLogin) != 0)
+                // Wait a little, cos there's weird stuff going on at  login related to
+                // the Current Outfit Folder
+                Thread.Sleep(8000);
+
+            if (sp != null && m_scene.AttachmentsModule != null)
+            {
+                List<SceneObjectGroup> attachs = sp.GetAttachments();
+                if (attachs != null && attachs.Count > 0)
+                {
+                    foreach (SceneObjectGroup sog in attachs)
+                    {
+                        MainConsole.Instance.DebugFormat("[CAMERA-ONLY MODE]: Forcibly detaching attach {0} from {1} in {2}", 
+                            sog.Name, sp.Name, m_service.Region);
+
+                        m_scene.AttachmentsModule.DetachSingleAttachmentToInv(sp, sog);
+                    }
+                }
+            }
+        }
+*/
+
+        #endregion
     }
 }

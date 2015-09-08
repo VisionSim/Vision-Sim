@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -71,17 +71,21 @@ namespace Vision.Modules.Profiles
 
         #region INonSharedRegionModule Members
 
-        public void Initialize (IConfigSource config)
+        public void Initialize(IConfigSource config)
         {
-            IConfig profileConfig = config.Configs ["Profile"];
-            if (profileConfig == null)
+            IConfig profileConfig = config.Configs["Profile"];
+            if (profileConfig != null)
             {
-                MainConsole.Instance.Info ("[Profile] Not configured, disabling");
-                return;
+                if (profileConfig.GetString("ProfileModule", Name) == Name)
+                {
+                    m_ProfileEnabled = true;
+                    MainConsole.Instance.Info("[Profile Services] Profile Services are enabled");
+                }
             }
-            if (profileConfig.GetString ("ProfileModule", Name) != Name)
+            else
             {
                 m_ProfileEnabled = false;
+                MainConsole.Instance.Info("[Profile Services] Not configured, disabling");
             }
         }
 
@@ -424,8 +428,8 @@ namespace Vision.Modules.Profiles
                 {
                     UserAccount parcelOwner =
                         remoteClient.Scene.UserAccountService.GetUserAccount (remoteClient.AllScopeIDs,
-                            targetlandObj.LandData
-                                                                                          .OwnerID);
+                            targetlandObj.LandData.OwnerID);
+
                     if (parcelOwner != null)
                         user = parcelOwner.Name;
 
@@ -626,12 +630,10 @@ namespace Vision.Modules.Profiles
             } else
                 charterMember = Utils.StringToBytes (Profile.MembershipGroup);
             
-            // 19-06-2015 Fly-Man-
             // When charterMember set this character └ the viewer recognizes it
             // as a Grid Master. Not sure what we want to do with that in Vision
             //
             // Perhaps a talk with viewer devs to allow more options for this
-            //
             
             if (Utilities.IsSystemUser (Profile.PrincipalID))
             {
@@ -678,8 +680,8 @@ namespace Vision.Modules.Profiles
             if (UPI == null)
                 return;
             UserAccount account = remoteClient.Scene.UserAccountService.GetUserAccount (remoteClient.AllScopeIDs,
-                                      remoteClient
-                                                                                           .AgentId);
+                                      remoteClient.AgentId);
+
             remoteClient.SendUserInfoReply (UPI.Visible, UPI.IMViaEmail, account.Email);
         }
 

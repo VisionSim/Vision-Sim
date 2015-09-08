@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -35,12 +35,12 @@ namespace Vision.Framework.Utilities
     /// </summary>
     public static class DataManager
     {
-        private static readonly Dictionary<string, IWhiteCoreDataPlugin> Plugins =
-            new Dictionary<string, IWhiteCoreDataPlugin>();
+        private static readonly Dictionary<string, IUniverseDataPlugin> Plugins =
+            new Dictionary<string, IUniverseDataPlugin>();
 
-        public static List<IWhiteCoreDataPlugin> GetPlugins()
+        public static List<IUniverseDataPlugin> GetPlugins()
         {
-            return new List<IWhiteCoreDataPlugin>(Plugins.Values);
+            return new List<IUniverseDataPlugin>(Plugins.Values);
         }
 
         /// <summary>
@@ -48,11 +48,11 @@ namespace Vision.Framework.Utilities
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static T RequestPlugin<T>() where T : IWhiteCoreDataPlugin
+        public static T RequestPlugin<T>() where T : IUniverseDataPlugin
         {
             if (Plugins.ContainsKey(typeof (T).Name))
             {
-                IWhiteCoreDataPlugin Plugin;
+                IUniverseDataPlugin Plugin;
                 Plugins.TryGetValue(typeof (T).Name, out Plugin);
                 return (T) Plugin;
             }
@@ -65,11 +65,11 @@ namespace Vision.Framework.Utilities
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static T RequestPlugin<T>(string name) where T : IWhiteCoreDataPlugin
+        public static T RequestPlugin<T>(string name) where T : IUniverseDataPlugin
         {
             if (Plugins.ContainsKey(name))
             {
-                IWhiteCoreDataPlugin Plugin;
+                IUniverseDataPlugin Plugin;
                 Plugins.TryGetValue(name, out Plugin);
                 return (T) Plugin;
             }
@@ -81,7 +81,7 @@ namespace Vision.Framework.Utilities
         ///     Register a new plugin to the registry
         /// </summary>
         /// <param name="plugin"></param>
-        public static void RegisterPlugin(IWhiteCoreDataPlugin plugin)
+        public static void RegisterPlugin(IUniverseDataPlugin plugin)
         {
             RegisterPlugin(plugin.Name, plugin);
         }
@@ -91,7 +91,7 @@ namespace Vision.Framework.Utilities
         /// </summary>
         /// <param name="name"></param>
         /// <param name="plugin"></param>
-        public static void RegisterPlugin(string name, IWhiteCoreDataPlugin plugin)
+        public static void RegisterPlugin(string name, IUniverseDataPlugin plugin)
         {
             if (!Plugins.ContainsKey(name))
                 Plugins.Add(name, plugin);

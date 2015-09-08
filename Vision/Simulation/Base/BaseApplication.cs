@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -27,11 +27,6 @@
 
 //#define BlockUnsupportedVersions
 
-using Vision.Framework.Configuration;
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Modules;
-using Vision.Framework.Utilities;
-using Nini.Config;
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -39,11 +34,16 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
+using Nini.Config;
+using Vision.Framework.Configuration;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Modules;
+using Vision.Framework.Utilities;
 
 namespace Vision.Simulation.Base
 {
     /// <summary>
-    ///     Starting class for the Vision Server
+    ///     Starting class for the Vision Sim Server
     /// </summary>
     public class BaseApplication
     {
@@ -65,7 +65,6 @@ namespace Vision.Simulation.Base
 
         static bool _IsHandlingException; // Make sure we don't go recursive on ourselves
 
-        //could move our main function into OpenSimMain and kill this class
         public static void BaseMain(string[] args, string defaultIniFile, ISimulationBase simBase)
         {
             // First line, hook the appdomain to the crash reporter
@@ -81,12 +80,12 @@ namespace Vision.Simulation.Base
             // Increase the number of IOCP threads available. Mono defaults to a tragically low number
             int workerThreads, iocpThreads;
             ThreadPool.GetMaxThreads(out workerThreads, out iocpThreads);
-            //MainConsole.Instance.InfoFormat("[WHiteCore MAIN]: Runtime gave us {0} worker threads and {1} IOCP threads", workerThreads, iocpThreads);
+            //MainConsole.Instance.InfoFormat("[Virtual Vision Main]: Runtime gave us {0} worker threads and {1} IOCP threads", workerThreads, iocpThreads);
             if (workerThreads < 500 || iocpThreads < 1000)
             {
                 workerThreads = 500;
                 iocpThreads = 1000;
-                //MainConsole.Instance.Info("[WHiteCore MAIN]: Bumping up to 500 worker threads and 1000 IOCP threads");
+                //MainConsole.Instance.Info("[Virtual Vision Main]: Bumping up to 500 worker threads and 1000 IOCP threads");
                 ThreadPool.SetMaxThreads(workerThreads, iocpThreads);
             }
 
@@ -131,14 +130,14 @@ namespace Vision.Simulation.Base
 
         public static void Configure(bool requested)
         {
-            string WhiteCore_ConfigDir = Constants.DEFAULT_CONFIG_DIR;
-            bool isWhiteCoreExe = AppDomain.CurrentDomain.FriendlyName == "Vision.exe" ||
+            string Universe_ConfigDir = Constants.DEFAULT_CONFIG_DIR;
+            bool isUniverseExe = AppDomain.CurrentDomain.FriendlyName == "Vision.exe" ||
                                AppDomain.CurrentDomain.FriendlyName == "Vision.vshost.exe";
 
              bool existingConfig = (
-                File.Exists(Path.Combine(WhiteCore_ConfigDir,"MyWorld.ini")) ||
-                File.Exists(Path.Combine(WhiteCore_ConfigDir,"Vision.ini")) ||
-                File.Exists(Path.Combine(WhiteCore_ConfigDir,"Vision.Server.ini"))
+                File.Exists(Path.Combine(Universe_ConfigDir,"MyWorld.ini")) ||
+                File.Exists(Path.Combine(Universe_ConfigDir,"Vision.ini")) ||
+                File.Exists(Path.Combine(Universe_ConfigDir,"Vision.Server.ini"))
                 );
 
             if ( requested || !existingConfig )
@@ -147,18 +146,18 @@ namespace Vision.Simulation.Base
                 if (!requested)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-					Console.WriteLine("\n\n************* Vision initial run. *************");
+					Console.WriteLine("\n\n************* Virtual Vision initial run. *************");
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine(
-                        "\n\n   This appears to be your first time running Vision.\n"+
+                        "\n\n   This appears to be your first time running Virtual Vision.\n"+
                         "If you have already configured your *.ini files, please ignore this warning and press enter;\n" +
-                        "Otherwise type 'yes' and Vision will guide you through the configuration process.\n\n"+
+                        "Otherwise type 'yes' and Virtual Vision will guide you through the configuration process.\n\n"+
                         "Remember, these file names are Case Sensitive in Linux and Proper Cased.\n"+
-                        "1. " + WhiteCore_ConfigDir + "/Vision.ini\nand\n" +
-                        "2. " + WhiteCore_ConfigDir + "/Sim/Standalone/StandaloneCommon.ini \nor\n" +
-                        "3. " + WhiteCore_ConfigDir + "/Grid/GridCommon.ini\n" +
+                        "1. " + Universe_ConfigDir + "/Vision.ini\nand\n" +
+                        "2. " + Universe_ConfigDir + "/Sim/Standalone/StandaloneCommon.ini \nor\n" +
+                        "3. " + Universe_ConfigDir + "/Grid/GridCommon.ini\n" +
                         "\nAlso, you will want to examine these files in great detail because only the basic system will " +
-                        "load by default. Vision can do a LOT more if you spend a little time going through these files.\n\n");
+                        "load by default. Virtual Vision can do a LOT more if you spend a little time going through these files.\n\n");
                 }
 
                 // Make sure...
@@ -168,34 +167,34 @@ namespace Vision.Simulation.Base
                 Console.WriteLine("This will overwrite any existing configuration files!");
                 Console.ResetColor();
                 Console.WriteLine ("");
-                resp = ReadLine("Do you want to configure Vision now?  (yes/no)", resp);
+                resp = ReadLine("Do you want to configure Virtual Vision now?  (yes/no)", resp);
 
                 if (resp == "yes")
                 {
-                    string cfgFolder = WhiteCore_ConfigDir + "/";           // Main Config folder >> "../Config" (default)
+                    string cfgFolder = Universe_ConfigDir + "/";           // Main Config folder >> "../Config" (default)
 
                     string dbSource = "localhost";
-					string dbPasswd = "vision";
-					string dbSchema = "vision";
-					string dbUser = "vision";
+					string dbPasswd = "universe";
+					string dbSchema = "universe";
+					string dbUser = "universe";
                     string dbPort = "3306";
                     string gridIPAddress = Utilities.GetExternalIp();
                     string regionIPAddress = gridIPAddress;
                     bool isStandalone = true;
                     string dbType = "1";
-                    string gridName = "Vision-Sim Grid";
+                    string gridName = "Virtual Vision Grid";
                     string welcomeMessage = "";
                     string allowAnonLogin = "true";
                     uint port = 9000;
                     uint gridPort = 8002;
 
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("====================================================================");
-					Console.WriteLine("======================= Vision CONFIGURATOR =====================");
-                    Console.WriteLine("====================================================================");
+                    Console.WriteLine("==============================================================");
+					Console.WriteLine("==================== Virtual Vision Configurator ===========");
+                    Console.WriteLine("==============================================================");
                     Console.ResetColor();
 
-                    if (isWhiteCoreExe)
+                    if (isUniverseExe)
                     {
                         Console.WriteLine("This installation is going to run in");
                         Console.ForegroundColor = ConsoleColor.Cyan;
@@ -227,7 +226,7 @@ namespace Vision.Simulation.Base
                             Console.ForegroundColor = ConsoleColor.White;
                             Console.WriteLine(
                                 "\nNote: this setup does not automatically create a MySQL installation for you.\n" +
-                                " This will configure the Vision setting but you must install MySQL as well");
+                                " This will configure the Virtual Vision setting but you must install MySQL as well");
                             Console.ResetColor();
 
                             dbSource = ReadLine("MySQL database IP", dbSource);
@@ -244,7 +243,7 @@ namespace Vision.Simulation.Base
 
                     if (isStandalone)
                     {
-                        gridName = ReadLine("Name of your Vision-Sim Grid", gridName);
+                        gridName = ReadLine("Name of your Virtual Vision Grid", gridName);
 
                         welcomeMessage = "Welcome to " + gridName + ", <USERNAME>!";
                         Console.ForegroundColor = ConsoleColor.White;
@@ -269,7 +268,7 @@ namespace Vision.Simulation.Base
                     //Data.ini setup
                     if (isStandalone)
                     {
-                        string cfgDataFolder = isWhiteCoreExe ? "Sim/" : "Grid/ServerConfiguration/";
+                        string cfgDataFolder = isUniverseExe ? "Sim/" : "Grid/ServerConfiguration/";
 
                         MakeSureExists(cfgFolder + cfgDataFolder + "Data/Data.ini");
                         var data_ini = new IniConfigSource(
@@ -284,10 +283,10 @@ namespace Vision.Simulation.Base
                         else
                             conf.Set("Include-MySQL",  cfgDataFolder + "Data/MySQL.ini");
 
-                        if (isWhiteCoreExe)
+                        if (isUniverseExe)
                             conf.Set("Include-FileBased", "Sim/Data/FileBased.ini");
 
-                        conf = data_ini.AddConfig("WhiteCoreConnectors");
+                        conf = data_ini.AddConfig("UniverseConnectors");
                         conf.Set("ValidateTables", true);
 
                         data_ini.Save();
@@ -328,21 +327,21 @@ namespace Vision.Simulation.Base
                     }
 
                     // Region server
-                    if (isWhiteCoreExe)
+                    if (isUniverseExe)
                     {
 						MakeSureExists(cfgFolder + "Vision.ini");
-                        var whitecore_ini = new IniConfigSource(
+                        var Universe_ini = new IniConfigSource(
                             cfgFolder + "Vision.ini",
                             Nini.Ini.IniFileType.AuroraStyle);
-                        var whitecore_ini_example = new IniConfigSource(
+                        var Universe_ini_example = new IniConfigSource(
                             cfgFolder + "Vision.ini.example",
                             Nini.Ini.IniFileType.AuroraStyle);
 
                         bool setIp = false;
 
-						foreach (IConfig config in whitecore_ini_example.Configs)
+						foreach (IConfig config in Universe_ini_example.Configs)
                         {
-							IConfig newConfig = whitecore_ini.AddConfig(config.Name);
+							IConfig newConfig = Universe_ini.AddConfig(config.Name);
                             foreach (string key in config.GetKeys())
                             {
                                 if (key == "http_listener_port")
@@ -364,7 +363,7 @@ namespace Vision.Simulation.Base
                         }
 
 
-						whitecore_ini.Save();
+						Universe_ini.Save();
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Your Vision.ini has been successfully configured");
                         Console.ResetColor();
@@ -447,13 +446,13 @@ namespace Vision.Simulation.Base
                     }
 
                     // Grid server
-                    if (!isWhiteCoreExe)
+                    if (!isUniverseExe)
                     {
                         MakeSureExists(cfgFolder + "Vision.Server.ini");
-                        var whitecore_ini = new IniConfigSource(
+                        var Universe_ini = new IniConfigSource(
                             cfgFolder + "Vision.Server.ini",
                             Nini.Ini.IniFileType.AuroraStyle);
-                        var whitecore_ini_example = new IniConfigSource(
+                        var Universe_ini_example = new IniConfigSource(
                             cfgFolder + "Vision.Server.ini.example",
                             Nini.Ini.IniFileType.AuroraStyle);
 
@@ -461,9 +460,9 @@ namespace Vision.Simulation.Base
                             ReadLine("\nThe domain name or IP address of the grid server", gridIPAddress);
                         bool ipSet = false;
 
-                        foreach (IConfig config in whitecore_ini_example.Configs)
+                        foreach (IConfig config in Universe_ini_example.Configs)
                         {
-                            IConfig newConfig = whitecore_ini.AddConfig(config.Name);
+                            IConfig newConfig = Universe_ini.AddConfig(config.Name);
                             foreach (string key in config.GetKeys())
                             {
                                 if (key == "HostName")
@@ -482,7 +481,7 @@ namespace Vision.Simulation.Base
                             }
                         }
 
-                        whitecore_ini.Save();
+                        Universe_ini.Save();
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Your Vision.Server.ini has been successfully configured");
                         Console.ResetColor();
@@ -537,7 +536,7 @@ namespace Vision.Simulation.Base
                         Console.WriteLine ("");
                     }
 
-                    Console.WriteLine("\n====================================================================\n");
+                    Console.WriteLine("\n==============================================================\n");
                     Console.ResetColor();
                     Console.WriteLine("Your grid name is ");
                     Console.ForegroundColor = ConsoleColor.Cyan;
@@ -547,7 +546,7 @@ namespace Vision.Simulation.Base
                     {
                         Console.WriteLine("\nYour loginuri is ");
                         Console.ForegroundColor = ConsoleColor.Cyan;
-                        Console.WriteLine("http://" +  (isWhiteCoreExe ? regionIPAddress : gridIPAddress) + ":" + (isWhiteCoreExe ? port : gridPort) + "/");
+                        Console.WriteLine("http://" +  (isUniverseExe ? regionIPAddress : gridIPAddress) + ":" + (isUniverseExe ? port : gridPort) + "/");
                         Console.ResetColor();
                     }
                     else
@@ -557,7 +556,7 @@ namespace Vision.Simulation.Base
                         Console.WriteLine("http://" + gridIPAddress + ":" + gridPort +"/");
                         Console.ResetColor();
                     }
-                    Console.WriteLine("\n====================================================================\n");
+                    Console.WriteLine("\n==============================================================\n");
                     Console.WriteLine(
                         "To re-run this configurator, enter \"run configurator\" into the console.");
                     Console.ForegroundColor = ConsoleColor.Yellow;

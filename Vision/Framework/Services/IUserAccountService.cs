@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,6 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
 using System.Collections.Generic;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
@@ -127,9 +128,10 @@ namespace Vision.Framework.Services
     public interface IUserAccountService
     {
         /// <summary>
-        /// Returns true if the service is remote.
+        /// Returns true if the service is local.
+        /// This exposes the ConnectoBase field so it can be used by inherited classes
         /// </summary>
-        bool RemoteCalls ();
+        bool IsLocalConnector { get; }
 
         IUserAccountService InnerService { get; }
 
@@ -254,7 +256,7 @@ namespace Vision.Framework.Services
     /// <summary>
     ///     An interface for connecting to the user accounts data-store
     /// </summary>
-    public interface IUserAccountData : IWhiteCoreDataPlugin
+    public interface IUserAccountData : IUniverseDataPlugin
     {
         string Realm { get; }
 

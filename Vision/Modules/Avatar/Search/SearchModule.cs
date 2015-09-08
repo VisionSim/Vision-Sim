@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -32,6 +32,7 @@ using Nini.Config;
 using OpenMetaverse;
 using OpenMetaverse.Packets;
 using Vision.Framework.ClientInterfaces;
+using Vision.Framework.ConsoleFramework;
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
@@ -668,8 +669,16 @@ namespace Vision.Modules.Search
         {
             IConfig searchConfig = config.Configs ["Search"];
             if (searchConfig != null) //Check whether we are enabled
-                if (searchConfig.GetString ("SearchModule", Name) == Name)
-                m_SearchEnabled = true;
+            {
+                if (searchConfig.GetString("SearchModule", Name) == Name)
+                    m_SearchEnabled = true;
+                MainConsole.Instance.InfoFormat("[Seach Service]: Searches have been enabled.");
+            }
+            else
+            {
+                m_SearchEnabled = false;
+                MainConsole.Instance.InfoFormat("[Search Service]: Search Services are not configured.... Disabling.");
+            }
         }
 
         public void AddRegion (IScene scene)

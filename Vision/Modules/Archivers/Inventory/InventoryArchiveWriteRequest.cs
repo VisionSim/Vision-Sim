@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,6 +25,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
+using System.Xml;
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
@@ -33,12 +39,6 @@ using Vision.Framework.Serialization.External;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Services.ClassHelpers.Inventory;
-using OpenMetaverse;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
-using System.Xml;
 
 namespace Vision.Modules.Archivers
 {
@@ -71,7 +71,7 @@ namespace Vision.Modules.Archivers
         /// <value>
         ///     The stream to which the inventory archive will be saved.
         /// </value>
-        private readonly Stream m_saveStream;
+        readonly Stream m_saveStream;
 
         readonly UserAccount m_userInfo;
         protected TarArchiveWriter m_archiveWriter;
@@ -90,7 +90,7 @@ namespace Vision.Modules.Archivers
         /// </value>
         protected Guid m_id;
 
-        private string m_invPath;
+        string m_invPath;
 
         /// <value>
         ///     We only use this to request modules
@@ -163,7 +163,7 @@ namespace Vision.Modules.Archivers
             {
                 // We're almost done.  Just need to write out the control file now
                 m_archiveWriter.WriteFile(ArchiveConstants.CONTROL_FILE_PATH, CreateControlFile(m_saveAssets));
-                MainConsole.Instance.InfoFormat("[INVENTORY ARCHIVER]: Added control file to archive.");
+                MainConsole.Instance.InfoFormat("[Inventory Archiver]: Added control file to archive.");
                 m_archiveWriter.Close();
             }
             catch (Exception e)
@@ -188,7 +188,7 @@ namespace Vision.Modules.Archivers
             if (!CanUserArchiveObject(m_userInfo.PrincipalID, inventoryItem))
             {
                 MainConsole.Instance.InfoFormat(
-                    "[INVENTORY ARCHIVER]: Insufficient permissions, skipping inventory item {0} {1} at {2}",
+                    "[Inventory Archiver]: Insufficient permissions, skipping inventory item {0} {1} at {2}",
                     inventoryItem.Name, inventoryItem.ID, path);
 
                 // Count Items Excluded
@@ -258,7 +258,7 @@ namespace Vision.Modules.Archivers
         /// <param name="UserID">The user</param>
         /// <param name="InvItem">The inventory item</param>
         /// <returns>Whether the user is allowed to export the object to an IAR</returns>
-        private bool CanUserArchiveObject(UUID UserID, InventoryItemBase InvItem)
+        bool CanUserArchiveObject(UUID UserID, InventoryItemBase InvItem)
         {
             if (FilterContent == null || FilterContent == "")
                 return true;// Default To Allow Export
@@ -287,9 +287,6 @@ namespace Vision.Modules.Archivers
         /// </summary>
         public void Execute()
         {
-
-
-
             try
             {
                 InventoryFolderBase inventoryFolder = null;
@@ -365,7 +362,7 @@ namespace Vision.Modules.Archivers
                 if (inventoryFolder != null)
                 {
                     MainConsole.Instance.DebugFormat(
-                        "[INVENTORY ARCHIVER]: Found folder {0} {1} at {2}",
+                        "[Inventory Archiver]: Found folder {0} {1} at {2}",
                         inventoryFolder.Name,
                         inventoryFolder.ID,
                         m_invPath == String.Empty ? InventoryFolderImpl.PATH_DELIMITER : m_invPath);
@@ -376,7 +373,7 @@ namespace Vision.Modules.Archivers
                 else if (inventoryItem != null)
                 {
                     MainConsole.Instance.DebugFormat(
-                        "[INVENTORY ARCHIVER]: Found item {0} {1} at {2}",
+                        "[Inventory Archiver]: Found item {0} {1} at {2}",
                         inventoryItem.Name, inventoryItem.ID, m_invPath);
 
                     SaveInvItem(inventoryItem, ArchiveConstants.INVENTORY_PATH);
@@ -402,7 +399,7 @@ namespace Vision.Modules.Archivers
             }
             else
             {
-                MainConsole.Instance.Debug("[INVENTORY ARCHIVER]: Save Complete");
+                MainConsole.Instance.Debug("[Inventory Archiver]: Save Complete");
                 m_archiveWriter.Close();
             }
         }
@@ -412,7 +409,7 @@ namespace Vision.Modules.Archivers
         /// </summary>
         protected void SaveUsers()
         {
-            MainConsole.Instance.InfoFormat("[INVENTORY ARCHIVER]: Saving user information for {0} users",
+            MainConsole.Instance.InfoFormat("[Inventory Archiver]: Saving user information for {0} users",
                                             m_userUuids.Count);
 
             foreach (UUID creatorId in m_userUuids.Keys)
@@ -428,7 +425,7 @@ namespace Vision.Modules.Archivers
                 }
                 else
                 {
-                    MainConsole.Instance.WarnFormat("[INVENTORY ARCHIVER]: Failed to get creator profile for {0}",
+                    MainConsole.Instance.WarnFormat("[Inventory Archiver]: Failed to get creator profile for {0}",
                                                     creatorId);
                 }
             }

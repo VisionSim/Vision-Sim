@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,17 +25,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.ModuleLoader;
-using Vision.Framework.Modules;
-using Vision.Framework.Servers;
-using Vision.Framework.Servers.HttpServer;
-using Vision.Framework.Servers.HttpServer.Implementation;
-using Vision.Framework.Services;
-using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -47,7 +36,18 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Xml;
 using System.Xml.Xsl;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
+using Vision.Framework.ConsoleFramework;
 using Vision.Framework.DatabaseInterfaces;
+using Vision.Framework.ModuleLoader;
+using Vision.Framework.Modules;
+using Vision.Framework.Servers;
+using Vision.Framework.Servers.HttpServer;
+using Vision.Framework.Servers.HttpServer.Implementation;
+using Vision.Framework.Services;
+using Vision.Framework.Utilities;
 
 namespace Vision.Modules.Web
 {
@@ -61,6 +61,7 @@ namespace Vision.Modules.Web
         protected Dictionary<string, IWebInterfacePage> _pages = new Dictionary<string, IWebInterfacePage>();
         protected List<ITranslator> _translators = new List<ITranslator>();
         protected ITranslator _defaultTranslator;
+        protected string m_localHtmlPath = "";
 
         // webpages and settings cacheing
         internal GridPage webPages;
@@ -124,7 +125,7 @@ namespace Vision.Modules.Web
         {
             Registry = registry;
 
-            var webPages = VisionModuleLoader.PickupModules<IWebInterfacePage>();
+            var webPages = UniverseModuleLoader.PickupModules<IWebInterfacePage>();
             foreach (var pages in webPages)
             {
                 foreach (var page in pages.FilePath)
@@ -133,7 +134,7 @@ namespace Vision.Modules.Web
                 }
             }
 
-            _translators = VisionModuleLoader.PickupModules<ITranslator>();
+            _translators = UniverseModuleLoader.PickupModules<ITranslator>();
             _defaultTranslator = _translators[0];
         }
 
@@ -161,6 +162,13 @@ namespace Vision.Modules.Web
                 var server = registry.RequestModuleInterface<ISimulationBase>().GetHttpServer(_port);
                 server.AddStreamHandler(new GenericStreamHandler("GET", "/", FindAndSendPage));
                 server.AddStreamHandler(new GenericStreamHandler("POST", "/", FindAndSendPage));
+
+                // set local path in case..
+                if (m_localHtmlPath == "")
+                {
+                    var defpath = registry.RequestModuleInterface<ISimulationBase> ().DefaultDataPath;
+                    m_localHtmlPath = Path.Combine (defpath, Constants.DEFAULT_USERHTML_DIR);
+                }
             }
         }
 
@@ -220,7 +228,7 @@ namespace Vision.Modules.Web
                                             : new Dictionary<string, object>();
                 if (filename.EndsWith(".xsl"))
                 {
-                    WhiteCoreXmlDocument vars = GetXML(filename, httpRequest, httpResponse, requestParameters);
+                    UniverseXmlDocument vars = GetXML(filename, httpRequest, httpResponse, requestParameters);
 
                     var xslt = new XslCompiledTransform();
                     if (File.Exists(path)) xslt.Load(GetFileNameFromHTMLPath(path, httpRequest.Query));
@@ -320,7 +328,7 @@ namespace Vision.Modules.Web
             return null;
         }
 
-        private WhiteCoreXmlDocument GetXML(string filename, OSHttpRequest httpRequest, OSHttpResponse httpResponse,
+        private UniverseXmlDocument GetXML(string filename, OSHttpRequest httpRequest, OSHttpResponse httpResponse,
                                          Dictionary<string, object> requestParameters)
         {
             IWebInterfacePage page = GetPage(filename);
@@ -345,7 +353,7 @@ namespace Vision.Modules.Web
                 }
                 string response = null;
                 return
-                    (WhiteCoreXmlDocument)
+                    (UniverseXmlDocument)
                     page.Fill(this, filename, httpRequest, httpResponse, requestParameters, translator, out response)[
                         "xml"];
             }
@@ -560,7 +568,7 @@ namespace Vision.Modules.Web
                 string file;
                 if (filePath.StartsWith("local/"))                      // local included files 
                 {
-                    file = Constants.DEFAULT_USERHTML_DIR+filePath.Remove(0,6);
+                    file = Path.Combine (m_localHtmlPath, filePath.Remove(0,6));
                 }
                 else                                                    // 'normal' page processing
                 {
@@ -1120,7 +1128,7 @@ namespace Vision.Modules.Web
         public string Gridname = "Vision Grid";
         public string Gridnick = "Vision";
         public string WelcomeMessage = "Welcome to Vision, <USERNAME>!";
-        public string SystemEstateOwnerName = "Governor White";
+        public string SystemEstateOwnerName = "Governor Vision";
         public string SystemEstateName = "Vision Estate";
 
         public GridSettings()

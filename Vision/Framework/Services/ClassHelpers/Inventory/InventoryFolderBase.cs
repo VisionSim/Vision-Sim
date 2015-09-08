@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -35,6 +35,9 @@ namespace Vision.Framework.Services.ClassHelpers.Inventory
     /// </summary>
     public class InventoryFolderBase : InventoryNodeBase
     {
+        public static readonly string ROOT_FOLDER_NAME = "My Inventory";
+        public static readonly string SUITCASE_FOLDER_NAME = "My Suitcase";
+
         public InventoryFolderBase()
         {
         }
@@ -80,7 +83,7 @@ namespace Vision.Framework.Services.ClassHelpers.Inventory
             5	Clothing
             6	Objects
             7	Notecards
-            9	My Inventory ( OpenSimulator 0.7.x / Vision)
+            9	My Inventory ( Vision 0.7.x)
             10	Scripts
             13	Body Parts
             14	Trash
@@ -125,5 +128,41 @@ namespace Vision.Framework.Services.ClassHelpers.Inventory
             ParentID = map["ParentID"];
             Version = (ushort) (int) map["Version"];
         }
+
+        public string FolderTypeInfo()
+        {
+            switch ((FolderType) Type)
+            {
+            case FolderType.Animation:      return "Animations";
+            case FolderType.BodyPart:       return "Body parts";
+            case FolderType.CallingCard:    return "Calling cards";
+            case FolderType.Clothing:       return "Clothing";
+            case FolderType.CurrentOutfit:  return "CurrentOutfit";
+            case FolderType.Favorites:      return "Favourites";
+            case FolderType.Gesture:        return "Gestures";
+            case FolderType.HGSuitcase:     return "HG Suitcase";
+            case FolderType.Inbox:          return "Inbox";
+            case FolderType.Landmark:       return "Landmarks";
+            case FolderType.LostAndFound:   return "Lost & Found";
+            case FolderType.LSLText:        return "LSL Text";
+            case FolderType.Mesh:           return "Mesh";
+            case FolderType.MyOutfits:      return "My Outfits";
+            case FolderType.Notecard:       return "Notecard";
+            case FolderType.Object:         return "Objects";
+            case FolderType.Snapshot:       return "Photo folder";
+            case FolderType.Sound:          return "Sounds";
+            case FolderType.Texture:        return "Textures";
+            case FolderType.Trash:          return "Trash";
+            case FolderType.Outbox:         return "Outbox";
+            case FolderType.Outfit:         return "Outfits";
+            case FolderType.VMMListings:    return "VMM Listings";
+            case FolderType.VMMStocks:      return "VMM Stocks";
+            case FolderType.VMMVersions:    return "VMM Versions";
+                
+            default:
+                return "Unknown folder";
+            }
+        }
+
     }
 }

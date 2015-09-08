@@ -1,5 +1,5 @@
-/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
+﻿/*
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,37 +25,48 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Resources;
 
-// General information about an assembly is controlled through the following
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
-
+/// <summary>
+/// General Information about an assembly is controlled through the following 
+/// set of attributes. Change these attribute values to modify the information
+/// associated with an assembly.
+/// </summary>
 [assembly: AssemblyTitle("Vision.Framework")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("http://Vision-sim.org")]
-[assembly: AssemblyCopyright("(C) Vision-Sim.org Developers")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("Vision.Framework")]
+[assembly: AssemblyCopyright("Copyright © 2015-2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-// Setting ComVisible to false makes the types in this assembly not visible
-// to COM components.  If you need to access a type in this assembly from
-// COM, set the ComVisible attribute to true on that type.
-
+/// <summary>
+/// Setting ComVisible to false makes the types in this assembly not visible 
+/// to COM components.  If you need to access a type in this assembly from 
+/// COM, set the ComVisible attribute to true on that type.
+/// </summary>
 [assembly: ComVisible(false)]
 
-// The following GUID is for the ID of the typelib if this project is exposed to COM
+/// <summary>
+/// The following GUID is for the ID of the typelib if this project is exposed to COM
+/// </summary>
+[assembly: Guid("269c99ff-0740-4886-8593-7527903090bf")]
 
-[assembly: Guid("a08e20c7-f191-4137-b1f0-9291408fa521")]
-
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version
-//      Build Number
-//      Revision
-//
-
+/// <summary>
+/// Version information for an assembly consists of the following four values:
+/// 
+///     Major Version
+///     Minor Version 
+///     Build Number
+///     Revision
+/// 
+/// You can specify all the values or you can default the Build and Revision Numbers 
+/// by using the '*' as shown below:
+/// [assembly: AssemblyVersion("1.0.*")]
+/// </summary>
 [assembly: AssemblyVersion("1.0.1.*")]
+[assembly: NeutralResourcesLanguageAttribute("en")]

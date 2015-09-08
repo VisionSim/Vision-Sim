@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -28,12 +28,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Vision.Framework.Modules;
-using Vision.Framework.PresenceInfo;
-using Vision.Framework.SceneInfo;
 using Nini.Config;
 using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Modules;
+using Vision.Framework.PresenceInfo;
+using Vision.Framework.SceneInfo;
 using Vision.Framework.Utilities;
 
 namespace Vision.Modules.VisitorLogger
@@ -46,7 +46,7 @@ namespace Vision.Modules.VisitorLogger
         #region Declares
 
         protected bool m_enabled;
-        protected string m_fileName = "Vistors.log";
+        protected string m_fileName = "";
         protected Dictionary<UUID, DateTime> m_timesOfUsers = new Dictionary<UUID, DateTime>();
 
         #endregion
@@ -60,11 +60,6 @@ namespace Vision.Modules.VisitorLogger
             {
                 m_enabled = config.GetBoolean("Enabled", m_enabled);
                 m_fileName = config.GetString("FileName", m_fileName);
-
-                // verify path details
-                string filePath = Path.GetDirectoryName (m_fileName);
-                if (filePath == "")
-                    m_fileName = Path.Combine (Constants.DEFAULT_DATA_DIR, m_fileName);
             }
         }
 
@@ -76,8 +71,16 @@ namespace Vision.Modules.VisitorLogger
         {
             if (m_enabled)
             {
+                // verify log location
+                if (m_fileName == "")
+                {
+                    var simBase = scene.RequestModuleInterface<ISimulationBase> ();
+                    m_fileName = Path.Combine(simBase.DefaultDataPath, "Vistors.log");
+                }
+                
                 scene.EventManager.OnMakeRootAgent += OnMakeRootAgent;
                 scene.EventManager.OnClosingClient += EventManager_OnClosingClient;
+
             }
         }
 

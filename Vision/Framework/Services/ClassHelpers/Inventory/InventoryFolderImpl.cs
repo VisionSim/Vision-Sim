@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -44,7 +44,7 @@ namespace Vision.Framework.Services.ClassHelpers.Inventory
         /// <summary>
         ///     Child folders that are contained in this folder
         /// </summary>
-        private Dictionary<UUID, InventoryFolderImpl> m_childFolders = new Dictionary<UUID, InventoryFolderImpl>();
+        Dictionary<UUID, InventoryFolderImpl> m_childFolders = new Dictionary<UUID, InventoryFolderImpl>();
 
         // Constructors
         public InventoryFolderImpl(InventoryFolderBase folderbase)
@@ -91,7 +91,7 @@ namespace Vision.Framework.Services.ClassHelpers.Inventory
                                                           Name = folderName,
                                                           ID = folderID,
                                                           Type = (short) type,
-                                                          ParentID = this.ID,
+                                                          ParentID = ID,
                                                           Owner = Owner
                                                       };
                     m_childFolders.Add(subFold.ID, subFold);
@@ -294,7 +294,7 @@ namespace Vision.Framework.Services.ClassHelpers.Inventory
         /// </summary>
         /// <param name="type"></param>
         /// <returns>Returns null if no such folder is found</returns>
-        public InventoryFolderImpl FindFolderForType(int type)
+        public InventoryFolderImpl FindFolderForType(short type)
         {
             lock (m_childFolders)
             {

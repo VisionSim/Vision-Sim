@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,11 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Text;
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Services;
-using OpenMetaverse;
-using System.Text;
 
 namespace Vision.Modules.Archivers
 {
@@ -100,7 +100,7 @@ namespace Vision.Modules.Archivers
 
                 if (tupleSeparatorIndex < 0)
                 {
-                    MainConsole.Instance.WarnFormat("[OSP RESOLVER]: Ignoring non-tuple component {0} in OSPA {1}",
+                    MainConsole.Instance.WarnFormat("[OSP Resolver]: Ignoring non-tuple component {0} in OSPA {1}",
                                                     tuple, ospa);
                     continue;
                 }
@@ -143,7 +143,7 @@ namespace Vision.Modules.Archivers
 
             if (nameSeparatorIndex < 0)
             {
-                MainConsole.Instance.WarnFormat("[OSP RESOLVER]: Ignoring un-separated name {0}", name);
+                MainConsole.Instance.WarnFormat("[OSP Resolver: Ignoring un-separated name {0}", name);
                 return UUID.Zero;
             }
 

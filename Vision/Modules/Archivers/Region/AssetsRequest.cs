@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -26,22 +26,22 @@
  */
 
 
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Services;
-using Vision.Framework.Services.ClassHelpers.Assets;
-using Vision.Framework.Utilities;
-using OpenMetaverse;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
+using OpenMetaverse;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Services;
+using Vision.Framework.Services.ClassHelpers.Assets;
+using Vision.Framework.Utilities;
 
 namespace Vision.Modules.Archivers
 {
     /// <summary>
     ///     Encapsulate the asynchronous requests for the assets required for an archive operation
     /// </summary>
-    internal class AssetsRequest
+    class AssetsRequest
     {
         /// <value>
         ///     Timeout threshold if we still need assets or missing asset notifications but have stopped receiving them
@@ -86,7 +86,7 @@ namespace Vision.Modules.Archivers
         /// <value>
         ///     State of this request
         /// </value>
-        private RequestState m_requestState = RequestState.Initial;
+        RequestState m_requestState = RequestState.Initial;
 
         /// <value>
         ///     uuids to request
@@ -111,7 +111,7 @@ namespace Vision.Modules.Archivers
         {
             m_requestState = RequestState.Running;
 
-            MainConsole.Instance.DebugFormat("[ARCHIVER]: AssetsRequest executed looking for {0} assets",
+            MainConsole.Instance.DebugFormat("[Archiver]: AssetsRequest executed looking for {0} assets",
                                              m_repliesRequired);
 
             // We can stop here if there are no assets to fetch
@@ -159,12 +159,12 @@ namespace Vision.Modules.Archivers
                 }
 
                 MainConsole.Instance.ErrorFormat(
-                    "[ARCHIVER]: Asset service failed to return information about {0} requested assets", uuids.Count);
+                    "[Archiver]: Asset service failed to return information about {0} requested assets", uuids.Count);
 
                 int i = 0;
                 foreach (UUID uuid in uuids)
                 {
-                    MainConsole.Instance.ErrorFormat("[ARCHIVER]: No information about asset {0} received", uuid);
+                    MainConsole.Instance.ErrorFormat("[Archiver]: No information about asset {0} received", uuid);
 
                     if (++i >= MAX_UUID_DISPLAY_ON_TIMEOUT)
                         break;
@@ -172,13 +172,13 @@ namespace Vision.Modules.Archivers
 
                 if (uuids.Count > MAX_UUID_DISPLAY_ON_TIMEOUT)
                     MainConsole.Instance.ErrorFormat(
-                        "[ARCHIVER]: (... {0} more not shown)", uuids.Count - MAX_UUID_DISPLAY_ON_TIMEOUT);
+                        "[Archiver]: (... {0} more not shown)", uuids.Count - MAX_UUID_DISPLAY_ON_TIMEOUT);
 
-                MainConsole.Instance.Error("[ARCHIVER]: OAR save aborted.");
+                MainConsole.Instance.Error("[Archiver]: OAR save aborted.");
             }
             catch (Exception e)
             {
-                MainConsole.Instance.ErrorFormat("[ARCHIVER]: Timeout handler exception {0}", e);
+                MainConsole.Instance.ErrorFormat("[Archiver]: Timeout handler exception {0}", e);
             }
             finally
             {
@@ -192,7 +192,7 @@ namespace Vision.Modules.Archivers
             if (fetchedAsset != null && fetchedAsset.Type == (sbyte) AssetType.Unknown)
             {
                 AssetType type = (AssetType) assetType;
-                MainConsole.Instance.InfoFormat("[ARCHIVER]: Rewriting broken asset type for {0} to {1}",
+                MainConsole.Instance.InfoFormat("[Archiver]: Rewriting broken asset type for {0} to {1}",
                                                 fetchedAsset.ID, type);
                 fetchedAsset.Type = (sbyte) type;
             }
@@ -219,7 +219,7 @@ namespace Vision.Modules.Archivers
                     if (m_requestState == RequestState.Aborted)
                     {
                         MainConsole.Instance.WarnFormat(
-                            "[ARCHIVER]: Received information about asset {0} after archive save abortion.  Ignoring.",
+                            "[Archiver]: Received information about asset {0} after archive save abortion.  Ignoring.",
                             assetID);
 
                         return;
@@ -227,13 +227,13 @@ namespace Vision.Modules.Archivers
 
                     if (asset != null)
                     {
-//                        MainConsole.Instance.DebugFormat("[ARCHIVER]: Writing asset {0}", id);
+//                        MainConsole.Instance.DebugFormat("[Archiver]: Writing asset {0}", id);
                         m_foundAssetUuids.Add(asset.ID);
                         m_assetsArchiver.WriteAsset(asset);
                     }
                     else
                     {
-//                        MainConsole.Instance.DebugFormat("[ARCHIVER]: Recording asset {0} as not found", id);
+//                        MainConsole.Instance.DebugFormat("[Archiver]: Recording asset {0} as not found", id);
                         m_notFoundAssetUuids.Add(new UUID(assetID));
                     }
 
@@ -242,7 +242,7 @@ namespace Vision.Modules.Archivers
                         m_requestState = RequestState.Completed;
 
                         MainConsole.Instance.InfoFormat(
-                            "[ARCHIVER]: Successfully added {0} assets ({1} assets notified missing)",
+                            "[Archiver]: Successfully added {0} assets ({1} assets notified missing)",
                             m_foundAssetUuids.Count, m_notFoundAssetUuids.Count);
 
                         // We want to stop using the asset cache thread asap 
@@ -255,7 +255,7 @@ namespace Vision.Modules.Archivers
             }
             catch (Exception e)
             {
-                MainConsole.Instance.ErrorFormat("[ARCHIVER]: AssetRequestCallback failed with {0}", e);
+                MainConsole.Instance.ErrorFormat("[Archiver]: AssetRequestCallback failed with {0}", e);
             }
         }
 
@@ -271,13 +271,13 @@ namespace Vision.Modules.Archivers
             catch (Exception e)
             {
                 MainConsole.Instance.ErrorFormat(
-                    "[ARCHIVER]: Terminating archive creation since asset requster callback failed with {0}", e);
+                    "[Archiver]: Terminating archive creation since asset requster callback failed with {0}", e);
             }
         }
 
         #region Nested type: RequestState
 
-        private enum RequestState
+        enum RequestState
         {
             Initial,
             Running,

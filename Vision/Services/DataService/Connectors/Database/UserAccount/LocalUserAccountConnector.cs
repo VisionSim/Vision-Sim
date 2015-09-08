@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -51,7 +51,7 @@ namespace Vision.Services.DataService
         public void Initialize(IGenericData GenericData, IConfigSource source, IRegistryCore simBase,
                                string defaultConnectionString)
         {
-            if (source.Configs["WhiteCoreConnectors"].GetString("AbuseReportsConnector", "LocalConnector") ==
+            if (source.Configs["UniverseConnectors"].GetString("AbuseReportsConnector", "LocalConnector") ==
                 "LocalConnector")
             {
                 GD = GenericData;
@@ -62,7 +62,7 @@ namespace Vision.Services.DataService
 
                 if (GD != null)
                     GD.ConnectToDatabase(connectionString, "UserAccounts",
-                                         source.Configs["WhiteCoreConnectors"].GetBoolean("ValidateTables", true));
+                                         source.Configs["UniverseConnectors"].GetBoolean("ValidateTables", true));
 
                 Framework.Utilities.DataManager.RegisterPlugin(this);
             }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,19 +25,18 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Modules;
-using Vision.Framework.Physics;
-using Vision.Framework.SceneInfo;
-using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Timers;
 using System.Windows.Forms;
+using Nini.Config;
+using OpenMetaverse;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Modules;
+using Vision.Framework.Physics;
+using Vision.Framework.SceneInfo;
+using Vision.Framework.Utilities;
 using Timer = System.Timers.Timer;
 
 namespace Vision.Modules.SimProtection
@@ -223,7 +222,7 @@ namespace Vision.Modules.SimProtection
 
         protected virtual void PhysicsStatsCommand(IScene scene, string[] cmd)
         {
-            if (cmd.Length == 3)
+            if (cmd.Length < 3)
             {
                 if (m_Scene.RegionInfo.RegionName != cmd[2])
                     return;
@@ -271,7 +270,7 @@ namespace Vision.Modules.SimProtection
             thread.Start(new List<IScene>() {m_Scene});
         }
 
-        private void StartThread(object scenes)
+        void StartThread(object scenes)
         {
             Culture.SetCurrentCulture();
             try

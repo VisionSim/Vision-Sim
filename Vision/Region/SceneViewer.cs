@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -119,10 +119,10 @@ namespace Vision.Region
             m_presence.OnSignificantClientMovement += SignificantClientMovement;
             m_presence.Scene.EventManager.OnMakeChildAgent += EventManager_OnMakeChildAgent;
             m_scene.EventManager.OnClosingClient += EventManager_OnClosingClient;
-            m_presence.Scene.WhiteCoreEventManager.RegisterEventHandler("DrawDistanceChanged",
-                                                                     WhiteCoreEventManager_OnGenericEvent);
-            m_presence.Scene.WhiteCoreEventManager.RegisterEventHandler("SignficantCameraMovement",
-                                                                     WhiteCoreEventManager_OnGenericEvent);
+            m_presence.Scene.UniverseEventManager.RegisterEventHandler("DrawDistanceChanged",
+                                                                     UniverseEventManager_OnGenericEvent);
+            m_presence.Scene.UniverseEventManager.RegisterEventHandler("SignficantCameraMovement",
+                                                                     UniverseEventManager_OnGenericEvent);
             m_prioritizer = new Prioritizer(presence.Scene);
             m_culler = new Culler(presence.Scene);
         }
@@ -139,7 +139,7 @@ namespace Vision.Region
             RemoveAvatarFromView(presence);
         }
 
-        private object WhiteCoreEventManager_OnGenericEvent(string FunctionName, object parameters)
+        private object UniverseEventManager_OnGenericEvent(string FunctionName, object parameters)
         {
             if (m_culler != null && m_culler.UseCulling && FunctionName == "DrawDistanceChanged")
             {
@@ -904,10 +904,10 @@ namespace Vision.Region
             m_presence.OnSignificantClientMovement -= SignificantClientMovement;
             m_presence.Scene.EventManager.OnMakeChildAgent -= EventManager_OnMakeChildAgent;
             m_scene.EventManager.OnClosingClient -= EventManager_OnClosingClient;
-            m_presence.Scene.WhiteCoreEventManager.UnregisterEventHandler("DrawDistanceChanged",
-                                                                       WhiteCoreEventManager_OnGenericEvent);
-            m_presence.Scene.WhiteCoreEventManager.UnregisterEventHandler("SignficantCameraMovement",
-                                                                       WhiteCoreEventManager_OnGenericEvent);
+            m_presence.Scene.UniverseEventManager.UnregisterEventHandler("DrawDistanceChanged",
+                                                                       UniverseEventManager_OnGenericEvent);
+            m_presence.Scene.UniverseEventManager.UnregisterEventHandler("SignficantCameraMovement",
+                                                                       UniverseEventManager_OnGenericEvent);
             m_presence = null;
         }
 

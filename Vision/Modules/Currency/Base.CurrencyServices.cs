@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org//
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -106,7 +106,7 @@ namespace Vision.Modules.Currency
 
 
             // these are only valid if we are local
-            if (!m_connector.DoRemoteCalls)
+            if (!m_connector.IsLocalConnector)
             {
                 m_userInfoService = m_registry.RequestModuleInterface<IAgentInfoService> ();
                 m_userAccountService = m_registry.RequestModuleInterface<IUserAccountService> ();
@@ -191,7 +191,7 @@ namespace Vision.Modules.Currency
         }
 
         public bool IsLocal {
-            get { return !m_connector.DoRemoteCalls; }
+            get { return !m_connector.IsLocalConnector; }
         }
 
         public int UploadCharge {

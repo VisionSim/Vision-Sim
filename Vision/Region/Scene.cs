@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,6 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.Physics;
@@ -34,11 +39,6 @@ using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Other;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using System;
-using System.Collections.Generic;
-using System.Threading;
 
 namespace Vision.Region
 {
@@ -46,7 +46,7 @@ namespace Vision.Region
     {
         #region Fields
 
-        private readonly List<ISceneEntity> m_PhysicsReturns = new List<ISceneEntity>();
+        readonly List<ISceneEntity> m_PhysicsReturns = new List<ISceneEntity>();
 
         public List<ISceneEntity> PhysicsReturns
         {
@@ -58,7 +58,7 @@ namespace Vision.Region
         /// <value>
         ///     The scene graph for this scene
         /// </value>
-        private SceneGraph m_sceneGraph;
+        SceneGraph m_sceneGraph;
 
         protected readonly ClientManager m_clientManager = new ClientManager();
 
@@ -74,7 +74,7 @@ namespace Vision.Region
             get { return m_clientServers; }
         }
 
-        protected WhiteCoreEventManager m_WhiteCoreEventManager = null;
+        protected UniverseEventManager m_UniverseEventManager;
         protected EventManager m_eventManager;
 
         /// <value>
@@ -89,12 +89,12 @@ namespace Vision.Region
         /// <summary>
         ///     Generic manager to send and receive events. Used mainly by region modules
         /// </summary>
-        public WhiteCoreEventManager WhiteCoreEventManager
+        public UniverseEventManager UniverseEventManager
         {
-            get { return m_WhiteCoreEventManager; }
+            get { return m_UniverseEventManager; }
         }
 
-        private ISceneManager m_sceneManager;
+        ISceneManager m_sceneManager;
 
         public ISceneManager SceneManager
         {
@@ -126,23 +126,23 @@ namespace Vision.Region
             protected set;
         }
 
-        private float m_basesimfps = 45f;
-        private float m_basesimphysfps = 45f;
+        float m_basesimfps = 45f;
+        float m_basesimphysfps = 45f;
 
         protected float m_updatetimespan = 0.022f;
         protected float m_physicstimespan = 0.022f;
         protected DateTime m_lastphysupdate = DateTime.UtcNow;
 
-        private const int m_update_physics = 1; //Trigger the physics update
-        private const int m_update_entities = 5; // Send prim updates for clients
-        private const int m_update_events = 1; //Trigger the OnFrame event and tell any modules about the new frame
+        const int m_update_physics = 1; //Trigger the physics update
+        const int m_update_entities = 5; // Send prim updates for clients
+        const int m_update_events = 1; //Trigger the OnFrame event and tell any modules about the new frame
 
-        private const int m_update_coarse_locations = 30;
+        const int m_update_coarse_locations = 30;
                           //Trigger the sending of coarse location updates (minimap updates)
 
-        private volatile bool shuttingdown = false;
+        volatile bool shuttingdown;
 
-        private bool m_ShouldRunHeartbeat = true;
+        bool m_ShouldRunHeartbeat = true;
 
         public bool ShouldRunHeartbeat
         {
@@ -289,7 +289,7 @@ namespace Vision.Region
             m_config = m_sceneManager.ConfigSource;
             m_authenticateHandler = authen;
 
-            m_WhiteCoreEventManager = new WhiteCoreEventManager();
+            m_UniverseEventManager = new UniverseEventManager();
             m_eventManager = new EventManager();
             m_permissions = new ScenePermissions(this);
 
@@ -365,7 +365,7 @@ namespace Vision.Region
                                                  avatar.ControllingClient.Kick("The simulator is going down.");
                                          });
 
-                //Let things process and get sent for a bit
+                // Let things process and get sent for a bit
                 Thread.Sleep(1000);
 
                 IEntityTransferModule transferModule = RequestModuleInterface<IEntityTransferModule>();
@@ -384,7 +384,10 @@ namespace Vision.Region
 
             m_sceneGraph.Close();
             foreach (IClientNetworkServer clientServer in m_clientServers)
-                clientServer.Stop();
+            {
+                clientServer.Stop ();
+                Thread.Sleep (500);
+            }
         }
 
         #endregion
@@ -399,6 +402,8 @@ namespace Vision.Region
             if (!ShouldRunHeartbeat) //Allow for the heartbeat to not be used
                 return;
 
+            // dely a bit to ensure everything is stable
+            Thread.Sleep(1000);
             try
             {
                 foreach (IClientNetworkServer clientServer in m_clientServers)
@@ -407,7 +412,7 @@ namespace Vision.Region
             catch
             {
                 MainConsole.Instance.WarnFormat("[Scene]: Could not start UDP server on port {0}, is this port already in use?", RegionInfo.RegionPort);
-                RegionInfo.RegionPort = int.Parse(MainConsole.Instance.Prompt("Region Port: "));
+                RegionInfo.RegionPort = int.Parse(MainConsole.Instance.Prompt("Region Port", RegionInfo.RegionPort.ToString()));
                 foreach (IClientNetworkServer clientServer in m_clientServers)
                     clientServer.UpdatePort((uint)RegionInfo.RegionPort);
                 StartHeartbeat();
@@ -415,15 +420,16 @@ namespace Vision.Region
             }
 
             new Thread(Heartbeat).Start();
+            Thread.Sleep(500);
         }
 
         #endregion
 
         #region Scene Heartbeat Methods
 
-        private bool m_lastPhysicsChange = false;
+        bool m_lastPhysicsChange;
 
-        private void Heartbeat()
+        void Heartbeat()
         {
             IMonitorModule monitorModule = RequestModuleInterface<IMonitorModule>();
             ISimFrameMonitor simFrameMonitor = monitorModule.GetMonitor<ISimFrameMonitor>(this);
@@ -581,14 +587,14 @@ namespace Vision.Region
             }
         }
 
-        private bool ApproxEquals(float a, float b, int approx)
+        static bool ApproxEquals(float a, float b, int approx)
         {
             return (a - b + approx) > 0;
         }
 
-        private AveragingClass m_heartbeatList = new AveragingClass(50);
+        AveragingClass m_heartbeatList = new AveragingClass(50);
 
-        private int GetHeartbeatSleepTime(int timeBeatTook)
+        int GetHeartbeatSleepTime(int timeBeatTook)
         {
             //Add it to the list of the last 50 heartbeats
 
@@ -666,7 +672,6 @@ namespace Vision.Region
         ///     Tell a single agent to disconnect from the region.
         ///     Does not send the DisableSimulator EQM or close child agents
         /// </summary>
-        /// <param name="?"></param>
         /// <param name="presence"></param>
         /// <param name="forceClose"></param>
         /// <returns></returns>
@@ -841,8 +846,8 @@ namespace Vision.Region
 
         #region Startup Complete
 
-        private readonly List<string> StartupCallbacks = new List<string>();
-        private readonly List<string> StartupData = new List<string>();
+        readonly List<string> StartupCallbacks = new List<string>();
+        readonly List<string> StartupData = new List<string>();
 
         /// <summary>
         ///     Add a module to the startup queue

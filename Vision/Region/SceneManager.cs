@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -114,7 +114,7 @@ namespace Vision.Region
                 name = simConfig.GetString("DatabaseLoaderName", "FileBasedDatabase");
             }
 
-            ISimulationDataStore[] stores = VisionModuleLoader.PickupModules<ISimulationDataStore>().ToArray();
+            ISimulationDataStore[] stores = UniverseModuleLoader.PickupModules<ISimulationDataStore>().ToArray();
             
             List<string> storeNames = new List<string>();
             foreach (ISimulationDataStore store in stores)
@@ -140,7 +140,7 @@ namespace Vision.Region
             AddConsoleCommands();
 
             //Load the startup modules for the region
-            m_startupPlugins = VisionModuleLoader.PickupModules<ISharedRegionStartupModule>();
+            m_startupPlugins = UniverseModuleLoader.PickupModules<ISharedRegionStartupModule>();
         }
 
         public void ReloadConfiguration(IConfigSource config)
@@ -150,11 +150,11 @@ namespace Vision.Region
             foreach (IScene scene in m_scenes)
             {
                 scene.Config = config;
-                scene.PhysicsScene.PostInitialise(config);
+                scene.PhysicsScene.PostInitialize(config);
             }
         }
 
-        public void PostInitialise()
+        public void PostInitialize()
         {
         }
 
@@ -221,7 +221,7 @@ namespace Vision.Region
 
             m_startupTime = m_SimBase.StartupTime;                  // finished this timing period
 
-            VisionModuleLoader.ClearCache();
+            UniverseModuleLoader.ClearCache();
             // In 99.9% of cases it is a bad idea to manually force garbage collection. However,
             // this is a rare case where we know we have just went through a long cycle of heap
             // allocations, and there is no more work to be done until someone logs in
@@ -229,6 +229,7 @@ namespace Vision.Region
         }
 
         #endregion
+
 
         #region Add a region
 
@@ -260,8 +261,10 @@ namespace Vision.Region
         public void StartRegion(ISimulationDataStore simData, RegionInfo regionInfo)
         {
             MainConsole.Instance.InfoFormat("[SceneManager]: Starting region \"{0}\" at @ {1},{2}",
-                                            regionInfo.RegionName,
-                                            regionInfo.RegionLocX/256, regionInfo.RegionLocY/256);
+                regionInfo.RegionName,
+                regionInfo.RegionLocX/Constants.RegionSize,
+                regionInfo.RegionLocY/Constants.RegionSize);
+            
             ISceneLoader sceneLoader = m_SimBase.ApplicationRegistry.RequestModuleInterface<ISceneLoader>();
             if (sceneLoader == null)
                 throw new Exception("No Scene Loader Interface!");
@@ -282,7 +285,7 @@ namespace Vision.Region
             if (OnFinishedAddingScene != null)
                 OnFinishedAddingScene(scene);
 
-            //Start the heartbeats
+           //Start the heartbeats
             scene.StartHeartbeat();
             //Tell the scene that the startup is complete 
             // Note: this event is added in the scene constructor
@@ -470,7 +473,7 @@ namespace Vision.Region
             //Then finish the rest of the SharedRegionStartupModules
             foreach (ISharedRegionStartupModule module in m_startupPlugins)
             {
-                module.PostInitialise(scene, m_config, m_SimBase);
+                module.PostInitialize(scene, m_config, m_SimBase);
             }
             foreach (ISharedRegionStartupModule module in m_startupPlugins)
             {
@@ -1418,13 +1421,13 @@ namespace Vision.Region
 
         public List<string> GetOARFilenames()
         {
-            var defaultOarDir = Constants.DEFAULT_OARARCHIVE_DIR;
+            var defaultOarDir =  Path.Combine(m_SimBase.DefaultDataPath, Constants.DEFAULT_OARARCHIVE_DIR);
             var retVals = new List<string>();
 
             if (Directory.Exists (defaultOarDir))
             {
-                var archives = new List<string> (Directory.GetFiles (Constants.DEFAULT_OARARCHIVE_DIR, "*.oar"));
-                archives.AddRange (new List<string> (Directory.GetFiles (Constants.DEFAULT_OARARCHIVE_DIR, "*.tgz")));
+                var archives = new List<string> (Directory.GetFiles (defaultOarDir, "*.oar"));
+                archives.AddRange (new List<string> (Directory.GetFiles (defaultOarDir, "*.tgz")));
                 foreach (string file in archives)
                     retVals.Add (Path.GetFileNameWithoutExtension (file));
             }
@@ -1478,7 +1481,8 @@ namespace Vision.Region
 				return;
 			}
 
-            fileName = PathHelpers.VerifyReadFile (fileName, new List<string>() {".oar","tgz"}, Constants.DEFAULT_OARARCHIVE_DIR);
+            var defaultOarPath = Path.Combine(m_SimBase.DefaultDataPath, Constants.DEFAULT_OARARCHIVE_DIR);
+            fileName = PathHelpers.VerifyReadFile (fileName, new List<string>() {".oar","tgz"}, defaultOarPath);
             if (fileName == "")                 // something wrong...
                 return;
             cmdparams [2] = fileName;           // reset passed filename
@@ -1553,7 +1557,8 @@ namespace Vision.Region
             else
                 fileName = cmdparams[2];
 
-            fileName = PathHelpers.VerifyWriteFile (fileName, ".oar", Constants.DEFAULT_OARARCHIVE_DIR, true);
+            var defaultOarPath = Path.Combine (m_SimBase.DefaultDataPath, Constants.DEFAULT_OARARCHIVE_DIR);
+            fileName = PathHelpers.VerifyWriteFile (fileName, ".oar", defaultOarPath, true);
             if (fileName == "")                 // something wrong...
                 return;
             cmdparams [2] = fileName;           // reset passed filename

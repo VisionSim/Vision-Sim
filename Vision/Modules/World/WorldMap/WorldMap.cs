@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -50,7 +50,7 @@ using RegionFlags = Vision.Framework.Services.RegionFlags;
 
 namespace Vision.Modules.WorldMap
 {
-    public class WhiteCoreWorldMapModule : INonSharedRegionModule, IWorldMapModule
+    public class UniverseWorldMapModule : INonSharedRegionModule, IWorldMapModule
     {
         const string DEFAULT_WORLD_MAP_EXPORT_PATH = "exportmap.jpg";
 
@@ -62,8 +62,8 @@ namespace Vision.Modules.WorldMap
 
         readonly ConcurrentQueue<MapItemRequester> m_itemsToRequest = new ConcurrentQueue<MapItemRequester>();
         bool itemRequesterIsRunning;
-        static WhiteCoreThreadPool threadpool;
-        static WhiteCoreThreadPool blockthreadpool;
+        static UniverseThreadPool threadpool;
+        static UniverseThreadPool blockthreadpool;
         int MapViewLength = 8;
 
         #region INonSharedRegionModule Members
@@ -73,8 +73,8 @@ namespace Vision.Modules.WorldMap
             if (source.Configs["MapModule"] != null)
             {
                 if (source.Configs["MapModule"].GetString(
-                    "WorldMapModule", "WhiteCoreWorldMapModule") !=
-                    "WhiteCoreWorldMapModule")
+                    "WorldMapModule", "UniverseWorldMapModule") !=
+                    "UniverseWorldMapModule")
                     return;
                 m_Enabled = true;
                 MapViewLength = source.Configs["MapModule"].GetInt("MapViewLength", MapViewLength);
@@ -106,10 +106,10 @@ namespace Vision.Modules.WorldMap
             if (!m_Enabled)
                 return;
 
-            WhiteCoreThreadPoolStartInfo info = new WhiteCoreThreadPoolStartInfo
+            UniverseThreadPoolStartInfo info = new UniverseThreadPoolStartInfo
                                                  {priority = ThreadPriority.Lowest, Threads = 1};
-            threadpool = new WhiteCoreThreadPool(info);
-            blockthreadpool = new WhiteCoreThreadPool(info);
+            threadpool = new UniverseThreadPool(info);
+            blockthreadpool = new UniverseThreadPool(info);
         }
 
         public virtual void Close()
@@ -123,7 +123,7 @@ namespace Vision.Modules.WorldMap
 
         public virtual string Name
         {
-            get { return "WhiteCoreWorldMapModule"; }
+            get { return "UniverseWorldMapModule"; }
         }
 
         #endregion

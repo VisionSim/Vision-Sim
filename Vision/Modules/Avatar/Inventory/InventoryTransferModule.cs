@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -41,12 +41,11 @@ namespace Vision.Modules.Inventory
 {
     public class InventoryTransferModule : INonSharedRegionModule
     {
-        //private IScene m_Scene;
-        private readonly List<IScene> m_Scenelist = new List<IScene>();
+        readonly List<IScene> m_Scenelist = new List<IScene>();
 
-        private bool m_Enabled = true;
-        private IMessageTransferModule m_TransferModule;
-        private IMoneyModule moneyService;
+        bool m_Enabled = true;
+        IMessageTransferModule m_TransferModule;
+        IMoneyModule moneyService;
 
         #region INonSharedRegionModule Members
 
@@ -71,7 +70,6 @@ namespace Vision.Modules.Inventory
             if (!m_Enabled)
                 return;
 
-            //m_Scene = scene;
             m_Scenelist.Add(scene);
 
             scene.RegisterModuleInterface(this);
@@ -89,14 +87,12 @@ namespace Vision.Modules.Inventory
             if (m_TransferModule == null)
             {
                 m_TransferModule = m_Scenelist[0].RequestModuleInterface<IMessageTransferModule>();
-//                m_TransferModule = m_Scene.RequestModuleInterface<IMessageTransferModule>();
                 if (m_TransferModule == null)
                 {
                     MainConsole.Instance.Error(
                         "[INVENTORY TRANSFER]: No Message transfer module found, transfers will be local only");
                     m_Enabled = false;
 
-                    //m_Scene = null;
                     m_Scenelist.Clear();
                     scene.EventManager.OnNewClient -= OnNewClient;
                     scene.EventManager.OnClosingClient -= OnClosingClient;
@@ -107,8 +103,6 @@ namespace Vision.Modules.Inventory
 
         public void RemoveRegion(IScene scene)
         {
-            //m_Scene = null;
-
             scene.EventManager.OnNewClient -= OnNewClient;
             scene.EventManager.OnClosingClient -= OnClosingClient;
             scene.EventManager.OnIncomingInstantMessage -= OnGridInstantMessage;
@@ -131,18 +125,18 @@ namespace Vision.Modules.Inventory
 
         #endregion
 
-        private void OnNewClient(IClientAPI client)
+        void OnNewClient(IClientAPI client)
         {
             // Inventory giving is conducted via instant message
             client.OnInstantMessage += OnInstantMessage;
         }
 
-        private void OnClosingClient(IClientAPI client)
+        void OnClosingClient(IClientAPI client)
         {
             client.OnInstantMessage -= OnInstantMessage;
         }
 
-        private IScene FindClientScene(UUID agentId)
+        IScene FindClientScene(UUID agentId)
         {
             lock (m_Scenelist)
             {
@@ -156,7 +150,7 @@ namespace Vision.Modules.Inventory
             return null;
         }
 
-        private void OnInstantMessage(IClientAPI client, GridInstantMessage im)
+        void OnInstantMessage(IClientAPI client, GridInstantMessage im)
         {
             //MainConsole.Instance.InfoFormat("[INVENTORY TRANSFER]: OnInstantMessage {0}", im.dialog);
             IScene clientScene = FindClientScene(client.AgentId);
@@ -316,7 +310,7 @@ namespace Vision.Modules.Inventory
                 MainConsole.Instance.DebugFormat ("[INVENTORY TRANSFER]: Declined message received");
 
                 InventoryFolderBase trashFolder =
-                    invService.GetFolderForType(client.AgentId, InventoryType.Unknown, AssetType.TrashFolder);
+                    invService.GetFolderForType(client.AgentId, InventoryType.Unknown, FolderType.Trash);
 
                 UUID inventoryID = im.SessionID; // The inventory item/folder, back from it's trip
 
@@ -385,7 +379,7 @@ namespace Vision.Modules.Inventory
         /// <summary>
         /// </summary>
         /// <param name="msg"></param>
-        private void OnGridInstantMessage(GridInstantMessage msg)
+        void OnGridInstantMessage(GridInstantMessage msg)
         {
             // Check if this is ours to handle
             //

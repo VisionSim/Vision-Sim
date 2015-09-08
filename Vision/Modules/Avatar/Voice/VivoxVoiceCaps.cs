@@ -118,7 +118,7 @@ namespace Vision.Modules
             m_registry = registry;
 
             // we need to know if the service is local 
-            IConfig wcconf = config.Configs["VisionConnectors"];
+            IConfig wcconf = config.Configs["UniverseConnectors"];
             if (wcconf == null)
                 return;                             // something major if we don't have this!!
             if (wcconf.GetBoolean("DoRemoteCalls", false))

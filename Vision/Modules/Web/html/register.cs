@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,6 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
@@ -32,10 +36,6 @@ using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Profile;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using System;
-using System.Collections.Generic;
 using RegionFlags = Vision.Framework.Services.RegionFlags;
 
 
@@ -112,10 +112,11 @@ namespace Vision.Modules.Web
             bool anonymousLogins;
 
             // allow configuration to override the web settings
-            IConfig config = webInterface.Registry.RequestModuleInterface<ISimulationBase>().ConfigSource.Configs ["LoginService"];
-            if (config != null)
+            var simBase = webInterface.Registry.RequestModuleInterface<ISimulationBase>();
+            IConfig loginServerConfig = simBase.ConfigSource.Configs["LoginService"];
+            if (loginServerConfig != null)
             {
-                anonymousLogins = config.GetBoolean ("AllowAnonymousLogin", allowRegistration);
+                anonymousLogins = loginServerConfig.GetBoolean ("AllowAnonymousLogin", allowRegistration);
                 allowRegistration = (allowRegistration || anonymousLogins);
             }
 
@@ -350,13 +351,11 @@ namespace Vision.Modules.Web
             vars.Add("AvatarArchive", avatarArchives);
 
 
-            IConfig loginServerConfig =
-                webInterface.Registry.RequestModuleInterface<ISimulationBase>().ConfigSource.Configs["LoginService"];
             string tosLocation = "";
             if (loginServerConfig != null && loginServerConfig.GetBoolean("UseTermsOfServiceOnFirstLogin", false))
             {
                 tosLocation = loginServerConfig.GetString("FileNameOfTOS", "");
-                tosLocation = PathHelpers.VerifyReadFile (tosLocation,  ".txt", Constants.DEFAULT_DATA_DIR);
+                tosLocation = PathHelpers.VerifyReadFile (tosLocation,  ".txt", simBase.DefaultDataPath);
             }
             string ToS = "There are no Terms of Service currently. This may be changed at any point in the future.";
 

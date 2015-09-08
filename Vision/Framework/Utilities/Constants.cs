@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -35,14 +35,17 @@ namespace Vision.Framework.Utilities
         // some predefined folders
         public const string DEFAULT_CONFIG_DIR = "../Config";
         public const string DEFAULT_DATA_DIR = "../Data";
-        public const string DEFAULT_ASSETCACHE_DIR = DEFAULT_DATA_DIR+"/AssetCache";
-        public const string DEFAULT_SCRIPTENGINE_DIR = DEFAULT_DATA_DIR+"/ScriptEngines";
-        public const string DEFAULT_FILEASSETS_DIR = DEFAULT_DATA_DIR+"/FileAssets";
-        public const string DEFAULT_AVATARARCHIVE_DIR = DEFAULT_DATA_DIR+"/AvatarArchives";
-        public const string DEFAULT_OARARCHIVE_DIR = DEFAULT_DATA_DIR + "/OarFiles";
-        public const string DEFAULT_USERINVENTORY_DIR = DEFAULT_DATA_DIR+"/UserArchives";
 
-        public const string DEFAULT_USERHTML_DIR = DEFAULT_DATA_DIR+"/html/";
+        // all these are relative to the default data directory,
+        // set either as above or via configuration
+        public const string DEFAULT_ASSETCACHE_DIR = "AssetCache";
+        public const string DEFAULT_SCRIPTENGINE_DIR = "ScriptEngines";
+        public const string DEFAULT_FILEASSETS_DIR = "FileAssets";
+        public const string DEFAULT_AVATARARCHIVE_DIR = "AvatarArchives";
+        public const string DEFAULT_OARARCHIVE_DIR = "OarFiles";
+        public const string DEFAULT_USERINVENTORY_DIR = "UserArchives";
+
+        public const string DEFAULT_USERHTML_DIR = "html";
 
         public const int RegionSize = 256;
         public const int RegionHeight = 10000;
@@ -63,7 +66,7 @@ namespace Vision.Framework.Utilities
 
         // System Governor Avatar Account
         public const string GovernorUUID = "3d6181b0-6a4b-97ef-18d8-722652995cf1";
-        public const string GovernorName = "Governor White";
+        public const string GovernorName = "Governor Vision";
 
         // System Estate
         public const string MainlandEstateName = "Vision Mainland";

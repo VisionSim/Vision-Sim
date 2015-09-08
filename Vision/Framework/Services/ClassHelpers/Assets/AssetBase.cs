@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,16 +25,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Diagnostics;
+using System.Security.Cryptography;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
+using ProtoBuf;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.Utilities;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
-using ProtoBuf;
-using System;
-using System.Diagnostics;
-using System.Security.Cryptography;
 
 namespace Vision.Framework.Services.ClassHelpers.Assets
 {
@@ -58,10 +58,10 @@ namespace Vision.Framework.Services.ClassHelpers.Assets
     [Serializable, ProtoContract(UseProtoMembersOnly = false)]
     public class AssetBase : IDataTransferable, IDisposable
     {
-        private static readonly SHA256Managed SHA256Managed = new SHA256Managed();
-        private string idString = "";
-        private byte[] myData = new byte[] {};
-        private string myHashCode = "";
+        static readonly SHA256Managed SHA256Managed = new SHA256Managed();
+        string idString = "";
+        byte[] myData = new byte[] {};
+        string myHashCode = "";
 
         #region Initiation
 
@@ -94,7 +94,7 @@ namespace Vision.Framework.Services.ClassHelpers.Assets
             Initiate(assetID.ToString(), name, assetType, creatorID);
         }
 
-        private void SimpleInitialize()
+        void SimpleInitialize()
         {
             DatabaseTable = "assets";
             ID = UUID.Zero;
@@ -157,10 +157,6 @@ namespace Vision.Framework.Services.ClassHelpers.Assets
                      TypeAsset == AssetType.Texture ||
                      TypeAsset == AssetType.TextureTGA ||
                      TypeAsset == AssetType.Folder ||
-                     TypeAsset == AssetType.RootFolder ||
-                     TypeAsset == AssetType.LostAndFoundFolder ||
-                     TypeAsset == AssetType.SnapshotFolder ||
-                     TypeAsset == AssetType.TrashFolder ||
                      TypeAsset == AssetType.ImageJPEG ||
                      TypeAsset == AssetType.ImageTGA ||
                      TypeAsset == AssetType.LSLBytecode);
@@ -188,14 +184,12 @@ namespace Vision.Framework.Services.ClassHelpers.Assets
             case AssetType.Bodypart:            return "Bodypart";
             case AssetType.CallingCard:         return "CallingCard";
             case AssetType.Clothing:            return "Clothing";
-            case AssetType.CurrentOutfitFolder: return "CurrentOutfit";
             case AssetType.Gesture:             return "Gesture";
             case AssetType.Landmark:            return "Landmark";
             case AssetType.LSLText:             return "Script";
             case AssetType.Mesh:                return "Mesh";
             case AssetType.Notecard:            return "Notecard";
             case AssetType.Object:              return "Object";
-            case AssetType.SnapshotFolder:      return "Photo folder";
             case AssetType.Sound:               return "Sound";
             case AssetType.Texture:             return "Texture";
             case AssetType.TextureTGA:          return "TGA Texture";

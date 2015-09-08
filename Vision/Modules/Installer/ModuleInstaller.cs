@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -379,10 +379,10 @@ namespace Vision.Modules.Installer
 
         private void LoadModulesFromDllFile(string copiedDllFile)
         {
-            List<IService> services = VisionModuleLoader.LoadPlugins<IService>(copiedDllFile);
-            List<IApplicationPlugin> appPlugins = VisionModuleLoader.LoadPlugins<IApplicationPlugin>(copiedDllFile);
+            List<IService> services = UniverseModuleLoader.LoadPlugins<IService>(copiedDllFile);
+            List<IApplicationPlugin> appPlugins = UniverseModuleLoader.LoadPlugins<IApplicationPlugin>(copiedDllFile);
             List<INonSharedRegionModule> nsregionModule =
-                VisionModuleLoader.LoadPlugins<INonSharedRegionModule>(copiedDllFile);
+                UniverseModuleLoader.LoadPlugins<INonSharedRegionModule>(copiedDllFile);
             foreach (IService service in services)
             {
                 service.Initialize(m_config, m_registry);
@@ -393,7 +393,7 @@ namespace Vision.Modules.Installer
             {
                 plugin.PreStartup(m_registry.RequestModuleInterface<ISimulationBase>());
                 plugin.Initialize(m_registry.RequestModuleInterface<ISimulationBase>());
-                plugin.PostInitialise();
+                plugin.PostInitialize();
                 plugin.Start();
                 plugin.PostStart();
             }

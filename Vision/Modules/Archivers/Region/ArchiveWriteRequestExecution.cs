@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/,  http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,17 +25,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Xml;
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Serialization;
 using Vision.Framework.Serialization.External;
-using OpenMetaverse;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Xml;
 
 namespace Vision.Modules.Archivers
 {
@@ -85,7 +85,7 @@ namespace Vision.Modules.Archivers
                 m_archiveWriter.Close();
             }
 
-            MainConsole.Instance.InfoFormat("[ARCHIVER]: Finished writing out OAR for {0}",
+            MainConsole.Instance.InfoFormat("[Archiver]: Finished writing out OAR for {0}",
                                             m_scene.RegionInfo.RegionName);
 
             m_scene.EventManager.TriggerOarFileSaved(m_requestId, String.Empty);
@@ -95,18 +95,18 @@ namespace Vision.Modules.Archivers
         {
             foreach (UUID uuid in assetsNotFoundUuids)
             {
-                MainConsole.Instance.DebugFormat("[ARCHIVER]: Could not find asset {0}", uuid);
+                MainConsole.Instance.DebugFormat("[Archiver]: Could not find asset {0}", uuid);
             }
 
 //            MainConsole.Instance.InfoFormat(
 //                "[ARCHIVER]: Received {0} of {1} assets requested",
 //                assetsFoundUuids.Count, assetsFoundUuids.Count + assetsNotFoundUuids.Count);
 
-            MainConsole.Instance.InfoFormat("[ARCHIVER]: Creating archive file.  This may take some time.");
+            MainConsole.Instance.InfoFormat("[Archiver]: Creating archive file.  This may take some time.");
 
             // Write out control file
             m_archiveWriter.WriteFile(ArchiveConstants.CONTROL_FILE_PATH, Create0p2ControlFile());
-            MainConsole.Instance.InfoFormat("[ARCHIVER]: Added control file to archive.");
+            MainConsole.Instance.InfoFormat("[Archiver]: Added control file to archive.");
 
             // Write out region settings
             string settingsPath
@@ -114,7 +114,7 @@ namespace Vision.Modules.Archivers
             m_archiveWriter.WriteFile(settingsPath,
                                       RegionSettingsSerializer.Serialize(m_scene.RegionInfo.RegionSettings));
 
-            MainConsole.Instance.InfoFormat("[ARCHIVER]: Added region settings to archive.");
+            MainConsole.Instance.InfoFormat("[Archiver]: Added region settings to archive.");
 
             // Write out land data (aka parcel) settings
             IParcelManagementModule parcelManagement = m_scene.RequestModuleInterface<IParcelManagementModule>();
@@ -124,12 +124,11 @@ namespace Vision.Modules.Archivers
                 foreach (ILandObject lo in landObjects)
                 {
                     LandData landData = lo.LandData;
-                    string landDataPath = String.Format("{0}{1}.xml", ArchiveConstants.LANDDATA_PATH,
-                                                        landData.GlobalID.ToString());
+                    string landDataPath = String.Format("{0}{1}.xml", ArchiveConstants.LANDDATA_PATH, landData.GlobalID);
                     m_archiveWriter.WriteFile(landDataPath, LandDataSerializer.Serialize(landData));
                 }
             }
-            MainConsole.Instance.InfoFormat("[ARCHIVER]: Added parcel settings to archive.");
+            MainConsole.Instance.InfoFormat("[Archiver]: Added parcel settings to archive.");
 
             // Write out terrain
             string terrainPath
@@ -140,7 +139,7 @@ namespace Vision.Modules.Archivers
             m_archiveWriter.WriteFile(terrainPath, ms.ToArray());
             ms.Close();
 
-            MainConsole.Instance.InfoFormat("[ARCHIVER]: Added terrain information to archive.");
+            MainConsole.Instance.InfoFormat("[Archiver]: Added terrain information to archive.");
 
             // Write out scene object metadata
             foreach (ISceneEntity sceneObject in m_sceneObjects)
@@ -151,7 +150,7 @@ namespace Vision.Modules.Archivers
                 m_archiveWriter.WriteFile(ArchiveHelpers.CreateObjectPath(sceneObject), serializedObject);
             }
 
-            MainConsole.Instance.InfoFormat("[ARCHIVER]: Added scene objects to archive.");
+            MainConsole.Instance.InfoFormat("[Archiver]: Added scene objects to archive.");
         }
 
         /// <summary>

@@ -1,4 +1,31 @@
-﻿namespace Vision.Modules.Web.Translators
+﻿/*
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * See CONTRIBUTORS.TXT for a full list of copyright holders.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the Vision Sim Project nor the
+ *       names of its contributors may be used to endorse or promote products
+ *       derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE DEVELOPERS ``AS IS'' AND ANY
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE CONTRIBUTORS BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+namespace Vision.Modules.Web.Translators
 {
     public class FrenchTranslation : ITranslator
     {
@@ -190,9 +217,9 @@
                 case "MenuWelcomeScreenManager": return "Gestion Ecran Bienvenue";
                 case "MenuNewsManager": return "Gestion des News";
                 case "MenuUserManager": return "Gestion Utilisateurs";
-                case "MenuFactoryReset": return "Réinitialiser";
-                case "ResetMenuInfoText": return "Réinitialise les éléments de menu aux valeurs par défaut les plus à jour";
-                case "ResetSettingsInfoText": return "Réinitialise les réglages de l'interface Web aux valeurs par défaut les plus à jour";
+                case "MenuFactoryReset": return "RéInitializer";
+                case "ResetMenuInfoText": return "RéInitialize les éléments de menu aux valeurs par défaut les plus à jour";
+                case "ResetSettingsInfoText": return "RéInitialize les réglages de l'interface Web aux valeurs par défaut les plus à jour";
                 case "MenuPageManager": return "Gestion des Pages";
                 case "MenuSettingsManager": return "Gestion des paramètres";
                 case "MenuManager": return "Gestion";
@@ -225,7 +252,7 @@
                 case "TooltipsMenuWelcomeScreenManager": return "Gestionnaire de l'Ecran de Bienvenue";
                 case "TooltipsMenuNewsManager": return "Gestionnaire des News";
                 case "TooltipsMenuUserManager": return "Gestionnaire des Utilisateurs";
-                case "TooltipsMenuFactoryReset": return "Réinitialiser";
+                case "TooltipsMenuFactoryReset": return "RéInitializer";
                 case "TooltipsMenuPageManager": return "Gestionnaire de Pages";
                 case "TooltipsMenuSettingsManager": return "Gestionnaire de paramètres";
                 case "TooltipsMenuManager": return "Gestion Administrative";
@@ -466,20 +493,20 @@
 
                 //factory_reset
                 case "FactoryReset":
-                    return "Réinitialiser";
+                    return "RéInitializer";
                 case "ResetMenuText":
-                    return "Réinitialiser les paramètres par défaut du menu";
+                    return "RéInitializer les paramètres par défaut du menu";
                 case "ResetSettingsText":
                     return "Rétablir les paramètres Web (page Gestionnaire de paramètres) par défaut";
                 case "Reset":
-                    return "Réinitialiser";
+                    return "RéInitializer";
                 case "Settings":
                     return "Paramètres";
                 case "Pages":
                     return "Pages";
                 case "DefaultsUpdated":
                     return
-                        "Mise à jour par défaut, rendez-vous sur \"Réinitialiseré\" ou \"Gestionnaire de paramètres\" pour désactiver cet avertissement.";
+                        "Mise à jour par défaut, rendez-vous sur \"RéInitializeré\" ou \"Gestionnaire de paramètres\" pour désactiver cet avertissement.";
 
                 //page_manager
                 case "PageManager":
