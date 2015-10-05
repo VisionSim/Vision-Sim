@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,15 +25,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.Modules;
-using Vision.Framework.Utilities;
+using System;
+using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
 using ProtoBuf;
-using System;
-using System.IO;
-using System.Xml.Serialization;
-using System.Xml;
+using Vision.Framework.Modules;
+using Vision.Framework.Utilities;
 
 namespace Vision.Framework.SceneInfo
 {
@@ -46,7 +46,9 @@ namespace Vision.Framework.SceneInfo
     [Serializable, ProtoContract(UseProtoMembersOnly = false)]
     public class RegionInfo : AllScopeIDImpl
     {
-        private RegionSettings m_regionSettings;
+        RegionSettings m_regionSettings;
+        UUID m_GridSecureSessionID = UUID.Zero;
+        bool m_seeIntoThisSimFromNeighbor = true;
 
         protected int m_objectCapacity = 0;
         protected string m_regionType = String.Empty;
@@ -58,8 +60,7 @@ namespace Vision.Framework.SceneInfo
         protected int m_regionPort;
         protected string m_regionTerrain = "Flatland";
         protected uint m_regionArea;
-        private UUID m_GridSecureSessionID = UUID.Zero;
-        private bool m_seeIntoThisSimFromNeighbor = true;
+
 
         [XmlIgnore]
         public bool NewRegion = false;
@@ -120,7 +121,7 @@ namespace Vision.Framework.SceneInfo
         }
 
         [ProtoMember(11)]
-        public bool InfiniteRegion = false;
+        public bool InfiniteRegion = true;
 
         [ProtoMember(13)]
         public bool SeeIntoThisSimFromNeighbor

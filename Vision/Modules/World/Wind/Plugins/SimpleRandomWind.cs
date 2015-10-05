@@ -32,6 +32,7 @@ using OpenMetaverse;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 
+
 namespace Vision.Modules.Wind.Plugins
 {
     public class SimpleRandomWind : IWindModelPlugin
@@ -52,7 +53,7 @@ namespace Vision.Modules.Wind.Plugins
             get { return "SimpleRandomWind"; }
         }
 
-        public void Initialize ()
+        public void Initialise ()
         {
         }
 
@@ -144,7 +145,7 @@ namespace Vision.Modules.Wind.Plugins
             case "strength":
                 return m_strength;
             default:
-                throw new Exception (String.Format ("Unknown {0} parameter {1}", this.Name, param));
+                throw new Exception (String.Format ("Unknown {0} parameter {1}", Name, param));
             }
         }
 

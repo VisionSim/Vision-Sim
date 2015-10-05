@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://Vision-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://whitecore-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyrightD
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -26,12 +26,12 @@
  */
 
 using System;
-using OMV = OpenMetaverse;
 using Vision.Framework.Physics;
-using Vision.Framework.Utilities;
 using Vision.Framework.SceneInfo;
+using Vision.Framework.Utilities;
+using OMV = OpenMetaverse;
 
-namespace Vision.Region.Physics.BulletSPlugin
+namespace Vision.Physics.BulletSPlugin
 {
     /*
      * Class to wrap all objects.
@@ -85,7 +85,6 @@ namespace Vision.Region.Physics.BulletSPlugin
             // Initialize variables kept in base.
             GravityMultiplier = 1.0f;
             Gravity = new OMV.Vector3(0f, 0f, BSParam.Gravity);
-            //HoverActive = false;
 
             // We don't have any physical representation yet.
             PhysBody = new BulletBody(localID);
@@ -147,11 +146,17 @@ namespace Vision.Region.Physics.BulletSPlugin
         {
             Unknown,
             Waiting,
-            Failed,
+            FailedAssetFetch,
+            FailedMeshing,
             Fetched
         }
 
         public PrimAssetCondition PrimAssetState { get; set; }
+        public virtual bool AssetFailed()
+        {
+            return ( (this.PrimAssetState == PrimAssetCondition.FailedAssetFetch)
+                  || (this.PrimAssetState == PrimAssetCondition.FailedMeshing) );
+        }
 
         // The objects base shape information. Null if not a prim type shape.
         public PrimitiveBaseShape BaseShape { get; protected set; }

@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -53,6 +53,7 @@ namespace Vision.Physics.BasicPhysicsPlugin
         public override int PhysicsActorType
         {
             get { return (int) ActorTypes.Agent; }
+            set { return; }
         }
 
         public override Vector3 RotationalVelocity { get; set; }
@@ -149,7 +150,7 @@ namespace Vision.Physics.BasicPhysicsPlugin
 
     public class BasicObjectActor : PhysicsActor
     {
-        private Vector3 _size;
+        Vector3 _size;
 
         public override bool Selected
         {
@@ -158,7 +159,8 @@ namespace Vision.Physics.BasicPhysicsPlugin
 
         public override int PhysicsActorType
         {
-            get { return (int) ActorTypes.Agent; }
+            get { return (int) ActorTypes.Agent; } 
+            set { return; }
         }
 
         public override Vector3 RotationalVelocity { get; set; }

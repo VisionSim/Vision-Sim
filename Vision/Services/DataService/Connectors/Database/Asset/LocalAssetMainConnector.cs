@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,21 +25,21 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
+using System.Data;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Assets;
-using Nini.Config;
-using OpenMetaverse;
-using System;
-using System.Collections.Generic;
-using System.Data;
 
 namespace Vision.Services.DataService.Connectors.Database.Asset
 {
     public class LocalAssetMainConnector : IAssetDataPlugin
     {
-        private IGenericData m_Gd;
+        IGenericData m_Gd;
 
         #region Implementation of IVisionDataPlugin
 
@@ -187,7 +187,7 @@ namespace Vision.Services.DataService.Connectors.Database.Asset
             }
         }
 
-        private void InsertAsset(AssetBase asset, UUID assetID)
+        void InsertAsset(AssetBase asset, UUID assetID)
         {
             int now = (int) Utils.DateTimeToUnixTime(DateTime.UtcNow);
             Dictionary<string, object> row = new Dictionary<string, object>(11);
@@ -305,7 +305,7 @@ namespace Vision.Services.DataService.Connectors.Database.Asset
             return true;
         }
 
-        private static AssetBase LoadAssetFromDataRead(IDataRecord dr)
+        static AssetBase LoadAssetFromDataRead(IDataRecord dr)
         {
             AssetBase asset = new AssetBase(dr["id"].ToString())
                                   {
@@ -349,8 +349,8 @@ namespace Vision.Services.DataService.Connectors.Database.Asset
             string temp = dr["temporary"].ToString();
             if (temp != "")
             {
-                bool tempbool = false;
-                int tempint = 0;
+                bool tempbool;
+                int tempint;
                 if (bool.TryParse(temp, out tempbool))
                 {
                     if (tempbool)

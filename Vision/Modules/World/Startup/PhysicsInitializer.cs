@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -26,11 +26,12 @@
  */
 
 using System;
-using Nini.Config;
 using Vision.Framework.Modules;
 using Vision.Framework.Physics;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Utilities;
+using Nini.Config;
+
 
 namespace Vision.Modules.Startup
 {
@@ -38,7 +39,7 @@ namespace Vision.Modules.Startup
     {
         #region ISharedRegionStartupModule Members
 
-        public void Initialize(IScene scene, IConfigSource source, ISimulationBase simBase)
+        public void Initialise(IScene scene, IConfigSource source, ISimulationBase simBase)
         {
             IConfig PhysConfig = source.Configs["Physics"];
             IConfig MeshingConfig = source.Configs["Meshing"];
@@ -73,7 +74,7 @@ namespace Vision.Modules.Startup
             scene.PhysicsScene = pScene;
         }
 
-        public void PostInitialize(IScene scene, IConfigSource source, ISimulationBase simBase)
+        public void PostInitialise(IScene scene, IConfigSource source, ISimulationBase simBase)
         {
         }
 

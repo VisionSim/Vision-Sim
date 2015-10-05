@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -1418,7 +1418,7 @@ namespace Vision.Region
             IGroupsModule module = Scene.RequestModuleInterface<IGroupsModule>();
             if (module != null)
                 if (GroupID2 != UUID.Zero && !module.GroupPermissionCheck(attemptingUserID, GroupID2, GroupPowers.None))
-                    return; // No settings to groups you arn't in
+                    return; // No settings to groups you aren't in
             foreach (SceneObjectPart part in m_partsList)
             {
                 part.SetGroup(GroupID2);
@@ -3521,7 +3521,7 @@ namespace Vision.Region
             if (IsTemporary)
             {
                 // Remove from database and parcel prim count
-                // Temporary objects arn't saved to the database ever, so we don't need to do anything
+                // Temporary objects aren't saved to the database ever, so we don't need to do anything
             }
 
             if (selectionPart != null)

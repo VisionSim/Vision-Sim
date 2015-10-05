@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -51,6 +51,7 @@ namespace Vision.Framework.Servers.HttpServer
                          (urlToAppend == "" ? "" : "/") + urlToAppend + "/index.php?method=" + methodName + secret;
             MainServer.Instance.RemoveStreamHandler("GET", "/index.php?method=" + methodName + secret);
             MainServer.Instance.RemoveStreamHandler("GET", "/index.php?method=" + methodName + secret2);
+
             variables["url"] = url;
             MainServer.Instance.AddStreamHandler(new GenericStreamHandler("GET", "/index.php?method=" + methodName + secret2,
                                                                         delegate(string path, Stream request,
@@ -81,7 +82,7 @@ namespace Vision.Framework.Servers.HttpServer
             return navUrl;
         }
 
-        private static byte[] HandleResponse(OSHttpRequest httpRequest, OSHttpResponse response, Stream stream,
+        static byte[] HandleResponse(OSHttpRequest httpRequest, OSHttpResponse response, Stream stream,
                                              string urlToAppend, Dictionary<string, object> variables,
                                              HTTPReturned eventHandler)
         {
@@ -104,7 +105,7 @@ namespace Vision.Framework.Servers.HttpServer
             return Encoding.UTF8.GetBytes(html);
         }
 
-        private static byte[] SetUpWebpage(OSHttpResponse response, string url, string html,
+        static byte[] SetUpWebpage(OSHttpResponse response, string url, string html,
                                            Dictionary<string, object> vars)
         {
             response.ContentType = "text/html";

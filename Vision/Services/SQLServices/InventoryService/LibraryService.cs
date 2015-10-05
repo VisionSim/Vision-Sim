@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -26,18 +26,18 @@
  */
 
 
+using System;
+using System.Collections.Generic;
+using System.IO;
+using Nini.Config;
+using Nini.Ini;
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.ModuleLoader;
 using Vision.Framework.Modules;
+using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Inventory;
-using Nini.Ini;
-using Nini.Config;
-using OpenMetaverse;
-using System;
-using System.IO;
-using System.Collections.Generic;
-using Vision.Framework.SceneInfo;
 using Vision.Framework.Utilities;
 
 namespace Vision.Services.SQLServices.InventoryService
@@ -131,13 +131,15 @@ namespace Vision.Services.SQLServices.InventoryService
             {
                 return;
             }
-            else if (!File.Exists("DefaultInventory/Inventory.ini") &&
-                     !File.Exists("DefaultInventory/Inventory.ini.example"))
+
+            if (!File.Exists("DefaultInventory/Inventory.ini") &&
+                !File.Exists("DefaultInventory/Inventory.ini.example"))
             {
                 MainConsole.Instance.Error(
                     "Could not find DefaultInventory/Inventory.ini or DefaultInventory/Inventory.ini.example");
                 return;
             }
+
             List<IDefaultLibraryLoader> Loaders = VisionModuleLoader.PickupModules<IDefaultLibraryLoader>();
             try
             {

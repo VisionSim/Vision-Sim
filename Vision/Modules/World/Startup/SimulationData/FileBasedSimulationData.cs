@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -105,7 +105,7 @@ namespace Vision.Modules
             _regionLoader = new ProtobufRegionDataLoader();
         }
 
-        public void Initialize()
+        public void Initialise()
         { 
             MainConsole.Instance.Commands.AddCommand (
                 "update region info", 
@@ -161,7 +161,7 @@ namespace Vision.Modules
             {
                 if (Path.GetFileName (regBak).StartsWith(regionName)) 
                 {
-                    //MainConsole.Instance.Debug ("Found: " + Path.GetFileNameWithoutExtension (regBak));
+                    //        MainConsole.Instance.Debug ("Found: " + Path.GetFileNameWithoutExtension (regBak));
                     regionBaks.Add ( regBak);
                 }
             }
@@ -256,7 +256,7 @@ namespace Vision.Modules
 
                 ForceBackup();
 
-				MainConsole.Instance.Info("[File Based Simulation Data]: Save completed.");
+				MainConsole.Instance.Info("[FileBasedSimulationData]: Save completed.");
 			}
 
 			return regionInfo;
@@ -323,68 +323,9 @@ namespace Vision.Modules
             // prompt for user input
             if (prompt)
             {
-                Utilities.MarkovNameGenerator rNames = new Utilities.MarkovNameGenerator();
-                string regionName = rNames.FirstName (m_regionNameSeed == null ? Utilities.RegionNames: m_regionNameSeed, 3,7);
-                if (info.RegionName != "")
-                    regionName = info.RegionName;
-
-                do
-                {
-                    info.RegionName = MainConsole.Instance.Prompt ("Region Name (? for suggestion)", regionName);
-                    if (info.RegionName == "" || info.RegionName == "?")
-                    {
-                        regionName = rNames.NextName;
-                        info.RegionName = "";
-                        continue;
-                    }
-                }
-                while (info.RegionName == "");
-                rNames.Reset();
-
-                info.RegionLocX =
-                    int.Parse (MainConsole.Instance.Prompt ("Region Location X",
-                    ((info.RegionLocX == 0 
-                            ? 1000 
-                            : info.RegionLocX / Constants.RegionSize)).ToString ())) * Constants.RegionSize;
-
-                info.RegionLocY =
-                    int.Parse (MainConsole.Instance.Prompt ("Region location Y",
-                    ((info.RegionLocY == 0 
-                            ? 1000 
-                            : info.RegionLocY / Constants.RegionSize)).ToString ())) * Constants.RegionSize;
-            
-                //info.RegionLocZ =
-                //    int.Parse (MainConsole.Instance.Prompt ("Region location Z",
-                //        ((info.RegionLocZ == 0 
-                //            ? 0 
-                //            : info.RegionLocZ / Constants.RegionSize)).ToString ())) * Constants.RegionSize;
-
-                var haveSize = true;
-                var sizeCheck = "";
-                do
-                {
-                    info.RegionSizeX = int.Parse (MainConsole.Instance.Prompt ("Region size X", info.RegionSizeX.ToString ()));
-                    if (info.RegionSizeX > Constants.MaxRegionSize)
-                    {
-                        MainConsole.Instance.CleanInfo ("    The currently recommended maximum size is " + Constants.MaxRegionSize);
-                        sizeCheck =  MainConsole.Instance.Prompt ("Continue with the X size of " + info.RegionSizeX + "? (yes/no)", "no");
-                        haveSize = sizeCheck.ToLower().StartsWith("y");
-                    }
-                } while (! haveSize);
-
-                // assume square regions
-                info.RegionSizeY = info.RegionSizeX;
-
-                do
-                {
-                    info.RegionSizeY = int.Parse (MainConsole.Instance.Prompt ("Region size Y", info.RegionSizeY.ToString ()));
-                    if ( (info.RegionSizeY > info.RegionSizeX) && (info.RegionSizeY > Constants.MaxRegionSize) )
-                    {
-                        MainConsole.Instance.CleanInfo ("    The currently recommended maximum size is " + Constants.MaxRegionSize);
-                        sizeCheck =  MainConsole.Instance.Prompt ("Continue with the Y size of " + info.RegionSizeY + "? (yes/no)", "no");
-                        haveSize = sizeCheck.ToLower().StartsWith("y");
-                    }
-                } while (! haveSize);
+                GetRegionName (ref info);
+                GetRegionLocation (ref info);
+                GetRegionSize (ref info);
 
                 bool bigRegion = ((info.RegionSizeX > Constants.MaxRegionSize) || (info.RegionSizeY > Constants.MaxRegionSize));
 
@@ -393,8 +334,7 @@ namespace Vision.Modules
                 // * Mainland / Openspace
                 //
                 // * Estate / Full Region   (Private)
-                // * Estate / Homestead
-                // * Estate / Openspace
+                //
                 info.RegionType = MainConsole.Instance.Prompt ("Region Type (Mainland/Estate)",
                     (info.RegionType == "" ? "Estate" : info.RegionType));
 
@@ -410,7 +350,7 @@ namespace Vision.Modules
                     responses.Add("Full Region");
                     responses.Add("Homestead");
                     responses.Add ("Openspace");
-                    responses.Add ("Vision");                            // TODO: remove?
+                    responses.Add ("Whitecore");                            // TODO: remove?
                     responses.Add ("Custom");                               
                     setupMode = MainConsole.Instance.Prompt("Mainland region type?", "Full Region", responses).ToLower ();
 
@@ -426,8 +366,7 @@ namespace Vision.Modules
                     info.RegionType = "Estate / ";                   
                     responses.Add("Full Region");
                     responses.Add("Homestead");
-					responses.Add ("Openspace");
-                    responses.Add ("Vision");                            // TODO: Vision 'standard' setup, rename??
+                    responses.Add ("Whitecore");                            // TODO: Vision 'standard' setup, rename??
                     responses.Add ("Custom");
                     setupMode = MainConsole.Instance.Prompt("Estate region type?","Full Region", responses).ToLower();
                 }
@@ -455,39 +394,20 @@ namespace Vision.Modules
                     info.RegionType = info.RegionType + "Custom";                   
                     info.RegionTerrain = terrainFull;
 
-                    // allow port selection
-                    info.RegionPort = int.Parse (MainConsole.Instance.Prompt ("Region Port", info.RegionPort.ToString ()));
+                    GetRegionOptional (ref info);
 
-                    // Startup mode
-                    string scriptStart = MainConsole.Instance.Prompt (
-                        "Region Startup - Normal or Delayed startup (normal/delay) : ","normal").ToLower();
-                    info.Startup = scriptStart.StartsWith ("n") ? StartupType.Normal : StartupType.Medium;
-                              
-                    info.SeeIntoThisSimFromNeighbor =  MainConsole.Instance.Prompt (
-                        "See into this sim from neighbors (yes/no)",
-                        info.SeeIntoThisSimFromNeighbor ? "yes" : "no").ToLower() == "yes";
-
-                    info.InfiniteRegion = MainConsole.Instance.Prompt (
-                        "Make an infinite region (yes/no)",
-                        info.InfiniteRegion ? "yes" : "no").ToLower () == "yes";
-                
-                    info.ObjectCapacity =
-                        int.Parse (MainConsole.Instance.Prompt ("Object capacity",
-                        info.ObjectCapacity == 0
-                                               ? "50000"
-                                               : info.ObjectCapacity.ToString ()));
                 } 
 
-                if (setupMode.StartsWith("u"))
+                if (setupMode.StartsWith("w"))
                 {
                     // 'standard' setup
-                    info.RegionType = info.RegionType + "Vision";                   
+                    info.RegionType = info.RegionType + "Whitecore";                   
                     //info.RegionPort;            // use auto assigned port
                     info.RegionTerrain = "Flatland";
                     info.Startup = StartupType.Normal;
                     info.SeeIntoThisSimFromNeighbor = true;
-                    info.InfiniteRegion = true;
-                    info.ObjectCapacity = 100000;
+                    info.InfiniteRegion = false;
+                    info.ObjectCapacity = 50000;
 
                 }
                 if (setupMode.StartsWith("o"))       
@@ -507,8 +427,8 @@ namespace Vision.Modules
 
                     info.Startup = StartupType.Medium;
                     info.SeeIntoThisSimFromNeighbor = true;
-                    info.InfiniteRegion = true;
-                    info.ObjectCapacity = 50000;
+                    info.InfiniteRegion = false;
+                    info.ObjectCapacity = 750;
                     info.RegionSettings.AgentLimit = 10;
                     info.RegionSettings.AllowLandJoinDivide = false;
                     info.RegionSettings.AllowLandResell = false;
@@ -525,8 +445,8 @@ namespace Vision.Modules
 
                     info.Startup = StartupType.Medium;
                     info.SeeIntoThisSimFromNeighbor = true;
-                    info.InfiniteRegion = true;
-                    info.ObjectCapacity = 75000;
+                    info.InfiniteRegion = false;
+                    info.ObjectCapacity = 3750;
                     info.RegionSettings.AgentLimit = 20;
                     info.RegionSettings.AllowLandJoinDivide = false;
                     info.RegionSettings.AllowLandResell = false;
@@ -540,8 +460,8 @@ namespace Vision.Modules
                     info.RegionTerrain = terrainFull;
                     info.Startup = StartupType.Normal;
                     info.SeeIntoThisSimFromNeighbor = true;
-                    info.InfiniteRegion = true;
-                    info.ObjectCapacity = 100000;
+                    info.InfiniteRegion = false;
+                    info.ObjectCapacity = 15000;
                     info.RegionSettings.AgentLimit = 100;
                     if (info.RegionType.StartsWith ("M"))                           // defaults are 'true'
                     {
@@ -575,10 +495,204 @@ namespace Vision.Modules
 
                 m_scene.SimulationDataService.ForceBackup();
 
-                MainConsole.Instance.InfoFormat("[File Based Simulation Data]: Save of {0} completed.",info.RegionName);
+                MainConsole.Instance.InfoFormat("[FileBasedSimulationData]: Save of {0} completed.",info.RegionName);
             }
 
             return info;
+        }
+
+
+        /// <summary>
+        /// Modifies the region settings.
+        /// </summary>
+        /// <returns>The region settings.</returns>
+        /// <param name="regInfo">Reg info.</param>
+        /// <param name="advanced">If set to <c>true</c> advanced.</param>
+        bool ModifyRegionSettings(ref RegionInfo regInfo, bool advanced)
+        {
+            bool updated = false;
+            if (regInfo == null || regInfo.NewRegion)
+                return updated;
+            
+            updated |= GetRegionName (ref regInfo);
+            updated |= GetRegionLocation (ref regInfo);
+            updated |= GetRegionSize (ref regInfo);
+
+            if (advanced)
+            {
+                // region type
+                var oldType = regInfo.RegionType;
+                regInfo.RegionType = MainConsole.Instance.Prompt ("Region Type (Mainland/Estate)",
+                    (regInfo.RegionType == "" ? "Estate" : regInfo.RegionType));
+                if (regInfo.RegionType != oldType)
+                    updated = true;
+
+                updated |= GetRegionOptional (ref regInfo);
+             }
+   
+             return updated;
+        }
+
+        /// <summary>
+        /// Gets the name of the region.
+        /// </summary>
+        /// <returns><c>true</c>, if region name was gotten, <c>false</c> otherwise.</returns>
+        /// <param name="regInfo">Reg info.</param>
+        bool GetRegionName(ref RegionInfo regInfo)
+        {
+            var updated = false;
+
+            Utilities.MarkovNameGenerator rNames = new Utilities.MarkovNameGenerator ();
+            string regionName = rNames.FirstName (m_regionNameSeed == null ? Utilities.RegionNames : m_regionNameSeed, 3, 7);
+
+            regionName = regInfo.RegionName;
+            var oldName = regionName;
+
+            do
+            {
+                regInfo.RegionName = MainConsole.Instance.Prompt ("Region Name (? for suggestion)", regionName);
+                if (regInfo.RegionName == "" || regInfo.RegionName == "?")
+                {
+                    regionName = rNames.NextName;
+                    regInfo.RegionName = "";
+                    continue;
+                }
+            } while (regInfo.RegionName == "");
+            rNames.Reset ();
+            if (regInfo.RegionName != oldName)
+                updated = true;
+            
+            return updated;
+        }
+
+        /// <summary>
+        /// Gets the region location.
+        /// </summary>
+        /// <returns><c>true</c>, if region location was gotten, <c>false</c> otherwise.</returns>
+        /// <param name="regInfo">Reg info.</param>
+        bool GetRegionLocation(ref RegionInfo regInfo)
+        {
+            var updated = false;
+            var loc = regInfo.RegionLocX;
+            regInfo.RegionLocX =
+                int.Parse (MainConsole.Instance.Prompt ("Region Location X",
+                    ((regInfo.RegionLocX == 0 
+                        ? 1000 
+                        : regInfo.RegionLocX / Constants.RegionSize)).ToString ())) * Constants.RegionSize;
+            if (regInfo.RegionLocX != loc)
+                updated = true;
+
+            loc = regInfo.RegionLocY;
+            regInfo.RegionLocY =
+                int.Parse (MainConsole.Instance.Prompt ("Region location Y",
+                    ((regInfo.RegionLocY == 0 
+                        ? 1000 
+                        : regInfo.RegionLocY / Constants.RegionSize)).ToString ())) * Constants.RegionSize;
+            if (regInfo.RegionLocY != loc)
+                updated = true;
+
+            //loc = regInfo.RegionLocZ;
+            //regInfo.RegionLocZ =
+            //        int.Parse (MainConsole.Instance.Prompt ("Region location Z",
+            //            ((regInfo.RegionLocZ == 0 
+            //            ? 0 
+            //            : regInfo.RegionLocZ / Constants.RegionSize)).ToString ())) * Constants.RegionSize;
+            //if (regInfo.RegionLocZ != loc)
+            //    updated = true;
+
+            return updated;
+        }
+
+        /// <summary>
+        /// Gets the size of the region.
+        /// </summary>
+        /// <returns><c>true</c>, if region size was gotten, <c>false</c> otherwise.</returns>
+        /// <param name="RegionInfo">Region info.</param>
+        bool GetRegionSize(ref RegionInfo regInfo)
+        {
+            var updated = false;
+            var haveSize = true;
+            var sizeCheck = "";
+            var oldSize = regInfo.RegionSizeX;
+            do
+            {
+                regInfo.RegionSizeX = int.Parse (MainConsole.Instance.Prompt ("Region size X", regInfo.RegionSizeX.ToString ()));
+                if (regInfo.RegionSizeX > Constants.MaxRegionSize)
+                {
+                    MainConsole.Instance.CleanInfo ("    The currently recommended maximum size is " + Constants.MaxRegionSize);
+                    sizeCheck = MainConsole.Instance.Prompt ("Continue with the X size of " + regInfo.RegionSizeX + "? (yes/no)", "no");
+                    haveSize = sizeCheck.ToLower ().StartsWith ("y");
+                }
+            } while (!haveSize);
+            if (regInfo.RegionSizeX != oldSize)
+                updated = true;
+
+            // assume square regions
+            regInfo.RegionSizeY = regInfo.RegionSizeX;
+            oldSize = regInfo.RegionSizeY;
+            do
+            {
+                regInfo.RegionSizeY = int.Parse (MainConsole.Instance.Prompt ("Region size Y", regInfo.RegionSizeY.ToString ()));
+                if ((regInfo.RegionSizeY > regInfo.RegionSizeX) && (regInfo.RegionSizeY > Constants.MaxRegionSize))
+                {
+                    MainConsole.Instance.CleanInfo ("    The currently recommended maximum size is " + Constants.MaxRegionSize);
+                    sizeCheck = MainConsole.Instance.Prompt ("Continue with the Y size of " + regInfo.RegionSizeY + "? (yes/no)", "no");
+                    haveSize = sizeCheck.ToLower ().StartsWith ("y");
+                }
+            } while (!haveSize);
+            if (regInfo.RegionSizeY != oldSize)
+                updated = true;
+
+            return updated;
+        }
+
+        /// <summary>
+        /// Gets the region optional settings.
+        /// </summary>
+        /// <returns><c>true</c>, if region optional was gotten, <c>false</c> otherwise.</returns>
+        /// <param name="regInfo">Reg info.</param>
+        bool GetRegionOptional(ref RegionInfo regInfo)
+        {
+            var updated = false;
+
+            // allow port selection
+            var oldPort = regInfo.RegionPort;
+            regInfo.RegionPort = int.Parse (MainConsole.Instance.Prompt ("Region Port (Only change if necessary)", regInfo.RegionPort.ToString ()));
+            if (regInfo.RegionPort != oldPort)
+                updated = true;
+
+            var oldStart = regInfo.Startup;
+            // Startup mode
+            string scriptStart = MainConsole.Instance.Prompt (
+                "Region Startup - Normal or Delayed startup (normal/delay) : ", "normal").ToLower ();
+            regInfo.Startup = scriptStart.StartsWith ("n") ? StartupType.Normal : StartupType.Medium;
+            if (regInfo.Startup != oldStart)
+                updated = true;
+
+            var oldSwitch = regInfo.SeeIntoThisSimFromNeighbor;
+            regInfo.SeeIntoThisSimFromNeighbor = MainConsole.Instance.Prompt (
+                "See into this sim from neighbors (yes/no)",
+                regInfo.SeeIntoThisSimFromNeighbor ? "yes" : "no").ToLower () == "yes";
+            if (regInfo.SeeIntoThisSimFromNeighbor != oldSwitch)
+                updated = true;
+
+            oldSwitch = regInfo.InfiniteRegion;
+            regInfo.InfiniteRegion = MainConsole.Instance.Prompt (
+                "Make an infinite region (yes/no)",
+                regInfo.InfiniteRegion ? "yes" : "no").ToLower () == "yes";
+            if (regInfo.InfiniteRegion != oldSwitch)
+                updated = true;
+
+            var oldCap = regInfo.ObjectCapacity;
+            regInfo.ObjectCapacity =
+                int.Parse (MainConsole.Instance.Prompt ("Object capacity",
+                    regInfo.ObjectCapacity == 0
+                    ? "50000"
+                    : regInfo.ObjectCapacity.ToString ()));
+            if (regInfo.ObjectCapacity != oldCap)
+                updated = true;
+
+            return updated;
         }
 
         public virtual void SetRegion(IScene scene)
@@ -597,9 +711,33 @@ namespace Vision.Modules
             if (MainConsole.Instance.ConsoleScene != null)
             {
                 m_scene = scene;
-                var currentInfo = scene.RegionInfo;
-                MainConsole.Instance.ConsoleScene.RegionInfo = CreateRegionFromConsole(currentInfo, true, null);
-                MainConsole.Instance.DefaultPrompt = MainConsole.Instance.ConsoleScene.RegionInfo.RegionName+": ";
+                var regInfo = scene.RegionInfo;
+                string oldFile = BuildSaveFileName (scene.SimulationDataService.BackupFile);
+
+                if (ModifyRegionSettings(ref regInfo, true))
+                {
+                    scene.RegionInfo = regInfo;
+
+                    // save a new backup
+                    if (File.Exists (oldFile))
+                        File.Delete (oldFile);
+                    scene.SimulationDataService.BackupFile = regInfo.RegionName;       
+                    scene.SimulationDataService.ForceBackup();
+
+                    MainConsole.Instance.InfoFormat("[FileBasedSimulationData]: Save of {0} completed.",regInfo.RegionName);
+
+                    // bail out
+                    MainConsole.Instance.ConsoleScene = null;
+                    MainConsole.Instance.DefaultPrompt = "root: ";
+
+                    // save current region serialized
+                    var restart = scene.RequestModuleInterface<IRestartModule>();
+                    restart.SerializeScene ();
+
+                    // shutdown and restart
+                    restart.RestartScene();
+
+                }
             }
         }
 
@@ -755,7 +893,7 @@ namespace Vision.Modules
             }
             catch (Exception ex)
             {
-                MainConsole.Instance.Error("[File Based Simulation Data]: Failed to save backup, exception occurred " + ex);
+                MainConsole.Instance.Error("[FileBasedSimulationData]: Failed to save backup, exception occurred " + ex);
             }
         }
 
@@ -779,7 +917,7 @@ namespace Vision.Modules
             }
             catch (Exception ex)
             {
-                MainConsole.Instance.Error("[File Based Simulation Data]: Failed to save backup, exception occurred " + ex);
+                MainConsole.Instance.Error("[FileBasedSimulationData]: Failed to save backup, exception occurred " + ex);
             }
             if (m_saveTimer != null)
                 m_saveTimer.Start(); //Restart it as we just did a backup
@@ -903,7 +1041,7 @@ namespace Vision.Modules
                 }
                 catch (Exception ex)
                 {
-                    MainConsole.Instance.Error("[File Based Simulation Data]: Failed to save backup, exception occurred " +
+                    MainConsole.Instance.Error("[FileBasedSimulationData]: Failed to save backup, exception occurred " +
                                                ex);
                 }
                 m_saveTimer.Start(); //Restart it as we just did a backup
@@ -911,7 +1049,7 @@ namespace Vision.Modules
             else if (m_displayNotSavingNotice)
             {
                 m_displayNotSavingNotice = false;
-                MainConsole.Instance.Info("[File Based Simulation Data]: Not saving backup, not required");
+                MainConsole.Instance.Info("[FileBasedSimulationData]: Not saving backup, not required");
             }
         }
 
@@ -935,7 +1073,7 @@ namespace Vision.Modules
             }
             catch (Exception ex)
             {
-                MainConsole.Instance.Error("[File Based Simulation Data]: Failed to save backup, exception occurred " + ex);
+                MainConsole.Instance.Error("[FileBasedSimulationData]: Failed to save backup, exception occurred " + ex);
             }
         }
 
@@ -999,7 +1137,7 @@ namespace Vision.Modules
                 MainConsole.Instance.WarnFormat("[Backup]: Exception caught: {0}", ex);
             }
 
-            MainConsole.Instance.Info("[File Based Simulation Data]: Backing up " +
+            MainConsole.Instance.Info("[FileBasedSimulationData]: Backing up " +
                                       m_scene.RegionInfo.RegionName);
 
             RegionData regiondata = new RegionData();
@@ -1058,11 +1196,12 @@ namespace Vision.Modules
             {
                 if (File.Exists(filename + (isOldSave ? "" : ".tmp")))
                     File.Delete(filename + (isOldSave ? "" : ".tmp")); //Remove old tmp files
-                MainConsole.Instance.Error("[File Based Simulation Data]: Failed to save backup for region " +
+                MainConsole.Instance.Error("[FileBasedSimulationData]: Failed to save backup for region " +
                                            m_scene.RegionInfo.RegionName + "!");
                 return;
             }
 
+            //RegionData data = _regionLoader.LoadBackup(filename + ".tmp");
             if (!isOldSave)
             {
                 if (File.Exists(filename))
@@ -1088,7 +1227,7 @@ namespace Vision.Modules
             regiondata.Dispose();
             //Now make it the full file again
             MapTileNeedsGenerated = true;
-            MainConsole.Instance.Info("[File Based Simulation Data]: Saved Backup for region " +
+            MainConsole.Instance.Info("[FileBasedSimulationData]: Saved Backup for region " +
                                       m_scene.RegionInfo.RegionName);
         }
 
@@ -1134,7 +1273,7 @@ namespace Vision.Modules
         {
             BackupFile = fileName;
             string simName = Path.GetFileName(fileName); 
-            MainConsole.Instance.Info("[File Based Simulation Data]: Restoring sim backup for region " + simName + "...");
+            MainConsole.Instance.Info("[FileBasedSimulationData]: Restoring sim backup for region " + simName + "...");
 
             _regionData = _regionLoader.LoadBackup(BuildSaveFileName());
             if (_regionData == null)

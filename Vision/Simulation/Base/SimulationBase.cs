@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -58,7 +58,7 @@ namespace Vision.Simulation.Base
         protected ConfigurationLoader m_configurationLoader;
 
         /// <value>
-        ///     The config information passed into the Virtual Vision server.
+        ///     The config information passed into the Vision server.
         /// </value>
         protected IConfigSource m_config;
 
@@ -224,22 +224,22 @@ namespace Vision.Simulation.Base
         /// </summary>
         public virtual void Startup()
         {
-            MainConsole.Instance.Info("==============================================================");
+            MainConsole.Instance.Info("====================================================================");
             MainConsole.Instance.Info(
-				        string.Format("================= Starting Virtual Vision ({0}) ============",
+				        string.Format("==================== STARTING Vision ({0}) ======================",
                               (IntPtr.Size == 4 ? "x86" : "x64")));
-            MainConsole.Instance.Info("==============================================================");
-            MainConsole.Instance.Info("[Virtual Vision Startup]: Version: " + Version + "\n");
+            MainConsole.Instance.Info("====================================================================");
+            MainConsole.Instance.Info("[VisionStartup]: Version: " + Version + "\n");
             if (Environment.Is64BitOperatingSystem)
-                MainConsole.Instance.Info("[Virtual Vision Startup]: Running on 64 bit architecture");
+                MainConsole.Instance.Info("[VisionStartup]: Running on 64 bit architecture");
             // get memory allocation
             Process proc = Process.GetCurrentProcess();
-            MainConsole.Instance.Info("[Virtual Vision Startup]: Allocated RAM " + proc.WorkingSet64);
+            MainConsole.Instance.Info("[VisionStartup]: Allocated RAM " + proc.WorkingSet64);
             if (Utilities.IsLinuxOs)
             {
                 var pc = new PerformanceCounter ("Mono Memory", "Total Physical Memory");
                 var bytes = pc.RawValue;
-                MainConsole.Instance.InfoFormat ("[Virtual Vision Startup]: Physical RAM (Mbytes): {0}", bytes / 1024000);
+                MainConsole.Instance.InfoFormat ("[VisionStartup]: Physical RAM (Mbytes): {0}", bytes / 1024000);
             }
 
             SetUpHTTPServer();
@@ -363,7 +363,7 @@ namespace Vision.Simulation.Base
                 plugin.Initialize(this);
 
             foreach (IApplicationPlugin plugin in m_applicationPlugins)
-                plugin.PostInitialize();
+                plugin.PostInitialise();
 
             foreach (IApplicationPlugin plugin in m_applicationPlugins)
                 plugin.Start();
@@ -518,7 +518,7 @@ namespace Vision.Simulation.Base
         public virtual void HandleForceGC(IScene scene, string[] cmd)
         {
             GC.Collect();
-            MainConsole.Instance.Warn("[Garbage Collector]: Garbage collection finished");
+            MainConsole.Instance.Warn("Garbage collection finished");
         }
 
         public virtual void runConfig(IScene scene, string[] cmd)
@@ -550,7 +550,7 @@ namespace Vision.Simulation.Base
             string hostName =
                 m_config.Configs["Network"].GetString("HostName", "http://127.0.0.1");
             //Clean it up a bit
-            // these are doing nothing?
+            // these are doing nothing??
             hostName.Replace("http://", "");
             hostName.Replace("https://", "");
             if (hostName.EndsWith("/"))

@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,6 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
 using Vision.Framework.Modules;
@@ -429,4 +430,29 @@ namespace Vision.Framework.ClientInterfaces
         public int NumVotes;
         public string VoteCast;
     }
+
+    public class GroupBannedAgentsData : IDataTransferable
+    {
+        public UUID AgentID;
+        public DateTime BanDate;     
+
+        public GroupBannedAgentsData()
+        {
+        }
+
+        public override OSDMap ToOSD()
+        {
+            OSDMap values = new OSDMap();
+            values["AgentID"] = AgentID;
+            values["BanDate"] = BanDate;
+            return values;
+        }
+
+        public override void FromOSD(OSDMap values)
+        {
+            AgentID = values["AgentID"];
+            BanDate = values["BanDate"];
+        }
+    }
+
 }

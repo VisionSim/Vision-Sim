@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -56,7 +56,7 @@ namespace Vision.Modules.Restart
 
         #region INonSharedRegionModule Members
 
-        public void Initialize (IConfigSource config)
+        public void Initialise (IConfigSource config)
         {
             IConfig rs_config = config.Configs ["FileBasedSimulationData"];
             if (rs_config != null)
@@ -233,6 +233,15 @@ namespace Vision.Modules.Restart
 
             MainConsole.Instance.Error ("[Restart]: Restarting " + m_scene.RegionInfo.RegionName);
             restartRegionSerialized (m_scene);
+        }
+
+        /// <summary>
+        /// Serializes the scene.
+        /// </summary>
+        public void SerializeScene()
+        {
+            MainConsole.Instance.InfoFormat ("[Restart]: Saving current users on {0} ready for restart", m_scene.RegionInfo.RegionName);
+            SerializeUsers (m_scene);
         }
 
         #endregion

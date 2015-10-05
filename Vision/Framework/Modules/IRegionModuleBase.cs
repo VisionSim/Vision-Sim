@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -60,11 +60,11 @@ namespace Vision.Framework.Modules
         /// <param name="source">
         ///     A <see cref="IConfigSource" />
         /// </param>
-        void Initialize(IConfigSource source);
+        void Initialise(IConfigSource source);
 
         /// <summary>
         ///     This is called whenever a <see cref="IScene" /> is added. For shared modules, this can happen several times.
-        ///     For non-shared modules, this happens exactly once, after <see cref="Initialize" /> has been called.
+        ///     For non-shared modules, this happens exactly once, after <see cref="Initialise" /> has been called.
         /// </summary>
         /// <param name="scene">
         ///     A <see cref="IScene" />
@@ -94,7 +94,7 @@ namespace Vision.Framework.Modules
         void RemoveRegion(IScene scene);
 
         /// <summary>
-        ///     This is the inverse to <see cref="Initialize" />. After a Close(), this instance won't be usable anymore.
+        ///     This is the inverse to <see cref="Initialise" />. After a Close(), this instance won't be usable anymore.
         /// </summary>
         void Close();
     }

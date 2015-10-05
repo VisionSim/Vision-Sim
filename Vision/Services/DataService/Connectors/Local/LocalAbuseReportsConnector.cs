@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,7 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
+
 using System.Collections.Generic;
 using Nini.Config;
 using OpenMetaverse;
@@ -44,7 +44,7 @@ namespace Vision.Services.DataService
         #region IAbuseReportsConnector Members
 
         public void Initialize(IGenericData GenericData, IConfigSource source, IRegistryCore simBase,
-                              string defaultConnectionString)
+                               string defaultConnectionString)
         {
             GD = GenericData;
 
@@ -53,16 +53,16 @@ namespace Vision.Services.DataService
 
             if (GD != null)
             {
-                GD.ConnectToDatabase(defaultConnectionString, "AbuseReports",
-                    source.Configs["VisionConnectors"].GetBoolean("ValidateTables", true));
+                GD.ConnectToDatabase (defaultConnectionString, "AbuseReports",
+                    source.Configs ["VisionConnectors"].GetBoolean ("ValidateTables", true));
 
-
-                Framework.Utilities.DataManager.RegisterPlugin(Name + "Local", this);
-                if (source.Configs["VisionConnectors"].GetString("AbuseReportsConnector", "LocalConnector") ==
+            
+                Framework.Utilities.DataManager.RegisterPlugin (Name + "Local", this);
+                if (source.Configs ["VisionConnectors"].GetString ("AbuseReportsConnector", "LocalConnector") ==
                     "LocalConnector")
                 {
                     m_enabled = true;
-                    Framework.Utilities.DataManager.RegisterPlugin(this);
+                    Framework.Utilities.DataManager.RegisterPlugin (this);
                 }
             }
         }

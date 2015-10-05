@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -26,6 +26,12 @@
  */
 
 
+using System;
+using System.Collections.Generic;
+using System.Xml;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
@@ -36,12 +42,6 @@ using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Services.ClassHelpers.Inventory;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
-using System;
-using System.Collections.Generic;
-using System.Xml;
 
 namespace Vision.Modules.InventoryAccess
 {
@@ -63,7 +63,7 @@ namespace Vision.Modules.InventoryAccess
             get { return "BasicInventoryAccessModule"; }
         }
 
-        public virtual void Initialize(IConfigSource source)
+        public virtual void Initialise(IConfigSource source)
         {
             IConfig moduleConfig = source.Configs["Modules"];
             if (moduleConfig != null)
@@ -77,7 +77,7 @@ namespace Vision.Modules.InventoryAccess
             }
         }
 
-        public virtual void PostInitialize()
+        public virtual void PostInitialise()
         {
         }
 

@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,17 +25,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
-using System.Linq;
-using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Serialization;
+using OpenMetaverse;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
 
 namespace Vision.Modules.Archivers
 {
@@ -70,7 +70,7 @@ namespace Vision.Modules.Archivers
             catch (EntryPointNotFoundException e)
             {
                 MainConsole.Instance.ErrorFormat(
-                    "[Archiver]: Mismatch between Mono and zlib1g library version when trying to create compression stream."
+                    "[ARCHIVER]: Mismatch between Mono and zlib1g library version when trying to create compression stream."
                     + "If you've manually installed Mono, have you appropriately updated zlib1g as well?");
                 MainConsole.Instance.Error(e);
             }
@@ -124,13 +124,13 @@ namespace Vision.Modules.Archivers
             }
 
             MainConsole.Instance.InfoFormat(
-                "[Archiver]: {0} scene objects to serialize requiring save of {1} assets",
+                "[ARCHIVER]: {0} scene objects to serialize requiring save of {1} assets",
                 sceneObjects.Count, assetUuids.Count);
 
             if (numObjectsSkippedPermissions > 0)
             {
                 MainConsole.Instance.DebugFormat(
-                    "[Archiver]: {0} scene objects skipped due to lack of permissions",
+                    "[ARCHIVER]: {0} scene objects skipped due to lack of permissions",
                     numObjectsSkippedPermissions);
             }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -24,6 +24,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 
 using System;
 using System.Collections.Generic;
@@ -69,6 +70,7 @@ namespace Vision.Modules.DefaultInventoryIARLoader
                 }
                 if (libConfig.GetBoolean("PreviouslyLoaded", false))
                     return; //If it is loaded, don't reload
+                
                 foreach (string iarFileName in Directory.GetFiles(pLibrariesLocation, "*.iar"))
                 {
                     LoadLibraries(iarFileName);
@@ -121,26 +123,24 @@ namespace Vision.Modules.DefaultInventoryIARLoader
             if (uinfo == null)
             {
                 MainConsole.Instance.Warn("Creating user " + m_service.LibraryOwnerName);
-                m_MockScene.UserAccountService.CreateUser(m_service.LibraryOwner, UUID.Zero, m_service.LibraryOwnerName,
-                                                          "", "");
+                m_MockScene.UserAccountService.CreateUser(m_service.LibraryOwner, UUID.Zero, m_service.LibraryOwnerName, "", "");
                 uinfo = m_MockScene.UserAccountService.GetUserAccount(null, m_service.LibraryOwner);
                 m_MockScene.InventoryService.CreateUserInventory(uinfo.PrincipalID, false);
             }
             if (m_MockScene.InventoryService.GetRootFolder(m_service.LibraryOwner) == null)
                 m_MockScene.InventoryService.CreateUserInventory(uinfo.PrincipalID, false);
 
-            List<InventoryFolderBase> rootFolders = m_MockScene.InventoryService.GetFolderFolders(uinfo.PrincipalID,
-                                                                                                  UUID.Zero);
+            List<InventoryFolderBase> rootFolders = m_MockScene.InventoryService.GetFolderFolders(uinfo.PrincipalID, UUID.Zero);
             bool alreadyExists = rootFolders.Any(folder => folder.Name == iarFileName);
 
             if (alreadyExists)
             {
-                MainConsole.Instance.InfoFormat("[Library Inventory]: Found previously loaded IAR file {0}, ignoring.",
+                MainConsole.Instance.InfoFormat("[LIBRARY INVENTORY]: Found previously loaded IAR file {0}, ignoring.",
                                                 iarFileName);
                 return;
             }
 
-            MainConsole.Instance.InfoFormat("[Library Inventory]: Loading IAR file {0}", iarFileName);
+            MainConsole.Instance.InfoFormat("[LIBRARY INVENTORY]: Loading IAR file {0}", iarFileName);
             InventoryFolderBase rootFolder = m_MockScene.InventoryService.GetRootFolder(uinfo.PrincipalID);
 
             if (rootFolder == null)
@@ -158,6 +158,7 @@ namespace Vision.Modules.DefaultInventoryIARLoader
                 List<InventoryNodeBase> nodes = new List<InventoryNodeBase>(archread.Execute(true));
                 if (nodes.Count == 0)
                     return;
+                
                 InventoryFolderBase f = (InventoryFolderBase) nodes[0];
                 UUID IARRootID = f.ID;
 
@@ -172,7 +173,7 @@ namespace Vision.Modules.DefaultInventoryIARLoader
             }
             catch (Exception e)
             {
-                MainConsole.Instance.DebugFormat("[Library]: Exception when processing archive {0}: {1}",
+                MainConsole.Instance.DebugFormat("[LIBRARY MODULE]: Exception when processing archive {0}: {1}",
                                                  iarFileName,
                                                  e.StackTrace);
             }

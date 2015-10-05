@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -26,6 +26,15 @@
  */
 
 
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
@@ -40,15 +49,6 @@ using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Services.ClassHelpers.Inventory;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace Vision.Modules.Inventory
 {
@@ -75,7 +75,7 @@ namespace Vision.Modules.Inventory
 
         #region INonSharedRegionModule members
 
-        public void Initialize(IConfigSource source)
+        public void Initialise(IConfigSource source)
         {
         }
 
@@ -252,7 +252,7 @@ namespace Vision.Modules.Inventory
                                                    string folderName, UUID parentID)
         {
             InventoryFolderBase folder = new InventoryFolderBase(folderID, folderName, remoteClient.AgentId,
-                                                                 (short) folderType, parentID, 1);
+                                                                 (short)folderType, parentID, 1);
             if (!m_scene.InventoryService.AddFolder(folder))
             {
                 MainConsole.Instance.WarnFormat(

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,7 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using Nini.Config;
@@ -64,13 +64,13 @@ namespace Vision.Services
                     m_messagePost.Get(regionClient.Region.ServerURI,
                                       BuildRequest("KickUserMessage", message, regionClient.AgentID.ToString()),
                                       (resp) =>
-                                      {
-                                          IAgentProcessing agentProcessor =
-                                              m_registry.RequestModuleInterface<IAgentProcessing>();
-                                          if (agentProcessor != null)
-                                              agentProcessor.LogoutAgent(regionClient, true);
-                                          MainConsole.Instance.Info("User has been kicked.");
-                                      });
+                                          {
+                                              IAgentProcessing agentProcessor =
+                                                  m_registry.RequestModuleInterface<IAgentProcessing>();
+                                              if (agentProcessor != null)
+                                                  agentProcessor.LogoutAgent(regionClient, true);
+                                              MainConsole.Instance.Info("User has been kicked.");
+                                          });
 
                     return;
                 }
@@ -110,13 +110,13 @@ namespace Vision.Services
                     where regionClient.RootAgent
                     select regionClient)
             {
-                MainConsole.Instance.Debug("[Grid Wide Message Service]: Informed " +
+                MainConsole.Instance.Debug("[GridWideMessageModule]: Informed " +
                                            regionClient.ClientCaps.AccountInfo.Name);
                 //Send the message to the client
                 m_messagePost.Post(regionClient.Region.ServerURI,
                                    BuildRequest("GridWideMessage", message, regionClient.AgentID.ToString()));
             }
-            MainConsole.Instance.Info("[Grid Wide Message Service]: Sent alert, will be delivered across the grid shortly.");
+            MainConsole.Instance.Info("[GridWideMessageModule]: Sent alert, will be delivered across the grid shortly.");
         }
 
         #endregion
@@ -134,7 +134,7 @@ namespace Vision.Services
             IConfig handlersConfig = config.Configs["Handlers"];
             if (handlersConfig == null)
                 return;
-            if (handlersConfig.GetString("GridWideMessage", "") != "GridWideMessageModule")
+            if (handlersConfig.GetString ("GridWideMessage", "") != "GridWideMessageModule")
                 return;
 
 
@@ -143,19 +143,19 @@ namespace Vision.Services
                 MainConsole.Instance.Commands.AddCommand(
                     "grid send alert",
                     "grid send alert <message>",
-                    "Sends a message to all users in the grid",
+                    "Sends a message to all users in the grid", 
                     SendGridAlert, false, true);
-
-                MainConsole.Instance.Commands.AddCommand(
+                
+            	MainConsole.Instance.Commands.AddCommand(
                     "grid send message",
                     "grid send message <first> <last> <message>",
-                    "Sends a message to a user in the grid",
+                    "Sends a message to a user in the grid", 
                     SendGridMessage, false, true);
-
-                MainConsole.Instance.Commands.AddCommand(
+                
+            	MainConsole.Instance.Commands.AddCommand(
                     "grid kick user",
                     "grid kick user <first> <last> <message>",
-                    "Kicks a user from the grid",
+                    "Kicks a user from the grid", 
                     KickUserMessage, false, true);
             }
         }
@@ -176,34 +176,34 @@ namespace Vision.Services
         {
             string message;
             if (cmd.Length > 3)
-                message = CombineParams(cmd, 3);
+                message = CombineParams (cmd, 3);
             else
-                message = MainConsole.Instance.Prompt("Message to send?", "");
+                message = MainConsole.Instance.Prompt ("Message to send?", "");
             if (message == "")
                 return;
-
+            
             SendAlert(message);
         }
 
         protected void SendGridMessage(IScene scene, string[] cmd)
         {
-            string user;
+             string user;
             string message;
 
             if (cmd.Length >= 4)
                 user = CombineParams(cmd, 3, 5);
             else
-                user = MainConsole.Instance.Prompt("User name? (First Last)", "");
+                user = MainConsole.Instance.Prompt ("User name? (First Last)", "");
             if (user == "")
                 return;
-
+        
             if (cmd.Length > 5)
-                message = CombineParams(cmd, 5);
+                message = CombineParams (cmd, 5);
             else
-                message = MainConsole.Instance.Prompt("Message to send?", "");
+                message = MainConsole.Instance.Prompt ("Message to send?", "");
             if (message == "")
                 return;
-
+            
 
             IUserAccountService userService = m_registry.RequestModuleInterface<IUserAccountService>();
             UserAccount account = userService.GetUserAccount(null, user.Split(' ')[0], user.Split(' ')[1]);
@@ -312,7 +312,7 @@ namespace Vision.Services
                         IScenePresence sp = null;
                         if (scene.TryGetScenePresence(UUID.Parse(user), out sp))
                         {
-                            sp.ControllingClient.Kick(value == "" ? "The Virtual Vision Grid Manager kicked you out." : value);
+                            sp.ControllingClient.Kick(value == "" ? "The Vision Grid Manager kicked you out." : value);
                             IEntityTransferModule transferModule =
                                 scene.RequestModuleInterface<IEntityTransferModule>();
                             if (transferModule != null)

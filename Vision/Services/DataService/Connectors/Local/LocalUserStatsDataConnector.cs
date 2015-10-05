@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,7 +25,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
 using System.Collections.Generic;
 using Nini.Config;
 using OpenMetaverse;
@@ -55,10 +54,10 @@ namespace Vision.Services.DataService
 
                 if (GD != null)
                 {
-                    GD.ConnectToDatabase(defaultConnectionString, "Stats",
-                        source.Configs["VisionConnectors"].GetBoolean("ValidateTables", true));
+                    GD.ConnectToDatabase (defaultConnectionString, "Stats",
+                        source.Configs ["VisionConnectors"].GetBoolean ("ValidateTables", true));
 
-                    Framework.Utilities.DataManager.RegisterPlugin(Name, this);
+                    Framework.Utilities.DataManager.RegisterPlugin (Name, this);
                 }
             }
         }
@@ -123,21 +122,21 @@ namespace Vision.Services.DataService
         public List<string> Get(string columnName)
         {
             QueryFilter filter = new QueryFilter();
-            return GD.Query(new string[1] { columnName }, m_realm, filter, null, null, null);
+            return GD.Query(new string[1] {columnName}, m_realm, filter, null, null, null);
         }
 
         public int GetCount(string columnName, KeyValuePair<string, object> whereCheck)
         {
             QueryFilter filter = new QueryFilter();
             filter.andFilters.Add(whereCheck.Key, whereCheck.Value);
-            return int.Parse(GD.Query(new string[1] { "count(" + columnName + ")" }, m_realm, filter, null, null, null)[0]);
+            return int.Parse(GD.Query(new string[1] {"count(" + columnName + ")"}, m_realm, filter, null, null, null)[0]);
         }
 
         public ViewerStatsMessage GetBySession(UUID sessionID)
         {
             QueryFilter filter = new QueryFilter();
             filter.andFilters.Add("session_id", sessionID);
-            List<string> results = GD.Query(new string[1] { "*" }, m_realm, filter, null, null, null);
+            List<string> results = GD.Query(new string[1] {"*"}, m_realm, filter, null, null, null);
             return BuildSession(results, 0);
         }
 
@@ -146,19 +145,19 @@ namespace Vision.Services.DataService
             GD.Delete(m_realm, null);
         }
 
-        public Dictionary<string, int> ViewerUsage()
+        public Dictionary<string,int> ViewerUsage()
         {
             QueryFilter filter = new QueryFilter();
-            List<string> client_viewers = GD.Query(new string[1] { "client_version" }, m_realm, filter, null, null, null);
-            client_viewers.Sort();
+            List<string> client_viewers = GD.Query(new string[1] {"client_version"}, m_realm, filter, null, null, null);
+            client_viewers.Sort ();
 
             //List<string> client_viewers = Get ("client_version");
             Dictionary<string, int> viewers = new Dictionary<string, int>();
-            foreach (var cli in client_viewers)
+            foreach( var cli in client_viewers)
                 if (viewers.ContainsKey(cli))
                     viewers[cli]++;
                 else
-                    viewers.Add(cli, 1);
+                    viewers.Add (cli, 1);
 
             return viewers;
         }

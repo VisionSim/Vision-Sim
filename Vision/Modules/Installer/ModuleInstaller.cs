@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -393,7 +393,7 @@ namespace Vision.Modules.Installer
             {
                 plugin.PreStartup(m_registry.RequestModuleInterface<ISimulationBase>());
                 plugin.Initialize(m_registry.RequestModuleInterface<ISimulationBase>());
-                plugin.PostInitialize();
+                plugin.PostInitialise();
                 plugin.Start();
                 plugin.PostStart();
             }
@@ -405,7 +405,7 @@ namespace Vision.Modules.Installer
                 {
                     foreach (IScene scene in manager.Scenes)
                     {
-                        nsrm.Initialize(m_config);
+                        nsrm.Initialise(m_config);
                         nsrm.AddRegion(scene);
                         nsrm.RegionLoaded(scene);
                         rmc.AllModules.Add(nsrm);

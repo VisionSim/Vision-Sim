@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,10 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System.IO;
-using Vision.Framework.Servers.HttpServer.Implementation;
-using System.Text;
 using System;
+using System.IO;
+using System.Text;
+using Vision.Framework.Servers.HttpServer.Implementation;
 
 namespace Vision.Framework.Servers.HttpServer
 {
@@ -37,7 +37,7 @@ namespace Vision.Framework.Servers.HttpServer
 
     public class GenericStreamHandler : BaseRequestHandler
     {
-        private HttpServerHandle _method;
+        HttpServerHandle _method;
 
         public GenericStreamHandler(string httpMethod, string path, HttpServerHandle method)
             : base(httpMethod, path)
@@ -126,7 +126,7 @@ namespace Vision.Framework.Servers.HttpServer
 
     public static class MyExtensions
     {
-        public static string ReadUntilEnd(this System.IO.Stream stream)
+        public static string ReadUntilEnd(this Stream stream)
         {
             StreamReader rdr = new StreamReader(stream);
             string str = rdr.ReadToEnd();

@@ -61,7 +61,7 @@ namespace Vision.Modules.Wind
 
         #region IRegion Methods
 
-        public void Initialize (IConfigSource config)
+        public void Initialise (IConfigSource config)
         {
             windConfig = config.Configs ["Wind"];
             desiredWindPlugin = m_dWindPluginName;
@@ -105,7 +105,7 @@ namespace Vision.Modules.Wind
 
                     if (windConfig != null)
                     {
-                        m_activeWindPlugin.Initialize ();
+                        m_activeWindPlugin.Initialise ();
                         m_activeWindPlugin.WindConfig (m_scene, windConfig);
                     }
                 }
@@ -146,6 +146,7 @@ namespace Vision.Modules.Wind
                         }
                     }
                 }
+
 
                 // Register event handlers for when Avatars enter the region, and frame ticks
                 m_scene.EventManager.OnFrame += WindUpdate;
@@ -275,7 +276,7 @@ namespace Vision.Modules.Wind
 
             string plugin = cmdparams [1];
             string param = cmdparams [2];
-            float value = 0f;
+            float value;
             if (cmdparams.Length == 4)
             {
                 if (!float.TryParse (cmdparams [3], out value))
@@ -344,10 +345,8 @@ namespace Vision.Modules.Wind
             {
                 IWindModelPlugin windPlugin = m_availableWindPlugins [plugin];
                 return windPlugin.WindParamGet (param);
-            } else
-            {
-                throw new Exception (String.Format ("Could not find plugin {0}", plugin));
             }
+            throw new Exception (String.Format ("Could not find plugin {0}", plugin));
         }
 
         public string WindActiveModelPluginName
@@ -355,12 +354,9 @@ namespace Vision.Modules.Wind
             get
             {
                 if (m_activeWindPlugin != null)
-                {
                     return m_activeWindPlugin.Name;
-                } else
-                {
-                    return String.Empty;
-                }
+
+                return String.Empty;
             }
         }
 

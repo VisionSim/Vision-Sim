@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,6 +25,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Timers;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.ModuleLoader;
 using Vision.Framework.Modules;
@@ -34,14 +42,6 @@ using Vision.Framework.Utilities;
 using Vision.Modules.Terrain.FileLoaders;
 using Vision.Modules.Terrain.FloodBrushes;
 using Vision.Modules.Terrain.PaintBrushes;
-using Nini.Config;
-using OpenMetaverse;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Timers;
 
 namespace Vision.Modules.Terrain
 {
@@ -105,7 +105,7 @@ namespace Vision.Modules.Terrain
         ///     Creates and initializes a terrain module for a region
         /// </summary>
         /// <param name="config">Config for the region</param>
-        public void Initialize(IConfigSource config)
+        public void Initialise(IConfigSource config)
         {
             if (config.Configs["TerrainModule"] != null)
             {
@@ -422,7 +422,7 @@ namespace Vision.Modules.Terrain
                     } catch (FileNotFoundException)
                     {
                         MainConsole.Instance.ErrorFormat (
-                            "[TERRAIN]: Unable to load heightmap, file {0} not found. (or directory permissions error may also cause this)", filename);
+                            "[TERRAIN]: Unable to load heightmap, file {0} not found. (directory permissions errors may also cause this)", filename);
                     } catch (ArgumentException e)
                     {
                         MainConsole.Instance.ErrorFormat ("[TERRAIN]: Unable to load heightmap: {0}", e.Message);
@@ -1894,7 +1894,8 @@ namespace Vision.Modules.Terrain
 
             if (cmd.Length < 3)
 			{
-				terrainType = MainConsole.Instance.Prompt("What terrain type to use,\n Flatland, Grassland, Hills, Mountainous, Island, Swamp or Aquatic?","Flatland");
+                MainConsole.Instance.Info ("Available terrains: Flatland, Grassland, Hills, Mountainous, Island, Swamp or Aquatic");
+				terrainType = MainConsole.Instance.Prompt("What terrain type to use?","Flatland");
             } else
                 terrainType = cmd[2];
             terrainType = terrainType.ToLower();

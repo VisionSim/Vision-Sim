@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -291,7 +291,7 @@ namespace Vision.Modules.Groups
                 MainConsole.Instance.DebugFormat("[GROUPS]: {0} called", MethodBase.GetCurrentMethod().Name);
 
             //Check the cache first
-            GroupMembershipData membership = null;
+            GroupMembershipData membership;
             if (m_cachedGroupTitles.ContainsKey(avatarID))
                 membership = m_cachedGroupTitles[avatarID];
             else
@@ -491,23 +491,54 @@ namespace Vision.Modules.Groups
             if (m_debugEnabled)
                 MainConsole.Instance.DebugFormat("[GROUPS]: {0} called", MethodBase.GetCurrentMethod().Name);
 
-            GroupRecord record = m_groupData.GetGroupRecord(GetRequestingAgentID(remoteClient), groupID, "");
-            if (record != null && record.OpenEnrollment)
+            var requestingAgentID = GetRequestingAgentID (remoteClient);
+
+            GroupRecord record = m_groupData.GetGroupRecord(requestingAgentID, groupID, "");
+            if (record != null)
             {
-                // Should check to see if OpenEnrollment, or if there's an outstanding invitation
-                m_groupData.AddAgentToGroup(GetRequestingAgentID(remoteClient), GetRequestingAgentID(remoteClient),
-                                            groupID,
-                                            UUID.Zero);
+                // check if this user is banned
+                var isBanned = m_groupData.IsGroupBannedUser (groupID, requestingAgentID);
+                if (isBanned)
+                {
+                    remoteClient.SendJoinGroupReply (groupID, false);
+                    return;
+                }
 
-                m_cachedGroupMemberships.Remove(remoteClient.AgentId);
-                RemoveFromGroupPowersCache(remoteClient.AgentId, groupID);
-                remoteClient.SendJoinGroupReply(groupID, true);
+                // invited users (not sure if this is needed really)
+                var invites = m_groupData.GetGroupInvites (requestingAgentID);
+                var invitedAgent = false; 
+                if (invites.Count > 0)
+                {
+                    foreach (var invite in invites)
+                    {
+                        if (invite.GroupID == groupID)
+                            invitedAgent = true;
+                    }
+                }
 
-                ActivateGroup(remoteClient, groupID);
+                // open enrolment or invited
+                if (record.OpenEnrollment || invitedAgent)
+                {
+                    m_groupData.AddAgentToGroup (requestingAgentID, requestingAgentID,
+                        groupID,
+                        UUID.Zero);
 
-                // Should this send updates to everyone in the group?
-                SendAgentGroupDataUpdate(remoteClient, GetRequestingAgentID(remoteClient));
+                    m_cachedGroupMemberships.Remove (remoteClient.AgentId);
+                    RemoveFromGroupPowersCache (remoteClient.AgentId, groupID);
+                    remoteClient.SendJoinGroupReply (groupID, true);
+
+                    ActivateGroup (remoteClient, groupID);
+
+                    // Should this send updates to everyone in the group?
+                    SendAgentGroupDataUpdate (remoteClient, requestingAgentID);
+
+                    return;
+                }
+
             }
+            // unable to join the group
+            remoteClient.SendJoinGroupReply (groupID, false);
+
         }
 
         public void LeaveGroupRequest(IClientAPI remoteClient, UUID groupID)
@@ -687,7 +718,7 @@ namespace Vision.Modules.Groups
             if (remoteClient != null)
             {
                 agentName = remoteClient.Name;
-                regionInfo = remoteClient.Scene.RegionInfo;
+                regionInfo = remoteClient.Scene.RegionInfo; // not required?
             }
             else
             {
@@ -695,7 +726,7 @@ namespace Vision.Modules.Groups
                 if (client != null)
                 {
                     agentName = client.Name;
-                    regionInfo = client.Scene.RegionInfo;
+                    regionInfo = client.Scene.RegionInfo;   // not required?
                 }
 
                 else
@@ -738,7 +769,7 @@ namespace Vision.Modules.Groups
                     string MemberShipCost = ". There is no cost to join this group.";
                     if (groupInfo.MembershipFee != 0)
                     {
-                        MemberShipCost = ". To join, you must pay " + groupInfo.MembershipFee.ToString() + ".";
+                        MemberShipCost = ". To join, you must pay " + groupInfo.MembershipFee + ".";
                     }
                     msg.Message = string.Format("{0} has invited you to join " + groupInfo.GroupName + MemberShipCost,
                                                 remoteClient.Name);
@@ -1061,7 +1092,7 @@ namespace Vision.Modules.Groups
 
         #region INonSharedRegionModule Members
 
-        public void Initialize(IConfigSource config)
+        public void Initialise(IConfigSource config)
         {
             IConfig groupsConfig = config.Configs["Groups"];
 
@@ -1366,7 +1397,7 @@ namespace Vision.Modules.Groups
                         GroupRecord groupInfo = GetGroupRecord(Invite.GroupID);
                         string MemberShipCost = ". There is no cost to join this group.";
                         if (groupInfo.MembershipFee != 0)
-                            MemberShipCost = ". To join, you must pay " + groupInfo.MembershipFee.ToString() + ".";
+                            MemberShipCost = ". To join, you must pay " + groupInfo.MembershipFee + ".";
 
                         msg.Message =
                             string.Format("{0} has invited you to join " + groupInfo.GroupName + MemberShipCost,
@@ -1606,7 +1637,7 @@ namespace Vision.Modules.Groups
                             }
                             else
                             {
-                                bucket = im.BinaryBucket;
+                                //bucket = im.BinaryBucket;
                                 string binBucket = Utils.BytesToString(im.BinaryBucket);
                                 binBucket = binBucket.Remove(0, 14).Trim();
 
@@ -1935,7 +1966,8 @@ namespace Vision.Modules.Groups
                         ourPowers = groupsCache[GroupID];
                         if (ourPowers == 1)
                             return false;
-                        //1 means not in the group or not found in the cache, so stop it here so that we don't check every time, and it can't be a permission, as its 0 then 2 in GroupPermissions
+                        // 1 means not in the group or not found in the cache, so stop it here so that we don't check every time,
+                        // and it can't be a permission, as its 0 then 2 in GroupPermissions
                     }
                 }
             }
@@ -1967,7 +1999,7 @@ namespace Vision.Modules.Groups
         {
             lock (AgentGroupPowersCache)
             {
-                Dictionary<UUID, ulong> Groups = new Dictionary<UUID, ulong>();
+                Dictionary<UUID, ulong> Groups;
                 if (!AgentGroupPowersCache.TryGetValue(AgentID, out Groups))
                     Groups = new Dictionary<UUID, ulong>();
                 Groups[GroupID] = powers;
@@ -1996,7 +2028,7 @@ namespace Vision.Modules.Groups
                 }
                 else
                 {
-                    Dictionary<UUID, ulong> Groups = new Dictionary<UUID, ulong>();
+                    Dictionary<UUID, ulong> Groups;
                     if (AgentGroupPowersCache.TryGetValue(AgentID, out Groups))
                     {
                         Groups.Remove(GroupID);

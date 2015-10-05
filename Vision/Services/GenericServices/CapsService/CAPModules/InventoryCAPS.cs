@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -26,6 +26,13 @@
  */
 
 
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
@@ -37,13 +44,6 @@ using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Services.ClassHelpers.Inventory;
 using Vision.Framework.Utilities;
 using Vision.Region;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace Vision.Services
 {
@@ -59,13 +59,13 @@ namespace Vision.Services
 
         #endregion
         
-        private IAssetService m_assetService;
-        private IInventoryService m_inventoryService;
-        private ILibraryService m_libraryService;
-        private IMoneyModule m_moneyModule;
-        private UUID m_agentID;
-        private IInventoryData m_inventoryData;
-        private List<string> m_uris = new List<string>();
+        IAssetService m_assetService;
+        IInventoryService m_inventoryService;
+        ILibraryService m_libraryService;
+        IMoneyModule m_moneyModule;
+        UUID m_agentID;
+        IInventoryData m_inventoryData;
+        List<string> m_uris = new List<string>();
 
         #region ICapsServiceConnector Members
 

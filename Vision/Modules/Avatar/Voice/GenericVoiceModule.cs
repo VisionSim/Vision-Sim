@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -24,6 +24,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 
 using System;
 using System.Text;
@@ -43,23 +44,24 @@ namespace Vision.Modules.Voice
 {
     public class GenericVoiceModule : INonSharedRegionModule
     {
-        bool m_enabled = true;
+        bool m_enabled;
         IScene m_scene;
 
         #region INonSharedRegionModule Members
 
-        public void Initialize(IConfigSource config)
+        public void Initialise(IConfigSource config)
         {
             IConfig voiceconfig = config.Configs["Voice"];
             if (voiceconfig == null)
                 return;
-
+            
             const string voiceModule = "GenericVoice";
             if (voiceconfig.GetString("Module", voiceModule) != voiceModule)
                 return;
 
-            // We use GenericVoice calls to keep the viewer happy
+            // We are using generic voice calls to keep the viewer happy
             m_enabled = true;
+
         }
 
         public void AddRegion(IScene scene)
@@ -119,7 +121,7 @@ namespace Vision.Modules.Voice
         //
         // Note that OnRegisterCaps is called here via a closure
         // delegate containing the scene of the respective region (see
-        // Initialize()).
+        // Initialise()).
         public OSDMap OnRegisterCaps(IScene scene, UUID agentID, IHttpServer caps)
         {
             OSDMap retVal = new OSDMap();

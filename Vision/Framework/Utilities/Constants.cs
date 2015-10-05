@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -31,6 +31,7 @@ namespace Vision.Framework.Utilities
     public static class Constants
     {
         public const double FloatDifference = .0000005;
+        public const string MISSING_TEXTURE_ID = "41fcdbb9-0896-495d-8889-1eb6fad88da3";       // texture to use when all else fails...
 
         // some predefined folders
         public const string DEFAULT_CONFIG_DIR = "../Config";
@@ -66,7 +67,7 @@ namespace Vision.Framework.Utilities
 
         // System Governor Avatar Account
         public const string GovernorUUID = "3d6181b0-6a4b-97ef-18d8-722652995cf1";
-        public const string GovernorName = "Governor Vision";
+        public const string GovernorName = "Governor White";
 
         // System Estate
         public const string MainlandEstateName = "Vision Mainland";

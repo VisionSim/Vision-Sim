@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -37,7 +37,7 @@ namespace Vision.Framework.Utilities
         /// <summary>
         ///     The current minor protocol version of this version of Vision
         /// </summary>
-        public const int MINOR_PROTOCOL_VERSION = 3;
+        public const int MINOR_PROTOCOL_VERSION = 4;
 
         /// <summary>
         ///     The minimum major protocol version allowed to connect to this version of Vision
@@ -47,10 +47,11 @@ namespace Vision.Framework.Utilities
         /// <summary>
         ///     The minimum minor protocol version allowed to connect to this version of Vision
         /// </summary>
-        public const int MINIMUM_MINOR_PROTOCOL_VERSION = 3;
+        public const int MINIMUM_MINOR_PROTOCOL_VERSION = 4;
     }
     /// Changes:
     /// Major 1
     ///   Minor 1 - Initial bump
     ///   Minor 2 - Added sending of URIs back to the region on registration
+    ///   Minor 3 - Logical change that will lead up to IWC / HG
 }

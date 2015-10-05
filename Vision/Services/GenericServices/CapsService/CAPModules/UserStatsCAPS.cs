@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,7 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
+
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -62,7 +62,7 @@ namespace Vision.Services
 
             OpenMetaverse.Messages.Linden.ViewerStatsMessage vsm =
                 new OpenMetaverse.Messages.Linden.ViewerStatsMessage();
-            vsm.Deserialize((OSDMap)OSDParser.DeserializeLLSDXml(HttpServerHandlerHelpers.ReadFully(request)));
+            vsm.Deserialize((OSDMap) OSDParser.DeserializeLLSDXml(HttpServerHandlerHelpers.ReadFully(request)));
             dataConnector.UpdateUserStats(vsm, m_service.AgentID, m_service.Region.RegionID);
 
             return MainServer.BlankResponse;
@@ -104,14 +104,14 @@ namespace Vision.Services
 
             if (statsData != null)
             {
-                MainConsole.Instance.Commands.AddCommand("user metrics",
-                    "user metrics",
-                    "Gives metrics on users",
+                MainConsole.Instance.Commands.AddCommand ("user metrics", 
+                    "user metrics", 
+                    "Gives metrics on users", 
                     Metrics, false, true);
 
-                MainConsole.Instance.Commands.AddCommand("clear user metrics",
+                MainConsole.Instance.Commands.AddCommand ("clear user metrics",
                     "clear user metrics",
-                    "Clear all saved user metrics",
+                    "Clear all saved user metrics", 
                     ClearMetrics, false, true);
             }
         }
@@ -126,15 +126,15 @@ namespace Vision.Services
         {
             if (statsData != null)
             {
-                MainConsole.Instance.Info("");
+                MainConsole.Instance.Info ("");
                 var client_viewers = statsData.ViewerUsage();
-                MainConsole.Instance.Info("Viewer usage:");
+                MainConsole.Instance.Info ("Viewer usage:");
                 foreach (var vclient in client_viewers)
-                    MainConsole.Instance.CleanInfo(vclient.Key + ": " + vclient.Value);
+                    MainConsole.Instance.CleanInfo (vclient.Key + ": " + vclient.Value);
 
 
-                MainConsole.Instance.CleanInfo("");
-                MainConsole.Instance.CleanInfo("Graphics cards:");
+                MainConsole.Instance.CleanInfo ("");
+                MainConsole.Instance.CleanInfo ("Graphics cards:");
                 MainConsole.Instance.CleanInfo(
                     string.Format(
                         "Graphic cards: {0} logins have used ATI, {1} logins have used NVIDIA, {2} logins have used Intel graphics",
@@ -142,8 +142,8 @@ namespace Vision.Services
                         statsData.GetCount("s_gpuvendor", new KeyValuePair<string, object>("s_gpuvendor", "NVIDIA")),
                         statsData.GetCount("s_gpuvendor", new KeyValuePair<string, object>("s_gpuvendor", "Intel"))));
 
-                MainConsole.Instance.CleanInfo("");
-                MainConsole.Instance.CleanInfo("Performance:");
+                MainConsole.Instance.CleanInfo ("");
+                MainConsole.Instance.CleanInfo ("Performance:");
                 List<float> fps = statsData.Get("fps").ConvertAll<float>((s) => float.Parse(s));
                 if (fps.Count > 0)
                     MainConsole.Instance.CleanInfo(string.Format("Average fps: {0}", fps.Average()));
@@ -158,7 +158,7 @@ namespace Vision.Services
 
                 List<int> mem_use = statsData.Get("mem_use").ConvertAll<int>((s) => int.Parse(s));
                 if (mem_use.Count > 0)
-                    MainConsole.Instance.CleanInfo(string.Format("Average viewer memory use: {0} mb", mem_use.Average() / 1000));
+                    MainConsole.Instance.CleanInfo(string.Format("Average viewer memory use: {0} mb", mem_use.Average()/1000));
 
                 List<float> ping = statsData.Get("ping").ConvertAll<float>((s) => float.Parse(s));
                 if (ping.Count > 0)
@@ -168,7 +168,7 @@ namespace Vision.Services
                 if (agents_in_view.Count > 0)
                     MainConsole.Instance.CleanInfo(string.Format("Average agents in view: {0}", agents_in_view.Average()));
 
-                MainConsole.Instance.CleanInfo("");
+                MainConsole.Instance.CleanInfo ("");
 
             }
         }

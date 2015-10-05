@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -132,7 +132,7 @@ namespace Vision.Modules.Web
 
                 newRegion.RegionPort = RegionPort;
                 newRegion.SeeIntoThisSimFromNeighbor = true;
-                newRegion.InfiniteRegion = true;
+                newRegion.InfiniteRegion = false;
                 newRegion.ObjectCapacity = 50000;
                 newRegion.Startup = StartupType.Normal;
 
@@ -149,15 +149,15 @@ namespace Vision.Modules.Web
 
                 }
 
-                if (regionPreset.StartsWith("u"))
+                if (regionPreset.StartsWith("w"))
                 {
                     // 'standard' setup
-                    newRegion.RegionType = newRegion.RegionType + "Vision";                   
+                    newRegion.RegionType = newRegion.RegionType + "Whitecore";                   
                     //info.RegionPort;            // use auto assigned port
                     newRegion.RegionTerrain = "Flatland";
                     newRegion.Startup = StartupType.Normal;
                     newRegion.SeeIntoThisSimFromNeighbor = true;
-                    newRegion.InfiniteRegion = true;
+                    newRegion.InfiniteRegion = false;
                     newRegion.ObjectCapacity = 50000;
                     newRegion.RegionPort = RegionPort;
  
@@ -174,7 +174,7 @@ namespace Vision.Modules.Web
                         newRegion.RegionTerrain = "Grassland";
                     newRegion.Startup = StartupType.Medium;
                     newRegion.SeeIntoThisSimFromNeighbor = true;
-                    newRegion.InfiniteRegion = true;
+                    newRegion.InfiniteRegion = false;
                     newRegion.ObjectCapacity = 750;
                     newRegion.RegionSettings.AgentLimit = 10;
                     newRegion.RegionSettings.AllowLandJoinDivide = false;
@@ -188,7 +188,7 @@ namespace Vision.Modules.Web
                     newRegion.RegionTerrain = "Homestead";
                     newRegion.Startup = StartupType.Medium;
                     newRegion.SeeIntoThisSimFromNeighbor = true;
-                    newRegion.InfiniteRegion = true;
+                    newRegion.InfiniteRegion = false;
                     newRegion.ObjectCapacity = 3750;
                     newRegion.RegionSettings.AgentLimit = 20;
                     newRegion.RegionSettings.AllowLandJoinDivide = false;
@@ -203,7 +203,7 @@ namespace Vision.Modules.Web
                     newRegion.RegionTerrain = RegionTerrain;
                     newRegion.Startup = StartupType.Normal;
                     newRegion.SeeIntoThisSimFromNeighbor = true;
-                    newRegion.InfiniteRegion = true;
+                    newRegion.InfiniteRegion = false;
                     newRegion.ObjectCapacity = 15000;
                     newRegion.RegionSettings.AgentLimit = 100;
                     if (newRegion.RegionType.StartsWith ("M"))                           // defaults are 'true'

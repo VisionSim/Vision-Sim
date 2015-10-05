@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,6 +25,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Net;
+using System.Text.RegularExpressions;
+using System.Xml;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.DatabaseInterfaces;
@@ -36,14 +44,6 @@ using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Inventory;
 using Vision.Framework.Services.ClassHelpers.Profile;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Net;
-using System.Text.RegularExpressions;
-using System.Xml;
 using FriendInfo = Vision.Framework.Services.FriendInfo;
 using GridRegion = Vision.Framework.Services.GridRegion;
 using GridSettings = Vision.Modules.Web.GridSettings;
@@ -1002,8 +1002,7 @@ namespace Vision.Services
                                  clientIP);
             aCircuit.TeleportFlags = (uint) tpFlags;
             MainConsole.Instance.DebugFormat("[LoginService]: Attempting to log {0} into {1} at {2}...", account.Name, destination.RegionName, destination.ServerURI);
-            LoginAgentArgs args = m_registry.RequestModuleInterface<IAgentProcessing>().
-                                             LoginAgent(destination, aCircuit, friendsToInform);
+            LoginAgentArgs args = m_registry.RequestModuleInterface<IAgentProcessing>().LoginAgent(destination, aCircuit, friendsToInform);
             aCircuit.CachedUserInfo = args.CircuitData.CachedUserInfo;
             aCircuit.RegionUDPPort = args.CircuitData.RegionUDPPort;
 
@@ -1091,7 +1090,8 @@ namespace Vision.Services
                                   LoginAgent(r, aCircuit, friendsToInform);
                 if (args.Success)
                 {
-                    aCircuit = MakeAgent(r, account, session, secureSession, circuitCode, position, clientIP);
+                    //aCircuit = MakeAgent(r, account, session, secureSession, circuitCode, position, clientIP);
+                    MakeAgent(r, account, session, secureSession, circuitCode, position, clientIP);
                     destination = r;
                     reason = args.Reason;
                     seedCap = args.SeedCap;
@@ -1193,6 +1193,7 @@ namespace Vision.Services
                 bool alreadyThere = false;
                 List<UUID> items2RemoveFromAppearence = new List<UUID>();
                 List<UUID> toDelete = new List<UUID>();
+
                 foreach (InventoryFolderBase folder in userFolders)
                 {
                     if (folder.Name == folderForAppearance.Name)

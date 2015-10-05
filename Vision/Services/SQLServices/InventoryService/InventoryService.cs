@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -71,10 +71,10 @@ namespace Vision.Services.SQLServices.InventoryService
 
             IConfig invConfig = config.Configs["InventoryService"];
             if (invConfig != null)
-                m_AllowDelete = invConfig.GetBoolean("AllowDelete", true);
-
-            registry.RegisterModuleInterface<IInventoryService>(this);
-            Init(registry, Name, serverPath: "/inventory/", serverHandlerName: "InventoryServerURI");
+                m_AllowDelete = invConfig.GetBoolean ("AllowDelete", true);
+            
+            registry.RegisterModuleInterface<IInventoryService> (this);
+            Init (registry, Name, serverPath: "/inventory/", serverHandlerName: "InventoryServerURI");
 
         }
 
@@ -91,7 +91,7 @@ namespace Vision.Services.SQLServices.InventoryService
 
         public virtual void FinishedStartup()
         {
-            if (IsLocalConnector && (MainConsole.Instance != null))
+            if (IsLocalConnector &&  (MainConsole.Instance != null))
             {
                 MainConsole.Instance.Commands.AddCommand (
                     "fix inventory",
@@ -1504,14 +1504,14 @@ namespace Vision.Services.SQLServices.InventoryService
                 {
                     //The viewer loses the parentID when something goes wrong
                     //it puts it in the top where My Inventory should be
-                    //We need to put it back in the My Inventory folder, as the sub folders are right for some reason
+                    //We need to put it back in the root (My Inventory) folder, as the sub folders are right for some reason
                     f.ParentID = rootFolder.ID;
                     m_Database.StoreFolder(f);
                     MainConsole.Instance.WarnFormat("Fixing folder {0}", f.Name);
                 }
                 else if (badFolders.Contains(f.ParentID))
                 {
-                    //Put it back in the My Inventory folder
+                    //Put it back in the root (My Inventory) folder
                     f.ParentID = rootFolder.ID;
                     m_Database.StoreFolder(f);
                     MainConsole.Instance.WarnFormat("Fixing folder {0}", f.Name);

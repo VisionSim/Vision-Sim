@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -58,7 +58,7 @@ namespace Vision.Simulation.Base
         protected ConfigurationLoader m_configurationLoader;
 
         /// <value>
-        ///     The config information passed into the Virtual Vision server.
+        ///     The config information passed into the Vision server.
         /// </value>
         protected IConfigSource m_config;
 
@@ -238,9 +238,9 @@ namespace Vision.Simulation.Base
             if (MainConsole.Instance != null)
             {
                 MainConsole.Instance.DefaultPrompt = m_consolePrompt;
-                MainConsole.Instance.Info(string.Format("[Min Virtual Vision]: Starting Min Virtual Vision ({0})...",
+                MainConsole.Instance.Info(string.Format("[MINVision]: STARTING MIN Vision ({0})...",
                                                         (IntPtr.Size == 4 ? "x86" : "x64")));
-                MainConsole.Instance.Info("[Min Virtual Vision]: Version: " + Version + "\n");
+                MainConsole.Instance.Info("[MINVision]: Version: " + Version + "\n");
             }
         }
 
@@ -249,7 +249,7 @@ namespace Vision.Simulation.Base
         /// </summary>
         public virtual void Startup()
         {
-            MainConsole.Instance.Info("[Min Virtual Vision]: Startup completed in " +
+            MainConsole.Instance.Info("[MINVision]: Startup completed in " +
                                       (DateTime.Now - this.StartupTime).TotalSeconds);
         }
 
@@ -332,7 +332,7 @@ namespace Vision.Simulation.Base
         public virtual void InitializeModules()
         {
             LocalDataService lds = new LocalDataService();
-            lds.Initialize(ConfigSource, ApplicationRegistry, m_dataPlugins);
+            lds.Initialise(ConfigSource, ApplicationRegistry, m_dataPlugins);
 
             List<dynamic> modules = new List<dynamic>();
             foreach (Type t in m_servicePlugins)
@@ -502,7 +502,7 @@ namespace Vision.Simulation.Base
         public virtual void HandleForceGC(IScene scene, string[] cmd)
         {
             GC.Collect();
-            MainConsole.Instance.Warn("[Garbage Collector]: Garbage collection finished");
+            MainConsole.Instance.Warn("Garbage collection finished");
         }
 
         public virtual void runConfig(IScene scene, string[] cmd)

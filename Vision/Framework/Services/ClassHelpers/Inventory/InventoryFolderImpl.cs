@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -290,7 +290,7 @@ namespace Vision.Framework.Services.ClassHelpers.Inventory
         }
 
         /// <summary>
-        ///     Look through all child subfolders for a folder marked as one for a particular asset type, and return it.
+        ///     Look through all child subfolders for a folder marked as one for a particular folder type, and return it.
         /// </summary>
         /// <param name="type"></param>
         /// <returns>Returns null if no such folder is found</returns>

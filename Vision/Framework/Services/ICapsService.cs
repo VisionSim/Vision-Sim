@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -196,7 +196,7 @@ namespace Vision.Framework.Services
         /// </summary>
         /// <param name="server"></param>
         /// <param name="agentID"></param>
-        void Initialize(ICapsService server, UUID agentID);
+        void Initialise(ICapsService server, UUID agentID);
 
         /// <summary>
         ///     Close all Caps connections and destroy any remaining data
@@ -339,7 +339,7 @@ namespace Vision.Framework.Services
         /// <param name="capsBase"></param>
         /// <param name="circuitData"></param>
         /// <param name="port">port to start the CAPS service on (0 means default)</param>
-        void Initialize(IClientCapsService clientCapsService, IRegionCapsService regionCapsService, string capsBase,
+        void Initialise(IClientCapsService clientCapsService, IRegionCapsService regionCapsService, string capsBase,
                         AgentCircuitData circuitData, uint port);
 
         /// <summary>
@@ -425,11 +425,11 @@ namespace Vision.Framework.Services
         GridRegion Region { get; }
 
         /// <summary>
-        ///     Initialize the service
+        ///     Initialise the service
         /// </summary>
         /// <param name="RegionID"></param>
         /// <param name="registry"></param>
-        void Initialize(UUID RegionID, IRegistryCore registry);
+        void Initialise(UUID RegionID, IRegistryCore registry);
 
         /// <summary>
         ///     Close the service and all underlying services

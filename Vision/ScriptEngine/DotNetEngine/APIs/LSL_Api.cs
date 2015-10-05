@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -134,11 +134,11 @@ namespace Vision.ScriptEngine.DotNetEngine.APIs
         protected int m_sleepMsOnXorBase64Strings = 300;
         protected int m_sleepMsOnSetParcelMusicURL = 2000;
         protected int m_sleepMsOnGetPrimMediaParams = 1000;
-        protected int m_sleepMsOnGetLinkMedia = 1000;
+        //protected int m_sleepMsOnGetLinkMedia = 1000;
         protected int m_sleepMsOnSetPrimMediaParams = 1000;
-        protected int m_sleepMsOnSetLinkMedia = 1000;
+        //protected int m_sleepMsOnSetLinkMedia = 1000;
         protected int m_sleepMsOnClearPrimMedia = 1000;
-        protected int m_sleepMsOnClearLinkMedia = 1000;
+        //protected int m_sleepMsOnClearLinkMedia = 1000;
         protected int m_sleepMsOnRequestSimulatorData = 1000;
         protected int m_sleepMsOnLoadURL = 10000;
         protected int m_sleepMsOnParcelMediaCommandList = 2000;
@@ -10210,7 +10210,7 @@ namespace Vision.ScriptEngine.DotNetEngine.APIs
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "LSL", m_host, "LSL", m_itemID)) return "";
 
             if (name == "sim_channel")
-                return "Virtual Vision Server";
+                return "Vision-Sim Server";
             if (name == "sim_version")
                 return World.RequestModuleInterface<ISimulationBase>().Version;
             if (name == "frame_number")
@@ -10879,7 +10879,7 @@ namespace Vision.ScriptEngine.DotNetEngine.APIs
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "LSL", m_host, "LSL", m_itemID))
                 return new LSL_List();
 
-            PScriptSleep(m_sleepMsOnGetLinkMedia);
+            //PScriptSleep(m_sleepMsOnGetLinkMedia);
             List<ISceneChildEntity> entities = GetLinkParts(link);
             if (entities.Count == 0 || face < 0 || face > entities[0].GetNumberOfSides() - 1)
                 return new LSL_List();
@@ -10995,7 +10995,7 @@ namespace Vision.ScriptEngine.DotNetEngine.APIs
         public LSL_Integer llClearLinkMedia(LSL_Integer link, LSL_Integer face)
         {
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "LSL", m_host, "LSL", m_itemID)) return 0;
-            PScriptSleep(m_sleepMsOnClearLinkMedia);
+            //PScriptSleep(m_sleepMsOnClearLinkMedia);
 
             List<ISceneChildEntity> entities = GetLinkParts(link);
             if (entities.Count == 0 || face < 0 || face > entities[0].GetNumberOfSides() - 1)
@@ -11036,7 +11036,7 @@ namespace Vision.ScriptEngine.DotNetEngine.APIs
 
         public LSL_Integer llSetLinkMedia(LSL_Integer link, LSL_Integer face, LSL_List rules)
         {
-            PScriptSleep(m_sleepMsOnSetLinkMedia);
+            //PScriptSleep(m_sleepMsOnSetLinkMedia);
 
             // LSL Spec http://wiki.secondlife.com/wiki/LlSetPrimMediaParams says to fail silently if face is invalid
             // Assuming silently fail means sending back STATUS_OK.  Ideally, need to check this.

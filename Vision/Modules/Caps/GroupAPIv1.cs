@@ -45,7 +45,7 @@ namespace Vision.Modules.Caps
 
         #region INonSharedRegionModule Members
 
-        public void Initialize(IConfigSource pSource)
+        public void Initialise(IConfigSource pSource)
         {
         }
 

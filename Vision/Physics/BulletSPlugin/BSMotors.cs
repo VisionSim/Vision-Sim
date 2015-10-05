@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://Vision-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://whitecore-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -30,7 +30,7 @@ using System;
 using OpenMetaverse;
 using Vision.Framework.Utilities;
 
-namespace Vision.Region.Physics.BulletSPlugin
+namespace Vision.Physics.BulletSPlugin
 {
     public abstract class BSMotor
     {
@@ -177,7 +177,7 @@ namespace Vision.Region.Physics.BulletSPlugin
                     TargetValue *= (1f - decayFactor);
                 }
 
-                MDetailLog("{0}, BSVMotor.Step,nonZerom{1},origCurr={2},origTarget={3},timeStep={4},err={5},corr={6}",
+                MDetailLog("{0}, BSVMotor.Step,nonZero,{1},origCurr={2},origTarget={3},timeStep={4},err={5},corr={6}",
                     BSScene.DetailLogZero, UseName, origCurrVal, origTarget, timeStep, error, correction);
                 MDetailLog("{0}, BSVMotor.Step,nonZero,{1},tgtDecayTS={2},decayFact={3},tgt={4},curr={5}",
                     BSScene.DetailLogZero, UseName, TargetValueDecayTimeScale, decayFactor, TargetValue, CurrentValue);
@@ -317,7 +317,6 @@ namespace Vision.Region.Physics.BulletSPlugin
 
             float correction = 0f;
             float error = TargetValue - CurrentValue;
-            LastError = error;
             if (!ErrorIsZero(error))
             {
                 correction = StepError(timeStep, error);
@@ -366,6 +365,7 @@ namespace Vision.Region.Physics.BulletSPlugin
                 MDetailLog("{0},  BSFMotor.Step,zero,{1},origTgt={2},origCurr={3},ret={4}",
                     BSScene.DetailLogZero, UseName, origCurrVal, origTarget, CurrentValue);
             }
+            LastError = error;
 
             return CurrentValue;
         }
@@ -421,7 +421,7 @@ namespace Vision.Region.Physics.BulletSPlugin
         public float EfficiencyLow = 4.0f;
 
         // Running integration of the error
-        private Vector3 RunningIntegration { get; set; }
+        Vector3 RunningIntegration { get; set; }
 
         public BSPIDVMotor(string useName)
             : base(useName)
@@ -434,6 +434,7 @@ namespace Vision.Region.Physics.BulletSPlugin
             LastError = Vector3.Zero;
         }
 
+        //redundant??
         public override void Zero()
         {
             base.Zero();
@@ -474,9 +475,9 @@ namespace Vision.Region.Physics.BulletSPlugin
             LastError = error;
 
             // Correction = (proportionOfPresentError + accumulationOfPastError + rateOfChangeOfError)
-            Vector3 ret = error * timeStep * proportionFactor * FactorMix.X
-                          + RunningIntegration * integralFactor * FactorMix.Y
-                          + derivitive * derivFactor * FactorMix.Z
+            Vector3 ret = error/TimeScale * timeStep * proportionFactor * FactorMix.X
+                          + RunningIntegration/TimeScale * integralFactor * FactorMix.Y
+                          + derivitive/TimeScale * derivFactor * FactorMix.Z
                 ;
 
             MDetailLog("{0},BSPIDVMotor.step,ts={1},err={2},runnInt={3},deriv={4},ret={5}",

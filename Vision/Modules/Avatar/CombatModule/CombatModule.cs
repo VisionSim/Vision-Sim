@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -30,7 +30,6 @@ using System.Collections.Generic;
 using System.Timers;
 using Nini.Config;
 using OpenMetaverse;
-using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.Physics;
 using Vision.Framework.PresenceInfo;
@@ -104,7 +103,7 @@ namespace Vision.Modules.Combat
             get { return null; }
         }
 
-        public void Initialize(IConfigSource source)
+        public void Initialise(IConfigSource source)
         {
             m_config = source.Configs["CombatModule"];
             if (m_config != null)
@@ -329,8 +328,46 @@ namespace Vision.Modules.Combat
 
             public void PhysicsActor_OnCollisionUpdate(EventArgs e)
             {
+                /*if (HasLeftCombat)
+                    return;
+                */
                 if (e == null)
                     return;
+
+                /*CollisionEventUpdate collisionData = (CollisionEventUpdate) e;
+                Dictionary<uint, ContactPoint> coldata = collisionData.m_objCollisionList;
+
+                UUID killerObj = UUID.Zero;
+                foreach (uint localid in coldata.Keys)
+                {
+                    ISceneChildEntity part = m_part.Scene.GetSceneObjectPart(localid);
+                    if (part != null && part.ParentEntity.Damage != -1.0f)
+                    {
+                        if (part.ParentEntity.Damage > MaximumDamageToInflict)
+                            part.ParentEntity.Damage = MaximumDamageToInflict;
+
+                        Health -= part.ParentEntity.Damage;
+                        if (Health <= 0.0f)
+                            killerObj = part.UUID;
+                    }
+                    else
+                    {
+                        float Z = Math.Abs(m_part.Velocity.Z);
+                        if (coldata[localid].PenetrationDepth >= 0.05f)
+                            Health -= coldata[localid].PenetrationDepth*Z;
+                    }
+
+                    //Regenerate health (this is approx 1 sec)
+                    if ((int) (Health + 0.0625) <= m_combatModule.MaximumHealth)
+                        Health += 0.0625f;
+
+                    if (Health > m_combatModule.MaximumHealth)
+                        Health = m_combatModule.MaximumHealth;
+                }
+                if (Health <= 0)
+                {
+                    Die(killerObj);
+                }*/
             }
 
             public void LeaveCombat()
@@ -413,6 +450,7 @@ namespace Vision.Modules.Combat
             string m_Team = "No Team";
             CombatModule m_combatModule;
             float m_health = 100f;
+            //Dictionary<string, float> GenericStats = new Dictionary<string, float>();
 
             public float Health
             {
@@ -561,7 +599,7 @@ namespace Vision.Modules.Combat
 
                     if (Health <= 0 && killingAvatar == null)
                         killingAvatar = otherAvatar;
-                    //MainConsole.Instance.Debug("[Avatar]: Collision with localid: " + localid.ToString() + " at depth: " + coldata[localid].ToString());
+                    //MainConsole.Instance.Debug("[AVATAR]: Collision with localid: " + localid.ToString() + " at depth: " + coldata[localid].ToString());
                 }
 
                 if (starthealth != Health)

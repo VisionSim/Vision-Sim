@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,18 +25,18 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.PresenceInfo;
-using Vision.Framework.Services;
-using Vision.Framework.Services.ClassHelpers.Inventory;
-using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using Nini.Config;
+using OpenMetaverse;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.PresenceInfo;
+using Vision.Framework.Services;
+using Vision.Framework.Services.ClassHelpers.Inventory;
+using Vision.Framework.Utilities;
 using FriendInfo = Vision.Framework.Services.FriendInfo;
 using GridRegion = Vision.Framework.Services.GridRegion;
 

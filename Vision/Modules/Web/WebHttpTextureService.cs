@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,18 +25,18 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.Imaging;
 using Vision.Framework.Modules;
 using Vision.Framework.Servers.HttpServer;
 using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Services;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.Imaging;
-using System;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
 
 namespace Vision.Modules.Web
 {
@@ -95,7 +95,7 @@ namespace Vision.Modules.Web
                 if (mapasset != null)
                 {
                     // Decode image to System.Drawing.Image
-                    Image image = null;
+                    Image image;
                     ManagedImage managedImage;
                     if (OpenJPEG.DecodeToImage(mapasset, out managedImage, out image))
                     {
@@ -122,7 +122,7 @@ namespace Vision.Modules.Web
             return jpeg;
         }
 
-        private Bitmap ResizeBitmap(Image b, int nWidth, int nHeight)
+        Bitmap ResizeBitmap(Image b, int nWidth, int nHeight)
         {
             Bitmap newsize = new Bitmap(nWidth, nHeight);
             Graphics temp = Graphics.FromImage(newsize);
@@ -135,7 +135,7 @@ namespace Vision.Modules.Web
         }
 
         // From MSDN
-        private static ImageCodecInfo GetEncoderInfo(String mimeType)
+        static ImageCodecInfo GetEncoderInfo(String mimeType)
         {
             ImageCodecInfo[] encoders;
             encoders = ImageCodecInfo.GetImageEncoders();

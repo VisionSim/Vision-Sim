@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -27,9 +27,9 @@
 
 using System;
 using System.Collections.Generic;
+using OpenMetaverse;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
-using OpenMetaverse;
 
 namespace Vision.Framework.Physics
 {
@@ -54,7 +54,7 @@ namespace Vision.Framework.Physics
         // Raising the event on the object, so don't need to provide location..  further up the tree knows that info.
 
         public bool Cleared;
-        private Dictionary<uint, ContactPoint> m_objCollisionList = new Dictionary<uint, ContactPoint>();
+        Dictionary<uint, ContactPoint> m_objCollisionList = new Dictionary<uint, ContactPoint>();
 
         public CollisionEventUpdate()
         {
@@ -215,7 +215,7 @@ namespace Vision.Framework.Physics
         public abstract float Mass { get; }
         public abstract float CollisionScore { get; set; }
         public abstract Quaternion Orientation { get; set; }
-        public abstract int PhysicsActorType { get; }
+        public abstract int PhysicsActorType { get; set;}
         public abstract bool IsPhysical { get; set; }
         public abstract bool ThrottleUpdates { get; set; }
         public abstract bool IsColliding { get; set; }
@@ -421,6 +421,7 @@ namespace Vision.Framework.Physics
         public override int PhysicsActorType
         {
             get { return (int) ActorTypes.Ground; }
+            set { return; }
         }
 
         public override Vector3 RotationalVelocity
@@ -564,6 +565,8 @@ namespace Vision.Framework.Physics
         public override int PhysicsActorType
         {
             get { return (int) ActorTypes.Unknown; }
+            set { return; }
+
         }
 
         public override Vector3 RotationalVelocity

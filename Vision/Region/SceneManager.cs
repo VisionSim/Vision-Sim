@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -135,7 +135,7 @@ namespace Vision.Region
                 Console.Read(); //Wait till they see
                 Environment.Exit(0);
             }
-            m_selectedDataService.Initialize();
+            m_selectedDataService.Initialise();
 
             AddConsoleCommands();
 
@@ -150,11 +150,11 @@ namespace Vision.Region
             foreach (IScene scene in m_scenes)
             {
                 scene.Config = config;
-                scene.PhysicsScene.PostInitialize(config);
+                scene.PhysicsScene.PostInitialise(config);
             }
         }
 
-        public void PostInitialize()
+        public void PostInitialise()
         {
         }
 
@@ -459,7 +459,7 @@ namespace Vision.Region
             //First, Initialize the SharedRegionStartupModule
             foreach (ISharedRegionStartupModule module in m_startupPlugins)
             {
-                module.Initialize(scene, m_config, m_SimBase);
+                module.Initialise(scene, m_config, m_SimBase);
             }
             //Then do the ISharedRegionModule and INonSharedRegionModules
             MainConsole.Instance.Debug("[Modules]: Loading region modules");
@@ -473,7 +473,7 @@ namespace Vision.Region
             //Then finish the rest of the SharedRegionStartupModules
             foreach (ISharedRegionStartupModule module in m_startupPlugins)
             {
-                module.PostInitialize(scene, m_config, m_SimBase);
+                module.PostInitialise(scene, m_config, m_SimBase);
             }
             foreach (ISharedRegionStartupModule module in m_startupPlugins)
             {

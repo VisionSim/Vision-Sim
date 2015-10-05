@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -101,8 +101,8 @@ namespace Vision.Framework.Physics
 
         public virtual int StatCollisionAccountingTime { get; protected set; }
 
-        public abstract void Initialize(IMesher meshmerizer, IScene scene);
-        public abstract void PostInitialize(IConfigSource config);
+        public abstract void Initialise(IMesher meshmerizer, IScene scene);
+        public abstract void PostInitialise(IConfigSource config);
         public abstract string EngineType { get; }
 
         public abstract PhysicsActor AddAvatar(string avName, Vector3 position, Quaternion rotation, Vector3 size,
@@ -219,12 +219,12 @@ namespace Vision.Framework.Physics
             get { return false; }
         }
 
-        public override void Initialize(IMesher meshmerizer, IScene scene)
+        public override void Initialise(IMesher meshmerizer, IScene scene)
         {
             // Does nothing right now
         }
 
-        public override void PostInitialize(IConfigSource config)
+        public override void PostInitialise(IConfigSource config)
         {
         }
 

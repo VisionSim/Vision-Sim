@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -36,7 +36,7 @@ namespace Vision.Framework.Utilities
 
         public enum Flavour
         {
-            Dev,
+            Development,
             Prerelease,
             RC1,
             RC2,
@@ -46,8 +46,8 @@ namespace Vision.Framework.Utilities
 
         #endregion
 
-		public const string VERSION_NUMBER = "1.0.1";
-        public const Flavour VERSION_FLAVOUR = Flavour.Dev;
+        public const string VERSION_NUMBER = "0.9.4";
+        public const Flavour VERSION_FLAVOUR = Flavour.Development;
         public const string VERSION_NAME = "Vision";
 
         public static string Version
@@ -58,12 +58,12 @@ namespace Vision.Framework.Utilities
         public static string GetVersionString(string versionNumber, Flavour flavour)
         {
             string versionString = VERSION_NAME + " " + versionNumber + " " + flavour;
-            
+
             // Check if there's a custom .version file with the commit hash in it
             // Else return the standard versionString.
-            
+
             string gitCommitFileName = ".version";
-            
+
             if (File.Exists(gitCommitFileName))
             {
                 StreamReader CommitFile = File.OpenText(gitCommitFileName);

@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,19 +25,19 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Modules;
+using Vision.Framework.SceneInfo;
+using Nini.Config;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Nini.Config;
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Modules;
-using Vision.Framework.SceneInfo;
 
 namespace Vision.Modules.Archivers
 {
     /// <summary>
-    ///     This module loads and saves Virtual Vision region archives
+    ///     This module loads and saves OpenSimulator region archives
     /// </summary>
     public class ArchiverModule : INonSharedRegionModule, IRegionArchiverModule
     {
@@ -61,16 +61,16 @@ namespace Vision.Modules.Archivers
         }
 
 
-        public void Initialize(IConfigSource source)
+        public void Initialise(IConfigSource source)
         {
-            //MainConsole.Instance.Debug("[Archiver] Initializing");
+            //MainConsole.Instance.Debug("[ARCHIVER] Initializing");
         }
 
         public void AddRegion(IScene scene)
         {
             m_scene = scene;
             m_scene.RegisterModuleInterface<IRegionArchiverModule>(this);
-            //MainConsole.Instance.DebugFormat("[Archiver]: Enabled for region {0}", scene.RegionInfo.RegionName);
+            //MainConsole.Instance.DebugFormat("[ARCHIVER]: Enabled for region {0}", scene.RegionInfo.RegionName);
         }
 
         public void RegionLoaded(IScene scene)
@@ -207,7 +207,7 @@ namespace Vision.Modules.Archivers
         public void ArchiveRegion(string savePath, Guid requestId, string permissions)
         {
             MainConsole.Instance.InfoFormat(
-                "[Archiver]: Writing archive for region {0} to {1}", m_scene.RegionInfo.RegionName, savePath);
+                "[ARCHIVER]: Writing archive for region {0} to {1}", m_scene.RegionInfo.RegionName, savePath);
 
             new ArchiveWriteRequestPreparation(m_scene, savePath, requestId, permissions).ArchiveRegion();
         }
@@ -227,7 +227,7 @@ namespace Vision.Modules.Archivers
                                     bool useParcelOwnership, bool checkOwnership)
         {
             MainConsole.Instance.InfoFormat(
-                "[Archiver]: Loading archive to region {0} from {1}", m_scene.RegionInfo.RegionName, loadPath);
+                "[ARCHIVER]: Loading archive to region {0} from {1}", m_scene.RegionInfo.RegionName, loadPath);
 
             var archiveRead = new ArchiveReadRequest (m_scene, loadPath, merge, skipAssets, skipTerrain, offsetX,
                                   offsetY, offsetZ, flipX, flipY, useParcelOwnership, checkOwnership);
