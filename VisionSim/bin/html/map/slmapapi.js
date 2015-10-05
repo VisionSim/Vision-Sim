@@ -377,7 +377,7 @@ var SLURL = {
 			slMap.options            = new SLURL.MapOptions(map_options);
 			slMap.mapProjection      = new SLURL.EuclideanProjection(18);
 
-			// Create our custom map types and initialize map with them
+			// Create our custom map types and initialise map with them
 			var
 				mapTypes           = slMap.CreateMapTypes(),
 				mapDiv             = slMap.CreateMapDiv(map_element),

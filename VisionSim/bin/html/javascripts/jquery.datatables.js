@@ -615,7 +615,7 @@
 		var searchCols = oSettings.aoPreSearchCols;
 		searchCols[ iCol ] = $.extend( {}, DataTable.models.oSearch, searchCols[ iCol ] );
 	
-		// Use the default column options function to initialize classes etc
+		// Use the default column options function to initialise classes etc
 		_fnColumnOptions( oSettings, iCol, $(nTh).data() );
 	}
 	
@@ -6559,7 +6559,7 @@
 			/* Initialisation complete - table can be drawn */
 			oSettings.bInitialised = true;
 			
-			/* Check if we need to initialize the table (it might not have been handed off to the
+			/* Check if we need to initialise the table (it might not have been handed off to the
 			 * language processor)
 			 */
 			if ( bInitHandedOff === false )
@@ -6722,7 +6722,7 @@
 	 *   * `node` - `TABLE` node which has already been formed into a DataTable.
 	 *   * `jQuery` - A jQuery object of `TABLE` nodes.
 	 *   * `object` - DataTables settings object
-	 * @param {array} [data] Data to initialize the Api instance with.
+	 * @param {array} [data] Data to initialise the Api instance with.
 	 *
 	 * @example
 	 *   // Direct initialisation during DataTables construction
@@ -10494,7 +10494,7 @@
 	
 		/**
 		 * Called when the table has been initialised. Normally DataTables will
-		 * initialize sequentially and there will be no need for this function,
+		 * initialise sequentially and there will be no need for this function,
 		 * however, this does not hold true when using external language information
 		 * since that is obtained using an async XHR call.
 		 *  @type function
@@ -13549,7 +13549,7 @@
 		 * Each feature plug-in is described by an object which must have the
 		 * following properties:
 		 * 
-		 * * `fnInit` - function that is used to initialize the plug-in,
+		 * * `fnInit` - function that is used to initialise the plug-in,
 		 * * `cFeature` - a character so the feature can be enabled by the `dom`
 		 *   instillation option. This is case sensitive.
 		 *
