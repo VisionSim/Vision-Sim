@@ -30,7 +30,7 @@ using Vision.Simulation.Base;
 namespace Vision
 {
     /// <summary>
-    ///     Starting class for the Virtual Vision Simulator
+    ///     Starting class for the Vision Simulator
     /// </summary>
     public class Application
     {
