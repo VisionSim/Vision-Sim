@@ -94,7 +94,7 @@ fi
 
 # Update version info
 if [ -d ".git" ]; then 
-  git log --pretty=format:"Vision 1.0.1 (%cd.%h)" --date=short -n 1 > VisionSim/bin/.version; 
+  git log --pretty=format:"Vision 0.9.3 (%cd.%h)" --date=short -n 1 > VisionSim/bin/.version; 
   echo "Version info updated"
 fi
 
