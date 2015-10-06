@@ -207,6 +207,7 @@ namespace Vision.ScriptEngine.DotNetEngine
 
 #if LINUX
 
+#pragma warning disable 612, 618
             PolicyStatement emptyPolicy = new PolicyStatement(new PermissionSet(PermissionState.None));
             UnionCodeGroup policyRoot = new UnionCodeGroup(new AllMembershipCondition(), emptyPolicy);
 
@@ -256,6 +257,7 @@ namespace Vision.ScriptEngine.DotNetEngine
             // create an AppDomain where this policy will be in effect
             restrictedDomain = AppDomain.CreateDomain(appDomainName, null, ads);
             restrictedDomain.SetAppDomainPolicy(appDomainLevel);
+#pragma warning disable 612, 618
 #else
             SecurityZone zone = SecurityZone.MyComputer;
             try
