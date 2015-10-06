@@ -581,9 +581,9 @@ namespace Vision.ClientStack
             // Disable UDP handling for this client
             m_udpClient.Shutdown();
 
-            //MainConsole.Instance.InfoFormat("[CLIENTVIEW] Memory pre  GC {0}", System.GC.GetTotalMemory(false));
+            //MainConsole.Instance.InfoFormat("[Client View] Memory pre  GC {0}", System.GC.GetTotalMemory(false));
             //GC.Collect();
-            //MainConsole.Instance.InfoFormat("[CLIENTVIEW] Memory post GC {0}", System.GC.GetTotalMemory(true));
+            //MainConsole.Instance.InfoFormat("[Client View] Memory post GC {0}", System.GC.GetTotalMemory(true));
         }
 
         public void Kick(string message)
@@ -732,7 +732,7 @@ namespace Vision.ClientStack
             {
                 // Make sure that we see any exception caused by the asynchronous operation.
                 MainConsole.Instance.ErrorFormat(
-                    "[LLCLIENTVIEW]: Caught exception while processing {0} for {1}, {2} {3}",
+                    "[Client View]: Caught exception while processing {0} for {1}, {2} {3}",
                     packetObject.Pack, Name, e.Message, e.StackTrace);
             }
         }
@@ -4050,7 +4050,7 @@ namespace Vision.ClientStack
                 }
                 catch (Exception ex)
                 {
-                    MainConsole.Instance.Warn("[LLCLIENTVIEW]: Issue creating an update block " + ex);
+                    MainConsole.Instance.Warn("[Client View]: Issue creating an update block " + ex);
                     return;
                 }
             }
@@ -4834,7 +4834,7 @@ namespace Vision.ClientStack
             CameraConstraintPacket cpack =
                 (CameraConstraintPacket) PacketPool.Instance.GetPacket(PacketType.CameraConstraint);
             cpack.CameraCollidePlane = new CameraConstraintPacket.CameraCollidePlaneBlock {Plane = ConstraintPlane};
-            //MainConsole.Instance.DebugFormat("[CLIENTVIEW]: Constraint {0}", ConstraintPlane);
+            //MainConsole.Instance.DebugFormat("[Client View]: Constraint {0}", ConstraintPlane);
             OutPacket(cpack, ThrottleOutPacketType.AvatarInfo);
         }
 
@@ -5209,7 +5209,7 @@ namespace Vision.ClientStack
             }
 
 //            MainConsole.Instance.DebugFormat(
-//                "[LLCLIENTVIEW]: Constructing client update for part {0} {1} with flags {2}, localId {3}",
+//                "[Client View]: Constructing client update for part {0} {1} with flags {2}, localId {3}",
 //                data.Name, update.FullID, flags, update.ID);
 
             update.UpdateFlags = (uint) flags;
@@ -5970,12 +5970,12 @@ namespace Vision.ClientStack
                     catch (Exception e)
                     {
                         MainConsole.Instance.ErrorFormat(
-                            "[LLCLIENTVIEW]: Exception when handling generic message {0}{1}", e.Message, e.StackTrace);
+                            "[Client View]: Exception when handling generic message {0}{1}", e.Message, e.StackTrace);
                     }
                 }
             }
 
-            //MainConsole.Instance.Debug("[LLCLIENTVIEW]: Not handling GenericMessage with method-type of: " + method);
+            //MainConsole.Instance.Debug("[Client View]: Not handling GenericMessage with method-type of: " + method);
             return false;
         }
 
@@ -10130,14 +10130,14 @@ namespace Vision.ClientStack
                     return true;
                 default:
                     MainConsole.Instance.WarnFormat(
-                        "[LLCLIENTVIEW]: EstateOwnerMessage: Unknown method {0} requested for {1}",
+                        "[Client View]: EstateOwnerMessage: Unknown method {0} requested for {1}",
                         method, Name);
 
                     for (int i = 0; i < messagePacket.ParamList.Length; i++)
                     {
                         EstateOwnerMessagePacket.ParamListBlock block = messagePacket.ParamList[i];
                         string data = (string) Utils.BytesToString(block.Parameter);
-                        MainConsole.Instance.DebugFormat("[LLCLIENTVIEW]: Param {0}={1}", i, data);
+                        MainConsole.Instance.DebugFormat("[Client View]: Param {0}={1}", i, data);
                     }
 
                     return true;
