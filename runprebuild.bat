@@ -1,7 +1,7 @@
 @ECHO OFF
 
 echo ========================================
-echo ==== Vision Configuration ===========
+echo ==== Vision Sim Configuration ==========
 echo ========================================
 echo.
 echo If you wish to customize the configuration, re-run with the switch '-p'

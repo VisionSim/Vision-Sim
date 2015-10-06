@@ -1,7 +1,7 @@
 @ECHO OFF
 
 echo ========================================
-echo ==== Vision Configuration ===========
+echo ==== Vision Sim Configuration ==========
 echo ========================================
 
 rem ## Default "configuration" choice ((r)elease, (d)ebug)
