@@ -1507,6 +1507,61 @@
       </Files>
     </Project>
 
+    <Project frameworkVersion="v4_5" name="Vision.Services.WebAPI" path="Vision/Services/WebAPI" type="Library">
+      <Configuration name="Debug" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Debug" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="AnyCPU">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/</OutputPath>
+        </Options>
+      </Configuration>
+
+      <ReferencePath>../../../VisionSim/bin/</ReferencePath>
+      <Reference name="Microsoft.CSharp"/>
+      <Reference name="System"/>
+      <Reference name="System.Core"/>
+      <Reference name="System.Data"/>
+      <Reference name="System.Drawing"/>
+      <Reference name="System.Xml"/>
+      <Reference name="System.Web"/>
+
+      <Reference name="Vision.Framework"/>
+
+      <Reference name="Nini" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverse.StructuredData" path="../../../VisionSim/bin/"/>
+      <Reference name="OpenMetaverseTypes" path="../../../VisionSim/bin/"/>
+
+      <Files>
+        <Match pattern="*.cs" recurse="true">
+          <Exclude name="obj" pattern="obj"/>
+        </Match>
+      </Files>
+    </Project>
+
     <?include file="addon-modules/*/prebuild*.xml" ?>
 
   </Solution>
