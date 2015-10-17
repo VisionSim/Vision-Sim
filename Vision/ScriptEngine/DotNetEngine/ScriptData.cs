@@ -25,16 +25,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.ClientInterfaces;
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Modules;
-using Vision.Framework.PresenceInfo;
-using Vision.Framework.SceneInfo;
-using Vision.Framework.SceneInfo.Entities;
-using Vision.Framework.Utilities;
-using Vision.ScriptEngine.DotNetEngine.Runtime;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -44,6 +34,16 @@ using System.Linq;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Lifetime;
 using System.Threading;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
+using Vision.Framework.ClientInterfaces;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Modules;
+using Vision.Framework.PresenceInfo;
+using Vision.Framework.SceneInfo;
+using Vision.Framework.SceneInfo.Entities;
+using Vision.Framework.Utilities;
+using Vision.ScriptEngine.DotNetEngine.Runtime;
 
 namespace Vision.ScriptEngine.DotNetEngine
 {
@@ -56,9 +56,9 @@ namespace Vision.ScriptEngine.DotNetEngine
             m_ScriptEngine = engine;
 
             NextEventDelay = new Dictionary<string, long>();
+            NextEventDelay.Add("attach", 0);
             NextEventDelay.Add("at_rot_target", 0);
             NextEventDelay.Add("at_target", 0);
-            NextEventDelay.Add("attach", 0);
             NextEventDelay.Add("changed", 0);
             NextEventDelay.Add("collision", 0);
             NextEventDelay.Add("collision_end", 0);
