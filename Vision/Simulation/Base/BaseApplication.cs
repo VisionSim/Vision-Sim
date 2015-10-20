@@ -27,11 +27,6 @@
 
 //#define BlockUnsupportedVersions
 
-using Vision.Framework.Configuration;
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Modules;
-using Vision.Framework.Utilities;
-using Nini.Config;
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -39,6 +34,11 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
+using Nini.Config;
+using Vision.Framework.Configuration;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Modules;
+using Vision.Framework.Utilities;
 
 namespace Vision.Simulation.Base
 {
@@ -61,7 +61,7 @@ namespace Vision.Simulation.Base
         /// <summary>
         ///     Directory to save crash reports to.  Relative to bin/
         /// </summary>
-        public static string m_crashDir = "crashes";
+        public static string m_crashDir = Constants.DEFAULT_CONFIG_DIR;
 
         static bool _IsHandlingException; // Make sure we don't go recursive on ourselves
 
