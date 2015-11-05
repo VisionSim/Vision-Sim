@@ -1,5 +1,5 @@
-/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
+﻿/*
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision-sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -29,39 +29,35 @@ using System;
 using System.Collections.Generic;
 using Vision.Framework.Utilities;
 
-namespace Vision.DataManager.Migration.Migrators.Auth
+namespace Vision.DataManager.Migration.Migrators.UserInfo
 {
-    public class AuthMigrator_1 : Migrator
+    public class UserInfoMigrator_0 : Migrator
     {
-        public AuthMigrator_1()
+        public UserInfoMigrator_0()
         {
-            Version = new Version(0, 0, 1);
-            MigrationName = "Auth";
+            Version = new Version(0, 0, 0);
+            MigrationName = "UserInfo";
 
             schema = new List<SchemaDefinition>();
 
-            //
-            // Change summery:
-            //
-            //   Remove the webLoginKey pieces (as it shouldn't be used in this way)
-            //
-
-            AddSchema("auth", ColDefs(
-                ColDef("UUID", ColumnTypes.Char36),
-                ColDef("passwordHash", ColumnTypes.Char32),
-                ColDef("passwordSalt", ColumnTypes.Char32),
-                ColDef("accountType", ColumnTypes.Char32)
-                                  ), IndexDefs(
-                                      IndexDef(new string[2] {"UUID", "accountType"}, IndexType.Primary)
-                                         ));
-
-            AddSchema("tokens", ColDefs(
-                ColDef("UUID", ColumnTypes.Char36),
-                ColDef("token", ColumnTypes.String255),
-                ColDef("validity", ColumnTypes.Date)
-                                    ), IndexDefs(
-                                        IndexDef(new string[2] {"UUID", "token"}, IndexType.Primary)
-                                           ));
+            AddSchema("user_info", ColDefs(
+                ColDef("UserID", ColumnTypes.String50),
+                ColDef("RegionID", ColumnTypes.String50),
+                ColDef("LastSeen", ColumnTypes.Integer30),
+                ColDef("IsOnline", ColumnTypes.String36),
+                ColDef("LastLogin", ColumnTypes.String50),
+                ColDef("LastLogout", ColumnTypes.String50),
+                ColDef("Info", ColumnTypes.String512),
+                ColDef("CurrentRegionID", ColumnTypes.Char36),
+                ColDef("CurrentPosition", ColumnTypes.String36),
+                ColDef("CurrentLookat", ColumnTypes.String36),
+                ColDef("HomeRegionID", ColumnTypes.Char36),
+                ColDef("HomePosition", ColumnTypes.String36),
+                ColDef("HomeLookat", ColumnTypes.String36),
+                ColDef("CurrentRegionURI", ColumnTypes.String255)
+                                      ), IndexDefs(
+                                          IndexDef(new string[1] { "UserID" }, IndexType.Primary)
+                                             ));
         }
 
         protected override void DoCreateDefaults(IDataConnector genericData)
