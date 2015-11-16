@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -49,7 +49,7 @@ namespace Vision.Simulation.Base
     {
 
         /// <summary>
-        ///     Save Crashes in the bin/crashes folder.  Configurable with m_crashDir
+        ///     Save Crashes in the Data/Crashes folder.  Configurable with m_crashDir
         /// </summary>
         public static bool m_saveCrashDumps;
 
@@ -59,9 +59,9 @@ namespace Vision.Simulation.Base
         static readonly ConfigurationLoader m_configLoader = new ConfigurationLoader();
 
         /// <summary>
-        ///     Directory to save crash reports to.  Relative to bin/
+        ///     Directory to save crash reports to.  Relative to Data/Crashes
         /// </summary>
-        public static string m_crashDir = Constants.DEFAULT_CONFIG_DIR;
+        public static string m_crashDir = Constants.DEFAULT_CRASH_DIR;
 
         static bool _IsHandlingException; // Make sure we don't go recursive on ourselves
 
@@ -81,12 +81,12 @@ namespace Vision.Simulation.Base
             // Increase the number of IOCP threads available. Mono defaults to a tragically low number
             int workerThreads, iocpThreads;
             ThreadPool.GetMaxThreads(out workerThreads, out iocpThreads);
-            //MainConsole.Instance.InfoFormat("[WHiteCore MAIN]: Runtime gave us {0} worker threads and {1} IOCP threads", workerThreads, iocpThreads);
+            //MainConsole.Instance.InfoFormat("[Vision Sim Main]: Runtime gave us {0} worker threads and {1} IOCP threads", workerThreads, iocpThreads);
             if (workerThreads < 500 || iocpThreads < 1000)
             {
                 workerThreads = 500;
                 iocpThreads = 1000;
-                //MainConsole.Instance.Info("[WHiteCore MAIN]: Bumping up to 500 worker threads and 1000 IOCP threads");
+                //MainConsole.Instance.Info("[Vision Sim Main]: Bumping up to 500 worker threads and 1000 IOCP threads");
                 ThreadPool.SetMaxThreads(workerThreads, iocpThreads);
             }
 
@@ -147,10 +147,10 @@ namespace Vision.Simulation.Base
                 if (!requested)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-					Console.WriteLine("\n\n************* Vision initial run. *************");
+					Console.WriteLine("\n\n************* Vision Sim initial run. *************");
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine(
-                        "\n\n   This appears to be your first time running Vision.\n"+
+                        "\n\n   This appears to be your first time running Vision Sim.\n"+
                         "If you have already configured your *.ini files, please ignore this warning and press enter;\n" +
                         "Otherwise type 'yes' and Vision will guide you through the configuration process.\n\n"+
                         "Remember, these file names are Case Sensitive in Linux and Proper Cased.\n"+
@@ -168,16 +168,16 @@ namespace Vision.Simulation.Base
                 Console.WriteLine("This will overwrite any existing configuration files!");
                 Console.ResetColor();
                 Console.WriteLine ("");
-                resp = ReadLine("Do you want to configure Vision now?  (yes/no)", resp);
+                resp = ReadLine("Do you want to configure Vision Sim now?  (yes/no)", resp);
 
                 if (resp == "yes")
                 {
                     string cfgFolder = Vision_ConfigDir + "/";           // Main Config folder >> "../Config" (default)
 
                     string dbSource = "localhost";
-					string dbPasswd = "whitecore";
-					string dbSchema = "whitecore";
-					string dbUser = "whitecore";
+					string dbPasswd = "vision";
+					string dbSchema = "vision";
+					string dbUser = "vision";
                     string dbPort = "3306";
                     string gridIPAddress = Utilities.GetExternalIp();
                     string regionIPAddress = gridIPAddress;
@@ -191,7 +191,7 @@ namespace Vision.Simulation.Base
 
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("====================================================================");
-					Console.WriteLine("======================= Vision CONFIGURATOR =====================");
+					Console.WriteLine("=================== Vision Sim Configurator ==================");
                     Console.WriteLine("====================================================================");
                     Console.ResetColor();
 
@@ -227,7 +227,7 @@ namespace Vision.Simulation.Base
                             Console.ForegroundColor = ConsoleColor.White;
                             Console.WriteLine(
                                 "\nNote: this setup does not automatically create a MySQL installation for you.\n" +
-                                " This will configure the Vision setting but you must install MySQL as well");
+                                " This will configure the Vision Sim setting but you must install MySQL as well");
                             Console.ResetColor();
 
                             dbSource = ReadLine("MySQL database IP", dbSource);
@@ -244,7 +244,7 @@ namespace Vision.Simulation.Base
 
                     if (isStandalone)
                     {
-                        gridName = ReadLine("Name of your Vision-Sim Grid", gridName);
+                        gridName = ReadLine("Name of your Vision Sim Grid", gridName);
 
                         welcomeMessage = "Welcome to " + gridName + ", <USERNAME>!";
                         Console.ForegroundColor = ConsoleColor.White;
@@ -331,18 +331,18 @@ namespace Vision.Simulation.Base
                     if (isVisionExe)
                     {
 						MakeSureExists(cfgFolder + "Vision.ini");
-                        var whitecore_ini = new IniConfigSource(
+                        var vision_ini = new IniConfigSource(
                             cfgFolder + "Vision.ini",
                             Nini.Ini.IniFileType.AuroraStyle);
-                        var whitecore_ini_example = new IniConfigSource(
+                        var vision_ini_example = new IniConfigSource(
                             cfgFolder + "Vision.ini.example",
                             Nini.Ini.IniFileType.AuroraStyle);
 
                         bool setIp = false;
 
-						foreach (IConfig config in whitecore_ini_example.Configs)
+						foreach (IConfig config in vision_ini_example.Configs)
                         {
-							IConfig newConfig = whitecore_ini.AddConfig(config.Name);
+							IConfig newConfig = vision_ini.AddConfig(config.Name);
                             foreach (string key in config.GetKeys())
                             {
                                 if (key == "http_listener_port")
@@ -364,7 +364,7 @@ namespace Vision.Simulation.Base
                         }
 
 
-						whitecore_ini.Save();
+						vision_ini.Save();
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Your Vision.ini has been successfully configured");
                         Console.ResetColor();
@@ -450,10 +450,10 @@ namespace Vision.Simulation.Base
                     if (!isVisionExe)
                     {
                         MakeSureExists(cfgFolder + "Vision.Server.ini");
-                        var whitecore_ini = new IniConfigSource(
+                        var vision_ini = new IniConfigSource(
                             cfgFolder + "Vision.Server.ini",
                             Nini.Ini.IniFileType.AuroraStyle);
-                        var whitecore_ini_example = new IniConfigSource(
+                        var vision_ini_example = new IniConfigSource(
                             cfgFolder + "Vision.Server.ini.example",
                             Nini.Ini.IniFileType.AuroraStyle);
 
@@ -461,9 +461,9 @@ namespace Vision.Simulation.Base
                             ReadLine("\nThe domain name or IP address of the grid server", gridIPAddress);
                         bool ipSet = false;
 
-                        foreach (IConfig config in whitecore_ini_example.Configs)
+                        foreach (IConfig config in vision_ini_example.Configs)
                         {
-                            IConfig newConfig = whitecore_ini.AddConfig(config.Name);
+                            IConfig newConfig = vision_ini.AddConfig(config.Name);
                             foreach (string key in config.GetKeys())
                             {
                                 if (key == "HostName")
@@ -482,7 +482,7 @@ namespace Vision.Simulation.Base
                             }
                         }
 
-                        whitecore_ini.Save();
+                        vision_ini.Save();
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Your Vision.Server.ini has been successfully configured");
                         Console.ResetColor();
@@ -561,7 +561,7 @@ namespace Vision.Simulation.Base
                     Console.WriteLine(
                         "To re-run this configurator, enter \"run configurator\" into the console.");
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine(" >> Please restart to use your new configuration. <<");
+                    Console.WriteLine(" >> Please restart Vision Sim to use your new configuration. <<");
                     Console.ResetColor ();
                     Console.WriteLine ("");
                     
@@ -654,7 +654,7 @@ namespace Vision.Simulation.Base
             msg += "\r\n";
             msg += "Application is terminating: " + isTerminating.ToString(CultureInfo.InvariantCulture) + "\r\n";
 
-            MainConsole.Instance.ErrorFormat("[APPLICATION]: {0}", msg);
+            MainConsole.Instance.ErrorFormat("[Application]: {0}", msg);
 
             handleException(msg, ex);
         }
@@ -688,7 +688,7 @@ namespace Vision.Simulation.Base
                 }
                 catch (Exception e2)
                 {
-                    MainConsole.Instance.ErrorFormat("[CRASH LOGGER CRASHED]: {0}", e2);
+                    MainConsole.Instance.ErrorFormat("[Crash Logger Crashed]: {0}", e2);
                 }
             }
         }

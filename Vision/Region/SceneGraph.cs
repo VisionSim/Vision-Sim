@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -95,11 +95,11 @@ namespace Vision.Region
             m_parentScene.EventManager.OnNewClient += SubscribeToClientEvents;
             m_parentScene.EventManager.OnClosingClient += UnSubscribeToClientEvents;
 
-			IConfig whitecorestartupConfig = parent.Config.Configs["VisionStartup"];
-			if (whitecorestartupConfig != null)
+			IConfig visionstartupConfig = parent.Config.Configs["VisionStartup"];
+			if (visionstartupConfig != null)
             {
-				m_DefaultObjectName = whitecorestartupConfig.GetString("DefaultObjectName", m_DefaultObjectName);
-				EnableFakeRaycasting = whitecorestartupConfig.GetBoolean("EnableFakeRaycasting", false);
+				m_DefaultObjectName = visionstartupConfig.GetString("DefaultObjectName", m_DefaultObjectName);
+				EnableFakeRaycasting = visionstartupConfig.GetBoolean("EnableFakeRaycasting", false);
             }
         }
 

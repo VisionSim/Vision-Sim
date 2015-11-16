@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -26,11 +26,12 @@
  */
 
 using System.Collections.Generic;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
-using Nini.Config;
-using OpenMetaverse;
+using Vision.Framework.Services.ClassHelpers.Assets;
 
 namespace Vision.Framework.Physics
 {
@@ -39,6 +40,13 @@ namespace Vision.Framework.Physics
 
     public delegate void RayCallback(List<ContactResult> list);
 
+    public delegate void RequestAssetDelegate(UUID assetID, EventManager.AssetReceivedDelegate callback);
+
+    public delegate void AssetReceivedDelegate(AssetBase asset);
+
+    /// <summary>
+    /// Contact result from a raycast.
+    /// </summary>
     public struct ContactResult
     {
         public uint ConsumerID;
@@ -103,7 +111,25 @@ namespace Vision.Framework.Physics
 
         public abstract void Initialise(IMesher meshmerizer, IScene scene);
         public abstract void PostInitialise(IConfigSource config);
+
+        /// <summary>
+        /// A unique identifying string for this instance of the physics engine.
+        /// Useful in debug messages to distinguish one OdeScene instance from another.
+        /// Usually set to include the region name that the physics engine is acting for.
+        /// </summary>
+        public string PhysicsSceneName { get; protected set; }
+
+        /// <summary>
+        /// A string identifying the family of this physics engine. Most common values returned
+        /// are "OpenDynamicsEngine" and "BulletSim" but others are possible.
+        /// </summary>
+        /// TODO!!!!!
+        /// public abstract string EngineType { get; protected set; }
         public abstract string EngineType { get; }
+
+        public RequestAssetDelegate RequetAssetMethod { get; set; }
+
+
 
         public abstract PhysicsActor AddAvatar(string avName, Vector3 position, Quaternion rotation, Vector3 size,
                                                    bool isFlying, uint LocalID, UUID UUID);
@@ -116,12 +142,6 @@ namespace Vision.Framework.Physics
         /// </summary>
         /// <param name="prim"></param>
         public abstract void RemovePrim(PhysicsActor prim);
-
-        /// <summary>
-        /// Removes an entire group from the physics scene
-        /// </summary>
-        /// <param name="prim"></param>
-        public abstract void DeletePrim(PhysicsActor prim);
 
         public abstract PhysicsActor AddPrimShape(UUID primID, uint localID, string name, byte physicsType, PrimitiveBaseShape shape,
             Vector3 position, Vector3 size, Quaternion rotation, bool isPhysical, int material, float friction, float restitution,
@@ -243,10 +263,6 @@ namespace Vision.Framework.Physics
         {
         }
 
-        public override void DeletePrim(PhysicsActor prim)
-        {
-        }
-
         public override void SetWaterLevel(double height, short[] map)
         {
         }
@@ -284,6 +300,13 @@ namespace Vision.Framework.Physics
         {
             Dictionary<uint, float> returncolliders = new Dictionary<uint, float>();
             return returncolliders;
+        }
+
+        // Extendable interface for new, physics engine specific operations
+        public virtual object Extension(string pFunc, params object[] pParams)
+        {
+            // A NOP if the extension thing is not implemented by the physics engine
+            return null;
         }
     }
 }

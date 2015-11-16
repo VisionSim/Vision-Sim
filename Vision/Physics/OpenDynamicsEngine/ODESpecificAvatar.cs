@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -26,14 +26,14 @@
  */
 
 using System;
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Physics;
 using Vision.Framework.Utilities;
-using OpenMetaverse;
 
 namespace Vision.Physics.OpenDynamicsEngine
 {
-    public class ODESpecificAvatar : VisionODECharacter
+    public class ODESpecificAvatar : ODECharacter
     {
         #region Declares
 
@@ -43,17 +43,17 @@ namespace Vision.Physics.OpenDynamicsEngine
 
         #region Constructor
 
-        public ODESpecificAvatar(String avName, VisionODEPhysicsScene parent_scene, Vector3 pos, Quaternion rotation,
+        public ODESpecificAvatar(String avName, ODEPhysicsScene parent_scene, Vector3 pos, Quaternion rotation,
                                  Vector3 size) : base(avName, parent_scene, pos, rotation, size)
         {
-            base._parent_ref = this;
+            _parent_ref = this;
         }
 
         #endregion
 
         #region Move
 
-        private int _appliedFallingForce = 0;
+        int _appliedFallingForce;
 
         /// <summary>
         ///     Called from Simulate
@@ -97,7 +97,7 @@ namespace Vision.Physics.OpenDynamicsEngine
 
             if (!localPos.IsFinite())
             {
-                MainConsole.Instance.Warn("[PHYSICS]: Avatar Position is non-finite!");
+                MainConsole.Instance.Warn("[Physics]: Avatar Position is non-finite!");
 
                 _parent_scene.BadCharacter(this);
                 return;
@@ -252,8 +252,10 @@ namespace Vision.Physics.OpenDynamicsEngine
             #region Gravity
 
             if (!flying)
-                vec.Z += -9.8f*35*Mass*(_appliedFallingForce > 100 ? 1 : _appliedFallingForce++/100f)*
-                         (this.IsTruelyColliding ? 0.5f : 1.0f);
+                vec.Z += -9.8f * 35 * Mass
+                    * ( _appliedFallingForce > 100 ? 1 : _appliedFallingForce++/100f)
+                    * (IsTruelyColliding ? 0.5f : 1.0f);
+            
             else if (_parent_scene.AllowAvGravity && m_targetVelocity.Z > 0 &&
                      tempPos.Z > _parent_scene.AvGravityHeight) //Should be stop avies from flying upwards
             {
@@ -410,14 +412,14 @@ namespace Vision.Physics.OpenDynamicsEngine
             if (CAPSULE_LENGTH <= 0)
             {
                 MainConsole.Instance.Warn(
-                    "[PHYSICS]: The capsule size you specified in Vision.ini is invalid!  Setting it to the smallest possible size!");
+                    "[Physics]: The capsule size you specified in Vision.ini is invalid!  Setting it to the smallest possible size!");
                 CAPSULE_LENGTH = 1.2f;
             }
 
             if (CAPSULE_RADIUS <= 0)
             {
                 MainConsole.Instance.Warn(
-                    "[PHYSICS]: The capsule size you specified in Vision.ini is invalid!  Setting it to the normal size!");
+                    "[Physics]: The capsule size you specified in Vision.ini is invalid!  Setting it to the normal size!");
                 CAPSULE_RADIUS = 0.37f;
             }
             Shell = d.CreateCapsule(_parent_scene.space, CAPSULE_RADIUS, CAPSULE_LENGTH);
@@ -433,7 +435,6 @@ namespace Vision.Physics.OpenDynamicsEngine
             PID_D = _parent_scene.PID_D;
             PID_P = _parent_scene.PID_P;
 
-
             // rescale PID parameters so that this aren't so affected by mass
             // but more importante, don't get unstable
 
@@ -442,8 +443,12 @@ namespace Vision.Physics.OpenDynamicsEngine
             PID_P /= 50*80;
             PID_P *= m_mass/_parent_scene.ODE_STEPSIZE;
 
+            // some filddles to prevent barfing - greythane
+            var actorType = (int) ActorTypes.Agent;
+            var ptrActorType = (IntPtr)actorType;
+
             Body = d.BodyCreate(_parent_scene.world);
-            d.BodySetData(Body, (IntPtr)ActorTypes.Agent);
+            d.BodySetData (Body, ptrActorType);
 
             d.BodySetPosition(Body, npositionX, npositionY, npositionZ);
 
@@ -468,7 +473,6 @@ namespace Vision.Physics.OpenDynamicsEngine
             d.JointSetAMotorAngle(Amotor, 0, 0);
             d.JointSetAMotorAngle(Amotor, 1, 0);
             d.JointSetAMotorAngle(Amotor, 2, 0);
-
 
             d.JointSetAMotorParam(Amotor, (int) dParam.StopCFM, 0f); // make it HARD
             d.JointSetAMotorParam(Amotor, (int) dParam.StopCFM2, 0f);

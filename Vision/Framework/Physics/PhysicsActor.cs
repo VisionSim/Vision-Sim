@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -151,6 +151,7 @@ namespace Vision.Framework.Physics
 
         public abstract Vector3 Size { get; set; }
         public virtual uint LocalID { get; set; }
+        public abstract bool Grabbed { set; }
         public virtual string Name { get; set; }
         public virtual UUID UUID { get; set; }
 
@@ -231,7 +232,7 @@ namespace Vision.Framework.Physics
         public abstract bool SubscribedEvents();
 
         public abstract bool SendCollisions();
-        public abstract void AddCollisionEvent(uint localID, ContactPoint contact);
+        public abstract void AddCollisionEvent(uint collideWith, ContactPoint contact);
 
         public virtual void ForceSetVelocity(Vector3 velocity) { }
         public virtual void ForceSetRotVelocity(Vector3 velocity) { }
@@ -241,9 +242,9 @@ namespace Vision.Framework.Physics
 
         #region Object Declares
 
-        public virtual void link(PhysicsActor obj) { }
-        public virtual void linkGroupToThis(PhysicsActor[] objs) { }
-        public virtual void delink() { }
+        public virtual void Link(PhysicsActor obj) { }
+        public virtual void LinkGroupToThis(PhysicsActor[] objs) { }
+        public virtual void Delink() { }
         public virtual bool LinkSetIsColliding { get; set; }
         public virtual void LockAngularMotion(Vector3 axis) { }
         public virtual void CrossingFailure() { }
@@ -267,6 +268,7 @@ namespace Vision.Framework.Physics
         public virtual void SubscribeEvents(int ms) { }
         public virtual void UnSubscribeEvents() { }
         public virtual bool VolumeDetect { get; set; }
+        public abstract bool Kinematic { get; set; }
 
         public event BlankHandler OnPhysicalRepresentationChanged;
 
@@ -274,6 +276,13 @@ namespace Vision.Framework.Physics
         {
             if (OnPhysicalRepresentationChanged != null)
                 OnPhysicalRepresentationChanged();
+        }
+
+        // Extendable interface for new, physics engine specific operations
+        public virtual object Extension(string pFunct, params object[] pParams)
+        {
+            // A NOP of the physics engine does not implement this feature
+            return null;
         }
 
         #endregion
@@ -333,6 +342,11 @@ namespace Vision.Framework.Physics
         public override uint LocalID
         {
             get { return 0; }
+            set { return; }
+        }
+
+        public override bool Grabbed
+        {
             set { return; }
         }
 
@@ -430,6 +444,11 @@ namespace Vision.Framework.Physics
             set { return; }
         }
 
+        public override bool Kinematic {
+            get { return false; }
+            set { return; }
+        }
+           
         public override void CrossingFailure()
         {
         }
@@ -460,7 +479,7 @@ namespace Vision.Framework.Physics
             return false;
         }
 
-        public override void AddCollisionEvent(uint CollidedWith, ContactPoint contact)
+        public override void AddCollisionEvent(uint collidedWith, ContactPoint contact)
         {
         }
     }
@@ -498,6 +517,11 @@ namespace Vision.Framework.Physics
         public override uint LocalID
         {
             get { return 0; }
+            set { return; }
+        }
+
+        public override bool Grabbed
+        {
             set { return; }
         }
 
@@ -575,6 +599,11 @@ namespace Vision.Framework.Physics
             set { return; }
         }
 
+        public override bool Kinematic {
+            get { return false; }
+            set { return; }
+        }
+
         public override void AddForce(Vector3 force, bool pushforce)
         {
         }
@@ -589,7 +618,7 @@ namespace Vision.Framework.Physics
             return false;
         }
 
-        public override void AddCollisionEvent(uint CollidedWith, ContactPoint contact)
+        public override void AddCollisionEvent(uint collidedWith, ContactPoint contact)
         {
         }
     }

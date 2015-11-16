@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,6 +30,7 @@ using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Simulation.Base;
 
+
 namespace Vision.Server
 {
     public class VisionBase : SimulationBase
@@ -45,7 +46,7 @@ namespace Vision.Server
             if (MainConsole.Instance != null)
 			{
 				MainConsole.Instance.DefaultPrompt = "Vision.Server ";
-				MainConsole.Instance.Info ("[Virtual Vision Startup]: Startup completed in " +
+				MainConsole.Instance.Info ("[Vision Sim Startup]: Startup completed in " +
 					(DateTime.Now - this.StartupTime).TotalSeconds);
 			}
         }

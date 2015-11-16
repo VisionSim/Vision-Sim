@@ -248,13 +248,25 @@
     </Project>
 
     <Project frameworkVersion="v4_5" name="Vision.Physics.BulletSPlugin" path="Vision/Physics/BulletSPlugin" type="Library">
-      <Configuration name="Debug">
+      <Configuration name="Debug" platform="x86">
         <Options>
           <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
           <AllowUnsafe>true</AllowUnsafe>
         </Options>
       </Configuration>
-      <Configuration name="Release">
+      <Configuration name="Debug" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
+          <AllowUnsafe>true</AllowUnsafe>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
+          <AllowUnsafe>true</AllowUnsafe>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x64">
         <Options>
           <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
           <AllowUnsafe>true</AllowUnsafe>
@@ -281,12 +293,22 @@
     </Project>
 
     <Project frameworkVersion="v4_5" name="Vision.Physics.ConvexDecompositionDotNet" path="Vision/Physics/ConvexDecompositionDotNet" type="Library">
-      <Configuration name="Debug">
+      <Configuration name="Debug" platform="x86">
         <Options>
           <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
         </Options>
       </Configuration>
-      <Configuration name="Release">
+      <Configuration name="Debug" platform="x64">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x86">
+        <Options>
+          <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
+        </Options>
+      </Configuration>
+      <Configuration name="Release" platform="x64">
         <Options>
           <OutputPath>../../../VisionSim/bin/Physics/</OutputPath>
         </Options>
@@ -1560,9 +1582,9 @@
           <Exclude name="obj" pattern="obj"/>
         </Match>
       </Files>
-    </Project>
-
-    <?include file="addon-modules/*/prebuild*.xml" ?>
+	</Project>
+	
+	<?include file="addon-modules/*/prebuild*.xml" ?>
 
   </Solution>
 

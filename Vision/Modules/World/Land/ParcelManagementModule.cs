@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,6 +25,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Timers;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.Messages.Linden;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.DatabaseInterfaces;
@@ -37,15 +46,6 @@ using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.Messages.Linden;
-using OpenMetaverse.StructuredData;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Timers;
 using GridRegion = Vision.Framework.Services.GridRegion;
 
 namespace Vision.Modules.Land
@@ -529,7 +529,7 @@ namespace Vision.Modules.Land
             while (fullSimParcel.LandData.OwnerID == UUID.Zero || account == null)
             {
                 MainConsole.Instance.Warn(
-                    "[ParcelManagement]: Could not find user for parcel, please give a valid user to make the owner");
+                    "[Parcel Management]: Could not find user for parcel, please give a valid user to make the owner");
                 string userName = MainConsole.Instance.Prompt("User Name:", "");
                 if (userName == "")
                 {
@@ -547,7 +547,7 @@ namespace Vision.Modules.Land
             }
 
             MainConsole.Instance.InfoFormat (
-                "[ParcelManagement]: Setting land owner for region {0} to {1}",
+                "[Parcel Management]: Setting land owner for region {0} to {1}",
                 m_scene.RegionInfo.RegionName,
                 ownerName);                 //  was >>   fullSimParcel.LandData.OwnerID);
 

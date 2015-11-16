@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -70,7 +70,7 @@ namespace Vision.Modules.Archivers
             catch (EntryPointNotFoundException e)
             {
                 MainConsole.Instance.ErrorFormat(
-                    "[ARCHIVER]: Mismatch between Mono and zlib1g library version when trying to create compression stream."
+                    "[Archiver]: Mismatch between Mono and zlib1g library version when trying to create compression stream."
                     + "If you've manually installed Mono, have you appropriately updated zlib1g as well?");
                 MainConsole.Instance.Error(e);
             }
@@ -124,13 +124,13 @@ namespace Vision.Modules.Archivers
             }
 
             MainConsole.Instance.InfoFormat(
-                "[ARCHIVER]: {0} scene objects to serialize requiring save of {1} assets",
+                "[Archiver]: {0} scene objects to serialize requiring save of {1} assets",
                 sceneObjects.Count, assetUuids.Count);
 
             if (numObjectsSkippedPermissions > 0)
             {
                 MainConsole.Instance.DebugFormat(
-                    "[ARCHIVER]: {0} scene objects skipped due to lack of permissions",
+                    "[Archiver]: {0} scene objects skipped due to lack of permissions",
                     numObjectsSkippedPermissions);
             }
 
@@ -227,7 +227,7 @@ namespace Vision.Modules.Archivers
                     partPermitted = false;
 
                 //string name = (objGroup.PrimCount == 1) ? objGroup.Name : string.Format("{0} ({1}/{2})", obj.Name, primNumber, objGroup.PrimCount);
-                //MainConsole.Instance.DebugFormat("[ARCHIVER]: Object permissions: {0}: Base={1:X4}, Owner={2:X4}, Everyone={3:X4}, permissionClass={4}, checkPermissions={5}, canCopy={6}, canTransfer={7}, permitted={8}",
+                //MainConsole.Instance.DebugFormat("[Archiver]: Object permissions: {0}: Base={1:X4}, Owner={2:X4}, Everyone={3:X4}, permissionClass={4}, checkPermissions={5}, canCopy={6}, canTransfer={7}, permitted={8}",
                 //    name, obj.BaseMask, obj.OwnerMask, obj.EveryoneMask,
                 //    permissionClass, checkPermissions, canCopy, canTransfer, permitted);
 

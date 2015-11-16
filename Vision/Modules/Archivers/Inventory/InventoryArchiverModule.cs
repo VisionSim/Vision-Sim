@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -116,7 +116,7 @@ namespace Vision.Modules.Archivers
                 catch (EntryPointNotFoundException e)
                 {
                     MainConsole.Instance.ErrorFormat(
-                        "[ARCHIVER]: Mismatch between Mono and zlib1g library version when trying to create compression stream."
+                        "[Archiver]: Mismatch between Mono and zlib1g library version when trying to create compression stream."
                         + "If you've manually installed Mono, have you appropriately updated zlib1g as well?");
                     MainConsole.Instance.Error(e);
 
@@ -244,7 +244,7 @@ namespace Vision.Modules.Archivers
                 catch (EntryPointNotFoundException e)
                 {
                     MainConsole.Instance.ErrorFormat(
-                        "[ARCHIVER]: Mismatch between Mono and zlib1g library version when trying to create compression stream.\n"
+                        "[Archiver]: Mismatch between Mono and zlib1g library version when trying to create compression stream.\n"
                         + "If you've manually installed Mono, have you appropriately updated zlib1g as well?");
                     MainConsole.Instance.Error(e);
 
@@ -276,7 +276,7 @@ namespace Vision.Modules.Archivers
                 catch (EntryPointNotFoundException e)
                 {
                     MainConsole.Instance.ErrorFormat(
-                        "[ARCHIVER]: Mismatch between Mono and zlib1g library version when trying to create compression stream.\n"
+                        "[Archiver]: Mismatch between Mono and zlib1g library version when trying to create compression stream.\n"
                         + "If you've manually installed Mono, have you appropriately updated zlib1g as well?");
                     MainConsole.Instance.Error(e);
 

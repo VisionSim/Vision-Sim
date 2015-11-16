@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -30,11 +30,6 @@
 using System;
 using Vision.Framework.Physics;
 
-//using Ode.NET;
-//#if USE_DRAWSTUFF
-//using Drawstuff.NET;
-//#endif 
-
 namespace Vision.Physics.OpenDynamicsEngine
 {
     /// <summary>
@@ -42,9 +37,9 @@ namespace Vision.Physics.OpenDynamicsEngine
     /// </summary>
     public class VisionODEPlugin : IPhysicsPlugin
     {
-        private static bool m_initialized;
-        private VisionODEPhysicsScene _mScene;
-        private static object m_lock = new object();
+        static bool m_initialized;
+        ODEPhysicsScene _mScene;
+        static object m_lock = new object();
 
         #region IPhysicsPlugin Members
 
@@ -67,7 +62,7 @@ namespace Vision.Physics.OpenDynamicsEngine
                         m_initialized = true;
                     }
 
-                    _mScene = new VisionODEPhysicsScene();
+                    _mScene = new ODEPhysicsScene();
                 }
             }
 
@@ -137,32 +132,12 @@ namespace Vision.Physics.OpenDynamicsEngine
     /// </summary>
     public enum Material
     {
-        /// <summary>
-        /// </summary>
         Stone = 0,
-
-        /// <summary>
-        /// </summary>
         Metal = 1,
-
-        /// <summary>
-        /// </summary>
         Glass = 2,
-
-        /// <summary>
-        /// </summary>
         Wood = 3,
-
-        /// <summary>
-        /// </summary>
         Flesh = 4,
-
-        /// <summary>
-        /// </summary>
         Plastic = 5,
-
-        /// <summary>
-        /// </summary>
         Rubber = 6
     }
 }

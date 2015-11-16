@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,7 +25,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Xml.Serialization;
+using OpenMetaverse;
+using OpenMetaverse.Packets;
+using OpenMetaverse.StructuredData;
+using ProtoBuf;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
@@ -35,15 +43,6 @@ using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Serialization;
 using Vision.Framework.Utilities;
-using OpenMetaverse;
-using OpenMetaverse.Packets;
-using OpenMetaverse.StructuredData;
-using ProtoBuf;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Xml.Serialization;
 using GridRegion = Vision.Framework.Services.GridRegion;
 
 namespace Vision.Region
@@ -1418,7 +1417,7 @@ namespace Vision.Region
             IGroupsModule module = Scene.RequestModuleInterface<IGroupsModule>();
             if (module != null)
                 if (GroupID2 != UUID.Zero && !module.GroupPermissionCheck(attemptingUserID, GroupID2, GroupPowers.None))
-                    return; // No settings to groups you aren't in
+                    return; // No settings to groups you arn't in
             foreach (SceneObjectPart part in m_partsList)
             {
                 part.SetGroup(GroupID2);
@@ -2711,10 +2710,10 @@ namespace Vision.Region
                 actors[i] = part.PhysActor;
                 
                 if(!m_scene.PhysicsScene.AllowGroupLink)
-                    part.PhysActor.link(RootPart.PhysActor);
+                    part.PhysActor.Link(RootPart.PhysActor);
             }
             if (m_scene.PhysicsScene.AllowGroupLink)
-                RootPart.PhysActor.linkGroupToThis(actors);
+                RootPart.PhysActor.LinkGroupToThis(actors);
 
             Scene.VisionEventManager.FireGenericEventHandler("ObjectChangedPhysicalStatus", this);
 
@@ -3201,7 +3200,7 @@ namespace Vision.Region
                 if (linkPart.PhysActor != null && m_rootPart.PhysActor != null)
                 {
                     if (linkPart.PhysicsType != (byte) PhysicsShapeType.None)
-                        linkPart.PhysActor.link(m_rootPart.PhysActor);
+                        linkPart.PhysActor.Link(m_rootPart.PhysActor);
                 }
                 //rest of parts
                 foreach (
@@ -3210,7 +3209,7 @@ namespace Vision.Region
                     LinkNonRootPart(part, oldGroupPosition, oldRootRotation, linkNum++);
                     part.FixOffsetPosition(part.OffsetPosition, true);
                     if (part.PhysActor != null && m_rootPart.PhysActor != null)
-                        part.PhysActor.link(m_rootPart.PhysActor);
+                        part.PhysActor.Link(m_rootPart.PhysActor);
                 }
             }
             // Here's the deal, this is ABSOLUTELY CRITICAL so the physics scene gets the update about the 
@@ -3521,7 +3520,7 @@ namespace Vision.Region
             if (IsTemporary)
             {
                 // Remove from database and parcel prim count
-                // Temporary objects aren't saved to the database ever, so we don't need to do anything
+                // Temporary objects arn't saved to the database ever, so we don't need to do anything
             }
 
             if (selectionPart != null)

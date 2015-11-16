@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,6 +25,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using Vision.Framework.ClientInterfaces;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Modules;
+using Vision.Framework.PresenceInfo;
+using Vision.Framework.SceneInfo;
+using Vision.Framework.SceneInfo.Entities;
+using Vision.Framework.Utilities;
+using Vision.ScriptEngine.DotNetEngine.Runtime;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -34,16 +44,6 @@ using System.Linq;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Lifetime;
 using System.Threading;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
-using Vision.Framework.ClientInterfaces;
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Modules;
-using Vision.Framework.PresenceInfo;
-using Vision.Framework.SceneInfo;
-using Vision.Framework.SceneInfo.Entities;
-using Vision.Framework.Utilities;
-using Vision.ScriptEngine.DotNetEngine.Runtime;
 
 namespace Vision.ScriptEngine.DotNetEngine
 {
@@ -544,7 +544,7 @@ namespace Vision.ScriptEngine.DotNetEngine
 
             if (InventoryItem == null)
             {
-                MainConsole.Instance.Warn("[Dot Net Engine]: Could not find inventory item for script " + ItemID + ", part" +
+                MainConsole.Instance.Warn("[DNE]: Could not find inventory item for script " + ItemID + ", part" +
                                           Part.Name + "@" +
                                           Part.AbsolutePosition);
                 return false;

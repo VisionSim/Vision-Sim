@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://whitecore-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://opensimulator.org//, http://vision-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -650,8 +650,7 @@ namespace Vision.Physics.BulletSPlugin
                  m_physicsScene.PE.AddToCollisionFlags(ControllingPrim.PhysBody, CollisionFlags.BS_VEHICLE_COLLISIONS);
                 //ControllingPrim.Linkset.AddToPhysicalCollisionFlags(CollisionFlags.BS_VEHICLE_COLLISIONS);
 
-                ControllingPrim.Inertia = m_physicsScene.PE.CalculateLocalInertia(ControllingPrim.PhysShape,
-                    m_vehicleMass);
+                ControllingPrim.Inertia = m_physicsScene.PE.CalculateLocalInertia(ControllingPrim.PhysShape.physShapeInfo, m_vehicleMass);
                 m_physicsScene.PE.SetMassProps(ControllingPrim.PhysBody, m_vehicleMass, ControllingPrim.Inertia);
                 m_physicsScene.PE.UpdateInertiaTensor(ControllingPrim.PhysBody);
                 //ControllingPrim.Linkset.ComputeAndSetLocalInertia(BSParam.VehicleInertiaFactor, m_vehicleMass);
@@ -1734,7 +1733,7 @@ namespace Vision.Physics.BulletSPlugin
                 // Don't do it all at once. Fudge because 1 second is too fast with most user defined roll as PI*4.
                 bankingContributionV /= m_bankingTimescale * BSParam.VehicleAngularBankingTimescaleFudge;
 
-                //VehicleRotationalVelocity += bankingContributionV * VehicleOrientation;
+                //VehicleRotationalVelocity += bankingContributionV * VehicleFrameOrientation;
                 VehicleRotationalVelocity += bankingContributionV;
 
 

@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -303,12 +303,12 @@ namespace Vision.Region
 
             #region Region Config
 
-			IConfig whitecorestartupConfig = m_config.Configs["VisionStartup"];
-			if (whitecorestartupConfig != null)
+			IConfig visionstartupConfig = m_config.Configs["VisionStartup"];
+			if (visionstartupConfig != null)
             {
                 //Region specific is still honored here, the RegionInfo checks for it, and if it is 0, it didn't set it
                 if (RegionInfo.ObjectCapacity == 0)
-					RegionInfo.ObjectCapacity = whitecorestartupConfig.GetInt("ObjectCapacity", 80000);
+					RegionInfo.ObjectCapacity = visionstartupConfig.GetInt("ObjectCapacity", 80000);
             }
 
             IConfig packetConfig = m_config.Configs["PacketPool"];

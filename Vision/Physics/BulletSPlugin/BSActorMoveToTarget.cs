@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://whitecore-sim.org, http://virtualnexus.eu
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://opensimulator.org//, http://vision-sim.org, http://virtualnexus.eu
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyrightD
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -155,15 +155,15 @@ namespace Vision.Physics.BulletSPlugin
                 m_physicsScene.DetailLog("{0},BSPrim.PIDTarget,zeroMovement,movePos={1},pos={2},mass={3}",
                                         m_controllingPrim.LocalID, movePosition, m_controllingPrim.RawPosition, m_controllingPrim.Mass);
                 m_controllingPrim.ForcePosition = m_targetMotor.TargetValue;
-            m_controllingPrim.ForceVelocity = OMV.Vector3.Zero;
-            // Setting the position does not cause the physics engine to generate a property update. Force it.
-            m_physicsScene.PE.PushUpdate(m_controllingPrim.PhysBody);
+                m_controllingPrim.ForceVelocity = OMV.Vector3.Zero;
+                // Setting the position does not cause the physics engine to generate a property update. Force it.
+                m_physicsScene.PE.PushUpdate(m_controllingPrim.PhysBody);
             }
             else
             {
                 m_controllingPrim.ForcePosition = movePosition;
-            // Setting the position does not cause the physics engine to generate a property update. Force it.
-            m_physicsScene.PE.PushUpdate(m_controllingPrim.PhysBody);
+                // Setting the position does not cause the physics engine to generate a property update. Force it.
+                m_physicsScene.PE.PushUpdate(m_controllingPrim.PhysBody);
             }
             m_physicsScene.DetailLog("{0},BSPrim.PIDTarget,move,fromPos={1},movePos={2}", m_controllingPrim.LocalID, origPosition, movePosition);
         }

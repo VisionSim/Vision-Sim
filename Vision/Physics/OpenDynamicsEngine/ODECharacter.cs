@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -26,29 +26,23 @@
  */
 
 using System;
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Physics;
-using OpenMetaverse;
 
 namespace Vision.Physics.OpenDynamicsEngine
 {
-    public class VisionODECharacter : PhysicsActor
+    public class ODECharacter : PhysicsActor
     {
         #region Declares
 
         protected readonly CollisionEventUpdate CollisionEventsThisFrame = new CollisionEventUpdate();
-        protected VisionODEPhysicsScene _parent_scene;
-        public float CAPSULE_LENGTH = 2.140599f;
-        public float CAPSULE_RADIUS = 0.37f;
-        public float MinimumGroundFlightOffset = 3f;
+        protected ODEPhysicsScene _parent_scene;
         protected float PID_D;
         protected float PID_P;
         protected bool ShouldBeWalking = true;
         protected bool StartingUnderWater = true;
         protected bool WasUnderWater;
-        public IntPtr Amotor = IntPtr.Zero;
-        public IntPtr Body = IntPtr.Zero;
-        public IntPtr Shell = IntPtr.Zero;
 
         protected Vector3 _position;
         protected Vector3 _velocity;
@@ -63,21 +57,22 @@ namespace Vision.Physics.OpenDynamicsEngine
         protected CollisionCategories m_collisionCategories = (CollisionCategories.Character);
 
         // Default, Collide with Other Geometries, spaces, bodies and characters.
-        protected const CollisionCategories m_collisionFlags = (CollisionCategories.Geom | CollisionCategories.Space
-                                                                | CollisionCategories.Body |
-                                                                CollisionCategories.Character | CollisionCategories.Land);
+        protected const CollisionCategories m_collisionFlags = (CollisionCategories.Geom | 
+                                                                CollisionCategories.Space |
+                                                                CollisionCategories.Body |
+                                                                CollisionCategories.Character | 
+                                                                CollisionCategories.Land);
 
-        //        float m_UpdateTimecntr = 0;
-        //        float m_UpdateFPScntr = 0.05f;
+        //float m_UpdateTimecntr = 0;
+        //float m_UpdateFPScntr = 0.05f;
         protected bool m_isJumping;
-        public bool m_isPhysical; // the current physical status
+        protected bool m_kinematic;
         protected bool m_iscolliding;
 
         protected bool m_ispreJumping;
         protected Vector3 m_lastAngVelocity;
         protected Vector3 m_lastPosition;
         protected Vector3 m_lastVelocity;
-        public uint m_localID;
 
         protected float m_mass = 80f;
         protected int m_preJumpCounter;
@@ -89,10 +84,19 @@ namespace Vision.Physics.OpenDynamicsEngine
         protected int m_lastForceApplied = 0;
         protected Vector3 m_forceAppliedBeforeFalling = Vector3.Zero;
         protected ODESpecificAvatar _parent_ref;
+        protected bool realFlying;
+
+        public uint m_localID;
+        public bool m_isPhysical; // the current physical status (g- this probably should be a get/set
+        public float CAPSULE_LENGTH = 2.140599f;
+        public float CAPSULE_RADIUS = 0.37f;
+        public float MinimumGroundFlightOffset = 3f;
+        public IntPtr Amotor = IntPtr.Zero;
+        public IntPtr Body = IntPtr.Zero;
+        public IntPtr Shell = IntPtr.Zero;
 
         // unique UUID of this character object
         public UUID m_uuid;
-        protected bool realFlying;
 
         public override bool IsJumping
         {
@@ -114,7 +118,7 @@ namespace Vision.Physics.OpenDynamicsEngine
 
         #region Constructor
 
-        public VisionODECharacter(String avName, VisionODEPhysicsScene parent_scene, Vector3 pos, Quaternion rotation,
+        public ODECharacter(String avName, ODEPhysicsScene parent_scene, Vector3 pos, Quaternion rotation,
                                   Vector3 size)
         {
             m_uuid = UUID.Random();
@@ -138,7 +142,7 @@ namespace Vision.Physics.OpenDynamicsEngine
                 _position.Y = _parent_scene.Region.RegionSizeY*0.5f;
                 _position.Z = _parent_scene.GetTerrainHeightAtXY(_position.X, _position.Y) + 10f;
 
-                MainConsole.Instance.Warn("[PHYSICS]: Got NaN Position on Character Create");
+                MainConsole.Instance.Warn("[Physics]: Got NaN Position on Character Create");
             }
 
 
@@ -151,7 +155,7 @@ namespace Vision.Physics.OpenDynamicsEngine
         {
             if (!(Shell == IntPtr.Zero && Body == IntPtr.Zero))
             {
-                MainConsole.Instance.Debug("[PHYSICS]: re-creating the following avatar ODE data, even though it already exists - "
+                MainConsole.Instance.Debug("[Physics]: re-creating the following avatar ODE data, even though it already exists - "
                                           + (Shell != IntPtr.Zero ? "Shell " : "")
                                           + (Body != IntPtr.Zero ? "Body " : ""));
             }
@@ -195,6 +199,17 @@ namespace Vision.Physics.OpenDynamicsEngine
         {
             get { return m_shouldBePhysical; }
             set { m_shouldBePhysical = value; }
+        }
+
+        public override bool Grabbed
+        {
+            set { return; }
+        }
+
+        public override bool Kinematic
+        {
+            get { return m_kinematic; }
+            set { m_kinematic = value; }
         }
 
         public override bool ThrottleUpdates
@@ -283,7 +298,7 @@ namespace Vision.Physics.OpenDynamicsEngine
                 }
                 else
                 {
-                    MainConsole.Instance.Warn("[PHYSICS]: Got a NaN Position from Scene on a Character");
+                    MainConsole.Instance.Warn("[Physics]: Got a NaN Position from Scene on a Character");
                 }
             }
         }
@@ -294,7 +309,7 @@ namespace Vision.Physics.OpenDynamicsEngine
             set { m_rotationalVelocity = value; }
         }
 
-        private Vector3 _lastSetSize = Vector3.Zero;
+        Vector3 _lastSetSize = Vector3.Zero;
 
         /// <summary>
         ///     This property sets the height of the avatar only.  We use the height to make sure the avatar stands up straight
@@ -324,7 +339,7 @@ namespace Vision.Physics.OpenDynamicsEngine
                 }
                 else
                 {
-                    MainConsole.Instance.Warn("[PHYSICS]: Got a NaN Size from Scene on a Character");
+                    MainConsole.Instance.Warn("[Physics]: Got a NaN Size from Scene on a Character");
                 }
             }
         }
@@ -362,7 +377,7 @@ namespace Vision.Physics.OpenDynamicsEngine
                     m_targetVelocity = value;
                 else
                 {
-                    MainConsole.Instance.Warn("[PHYSICS]: Got a NaN velocity from Scene in a Character");
+                    MainConsole.Instance.Warn("[Physics]: Got a NaN velocity from Scene in a Character");
                 }
             }
         }
@@ -465,9 +480,9 @@ namespace Vision.Physics.OpenDynamicsEngine
             {
                 _parent_scene.BadCharacter(this);
                 vec = new Vector3(_position.X, _position.Y, _position.Z);
-                base.RaiseOutOfBounds(_position); // Tells ScenePresence that there's a problem!
+                RaiseOutOfBounds(_position); // Tells ScenePresence that there's a problem!
                 MainConsole.Instance.WarnFormat(
-                    "[ODEPLUGIN]: Avatar Null reference for Avatar {0}, physical actor {1}", Name, m_uuid);
+                    "[ODE Plugin]: Avatar Null reference for Avatar {0}, physical actor {1}", Name, m_uuid);
             }
 
             // vec is a ptr into internal ode data better not mess with it
@@ -479,7 +494,7 @@ namespace Vision.Physics.OpenDynamicsEngine
             if (!_position.IsFinite())
             {
                 _parent_scene.BadCharacter(this);
-                base.RaiseOutOfBounds(_position); // Tells ScenePresence that there's a problem!
+                RaiseOutOfBounds(_position); // Tells ScenePresence that there's a problem!
                 return;
             }
 
@@ -519,7 +534,7 @@ namespace Vision.Physics.OpenDynamicsEngine
             if (!_velocity.IsFinite())
             {
                 _parent_scene.BadCharacter(this);
-                base.RaiseOutOfBounds(_position); // Tells ScenePresence that there's a problem!
+                RaiseOutOfBounds(_position); // Tells ScenePresence that there's a problem!
                 return;
             }
 
@@ -544,14 +559,14 @@ namespace Vision.Physics.OpenDynamicsEngine
                 VelIsZero = true;
 
             // slow down updates, changed y mind: updates should go at physics fps, acording to movement conditions
-/*
+            /*
             m_UpdateTimecntr += timestep;
             m_UpdateFPScntr = 2.5f * _parent_scene.StepTime;
             if(m_UpdateTimecntr < m_UpdateFPScntr)
                 return;
 
             m_UpdateTimecntr = 0;
-*/
+            */
             float VELOCITY_TOLERANCE = 0.025f*0.25f;
             if (_parent_scene.TimeDilation < 0.5)
             {
@@ -578,9 +593,9 @@ namespace Vision.Physics.OpenDynamicsEngine
             {
                 needSendUpdate = true;
                 m_ZeroUpdateSent = 3;
-                //                            _lastorientation = Orientation;
-                //                        base.RequestPhysicsterseUpdate();
-                //                        base.TriggerSignificantMovement();
+                //_lastorientation = Orientation;
+                //base.RequestPhysicsterseUpdate();
+                //base.TriggerSignificantMovement();
             }
             else if (VelIsZero)
             {
@@ -594,23 +609,23 @@ namespace Vision.Physics.OpenDynamicsEngine
             if (needSendUpdate)
             {
                 m_lastPosition = _position;
-                //                        m_lastRotationalVelocity = RotationalVelocity;
+                //m_lastRotationalVelocity = RotationalVelocity;
                 m_lastVelocity = _velocity;
                 m_lastAngVelocity = RotationalVelocity;
 
-                base.TriggerSignificantMovement();
+                TriggerSignificantMovement();
                 //Tell any listeners about the new info
                 // This is for animations
-                base.TriggerMovementUpdate();
+                TriggerMovementUpdate();
             }
         }
 
         #endregion
 
         #region Unused code
-
-/* suspended
-        private void AlignAvatarTiltWithCurrentDirectionOfMovement(Vector3 movementVector)
+        
+        /* suspended
+        void AlignAvatarTiltWithCurrentDirectionOfMovement(Vector3 movementVector)
             {
             if (!_parent_scene.IsAvCapsuleTilted)
                 return;
@@ -668,7 +683,7 @@ namespace Vision.Physics.OpenDynamicsEngine
             float xTiltComponent = -movementVector.X * m_tiltMagnitudeWhenProjectedOnXYPlane;
             float yTiltComponent = -movementVector.Y * m_tiltMagnitudeWhenProjectedOnXYPlane;
             //MainConsole.Instance.Debug(movementVector.X + " " + movementVector.Y);
-            //MainConsole.Instance.Debug("[PHYSICS] changing avatar tilt");
+            //MainConsole.Instance.Debug("[Physics] changing avatar tilt");
             d.JointSetAMotorAngle(Amotor, 0, xTiltComponent);
             d.JointSetAMotorAngle(Amotor, 1, yTiltComponent);
             d.JointSetAMotorAngle(Amotor, 2, 0);
@@ -679,30 +694,30 @@ namespace Vision.Physics.OpenDynamicsEngine
             d.JointSetAMotorParam(Amotor, (int)dParam.LoStop3, - 0.001f);
             d.JointSetAMotorParam(Amotor, (int)dParam.HiStop3, 0.001f); // same as lowstop
             }
-*/
-
-//      This code is very useful. Written by DanX0r. We're just not using it right now.
-//      Commented out to prevent a warning.
-//
-//         private void standupStraight()
-//         {
-//             // The purpose of this routine here is to quickly stabilize the Body while it's popped up in the air.
-//             // The amotor needs a few seconds to stabilize so without it, the avatar shoots up sky high when you
-//             // change appearance and when you enter the simulator
-//             // After this routine is done, the amotor stabilizes much quicker
-//             d.Vector3 feet;
-//             d.Vector3 head;
-//             d.BodyGetRelPointPos(Body, 0.0f, 0.0f, -1.0f, out feet);
-//             d.BodyGetRelPointPos(Body, 0.0f, 0.0f, 1.0f, out head);
-//             float posture = head.Z - feet.Z;
-
-//             // restoring force proportional to lack of posture:
-//             float servo = (2.5f - posture) * POSTURE_SERVO;
-//             d.BodyAddForceAtRelPos(Body, 0.0f, 0.0f, servo, 0.0f, 0.0f, 1.0f);
-//             d.BodyAddForceAtRelPos(Body, 0.0f, 0.0f, -servo, 0.0f, 0.0f, -1.0f);
-//             //d.Matrix3 bodyrotation = d.BodyGetRotation(Body);
-//             //MainConsole.Instance.Info("[PHYSICSAV]: Rotation: " + bodyrotation.M00 + " : " + bodyrotation.M01 + " : " + bodyrotation.M02 + " : " + bodyrotation.M10 + " : " + bodyrotation.M11 + " : " + bodyrotation.M12 + " : " + bodyrotation.M20 + " : " + bodyrotation.M21 + " : " + bodyrotation.M22);
-        //         }
+            */
+            
+            //      This code is very useful. Written by DanX0r. We're just not using it right now.
+            //      Commented out to prevent a warning.
+            //
+            //         void standupStraight()
+            //         {
+            //             // The purpose of this routine here is to quickly stabilize the Body while it's popped up in the air.
+            //             // The amotor needs a few seconds to stabilize so without it, the avatar shoots up sky high when you
+            //             // change appearance and when you enter the simulator
+            //             // After this routine is done, the amotor stabilizes much quicker
+            //             d.Vector3 feet;
+            //             d.Vector3 head;
+            //             d.BodyGetRelPointPos(Body, 0.0f, 0.0f, -1.0f, out feet);
+            //             d.BodyGetRelPointPos(Body, 0.0f, 0.0f, 1.0f, out head);
+            //             float posture = head.Z - feet.Z;
+            
+            //             // restoring force proportional to lack of posture:
+            //             float servo = (2.5f - posture) * POSTURE_SERVO;
+            //             d.BodyAddForceAtRelPos(Body, 0.0f, 0.0f, servo, 0.0f, 0.0f, 1.0f);
+            //             d.BodyAddForceAtRelPos(Body, 0.0f, 0.0f, -servo, 0.0f, 0.0f, -1.0f);
+            //             //d.Matrix3 bodyrotation = d.BodyGetRotation(Body);
+            //             //MainConsole.Instance.Info("[PHYSICSAV]: Rotation: " + bodyrotation.M00 + " : " + bodyrotation.M01 + " : " + bodyrotation.M02 + " : " + bodyrotation.M10 + " : " + bodyrotation.M11 + " : " + bodyrotation.M12 + " : " + bodyrotation.M20 + " : " + bodyrotation.M21 + " : " + bodyrotation.M22);
+            //         }
 
         #endregion
 
@@ -735,7 +750,7 @@ namespace Vision.Physics.OpenDynamicsEngine
             }
             else
             {
-                MainConsole.Instance.Warn("[PHYSICS]: Got a NaN force applied to a Character");
+                MainConsole.Instance.Warn("[Physics]: Got a NaN force applied to a Character");
             }
             //m_lastUpdateSent = false;
         }
@@ -764,9 +779,9 @@ namespace Vision.Physics.OpenDynamicsEngine
 
         #region Collision events
 
-        public override void AddCollisionEvent(uint CollidedWith, ContactPoint contact)
+        public override void AddCollisionEvent(uint collidedWith, ContactPoint contact)
         {
-            CollisionEventsThisFrame.AddCollider(CollidedWith, contact);
+            CollisionEventsThisFrame.AddCollider(collidedWith, contact);
         }
 
         public override bool SendCollisions()
@@ -776,7 +791,7 @@ namespace Vision.Physics.OpenDynamicsEngine
 
             if (!CollisionEventsThisFrame.Cleared)
             {
-                base.SendCollisionUpdate(CollisionEventsThisFrame.Copy());
+                SendCollisionUpdate(CollisionEventsThisFrame.Copy());
                 CollisionEventsThisFrame.Clear();
             }
             return true;

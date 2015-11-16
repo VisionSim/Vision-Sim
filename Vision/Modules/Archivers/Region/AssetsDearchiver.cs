@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -154,7 +154,7 @@ namespace Vision.Modules.Archivers
                     filename = filename.Remove(filename.Length - extension.Length);
                 }
 
-                MainConsole.Instance.DebugFormat("[ARCHIVER]: Importing asset {0}", filename);
+                MainConsole.Instance.DebugFormat("[Archiver]: Importing asset {0}", filename);
 
                 AssetBase asset = new AssetBase(filename, metadata.Name, (AssetType) metadata.AssetType, UUID.Zero)
                                       {Description = metadata.Description, Data = data, MetaOnly = false};

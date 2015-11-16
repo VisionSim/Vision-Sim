@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -26,19 +26,19 @@
  */
 
 using System.Collections.Generic;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.Modules;
 using Vision.Framework.Physics;
 using Vision.Framework.SceneInfo;
-using Nini.Config;
-using OpenMetaverse;
 
 namespace Vision.Physics.BasicPhysicsPlugin
 {
     public class BasicScene : PhysicsScene
     {
-        private readonly List<PhysicsActor> _actors = new List<PhysicsActor>();
-        private short[] _heightMap;
-        private RegionInfo m_region;
+        readonly List<PhysicsActor> _actors = new List<PhysicsActor>();
+        short[] _heightMap;
+        RegionInfo m_region;
 
         public BasicScene()
         {
@@ -79,10 +79,6 @@ namespace Vision.Physics.BasicPhysicsPlugin
         }
 
         public override void RemovePrim(PhysicsActor prim)
-        {
-        }
-
-        public override void DeletePrim(PhysicsActor prim)
         {
         }
 

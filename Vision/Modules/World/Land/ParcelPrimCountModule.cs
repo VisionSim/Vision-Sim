@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,16 +25,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
-using Nini.Config;
-using OpenMetaverse;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Vision.Modules.Land
 {
@@ -164,13 +163,16 @@ namespace Vision.Modules.Land
                 m_Tainted = true;
         }
 
+
         public int GetParcelMaxPrimCount(ILandObject thisObject)
         {
             // Normal Calculations
-            return (int) Math.Round(((float) thisObject.LandData.Area/
-                                     (256*256))*
-                                    m_Scene.RegionInfo.ObjectCapacity*
-                                    (float) m_Scene.RegionInfo.RegionSettings.ObjectBonus);
+            // Max = (this land area) / (calculated region area) * region capacity * bonus [bonus is normally = 1]
+            return (int)Math.Round(((float)thisObject.LandData.Area /
+                                     (m_Scene.RegionInfo.RegionSizeX * m_Scene.RegionInfo.RegionSizeY)) *
+                                     // (256*256))*
+                                    m_Scene.RegionInfo.ObjectCapacity *
+                                    (float)m_Scene.RegionInfo.RegionSettings.ObjectBonus);
         }
 
         public IPrimCounts GetPrimCounts(UUID parcelID)

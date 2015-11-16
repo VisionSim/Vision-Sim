@@ -25,7 +25,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -38,8 +37,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("BasicPhysicsPlugin")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("http://virtual-planets.org")]
-[assembly: AssemblyCopyright("(C) Virtual Vision Developers 2015-2025")]
+[assembly: AssemblyCompany("http://Vision-sim.org")]
+[assembly: AssemblyCopyright("(C) Vision-Sim.org Developers 2007-2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

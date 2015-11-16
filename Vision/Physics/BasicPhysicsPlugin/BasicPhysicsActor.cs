@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,8 +25,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.Physics;
 using OpenMetaverse;
+using Vision.Framework.Physics;
 
 namespace Vision.Physics.BasicPhysicsPlugin
 {
@@ -70,6 +70,10 @@ namespace Vision.Physics.BasicPhysicsPlugin
             set { return; }
         }
 
+        public override bool Grabbed {
+            set { return; }
+        }
+
         public override bool FloatOnWater
         {
             set { return; }
@@ -109,6 +113,11 @@ namespace Vision.Physics.BasicPhysicsPlugin
             get { return 0f; }
         }
 
+        public override bool Kinematic {
+            get { return false; }
+            set { return; }
+        }
+
         public override Vector3 Force
         {
             get { return Vector3.Zero; }
@@ -143,7 +152,7 @@ namespace Vision.Physics.BasicPhysicsPlugin
             return false;
         }
 
-        public override void AddCollisionEvent(uint CollidedWith, ContactPoint contact)
+        public override void AddCollisionEvent(uint collidedWith, ContactPoint contact)
         {
         }
     }
@@ -151,6 +160,11 @@ namespace Vision.Physics.BasicPhysicsPlugin
     public class BasicObjectActor : PhysicsActor
     {
         Vector3 _size;
+
+        public override bool Grabbed
+        {
+            set { return; }
+        }
 
         public override bool Selected
         {
@@ -184,6 +198,11 @@ namespace Vision.Physics.BasicPhysicsPlugin
 
         public override bool IsPhysical
         {
+            get { return false; }
+            set { return; }
+        }
+
+        public override bool Kinematic {
             get { return false; }
             set { return; }
         }
@@ -280,7 +299,7 @@ namespace Vision.Physics.BasicPhysicsPlugin
             return false;
         }
 
-        public override void AddCollisionEvent(uint CollidedWith, ContactPoint contact)
+        public override void AddCollisionEvent(uint collidedWith, ContactPoint contact)
         {
         }
     }

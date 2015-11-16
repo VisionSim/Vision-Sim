@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -74,11 +74,11 @@ namespace Vision.Services
             auth.PasswordSalt = passwordSalt;
             if (!m_Database.Store(auth))
             {
-                MainConsole.Instance.DebugFormat("[AUTHENTICATION DB]: Failed to store authentication data");
+                MainConsole.Instance.DebugFormat("[Authentication Database]: Failed to store authentication data");
                 return false;
             }
 
-            MainConsole.Instance.InfoFormat("[AUTHENTICATION DB]: Set password for principalID {0}", principalID);
+            MainConsole.Instance.InfoFormat("[Authentication Database]: Set password for principalID {0}", principalID);
             return true;
         }
 
@@ -111,11 +111,11 @@ namespace Vision.Services
             auth.PasswordSalt = passwordSalt;
             if (!m_Database.Store(auth))
             {
-                MainConsole.Instance.DebugFormat("[AUTHENTICATION DB]: Failed to store authentication data");
+                MainConsole.Instance.DebugFormat("[Authentication Database]: Failed to store authentication data");
                 return false;
             }
 
-            MainConsole.Instance.InfoFormat("[AUTHENTICATION DB]: Set password for principalID {0}", principalID);
+            MainConsole.Instance.InfoFormat("[Authentication Database]: Set password for principalID {0}", principalID);
             return true;
         }
 
@@ -130,11 +130,11 @@ namespace Vision.Services
             auth.PasswordSalt = "";
             if (!m_Database.Store(auth))
             {
-                MainConsole.Instance.DebugFormat("[AUTHENTICATION DB]: Failed to store authentication data");
+                MainConsole.Instance.DebugFormat("[Authentication Database]: Failed to store authentication data");
                 return false;
             }
 
-            MainConsole.Instance.InfoFormat("[AUTHENTICATION DB]: Set password for principalID {0}", principalID);
+            MainConsole.Instance.InfoFormat("[Authentication Database]: Set password for principalID {0}", principalID);
             return true;
         }
     }

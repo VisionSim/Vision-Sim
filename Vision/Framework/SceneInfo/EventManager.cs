@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -32,6 +32,7 @@ using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Servers;
 using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Services;
+using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Utilities;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
@@ -222,10 +223,18 @@ namespace Vision.Framework.SceneInfo
 
         public delegate void FinishedStartup(string name, List<string> data);
 
+        public delegate void PhysicsRequestAsset(UUID assetID, AssetReceivedDelegate callback);
+
+        public delegate void AssetReceivedDelegate(AssetBase asset);
+
         public delegate void StartupComplete(IScene scene, List<string> data);
 
         public event FinishedStartup OnModuleFinishedStartup;
         public event AddToStartupQueue OnAddToStartupQueue;
+
+        public event PhysicsRequestAsset OnPhysicsRequestAsset;
+        public event AssetReceivedDelegate OnAssetReceivedDelegate;
+
         public event StartupComplete OnStartupComplete;
         //This is called after OnStartupComplete is done, it should ONLY be registered to the Scene
         public event StartupComplete OnStartupFullyComplete;

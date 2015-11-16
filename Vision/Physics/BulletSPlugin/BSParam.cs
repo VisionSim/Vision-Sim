@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/, http://whitecore-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://opensimulator.org//, http://vision-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyrightD
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -771,7 +771,7 @@ namespace Vision.Physics.BulletSPlugin
             new ParameterDefn<float>("VehicleMaxLinearVelocity",
                 "Maximum velocity magnitude that can be assigned to a vehicle",
                 1000.0f,
-                (s) => { return  VehicleMaxLinearVelocity; },
+                (s) => { return VehicleMaxLinearVelocity; },
                 (s, v) =>
                 {
                     VehicleMaxLinearVelocity = v;
@@ -784,7 +784,7 @@ namespace Vision.Physics.BulletSPlugin
             new ParameterDefn<float>("VehicleMaxAngularVelocity",
                 "Maximum rotational velocity magnitude that can be assigned to a vehicle",
                 12.0f,
-                (s) => { return  VehicleMaxAngularVelocity; },
+                (s) => { return VehicleMaxAngularVelocity; },
                 (s, v) =>
                 {
                     VehicleMaxAngularVelocity = v;
@@ -1200,20 +1200,23 @@ namespace Vision.Physics.BulletSPlugin
         // =====================================================================
         // There are parameters that, when set, cause things to happen in the physics engine.
         // This causes the broadphase collision cache to be cleared.
-        static void ResetBroadphasePoolTainted(BSScene pPhysScene, float v, bool inTainTime)
+        static void ResetBroadphasePoolTainted(BSScene pPhysScene, float v, bool inTaintTime)
         {
-// OSincludes an additional inTainTime parameter here... check TaintedObject function
             BSScene physScene = pPhysScene;
-            physScene.TaintedObject("BSParam.ResetBroadphasePoolTainted",
-                delegate() { physScene.PE.ResetBroadphasePool(physScene.World); });
+            physScene.TaintedObject(inTaintTime, "BSParam.ResetBroadphasePoolTainted", delegate() 
+            {
+                physScene.PE.ResetBroadphasePool(physScene.World);
+            });
         }
 
         // This causes the constraint solver cache to be cleared and reset.
         static void ResetConstraintSolverTainted(BSScene pPhysScene, float v)
         {
             BSScene physScene = pPhysScene;
-            physScene.TaintedObject("BSParam.ResetConstraintSolver",
-                delegate() { physScene.PE.ResetConstraintSolver(physScene.World); });
+            physScene.TaintedObject(BSScene.DetailLogZero, "BSParam.ResetConstraintSolver", delegate() 
+            {
+                physScene.PE.ResetConstraintSolver(physScene.World);
+            });
         }
     }
 }
