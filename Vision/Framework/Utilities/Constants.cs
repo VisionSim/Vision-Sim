@@ -25,7 +25,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 namespace Vision.Framework.Utilities
 {
     public static class Constants
@@ -88,7 +87,6 @@ namespace Vision.Framework.Utilities
         public const string MarketplaceOwnerUUID = "198e72a6-cef6-4bbb-ae08-c0a79e6b7d1e";
         public const string MarketplaceOwnerName = "Marketplace Concierge";
 
-
         // user levels
         public const int USER_DISABLED = -2;
         public const int USER_BANNED = -1;
@@ -110,6 +108,7 @@ namespace Vision.Framework.Utilities
 
         public const int SCHEDULER_INTERVAL = 300;          // seconds between scheduler checks
 
+        // Currency related constants
         public const string STIPEND_PAY_DAY = "tuesday";    // the day stipend payments are processed
         public const string STIPEND_PAY_TIME = "00:05";     // the time, hh:mm, when stipend payments are processed
         public const string STIPEND_PAY_PERIOD = "week";    // how often we process stipends
@@ -118,7 +117,7 @@ namespace Vision.Framework.Utilities
 
         public const int SCHEDULED_PAYMENTS_DELAY = 15;     // minutes to wait after stipend payments before processing scheduled payments
         public const int GROUP_PAYMENTS_DELAY = 30;         // minutes to wait after stipend payments before processing group payments
+        public const int GROUP_DISBURSMENTS_DELAY = 5;      // offsets disbursments by 5 minutes
         public const int DIRECTORYFEE_GRACE_PERIOD = 2;     // hours grace period before a fee will be charged at least once
-
     }
 }
