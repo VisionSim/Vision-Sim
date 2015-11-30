@@ -55,6 +55,7 @@ namespace Vision.Framework.Utilities
         public const int MaxRegionSize = 4096;
         public const int MinRegionSize = 16;
 
+        // System user accounts
 		public const int SystemUserCount = 5;
 
         // System library Avatar Account
@@ -69,23 +70,25 @@ namespace Vision.Framework.Utilities
         public const string GovernorUUID = "3d6181b0-6a4b-97ef-18d8-722652995cf1";
         public const string GovernorName = "Governor Vision";
 
-        // System Estate
-        public const string MainlandEstateName = "Vision Mainland";
-        public const int MainlandEstateID = 1;
-        public const string SystemEstateName = "Vision Estate";
-        public const int SystemEstateID = 10;
-
-        // System Real Estate Maintenance Group
-		public const string RealEstateGroupUUID = "dc7b21cd-3c89-fcaa-31c8-25f9ffd224cd";
-		public const string RealEstateGroupName = "Maintenance";
-
-        // System Banker Avatar
+        // System Banker Avatar Account
         public const string BankerUUID = "f4261829-2796-4688-bfe2-085190cb639b";
         public const string BankerName = "Vision Banker";
 
         // System Marketplace Avatar
         public const string MarketplaceOwnerUUID = "198e72a6-cef6-4bbb-ae08-c0a79e6b7d1e";
         public const string MarketplaceOwnerName = "Marketplace Concierge";
+
+        // System Estates
+        public const string MainlandEstateName = "Vision Mainland";
+        public const int MainlandEstateID = 1;
+        public const string SystemEstateName = "Vision Estate";
+        public const int SystemEstateID = 10;
+
+        // System groups
+
+        // System Real Estate Maintenance Group
+		public const string RealEstateGroupUUID = "dc7b21cd-3c89-fcaa-31c8-25f9ffd224cd";
+		public const string RealEstateGroupName = "Maintenance";
 
         // user levels
         public const int USER_DISABLED = -2;
@@ -106,6 +109,7 @@ namespace Vision.Framework.Utilities
         public const int USER_FLAG_CONTRACTOR = 800;        // Contracted
         public const int USER_FLAG_CHARTERMEMBER = 3840;    // Charter member
 
+        // Scheduler
         public const int SCHEDULER_INTERVAL = 300;          // seconds between scheduler checks
 
         // Currency related constants
