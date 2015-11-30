@@ -25,33 +25,57 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
 using System.Reflection;
+using System.Resources;
 using System.Runtime.InteropServices;
 
-// Information about this assembly is defined by the following
-// attributes.
-//
-// change them to the information which is associated with the assembly
-// you compile.
-
-[assembly: AssemblyTitle("BasicPhysicsPlugin")]
+/// <summary>
+///     General Information:
+///     This is general information about an assembly which is controlled through the
+///     following set of attirbutes.  We change these attirbute values to modify the
+///     information associated with an assembly.
+/// </summary>
+[assembly: AssemblyTitle("Vision.Physics.BasicPhysicsPlugin")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("http://Vision-sim.org")]
-[assembly: AssemblyCopyright("(C) Vision-Sim.org Developers 2007-2009")]
+[assembly: AssemblyCompany("Vision-Sim Development Team")]
+[assembly: AssemblyProduct("Vision.Physics.BasicPhysicsPlugin")]
+[assembly: AssemblyCopyright("Copyright © 2015-2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-// This sets the default COM visibility of types in the assembly to invisible.
-// If you need to expose a type to COM, use [ComVisible(true)] on that type.
-
+/// <summary>
+///     ConVisible Information:
+///     We set the ConVisible to false to make the types in this assembly not visible
+///     to the COM service.  if you need to access a type in this assembly from COM,
+///     set the ConVisible attribute to true on that type.
+/// </summary>
 [assembly: ComVisible(false)]
 
-// The assembly version has following format :
-//
-// Major.Minor.Build.Revision
-//
-// You can specify all values by your own or you can build default build and revision
-// numbers with the '*' character (the default):
+/// <Summary>
+///     GUID Information:
+///     The following GUID is for the ID of the typelib if this project is exposed to 
+///     COM.
+/// </Summary>
+[assembly: Guid("1e296fe7-007f-49fa-932f-2308d1d32ec5")]
 
+/// <Summary>
+///     Version Information:
+///     THis is the version information for the assembly.  it consists of the following 
+///     four values:
+///         
+///         Major Version
+///         Minor Version
+///         Build Number
+///         Revision Number
+/// 
+///     You can specify all the above values, or you can default the Build and Revision Numbers 
+///     by using the "*" as shown below:
+///         
+///         [assembly: AssemblyVersion("1.0.*")]
+/// 
+///     The above values must be the same in all AssemblyInfo files.
+/// </Summary>
 [assembly: AssemblyVersion("1.0.1.*")]
+[assembly: NeutralResourcesLanguageAttribute("en")]
