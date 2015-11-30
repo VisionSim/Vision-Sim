@@ -47,7 +47,7 @@ namespace Vision.Modules.Currency
     {
         #region Declares
 
-        public WhiteCoreEventManager eventManager = new WhiteCoreEventManager();
+        public VisionEventManager eventManager = new VisionEventManager();
 
         IRegistryCore m_registry;
         IConfigSource m_config;
