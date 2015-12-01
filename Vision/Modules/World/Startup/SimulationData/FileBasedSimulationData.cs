@@ -334,7 +334,8 @@ namespace Vision.Modules
                 // * Mainland / Openspace
                 //
                 // * Estate / Full Region   (Private)
-                //
+                // * Estate / Homestead (Private)
+                // * Estate / Openspace (Private)
                 info.RegionType = MainConsole.Instance.Prompt ("Region Type (Mainland/Estate)",
                     (info.RegionType == "" ? "Estate" : info.RegionType));
 
@@ -366,6 +367,7 @@ namespace Vision.Modules
                     info.RegionType = "Estate / ";                   
                     responses.Add("Full Region");
                     responses.Add("Homestead");
+                    responses.Add("Openspace");
                     responses.Add ("Vision");                            // TODO: Vision 'standard' setup, rename??
                     responses.Add ("Custom");
                     setupMode = MainConsole.Instance.Prompt("Estate region type?","Full Region", responses).ToLower();
