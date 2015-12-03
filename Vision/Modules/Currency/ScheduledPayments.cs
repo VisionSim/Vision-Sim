@@ -760,6 +760,7 @@ namespace Vision.Modules.Currency
             //paymentInfo += String.Format ("{0, -34}", "Description");
             paymentInfo += String.Format("{0, -30}", "Transaction");
             paymentInfo += String.Format("{0, -10}", "Amount");
+            paymentInfo += String.Format("{0, -10}", "Scheduled");
 
             MainConsole.Instance.CleanInfo(paymentInfo);
 
@@ -782,6 +783,7 @@ namespace Vision.Modules.Currency
                 //paymentInfo += String.Format ("{0, -34}", description.Substring (0, 32));   
                 paymentInfo += String.Format("{0, -30}", Utilities.TransactionTypeInfo(transType));
                 paymentInfo += String.Format("{0, -10}", amount);
+                paymentInfo += String.Format("{0:f}", chargeTime);
 
                 MainConsole.Instance.CleanInfo(paymentInfo);
                 payments++;
@@ -792,7 +794,7 @@ namespace Vision.Modules.Currency
 
             TimeSpan nextSched = nextScheduledPayment - DateTime.Now;
 
-            MainConsole.Instance.InfoFormat("[Currency]: The next payment cycle is scheduled for {0}",
+            MainConsole.Instance.InfoFormat("[Currency]: The next payment check is scheduled for {0}",
                 String.Format("{0:f}", nextScheduledPayment));
             MainConsole.Instance.InfoFormat("            Time to next payment schedule: {0} day{1} {2} hour{3} {4} minute{5}",
                 nextSched.Days,
@@ -802,8 +804,8 @@ namespace Vision.Modules.Currency
                 nextSched.Minutes,
                 nextSched.Minutes == 1 ? "" : "s"
             );
-            MainConsole.Instance.InfoFormat("             Cycle  : {0} {1}{2}",
-                stipendInterval, stipendPeriod, stipendInterval == 1 ? "" : "s");
+            //MainConsole.Instance.InfoFormat("             Cycle  : {0} {1}{2}",
+            //    stipendInterval, stipendPeriod, stipendInterval == 1 ? "" : "s");
             MainConsole.Instance.InfoFormat("          Payments  : {0}", payments);
             MainConsole.Instance.InfoFormat("              Fees  : {0}{1}", currencySymbol, payValue);
         }
