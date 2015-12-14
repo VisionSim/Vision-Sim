@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -238,9 +238,9 @@ namespace Vision.Simulation.Base
             if (MainConsole.Instance != null)
             {
                 MainConsole.Instance.DefaultPrompt = m_consolePrompt;
-                MainConsole.Instance.Info(string.Format("[Mini Vision Sim]: Starting Mini Vision Sim ({0})...",
+                MainConsole.Instance.Info(string.Format("[Mini Virtual Vision]: STARTING MIN Vision ({0})...",
                                                         (IntPtr.Size == 4 ? "x86" : "x64")));
-                MainConsole.Instance.Info("[Mini Vision Sim]: Version: " + Version + "\n");
+                MainConsole.Instance.Info("[Mini Virtual Vision]: Version: " + Version + "\n");
             }
         }
 
@@ -249,7 +249,7 @@ namespace Vision.Simulation.Base
         /// </summary>
         public virtual void Startup()
         {
-            MainConsole.Instance.Info("[Mini Vision Sim]: Startup completed in " +
+            MainConsole.Instance.Info("[Mini Virtual Vision]: Startup completed in " +
                                       (DateTime.Now - this.StartupTime).TotalSeconds);
         }
 
@@ -502,7 +502,7 @@ namespace Vision.Simulation.Base
         public virtual void HandleForceGC(IScene scene, string[] cmd)
         {
             GC.Collect();
-            MainConsole.Instance.Warn("[Garbage Collection]: Garbage collection finished");
+            MainConsole.Instance.Warn("[Garbage Collection Service]: Garbage collection finished");
         }
 
         public virtual void runConfig(IScene scene, string[] cmd)
@@ -541,7 +541,7 @@ namespace Vision.Simulation.Base
             {
                 server.HostName = hostName;
             }
-            MainConsole.Instance.Info("Finished reloading configuration.");
+            MainConsole.Instance.Info("[Virtual Vision Configuration]: Finished reloading configuration.");
         }
 
         public virtual void HandleShowInfo(IScene scene, string[] cmd)

@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -49,7 +49,7 @@ namespace Vision.Services
         private bool m_allowCapsMessage = true;
         private IGridService m_gridService;
         private UUID m_agentID;
-        private Vision.Framework.Services.GridRegion m_region;
+        private Framework.Services.GridRegion m_region;
         private string m_uri;
         private List<UUID> m_userScopeIDs = new List<UUID>();
 
@@ -57,7 +57,7 @@ namespace Vision.Services
 
         public string Name { get { return GetType().Name; } }
 
-        public void IncomingCapsRequest(UUID agentID, Vision.Framework.Services.GridRegion region, ISimulationBase simbase, ref OSDMap capURLs)
+        public void IncomingCapsRequest(UUID agentID, Framework.Services.GridRegion region, ISimulationBase simbase, ref OSDMap capURLs)
         {
             m_agentID = agentID;
             m_region = region;

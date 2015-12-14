@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -233,6 +233,25 @@ namespace Vision.Services.DataService
             List<string> retVal = GD.Query(new string[1] { "EstateID" }, m_estateSettingsTable, filter, null, null, null);
 
             return retVal.Count > 0;
+        }
+
+        [CanBeReflected(ThreatLevel = ThreatLevel.High)]
+        public bool EstateRegionExists(int estateID, UUID regionID)
+        {
+            object remoteValue = DoRemote(estateID, regionID);
+            if (remoteValue != null || m_doRemoteOnly)
+                return remoteValue == null ? false : (bool)remoteValue;
+
+            bool found = false;
+            var eRegions = GetRegions(estateID);
+            if (eRegions.Count == 0)
+                return found;
+
+            foreach (UUID rId in eRegions)
+                if (rId == regionID)
+                    found = true;
+
+            return found;
         }
 
         [CanBeReflected(ThreatLevel = ThreatLevel.Low)]

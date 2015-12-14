@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -34,7 +34,7 @@ using Microsoft.CSharp;
 
 //using Microsoft.JScript;
 
-namespace Vision.ScriptEngine.DotNetEngine.CompilerTools
+namespace Vision.ScriptEngine.VirtualScript.CompilerTools
 {
     public class CSConverter : IScriptConverter
     {
@@ -124,26 +124,26 @@ namespace Vision.ScriptEngine.DotNetEngine.CompilerTools
         private string CreateCompilerScript(string compileScript)
         {
             compileScript = compileScript.Replace("string",
-                                                  "Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLString");
+                                                  "Vision.ScriptEngine.VirtualScript.LSL_Types.LSLString");
 
             compileScript = compileScript.Replace("integer",
-                                                  "Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLInteger");
+                                                  "Vision.ScriptEngine.VirtualScript.LSL_Types.LSLInteger");
 
             compileScript = compileScript.Replace("float",
-                                                  "Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLFloat");
+                                                  "Vision.ScriptEngine.VirtualScript.LSL_Types.LSLFloat");
 
             compileScript = compileScript.Replace("list",
-                                                  "Vision.ScriptEngine.DotNetEngine.LSL_Types.list");
+                                                  "Vision.ScriptEngine.VirtualScript.LSL_Types.list");
 
             compileScript = compileScript.Replace("rotation",
-                                                  "Vision.ScriptEngine.DotNetEngine.LSL_Types.Quaternion");
+                                                  "Vision.ScriptEngine.VirtualScript.LSL_Types.Quaternion");
 
             compileScript = compileScript.Replace("vector",
-                                                  "Vision.ScriptEngine.DotNetEngine.LSL_Types.Vector3");
+                                                  "Vision.ScriptEngine.VirtualScript.LSL_Types.Vector3");
             string compiledScript = "";
             compiledScript = String.Empty +
-                             "using Vision.ScriptEngine.DotNetEngine.Runtime;\n" +
-                             "using Vision.ScriptEngine.DotNetEngine;\n" +
+                             "using Vision.ScriptEngine.VirtualScript.Runtime;\n" +
+                             "using Vision.ScriptEngine.VirtualScript;\n" +
                              "using System;\n" +
                              "using System.Collections.Generic;\n" +
                              "using System.Collections;\n" +
@@ -151,7 +151,7 @@ namespace Vision.ScriptEngine.DotNetEngine.CompilerTools
                              "{\n";
 
             compiledScript +=
-                "public class ScriptClass : Vision.ScriptEngine.DotNetEngine.Runtime.ScriptBaseClass, IDisposable\n";
+                "public class ScriptClass : Vision.ScriptEngine.VirtualScript.Runtime.ScriptBaseClass, IDisposable\n";
             compiledScript += "{\n";
             compiledScript +=
                 compileScript;
@@ -331,9 +331,9 @@ namespace Vision.ScriptEngine.DotNetEngine.CompilerTools
             }
             string compiledScript = "";
             compiledScript = String.Empty +
-                             "using Vision.ScriptEngine.DotNetEngine.Runtime;\n" +
-                             "using Vision.ScriptEngine.DotNetEngine;\n" +
-                             "using Vision.ScriptEngine.DotNetEngine.APIs.Interfaces;\n" +
+                             "using Vision.ScriptEngine.VirtualScript.Runtime;\n" +
+                             "using Vision.ScriptEngine.VirtualScript;\n" +
+                             "using Vision.ScriptEngine.VirtualScript.APIs.Interfaces;\n" +
                              "\n" +
                              "using Vision.Framework.ClientInterfaces;\n" +
                              "using Vision.Framework.ConsoleFramework;\n" +
@@ -357,7 +357,7 @@ namespace Vision.ScriptEngine.DotNetEngine.CompilerTools
                               "{\n";
 
             compiledScript +=
-                "public class ScriptClass : Vision.ScriptEngine.DotNetEngine.Runtime.ScriptBaseClass, IDisposable\n";
+                "public class ScriptClass : Vision.ScriptEngine.VirtualScript.Runtime.ScriptBaseClass, IDisposable\n";
             compiledScript += "{\n";
             compiledScript +=
                 compileScript;

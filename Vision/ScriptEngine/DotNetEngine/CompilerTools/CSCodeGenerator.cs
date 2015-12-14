@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -32,7 +32,7 @@ using ScriptEngineParser;
 using Tools;
 using Vision.Framework.Utilities;
 
-namespace Vision.ScriptEngine.DotNetEngine.CompilerTools
+namespace Vision.ScriptEngine.VirtualScript.CompilerTools
 {
     public static class Extension
     {
@@ -317,12 +317,12 @@ namespace Vision.ScriptEngine.DotNetEngine.CompilerTools
                 foreach (string nameSpace in api.NamespaceAdditions)
                     sb.AppendFormat("using {0};\n", nameSpace);
             sb.AppendLine(
-@"using LSL_Types = Vision.ScriptEngine.DotNetEngine.LSL_Types;
+@"using LSL_Types = Vision.ScriptEngine.VirtualScript.LSL_Types;
 using System;
 namespace Script
 {
 [Serializable]
-public class ScriptClass : Vision.ScriptEngine.DotNetEngine.Runtime.ScriptBaseClass
+public class ScriptClass : Vision.ScriptEngine.VirtualScript.Runtime.ScriptBaseClass
 {");
 
             sb.AppendLine(ScriptClass);

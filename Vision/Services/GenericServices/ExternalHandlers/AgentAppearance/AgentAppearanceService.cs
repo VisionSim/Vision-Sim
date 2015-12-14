@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -110,7 +110,7 @@ namespace Vision.Services
             UUID textureID = UUID.Parse (req [4]);
 
             //IAvatarService avService = m_registry.RequestModuleInterface<IAvatarService>();
-            //Vision.Framework.ClientInterfaces.AvatarAppearance appearance = avService.GetAppearance(avID);
+            //Framework.ClientInterfaces.AvatarAppearance appearance = avService.GetAppearance(avID);
             //AvatarTextureIndex textureIndex = AppearanceManager.BakeTypeToAgentTextureIndex((BakeType)Enum.Parse(typeof(BakeType), type, true));
             //AssetBase texture = m_assetService.Get(appearance.Texture.FaceTextures[(int)textureIndex].TextureID.ToString());
             AssetBase texture = m_assetService.Get (textureID.ToString ());
@@ -163,7 +163,7 @@ namespace Vision.Services
 
             List<InventoryItemBase> items = m_inventoryService.GetFolderItems (agentID, cof.ID);
             foreach (InventoryItemBase itm in items)
-                MainConsole.Instance.Warn ("[ServerSideAppearance]: Baking " + itm.Name);
+                MainConsole.Instance.Warn ("[Server Side Appearance]: Baking " + itm.Name);
 
             for (int i = 0; i < Textures.Length; i++)
                 Textures [i] = new TextureData ();
@@ -292,12 +292,12 @@ namespace Vision.Services
                 assetID = m_assetService.Store (newBakedAsset);
                 bake_complete:
                 newBakeIDs.Add (assetID);
-                MainConsole.Instance.WarnFormat ("[ServerSideAppearance]: Baked {0}", assetID);
+                MainConsole.Instance.WarnFormat ("[Server Side Appearance]: Baked {0}", assetID);
                 int place = (int)AppearanceManager.BakeTypeToAgentTextureIndex (bakeType);
                 appearance.Texture.FaceTextures [place].TextureID = assetID;
             }
 
-            MainConsole.Instance.ErrorFormat ("[ServerSideAppearance]: Baking took {0} ms", (Environment.TickCount - start));
+            MainConsole.Instance.ErrorFormat ("[Server Side Appearance]: Baking took {0} ms", (Environment.TickCount - start));
 
             appearance.Serial = cof_version + 1;
             cof = m_inventoryService.GetFolderForType (agentID, InventoryType.Unknown, FolderType.CurrentOutfit);

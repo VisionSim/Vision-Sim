@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -444,8 +444,8 @@ namespace Vision.Services
                 reason = "Could not find neighbor to inform";
                 return false;
             }
-            /*if ((neighbor.Flags & (int)Vision.Framework.RegionFlags.RegionOnline) == 0 &&
-                (neighbor.Flags & (int)(Vision.Framework.RegionFlags.Foreign | Vision.Framework.RegionFlags.Hyperlink)) == 0)
+            /*if ((neighbor.Flags & (int)Framework.RegionFlags.RegionOnline) == 0 &&
+                (neighbor.Flags & (int)(Framework.RegionFlags.Foreign | Vision.Framework.RegionFlags.Hyperlink)) == 0)
             {
                 reason = "The region you are attempting to teleport to is offline";
                 return false;

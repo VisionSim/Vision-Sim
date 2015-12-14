@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -36,11 +36,11 @@ using System.Runtime.InteropServices;
 ///     following set of attirbutes.  We change these attirbute values to modify the
 ///     information associated with an assembly.
 /// </summary>
-[assembly: AssemblyTitle("Vision.ScriptEngine.DotNetEngine")]
+[assembly: AssemblyTitle("Vision.ScriptEngine.VirtualScript")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Vision-Sim Development Team")]
-[assembly: AssemblyProduct("Vision.ScriptEngine.DotNetEngine")]
+[assembly: AssemblyProduct("Vision.ScriptEngine.VirtualScript")]
 [assembly: AssemblyCopyright("Copyright © 2015-2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -58,7 +58,7 @@ using System.Runtime.InteropServices;
 ///     The following GUID is for the ID of the typelib if this project is exposed to 
 ///     COM.
 /// </Summary>
-[assembly: Guid("1e296fe7-007f-49fa-932f-2308d1d32ec5")]
+[assembly: Guid("49c249ce-8510-40c3-a39d-ff4295b27734")]
 
 /// <Summary>
 ///     Version Information:

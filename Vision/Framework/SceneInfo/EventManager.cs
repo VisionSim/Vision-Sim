@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,6 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.PresenceInfo;
@@ -32,12 +36,7 @@ using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Servers;
 using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Services;
-using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Utilities;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
-using System;
-using System.Collections.Generic;
 using GridRegion = Vision.Framework.Services.GridRegion;
 
 namespace Vision.Framework.SceneInfo
@@ -223,17 +222,10 @@ namespace Vision.Framework.SceneInfo
 
         public delegate void FinishedStartup(string name, List<string> data);
 
-        public delegate void PhysicsRequestAsset(UUID assetID, AssetReceivedDelegate callback);
-
-        public delegate void AssetReceivedDelegate(AssetBase asset);
-
         public delegate void StartupComplete(IScene scene, List<string> data);
 
         public event FinishedStartup OnModuleFinishedStartup;
         public event AddToStartupQueue OnAddToStartupQueue;
-
-        public event PhysicsRequestAsset OnPhysicsRequestAsset;
-        public event AssetReceivedDelegate OnAssetReceivedDelegate;
 
         public event StartupComplete OnStartupComplete;
         //This is called after OnStartupComplete is done, it should ONLY be registered to the Scene

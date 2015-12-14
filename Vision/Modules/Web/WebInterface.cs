@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -1125,11 +1125,11 @@ namespace Vision.Modules.Web
 
     public class GridSettings : IDataTransferable
     {
-        public string Gridname = "Vision Sim Grid";
+        public string Gridname = "Vision Grid";
         public string Gridnick = "Vision";
-        public string WelcomeMessage = "Welcome to Vision Sim, <USERNAME>!";
-        public string SystemEstateOwnerName = Constants.GovernorName;
-        public string SystemEstateName = Constants.SystemEstateName;
+        public string WelcomeMessage = "Welcome to Vision, <USERNAME>!";
+        public string SystemEstateOwnerName = "Governor Vision";
+        public string SystemEstateName = "Whitecore Estate";
 
         public GridSettings()
         {

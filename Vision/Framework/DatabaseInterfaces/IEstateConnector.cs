@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,10 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System.Collections.Generic;
+using OpenMetaverse;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
-using OpenMetaverse;
-using System.Collections.Generic;
 
 namespace Vision.Framework.DatabaseInterfaces
 {
@@ -65,7 +65,7 @@ namespace Vision.Framework.DatabaseInterfaces
         /// </summary>
         /// <returns>The the estateID</returns>
         /// <param name="es">Es.</param>
-        int CreateNewEstate (EstateSettings es);
+        int CreateNewEstate(EstateSettings es);
 
         /// <summary>
         ///     Creates a new estate from the given info, and link to a region
@@ -158,6 +158,14 @@ namespace Vision.Framework.DatabaseInterfaces
         /// </summary>
         /// <returns><c>true</c>, if exists, <c>false</c> otherwise.</returns>
         /// <param name="name">Name.</param>
-        bool EstateExists (string name);
+        bool EstateExists(string name);
+
+        /// <summary>
+        /// Cheks to see if region is part of an estate.
+        /// </summary>
+        /// <returns><c>true</c>, if region is part of estate, <c>false</c> otherwise.</returns>
+        /// <param name="estateID">Estate ID</param>
+        /// <param name="regionID">Region ID</param>
+        bool EstateRegionExists(int estateID, UUID regionID);
     }
 }

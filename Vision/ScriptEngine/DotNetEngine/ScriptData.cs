@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -32,7 +32,7 @@ using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Utilities;
-using Vision.ScriptEngine.DotNetEngine.Runtime;
+using Vision.ScriptEngine.VirtualScript.Runtime;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
 using System;
@@ -45,7 +45,7 @@ using System.Runtime.Remoting;
 using System.Runtime.Remoting.Lifetime;
 using System.Threading;
 
-namespace Vision.ScriptEngine.DotNetEngine
+namespace Vision.ScriptEngine.VirtualScript
 {
     public class ScriptData
     {
@@ -544,7 +544,7 @@ namespace Vision.ScriptEngine.DotNetEngine
 
             if (InventoryItem == null)
             {
-                MainConsole.Instance.Warn("[DNE]: Could not find inventory item for script " + ItemID + ", part" +
+                MainConsole.Instance.Warn("[WDNE]: Could not find inventory item for script " + ItemID + ", part" +
                                           Part.Name + "@" +
                                           Part.AbsolutePosition);
                 return false;

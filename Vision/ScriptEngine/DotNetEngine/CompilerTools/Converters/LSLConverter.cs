@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -31,7 +31,7 @@ using Microsoft.CSharp;
 
 //using Microsoft.JScript;
 
-namespace Vision.ScriptEngine.DotNetEngine.CompilerTools
+namespace Vision.ScriptEngine.VirtualScript.CompilerTools
 {
     public class LSLConverter : IScriptConverter
     {
@@ -195,19 +195,19 @@ namespace Vision.ScriptEngine.DotNetEngine.CompilerTools
         private string ReplaceTypes(string message)
         {
             message = message.Replace(
-                "Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLString",
+                "Vision.ScriptEngine.VirtualScript.LSL_Types.LSLString",
                 "string");
 
             message = message.Replace(
-                "Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLInteger",
+                "Vision.ScriptEngine.VirtualScript.LSL_Types.LSLInteger",
                 "integer");
 
             message = message.Replace(
-                "Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLFloat",
+                "Vision.ScriptEngine.VirtualScript.LSL_Types.LSLFloat",
                 "float");
 
             message = message.Replace(
-                "Vision.ScriptEngine.DotNetEngine.LSL_Types.list",
+                "Vision.ScriptEngine.VirtualScript.LSL_Types.list",
                 "list");
 
             return message;
@@ -217,10 +217,10 @@ namespace Vision.ScriptEngine.DotNetEngine.CompilerTools
         {
             //Remove these long strings
             message = message.Replace(
-                "Vision.ScriptEngine.DotNetEngine.Runtime.ScriptBaseClass.",
+                "Vision.ScriptEngine.VirtualScript.Runtime.ScriptBaseClass.",
                 "");
             message = message.Replace(
-                "Vision.ScriptEngine.DotNetEngine.LSL_Types.",
+                "Vision.ScriptEngine.VirtualScript.LSL_Types.",
                 "");
             if (message.Contains("The best overloaded method match for"))
             {

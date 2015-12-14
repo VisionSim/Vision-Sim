@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -37,7 +37,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Vision.ScriptEngine.DotNetEngine
+namespace Vision.ScriptEngine.VirtualScript
 {
     /// <summary>
     ///     Prepares events so they can be directly executed upon a script by EventQueueManager, then queues it.
@@ -769,7 +769,7 @@ namespace Vision.ScriptEngine.DotNetEngine
                 //This will happen if the script doesn't compile correctly
                 if (ID.Script == null)
                 {
-                    MainConsole.Instance.Info("[DotNetEngine]: Could not load script from item '" +
+                    MainConsole.Instance.Info("[VirtualScript]: Could not load script from item '" +
                                               ID.InventoryItem.Name +
                                               "' to fire event " + FunctionName);
                     return false;

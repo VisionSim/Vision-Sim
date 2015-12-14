@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -220,13 +220,11 @@ namespace Vision.Modules.Currency
 
                 payGroups = currCfg.GetBoolean("GroupPayments", false);
                 directoryFee = currCfg.GetInt("PriceDirectoryFee", 0);
-
             }
 
             // some sanity checks
             payStipends &= stipendAmount != 0;
             payGroups &= directoryFee != 0;
-
         }
 
         #endregion
@@ -447,7 +445,7 @@ namespace Vision.Modules.Currency
             {
                 nextGroupPayment = GetGroupPaytime(0);
                 nextGroupDividend = GetGroupPaytime(Constants.GROUP_DISBURSMENTS_DELAY);
-                MainConsole.Instance.Info("[Currency]: Group payments enabled. Next payment: " + String.Format("{0:f}", nextGroupPayment));
+                MainConsole.Instance.Info("[Currency]: Group payments enabled.   Next payment: " + String.Format("{0:f}", nextGroupPayment));
             }
 
             // scheduled payments are always processed
@@ -600,10 +598,10 @@ namespace Vision.Modules.Currency
             double dayOffset = (paydayDow - todayDow);              // # days to payday
 
             DateTime nxtPayTime = (today.Date + new TimeSpan(stipHour, stipMin + minsOffset, 0)).AddDays(dayOffset);
-            if (nxtPayTime < DateTime.Now)
+            var cycleDays = PaymentCycleDays();
+            while (nxtPayTime < DateTime.Now)
             {
-                // must be today and process time was earlier 
-                var cycleDays = PaymentCycleDays();
+                // process time was earlier than today 
                 nxtPayTime = nxtPayTime.AddDays((double)cycleDays);
             }
             return nxtPayTime;
@@ -623,7 +621,7 @@ namespace Vision.Modules.Currency
 
             var today = DateTime.Now;
 
-            // offsett group payments from normal stipend processing time
+            // offset group payments from normal stipend processing time
             var groupOffset = Constants.GROUP_PAYMENTS_DELAY + minsOffset;
 
             DateTime nxtPayTime = (today.Date + new TimeSpan(stipHour, stipMin + groupOffset, 0));
@@ -729,7 +727,6 @@ namespace Vision.Modules.Currency
                     "Stipends reset",
                     TransactionType.SystemGenerated
                 );
-               
             }
             */
 
@@ -775,6 +772,7 @@ namespace Vision.Modules.Currency
                 //string scdID = itemInfo ["SchedulerID"];
                 //string description = itemInfo ["Text"];
                 int amount = itemInfo["Amount"];
+                DateTime chargeTime = itemInfo["StartTime"];
                 TransactionType transType = !itemInfo.ContainsKey("Type") ? TransactionType.SystemGenerated : (TransactionType)itemInfo["Type"].AsInteger();
 
                 var user = userService.GetUserAccount(null, agentID);
@@ -804,7 +802,7 @@ namespace Vision.Modules.Currency
                 nextSched.Minutes,
                 nextSched.Minutes == 1 ? "" : "s"
             );
-            //MainConsole.Instance.InfoFormat("             Cycle  : {0} {1}{2}",
+            // MainConsole.Instance.InfoFormat ("             Cycle  : {0} {1}{2}",
             //    stipendInterval, stipendPeriod, stipendInterval == 1 ? "" : "s");
             MainConsole.Instance.InfoFormat("          Payments  : {0}", payments);
             MainConsole.Instance.InfoFormat("              Fees  : {0}{1}", currencySymbol, payValue);
@@ -979,7 +977,6 @@ namespace Vision.Modules.Currency
 
                 foreach (UUID groupID in groups)
                 {
-
                     var groupRec = groupsModule.GetGroupRecord((UUID)Constants.BankerUUID, groupID, null);
                     var groupName = groupRec.GroupName;
 
@@ -1201,44 +1198,60 @@ namespace Vision.Modules.Currency
 
             if (promptUser)
             {
+                MainConsole.Instance.CleanInfo("");
+                MainConsole.Instance.CleanInfo("Note: These settings are valid only for the current session.\n" +
+                    "Please edit your Economy.ini file to make these permanent");
+                MainConsole.Instance.CleanInfo("");
+
                 // prompt for details...");
-                stipendAmount = int.Parse(MainConsole.Instance.Prompt("Stipend amount ?", stipendAmount.ToString()));
-                if (stipendAmount == 0)
-                    return;
-
-                var respDay = new List<string>();
-                respDay.Add("sunday");
-                respDay.Add("monday");
-                respDay.Add("tuesday");
-                respDay.Add("wednesday");
-                respDay.Add("thursday");
-                respDay.Add("friday");
-                respDay.Add("saturday");
-                respDay.Add("interval");
-
-                var pday = MainConsole.Instance.Prompt("Pay day? (Assumes weekly period)\n (sun, mon, tue, wed, thu, fri, sat, interval)", stipendPayDay).ToLower();
-                stipendPayDay = respDay[PayDayOfWeek(pday)];
-                if (stipendPayDay.StartsWith("i"))
+                int amnt;
+                int.TryParse(MainConsole.Instance.Prompt("Stipend amount ?", stipendAmount.ToString()), out amnt);
+                stipendAmount = amnt;
+                if (stipendAmount <= 0)
                 {
-                    // get a time period then
-                    var respPeriod = new List<string>();
-                    respPeriod.Add("day");
-                    respPeriod.Add("week");
-                    respPeriod.Add("month");
-                    respPeriod.Add("year");
-                    respPeriod.Add("none");
-
-                    stipendPeriod = MainConsole.Instance.Prompt("Time period between payments?", stipendPeriod, respPeriod).ToLower();
-                    if (stipendPeriod.StartsWith("n"))
-                        return;
-
-                    stipendPayDay = "";
+                    payStipends = false;
+                    return;
                 }
 
-                stipendInterval = int.Parse(MainConsole.Instance.Prompt(
-                        "Number of time periods between payments? (1 > Every period 2 > every two periods etc.)", stipendInterval.ToString()));
-                if (stipendInterval == 0)
+                // get a time period then
+                var respPeriod = new List<string>();
+                respPeriod.Add("day");
+                respPeriod.Add("week");
+                respPeriod.Add("month");
+                respPeriod.Add("year");
+                respPeriod.Add("none");
+
+                stipendPeriod = MainConsole.Instance.Prompt("Time period between payments?", stipendPeriod, respPeriod).ToLower();
+                if (stipendPeriod.StartsWith("n"))
                     return;
+
+                if (!stipendPeriod.StartsWith("d"))
+                {
+                    var respDay = new List<string>();
+                    respDay.Add("sunday");
+                    respDay.Add("monday");
+                    respDay.Add("tuesday");
+                    respDay.Add("wednesday");
+                    respDay.Add("thursday");
+                    respDay.Add("friday");
+                    respDay.Add("saturday");
+
+                    MainConsole.Instance.Info("Day of the week for payments can be : sun, mon, tue, wed, thu, fri, sat");
+                    MainConsole.Instance.Info("For non weekly periods, payments will be the first day of the selected period");
+
+                    var pday = MainConsole.Instance.Prompt("Pay day?", stipendPayDay).ToLower();
+                    stipendPayDay = respDay[PayDayOfWeek(pday)];
+                }
+
+                int intvl;
+                int.TryParse(MainConsole.Instance.Prompt(
+                    "Number of time periods between payments? (1 > Every period 2 > every two periods etc.)", stipendInterval.ToString()), out intvl);
+                stipendInterval = intvl;
+                if (stipendInterval <= 0)
+                {
+                    payStipends = false;
+                    return;
+                }
 
                 stipendPayTime = MainConsole.Instance.Prompt("Payment time? (hh:mm)", stipendPayTime);
 
@@ -1250,12 +1263,10 @@ namespace Vision.Modules.Currency
             }
 
             // ensure we are enabled
+            MainConsole.Instance.InfoFormat("[Currency]; Enabling stipend payment of {0}{1}", currencySymbol, stipendAmount);
+
             payStipends = true;
             InitializeScheduleTimer();
-
-            MainConsole.Instance.Info("[Currency]; Stipend payments have been enabled");
-            MainConsole.Instance.CleanInfoFormat("          The next stipend payment of {0}{1} is scheduled for {2}",
-                currencySymbol, stipendAmount, nextStipendPayment.ToLongDateString());
         }
 
         protected void HandleStipendDisable(IScene scene, string[] cmd)
@@ -1315,7 +1326,6 @@ namespace Vision.Modules.Currency
             MainConsole.Instance.Info("[Currency]; Group payments have been enabled");
             MainConsole.Instance.CleanInfoFormat("          The next group payment cycle is scheduled for {0}",
                   nextGroupPayment.ToLongDateString());
-
         }
 
         protected void HandleGrouppayDisable(IScene scene, string[] cmd)
@@ -1346,16 +1356,13 @@ namespace Vision.Modules.Currency
             nextGroupPayment = DateTime.Now;
             SetSchedTimer(10);
             MainConsole.Instance.InfoFormat("[Currency]: Group payments will commence in {0} seconds.", 10);
-
         }
 
         protected void HandleGrouppayPayDividends(IScene scene, string[] cmd)
         {
-
             nextGroupDividend = DateTime.Now;
             SetSchedTimer(10);
             MainConsole.Instance.InfoFormat("[Currency]: Group dividend payments will commence in {0} seconds.", 10);
-
         }
 
         protected void HandleScheduledPayInfo(IScene scene, string[] cmd)
@@ -1365,11 +1372,9 @@ namespace Vision.Modules.Currency
 
         protected void HandleScheduledPayNow(IScene scene, string[] cmd)
         {
-
             nextScheduledPayment = DateTime.Now;
             SetSchedTimer(10);
             MainConsole.Instance.InfoFormat("[Currency]: Scheduled payments will commence in {0} seconds.", 10);
-
         }
 
         protected void HandleShowSchedulerTick(IScene scene, string[] cmd)
@@ -1378,7 +1383,6 @@ namespace Vision.Modules.Currency
             showSchedulerTick = activity.ToLower().StartsWith("y");
 
             MainConsole.Instance.Info("[Scheduler]: Activity tracking " + (showSchedulerTick ? "enabled" : "disabled"));
-
         }
         #endregion
     }

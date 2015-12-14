@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -125,7 +125,7 @@ namespace Vision.Modules.Estate
                 BannedUserID = SP.UUID,
                 EstateID = ES.EstateID
             });
-            Vision.Framework.Utilities.DataManager.RequestPlugin<IEstateConnector> ().
+            Framework.Utilities.DataManager.RequestPlugin<IEstateConnector> ().
                 SaveEstateSettings (ES);
             if (alert != "")
                 SP.ControllingClient.Kick (alert);
@@ -149,7 +149,7 @@ namespace Vision.Modules.Estate
             }
             EstateSettings ES = scene.RegionInfo.EstateSettings;
             ES.RemoveBan (account.PrincipalID);
-            Vision.Framework.Utilities.DataManager.RequestPlugin<IEstateConnector> ().
+            Framework.Utilities.DataManager.RequestPlugin<IEstateConnector> ().
                 SaveEstateSettings (ES);
         }
 
@@ -232,7 +232,7 @@ namespace Vision.Modules.Estate
 
             #endregion
 
-            Vision.Framework.Utilities.DataManager.RequestPlugin<IEstateConnector> ().
+            Framework.Utilities.DataManager.RequestPlugin<IEstateConnector> ().
                 SaveEstateSettings (m_scene.RegionInfo.EstateSettings);
         }
 
@@ -770,7 +770,7 @@ namespace Vision.Modules.Estate
                                 BannedHostNameMask = ban.BannedHostNameMask
                             });
                             //Update the database
-                            Vision.Framework.Utilities.DataManager.RequestPlugin<IEstateConnector> ().
+                            Framework.Utilities.DataManager.RequestPlugin<IEstateConnector> ().
                                 SaveEstateSettings (ES);
                         }
                     }
@@ -802,7 +802,7 @@ namespace Vision.Modules.Estate
                             BannedHostAddress = agent.IPAddress,
                             BannedHostNameMask = agent.IPAddress
                         });
-                        Vision.Framework.Utilities.DataManager.RequestPlugin<IEstateConnector> ().
+                        Framework.Utilities.DataManager.RequestPlugin<IEstateConnector> ().
                             SaveEstateSettings (ES);
 
                         reason = "Banned from this region.";

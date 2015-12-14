@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -35,7 +35,7 @@ namespace Vision.Framework.Utilities
         // some predefined folders
         public const string DEFAULT_CONFIG_DIR = "../Config";
         public const string DEFAULT_DATA_DIR = "../Data";
-        public const string DEFAULT_CRASH_DIR = "../Data/Crashes";
+		public const string DEFAULT_CRASH_DIR = "../Data/Crashes";
 
         // all these are relative to the default data directory,
         // set either as above or via configuration
@@ -55,8 +55,9 @@ namespace Vision.Framework.Utilities
         public const int MaxRegionSize = 4096;
         public const int MinRegionSize = 16;
 
-        // System user accounts
 		public const int SystemUserCount = 5;
+
+		// System User Accounts
 
         // System library Avatar Account
         public const string LibraryOwner = "11111111-1111-0000-0000-000100bba000";
@@ -64,31 +65,32 @@ namespace Vision.Framework.Utilities
 
         // System Real Estate Avatar Account
         public const string RealEstateOwnerUUID = "bbb55499-7938-4752-ab7c-f7136e36cced";
-		public const string RealEstateOwnerName = "RealEstate Owner";
+		public const string RealEstateOwnerName = "RealEstate Vision";
 
         // System Governor Avatar Account
         public const string GovernorUUID = "3d6181b0-6a4b-97ef-18d8-722652995cf1";
         public const string GovernorName = "Governor Vision";
 
-        // System Banker Avatar Account
-        public const string BankerUUID = "f4261829-2796-4688-bfe2-085190cb639b";
-        public const string BankerName = "Vision Banker";
+		// System Banker Avatar
+		public const string BankerUUID = "f4261829-2796-4688-bfe2-085190cb639b";
+		public const string BankerName = "Treasurer Vision";
 
-        // System Marketplace Avatar
-        public const string MarketplaceOwnerUUID = "198e72a6-cef6-4bbb-ae08-c0a79e6b7d1e";
-        public const string MarketplaceOwnerName = "Marketplace Concierge";
+		// System Marketplace Avatar
+		public const string MarketplaceOwnerUUID = "198e72a6-cef6-4bbb-ae08-c0a79e6b7d1e";
+		public const string MarketplaceOwnerName = "Marketplace Vision";
 
-        // System Estates
+
+        // System Estate
         public const string MainlandEstateName = "Vision Mainland";
         public const int MainlandEstateID = 1;
         public const string SystemEstateName = "Vision Estate";
         public const int SystemEstateID = 10;
 
-        // System groups
+		// System Groups
 
         // System Real Estate Maintenance Group
 		public const string RealEstateGroupUUID = "dc7b21cd-3c89-fcaa-31c8-25f9ffd224cd";
-		public const string RealEstateGroupName = "Maintenance";
+		public const string RealEstateGroupName = "Vision Maintenance";
 
         // user levels
         public const int USER_DISABLED = -2;
@@ -109,10 +111,10 @@ namespace Vision.Framework.Utilities
         public const int USER_FLAG_CONTRACTOR = 800;        // Contracted
         public const int USER_FLAG_CHARTERMEMBER = 3840;    // Charter member
 
-        // Scheduler
+		// Currency Related Constants
+
         public const int SCHEDULER_INTERVAL = 300;          // seconds between scheduler checks
 
-        // Currency related constants
         public const string STIPEND_PAY_DAY = "tuesday";    // the day stipend payments are processed
         public const string STIPEND_PAY_TIME = "00:05";     // the time, hh:mm, when stipend payments are processed
         public const string STIPEND_PAY_PERIOD = "week";    // how often we process stipends
@@ -121,7 +123,7 @@ namespace Vision.Framework.Utilities
 
         public const int SCHEDULED_PAYMENTS_DELAY = 15;     // minutes to wait after stipend payments before processing scheduled payments
         public const int GROUP_PAYMENTS_DELAY = 30;         // minutes to wait after stipend payments before processing group payments
-        public const int GROUP_DISBURSMENTS_DELAY = 5;      // offsets disbursments by 5 minutes
+        public const int GROUP_DISBURSMENTS_DELAY = 5;      // offset disbursments by 5 minutes
         public const int DIRECTORYFEE_GRACE_PERIOD = 2;     // hours grace period before a fee will be charged at least once
     }
 }

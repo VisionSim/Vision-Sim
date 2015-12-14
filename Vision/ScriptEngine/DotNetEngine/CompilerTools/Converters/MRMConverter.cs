@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -29,13 +29,13 @@ using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
-using Vision.ScriptEngine.DotNetEngine.MiniModule;
+using Vision.ScriptEngine.VirtualScript.MiniModule;
 using Microsoft.CSharp;
 using OpenMetaverse;
 
 //using Microsoft.JScript;
 
-namespace Vision.ScriptEngine.DotNetEngine.CompilerTools
+namespace Vision.ScriptEngine.VirtualScript.CompilerTools
 {
     public class MRMConverter : IScriptConverter
     {

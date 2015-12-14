@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -32,22 +32,22 @@ using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
-using Vision.ScriptEngine.DotNetEngine.Runtime;
+using Vision.ScriptEngine.VirtualScript.Runtime;
 using OpenMetaverse;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting.Lifetime;
 using System.Xml;
-using LSL_Float = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLFloat;
-using LSL_Integer = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLInteger;
-using LSL_Key = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLString;
-using LSL_List = Vision.ScriptEngine.DotNetEngine.LSL_Types.list;
-using LSL_Rotation = Vision.ScriptEngine.DotNetEngine.LSL_Types.Quaternion;
-using LSL_String = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLString;
-using LSL_Vector = Vision.ScriptEngine.DotNetEngine.LSL_Types.Vector3;
+using LSL_Float = Vision.ScriptEngine.VirtualScript.LSL_Types.LSLFloat;
+using LSL_Integer = Vision.ScriptEngine.VirtualScript.LSL_Types.LSLInteger;
+using LSL_Key = Vision.ScriptEngine.VirtualScript.LSL_Types.LSLString;
+using LSL_List = Vision.ScriptEngine.VirtualScript.LSL_Types.list;
+using LSL_Rotation = Vision.ScriptEngine.VirtualScript.LSL_Types.Quaternion;
+using LSL_String = Vision.ScriptEngine.VirtualScript.LSL_Types.LSLString;
+using LSL_Vector = Vision.ScriptEngine.VirtualScript.LSL_Types.Vector3;
 
-namespace Vision.ScriptEngine.DotNetEngine.APIs
+namespace Vision.ScriptEngine.VirtualScript.APIs
 {
 	[Serializable]
 	public class AA_Api : MarshalByRefObject, IScriptApi

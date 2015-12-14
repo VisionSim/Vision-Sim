@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -36,7 +36,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Vision.ScriptEngine.DotNetEngine.Plugins
+namespace Vision.ScriptEngine.VirtualScript.Plugins
 {
     public class SensorRepeatPlugin : IScriptPlugin
     {

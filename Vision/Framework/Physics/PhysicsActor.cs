@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -232,7 +232,7 @@ namespace Vision.Framework.Physics
         public abstract bool SubscribedEvents();
 
         public abstract bool SendCollisions();
-        public abstract void AddCollisionEvent(uint collideWith, ContactPoint contact);
+        public abstract void AddCollisionEvent(uint collidedWith, ContactPoint contact);
 
         public virtual void ForceSetVelocity(Vector3 velocity) { }
         public virtual void ForceSetRotVelocity(Vector3 velocity) { }

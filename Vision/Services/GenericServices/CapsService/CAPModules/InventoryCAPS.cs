@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -53,8 +53,8 @@ namespace Vision.Services
 
         static InventoryCAPS()
         {
-            Vision.Framework.Serialization.SceneEntitySerializer.SceneObjectSerializer =
-                new Vision.Region.Serialization.SceneObjectSerializer();
+            Framework.Serialization.SceneEntitySerializer.SceneObjectSerializer =
+                new Region.Serialization.SceneObjectSerializer();
         }
 
         #endregion
@@ -71,7 +71,7 @@ namespace Vision.Services
 
         public string Name { get { return GetType().Name; } }
 
-        public void IncomingCapsRequest(UUID agentID, Vision.Framework.Services.GridRegion region, ISimulationBase simbase, ref OSDMap capURLs)
+        public void IncomingCapsRequest(UUID agentID, Framework.Services.GridRegion region, ISimulationBase simbase, ref OSDMap capURLs)
         {
             m_agentID = agentID;
             m_moneyModule = simbase.ApplicationRegistry.RequestModuleInterface<IMoneyModule>();
