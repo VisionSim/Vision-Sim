@@ -31,7 +31,7 @@ namespace Vision.Server
 {
     /// <summary>
     ///     Starting Class Information:
-    ///     This is the starting class for the Virtual Vision Server
+    ///     This is the starting class for the Vision-Sim Server
     /// </summary>
     public class Application
     {

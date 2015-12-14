@@ -238,9 +238,9 @@ namespace Vision.Simulation.Base
             if (MainConsole.Instance != null)
             {
                 MainConsole.Instance.DefaultPrompt = m_consolePrompt;
-                MainConsole.Instance.Info(string.Format("[Mini Virtual Vision]: STARTING MIN Vision ({0})...",
+                MainConsole.Instance.Info(string.Format("[Mini Vision-Sim]: STARTING MIN Vision ({0})...",
                                                         (IntPtr.Size == 4 ? "x86" : "x64")));
-                MainConsole.Instance.Info("[Mini Virtual Vision]: Version: " + Version + "\n");
+                MainConsole.Instance.Info("[Mini Vision-Sim]: Version: " + Version + "\n");
             }
         }
 
@@ -249,7 +249,7 @@ namespace Vision.Simulation.Base
         /// </summary>
         public virtual void Startup()
         {
-            MainConsole.Instance.Info("[Mini Virtual Vision]: Startup completed in " +
+            MainConsole.Instance.Info("[Mini Vision-Sim]: Startup completed in " +
                                       (DateTime.Now - this.StartupTime).TotalSeconds);
         }
 
@@ -541,7 +541,7 @@ namespace Vision.Simulation.Base
             {
                 server.HostName = hostName;
             }
-            MainConsole.Instance.Info("[Virtual Vision Configuration]: Finished reloading configuration.");
+            MainConsole.Instance.Info("[Vision-Sim Configuration]: Finished reloading configuration.");
         }
 
         public virtual void HandleShowInfo(IScene scene, string[] cmd)

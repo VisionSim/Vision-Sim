@@ -226,7 +226,7 @@ namespace Vision.Simulation.Base
         {
             MainConsole.Instance.Info("====================================================================");
             MainConsole.Instance.Info(
-				        string.Format("==================== Starting Virtual Vision ({0}) ======================",
+				        string.Format("==================== Starting Vision-Sim ({0}) ======================",
                               (IntPtr.Size == 4 ? "x86" : "x64")));
             MainConsole.Instance.Info("====================================================================");
             MainConsole.Instance.Info("[Vision-Sim Startup: Version: " + Version + "\n");
@@ -559,7 +559,7 @@ namespace Vision.Simulation.Base
             {
                 server.HostName = hostName;
             }
-            MainConsole.Instance.Info("[Virtual Vision Configuration]: Finished reloading configuration.");
+            MainConsole.Instance.Info("[Vision-Sim Configuration]: Finished reloading configuration.");
         }
 
         public virtual void HandleShowInfo(IScene scene, string[] cmd)

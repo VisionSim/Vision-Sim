@@ -85,12 +85,12 @@ namespace Vision.Simulation.Base
             // Increase the number of IOCP threads available. Mono defaults to a tragically low number
             int workerThreads, iocpThreads;
             ThreadPool.GetMaxThreads(out workerThreads, out iocpThreads);
-            //MainConsole.Instance.InfoFormat("[Virtual Vision Main]: Runtime gave us {0} worker threads and {1} IOCP threads", workerThreads, iocpThreads);
+            //MainConsole.Instance.InfoFormat("[Vision-Sim Main]: Runtime gave us {0} worker threads and {1} IOCP threads", workerThreads, iocpThreads);
             if (workerThreads < 500 || iocpThreads < 1000)
             {
                 workerThreads = 500;
                 iocpThreads = 1000;
-                //MainConsole.Instance.Info("[Virtual Vision Main]: Bumping up to 500 worker threads and 1000 IOCP threads");
+                //MainConsole.Instance.Info("[Vision-Sim Main]: Bumping up to 500 worker threads and 1000 IOCP threads");
                 ThreadPool.SetMaxThreads(workerThreads, iocpThreads);
             }
 
@@ -153,12 +153,12 @@ namespace Vision.Simulation.Base
                 if (!requested)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("\n\n************* Virtual Vision initial run. *************");
+                    Console.WriteLine("\n\n************* Vision-Sim initial run. *************");
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine(
-                        "\n\n   This appears to be your first time running Virtual Vision.\n" +
+                        "\n\n   This appears to be your first time running Vision-Sim.\n" +
                         "If you have already configured your *.ini files, please ignore this warning and press enter;\n" +
-                        "Otherwise type 'yes' and Virtual Vision will guide you through the configuration process.\n\n" +
+                        "Otherwise type 'yes' and Vision-Sim will guide you through the configuration process.\n\n" +
                         "Remember, these file names are Case Sensitive in Linux and Proper Cased.\n" +
                         "1. " + Vision_ConfigDir + "/Vision.ini\nand\n" +
                         "2. " + Vision_ConfigDir + "/Sim/Standalone/StandaloneCommon.ini \nor\n" +
@@ -169,11 +169,11 @@ namespace Vision.Simulation.Base
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("\n\n************* Virtual Vision Configuration *************");
+                    Console.WriteLine("\n\n************* Vision-Sim Configuration *************");
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine(
-                        "\n     Virtual Vision interactive configuration.\n" +
-                        "Enter 'yes' and Virtual Vision will guide you through the configuration process.");
+                        "\n     Vision-Sim interactive configuration.\n" +
+                        "Enter 'yes' and Vision-Sim will guide you through the configuration process.");
                 }
 
                 // Make sure...
@@ -183,7 +183,7 @@ namespace Vision.Simulation.Base
                 Console.WriteLine("This will overwrite any existing configuration files!");
                 Console.ResetColor();
                 Console.WriteLine("");
-                resp = ReadLine("Do you want to configure Virtual Vision now?  (yes/no)", resp);
+                resp = ReadLine("Do you want to configure Vision-Sim now?  (yes/no)", resp);
 
                 if (resp == "yes")
                 {
@@ -198,7 +198,7 @@ namespace Vision.Simulation.Base
                     string regionIPAddress = gridIPAddress;
                     bool isStandalone = true;
                     string dbType = "1";
-                    string gridName = "Virtual Vision Grid";
+                    string gridName = "Vision-Sim Grid";
                     string welcomeMessage = "";
                     string allowAnonLogin = "true";
                     uint port = 9000;
@@ -206,7 +206,7 @@ namespace Vision.Simulation.Base
 
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("====================================================================");
-                    Console.WriteLine("======================= Virtual Vision Configurator ==============");
+                    Console.WriteLine("======================= Vision-Sim Configurator ==============");
                     Console.WriteLine("====================================================================");
                     Console.ResetColor();
 
@@ -242,7 +242,7 @@ namespace Vision.Simulation.Base
                             Console.ForegroundColor = ConsoleColor.White;
                             Console.WriteLine(
                                 "\nNote: this setup does not automatically create a MySQL installation for you.\n" +
-                                " This will configure the Virtual Vision setting but you must install MySQL as well");
+                                " This will configure the Vision-Sim setting but you must install MySQL as well");
                             Console.ResetColor();
 
                             dbSource = ReadLine("MySQL database IP", dbSource);
@@ -259,7 +259,7 @@ namespace Vision.Simulation.Base
 
                     if (isStandalone)
                     {
-                        gridName = ReadLine("Name of your Virtual Vision Grid", gridName);
+                        gridName = ReadLine("Name of your Vision-Sim Grid", gridName);
 
                         welcomeMessage = "Welcome to " + gridName + ", <USERNAME>!";
                         Console.ForegroundColor = ConsoleColor.White;
