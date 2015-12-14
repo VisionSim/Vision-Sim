@@ -29,7 +29,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Vision.ScriptEngine.VirtualScript.MiniModule
+namespace Vision.ScriptEngine.DotNetEngine.MiniModule
 {
     public class MicroScheduler : MarshalByRefObject, IMicrothreader
     {

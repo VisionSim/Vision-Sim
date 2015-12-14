@@ -31,7 +31,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using Vision.Framework.Utilities;
 
-namespace Vision.ScriptEngine.VirtualScript
+namespace Vision.ScriptEngine.DotNetEngine
 {
     [Serializable]
 	public partial class LSL_Types

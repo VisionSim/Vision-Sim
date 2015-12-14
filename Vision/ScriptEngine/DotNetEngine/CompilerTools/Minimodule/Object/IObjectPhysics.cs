@@ -27,7 +27,7 @@
 
 using OpenMetaverse;
 
-namespace Vision.ScriptEngine.VirtualScript.MiniModule
+namespace Vision.ScriptEngine.DotNetEngine.MiniModule
 {
     /// <summary>
     ///     This implements an interface similar to that provided by physics engines to Vision internally.

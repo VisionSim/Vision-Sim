@@ -31,7 +31,7 @@ using Vision.Framework.Services.ClassHelpers.Assets;
 using OpenMetaverse;
 using OpenMetaverse.Assets;
 
-namespace Vision.ScriptEngine.VirtualScript.MiniModule
+namespace Vision.ScriptEngine.DotNetEngine.MiniModule
 {
     public class InventoryItem : IInventoryItem
     {

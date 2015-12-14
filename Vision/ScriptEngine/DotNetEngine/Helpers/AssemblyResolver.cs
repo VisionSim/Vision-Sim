@@ -29,7 +29,7 @@ using System;
 using System.IO;
 using System.Reflection;
 
-namespace Vision.ScriptEngine.VirtualScript
+namespace Vision.ScriptEngine.DotNetEngine
 {
     [Serializable]
     public class AssemblyResolver : MarshalByRefObject

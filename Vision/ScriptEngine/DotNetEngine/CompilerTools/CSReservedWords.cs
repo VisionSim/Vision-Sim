@@ -28,7 +28,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Vision.ScriptEngine.VirtualScript.CompilerTools
+namespace Vision.ScriptEngine.DotNetEngine.CompilerTools
 {
     /// <summary>
     ///     A container for all of the reserved C# words that are not also reserved words in LSL.

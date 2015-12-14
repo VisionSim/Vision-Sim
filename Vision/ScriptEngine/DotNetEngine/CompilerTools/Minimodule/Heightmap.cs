@@ -29,7 +29,7 @@ using System;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 
-namespace Vision.ScriptEngine.VirtualScript.MiniModule
+namespace Vision.ScriptEngine.DotNetEngine.MiniModule
 {
     public class Heightmap : MarshalByRefObject, IHeightmap
     {

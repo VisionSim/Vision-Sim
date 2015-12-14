@@ -45,22 +45,22 @@ using Vision.Framework.Servers;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Utilities;
-using Vision.ScriptEngine.VirtualScript.Runtime;
+using Vision.ScriptEngine.DotNetEngine.Runtime;
 using Nini.Config;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
 using GridRegion = Vision.Framework.Services.GridRegion;
 using Group = System.Text.RegularExpressions.Group;
-using LSL_Float = Vision.ScriptEngine.VirtualScript.LSL_Types.LSLFloat;
-using LSL_Integer = Vision.ScriptEngine.VirtualScript.LSL_Types.LSLInteger;
-using LSL_Key = Vision.ScriptEngine.VirtualScript.LSL_Types.LSLString;
-using LSL_List = Vision.ScriptEngine.VirtualScript.LSL_Types.list;
-using LSL_Rotation = Vision.ScriptEngine.VirtualScript.LSL_Types.Quaternion;
-using LSL_String = Vision.ScriptEngine.VirtualScript.LSL_Types.LSLString;
-using LSL_Vector = Vision.ScriptEngine.VirtualScript.LSL_Types.Vector3;
+using LSL_Float = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLFloat;
+using LSL_Integer = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLInteger;
+using LSL_Key = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLString;
+using LSL_List = Vision.ScriptEngine.DotNetEngine.LSL_Types.list;
+using LSL_Rotation = Vision.ScriptEngine.DotNetEngine.LSL_Types.Quaternion;
+using LSL_String = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLString;
+using LSL_Vector = Vision.ScriptEngine.DotNetEngine.LSL_Types.Vector3;
 using Vision.Framework.DatabaseInterfaces;
 
-namespace Vision.ScriptEngine.VirtualScript.APIs
+namespace Vision.ScriptEngine.DotNetEngine.APIs
 {
     //////////////////////////////////////////////////////////////
     //
@@ -1139,7 +1139,7 @@ namespace Vision.ScriptEngine.VirtualScript.APIs
                 World.RegionInfo.EstateSettings.UseGlobalTime = !sunFixed;
                 World.RegionInfo.EstateSettings.SunPosition = sunHour;
                 World.RegionInfo.EstateSettings.FixedSun = sunFixed;
-                Framework.Utilities.DataManager.RequestPlugin<IEstateConnector>().
+                Vision.Framework.Utilities.DataManager.RequestPlugin<IEstateConnector>().
                     SaveEstateSettings(World.RegionInfo.EstateSettings);
 
                 World.EventManager.TriggerEstateToolsSunUpdate(World.RegionInfo.RegionHandle, sunFixed,
@@ -2641,7 +2641,7 @@ namespace Vision.ScriptEngine.VirtualScript.APIs
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.Low, "osAddAgentToGroup", m_host, "OSSL", m_itemID))
                 return new LSL_Integer();
 
-            IGroupsServiceConnector m_groupData = Framework.Utilities.DataManager.RequestPlugin<IGroupsServiceConnector>();
+            IGroupsServiceConnector m_groupData = Vision.Framework.Utilities.DataManager.RequestPlugin<IGroupsServiceConnector>();
 
             // No groups module, no functionality
             if (m_groupData == null)

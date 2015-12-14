@@ -28,7 +28,7 @@
 using System.Collections.Generic;
 using OpenMetaverse;
 
-namespace Vision.ScriptEngine.VirtualScript.MiniModule
+namespace Vision.ScriptEngine.DotNetEngine.MiniModule
 {
     /// <summary>
     ///     This implements the methods necessary to operate on the inventory of an object

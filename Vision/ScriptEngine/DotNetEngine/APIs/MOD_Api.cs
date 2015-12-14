@@ -29,19 +29,19 @@
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
-using Vision.ScriptEngine.VirtualScript.Runtime;
+using Vision.ScriptEngine.DotNetEngine.Runtime;
 using OpenMetaverse;
 using System;
 using System.Runtime.Remoting.Lifetime;
-using LSL_Float = Vision.ScriptEngine.VirtualScript.LSL_Types.LSLFloat;
-using LSL_Integer = Vision.ScriptEngine.VirtualScript.LSL_Types.LSLInteger;
-using LSL_Key = Vision.ScriptEngine.VirtualScript.LSL_Types.LSLString;
-using LSL_List = Vision.ScriptEngine.VirtualScript.LSL_Types.list;
-using LSL_Rotation = Vision.ScriptEngine.VirtualScript.LSL_Types.Quaternion;
-using LSL_String = Vision.ScriptEngine.VirtualScript.LSL_Types.LSLString;
-using LSL_Vector = Vision.ScriptEngine.VirtualScript.LSL_Types.Vector3;
+using LSL_Float = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLFloat;
+using LSL_Integer = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLInteger;
+using LSL_Key = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLString;
+using LSL_List = Vision.ScriptEngine.DotNetEngine.LSL_Types.list;
+using LSL_Rotation = Vision.ScriptEngine.DotNetEngine.LSL_Types.Quaternion;
+using LSL_String = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLString;
+using LSL_Vector = Vision.ScriptEngine.DotNetEngine.LSL_Types.Vector3;
 
-namespace Vision.ScriptEngine.VirtualScript.APIs
+namespace Vision.ScriptEngine.DotNetEngine.APIs
 {
     [Serializable]
 	public class MOD_Api : MarshalByRefObject, IScriptApi

@@ -28,7 +28,7 @@
 using OpenMetaverse;
 using OpenMetaverse.Assets;
 
-namespace Vision.ScriptEngine.VirtualScript.MiniModule
+namespace Vision.ScriptEngine.DotNetEngine.MiniModule
 {
     /// <summary>
     ///     This implements the methods needed to operate on individual inventory items.

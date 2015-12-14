@@ -32,7 +32,7 @@ using System.Linq;
 using Vision.Framework.SceneInfo;
 using OpenMetaverse;
 
-namespace Vision.ScriptEngine.VirtualScript.MiniModule
+namespace Vision.ScriptEngine.DotNetEngine.MiniModule
 {
     public class SOPObjectInventory : IObjectInventory
     {

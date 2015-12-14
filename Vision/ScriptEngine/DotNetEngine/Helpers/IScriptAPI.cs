@@ -28,7 +28,7 @@
 using Vision.Framework.SceneInfo;
 using OpenMetaverse;
 
-namespace Vision.ScriptEngine.VirtualScript
+namespace Vision.ScriptEngine.DotNetEngine
 {
     public interface IScriptApi
     {

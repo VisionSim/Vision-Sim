@@ -30,7 +30,7 @@ using System.Drawing;
 using Vision.Framework.SceneInfo;
 using OpenMetaverse;
 
-namespace Vision.ScriptEngine.VirtualScript.MiniModule
+namespace Vision.ScriptEngine.DotNetEngine.MiniModule
 {
     internal class SOPObjectMaterial : MarshalByRefObject, IObjectMaterial
     {

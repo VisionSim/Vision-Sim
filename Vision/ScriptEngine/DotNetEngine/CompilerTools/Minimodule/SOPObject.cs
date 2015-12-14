@@ -34,7 +34,7 @@ using Vision.Framework.SceneInfo;
 using OpenMetaverse;
 using OpenMetaverse.Packets;
 
-namespace Vision.ScriptEngine.VirtualScript.MiniModule
+namespace Vision.ScriptEngine.DotNetEngine.MiniModule
 {
     internal class SOPObject : MarshalByRefObject, IObject, IObjectPhysics, IObjectShape, IObjectSound
     {

@@ -32,7 +32,7 @@ using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
 using OpenMetaverse;
 
-namespace Vision.ScriptEngine.VirtualScript.MiniModule
+namespace Vision.ScriptEngine.DotNetEngine.MiniModule
 {
     internal class IObjEnum : MarshalByRefObject, IEnumerator<IObject>
     {

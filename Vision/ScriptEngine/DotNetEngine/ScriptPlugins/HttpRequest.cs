@@ -32,7 +32,7 @@ using OpenMetaverse;
 using OpenMetaverse.StructuredData;
 using System.Collections.Generic;
 
-namespace Vision.ScriptEngine.VirtualScript.Plugins
+namespace Vision.ScriptEngine.DotNetEngine.Plugins
 {
     public class HttpRequestPlugin : IScriptPlugin
     {

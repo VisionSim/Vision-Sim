@@ -34,7 +34,7 @@ using Microsoft.CSharp;
 
 //using Microsoft.JScript;
 
-namespace Vision.ScriptEngine.VirtualScript.CompilerTools
+namespace Vision.ScriptEngine.DotNetEngine.CompilerTools
 {
     public class CSConverter : IScriptConverter
     {
@@ -124,26 +124,26 @@ namespace Vision.ScriptEngine.VirtualScript.CompilerTools
         private string CreateCompilerScript(string compileScript)
         {
             compileScript = compileScript.Replace("string",
-                                                  "Vision.ScriptEngine.VirtualScript.LSL_Types.LSLString");
+                                                  "Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLString");
 
             compileScript = compileScript.Replace("integer",
-                                                  "Vision.ScriptEngine.VirtualScript.LSL_Types.LSLInteger");
+                                                  "Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLInteger");
 
             compileScript = compileScript.Replace("float",
-                                                  "Vision.ScriptEngine.VirtualScript.LSL_Types.LSLFloat");
+                                                  "Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLFloat");
 
             compileScript = compileScript.Replace("list",
-                                                  "Vision.ScriptEngine.VirtualScript.LSL_Types.list");
+                                                  "Vision.ScriptEngine.DotNetEngine.LSL_Types.list");
 
             compileScript = compileScript.Replace("rotation",
-                                                  "Vision.ScriptEngine.VirtualScript.LSL_Types.Quaternion");
+                                                  "Vision.ScriptEngine.DotNetEngine.LSL_Types.Quaternion");
 
             compileScript = compileScript.Replace("vector",
-                                                  "Vision.ScriptEngine.VirtualScript.LSL_Types.Vector3");
+                                                  "Vision.ScriptEngine.DotNetEngine.LSL_Types.Vector3");
             string compiledScript = "";
             compiledScript = String.Empty +
-                             "using Vision.ScriptEngine.VirtualScript.Runtime;\n" +
-                             "using Vision.ScriptEngine.VirtualScript;\n" +
+                             "using Vision.ScriptEngine.DotNetEngine.Runtime;\n" +
+                             "using Vision.ScriptEngine.DotNetEngine;\n" +
                              "using System;\n" +
                              "using System.Collections.Generic;\n" +
                              "using System.Collections;\n" +
@@ -151,7 +151,7 @@ namespace Vision.ScriptEngine.VirtualScript.CompilerTools
                              "{\n";
 
             compiledScript +=
-                "public class ScriptClass : Vision.ScriptEngine.VirtualScript.Runtime.ScriptBaseClass, IDisposable\n";
+                "public class ScriptClass : Vision.ScriptEngine.DotNetEngine.Runtime.ScriptBaseClass, IDisposable\n";
             compiledScript += "{\n";
             compiledScript +=
                 compileScript;
@@ -331,9 +331,9 @@ namespace Vision.ScriptEngine.VirtualScript.CompilerTools
             }
             string compiledScript = "";
             compiledScript = String.Empty +
-                             "using Vision.ScriptEngine.VirtualScript.Runtime;\n" +
-                             "using Vision.ScriptEngine.VirtualScript;\n" +
-                             "using Vision.ScriptEngine.VirtualScript.APIs.Interfaces;\n" +
+                             "using Vision.ScriptEngine.DotNetEngine.Runtime;\n" +
+                             "using Vision.ScriptEngine.DotNetEngine;\n" +
+                             "using Vision.ScriptEngine.DotNetEngine.APIs.Interfaces;\n" +
                              "\n" +
                              "using Vision.Framework.ClientInterfaces;\n" +
                              "using Vision.Framework.ConsoleFramework;\n" +
@@ -357,7 +357,7 @@ namespace Vision.ScriptEngine.VirtualScript.CompilerTools
                               "{\n";
 
             compiledScript +=
-                "public class ScriptClass : Vision.ScriptEngine.VirtualScript.Runtime.ScriptBaseClass, IDisposable\n";
+                "public class ScriptClass : Vision.ScriptEngine.DotNetEngine.Runtime.ScriptBaseClass, IDisposable\n";
             compiledScript += "{\n";
             compiledScript +=
                 compileScript;

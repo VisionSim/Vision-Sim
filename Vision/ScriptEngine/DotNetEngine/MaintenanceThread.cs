@@ -37,7 +37,7 @@ using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Utilities;
 using OpenMetaverse;
 
-namespace Vision.ScriptEngine.VirtualScript
+namespace Vision.ScriptEngine.DotNetEngine
 {
     public class MaintenanceThread
     {

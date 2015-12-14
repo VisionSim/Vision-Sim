@@ -32,7 +32,7 @@ using Vision.Framework.SceneInfo;
 using Nini.Config;
 using OpenMetaverse;
 
-namespace Vision.ScriptEngine.VirtualScript
+namespace Vision.ScriptEngine.DotNetEngine
 {
     public interface IScriptModulePlugin : IScriptModule
     {

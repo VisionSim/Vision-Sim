@@ -27,7 +27,7 @@
 
 using System.CodeDom.Compiler;
 
-namespace Vision.ScriptEngine.VirtualScript.CompilerTools
+namespace Vision.ScriptEngine.DotNetEngine.CompilerTools
 {
     /// <summary>
     ///     This allows for scripts to be converted and compiled for different languages

@@ -31,7 +31,7 @@ using Microsoft.CSharp;
 
 //using Microsoft.JScript;
 
-namespace Vision.ScriptEngine.VirtualScript.CompilerTools
+namespace Vision.ScriptEngine.DotNetEngine.CompilerTools
 {
     public class LSLConverter : IScriptConverter
     {
@@ -195,19 +195,19 @@ namespace Vision.ScriptEngine.VirtualScript.CompilerTools
         private string ReplaceTypes(string message)
         {
             message = message.Replace(
-                "Vision.ScriptEngine.VirtualScript.LSL_Types.LSLString",
+                "Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLString",
                 "string");
 
             message = message.Replace(
-                "Vision.ScriptEngine.VirtualScript.LSL_Types.LSLInteger",
+                "Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLInteger",
                 "integer");
 
             message = message.Replace(
-                "Vision.ScriptEngine.VirtualScript.LSL_Types.LSLFloat",
+                "Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLFloat",
                 "float");
 
             message = message.Replace(
-                "Vision.ScriptEngine.VirtualScript.LSL_Types.list",
+                "Vision.ScriptEngine.DotNetEngine.LSL_Types.list",
                 "list");
 
             return message;
@@ -217,10 +217,10 @@ namespace Vision.ScriptEngine.VirtualScript.CompilerTools
         {
             //Remove these long strings
             message = message.Replace(
-                "Vision.ScriptEngine.VirtualScript.Runtime.ScriptBaseClass.",
+                "Vision.ScriptEngine.DotNetEngine.Runtime.ScriptBaseClass.",
                 "");
             message = message.Replace(
-                "Vision.ScriptEngine.VirtualScript.LSL_Types.",
+                "Vision.ScriptEngine.DotNetEngine.LSL_Types.",
                 "");
             if (message.Contains("The best overloaded method match for"))
             {

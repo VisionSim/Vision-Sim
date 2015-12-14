@@ -36,7 +36,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 
-namespace Vision.ScriptEngine.VirtualScript.CompilerTools
+namespace Vision.ScriptEngine.DotNetEngine.CompilerTools
 {
     public class Compiler
     {
@@ -491,7 +491,7 @@ namespace Vision.ScriptEngine.VirtualScript.CompilerTools
 
             if (rootPath != null)
                 parameters.ReferencedAssemblies.Add(Path.Combine(rootPath,
-                                                                 "Vision.ScriptEngine.VirtualScript.dll"));
+                                                                 "Vision.ScriptEngine.DotNetEngine.dll"));
             parameters.ReferencedAssemblies.Add("System.dll");
             parameters.ReferencedAssemblies.Add("Microsoft.CSharp.dll");
             parameters.ReferencedAssemblies.Add("System.Core.dll");

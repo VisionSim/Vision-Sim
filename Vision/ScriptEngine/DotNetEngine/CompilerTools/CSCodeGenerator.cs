@@ -32,7 +32,7 @@ using ScriptEngineParser;
 using Tools;
 using Vision.Framework.Utilities;
 
-namespace Vision.ScriptEngine.VirtualScript.CompilerTools
+namespace Vision.ScriptEngine.DotNetEngine.CompilerTools
 {
     public static class Extension
     {
@@ -317,12 +317,12 @@ namespace Vision.ScriptEngine.VirtualScript.CompilerTools
                 foreach (string nameSpace in api.NamespaceAdditions)
                     sb.AppendFormat("using {0};\n", nameSpace);
             sb.AppendLine(
-@"using LSL_Types = Vision.ScriptEngine.VirtualScript.LSL_Types;
+@"using LSL_Types = Vision.ScriptEngine.DotNetEngine.LSL_Types;
 using System;
 namespace Script
 {
 [Serializable]
-public class ScriptClass : Vision.ScriptEngine.VirtualScript.Runtime.ScriptBaseClass
+public class ScriptClass : Vision.ScriptEngine.DotNetEngine.Runtime.ScriptBaseClass
 {");
 
             sb.AppendLine(ScriptClass);

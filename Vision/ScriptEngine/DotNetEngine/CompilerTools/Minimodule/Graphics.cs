@@ -33,7 +33,7 @@ using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Services.ClassHelpers.Assets;
 
-namespace Vision.ScriptEngine.VirtualScript.MiniModule
+namespace Vision.ScriptEngine.DotNetEngine.MiniModule
 {
     class Graphics : MarshalByRefObject, IGraphics
     {

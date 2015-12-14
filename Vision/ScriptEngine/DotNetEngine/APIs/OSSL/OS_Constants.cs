@@ -25,10 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using vector = Vision.ScriptEngine.VirtualScript.LSL_Types.Vector3;
-using rotation = Vision.ScriptEngine.VirtualScript.LSL_Types.Quaternion;
+using vector = Vision.ScriptEngine.DotNetEngine.LSL_Types.Vector3;
+using rotation = Vision.ScriptEngine.DotNetEngine.LSL_Types.Quaternion;
 
-namespace Vision.ScriptEngine.VirtualScript.Runtime
+namespace Vision.ScriptEngine.DotNetEngine.Runtime
 {
     public partial class ScriptBaseClass
     {

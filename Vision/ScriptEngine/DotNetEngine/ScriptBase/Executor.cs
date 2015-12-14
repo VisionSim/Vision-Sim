@@ -32,7 +32,7 @@ using System.Reflection;
 using Vision.Framework.Utilities;
 using OpenMetaverse;
 
-namespace Vision.ScriptEngine.VirtualScript.Runtime
+namespace Vision.ScriptEngine.DotNetEngine.Runtime
 {
     public class Executor
     {

@@ -28,7 +28,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Vision.ScriptEngine.VirtualScript.MiniModule
+namespace Vision.ScriptEngine.DotNetEngine.MiniModule
 {
     internal class ExtensionHandler : IExtension
     {

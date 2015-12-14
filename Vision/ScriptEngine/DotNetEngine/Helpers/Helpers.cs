@@ -32,7 +32,7 @@ using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using OpenMetaverse;
 
-namespace Vision.ScriptEngine.VirtualScript
+namespace Vision.ScriptEngine.DotNetEngine
 {
     [Serializable]
     public class EventAbortException : Exception

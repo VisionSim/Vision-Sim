@@ -27,7 +27,7 @@
 
 using System;
 
-namespace Vision.ScriptEngine.VirtualScript.MiniModule
+namespace Vision.ScriptEngine.DotNetEngine.MiniModule
 {
     public class NewUserEventArgs : EventArgs
     {

@@ -29,13 +29,13 @@ using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
-using Vision.ScriptEngine.VirtualScript.MiniModule;
+using Vision.ScriptEngine.DotNetEngine.MiniModule;
 using Microsoft.CSharp;
 using OpenMetaverse;
 
 //using Microsoft.JScript;
 
-namespace Vision.ScriptEngine.VirtualScript.CompilerTools
+namespace Vision.ScriptEngine.DotNetEngine.CompilerTools
 {
     public class MRMConverter : IScriptConverter
     {

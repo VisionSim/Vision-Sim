@@ -41,8 +41,8 @@ using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Services.ClassHelpers.Inventory;
 using Vision.Framework.Services.ClassHelpers.Profile;
 using Vision.Framework.Utilities;
-using Vision.ScriptEngine.VirtualScript.Plugins;
-using Vision.ScriptEngine.VirtualScript.Runtime;
+using Vision.ScriptEngine.DotNetEngine.Plugins;
+using Vision.ScriptEngine.DotNetEngine.Runtime;
 using Nini.Config;
 using OpenMetaverse;
 using OpenMetaverse.Packets;
@@ -56,17 +56,17 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using GridRegion = Vision.Framework.Services.GridRegion;
-using LSL_Float = Vision.ScriptEngine.VirtualScript.LSL_Types.LSLFloat;
-using LSL_Integer = Vision.ScriptEngine.VirtualScript.LSL_Types.LSLInteger;
-using LSL_Key = Vision.ScriptEngine.VirtualScript.LSL_Types.LSLString;
-using LSL_List = Vision.ScriptEngine.VirtualScript.LSL_Types.list;
-using LSL_Rotation = Vision.ScriptEngine.VirtualScript.LSL_Types.Quaternion;
-using LSL_String = Vision.ScriptEngine.VirtualScript.LSL_Types.LSLString;
-using LSL_Vector = Vision.ScriptEngine.VirtualScript.LSL_Types.Vector3;
+using LSL_Float = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLFloat;
+using LSL_Integer = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLInteger;
+using LSL_Key = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLString;
+using LSL_List = Vision.ScriptEngine.DotNetEngine.LSL_Types.list;
+using LSL_Rotation = Vision.ScriptEngine.DotNetEngine.LSL_Types.Quaternion;
+using LSL_String = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLString;
+using LSL_Vector = Vision.ScriptEngine.DotNetEngine.LSL_Types.Vector3;
 using PrimType = Vision.Framework.SceneInfo.PrimType;
 using RegionFlags = Vision.Framework.Services.RegionFlags;
 
-namespace Vision.ScriptEngine.VirtualScript.APIs
+namespace Vision.ScriptEngine.DotNetEngine.APIs
 {
     /// <summary>
     ///     Contains all LSL ll-functions. This class will be in Default AppDomain.

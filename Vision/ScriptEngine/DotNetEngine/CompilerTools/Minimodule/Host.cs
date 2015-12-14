@@ -28,7 +28,7 @@
 using System;
 using Vision.Framework.SceneInfo;
 
-namespace Vision.ScriptEngine.VirtualScript.MiniModule
+namespace Vision.ScriptEngine.DotNetEngine.MiniModule
 {
     internal class Host : MarshalByRefObject, IHost
     {

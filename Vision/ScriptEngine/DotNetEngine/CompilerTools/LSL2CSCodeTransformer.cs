@@ -30,7 +30,7 @@ using System.Linq;
 using ScriptEngineParser;
 using Tools;
 
-namespace Vision.ScriptEngine.VirtualScript.CompilerTools
+namespace Vision.ScriptEngine.DotNetEngine.CompilerTools
 {
     public class LSL2CSCodeTransformer
     {

@@ -29,7 +29,7 @@ using Vision.Framework.SceneInfo;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
 
-namespace Vision.ScriptEngine.VirtualScript
+namespace Vision.ScriptEngine.DotNetEngine
 {
     /// <summary>
     ///     These plugins provide for the ability to hook up onto scripts for events and are called each iteration by the script engine event thread

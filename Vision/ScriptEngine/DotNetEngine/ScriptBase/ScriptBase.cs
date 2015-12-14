@@ -33,7 +33,7 @@ using System.Reflection;
 using System.Runtime.Remoting.Lifetime;
 using Vision.Framework.SceneInfo;
 
-namespace Vision.ScriptEngine.VirtualScript.Runtime
+namespace Vision.ScriptEngine.DotNetEngine.Runtime
 {
     public partial class ScriptBaseClass : MarshalByRefObject, IScript, IDisposable
     {

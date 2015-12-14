@@ -37,7 +37,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Vision.ScriptEngine.VirtualScript
+namespace Vision.ScriptEngine.DotNetEngine
 {
     public class ScriptProtectionModule
     {

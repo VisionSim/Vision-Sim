@@ -39,7 +39,7 @@ using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Services.ClassHelpers.Inventory;
 using Vision.Framework.Utilities;
-using Vision.ScriptEngine.VirtualScript.Runtime;
+using Vision.ScriptEngine.DotNetEngine.Runtime;
 
 
 namespace Vision.BotManager

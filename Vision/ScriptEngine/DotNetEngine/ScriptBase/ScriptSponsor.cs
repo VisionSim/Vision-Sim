@@ -28,7 +28,7 @@
 using System;
 using System.Runtime.Remoting.Lifetime;
 
-namespace Vision.ScriptEngine.VirtualScript.Runtime
+namespace Vision.ScriptEngine.DotNetEngine.Runtime
 {
     public class ScriptSponsor : MarshalByRefObject, ISponsor
     {

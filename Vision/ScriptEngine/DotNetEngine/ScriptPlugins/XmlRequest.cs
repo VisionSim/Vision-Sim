@@ -32,7 +32,7 @@ using Vision.Framework.SceneInfo;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
 
-namespace Vision.ScriptEngine.VirtualScript.Plugins
+namespace Vision.ScriptEngine.DotNetEngine.Plugins
 {
     public class XmlRequestPlugin : IScriptPlugin
     {

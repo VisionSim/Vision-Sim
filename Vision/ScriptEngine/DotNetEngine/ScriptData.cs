@@ -32,7 +32,7 @@ using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Utilities;
-using Vision.ScriptEngine.VirtualScript.Runtime;
+using Vision.ScriptEngine.DotNetEngine.Runtime;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
 using System;
@@ -45,7 +45,7 @@ using System.Runtime.Remoting;
 using System.Runtime.Remoting.Lifetime;
 using System.Threading;
 
-namespace Vision.ScriptEngine.VirtualScript
+namespace Vision.ScriptEngine.DotNetEngine
 {
     public class ScriptData
     {

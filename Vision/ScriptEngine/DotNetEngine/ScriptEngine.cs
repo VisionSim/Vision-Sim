@@ -43,10 +43,10 @@ using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
-using Vision.ScriptEngine.VirtualScript.CompilerTools;
-using Vision.ScriptEngine.VirtualScript.Runtime;
+using Vision.ScriptEngine.DotNetEngine.CompilerTools;
+using Vision.ScriptEngine.DotNetEngine.Runtime;
 
-namespace Vision.ScriptEngine.VirtualScript
+namespace Vision.ScriptEngine.DotNetEngine
 {
     public class ScriptEngine : INonSharedRegionModule, IScriptModulePlugin
     {
@@ -173,7 +173,7 @@ namespace Vision.ScriptEngine.VirtualScript
 
         public string ScriptEngineName
         {
-            get { return "VirtualScript"; }
+            get { return "DotNetEngine"; }
         }
 
         public IScriptModule ScriptModule
@@ -483,7 +483,7 @@ namespace Vision.ScriptEngine.VirtualScript
             MainConsole.Instance.CleanInfo ("    Max allowed threat level: " + ScriptProtection.GetThreatLevel ());
             MainConsole.Instance.CleanInfo ("    Number of scripts running now: " + ScriptProtection.GetAllScripts ().Length);
             MainConsole.Instance.CleanInfo ("    Number of app domains: " + AppDomainManager.NumberOfAppDomains);
-            MainConsole.Instance.CleanInfo ("    Permission level of app domains: " + AppDomainManager.PermissionLevel);
+//            MainConsole.Instance.CleanInfo ("    Permission level of app domains: " + AppDomainManager.PermissionLevel);
             MainConsole.Instance.CleanInfo ("    Number Script Event threads: " +
                                       (MaintenanceThread.scriptThreadpool == null
                                            ? 0

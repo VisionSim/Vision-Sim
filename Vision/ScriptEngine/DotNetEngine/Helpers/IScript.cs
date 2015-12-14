@@ -31,7 +31,7 @@ using System.Collections.Generic;
 using System.Runtime.Remoting.Lifetime;
 using Vision.Framework.SceneInfo;
 
-namespace Vision.ScriptEngine.VirtualScript
+namespace Vision.ScriptEngine.DotNetEngine
 {
     [Serializable]
     public class EnumeratorInfo

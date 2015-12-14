@@ -28,7 +28,7 @@
 using System;
 using OpenMetaverse;
 
-namespace Vision.ScriptEngine.VirtualScript.MiniModule
+namespace Vision.ScriptEngine.DotNetEngine.MiniModule
 {
     internal class SEUser : MarshalByRefObject, ISocialEntity
     {

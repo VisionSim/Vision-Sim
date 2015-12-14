@@ -32,7 +32,7 @@ using System.Runtime.Remoting.Lifetime;
 using Vision.Framework.SceneInfo;
 using OpenMetaverse;
 
-namespace Vision.ScriptEngine.VirtualScript.MiniModule
+namespace Vision.ScriptEngine.DotNetEngine.MiniModule
 {
     public abstract class MRMBase : IScript
     {

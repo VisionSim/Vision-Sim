@@ -37,7 +37,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Vision.ScriptEngine.VirtualScript
+namespace Vision.ScriptEngine.DotNetEngine
 {
     /// <summary>
     ///     Prepares events so they can be directly executed upon a script by EventQueueManager, then queues it.
@@ -769,7 +769,7 @@ namespace Vision.ScriptEngine.VirtualScript
                 //This will happen if the script doesn't compile correctly
                 if (ID.Script == null)
                 {
-                    MainConsole.Instance.Info("[VirtualScript]: Could not load script from item '" +
+                    MainConsole.Instance.Info("[DotNetEngine]: Could not load script from item '" +
                                               ID.InventoryItem.Name +
                                               "' to fire event " + FunctionName);
                     return false;

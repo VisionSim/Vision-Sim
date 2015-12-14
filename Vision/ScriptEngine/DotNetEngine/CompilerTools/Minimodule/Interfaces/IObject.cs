@@ -29,7 +29,7 @@ using OpenMetaverse;
 using System;
 using System.Drawing;
 
-namespace Vision.ScriptEngine.VirtualScript.MiniModule
+namespace Vision.ScriptEngine.DotNetEngine.MiniModule
 {
     [Serializable]
     public class TouchEventArgs : EventArgs

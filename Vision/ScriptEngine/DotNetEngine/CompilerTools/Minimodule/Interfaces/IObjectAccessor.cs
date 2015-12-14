@@ -28,7 +28,7 @@
 using System.Collections.Generic;
 using OpenMetaverse;
 
-namespace Vision.ScriptEngine.VirtualScript.MiniModule
+namespace Vision.ScriptEngine.DotNetEngine.MiniModule
 {
     public interface IObjectAccessor : ICollection<IObject>
     {

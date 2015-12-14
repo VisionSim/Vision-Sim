@@ -36,7 +36,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Vision.ScriptEngine.VirtualScript.Plugins
+namespace Vision.ScriptEngine.DotNetEngine.Plugins
 {
     public class SensorRepeatPlugin : IScriptPlugin
     {
