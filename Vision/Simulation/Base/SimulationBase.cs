@@ -229,7 +229,8 @@ namespace Vision.Simulation.Base
 				        string.Format("==================== Starting Vision-Sim ({0}) ======================",
                               (IntPtr.Size == 4 ? "x86" : "x64")));
             MainConsole.Instance.Info("====================================================================");
-            MainConsole.Instance.Info("[Vision-Sim Startup: Version: " + Version + "\n");
+            MainConsole.Instance.Info("[Vision-Sim Startup]: Version : " + Version + "\n");
+            MainConsole.Instance.Info("[Vision-Sim Startup]: Git Base : " + FileVersionInfo.GitVersion + "\n");
             if (Environment.Is64BitOperatingSystem)
                 MainConsole.Instance.Info("[Vision-Sim Startup: Running on 64 bit architecture");
             // get memory allocation
