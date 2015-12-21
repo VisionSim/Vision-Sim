@@ -2,7 +2,7 @@
 ;; Advanced configs
 http_listener_port = 8003
 
-;; HTTPS configs (See HTTPS.txt in WhiteCoreDocs/)
+;; HTTPS configs (See HTTPS.txt in VisionDocs/)
 use_https = false
 
 ;; The number of threads to concurrently process incoming http requests
@@ -38,8 +38,8 @@ Console = LocalConsole
 save_crashes = false
 
 ;; Directory to save crashes to if above is enabled
-;; (default is /bin/crashes/*.txt or C:\bin\crashes\*.txt)
-crash_dir = ./crashes
+;; (default is /Data/Crashes/*.txt or C:\Data\Crashes\*.txt)
+crash_dir = ./Data/Crashes
 
 ;; Place to create a PID file
 ;PIDFile = /tmp/my.pid

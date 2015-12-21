@@ -2,7 +2,7 @@
 ;; Advanced configs
 http_listener_port = 8003
 
-;; HTTPS configs (See HTTPS.txt in WhiteCoreDocs/)
+;; HTTPS configs (See HTTPS.txt in VisionDocs/)
 use_https = false
 
 ;; The number of threads to concurrently process incoming http requests
@@ -39,13 +39,18 @@ Console = LocalConsole
 ;remote_console_port = 0
 
 [Startup]
+;; Directory path for all data
+;; Normally this will be the '../Data' directory, but you can change this to anywhere on your hard drive
+;; Default is "" 
+DataDirectory = ""
+
 ;; Set this to true if you want to log crashes to disk
 ;; this can be useful when submitting bug reports.
 save_crashes = false
 
 ;; Directory to save crashes to if above is enabled
-;; (default is /bin/crashes/*.txt or C:\bin\crashes\*.txt)
-crash_dir = ./crashes
+;; (default is /Data/Crashes/*.txt or C:\Data\Crashes\*.txt)
+crash_dir = ./Data/Crashes
 
 ;; Place to create a PID file
 ;PIDFile = /tmp/my.pid
@@ -95,7 +100,7 @@ Include-Single = Grid/ServerConfiguration/SingleServerInstance.ini
 
 [ExternalCaps]
 
-[WhiteCoreConnectors]
+[VisionConnectors]
 AbuseReportsConnector = LocalConnector
 AssetConnector = LocalConnector
 AvatarArchiverConnector = LocalConnector
@@ -113,13 +118,13 @@ ParcelConnector = LocalConnector
 EmailConnector = LocalConnector
 
 ;; Maximum non-group chat messages that the server will store per user
-MaxOfflineMessages = 20
+MaxOfflineMessages = 500
 
 ;; Whether we should save any group chat messages for users
 SaveOfflineGroupChatMessages = true
 
 ;; The maximum number of group chat messages that the server will store per user
-MaxGroupOfflineMessages = 50
+MaxGroupOfflineMessages = 500
 
 DoRemoteCalls = False
 CapsServiceDoRemoteCalls = False
