@@ -103,7 +103,7 @@ namespace Vision.ScriptEngine.DotNetEngine.CompilerTools
             //Find the default compiler
             FindDefaultCompiler();
 
-#if WDNE_DEBUG
+#if DNE_DEBUG
             TestScripts();
         }
         

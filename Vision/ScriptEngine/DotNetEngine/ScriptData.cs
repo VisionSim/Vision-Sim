@@ -544,7 +544,7 @@ namespace Vision.ScriptEngine.DotNetEngine
 
             if (InventoryItem == null)
             {
-                MainConsole.Instance.Warn("[WDNE]: Could not find inventory item for script " + ItemID + ", part" +
+                MainConsole.Instance.Warn("[DNE]: Could not find inventory item for script " + ItemID + ", part" +
                                           Part.Name + "@" +
                                           Part.AbsolutePosition);
                 return false;

@@ -239,32 +239,32 @@ namespace Vision.ScriptEngine.DotNetEngine
                 if (MainConsole.Instance != null)
                 {
                     MainConsole.Instance.Commands.AddCommand(
-                        "WDNE restart", 
-                        "WDNE restart",
+                        "DNE restart", 
+                        "DNE restart",
                         "Restarts all scripts and clears all script caches",
                         VisionDotNetRestart, false, false);
                     
                 	MainConsole.Instance.Commands.AddCommand(
-                        "WDNE stop",
-                        "WDNE stop", 
+                        "DNE stop",
+                        "DNE stop", 
                         "Stops all scripts",
                         VisionDotNetStop, false, false);
                     
                 	MainConsole.Instance.Commands.AddCommand(
-                        "WDNE stats",
-                        "WDNE stats",
+                        "DNE stats",
+                        "DNE stats",
                         "Tells stats about the script engine", 
                         VisionDotNetStats, false, false);
                     
                 	MainConsole.Instance.Commands.AddCommand(
-                        "WDNE disable",
-                        "WDNE disable",
+                        "DNE disable",
+                        "DNE disable",
                         "Disables the script engine temperarily",
                         VisionDotNetDisable, false, false);
                     
                 	MainConsole.Instance.Commands.AddCommand(
-                        "WDNE enable",
-                        "WDNE enable", 
+                        "DNE enable",
+                        "DNE enable", 
                         "Reenables the script engine",
                         VisionDotNetEnable, false, false);
                 }
@@ -452,11 +452,11 @@ namespace Vision.ScriptEngine.DotNetEngine
                 MaintenanceThread.StartScripts(
                     scripts.Select(ID => new LUStruct {Action = LUType.Load, ID = ID}).ToArray());
 
-                MainConsole.Instance.Warn("[WDNE]: All scripts have been restarted.");
+                MainConsole.Instance.Warn("[DNE]: All scripts have been restarted.");
             }
             else
             {
-                MainConsole.Instance.Info("[WDNE]: Not restarting all scripts");
+                MainConsole.Instance.Info("[DNE]: Not restarting all scripts");
             }
         }
 
@@ -467,11 +467,11 @@ namespace Vision.ScriptEngine.DotNetEngine
             {
                 StopAllScripts();
                 MaintenanceThread.Stop();
-                MainConsole.Instance.Warn("[WDNE]: All scripts have been stopped.");
+                MainConsole.Instance.Warn("[DNE]: All scripts have been stopped.");
             }
             else
             {
-                MainConsole.Instance.Info("[WDNE]: Not restarting all scripts");
+                MainConsole.Instance.Info("[DNE]: Not restarting all scripts");
             }
         }
 
@@ -498,14 +498,14 @@ namespace Vision.ScriptEngine.DotNetEngine
         protected void VisionDotNetDisable(IScene scene, string[] cmdparams)
         {
             ConsoleDisabled = true;
-            MainConsole.Instance.Warn("[WDNE]: WDNE has been disabled.");
+            MainConsole.Instance.Warn("[DNE]: DotNetEngine has been disabled.");
         }
 
         protected void VisionDotNetEnable(IScene scene, string[] cmdparams)
         {
             ConsoleDisabled = false;
             MaintenanceThread.Started = true;
-            MainConsole.Instance.Warn("[WDNE]: WDNE has been enabled.");
+            MainConsole.Instance.Warn("[DNE]: DotNetEngine has been enabled.");
         }
 
         #endregion
