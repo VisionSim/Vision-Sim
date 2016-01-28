@@ -25,6 +25,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Threading;
+using Nini.Config;
+using Nwc.XmlRpc;
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
@@ -33,15 +42,6 @@ using Vision.Framework.Servers.HttpServer;
 using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Utilities;
 using Vision.Framework.Services;
-using Nini.Config;
-using Nwc.XmlRpc;
-using OpenMetaverse;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading;
 
 /*****************************************************
  *
@@ -87,7 +87,6 @@ namespace Vision.Modules.Scripting
 
         private string m_name = "XMLRPCModule";
 
-        // <channel id, RPCChannelInfo>
         private Dictionary<UUID, RPCChannelInfo> m_openChannels;
         private Dictionary<UUID, SendRemoteDataRequest> m_pendingSRDResponses;
         private int m_remoteDataPort;
@@ -114,7 +113,7 @@ namespace Vision.Modules.Scripting
                 m_httpServerStarted = true;
                 // Start http server
                 // Attach xmlrpc handlers
-                MainConsole.Instance.Info ("[XMLRPC MODULE]: " +
+                MainConsole.Instance.Info ("[XMLRPC Module]: " +
                     "Starting up XMLRPC Server on port " + m_remoteDataPort +
                     " for llRemoteData commands.");
                 IHttpServer httpServer = new BaseHttpServer ((uint)m_remoteDataPort, MainServer.Instance.HostName,
@@ -128,7 +127,7 @@ namespace Vision.Modules.Scripting
 
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource config)
+        public void Initialize(IConfigSource config)
         {
 
             // We need to create these early because the scripts might be calling
@@ -217,7 +216,7 @@ namespace Vision.Modules.Scripting
             // This should no longer happen, but the check is reasonable anyway
             if (null == m_openChannels)
             {
-                MainConsole.Instance.Warn("[XML RPC MODULE]: Attempt to open channel before initialization is complete");
+                MainConsole.Instance.Warn("[XMLRPC Module]: Attempt to open channel before initialization is complete");
                 return newChannel;
             }
 
@@ -301,7 +300,7 @@ namespace Vision.Modules.Scripting
             }
             else
             {
-                MainConsole.Instance.Warn("[XML RPC MODULE]: Channel or message_id not found");
+                MainConsole.Instance.Warn("[XMLRPC Module]: Channel or message_id not found");
             }
         }
 
@@ -362,7 +361,7 @@ namespace Vision.Modules.Scripting
                 }
                 else
                 {
-                    MainConsole.Instance.Error("[XML RPC MODULE]: UNABLE TO REMOVE COMPLETED REQUEST");
+                    MainConsole.Instance.Error("[XMLRPC Module]: UNABLE TO REMOVE COMPLETED REQUEST");
                 }
             }
         }
@@ -720,7 +719,7 @@ namespace Vision.Modules.Scripting
             catch (Exception we)
             {
                 Sdata = we.Message;
-                MainConsole.Instance.Warn("[SendRemoteDataRequest]: Request failed");
+                MainConsole.Instance.Warn("[Send Remote Data Request]: Request failed");
                 MainConsole.Instance.Warn(we.StackTrace);
             }
 

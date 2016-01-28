@@ -25,16 +25,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using OpenMetaverse;
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Profile;
 using Vision.Framework.Utilities;
-using OpenMetaverse;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
 namespace Vision.Modules.Web
 {
@@ -128,7 +128,6 @@ namespace Vision.Modules.Web
                 vars.Add ("UserPictureURL", "../images/icons/no_avatar.jpg");
             }
 
-
             UserAccount ourAccount = Authenticator.GetAuthentication(httpRequest);
             if (ourAccount != null)
             {
@@ -162,7 +161,6 @@ namespace Vision.Modules.Web
                 vars.Add("UserIsOnline", false);
                 vars.Add("IsOnline", translator.GetTranslatedString("Offline"));
             }
-
 
             vars.Add("UserProfileFor", translator.GetTranslatedString("UserProfileFor"));
             vars.Add("ResidentSince", translator.GetTranslatedString("ResidentSince"));

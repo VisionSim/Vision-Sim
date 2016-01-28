@@ -25,7 +25,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using System.IO;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
@@ -34,12 +39,6 @@ using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
-using System;
-using System.Collections.Generic;
-using System.IO;
 
 namespace Vision.Modules.OpenRegionSettingsModule
 {
@@ -226,7 +225,7 @@ namespace Vision.Modules.OpenRegionSettingsModule
 
         #region INonSharedRegionModule
 
-        public void Initialise(IConfigSource source)
+        public void Initialize(IConfigSource source)
         {
         }
 
@@ -260,15 +259,6 @@ namespace Vision.Modules.OpenRegionSettingsModule
                 m_settings.SayDistance = chatmodule.SayDistance;
                 m_settings.ShoutDistance = chatmodule.ShoutDistance;
             }
-            /*IScriptModule scriptmodule = scene.RequestModuleInterface<IScriptModule>();
-            if (scriptmodule != null)
-            {
-                List<string> FunctionNames = scriptmodule.GetAllFunctionNames();
-                foreach (string FunctionName in FunctionNames)
-                {
-                    m_settings.LSLCommands.Add(OSD.FromString(FunctionName));
-                }
-            }*/
         }
 
         public string Name

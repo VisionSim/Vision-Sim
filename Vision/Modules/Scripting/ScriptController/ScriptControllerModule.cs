@@ -28,12 +28,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
-using Nini.Config;
-using OpenMetaverse;
 
 using GridRegion = Vision.Framework.Services.GridRegion;
 
@@ -43,7 +43,7 @@ namespace Vision.Modules.Scripting
     {
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource source)
+        public void Initialize(IConfigSource source)
         {
         }
 
@@ -440,14 +440,6 @@ namespace Vision.Modules.Scripting
                     flags &=
                         ~(AgentManager.ControlFlags.AGENT_CONTROL_LBUTTON_UP |
                           AgentManager.ControlFlags.AGENT_CONTROL_LBUTTON_DOWN);
-
-                //DIR_CONTROL_FLAG_FORWARD = AgentManager.ControlFlags.AGENT_CONTROL_AT_POS,
-                //DIR_CONTROL_FLAG_BACK = AgentManager.ControlFlags.AGENT_CONTROL_AT_NEG,
-                //DIR_CONTROL_FLAG_LEFT = AgentManager.ControlFlags.AGENT_CONTROL_LEFT_POS,
-                //DIR_CONTROL_FLAG_RIGHT = AgentManager.ControlFlags.AGENT_CONTROL_LEFT_NEG,
-                //DIR_CONTROL_FLAG_UP = AgentManager.ControlFlags.AGENT_CONTROL_UP_POS,
-                //DIR_CONTROL_FLAG_DOWN = AgentManager.ControlFlags.AGENT_CONTROL_UP_NEG,
-                //DIR_CONTROL_FLAG_DOWN_NUDGE = AgentManager.ControlFlags.AGENT_CONTROL_NUDGE_UP_NEG
 
                 return flags;
             }

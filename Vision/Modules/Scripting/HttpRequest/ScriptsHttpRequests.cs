@@ -34,12 +34,11 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-
 
 /*****************************************************
  *
@@ -93,15 +92,11 @@ namespace Vision.Modules.Scripting
         private int httpTimeout = 30000;
         private string m_name = "HttpScriptRequests";
 
-        // <itemID, HttpRequestClasss>
         private Dictionary<UUID, List<HttpRequestClass>> m_pendingRequests;
         private string m_proxyexcepts = "";
         private string m_proxyurl = "";
-        // <reqID, itemID>
         private IScene m_scene;
         private IScriptModule m_scriptModule;
-
-        // private Queue<HttpRequestClass> rpcQueue = new Queue<HttpRequestClass>();
 
         public HttpRequestModule()
         {
@@ -298,7 +293,7 @@ namespace Vision.Modules.Scripting
 
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource config)
+        public void Initialize(IConfigSource config)
         {
             m_proxyurl = config.Configs["HTTPScriptModule"].GetString("HttpProxy");
             m_proxyexcepts = config.Configs["HTTPScriptModule"].GetString("HttpProxyExceptions");
@@ -461,13 +456,8 @@ namespace Vision.Modules.Scripting
                 {
                     // Connection Group Name is probably not used so we hijack it to identify
                     // a desired security exception
-//                  Request.ConnectionGroupName="NoVerify";
                     Request.Headers.Add("NoVerifyCert", "true");
                 }
-//              else
-//              {
-//                  Request.ConnectionGroupName="Verify";
-//              }
 
                 if (!string.IsNullOrEmpty(proxyurl))
                 {

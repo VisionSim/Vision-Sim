@@ -25,17 +25,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Modules;
-using Vision.Framework.SceneInfo;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.Imaging;
 using System;
 using System.Drawing;
 using System.IO;
 using System.Net;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.Imaging;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Modules;
+using Vision.Framework.SceneInfo;
 
 namespace Vision.Modules.Scripting
 {
@@ -96,7 +95,7 @@ namespace Vision.Modules.Scripting
 
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource config)
+        public void Initialize(IConfigSource config)
         {
             m_proxyurl = config.Configs["Startup"].GetString("HttpProxy");
             m_proxyexcepts = config.Configs["Startup"].GetString("HttpProxyExceptions");
@@ -152,7 +151,6 @@ namespace Vision.Modules.Scripting
             }
 
             RequestState state = new RequestState((HttpWebRequest) request, requestID);
-            // IAsyncResult result = request.BeginGetResponse(new AsyncCallback(HttpRequestReturn), state);
             request.BeginGetResponse(HttpRequestReturn, state);
 
             TimeSpan t = (DateTime.UtcNow - new DateTime(1970, 1, 1));
@@ -212,12 +210,12 @@ namespace Vision.Modules.Scripting
                         catch (Exception)
                         {
                             MainConsole.Instance.Error(
-                                "[LOADIMAGEURLMODULE]: OpenJpeg Encode Failed.  Empty byte data returned!");
+                                "[Load Image Url Module]: OpenJpeg Encode Failed.  Empty byte data returned!");
                         }
                     }
                     else
                     {
-                        MainConsole.Instance.WarnFormat("[LOADIMAGEURLMODULE] No data returned");
+                        MainConsole.Instance.WarnFormat("[Load Image Url Module] No data returned");
                     }
                 }
             }
@@ -234,7 +232,7 @@ namespace Vision.Modules.Scripting
                     stream.Close();
                 }
             }
-            MainConsole.Instance.DebugFormat("[LOADIMAGEURLMODULE] Returning {0} bytes of image data for request {1}",
+            MainConsole.Instance.DebugFormat("[Load Image Url Module] Returning {0} bytes of image data for request {1}",
                                              imageJ2000.Length, state.RequestID);
             m_textureManager.ReturnData(state.RequestID, imageJ2000);
         }

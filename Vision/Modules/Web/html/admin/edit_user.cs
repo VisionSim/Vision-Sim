@@ -25,14 +25,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
+using OpenMetaverse;
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Profile;
 using Vision.Framework.Utilities;
-using OpenMetaverse;
-using System;
-using System.Collections.Generic;
 
 namespace Vision.Modules.Web
 {
@@ -59,7 +59,6 @@ namespace Vision.Modules.Web
             get { return true; }
         }
 
-
         public Dictionary<string, object> Fill(WebInterface webInterface, string filename, OSHttpRequest httpRequest,
                                                OSHttpResponse httpResponse, Dictionary<string, object> requestParameters,
                                                ITranslator translator, out string response)
@@ -84,7 +83,6 @@ namespace Vision.Modules.Web
             if (requestParameters.ContainsKey("Submit") &&
                 requestParameters["Submit"].ToString() == "SubmitSetUserType")
             {
-
                 string UserType = requestParameters ["UserType"].ToString ();
                 int UserFlags = webInterface.UserTypeToUserFlags (UserType);
 
@@ -212,7 +210,6 @@ namespace Vision.Modules.Web
             if (requestParameters.ContainsKey("Submit") &&
                 requestParameters["Submit"].ToString() == "SubmitUnbanUser")
             {
-
                 if (agent != null)
                 {
                     agent.Flags &= ~IAgentFlags.TempBan;

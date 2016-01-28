@@ -44,7 +44,7 @@ namespace Vision.Modules.Chat
 
         #region INonSharedRegionModule Members
 
-        public void Initialise (IConfigSource config)
+        public void Initialize (IConfigSource config)
         {
         }
 
@@ -100,7 +100,7 @@ namespace Vision.Modules.Chat
                 return;
 
             IClientAPI client = (IClientAPI)sender;
-            MainConsole.Instance.DebugFormat ("[PRESENCE MODULE]: OnlineNotification requested by {0}", client.Name);
+            MainConsole.Instance.DebugFormat ("[Presence Module]: OnlineNotification requested by {0}", client.Name);
 
             List<UserInfo> status = m_Scene.RequestModuleInterface<IAgentInfoService> ().GetUserInfos (args);
 

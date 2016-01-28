@@ -25,14 +25,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Services;
-using Nini.Config;
-using OpenMetaverse;
-using System;
-using System.Collections.Generic;
 using RegionFlags = Vision.Framework.Services.RegionFlags;
 
 namespace Vision.Modules.Web

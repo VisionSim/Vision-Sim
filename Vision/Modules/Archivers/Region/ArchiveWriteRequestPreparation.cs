@@ -25,17 +25,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Modules;
-using Vision.Framework.SceneInfo;
-using Vision.Framework.SceneInfo.Entities;
-using Vision.Framework.Serialization;
-using OpenMetaverse;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using OpenMetaverse;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Modules;
+using Vision.Framework.SceneInfo;
+using Vision.Framework.SceneInfo.Entities;
+using Vision.Framework.Serialization;
 
 namespace Vision.Modules.Archivers
 {
@@ -218,7 +218,6 @@ namespace Vision.Modules.Archivers
                 {
                     canTransfer |= (obj.EveryoneMask & (uint) PermissionMask.Copy) != 0;
                 }
-
 
                 bool partPermitted = true;
                 if (checkPermissions.Contains("C") && !canCopy)

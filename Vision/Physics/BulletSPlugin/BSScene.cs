@@ -1,5 +1,5 @@
 ﻿    /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://opensimulator.org, http://vision-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org,
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,7 @@ namespace Vision.Physics.BulletSPlugin
 {
     public sealed class BSScene : PhysicsScene
     {
-        internal static readonly string LogHeader = "[BULLETS SCENE]";
+        internal static readonly string LogHeader = "[Bulletsim Scene]";
 
         // The name of the region we're working for.
         public string RegionName { get; private set; }
@@ -203,7 +203,7 @@ namespace Vision.Physics.BulletSPlugin
 
         #region Construction and Initialization
 
-        public override void Initialise(IMesher meshmerizer, IScene scene)
+        public override void Initialize(IMesher meshmerizer, IScene scene)
         {
             Scene = scene;
             mesher = meshmerizer;
@@ -265,7 +265,7 @@ namespace Vision.Physics.BulletSPlugin
             m_initialized = true;
         }
 
-        public override void PostInitialise(IConfigSource config)
+        public override void PostInitialize(IConfigSource config)
         {
         }
 

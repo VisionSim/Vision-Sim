@@ -68,7 +68,6 @@ namespace Vision.Modules.Web
 
             if (requestParameters.ContainsKey("Submit"))
             {
-
                 IGridService gridService = webInterface.Registry.RequestModuleInterface<IGridService>();
                 string regionname = requestParameters["regionname"].ToString();
                 int start = httpRequest.Query.ContainsKey("Start")
@@ -105,7 +104,6 @@ namespace Vision.Modules.Web
                         });
                     }
                 }
-
             }
             else
             {

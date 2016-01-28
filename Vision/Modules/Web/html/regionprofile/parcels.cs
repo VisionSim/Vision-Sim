@@ -25,14 +25,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.DatabaseInterfaces;
-using Vision.Framework.Modules;
-using Vision.Framework.Servers.HttpServer.Implementation;
-using Vision.Framework.Services;
-using OpenMetaverse;
 using System.Collections.Generic;
 using System.IO;
+using OpenMetaverse;
+using Vision.Framework.DatabaseInterfaces;
+using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
+using Vision.Framework.Servers.HttpServer.Implementation;
+using Vision.Framework.Services;
 using Vision.Framework.Utilities;
 using GridRegion = Vision.Framework.Services.GridRegion;
 using RegionFlags = Vision.Framework.Services.RegionFlags;
@@ -160,7 +160,6 @@ namespace Vision.Modules.Web
                 vars.Add("NumberOfUsersInRegionText", translator.GetTranslatedString("NumberOfUsersInRegionText"));
                 vars.Add("ParcelsInRegionText", translator.GetTranslatedString("ParcelsInRegionText"));
                 vars.Add ("MainServerURL", webInterface.GridURL);
-
             }
 
             return vars;

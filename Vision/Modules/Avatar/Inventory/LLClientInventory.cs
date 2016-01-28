@@ -75,7 +75,7 @@ namespace Vision.Modules.Inventory
 
         #region INonSharedRegionModule members
 
-        public void Initialise(IConfigSource source)
+        public void Initialize(IConfigSource source)
         {
         }
 
@@ -256,7 +256,7 @@ namespace Vision.Modules.Inventory
             if (!m_scene.InventoryService.AddFolder(folder))
             {
                 MainConsole.Instance.WarnFormat(
-                    "[AGENT INVENTORY]: Failed to create folder for user {0} {1}",
+                    "[Agent Inventory]: Failed to create folder for user {0} {1}",
                     remoteClient.Name, remoteClient.AgentId);
             }
         }
@@ -275,8 +275,8 @@ namespace Vision.Modules.Inventory
         protected void HandleUpdateInventoryFolder(IClientAPI remoteClient, UUID folderID, ushort type, string name,
                                                    UUID parentID)
         {
-            //            MainConsole.Instance.DebugFormat(
-            //                "[AGENT INVENTORY]: Updating inventory folder {0} {1} for {2} {3}", folderID, name, remoteClient.Name, remoteClient.AgentId);
+            // MainConsole.Instance.DebugFormat(
+            //     "[Agent Inventory]: Updating inventory folder {0} {1} for {2} {3}", folderID, name, remoteClient.Name, remoteClient.AgentId);
 
             InventoryFolderBase folder = new InventoryFolderBase(folderID, remoteClient.AgentId);
             folder = m_scene.InventoryService.GetFolder(folder);
@@ -288,7 +288,7 @@ namespace Vision.Modules.Inventory
                 if (!m_scene.InventoryService.UpdateFolder(folder))
                 {
                     MainConsole.Instance.ErrorFormat(
-                        "[AGENT INVENTORY]: Failed to update folder for user {0} {1}",
+                        "[Agent Inventory]: Failed to update folder for user {0} {1}",
                         remoteClient.Name, remoteClient.AgentId);
                 }
             }
@@ -308,14 +308,14 @@ namespace Vision.Modules.Inventory
             {
                 folder.ParentID = parentID;
                 if (!m_scene.InventoryService.MoveFolder(folder))
-                    MainConsole.Instance.WarnFormat("[AGENT INVENTORY]: could not move folder {0}", folderID);
+                    MainConsole.Instance.WarnFormat("[Agent Inventory]: could not move folder {0}", folderID);
                 else
-                    MainConsole.Instance.DebugFormat("[AGENT INVENTORY]: folder {0} moved to parent {1}", folderID,
+                    MainConsole.Instance.DebugFormat("[Agent Inventory]: folder {0} moved to parent {1}", folderID,
                                                      parentID);
             }
             else
             {
-                MainConsole.Instance.WarnFormat("[AGENT INVENTORY]: request to move folder {0} but folder not found",
+                MainConsole.Instance.WarnFormat("[Agent Inventory]: request to move folder {0} but folder not found",
                                                 folderID);
             }
         }
@@ -328,9 +328,9 @@ namespace Vision.Modules.Inventory
         protected void HandlePurgeInventoryDescendents(IClientAPI remoteClient, UUID folderID)
         {
             if (m_scene.InventoryService.PurgeFolder(new InventoryFolderBase(folderID, remoteClient.AgentId)))
-                MainConsole.Instance.DebugFormat("[AGENT INVENTORY]: folder {0} purged successfully", folderID);
+                MainConsole.Instance.DebugFormat("[Agent Inventory]: folder {0} purged successfully", folderID);
             else
-                MainConsole.Instance.WarnFormat("[AGENT INVENTORY]: could not purge folder {0} for client {1}", folderID,
+                MainConsole.Instance.WarnFormat("[Agent Inventory]: could not purge folder {0} for client {1}", folderID,
                                                 remoteClient.AgentId);
         }
 
@@ -557,7 +557,7 @@ namespace Vision.Modules.Inventory
                                               sbyte assetType,
                                               byte wearableType, uint nextOwnerMask, int creationDate)
         {
-            //MainConsole.Instance.DebugFormat("[AGENT INVENTORY]: Received request to create inventory item {0} in folder {1}", name, folderID);
+            //MainConsole.Instance.DebugFormat("[Agent Inventory]: Received request to create inventory item {0} in folder {1}", name, folderID);
 
             if (!m_scene.Permissions.CanCreateUserInventory(invType, remoteClient.AgentId))
                 return;
@@ -609,7 +609,7 @@ namespace Vision.Modules.Inventory
                 else
                 {
                     MainConsole.Instance.ErrorFormat(
-                        "ScenePresence for agent uuid {0} unexpectedly not found in CreateNewInventoryItem",
+                        "[Agent Inventory]: ScenePresence for agent uuid {0} unexpectedly not found in CreateNewInventoryItem",
                         remoteClient.AgentId);
                 }
             }
@@ -653,7 +653,7 @@ namespace Vision.Modules.Inventory
                                                uint callbackID, string description, string name,
                                                sbyte invType, sbyte type, UUID olditemID)
         {
-            //MainConsole.Instance.DebugFormat("[AGENT INVENTORY]: Received request to create inventory item link {0} in folder {1} pointing to {2}", name, folderID, olditemID);
+            //MainConsole.Instance.DebugFormat("[Agent Inventory]: Received request to create inventory item link {0} in folder {1} pointing to {2}", name, folderID, olditemID);
 
             if (!m_scene.Permissions.CanCreateUserInventory(invType, remoteClient.AgentId))
                 return;
@@ -680,7 +680,7 @@ namespace Vision.Modules.Inventory
             else
             {
                 MainConsole.Instance.ErrorFormat(
-                    "ScenePresence for agent uuid {0} unexpectedly not found in HandleLinkInventoryItem",
+                    "[Agent Inventory]: ScenePresence for agent uuid {0} unexpectedly not found in HandleLinkInventoryItem",
                     remoteClient.AgentId);
             }
         }
@@ -693,7 +693,7 @@ namespace Vision.Modules.Inventory
         protected void MoveInventoryItem(IClientAPI remoteClient, List<InventoryItemBase> items)
         {
             //MainConsole.Instance.DebugFormat(
-            //    "[AGENT INVENTORY]: Moving {0} items for user {1}", items.Count, remoteClient.AgentId);
+            //    "[Agent Inventory]: Moving {0} items for user {1}", items.Count, remoteClient.AgentId);
 
             m_scene.InventoryService.MoveItemsAsync(remoteClient.AgentId, items, null);
         }
@@ -711,14 +711,14 @@ namespace Vision.Modules.Inventory
                                          UUID newFolderID, string newName)
         {
             MainConsole.Instance.DebugFormat(
-                "[AGENT INVENTORY]: CopyInventoryItem received by {0} with oldAgentID {1}, oldItemID {2}, new FolderID {3}, newName {4}",
+                "[Agent Inventory]: CopyInventoryItem received by {0} with oldAgentID {1}, oldItemID {2}, new FolderID {3}, newName {4}",
                 remoteClient.AgentId, oldAgentID, oldItemID, newFolderID, newName);
 
             //Use UUID.Zero as it might be a library item
             InventoryItemBase item = m_scene.InventoryService.GetItem(UUID.Zero, oldItemID);
             if (item == null)
             {
-                MainConsole.Instance.Error("[AGENT INVENTORY]: Failed to find item " + oldItemID.ToString());
+                MainConsole.Instance.Error("[Agent Inventory]: Failed to find item " + oldItemID.ToString());
                 return;
             }
 
@@ -784,7 +784,7 @@ namespace Vision.Modules.Inventory
                                                                             else
                                                                             {
                                                                                 MainConsole.Instance.ErrorFormat(
-                                                                                    "[AGENT INVENTORY]: Could not copy item {0} since asset {1} could not be found",
+                                                                                    "[Agent Inventory]: Could not copy item {0} since asset {1} could not be found",
                                                                                     item.Name, item.AssetID);
                                                                             }
                                                                         });
@@ -830,7 +830,6 @@ namespace Vision.Modules.Inventory
                     item.CreationDate = itemUpd.CreationDate == 0 ? Util.UnixTimeSinceEpoch() : itemUpd.CreationDate;
 
                     // TODO: Check if folder changed and move item
-                    //item.NextPermissions = itemUpd.Folder;
                     item.InvType = itemUpd.InvType;
                     item.SalePrice = itemUpd.SalePrice;
                     item.SaleType = itemUpd.SaleType;
@@ -919,7 +918,7 @@ namespace Vision.Modules.Inventory
             else
             {
                 MainConsole.Instance.Error(
-                    "[AGENTINVENTORY]: Item ID " + itemID + " not found for an inventory item update.");
+                    "[Agent Inventory]: Item ID " + itemID + " not found for an inventory item update.");
             }
         }
 
@@ -943,7 +942,7 @@ namespace Vision.Modules.Inventory
             else
             {
                 MainConsole.Instance.Error(
-                    "[AGENTINVENTORY]: Item ID " + itemID + " not found for an inventory item update.");
+                    "[Agent Inventory]: Item ID " + itemID + " not found for an inventory item update.");
             }
         }
 
@@ -962,7 +961,7 @@ namespace Vision.Modules.Inventory
             else
             {
                 MainConsole.Instance.ErrorFormat(
-                    "[PRIM INVENTORY]: " +
+                    "[Prim Inventory]: " +
                     "Couldn't find part {0} to request inventory data",
                     primLocalID);
             }
@@ -995,7 +994,7 @@ namespace Vision.Modules.Inventory
                 else
                 {
                     MainConsole.Instance.ErrorFormat(
-                        "[PRIM INVENTORY]: " +
+                        "[Prim Inventory]: " +
                         "Removal of item {0} requested of prim {1} but this prim does not exist",
                         itemID,
                         localID);
@@ -1020,7 +1019,7 @@ namespace Vision.Modules.Inventory
             if (null == part)
             {
                 MainConsole.Instance.WarnFormat(
-                    "[PRIM INVENTORY]: " +
+                    "[Prim Inventory]: " +
                     "Move of inventory item {0} from prim with local id {1} failed because the prim could not be found",
                     itemId, primLocalId);
 
@@ -1032,7 +1031,7 @@ namespace Vision.Modules.Inventory
             if (null == taskItem)
             {
                 MainConsole.Instance.WarnFormat(
-                    "[PRIM INVENTORY]: Move of inventory item {0} from prim with local id {1} failed"
+                    "[Prim Inventory]: Move of inventory item {0} from prim with local id {1} failed"
                     + " because the inventory item could not be found",
                     itemId, primLocalId);
 
@@ -1104,7 +1103,7 @@ namespace Vision.Modules.Inventory
             InventoryFolderBase containingFolder = new InventoryFolderBase(folder.ID, client.AgentId);
             containingFolder = m_scene.InventoryService.GetFolder(containingFolder);
 
-            //MainConsole.Instance.DebugFormat("[AGENT INVENTORY]: Sending inventory folder contents ({0} nodes) for \"{1}\" to {2} {3}",
+            //MainConsole.Instance.DebugFormat("[Agent Inventory]: Sending inventory folder contents ({0} nodes) for \"{1}\" to {2} {3}",
             //    contents.Folders.Count + contents.Items.Count, containingFolder.Name, client.FirstName, client.LastName);
 
             if (containingFolder != null)
@@ -1137,7 +1136,6 @@ namespace Vision.Modules.Inventory
                 // Explicity allow anyone to add to the inventory if the
                 // AllowInventoryDrop flag has been set. Don't however let
                 // them update an item unless they pass the external checks
-                //
                 if (!m_scene.Permissions.CanEditObjectInventory(part.UUID, remoteClient.AgentId)
                     && (currentItem != null || !allowInventoryDrop))
                     return;
@@ -1154,7 +1152,7 @@ namespace Vision.Modules.Inventory
                         {
                             part.ParentEntity.AddInventoryItem(remoteClient, primLocalID, item, copyID);
                             MainConsole.Instance.InfoFormat(
-                                "[PRIM INVENTORY]: Update with item {0} requested of prim {1} for {2}",
+                                "[Prim Inventory]: Update with item {0} requested of prim {1} for {2}",
                                 item.Name, primLocalID, remoteClient.Name);
                             part.GetProperties(remoteClient);
                             if (!m_scene.Permissions.BypassPermissions())
@@ -1169,7 +1167,7 @@ namespace Vision.Modules.Inventory
                         else
                         {
                             MainConsole.Instance.ErrorFormat(
-                                "[PRIM INVENTORY]: Could not find inventory item {0} to update for {1}!",
+                                "[Prim Inventory]: Could not find inventory item {0} to update for {1}!",
                                 itemID, remoteClient.Name);
                         }
                     }
@@ -1215,7 +1213,7 @@ namespace Vision.Modules.Inventory
             else
             {
                 MainConsole.Instance.WarnFormat(
-                    "[PRIM INVENTORY]: " +
+                    "[Prim Inventory]: " +
                     "Update with item {0} requested of prim {1} for {2} but this prim does not exist",
                     itemID, primLocalID, remoteClient.Name);
             }
@@ -1249,15 +1247,14 @@ namespace Vision.Modules.Inventory
                         part.ParentEntity.AddInventoryItem(remoteClient, localID, item, copyID);
                         part.Inventory.CreateScriptInstance(copyID, 0, false, 0);
 
-                        //                        MainConsole.Instance.InfoFormat("[PRIMINVENTORY]: " +
-                        //                                         "Rezzed script {0} into prim local ID {1} for user {2}",
-                        //                                         item.inventoryName, localID, remoteClient.Name);
+                        // MainConsole.Instance.InfoFormat("[Prim Inventory]: " +
+                        //     "Rezzed script {0} into prim local ID {1} for user {2}", item.inventoryName, localID, remoteClient.Name);
                         part.GetProperties(remoteClient);
                     }
                     else
                     {
                         MainConsole.Instance.ErrorFormat(
-                            "[PRIM INVENTORY]: " +
+                            "[Prim Inventory]: " +
                             "Could not rez script {0} into prim local ID {1} for user {2}"
                             + " because the prim could not be found in the region!",
                             item.Name, localID, remoteClient.Name);
@@ -1266,7 +1263,7 @@ namespace Vision.Modules.Inventory
                 else
                 {
                     MainConsole.Instance.ErrorFormat(
-                        "[PRIM INVENTORY]: Could not find script inventory item {0} to rez for {1}!",
+                        "[Prim Inventory]: Could not find script inventory item {0} to rez for {1}!",
                         itemID, remoteClient.Name);
                 }
             }
@@ -1339,7 +1336,7 @@ namespace Vision.Modules.Inventory
             if (null == taskItem)
             {
                 MainConsole.Instance.ErrorFormat(
-                    "[PRIM INVENTORY]: Tried to retrieve item ID {0} from prim {1}, {2} for creating an avatar"
+                    "[Prim Inventory]: Tried to retrieve item ID {0} from prim {1}, {2} for creating an avatar"
                     + " inventory item from a prim's inventory item "
                     + " but the required item does not exist in the prim's inventory",
                     itemId, part.Name, part.UUID);
@@ -1457,7 +1454,7 @@ namespace Vision.Modules.Inventory
             if (srcTaskItem == null)
             {
                 MainConsole.Instance.ErrorFormat(
-                    "[PRIM INVENTORY]: Could not find part {0} to insert script item {1} from {2} {3} in {4}",
+                    "[Prim Inventory]: Could not find part {0} to insert script item {1} from {2} {3} in {4}",
                     destId, srcId, srcPart.Name, srcPart.UUID, Name);
                 return;
             }
@@ -1467,7 +1464,7 @@ namespace Vision.Modules.Inventory
             if (destPart == null)
             {
                 MainConsole.Instance.ErrorFormat(
-                    "[PRIM INVENTORY]: " +
+                    "[Prim Inventory]: " +
                     "Could not find script for ID {0}",
                     destId);
                 return;
@@ -1490,7 +1487,7 @@ namespace Vision.Modules.Inventory
             if (destPart.ScriptAccessPin == 0 || destPart.ScriptAccessPin != pin)
             {
                 MainConsole.Instance.WarnFormat(
-                    "[PRIM INVENTORY]: " +
+                    "[Prim Inventory]: " +
                     "Script in object {0} : {1}, attempted to load script {2} : {3} into object {4} : {5} with invalid pin {6}",
                     srcPart.Name, srcId, srcTaskItem.Name, srcTaskItem.ItemID, destPart.Name, destId, pin);
                 // the LSL Wiki says we are supposed to shout on the DEBUG_CHANNEL -
@@ -1583,7 +1580,7 @@ namespace Vision.Modules.Inventory
             if (srcTaskItem == null)
             {
                 MainConsole.Instance.ErrorFormat(
-                    "[PRIM INVENTORY]: Tried to retrieve item ID {0} from prim {1}, {2} for moving"
+                    "[Prim Inventory]: Tried to retrieve item ID {0} from prim {1}, {2} for moving"
                     + " but the item does not exist in this inventory",
                     itemId, part.Name, part.UUID);
 
@@ -1595,7 +1592,7 @@ namespace Vision.Modules.Inventory
             if (destPart == null)
             {
                 MainConsole.Instance.ErrorFormat(
-                    "[PRIM INVENTORY]: " +
+                    "[Prim Inventory]: " +
                     "Could not find prim for ID {0}",
                     destId);
                 return;
@@ -1832,7 +1829,7 @@ namespace Vision.Modules.Inventory
             {
                 MainConsole.Instance.Debug("[Scene]: ScriptTaskInventory Request in region: " +
                                            m_scene.RegionInfo.RegionName);
-                //MainConsole.Instance.DebugFormat("[CAPS]: request: {0}, path: {1}, param: {2}", request, path, param);
+                //MainConsole.Instance.DebugFormat("[Caps]: request: {0}, path: {1}, param: {2}", request, path, param);
                 OSDMap map = (OSDMap) OSDParser.DeserializeLLSDXml(HttpServerHandlerHelpers.ReadFully(request));
                 UUID item_id = map["item_id"].AsUUID();
                 UUID task_id = map["task_id"].AsUUID();
@@ -1863,7 +1860,7 @@ namespace Vision.Modules.Inventory
             }
             catch (Exception e)
             {
-                MainConsole.Instance.Error("[CAPS]: " + e);
+                MainConsole.Instance.Error("[Caps]: " + e);
             }
 
             return null;
@@ -1911,7 +1908,7 @@ namespace Vision.Modules.Inventory
             }
             catch (Exception e)
             {
-                MainConsole.Instance.Error("[CAPS]: " + e);
+                MainConsole.Instance.Error("[Caps]: " + e);
             }
 
             return null;
@@ -1929,8 +1926,8 @@ namespace Vision.Modules.Inventory
         public byte[] NoteCardAgentInventory(UUID AgentID, string path, Stream request, OSHttpRequest httpRequest,
                                              OSHttpResponse httpResponse)
         {
-            //MainConsole.Instance.Debug("[CAPS]: NoteCardAgentInventory Request in region: " + m_regionName + "\n" + request);
-            //MainConsole.Instance.Debug("[CAPS]: NoteCardAgentInventory Request is: " + request);
+            //MainConsole.Instance.Debug("[Caps]: NoteCardAgentInventory Request in region: " + m_regionName + "\n" + request);
+            //MainConsole.Instance.Debug("[Caps]: NoteCardAgentInventory Request is: " + request);
 
             OSDMap map = (OSDMap) OSDParser.DeserializeLLSDXml(HttpServerHandlerHelpers.ReadFully(request));
 
@@ -2039,9 +2036,8 @@ namespace Vision.Modules.Inventory
             {
                 try
                 {
-                    //                    MainConsole.Instance.InfoFormat("[CAPS]: " +
-                    //                                     "TaskInventoryScriptUpdater received data: {0}, path: {1}, param: {2}",
-                    //                                     data, path, param));
+                    // MainConsole.Instance.InfoFormat("[Caps]: " +
+                    //     "TaskInventoryScriptUpdater received data: {0}, path: {1}, param: {2}", data, path, param));
 
                     IClientAPI client;
                     m_scene.ClientManager.TryGetValue(AgentID, out client);
@@ -2064,10 +2060,10 @@ namespace Vision.Modules.Inventory
                 }
                 catch (Exception e)
                 {
-                    MainConsole.Instance.Error("[CAPS]: " + e.ToString());
+                    MainConsole.Instance.Error("[Caps]: " + e.ToString());
                 }
 
-                // XXX Maybe this should be some meaningful error packet
+                // Maybe this should be some meaningful error packet
                 return null;
             }
 
@@ -2097,7 +2093,7 @@ namespace Vision.Modules.Inventory
                 if (null == part || null == part.ParentEntity)
                 {
                     MainConsole.Instance.ErrorFormat(
-                        "[PRIM INVENTORY]: " +
+                        "[Prim Inventory]: " +
                         "Prim inventory update requested for item ID {0} in prim ID {1} but this prim does not exist",
                         itemId, primId);
 
@@ -2112,7 +2108,7 @@ namespace Vision.Modules.Inventory
                 if (null == item)
                 {
                     MainConsole.Instance.ErrorFormat(
-                        "[PRIM INVENTORY]: Tried to retrieve item ID {0} from prim {1}, {2} for caps script update "
+                        "[Prim Inventory]: Tried to retrieve item ID {0} from prim {1}, {2} for caps script update "
                         + " but the item does not exist in this inventory",
                         itemId, part.Name, part.UUID);
 
@@ -2137,7 +2133,6 @@ namespace Vision.Modules.Inventory
                     if (isScriptRunning2)
                     {
                         // Needs to determine which engine was running it and use that
-                        //
                         part.Inventory.UpdateScriptInstance(item.ItemID, data, 0, false, StateSource.NewRez);
                         errors = part.Inventory.GetScriptErrors(item.ItemID);
                     }
@@ -2219,7 +2214,7 @@ namespace Vision.Modules.Inventory
                 }
                 catch (Exception e)
                 {
-                    MainConsole.Instance.Error("[CAPS]: " + e.ToString());
+                    MainConsole.Instance.Error("[Caps]: " + e.ToString());
                 }
 
                 // XXX Maybe this should be some meaningful error packet

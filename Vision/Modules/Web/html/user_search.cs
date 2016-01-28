@@ -26,10 +26,10 @@
  */
 
 using System.Collections.Generic;
+using OpenMetaverse;
 using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
-using OpenMetaverse;
 
 namespace Vision.Modules.Web
 {

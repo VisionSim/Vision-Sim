@@ -30,21 +30,21 @@ using Vision.Framework.ClientInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
-using Vision.ScriptEngine.DotNetEngine;
+using Vision.ScriptEngine.VisionScript;
 using OpenMetaverse;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Remoting.Lifetime;
-using LSL_Float = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLFloat;
-using LSL_Integer = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLInteger;
-using LSL_Key = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLString;
-using LSL_List = Vision.ScriptEngine.DotNetEngine.LSL_Types.list;
-using LSL_Rotation = Vision.ScriptEngine.DotNetEngine.LSL_Types.Quaternion;
-using LSL_String = Vision.ScriptEngine.DotNetEngine.LSL_Types.LSLString;
-using LSL_Vector = Vision.ScriptEngine.DotNetEngine.LSL_Types.Vector3;
-using ThreatLevel = Vision.ScriptEngine.DotNetEngine.ThreatLevel;
+using LSL_Float = Vision.ScriptEngine.VisionScript.LSL_Types.LSLFloat;
+using LSL_Integer = Vision.ScriptEngine.VisionScript.LSL_Types.LSLInteger;
+using LSL_Key = Vision.ScriptEngine.VisionScript.LSL_Types.LSLString;
+using LSL_List = Vision.ScriptEngine.VisionScript.LSL_Types.list;
+using LSL_Rotation = Vision.ScriptEngine.VisionScript.LSL_Types.Quaternion;
+using LSL_String = Vision.ScriptEngine.VisionScript.LSL_Types.LSLString;
+using LSL_Vector = Vision.ScriptEngine.VisionScript.LSL_Types.Vector3;
+using ThreatLevel = Vision.ScriptEngine.VisionScript.ThreatLevel;
 
 namespace Vision.BotManager
 {

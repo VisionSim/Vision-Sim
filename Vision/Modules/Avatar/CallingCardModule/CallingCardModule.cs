@@ -25,17 +25,16 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Services.ClassHelpers.Inventory;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using System;
-using System.Collections.Generic;
 
 namespace Vision.Modules.CallingCards
 {
@@ -51,7 +50,7 @@ namespace Vision.Modules.CallingCards
 
         #region INonSharedRegionModule
 
-        public void Initialise(IConfigSource source)
+        public void Initialize(IConfigSource source)
         {
             IConfig ccmModuleConfig = source.Configs["CallingCardModule"];
             if (ccmModuleConfig != null)
@@ -135,7 +134,7 @@ namespace Vision.Modules.CallingCards
         /// <param name="name"></param>
         public void CreateCallingCard(IClientAPI client, UUID creator, UUID folder, string name)
         {
-            MainConsole.Instance.Debug("[Vision CALLING CARD MODULE]: Creating calling card for " + client.Name);
+            MainConsole.Instance.Debug("[Vision Calling Card Module]: Creating calling card for " + client.Name);
             InventoryItemBase item = new InventoryItemBase
                                          {
                                              AssetID = UUID.Zero,
@@ -174,7 +173,7 @@ namespace Vision.Modules.CallingCards
         private void OnOfferCallingCard(IClientAPI client, UUID destID, UUID transactionID)
         {
             MainConsole.Instance.DebugFormat(
-                "[Vision CALLING CARD MODULE]: Got offer from {0} for {1}, transaction {2}",
+                "[Vision Calling Card Module]: Got offer from {0} for {1}, transaction {2}",
                 client.AgentId, destID, transactionID);
 
             IClientAPI friendClient = LocateClientObject(destID);
@@ -201,7 +200,7 @@ namespace Vision.Modules.CallingCards
         private void OnAcceptCallingCard(IClientAPI client, UUID transactionID, UUID folderID)
         {
             MainConsole.Instance.DebugFormat(
-                "[Vision CALLING CARD MODULE]: User {0} ({1}) accepted tid {2}, folder {3}",
+                "[Vision Calling Card Module]: User {0} ({1}) accepted tid {2}, folder {3}",
                 client.AgentId,
                 client.Name,
                 transactionID, folderID);
@@ -211,7 +210,7 @@ namespace Vision.Modules.CallingCards
                 if (!m_pendingCallingcardRequests.TryGetValue(transactionID, out destID))
                 {
                     MainConsole.Instance.WarnFormat(
-                        "[Vision CALLING CARD MODULE]: Got a AcceptCallingCard from {0} without an offer before.",
+                        "[Vision Calling Card Module]: Got a AcceptCallingCard from {0} without an offer before.",
                         client.Name);
                     return;
                 }
@@ -236,7 +235,7 @@ namespace Vision.Modules.CallingCards
         /// <param name="transactionID"></param>
         private void OnDeclineCallingCard(IClientAPI client, UUID transactionID)
         {
-            MainConsole.Instance.DebugFormat("[Vision CALLING CARD MODULE]: User {0} (ID:{1}) declined card, tid {2}",
+            MainConsole.Instance.DebugFormat("[Vision Calling Card Module]: User {0} (ID:{1}) declined card, tid {2}",
                                              client.Name, client.AgentId, transactionID);
             UUID destID;
             lock (m_pendingCallingcardRequests)
@@ -244,7 +243,7 @@ namespace Vision.Modules.CallingCards
                 if (!m_pendingCallingcardRequests.TryGetValue(transactionID, out destID))
                 {
                     MainConsole.Instance.WarnFormat(
-                        "[Vision CALLING CARD MODULE]: Got a AcceptCallingCard from {0} without an offer before.",
+                        "[Vision Calling Card Module]: Got a AcceptCallingCard from {0} without an offer before.",
                         client.Name);
                     return;
                 }

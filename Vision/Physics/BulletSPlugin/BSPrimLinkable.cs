@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://opensimulator.org, http://vision-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org,
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,7 @@ namespace Vision.Physics.BulletSPlugin
         //    calls the linkset implementation for its creation and management.
 
 //#pragma warning disable 414
-//         static readonly string LogHeader = "[BULLETS PRIMLINKABLE]";
+//         static readonly string LogHeader = "[Bulletsim Prim Linkable]";
 //#pragma warning restore 414
 
         // This adds the overrides for link() and delink() so the prim is linkable.

@@ -25,7 +25,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
@@ -33,9 +35,6 @@ using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Inventory;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using System;
 
 namespace Vision.Modules.Gestures
 {
@@ -45,7 +44,7 @@ namespace Vision.Modules.Gestures
 
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource source)
+        public void Initialize(IConfigSource source)
         {
         }
 
@@ -109,7 +108,7 @@ namespace Vision.Modules.Gestures
             else {
 				if(invService.GetItem(libOwner, gestureId) == null) {
 					MainConsole.Instance.WarnFormat(
-						"[GESTURES]: Unable to find gesture {0} to activate for {1}", gestureId, client.Name);
+						"[Gestures Module]: Unable to find gesture {0} to activate for {1}", gestureId, client.Name);
 				}
 			}
         }
@@ -128,7 +127,7 @@ namespace Vision.Modules.Gestures
             else
 				if(invService.GetItem(libOwner, gestureId) == null) {
 					MainConsole.Instance.ErrorFormat(
-						"[GESTURES]: Unable to find gesture to deactivate {0} for {1}", gestureId, client.Name);
+						"[Gestures Module]: Unable to find gesture to deactivate {0} for {1}", gestureId, client.Name);
 				}
         }
     }

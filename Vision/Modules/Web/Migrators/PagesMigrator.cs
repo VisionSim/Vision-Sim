@@ -25,9 +25,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.DatabaseInterfaces;
-using OpenMetaverse;
 using System.Collections.Generic;
+using OpenMetaverse;
+using Vision.Framework.DatabaseInterfaces;
 
 namespace Vision.Modules.Web
 {
@@ -376,8 +376,7 @@ namespace Vision.Modules.Web
                         Location = "admin/welcomescreen_manager.html",
                         MenuPosition = 3,
                         MenuTitle = "MenuWelcomeScreenManager",
-                        MenuToolTip = "TooltipsMenuWelcomeScreenManager"
-                                                                
+                        MenuToolTip = "TooltipsMenuWelcomeScreenManager"                                                             
                     }
                 }
             });

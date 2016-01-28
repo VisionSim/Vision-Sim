@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://opensimulator.org, http://vision-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org,
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,7 +31,7 @@ namespace Vision.Physics.BulletSPlugin
 {
     public class BSConstraint6Dof : BSConstraint
     {
-        static string LogHeader = "[BULLETSIM 6DOF CONSTRAINT]";
+        static string LogHeader = "[Bulletsim 6DOF Constraint]";
 
         public override ConstraintType Type
         {

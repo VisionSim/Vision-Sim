@@ -25,19 +25,18 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System.Collections.Generic;
+using System.IO;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
 using Vision.Framework.SceneInfo;
-using OpenMetaverse;
-using System.Collections.Generic;
-using System.IO;
 using GridRegion = Vision.Framework.Services.GridRegion;
 using RegionFlags = Vision.Framework.Services.RegionFlags;
-using Nini.Config;
-
 
 namespace Vision.Modules.Web
 {
@@ -153,7 +152,7 @@ namespace Vision.Modules.Web
                     }
 
                     vars.Add("ParcelInRegion", parcels);
-*/
+                    */
                     vars.Add("NumberOfParcelsInRegion", parcelData.Count);
                 }
                 IWebHttpTextureService webTextureService = webInterface.Registry.
@@ -184,8 +183,6 @@ namespace Vision.Modules.Web
                 vars.Add("TooltipsMenuParcel", translator.GetTranslatedString("TooltipsMenuParcel"));
                 vars.Add("MenuOwnerTitle", translator.GetTranslatedString("MenuOwnerTitle"));
                 vars.Add("TooltipsMenuOwner", translator.GetTranslatedString("TooltipsMenuOwner"));
-
-
                 vars.Add("RegionInformationText", translator.GetTranslatedString("RegionInformationText"));
                 vars.Add("OwnerNameText", translator.GetTranslatedString("OwnerNameText"));
                 vars.Add("RegionLocationText", translator.GetTranslatedString("RegionLocationText"));
@@ -199,7 +196,6 @@ namespace Vision.Modules.Web
                 vars.Add("NumberOfUsersInRegionText", translator.GetTranslatedString("NumberOfUsersInRegionText"));
                 vars.Add("ParcelsInRegionText", translator.GetTranslatedString("ParcelsInRegionText"));
                 vars.Add ("MainServerURL", webInterface.GridURL);
-
              }
 
             return vars;

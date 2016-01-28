@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://opensimulator.org, http://vision-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org,
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,7 @@ namespace Vision.Physics.BulletSPlugin
 {
     public sealed class BSCharacter : BSPhysObject
     {
-        static readonly string LogHeader = "[BULLETS CHAR]";
+        static readonly string LogHeader = "[Bulletsim Char]";
         int m_ZeroUpdateSent;
         OMV.Vector3 m_lastPosition;
         OMV.Vector3 m_lastVelocity;

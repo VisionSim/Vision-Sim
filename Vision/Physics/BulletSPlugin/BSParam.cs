@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://opensimulator.org, http://vision-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org,
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,7 @@ namespace Vision.Physics.BulletSPlugin
 {
     public static class BSParam
     {
-        static string LogHeader = "[BULLETSIM PARAMETERS]";
+        static string LogHeader = "[Bulletsim Parameters]";
 
         // Tuning notes:
         // From: http://bulletphysics.org/Bullet/phpBB3/viewtopic.php?t=6575

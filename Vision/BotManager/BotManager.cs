@@ -39,7 +39,7 @@ using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Services.ClassHelpers.Inventory;
 using Vision.Framework.Utilities;
-using Vision.ScriptEngine.DotNetEngine.Runtime;
+using Vision.ScriptEngine.VisionScript.Runtime;
 
 
 namespace Vision.BotManager
@@ -51,7 +51,7 @@ namespace Vision.BotManager
 
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource source)
+        public void Initialize(IConfigSource source)
         {
         }
 

@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://opensimulator.org, http://vision-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org,
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,7 +60,7 @@ namespace Vision.Physics.BulletSPlugin
     // ==========================================================================================
     public sealed class BSTerrainManager : IDisposable
     {
-        private static string LogHeader = "[BULLETSIM TERRAIN MANAGER]";
+        private static string LogHeader = "[Bulletsim Terrain Manager]";
 
         // These height values are fractional so the odd values will be
         //     noticable when debugging.

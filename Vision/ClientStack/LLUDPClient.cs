@@ -185,7 +185,7 @@ namespace Vision.ClientStack
         /// <summary>
         ///     Outgoing queues for throttled packets
         /// </summary>
-        //private readonly Framework.LocklessQueue<OutgoingPacket>[] m_packetOutboxes = new Vision.Framework.LocklessQueue<OutgoingPacket>[(int)ThrottleOutPacketType.Count];
+        //private readonly Framework.LocklessQueue<OutgoingPacket>[] m_packetOutboxes = new Framework.LocklessQueue<OutgoingPacket>[(int)ThrottleOutPacketType.Count];
         private readonly int[] PacketsCounts = new int[(int) ThrottleOutPacketType.Count];
 
         /// <summary>

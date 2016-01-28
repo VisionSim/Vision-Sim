@@ -55,7 +55,7 @@ namespace Vision.Modules.Chat
 
         #region INonSharedRegionModule
 
-        public void Initialise (IConfigSource source)
+        public void Initialize (IConfigSource source)
         {
             IConfig ccmModuleConfig = source.Configs ["Messaging"];
             if (ccmModuleConfig != null)
@@ -96,7 +96,7 @@ namespace Vision.Modules.Chat
             m_TransferModule = m_scene.RequestModuleInterface<IMessageTransferModule> ();
 
             if (m_TransferModule == null)
-                MainConsole.Instance.Error ("[INSTANT MESSAGE]: No message transfer module, lures will not work!");
+                MainConsole.Instance.Error ("[Instant Message]: No message transfer module, lures will not work!");
         }
 
         public Type ReplaceableInterface

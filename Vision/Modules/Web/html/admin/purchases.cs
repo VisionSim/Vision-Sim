@@ -25,14 +25,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.Servers.HttpServer.Implementation;
-using System.Collections.Generic;
-using Vision.Framework.Modules;
-using Vision.Framework.Utilities;
 using System;
-using Vision.Framework.Services;
-using OpenMetaverse;
+using System.Collections.Generic;
 using Nini.Config;
+using OpenMetaverse;
+using Vision.Framework.Modules;
+using Vision.Framework.Servers.HttpServer.Implementation;
+using Vision.Framework.Services;
+using Vision.Framework.Utilities;
 
 namespace Vision.Modules.Web
 {
@@ -130,8 +130,6 @@ namespace Vision.Modules.Web
                     purchases = moneyModule.GetPurchaseHistory (UserID, dateFrom, dateTo, (uint)start, amountPerQuery);
                 else
                     purchases = moneyModule.GetPurchaseHistory (dateFrom, dateTo, (uint)start, amountPerQuery);
-
-
 
                 // data
                 if (purchases.Count > 0)

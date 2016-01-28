@@ -445,7 +445,7 @@ namespace Vision.Services
                 return false;
             }
             /*if ((neighbor.Flags & (int)Framework.RegionFlags.RegionOnline) == 0 &&
-                (neighbor.Flags & (int)(Framework.RegionFlags.Foreign | Vision.Framework.RegionFlags.Hyperlink)) == 0)
+                (neighbor.Flags & (int)(Framework.RegionFlags.Foreign | Framework.RegionFlags.Hyperlink)) == 0)
             {
                 reason = "The region you are attempting to teleport to is offline";
                 return false;

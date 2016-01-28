@@ -25,7 +25,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.IO;
+using System.Text;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.Messages.Linden;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
@@ -36,13 +42,6 @@ using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Utilities;
 using Vision.Region;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.Messages.Linden;
-using OpenMetaverse.StructuredData;
-using System;
-using System.IO;
-using System.Text;
 using ExtraParamType = OpenMetaverse.ExtraParamType;
 
 namespace Vision.Modules.Caps
@@ -58,7 +57,7 @@ namespace Vision.Modules.Caps
             get { return null; }
         }
 
-        public void Initialise(IConfigSource source)
+        public void Initialize(IConfigSource source)
         {
         }
 
@@ -124,7 +123,7 @@ namespace Vision.Modules.Caps
             }
             catch (Exception ex)
             {
-                MainConsole.Instance.Error("[UploadObjectAssetModule]: Error de-serializing message " + ex);
+                MainConsole.Instance.Error("[Upload Object Asset Module]: Error de-serializing message " + ex);
                 message = null;
             }
 
@@ -152,26 +151,6 @@ namespace Vision.Modules.Caps
                     rootpos = obj.Position;
                 }
 
-
-                // Combine the extraparams data into it's ugly blob again....
-                //int bytelength = 0;
-                //for (int extparams = 0; extparams < obj.ExtraParams.Length; extparams++)
-                //{
-                //    bytelength += obj.ExtraParams[extparams].ExtraParamData.Length;
-                //}
-                //byte[] extraparams = new byte[bytelength];
-                //int position = 0;
-
-
-                //for (int extparams = 0; extparams < obj.ExtraParams.Length; extparams++)
-                //{
-                //    Buffer.BlockCopy(obj.ExtraParams[extparams].ExtraParamData, 0, extraparams, position,
-                //                     obj.ExtraParams[extparams].ExtraParamData.Length);
-                //
-                //    position += obj.ExtraParams[extparams].ExtraParamData.Length;
-                // }
-
-                //pbs.ExtraParams = extraparams;
                 foreach (UploadObjectAssetMessage.Object.ExtraParam extraParam in obj.ExtraParams)
                 {
                     switch ((ushort) extraParam.Type)

@@ -146,7 +146,6 @@ namespace Vision.Modules.Archivers
 
             //Register the interface
             registry.RegisterModuleInterface<IVisionBackupArchiver> (this);
-
         }
 
         public void Start (IConfigSource config, IRegistryCore registry)

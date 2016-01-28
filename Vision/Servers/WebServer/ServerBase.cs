@@ -46,7 +46,7 @@ namespace Vision.Server
             if (MainConsole.Instance != null)
             {
                 MainConsole.Instance.DefaultPrompt = "Vision.WebServer ";
-                MainConsole.Instance.Info("[Vision-Sim Startup: Startup completed in " +
+                MainConsole.Instance.Info("[Vision-Sim Startup]: Startup completed in " +
                                           (DateTime.Now - this.StartupTime).TotalSeconds);
             }
         }

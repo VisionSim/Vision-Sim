@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://opensimulator.org, http://vision-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org,
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,7 +43,7 @@ namespace Vision.Physics.BulletSPlugin
 
     public abstract class BSLinkset
     {
-        // private static string LogHeader = "[BULLETSIM LINKSET]";
+        // private static string LogHeader = "[Bulletsim Linkset]";
 
         public enum LinksetImplementation
         {
@@ -75,7 +75,7 @@ namespace Vision.Physics.BulletSPlugin
             if (ret == null)
             {
                 physScene.Logger.ErrorFormat(
-                    "[BULLETSIM LINKSET] Factory could not create linkset. Parent name={1}, ID={2}", parent.Name,
+                    "[Bulletsim Linkset] Factory could not create linkset. Parent name={1}, ID={2}", parent.Name,
                     parent.LocalID);
             }
             return ret;

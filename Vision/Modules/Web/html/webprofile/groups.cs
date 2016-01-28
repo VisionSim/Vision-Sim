@@ -25,15 +25,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using OpenMetaverse;
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Profile;
-using OpenMetaverse;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
 namespace Vision.Modules.Web
 {
@@ -124,7 +124,6 @@ namespace Vision.Modules.Web
                 vars.Add ("UserPartner", "Not specified yet");
                 vars.Add ("UserAboutMe", "Nothing here yet");
                 vars.Add("UserPictureURL", "../images/icons/no_avatar.jpg");
-
             }
 
             vars.Add("UsersGroupsText", translator.GetTranslatedString("UsersGroupsText"));

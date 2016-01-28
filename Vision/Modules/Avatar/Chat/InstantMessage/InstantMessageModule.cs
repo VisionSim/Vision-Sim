@@ -51,7 +51,7 @@ namespace Vision.Modules.Chat
 
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource config)
+        public void Initialize(IConfigSource config)
         {
             if (config.Configs["Messaging"] != null)
             {
@@ -82,7 +82,7 @@ namespace Vision.Modules.Chat
 
                 if (m_TransferModule == null)
                 {
-                    MainConsole.Instance.Error("[INSTANT MESSAGE]: No message transfer module, IM will not work!");
+                    MainConsole.Instance.Error("[Instant Message]: No message transfer module, IM will not work!");
                     scene.EventManager.OnNewClient -= EventManager_OnNewClient;
                     scene.EventManager.OnClosingClient -= EventManager_OnClosingClient;
                     scene.EventManager.OnIncomingInstantMessage -= OnGridInstantMessage;

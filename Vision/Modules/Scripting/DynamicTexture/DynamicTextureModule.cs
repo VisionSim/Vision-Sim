@@ -25,20 +25,19 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.Imaging;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.Imaging;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
 
 namespace Vision.Modules.Scripting
 {
@@ -216,7 +215,7 @@ namespace Vision.Modules.Scripting
 
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource config)
+        public void Initialize(IConfigSource config)
         {
         }
 
@@ -382,7 +381,6 @@ namespace Vision.Modules.Scripting
                     // I'm pretty sure we always want to force this to true
                     // I'm pretty sure no one wants to set fullbright true if it wasn't true before.
                     // tmptex.DefaultTexture.Fullbright = true;
-
                     part.UpdateTexture(tmptex, true);
                 }
 
@@ -427,7 +425,7 @@ namespace Vision.Modules.Scripting
                         catch (Exception)
                         {
                             MainConsole.Instance.Error(
-                                "[DYNAMICTEXTUREMODULE]: OpenJpeg Encode Failed.  Empty byte data returned!");
+                                "[Dynamic Texture Module]: OpenJpeg Encode Failed.  Empty byte data returned!");
                         }
 
                         return result;

@@ -480,7 +480,7 @@ namespace Vision.ClientStack
                 m_allowUDPInv = advancedConfig.GetBoolean("AllowUDPInventory", m_allowUDPInv);
 
             //m_killRecord = new HashSet<uint>();
-            //m_attachmentsSent = new HashSet<uint>();
+//            m_attachmentsSent = new HashSet<uint>();
 
             m_assetService = m_scene.RequestModuleInterface<IAssetService>();
             m_GroupsModule = scene.RequestModuleInterface<IGroupsModule>();

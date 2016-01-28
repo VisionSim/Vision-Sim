@@ -25,15 +25,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.Servers.HttpServer.Implementation;
-using Vision.Framework.Services;
 using System.Collections.Generic;
 using System.Linq;
 using OpenMetaverse;
-using Vision.Framework.Utilities;
-using Vision.Framework.Services.ClassHelpers.Profile;
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
+using Vision.Framework.Servers.HttpServer.Implementation;
+using Vision.Framework.Services;
+using Vision.Framework.Services.ClassHelpers.Profile;
+using Vision.Framework.Utilities;
 
 namespace Vision.Modules.Web
 {

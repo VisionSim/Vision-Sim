@@ -52,7 +52,7 @@ namespace Vision.Modules.Gods
 
         #region INonSharedRegionModule
 
-        public void Initialise(IConfigSource source)
+        public void Initialize(IConfigSource source)
         {
             if (source.Configs["GodModule"] != null)
             {
@@ -314,7 +314,6 @@ namespace Vision.Modules.Gods
             args.waterHeight = (float)m_scene.RegionInfo.RegionSettings.WaterHeight;
             args.simName = m_scene.RegionInfo.RegionName;
             args.regionType = m_scene.RegionInfo.RegionType;
-            //args.regionTerrain = m_scene.RegionInfo.RegionTerrain;
 
             remote_client.SendRegionInfoToEstateMenu(args);
         }

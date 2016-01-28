@@ -25,22 +25,21 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Modules;
-using Vision.Framework.Services;
-using Vision.Framework.Services.ClassHelpers.Assets;
-using Vision.Framework.Utilities;
-using CSJ2K;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.Imaging;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using CSJ2K;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.Imaging;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Modules;
+using Vision.Framework.Services;
+using Vision.Framework.Services.ClassHelpers.Assets;
+using Vision.Framework.Utilities;
 
 namespace Vision.Modules.Agent.J2KDecoder
 {
@@ -189,7 +188,6 @@ namespace Vision.Modules.Agent.J2KDecoder
                             {
                                 OpenJPEG.J2KLayerInfo layer = new OpenJPEG.J2KLayerInfo
                                                                   {Start = i == 0 ? 0 : layerStarts[i]};
-
 
                                 if (i == layerStarts.Count - 1)
                                     layer.End = j2kData.Length;

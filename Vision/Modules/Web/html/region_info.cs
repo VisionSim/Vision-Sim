@@ -25,14 +25,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System.Collections.Generic;
+using OpenMetaverse;
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
-using OpenMetaverse;
-using System.Collections.Generic;
 using GridRegion = Vision.Framework.Services.GridRegion;
 using RegionFlags = Vision.Framework.Services.RegionFlags;
 
@@ -193,7 +193,6 @@ namespace Vision.Modules.Web
                 var settings = webInterface.GetWebUISettings();
                 vars.Add("ShowLanguageTranslatorBar", !settings.HideLanguageTranslatorBar);
                 vars.Add("ShowStyleBar", !settings.HideStyleBar);
-
             }
 
             return vars;

@@ -25,20 +25,19 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-using Vision.Framework.ClientInterfaces;
-using Vision.Framework.Modules;
-using Vision.Framework.PresenceInfo;
-using Vision.Framework.SceneInfo;
-using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
+using Vision.Framework.ClientInterfaces;
+using Vision.Framework.Modules;
+using Vision.Framework.PresenceInfo;
+using Vision.Framework.SceneInfo;
+using Vision.Framework.Utilities;
 
 /*****************************************************
  *
@@ -102,7 +101,7 @@ namespace Vision.Modules.Scripting
 
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource config)
+        public void Initialize(IConfigSource config)
         {
             // wrap this in a try block so that defaults will work if
             // the config file doesn't specify otherwise.
@@ -368,7 +367,7 @@ namespace Vision.Modules.Scripting
             m_scriptModule.PokeThreads(UUID.Zero);
             if (BlockedChannels.Contains(channel))
                 return;
-            // MainConsole.Instance.DebugFormat("[WorldComm] got[2] type {0}, channel {1}, name {2}, id {3}, msg {4}",
+            // MainConsole.Instance.DebugFormat("[World Comm] got[2] type {0}, channel {1}, name {2}, id {3}, msg {4}",
             //                   type, channel, name, id, msg);
 
             // Determine which listen event filters match the given set of arguments, this results
@@ -690,7 +689,6 @@ namespace Vision.Modules.Scripting
         private bool m_active; // Listener is active or not
         private int m_channel; // Channel
         private int m_handle; // Assigned handle of this listener
-        //private uint m_localID; // Local ID from script engine
         private UUID m_hostID; // ID of the host/scene part
         private UUID m_id; // ID to filter messages from
         private UUID m_itemID; // ID of the host script engine
@@ -700,12 +698,12 @@ namespace Vision.Modules.Scripting
 
         public ListenerInfo(int handle, UUID ItemID, UUID hostID, int channel, string name, UUID id, string message, int regexBitfield)
         {
-            Initialise(handle, ItemID, hostID, channel, name, id, message, regexBitfield);
+            Initialize(handle, ItemID, hostID, channel, name, id, message, regexBitfield);
         }
 
         public ListenerInfo(ListenerInfo li, string name, UUID id, string message)
         {
-            Initialise(li.m_handle, li.m_itemID, li.m_hostID, li.m_channel, name, id, message, 0);
+            Initialize(li.m_handle, li.m_itemID, li.m_hostID, li.m_channel, name, id, message, 0);
         }
 
         #region IWorldCommListenerInfo Members
@@ -776,7 +774,7 @@ namespace Vision.Modules.Scripting
 
         #endregion
 
-        private void Initialise(int handle, UUID ItemID, UUID hostID, int channel, string name,
+        private void Initialize(int handle, UUID ItemID, UUID hostID, int channel, string name,
                                 UUID id, string message, int regexBitfield)
         {
             m_active = true;

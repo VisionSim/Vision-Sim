@@ -25,15 +25,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.IO;
+using System.Xml;
+using Nini.Config;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Serialization;
-using Nini.Config;
-using System;
-using System.IO;
-using System.Xml;
 
 namespace Vision.Modules.Archivers
 {
@@ -84,7 +83,7 @@ namespace Vision.Modules.Archivers
             get { return null; }
         }
 
-        public void Initialise(IConfigSource source)
+        public void Initialize(IConfigSource source)
         {
         }
 

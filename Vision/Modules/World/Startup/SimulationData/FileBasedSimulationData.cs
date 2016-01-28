@@ -105,7 +105,7 @@ namespace Vision.Modules
             _regionLoader = new ProtobufRegionDataLoader();
         }
 
-        public void Initialise()
+        public void Initialize()
         {
             MainConsole.Instance.Commands.AddCommand(
                 "update region info",

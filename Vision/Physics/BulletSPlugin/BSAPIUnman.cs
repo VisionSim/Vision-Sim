@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://opensimulator.org, http://vision-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org,
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -212,13 +212,13 @@ namespace Vision.Physics.BulletSPlugin
         // Called directly from unmanaged code so don't do much
         void BulletLogger(string msg)
         {
-            MainConsole.Instance.Debug("[BULLETS UNMANAGED]:" + msg);
+            MainConsole.Instance.Debug("[Bulletsim Unmanaged]:" + msg);
         }
 
         // Called directly from unmanaged code so don't do much
         void BulletLoggerPhysLog(string msg)
         {
-            PhysicsScene.DetailLog("[BULLETS UNMANAGED]:" + msg);
+            PhysicsScene.DetailLog("[Bulletsim Unmanaged]:" + msg);
         }
 
         public override int PhysicsStep(BulletWorld world, float timeStep, int maxSubSteps, float fixedTimeStep,

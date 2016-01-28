@@ -25,6 +25,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Xml;
+using OpenMetaverse;
+using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
@@ -35,15 +44,6 @@ using Vision.Framework.Serialization.External;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Utilities;
-using OpenMetaverse;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Xml;
-using Vision.Framework.ClientInterfaces;
 
 namespace Vision.Modules.Archivers
 {
@@ -412,7 +412,6 @@ namespace Vision.Modules.Archivers
 
                                 // ..and possible group ID's
                                 kvp.Value.GroupID = ResolveGroupUuid(kvp.Value.GroupID);
-
                             }
                         }
                     }
@@ -488,7 +487,6 @@ namespace Vision.Modules.Archivers
                     m_errorMessage += String.Format("Failed to load {0} assets", failedAssetRestores);
                 }
             }
-
 
             // Reload serialized parcels
             if (!m_skipTerrain)
@@ -778,7 +776,6 @@ namespace Vision.Modules.Archivers
             MainConsole.Instance.DebugFormat("[Archiver]: Restored terrain {0}", terrainPath);
         }
 
-
         LandData LoadLandData(byte[] data)
         {
             LandData parcel = LandDataSerializer.Deserialize(m_utf8Encoding.GetString(data));
@@ -825,7 +822,6 @@ namespace Vision.Modules.Archivers
             parcel.ParcelAccessList = parcelAccess;
 
             return parcel;
-
         }
 
         /// <summary>

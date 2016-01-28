@@ -25,11 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.IO;
 using Nini.Config;
 using OpenMetaverse;
 using OpenMetaverse.StructuredData;
-using System;
-using System.IO;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Servers.HttpServer;
@@ -45,7 +45,7 @@ namespace Vision.Modules.Caps
 
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource pSource)
+        public void Initialize(IConfigSource pSource)
         {
         }
 
@@ -106,8 +106,6 @@ namespace Vision.Modules.Caps
             // * If version of LSLSyntax.xml file is older, request the new version through the Caps
             //
             // * Including a bogus file for the time being in bin/Caps
-            //
-            // Fly-Man- 17 May 2015
             throw new NotImplementedException();
         }
     }

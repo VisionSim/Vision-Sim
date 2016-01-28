@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://opensimulator.org, http://vision-sim.org, http://virtualnexus.eu
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org,, http://virtualnexus.eu
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,7 @@ namespace Vision.Physics.BulletSPlugin
     [Serializable]
     public class BSPrim : BSPhysObject
     {
-        static readonly string LogHeader = "[BULLETS PRIM]";
+        static readonly string LogHeader = "[Bulletsim Prim]";
 
         // _size is what the user passed. Scale is what we pass to the physics engine with the mesh.
         OMV.Vector3 _size; // the multiplier for each mesh dimension as passed by the user

@@ -25,10 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using Nini.Config;
 using Vision.Framework.Modules;
 using Vision.Framework.Services;
 using Vision.Services.DataService;
-using Nini.Config;
 
 namespace Vision.CoreApplicationPlugins.VisionData
 {
@@ -43,10 +43,10 @@ namespace Vision.CoreApplicationPlugins.VisionData
         public void Initialize(ISimulationBase simBase)
         {
             LocalDataService service = new LocalDataService();
-            service.Initialise(simBase.ConfigSource, simBase.ApplicationRegistry);
+            service.Initialize(simBase.ConfigSource, simBase.ApplicationRegistry);
         }
 
-        public void PostInitialise()
+        public void PostInitialize()
         {
         }
 

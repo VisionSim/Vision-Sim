@@ -207,7 +207,7 @@ namespace Vision.Modules.Chat
 
         #region INonSharedRegionModule Members
 
-        public void Initialise (IConfigSource config)
+        public void Initialize (IConfigSource config)
         {
             IConfig m_config = config.Configs ["Dialog"];
             if (m_config != null)
@@ -243,8 +243,7 @@ namespace Vision.Modules.Chat
                     "alert broadcast", 
                     "alert broadcast <message>", 
                     "Send an alert to everyone logged in", 
-                    HandleAlertConsoleCommand, false, true);
-                
+                    HandleAlertConsoleCommand, false, true);      
             }
         }
 
@@ -295,7 +294,7 @@ namespace Vision.Modules.Chat
 
                 if (cmdType.StartsWith ("g"))
                 {
-                    MainConsole.Instance.InfoFormat ("[DIALOG]: Sending general alert in region {0} with message '{1}'",
+                    MainConsole.Instance.InfoFormat ("[Dialog]: Sending general alert in region {0} with message '{1}'",
                         scene.RegionInfo.RegionName, message);
 
                     // send the message
@@ -306,7 +305,7 @@ namespace Vision.Modules.Chat
                 } else
                 {
 
-                    MainConsole.Instance.InfoFormat ("[DIALOG]: Sending broadcast alert to all regions with message '{0}'",  message);
+                    MainConsole.Instance.InfoFormat ("[Dialog]: Sending broadcast alert to all regions with message '{0}'",  message);
 
                     // broadcast the message
                     foreach (IScene scn in MainConsole.Instance.ConsoleScenes)
@@ -336,7 +335,7 @@ namespace Vision.Modules.Chat
                 return;
                        
 
-            MainConsole.Instance.InfoFormat ("[DIALOG]: Sending alert in region {0} to {1} with message '{2}'",
+            MainConsole.Instance.InfoFormat ("[Dialog]: Sending alert in region {0} to {1} with message '{2}'",
                 scene.RegionInfo.RegionName, userName, message);
 
             // send the message to the user

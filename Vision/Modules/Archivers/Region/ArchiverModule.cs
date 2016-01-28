@@ -25,14 +25,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Modules;
-using Vision.Framework.SceneInfo;
-using Nini.Config;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Nini.Config;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Modules;
+using Vision.Framework.SceneInfo;
 
 namespace Vision.Modules.Archivers
 {
@@ -60,8 +60,7 @@ namespace Vision.Modules.Archivers
             get { return null; }
         }
 
-
-        public void Initialise(IConfigSource source)
+        public void Initialize(IConfigSource source)
         {
             //MainConsole.Instance.Debug("[Archiver] Initializing");
         }
@@ -169,7 +168,6 @@ namespace Vision.Modules.Archivers
             return DearchiveRegion(newParams.Count > 2 ? newParams[2] : DEFAULT_OAR_BACKUP_FILENAME, mergeOar, skipAssets,
                             skipTerrain, offsetX, offsetY, offsetZ, flipX, flipY,
                             useParcelOwnership, checkOwnership);
-
         }
 
         /// <summary>

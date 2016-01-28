@@ -28,14 +28,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
-
 
 namespace Vision.Modules.ObjectCache
 {
@@ -55,7 +54,7 @@ namespace Vision.Modules.ObjectCache
 
         #region INonSharedRegionModule
 
-        public virtual void Initialise(IConfigSource source)
+        public virtual void Initialize(IConfigSource source)
         {
             IConfig moduleConfig = source.Configs["ObjectCache"];
             if (moduleConfig != null)
@@ -241,7 +240,7 @@ namespace Vision.Modules.ObjectCache
 
         #endregion
 
-        public virtual void PostInitialise()
+        public virtual void PostInitialize()
         {
         }
 

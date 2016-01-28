@@ -115,7 +115,6 @@ namespace Vision.Modules.Web
                 vars.Add ("NextOne", start + 1 > maxPages ? start : start + 1);
                 vars.Add ("BackOne", start - 1 < 0 ? 0 : start - 1);
 
-
                 // Transaction Logs
                 var timeNow = DateTime.Now.ToString ("HH:mm:ss");
                 var dateFrom = DateTime.Parse (DateStart + " " + timeNow);
@@ -126,7 +125,6 @@ namespace Vision.Modules.Web
                     transactions = moneyModule.GetTransactionHistory (UserID, UUID.Zero, dateFrom, dateTo, (uint)start, amountPerQuery);
                 else
                     transactions = moneyModule.GetTransactionHistory (dateFrom, dateTo, (uint)start, amountPerQuery);
-
 
                 // data
                 if (transactions.Count > 0)
@@ -162,7 +160,6 @@ namespace Vision.Modules.Web
                     {"Description", translator.GetTranslatedString ("NoTransactionsText")},
                     {"Amount",""},
                     {"ToBalance",""}
-
                 });
             }
 

@@ -68,7 +68,6 @@ namespace Vision.Modules.Web
         internal WebUISettings webUISettings;
         public GridSettings gridSettings;
 
-
         #endregion
 
         #region Public Properties
@@ -209,7 +208,7 @@ namespace Vision.Modules.Web
                 return MainServer.BlankResponse;
             if (httpRequest.HttpMethod == "POST")
                 httpResponse.KeepAlive = false;
-            MainConsole.Instance.Debug("[WebInterface]: Serving " + filename + ", keep-alive: " + httpResponse.KeepAlive);
+            MainConsole.Instance.Debug("[Web Interface]: Serving " + filename + ", keep-alive: " + httpResponse.KeepAlive);
             IWebInterfacePage page = GetPage(filename);
             if (page != null)
             {
@@ -599,7 +598,6 @@ namespace Vision.Modules.Web
             }
         }
 
-
         public static Dictionary<string, object> ParseQueryString(string query)
         {
             Dictionary<string, object> result = new Dictionary<string, object>();
@@ -722,7 +720,6 @@ namespace Vision.Modules.Web
             }
         }
 
-
         public List<Dictionary<string, object>> RegionTypeArgs(ITranslator translator)
         { 
             var args = new List<Dictionary<string, object>>();
@@ -828,9 +825,7 @@ namespace Vision.Modules.Web
             // change what's appropriate...
             ILoginService loginService = Registry.RequestModuleInterface<ILoginService>();
             loginService.WelcomeMessage = settings.WelcomeMessage;
-
         }
-
 
         #endregion
 
@@ -1217,5 +1212,4 @@ namespace Vision.Modules.Web
             return map;
         }
     }
-
 }

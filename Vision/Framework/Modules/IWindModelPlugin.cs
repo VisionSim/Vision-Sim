@@ -82,6 +82,6 @@ namespace Vision.Framework.Modules
         /// </summary>
         float WindParamGet(string param);
 
-        void Initialise();
+        void Initialize();
     }
 }
