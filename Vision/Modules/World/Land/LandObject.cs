@@ -599,24 +599,28 @@ namespace Vision.Modules.Land
             return list;
         }
 
-        public void SendAccessList (UUID agentID, UUID sessionID, uint flags, int sequenceID,
+        public void SendAccessList(UUID agentID, UUID sessionID, uint flags, int sequenceID,
                                    IClientAPI remote_client)
         {
-            if (flags == (uint)AccessList.Access || flags == (uint)AccessList.Both)
+            // This apparently causes problems with newer viewers
+            //if (flags == (uint)AccessList.Access || flags == (uint)AccessList.Both)
+            if (flags == (uint)AccessList.Access == (uint)AccessList.Access)
             {
-                List<List<UUID>> avatars = CreateAccessListArrayByFlag (AccessList.Access);
+                List<List<UUID>> avatars = CreateAccessListArrayByFlag(AccessList.Access);
                 foreach (List<UUID> accessListAvs in avatars)
                 {
-                    remote_client.SendLandAccessListData (accessListAvs, (uint)AccessList.Access, LandData.LocalID);
+                    remote_client.SendLandAccessListData(accessListAvs, (uint)AccessList.Access, LandData.LocalID);
                 }
             }
 
-            if (flags == (uint)AccessList.Ban || flags == (uint)AccessList.Both)
+            // This apparently causes problems with newer viewers
+            //if (flags == (uint)AccessList.Ban || flags == (uint)AccessList.Both)
+            if (flags & (uint)AccessList.Ban == (uint)AccessList.Ban)
             {
-                List<List<UUID>> avatars = CreateAccessListArrayByFlag (AccessList.Ban);
+                List<List<UUID>> avatars = CreateAccessListArrayByFlag(AccessList.Ban);
                 foreach (List<UUID> accessListAvs in avatars)
                 {
-                    remote_client.SendLandAccessListData (accessListAvs, (uint)AccessList.Ban, LandData.LocalID);
+                    remote_client.SendLandAccessListData(accessListAvs, (uint)AccessList.Ban, LandData.LocalID);
                 }
             }
         }
