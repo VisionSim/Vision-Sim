@@ -6703,27 +6703,25 @@ namespace Vision.ClientStack
         }*/
 
         // 2015/02/01 - Corrected HandlerRezRestoreToWorld
-        bool HandlerRezRestoreToWorld(IClientAPI sender, Packet pack)
+        bool HandlerRezRestoreToWorld(IClientAPI sender, Packet Pack)
         {
-            RezRestoreToWorld = OnRezRestoreToWorld;
-            if (HandlerRezRestoreToWorld != null)
+            RezRestoreToWorld handlerRezRestoreToWorld = OnRezRestoreToWorld;
+            if (handlerRezRestoreToWorld != null)
             {
                 RezRestoreToWorldPacket rezPacket = (RezRestoreToWorldPacket)Pack;
 
                 #region Packet Session and User Check
-
                 if (m_checkPackets)
                 {
-                    if (rezPacket.AgentData.SessionID != SessionID ||
-                        rezPacket.AgentData.AgentID != AgentID)
+                    if (rezPacket.AgentData.SessionID != SessionId ||
+                        rezPacket.AgentData.AgentID != AgentId)
                         return true;
                 }
-
                 #endregion
 
                 handlerRezRestoreToWorld(this, rezPacket.InventoryData.ItemID, rezPacket.InventoryData.GroupID);
-            }
 
+            }
             return true;
         }
         
