@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,7 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.IO;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
@@ -36,17 +40,12 @@ using Vision.Framework.Servers.HttpServer;
 using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
-using System;
-using System.IO;
 
 namespace Vision.Modules.Auction
 {
     public class AuctionModule : IAuctionModule, INonSharedRegionModule
     {
-        private IScene m_scene;
+        IScene m_scene;
 
         #region INonSharedRegionModule Members
 
@@ -96,7 +95,7 @@ namespace Vision.Modules.Auction
             client.OnViewerStartAuction += StartAuction;
         }
 
-        private void OnClosingClient(IClientAPI client)
+        void OnClosingClient(IClientAPI client)
         {
             client.OnViewerStartAuction -= StartAuction;
         }
@@ -122,7 +121,7 @@ namespace Vision.Modules.Auction
             return retVal;
         }
 
-        private byte[] ViewerStartAuction(string path, Stream request,
+        byte[] ViewerStartAuction(string path, Stream request,
                                           OSHttpRequest httpRequest, OSHttpResponse httpResponse)
         {
             //OSDMap rm = (OSDMap)OSDParser.DeserializeLLSDXml(HttpServerHandlerHelpers.ReadFully(request));
@@ -145,8 +144,9 @@ namespace Vision.Modules.Auction
                 landObject.LandData.SnapshotID = SnapshotID;
                 landObject.LandData.AuctionID = (uint) Util.RandomClass.Next(0, int.MaxValue);
                 // landObject.LandData.Status = ParcelStatus.Abandoned;
-                // 150730 Fly-Man- Only when an parcel is Abandoned the Status is changed to Abandoned.
+                // The Abandoned status is only temporary as all land must actually be owned
                 // During an Auction, the Status of an parcel stays "Leased"
+                // Consider changing the auction status for a parcel at auction to "Pending"
                 landObject.LandData.Status = ParcelStatus.Leased;
                 landObject.SendLandUpdateToAvatarsOverMe();
             }
@@ -206,7 +206,7 @@ namespace Vision.Modules.Auction
             }
         }
 
-        private void SaveAuctionInfo(int LocalID, AuctionInfo info)
+        void SaveAuctionInfo(int LocalID, AuctionInfo info)
         {
             IParcelManagementModule parcelManagement = m_scene.RequestModuleInterface<IParcelManagementModule>();
             if (parcelManagement != null)
@@ -218,7 +218,7 @@ namespace Vision.Modules.Auction
             }
         }
 
-        private AuctionInfo GetAuctionInfo(int LocalID)
+        AuctionInfo GetAuctionInfo(int LocalID)
         {
             IParcelManagementModule parcelManagement = m_scene.RequestModuleInterface<IParcelManagementModule>();
             if (parcelManagement != null)

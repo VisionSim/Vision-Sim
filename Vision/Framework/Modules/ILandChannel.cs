@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -26,10 +26,10 @@
  */
 
 using System.Collections.Generic;
+using OpenMetaverse;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
-using OpenMetaverse;
 
 namespace Vision.Framework.Modules
 {
@@ -98,6 +98,13 @@ namespace Vision.Framework.Modules
         ///     Delete all parcels and create one default parcel that spreads over the entire sim
         /// </summary>
         ILandObject ResetSimLandObjects();
+
+        /// <summary>
+        /// Reclaims (resets) parcel ownership.
+        /// </summary>
+        /// <param name="oldOwnerID">Old owner</param>
+        /// <param name="newOwnerID">New owner.</param>
+        void ReclaimParcels(UUID oldOwnerID, UUID newOwnerID);
 
         /// <summary>
         ///     Join all parcels within the given range into one large parcel
