@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,16 +25,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Serialization;
+using Vision.Framework.Services;
+using Vision.Framework.Services.ClassHelpers.Assets;
+using OpenMetaverse;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
-using OpenMetaverse;
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Serialization;
-using Vision.Framework.Services;
-using Vision.Framework.Services.ClassHelpers.Assets;
 
 namespace Vision.Modules.Archivers
 {
@@ -103,7 +104,7 @@ namespace Vision.Modules.Archivers
                 AssetMetadata metadata = new AssetMetadata();
 
                 string filename = reader.ReadElementString("filename");
-                MainConsole.Instance.DebugFormat("[Dearchiver]: Reading node {0}", filename);
+                MainConsole.Instance.DebugFormat("[DEARCHIVER]: Reading node {0}", filename);
 
                 metadata.Name = reader.ReadElementString("name");
                 metadata.Description = reader.ReadElementString("description");
@@ -117,7 +118,7 @@ namespace Vision.Modules.Archivers
                 reader.Read();
             }
 
-            MainConsole.Instance.DebugFormat("[Dearchiver]: Resolved {0} items of asset metadata", m_metadata.Count);
+            MainConsole.Instance.DebugFormat("[DEARCHIVER]: Resolved {0} items of asset metadata", m_metadata.Count);
 
             ResolvePendingAssetData();
         }
@@ -153,7 +154,7 @@ namespace Vision.Modules.Archivers
                     filename = filename.Remove(filename.Length - extension.Length);
                 }
 
-                MainConsole.Instance.DebugFormat("[Archiver]: Importing asset {0}", filename);
+                MainConsole.Instance.DebugFormat("[ARCHIVER]: Importing asset {0}", filename);
 
                 AssetBase asset = new AssetBase(filename, metadata.Name, (AssetType) metadata.AssetType, UUID.Zero)
                                       {Description = metadata.Description, Data = data, MetaOnly = false};
@@ -162,7 +163,7 @@ namespace Vision.Modules.Archivers
             else
             {
                 MainConsole.Instance.ErrorFormat(
-                    "[Dearchiver]: Tried to de-archive data with filename {0} without any corresponding metadata",
+                    "[DEARCHIVER]: Tried to de-archive data with filename {0} without any corresponding metadata",
                     assetPath);
             }
         }

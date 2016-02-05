@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,6 +25,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Modules;
+using Vision.Framework.SceneInfo;
+using Vision.Framework.Utilities;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.Imaging;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -33,13 +41,6 @@ using System.Drawing.Text;
 using System.Globalization;
 using System.IO;
 using System.Net;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.Imaging;
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Modules;
-using Vision.Framework.SceneInfo;
-using Vision.Framework.Utilities;
 
 namespace Vision.Modules.Scripting
 {
@@ -104,7 +105,7 @@ namespace Vision.Modules.Scripting
 
         #region INonSharedRegionModule Members
 
-        public void Initialize(IConfigSource config)
+        public void Initialise(IConfigSource config)
         {
             IConfig cfg = config.Configs["VectorRender"];
             if (null != cfg)
@@ -328,7 +329,7 @@ namespace Vision.Modules.Scripting
             catch (Exception)
             {
                 MainConsole.Instance.Error(
-                    "[Vector Render Module]: OpenJpeg Encode Failed.  Empty byte data returned!");
+                    "[VECTORRENDERMODULE]: OpenJpeg Encode Failed.  Empty byte data returned!");
             }
 
             m_textureManager.ReturnData(id, imageJ2000);
@@ -347,13 +348,51 @@ namespace Vision.Modules.Scripting
             catch (Exception)
             {
                 //Ckrinke: Add a WriteLine to remove the warning about 'e' defined but not used
-                // MainConsole.Instance.Debug("[Vector Render Module]: Problem with Draw. Please verify parameters." + e.ToString());
+                // MainConsole.Instance.Debug("Problem with Draw. Please verify parameters." + e.ToString());
                 parsed = -1;
             }
 
             return parsed;
         }
-        
+
+/*
+        private void CairoDraw(string data, System.Drawing.Graphics graph)
+        {
+            using (Win32Surface draw = new Win32Surface(graph.GetHdc()))
+            {
+                Context contex = new Context(draw);
+
+                contex.Antialias = Antialias.None;    //fastest method but low quality
+                contex.LineWidth = 7;
+                char[] lineDelimiter = { ';' };
+                char[] partsDelimiter = { ',' };
+                string[] lines = data.Split(lineDelimiter);
+
+                foreach (string line in lines)
+                {
+                    string nextLine = line.Trim();
+
+                    if (nextLine.StartsWith("MoveTO"))
+                    {
+                        float x = 0;
+                        float y = 0;
+                        GetParams(partsDelimiter, ref nextLine, ref x, ref y);
+                        contex.MoveTo(x, y);
+                    }
+                    else if (nextLine.StartsWith("LineTo"))
+                    {
+                        float x = 0;
+                        float y = 0;
+                        GetParams(partsDelimiter, ref nextLine, ref x, ref y);
+                        contex.LineTo(x, y);
+                        contex.Stroke();
+                    }
+                }
+            }
+            graph.ReleaseHdc();
+        }
+*/
+
         private void GDIDraw(string data, Graphics graph, char dataDelim)
         {
             Point startPoint = new Point(0, 0);
@@ -637,8 +676,8 @@ namespace Vision.Modules.Scripting
             try
             {
                 WebRequest request = WebRequest.Create(url);
-                //Ckrinke: Comment out for now as 'str' is unused. Bring it back into play later when it is used.
-                //Ckrinke: Stream str = null;
+//Ckrinke: Comment out for now as 'str' is unused. Bring it back into play later when it is used.
+//Ckrinke            Stream str = null;
                 HttpWebResponse response = (HttpWebResponse) (request).GetResponse();
                 if (response.StatusCode == HttpStatusCode.OK)
                 {

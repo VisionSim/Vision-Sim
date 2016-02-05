@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -76,13 +76,13 @@ namespace Vision.Modules.Gods
                     if (sp.GodLevel == Constants.USER_NORMAL)
                         sp.GodLevel = Constants.USER_GOD_MAINTENANCE;
 
-                    MainConsole.Instance.InfoFormat ("[Gods]: God level set for {0}, level {1}", sp.Name, sp.GodLevel);
+                    MainConsole.Instance.InfoFormat ("[GODS]: God level set for {0}, level {1}", sp.Name, sp.GodLevel);
                     sp.ControllingClient.SendAdminResponse (token, (uint)sp.GodLevel);
                 } else
                 {
                     if (m_dialogModule != null)
                         m_dialogModule.SendAlertToUser ( agentID, "Request for god powers denied. This request has been logged.");
-                    MainConsole.Instance.Info ("[Gods]: God powers requested by " + sp.Name +
+                    MainConsole.Instance.Info ("[GODS]: God powers requested by " + sp.Name +
                         ", user is not allowed to have god powers");
                 }
             }
@@ -150,7 +150,7 @@ namespace Vision.Modules.Gods
 
         #region INonSharedRegionModule Members
 
-        public void Initialize (IConfigSource source)
+        public void Initialise (IConfigSource source)
         {
         }
 

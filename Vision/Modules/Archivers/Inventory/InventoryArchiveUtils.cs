@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,12 +25,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using Vision.Framework.Services;
+using Vision.Framework.Services.ClassHelpers.Inventory;
+using OpenMetaverse;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OpenMetaverse;
-using Vision.Framework.Services;
-using Vision.Framework.Services.ClassHelpers.Inventory;
 
 namespace Vision.Modules.Archivers
 {
@@ -204,17 +204,19 @@ namespace Vision.Modules.Archivers
 
             if (components.Length == 1)
             {
-                //MainConsole.Instance.DebugFormat("FOUND SINGLE COMPONENT [{0}].  Looking for this in [{1}] {2}", components[0], startFolder.Name, startFolder.ID);
+//                MainConsole.Instance.DebugFormat(
+//                    "FOUND SINGLE COMPONENT [{0}].  Looking for this in [{1}] {2}", 
+//                    components[0], startFolder.Name, startFolder.ID);
 
                 List<InventoryItemBase> items = inventoryService.GetFolderItems(startFolder.Owner, startFolder.ID);
 
-                //MainConsole.Instance.DebugFormat("[INVENTORY ARCHIVE UTILS]: Found {0} items in FindItemByPath()", items.Count);
+//                MainConsole.Instance.DebugFormat("[INVENTORY ARCHIVE UTILS]: Found {0} items in FindItemByPath()", items.Count);
 
                 return items.FirstOrDefault(item => item.Name == components[0]);
             }
             else
             {
-                //MainConsole.Instance.DebugFormat("FOUND COMPONENTS [{0}] and [{1}]", components[0], components[1]);
+//                MainConsole.Instance.DebugFormat("FOUND COMPONENTS [{0}] and [{1}]", components[0], components[1]);
 
                 InventoryCollection contents = inventoryService.GetFolderContent(startFolder.Owner, startFolder.ID);
 
@@ -235,7 +237,7 @@ namespace Vision.Modules.Archivers
         /// </returns>
         public static string[] SplitEscapedPath(string path)
         {
-            //MainConsole.Instance.DebugFormat("SPLITTING PATH {0}", path);
+//            MainConsole.Instance.DebugFormat("SPLITTING PATH {0}", path);
 
             bool singleEscapeChar = false;
 
@@ -265,7 +267,7 @@ namespace Vision.Modules.Archivers
         /// <returns></returns>
         public static string UnescapePath(string path)
         {
-            //MainConsole.Instance.DebugFormat("ESCAPING PATH {0}", path);
+//            MainConsole.Instance.DebugFormat("ESCAPING PATH {0}", path);
 
             StringBuilder sb = new StringBuilder();
 
@@ -288,7 +290,7 @@ namespace Vision.Modules.Archivers
                 }
             }
 
-            //MainConsole.Instance.DebugFormat("ESCAPED PATH TO {0}", sb);
+//            MainConsole.Instance.DebugFormat("ESCAPED PATH TO {0}", sb);
 
             return sb.ToString();
         }

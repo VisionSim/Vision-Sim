@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -116,7 +116,7 @@ namespace Vision.Modules.Archivers
                 catch (EntryPointNotFoundException e)
                 {
                     MainConsole.Instance.ErrorFormat(
-                        "[Archiver]: Mismatch between Mono and zlib1g library version when trying to create compression stream."
+                        "[ARCHIVER]: Mismatch between Mono and zlib1g library version when trying to create compression stream."
                         + "If you've manually installed Mono, have you appropriately updated zlib1g as well?");
                     MainConsole.Instance.Error(e);
 
@@ -191,8 +191,10 @@ namespace Vision.Modules.Archivers
                         + "--perm=<permissions> : If present, verify asset permissions before saving.\n"
                         + "   <permissions> can include 'C' (Copy), 'M' (Modify, 'T' (Transfer)",
                         HandleSaveIARConsoleCommand, false, true);
+
                 }
             }
+
         }
 
         #endregion
@@ -242,7 +244,7 @@ namespace Vision.Modules.Archivers
                 catch (EntryPointNotFoundException e)
                 {
                     MainConsole.Instance.ErrorFormat(
-                        "[Archiver]: Mismatch between Mono and zlib1g library version when trying to create compression stream.\n"
+                        "[ARCHIVER]: Mismatch between Mono and zlib1g library version when trying to create compression stream.\n"
                         + "If you've manually installed Mono, have you appropriately updated zlib1g as well?");
                     MainConsole.Instance.Error(e);
 
@@ -274,7 +276,7 @@ namespace Vision.Modules.Archivers
                 catch (EntryPointNotFoundException e)
                 {
                     MainConsole.Instance.ErrorFormat(
-                        "[Archiver]: Mismatch between Mono and zlib1g library version when trying to create compression stream.\n"
+                        "[ARCHIVER]: Mismatch between Mono and zlib1g library version when trying to create compression stream.\n"
                         + "If you've manually installed Mono, have you appropriately updated zlib1g as well?");
                     MainConsole.Instance.Error(e);
 
@@ -449,6 +451,7 @@ namespace Vision.Modules.Archivers
                     options["CheckPermissions"] = param.Substring(7);
                     newParams.Remove(param);
                 }
+
             }
 
             string firstName;
@@ -475,6 +478,7 @@ namespace Vision.Modules.Archivers
                     lastName = newParams[3];
                 }
 
+
                 // optional...
                 string iarPath = "/*";
                 if (newParams.Count > 5)
@@ -489,6 +493,7 @@ namespace Vision.Modules.Archivers
                 } else
                     archiveFileName = newParams[4];
                 
+
                 //some file sanity checks
                 string savePath;
                 savePath = PathHelpers.VerifyWriteFile (archiveFileName, ".iar", m_archiveDirectory, true);

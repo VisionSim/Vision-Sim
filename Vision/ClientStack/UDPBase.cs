@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -83,7 +83,7 @@ namespace Vision.ClientStack
         /// </summary>
         /// <param name="bindAddress">Local IP address to bind the server to</param>
         /// <param name="port">Port to listening for incoming UDP packets on</param>
-        public virtual void Initialize(IPAddress bindAddress, int port)
+        public virtual void Initialise(IPAddress bindAddress, int port)
         {
             m_localBindAddress = bindAddress;
             m_udpPort = port;

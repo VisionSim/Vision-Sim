@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -53,8 +53,8 @@ namespace Vision.Services
 
         static InventoryCAPS()
         {
-            Framework.Serialization.SceneEntitySerializer.SceneObjectSerializer =
-                new Region.Serialization.SceneObjectSerializer();
+            Vision.Framework.Serialization.SceneEntitySerializer.SceneObjectSerializer =
+                new Vision.Region.Serialization.SceneObjectSerializer();
         }
 
         #endregion
@@ -71,7 +71,7 @@ namespace Vision.Services
 
         public string Name { get { return GetType().Name; } }
 
-        public void IncomingCapsRequest(UUID agentID, Framework.Services.GridRegion region, ISimulationBase simbase, ref OSDMap capURLs)
+        public void IncomingCapsRequest(UUID agentID, Vision.Framework.Services.GridRegion region, ISimulationBase simbase, ref OSDMap capURLs)
         {
             m_agentID = agentID;
             m_moneyModule = simbase.ApplicationRegistry.RequestModuleInterface<IMoneyModule>();
@@ -362,7 +362,7 @@ namespace Vision.Services
                                                         OSHttpResponse httpResponse)
         {
             string asset_type = map["asset_type"].AsString();
-            //MainConsole.Instance.Info("[Caps]: NewAgentInventoryRequest Request is: " + map.ToString());
+            //MainConsole.Instance.Info("[CAPS]: NewAgentInventoryRequest Request is: " + map.ToString());
             //MainConsole.Instance.Debug("asset upload request via CAPS" + llsdRequest.inventory_type + " , " + llsdRequest.asset_type);
 
             string assetName = map["name"].AsString();

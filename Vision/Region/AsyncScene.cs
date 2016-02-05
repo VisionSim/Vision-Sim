@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -587,7 +587,7 @@ namespace Vision.Region
                 }
                 catch (Exception e)
                 {
-                    MainConsole.Instance.Error("[REGION]: Failed with exception " + e + " in region: " +
+                    MainConsole.Instance.Error("[Region]: Failed with exception " + e + " in region: " +
                                                RegionInfo.RegionName);
                     return true;
                 }
@@ -791,15 +791,15 @@ namespace Vision.Region
                                   catch (Exception e)
                                   {
                                       MainConsole.Instance.Error(
-                                          "[SCENE] Scene.cs:RemoveClient:Presence.Close exception: " + e);
+                                          "[Scene] Scene.cs:RemoveClient:Presence.Close exception: " + e);
                                   }
 
                                   //Remove any interfaces it might have stored
                                   presence.RemoveAllInterfaces();
 
                                   AuthenticateHandler.RemoveCircuit(presence.UUID);
-                                  //MainConsole.Instance.InfoFormat("[SCENE] Memory pre  GC {0}", System.GC.GetTotalMemory(false));
-                                  //MainConsole.Instance.InfoFormat("[SCENE] Memory post GC {0}", System.GC.GetTotalMemory(true));
+                                  //MainConsole.Instance.InfoFormat("[Scene] Memory pre  GC {0}", System.GC.GetTotalMemory(false));
+                                  //MainConsole.Instance.InfoFormat("[Scene] Memory post GC {0}", System.GC.GetTotalMemory(true));
                               });
             return true;
         }

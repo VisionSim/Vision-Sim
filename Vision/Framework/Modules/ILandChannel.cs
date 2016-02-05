@@ -104,7 +104,7 @@ namespace Vision.Framework.Modules
         /// </summary>
         /// <param name="oldOwnerID">Old owner</param>
         /// <param name="newOwnerID">New owner.</param>
-        void ReclaimParcels(UUID oldOwnerID, UUID newOwnerID);
+        void ReclaimParcels (UUID oldOwnerID, UUID newOwnerID);
 
         /// <summary>
         ///     Join all parcels within the given range into one large parcel

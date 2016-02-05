@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -47,7 +47,7 @@ namespace Vision.Region.Serialization
     /// <summary>
     ///     Serialize and deserialize scene objects.
     /// </summary>
-    /// This should really be in Framework.Serialization but this would mean circular dependency problems
+    /// This should really be in Vision.Framework.Serialization but this would mean circular dependency problems
     /// right now - hopefully this isn't forever.
     public class SceneObjectSerializer : ISceneObjectSerializer
     {

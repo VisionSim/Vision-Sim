@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,13 +25,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System.Collections.Generic;
-using OpenMetaverse;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Services.ClassHelpers.Inventory;
+using OpenMetaverse;
+using System.Collections.Generic;
 
 namespace Vision.Framework.Modules
 {
@@ -68,6 +68,7 @@ namespace Vision.Framework.Modules
         /// <returns></returns>
         ISceneEntity CreateObjectFromInventory(IClientAPI remoteClient, UUID itemID, UUID assetID, InventoryItemBase item);
 
+
         /// <summary>
         /// Restores the object in world.
         /// </summary>
@@ -76,7 +77,7 @@ namespace Vision.Framework.Modules
         /// <param name="itemID">Item I.</param>
         /// <param name="item">Item.</param>
         /// <param name="groupID">Group I.</param>
-        bool RezRestoreToWorld(IClientAPI remoteClient, UUID itemID, InventoryItemBase item, UUID groupID);
+        bool RezRestoreToWorld (IClientAPI remoteClient, UUID itemID, InventoryItemBase item, UUID groupID);
 
         /// <summary>
         ///     Rez an object from inventory and add it to the scene

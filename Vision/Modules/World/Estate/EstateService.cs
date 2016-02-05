@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -125,7 +125,7 @@ namespace Vision.Modules.Estate
                 BannedUserID = SP.UUID,
                 EstateID = ES.EstateID
             });
-            Framework.Utilities.DataManager.RequestPlugin<IEstateConnector> ().
+            Vision.Framework.Utilities.DataManager.RequestPlugin<IEstateConnector> ().
                 SaveEstateSettings (ES);
             if (alert != "")
                 SP.ControllingClient.Kick (alert);
@@ -149,7 +149,7 @@ namespace Vision.Modules.Estate
             }
             EstateSettings ES = scene.RegionInfo.EstateSettings;
             ES.RemoveBan (account.PrincipalID);
-            Framework.Utilities.DataManager.RequestPlugin<IEstateConnector> ().
+            Vision.Framework.Utilities.DataManager.RequestPlugin<IEstateConnector> ().
                 SaveEstateSettings (ES);
         }
 
@@ -232,7 +232,7 @@ namespace Vision.Modules.Estate
 
             #endregion
 
-            Framework.Utilities.DataManager.RequestPlugin<IEstateConnector> ().
+            Vision.Framework.Utilities.DataManager.RequestPlugin<IEstateConnector> ().
                 SaveEstateSettings (m_scene.RegionInfo.EstateSettings);
         }
 
@@ -381,7 +381,7 @@ namespace Vision.Modules.Estate
                 Position.X > scene.RegionInfo.RegionSizeX + 2 || Position.Y > scene.RegionInfo.RegionSizeY + 2)
             {
                 MainConsole.Instance.DebugFormat (
-                    "[Estate Service]: AllowedIncomingTeleport was given an illegal position of {0} for avatar {1}, {2}. Clamping",
+                    "[EstateService]: AllowedIncomingTeleport was given an illegal position of {0} for avatar {1}, {2}. Clamping",
                     Position, Name, userID);
                 bool changedX = false;
                 bool changedY = false;
@@ -770,7 +770,7 @@ namespace Vision.Modules.Estate
                                 BannedHostNameMask = ban.BannedHostNameMask
                             });
                             //Update the database
-                            Framework.Utilities.DataManager.RequestPlugin<IEstateConnector> ().
+                            Vision.Framework.Utilities.DataManager.RequestPlugin<IEstateConnector> ().
                                 SaveEstateSettings (ES);
                         }
                     }
@@ -802,7 +802,7 @@ namespace Vision.Modules.Estate
                             BannedHostAddress = agent.IPAddress,
                             BannedHostNameMask = agent.IPAddress
                         });
-                        Framework.Utilities.DataManager.RequestPlugin<IEstateConnector> ().
+                        Vision.Framework.Utilities.DataManager.RequestPlugin<IEstateConnector> ().
                             SaveEstateSettings (ES);
 
                         reason = "Banned from this region.";
@@ -954,7 +954,7 @@ namespace Vision.Modules.Estate
 
         #region ISharedRegionStartupModule Members
 
-        public void Initialize (IScene scene, IConfigSource source, ISimulationBase simBase)
+        public void Initialise (IScene scene, IConfigSource source, ISimulationBase simBase)
         {
             IConfig config = source.Configs ["EstateSettingsModule"];
             if (config != null)
@@ -1058,7 +1058,7 @@ namespace Vision.Modules.Estate
             }
         }
 
-        public void PostInitialize (IScene scene, IConfigSource source, ISimulationBase simBase)
+        public void PostInitialise (IScene scene, IConfigSource source, ISimulationBase simBase)
         {
         }
 

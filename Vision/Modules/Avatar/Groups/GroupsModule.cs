@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -450,7 +450,9 @@ namespace Vision.Modules.Groups
                                              SessionID = UUID.Random()
                                          };
 
+            // msg.dialog = (byte)OpenMetaverse.InstantMessageDialog.GroupNotice;
             // Allow this message to be stored for offline use
+
             msg.FromAgentID = info.GroupID;
             msg.Timestamp = info.noticeData.Timestamp;
             msg.FromAgentName = info.noticeData.FromName;
@@ -761,7 +763,8 @@ namespace Vision.Modules.Groups
                                                      Timestamp = 0,
                                                      FromAgentName = agentName
                                                  };
-
+                    // msg.fromAgentID = GetRequestingAgentID(remoteClient).Guid;
+                    // msg.timestamp = (uint)Util.UnixTimeSinceEpoch();
                     GroupRecord groupInfo = GetGroupRecord(groupID);
                     string MemberShipCost = ". There is no cost to join this group.";
                     if (groupInfo.MembershipFee != 0)
@@ -1038,6 +1041,7 @@ namespace Vision.Modules.Groups
         {
             // Notify all group members of a change in group roles and/or
             // permissions
+            //
         }
 
         void OutgoingInstantMessage(GridInstantMessage msg, UUID msgTo)
@@ -1088,7 +1092,7 @@ namespace Vision.Modules.Groups
 
         #region INonSharedRegionModule Members
 
-        public void Initialize(IConfigSource config)
+        public void Initialise(IConfigSource config)
         {
             IConfig groupsConfig = config.Configs["Groups"];
 
@@ -1131,7 +1135,7 @@ namespace Vision.Modules.Groups
             if (m_debugEnabled)
                 MainConsole.Instance.DebugFormat("[Groups]: {0} called", MethodBase.GetCurrentMethod().Name);
 
-            m_groupData = Framework.Utilities.DataManager.RequestPlugin<IGroupsServiceConnector>();
+            m_groupData = Vision.Framework.Utilities.DataManager.RequestPlugin<IGroupsServiceConnector>();
 
             // No Groups Service Connector, then nothing works...
             if (m_groupData == null)
@@ -1359,6 +1363,7 @@ namespace Vision.Modules.Groups
             if (m_debugEnabled)
                 MainConsole.Instance.DebugFormat("[Groups]: {0} called", MethodBase.GetCurrentMethod().Name);
 
+            //GroupMembershipData[] avatarGroups = m_groupData.GetAgentGroupMemberships(GetRequestingAgentID(remoteClient), avatarID).ToArray();
             GroupMembershipData[] avatarGroups = GetProfileListedGroupMemberships(remoteClient, avatarID);
             remoteClient.SendAvatarGroupsReply(avatarID, avatarGroups);
         }
@@ -1632,6 +1637,7 @@ namespace Vision.Modules.Groups
                             }
                             else
                             {
+                                //bucket = im.BinaryBucket;
                                 string binBucket = Utils.BytesToString(im.BinaryBucket);
                                 binBucket = binBucket.Remove(0, 14).Trim();
 
@@ -1905,6 +1911,7 @@ namespace Vision.Modules.Groups
             groupID.ToBytes(bitbucket, 2);
             byte[] name = Utils.StringToBytes(" " + groupNoticeData.ItemName);
             Array.ConstrainedCopy(name, 0, bitbucket, 18, name.Length);
+            //Utils.Int16ToBytes((short)item.AssetType, bitbucket, 0);
             bitbucket[0] = 1; // 0 for no attachment, 1 for attachment
             bitbucket[1] = groupNoticeData.AssetType; // Asset type
 

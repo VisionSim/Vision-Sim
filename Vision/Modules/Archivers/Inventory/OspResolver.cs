@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,10 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System.Text;
-using OpenMetaverse;
+
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Services;
+using OpenMetaverse;
+using System.Text;
 
 namespace Vision.Modules.Archivers
 {
@@ -88,7 +89,7 @@ namespace Vision.Modules.Archivers
             if (!ospa.StartsWith(OSPA_PREFIX))
                 return UUID.Zero;
 
-            //MainConsole.Instance.DebugFormat("[OSP Resolver]: Resolving {0}", ospa);
+//            MainConsole.Instance.DebugFormat("[OSP RESOLVER]: Resolving {0}", ospa);
 
             string ospaMeat = ospa.Substring(OSPA_PREFIX.Length);
             string[] ospaTuples = ospaMeat.Split(OSPA_TUPLE_SEPARATOR_ARRAY);
@@ -99,7 +100,7 @@ namespace Vision.Modules.Archivers
 
                 if (tupleSeparatorIndex < 0)
                 {
-                    MainConsole.Instance.WarnFormat("[OSP Resolver]: Ignoring non-tuple component {0} in OSPA {1}",
+                    MainConsole.Instance.WarnFormat("[OSP RESOLVER]: Ignoring non-tuple component {0} in OSPA {1}",
                                                     tuple, ospa);
                     continue;
                 }
@@ -142,7 +143,7 @@ namespace Vision.Modules.Archivers
 
             if (nameSeparatorIndex < 0)
             {
-                MainConsole.Instance.WarnFormat("[OSP Resolver]: Ignoring un-separated name {0}", name);
+                MainConsole.Instance.WarnFormat("[OSP RESOLVER]: Ignoring un-separated name {0}", name);
                 return UUID.Zero;
             }
 
@@ -161,7 +162,7 @@ namespace Vision.Modules.Archivers
             tempUserProfile.ID = HashName(tempUserProfile.Name);
             
             MainConsole.Instance.DebugFormat(
-                "[OSP Resolver]: Adding temporary user profile for {0} {1}", tempUserProfile.Name, tempUserProfile.ID);
+                "[OSP RESOLVER]: Adding temporary user profile for {0} {1}", tempUserProfile.Name, tempUserProfile.ID);
             commsManager.UserService.AddTemporaryUserProfile(tempUserProfile);
             
             return tempUserProfile.ID;

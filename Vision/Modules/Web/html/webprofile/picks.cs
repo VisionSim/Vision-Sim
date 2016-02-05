@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,16 +25,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using OpenMetaverse;
+
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.Servers.HttpServer;
 using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Profile;
+using OpenMetaverse;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace Vision.Modules.Web
 {
@@ -130,8 +131,8 @@ namespace Vision.Modules.Web
                         url = webhttpService.GetTextureURL(pick.SnapshotUUID);
 
                     Vector3 pickLoc = pick.GlobalPos;
-                    pickLoc.X /= Framework.Utilities.Constants.RegionSize;
-                    pickLoc.Y /= Framework.Utilities.Constants.RegionSize;
+                    pickLoc.X /= Vision.Framework.Utilities.Constants.RegionSize;
+                    pickLoc.Y /= Vision.Framework.Utilities.Constants.RegionSize;
 
                     picks.Add(new Dictionary<string, object>
                                   {
@@ -141,6 +142,7 @@ namespace Vision.Modules.Web
                                       {"PickLocation", pickLoc}
                                   });
                 }
+
             }
 
             if (picks.Count == 0)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,12 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.Packets;
+
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
@@ -38,6 +33,12 @@ using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Utilities;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.Packets;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Vision.Modules.Selection
 {
@@ -56,7 +57,7 @@ namespace Vision.Modules.Selection
 
         #region INonSharedRegionModule Members
 
-        public void Initialize(IConfigSource source)
+        public void Initialise(IConfigSource source)
         {
 			IConfig visionstartupConfig = source.Configs["VisionStartup"];
 			if (visionstartupConfig != null)
@@ -156,7 +157,7 @@ namespace Vision.Modules.Selection
                     IObjectCache cache = remoteClient.Scene.RequestModuleInterface<IObjectCache>();
                     if (cache != null)
                         cache.RemoveObject(remoteClient.AgentId, entity.LocalId, cacheMissType);
-                    MainConsole.Instance.WarnFormat("[Object Cache]: Avatar didn't have {0}, miss type {1}, CRC {2}",
+                    MainConsole.Instance.WarnFormat("[ObjectCache]: Avatar didn't have {0}, miss type {1}, CRC {2}",
                                                     primLocalID,
                                                     cacheMissType, ((ISceneEntity) entity).RootChild.CRC);
                 }
@@ -186,6 +187,7 @@ namespace Vision.Modules.Selection
                         // so "edit link parts" keep the object select and not moved by physics
                         // similar changes on deselect
                         // part.IsSelect is on SceneObjectPart.cs
+                        // Ubit
                         prim.ParentEntity.IsSelected = true;
                     }
                 }
@@ -201,7 +203,7 @@ namespace Vision.Modules.Selection
                 else
                 {
                     MainConsole.Instance.ErrorFormat(
-                        "[Scene Packet Handler]: Could not find prim {0} in SelectPrim, killing prim.",
+                        "[SCENEPACKETHANDLER]: Could not find prim {0} in SelectPrim, killing prim.",
                         primLocalID);
                     //Send a kill packet to the viewer so it doesn't come up again
                     remoteClient.SendKillObject(scene.RegionInfo.RegionHandle, new uint[1] {primLocalID});
@@ -256,8 +258,7 @@ namespace Vision.Modules.Selection
             part.ParentEntity.IsSelected = false;
 
             if (!part.ParentEntity.IsAttachment)
-                //This NEEDS to be done because otherwise rotationalVelocity will break! 
-                //Only for the editing av as the client stops the rotation for them when they are in edit
+                //This NEEDS to be done because otherwise rotationalVelocity will break! Only for the editing av as the client stops the rotation for them when they are in edit
             {
                 if (part.AngularVelocity != Vector3.Zero && !part.ParentEntity.IsDeleted)
                     SP.SceneViewer.QueuePartForUpdate(part, PrimUpdateFlags.ForcedFullUpdate);

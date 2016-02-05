@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -55,7 +55,7 @@ namespace Vision.Modules.Caps
 
         #region INonSharedRegionModule Members
 
-        public void Initialize (IConfigSource source)
+        public void Initialise (IConfigSource source)
         {
             var cfg = source.Configs ["MaterialsModule"];
             if (cfg != null)
@@ -211,7 +211,7 @@ namespace Vision.Modules.Caps
 
                                                 } catch (Exception e)
                                                 { 
-                                                    MainConsole.Instance.Warn ("[Materials Demo Module]: cannot decode \"Material\" from matsMap: " + e.Message); 
+                                                    MainConsole.Instance.Warn ("[MaterialsDemoModule]: cannot decode \"Material\" from matsMap: " + e.Message); 
                                                     continue;
                                                 }
                                             }
@@ -228,6 +228,7 @@ namespace Vision.Modules.Caps
                                                 MainConsole.Instance.Debug ("[Materials]: null SOP for localId: " + matLocalID);
                                             else
                                             {
+                                                //var te = sop.Shape.Textures;
                                                 var te = new Primitive.TextureEntry (sop.Shape.TextureEntry, 0, sop.Shape.TextureEntry.Length);
 
                                                 if (te == null)
@@ -246,14 +247,13 @@ namespace Vision.Modules.Caps
                                                                 MainConsole.Instance.Debug ("[Materials]: te.DefaultTexture is null");
                                                             else
                                                             {
-                                                                //## FixMe ##
-                                                                // comparison always results in 'False'
-                                                                //if (te.DefaultTexture.MaterialID == null)
-                                                                // MainConsole.Instance.Debug("[MaterialsDemoModule]: te.DefaultTexture.MaterialID is null");
-                                                                // else
-                                                                // {
+//## FixMe ##
+// comparison always results in 'False'                                   if (te.DefaultTexture.MaterialID == null)
+//                                                                    MainConsole.Instance.Debug("[MaterialsDemoModule]: te.DefaultTexture.MaterialID is null");
+//                                                                else
+//                                                                {
                                                                 te.DefaultTexture.MaterialID = id;
-                                                                // }
+//                                                                }
                                                             }
                                                         } else
                                                         {

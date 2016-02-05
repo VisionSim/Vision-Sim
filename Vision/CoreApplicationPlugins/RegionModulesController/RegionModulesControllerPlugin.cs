@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,15 +25,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using Nini.Config;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.ModuleLoader;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
+using Nini.Config;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace Vision.CoreApplicationPlugins.RegionModulesController
 {
@@ -62,6 +62,8 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
         // This is where we handle adding the modules to scenes when they
         // load. This means that here we deal with replaceable interfaces,
         // non-shared modules, etc.
+        //
+
         protected Dictionary<IScene, Dictionary<string, IRegionModuleBase>> RegionModules =
             new Dictionary<IScene, Dictionary<string, IRegionModuleBase>>();
 
@@ -88,21 +90,21 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
 
                     if (mii.Invoke(scene, new object[0]) != null)
                     {
-                        MainConsole.Instance.DebugFormat("[Region Module]: Not loading {0} because another module has registered {1}",
+                        MainConsole.Instance.DebugFormat("[REGIONMODULE]: Not loading {0} because another module has registered {1}",
                                           module.Name, replaceableInterface);
                         continue;
                     }
 
                     deferredNonSharedModules[replaceableInterface] = module;
-                    MainConsole.Instance.DebugFormat("[Region Module]: Deferred load of {0}", module.Name);
+                    MainConsole.Instance.DebugFormat("[REGIONMODULE]: Deferred load of {0}", module.Name);
                     continue;
                 }
 
-                //MainConsole.Instance.DebugFormat("[Region Module]: Adding scene {0} to non-shared module {1}",
+                //MainConsole.Instance.DebugFormat("[REGIONMODULE]: Adding scene {0} to non-shared module {1}",
                 //                  scene.RegionInfo.RegionName, module.Name);
 
                 // Initialize the module
-                module.Initialize(m_simBase.ConfigSource);
+                module.Initialise(m_simBase.ConfigSource);
 
                 IRegionModuleBaseModules.Add(module);
                 list.Add(module);
@@ -110,7 +112,7 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
 
             // Now add the modules that we found to the scene. If a module
             // wishes to override a replaceable interface, it needs to
-            // register it in Initialize, so that the deferred module
+            // register it in Initialise, so that the deferred module
             // won't load.
             foreach (INonSharedRegionModule module in list)
             {
@@ -120,7 +122,7 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
                 }
                 catch (Exception ex)
                 {
-                    MainConsole.Instance.ErrorFormat("[Region Modules Controller Plugin]: Failed to load module {0}: {1}", module.Name, ex.ToString());
+                    MainConsole.Instance.ErrorFormat("[RegionModulesControllerPlugin]: Failed to load module {0}: {1}", module.Name, ex.ToString());
                 }
                 AddRegionModule(scene, module.Name, module);
             }
@@ -139,22 +141,22 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
 
                     if (mii.Invoke(scene, new object[0]) != null)
                     {
-                        MainConsole.Instance.DebugFormat("[Region Module]: Not loading {0} because another module has registered {1}",
+                        MainConsole.Instance.DebugFormat("[REGIONMODULE]: Not loading {0} because another module has registered {1}",
                                           module.Name, replaceableInterface);
                         continue;
                     }
                 }
 
-                MainConsole.Instance.DebugFormat("[Region Module]: Adding scene {0} to non-shared module {1} (deferred)",
+                MainConsole.Instance.DebugFormat("[REGIONMODULE]: Adding scene {0} to non-shared module {1} (deferred)",
                                   scene.RegionInfo.RegionName, module.Name);
 
                 try
                 {
-                    module.Initialize(m_simBase.ConfigSource);
+                    module.Initialise(m_simBase.ConfigSource);
                 }
                 catch (Exception ex)
                 {
-                    MainConsole.Instance.ErrorFormat("[Region Modules Controller Plugin]: Failed to load module {0}: {1}", module.Name, ex.ToString());
+                    MainConsole.Instance.ErrorFormat("[RegionModulesControllerPlugin]: Failed to load module {0}: {1}", module.Name, ex.ToString());
                 }
 
                 IRegionModuleBaseModules.Add(module);
@@ -171,7 +173,7 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
                 }
                 catch (Exception ex)
                 {
-                    MainConsole.Instance.ErrorFormat("[Region Modules Controller Plugin]: Failed to load module {0}: {1}", module.Name, ex.ToString());
+                    MainConsole.Instance.ErrorFormat("[RegionModulesControllerPlugin]: Failed to load module {0}: {1}", module.Name, ex.ToString());
                 }
                 AddRegionModule(scene, module.Name, module);
             }
@@ -185,6 +187,7 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
             // to ugly kludges to attempt to request interfaces when needed
             // and unnecessary caching logic repeated in all modules.
             // The extra function stub is just that much cleaner
+            //
             foreach (INonSharedRegionModule module in list)
             {
                 try
@@ -193,7 +196,7 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
                 }
                 catch (Exception ex)
                 {
-                    MainConsole.Instance.ErrorFormat("[Region Modules Controller Plugin]: Failed to load module {0}: {1}", module.Name, ex.ToString());
+                    MainConsole.Instance.ErrorFormat("[RegionModulesControllerPlugin]: Failed to load module {0}: {1}", module.Name, ex.ToString());
                 }
             }
         }
@@ -202,7 +205,7 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
         {
             foreach (IRegionModuleBase module in RegionModules[scene].Values)
             {
-                MainConsole.Instance.DebugFormat("[Region Module]: Removing scene {0} from module {1}",
+                MainConsole.Instance.DebugFormat("[REGIONMODULE]: Removing scene {0} from module {1}",
                                   scene.RegionInfo.RegionName, module.Name);
                 module.RemoveRegion(scene);
                 if (module is INonSharedRegionModule)
@@ -256,16 +259,16 @@ namespace Vision.CoreApplicationPlugins.RegionModulesController
             {
                 try
                 {
-                    module.Initialize(config);
+                    module.Initialise(config);
                 }
                 catch (Exception ex)
                 {
-                    MainConsole.Instance.ErrorFormat("[Region Modules Controller Plugin]: Failed to load module {0}: {1}", module.Name, ex.ToString());
+                    MainConsole.Instance.ErrorFormat("[RegionModulesControllerPlugin]: Failed to load module {0}: {1}", module.Name, ex.ToString());
                 }
             }
         }
 
-        public void PostInitialize()
+        public void PostInitialise()
         {
         }
 

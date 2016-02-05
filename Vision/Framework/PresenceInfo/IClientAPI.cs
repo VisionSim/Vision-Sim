@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -56,11 +56,11 @@ namespace Vision.Framework.PresenceInfo
 
     public delegate bool PreSendImprovedInstantMessage(IClientAPI remoteclient, GridInstantMessage im);
 
+    public delegate void RezRestoreToWorld(IClientAPI remoteClient, UUID itemID, UUID groupID);
+
     public delegate void RezObject(IClientAPI remoteClient, UUID itemID, Vector3 RayEnd, Vector3 RayStart,
                                    UUID RayTargetID, byte BypassRayCast, bool RayEndIsIntersection,
                                    bool RezSelected, bool RemoveItem, UUID fromTaskID);
-
-    public delegate void RezRestoreToWorld(IClientAPI remoteClient, UUID itemID, UUID GroupID);
 
     public delegate UUID RezSingleAttachmentFromInv(IClientAPI remoteClient, UUID itemID, int AttachmentPt);
 
@@ -964,8 +964,8 @@ namespace Vision.Framework.PresenceInfo
         // [Obsolete("LLClientView Specific - Replace with more bare-bones arguments. Rename OnChat.")]
         event ChatMessage OnChatFromClient;
         // [Obsolete("LLClientView Specific - Remove bitbuckets. Adam, can you be more specific here..  as I don't see any bit buckets.")]
-        event RezObject OnRezObject;
         event RezRestoreToWorld OnRezRestoreToWorld;
+        event RezObject OnRezObject;
         // [Obsolete("LLClientView Specific - Replace with more suitable arguments.")]
         event ModifyTerrain OnModifyTerrain;
         event BakeTerrain OnBakeTerrain;

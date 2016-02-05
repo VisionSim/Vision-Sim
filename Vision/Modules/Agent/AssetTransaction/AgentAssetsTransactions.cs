@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,13 +25,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System.Collections.Generic;
-using OpenMetaverse;
+
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Services.ClassHelpers.Inventory;
+using OpenMetaverse;
+using System.Collections.Generic;
 
 namespace Vision.Modules.Agent.AssetTransaction
 {
@@ -72,8 +73,8 @@ namespace Vision.Modules.Agent.AssetTransaction
                 {
                     uploader = new AssetXferUploader(this, m_Scene, transactionID, m_dumpAssetsToFile);
 
-                    //MainConsole.Instance.DebugFormat(
-                    //     "[Agent Assets Transactions]: Adding asset xfer uploader {0} since it didn't previously exist", transactionID);
+                    //                    MainConsole.Instance.DebugFormat(
+                    //                        "[AGENT ASSETS TRANSACTIONS]: Adding asset xfer uploader {0} since it didn't previously exist", transactionID);
 
                     XferUploaders.Add(transactionID, uploader);
                 }
@@ -101,8 +102,9 @@ namespace Vision.Modules.Agent.AssetTransaction
             {
                 foreach (AssetXferUploader uploader in XferUploaders.Values)
                 {
-                    //MainConsole.Instance.DebugFormat(
-                    //     "[Agent Assets Transactions]: In HandleXfer, inspect xfer upload with xfer id {0}", uploader.XferID);
+                    //                    MainConsole.Instance.DebugFormat(
+                    //                        "[AGENT ASSETS TRANSACTIONS]: In HandleXfer, inspect xfer upload with xfer id {0}",
+                    //                        uploader.XferID);
 
                     if (uploader.XferID == xferID)
                     {
@@ -114,8 +116,9 @@ namespace Vision.Modules.Agent.AssetTransaction
 
             if (foundUploader != null)
             {
-                //MainConsole.Instance.DebugFormat(
-                //     "[Agent Assets Transactions]: Found xfer uploader for xfer id {0}, packet id {1}, data length {2}", xferID, packetID, data.Length);
+                //                MainConsole.Instance.DebugFormat(
+                //                    "[AGENT ASSETS TRANSACTIONS]: Found xfer uploader for xfer id {0}, packet id {1}, data length {2}",
+                //                    xferID, packetID, data.Length);
 
                 foundUploader.HandleXferPacket(xferID, packetID, data);
             }
@@ -129,10 +132,11 @@ namespace Vision.Modules.Agent.AssetTransaction
 
                 if (!removed)
                     MainConsole.Instance.WarnFormat(
-                        "[Agent Asset Transactions]: Received request to remove xfer uploader with transaction ID {0} but none found",
+                        "[AGENT ASSET TRANSACTIONS]: Received request to remove xfer uploader with transaction ID {0} but none found",
                         transactionID);
-                //else
-                //  MainConsole.Instance.DebugFormat("[Agent Asset Transactions]: Removed xfer uploader with transaction ID {0}", transactionID);
+                //                else
+                //                    MainConsole.Instance.DebugFormat(
+                //                        "[AGENT ASSET TRANSACTIONS]: Removed xfer uploader with transaction ID {0}", transactionID);
 
                 return removed;
             }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,12 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
+
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
@@ -39,6 +34,12 @@ using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Vision.Modules.OpenRegionSettingsModule
 {
@@ -225,7 +226,7 @@ namespace Vision.Modules.OpenRegionSettingsModule
 
         #region INonSharedRegionModule
 
-        public void Initialize(IConfigSource source)
+        public void Initialise(IConfigSource source)
         {
         }
 
@@ -259,6 +260,15 @@ namespace Vision.Modules.OpenRegionSettingsModule
                 m_settings.SayDistance = chatmodule.SayDistance;
                 m_settings.ShoutDistance = chatmodule.ShoutDistance;
             }
+            /*IScriptModule scriptmodule = scene.RequestModuleInterface<IScriptModule>();
+            if (scriptmodule != null)
+            {
+                List<string> FunctionNames = scriptmodule.GetAllFunctionNames();
+                foreach (string FunctionName in FunctionNames)
+                {
+                    m_settings.LSLCommands.Add(OSD.FromString(FunctionName));
+                }
+            }*/
         }
 
         public string Name

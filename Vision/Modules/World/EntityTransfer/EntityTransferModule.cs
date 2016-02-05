@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -69,7 +69,7 @@ namespace Vision.Modules.EntityTransfer
             get { return "BasicEntityTransferModule"; }
         }
 
-        public virtual void Initialize(IConfigSource source)
+        public virtual void Initialise(IConfigSource source)
         {
             IConfig moduleConfig = source.Configs["Modules"];
             if (moduleConfig != null)
@@ -654,7 +654,7 @@ namespace Vision.Modules.EntityTransfer
                 catch (Exception)
                 {
                     MainConsole.Instance.Warn(
-                        "[SCENE]: exception when trying to return the prim that crossed the border.");
+                        "[Scene]: exception when trying to return the prim that crossed the border.");
                 }
                 return false;
             }
@@ -850,7 +850,7 @@ namespace Vision.Modules.EntityTransfer
 
             // Don't disable this log message - it's too helpful
             MainConsole.Instance.TraceFormat(
-                "[Connection Begin]: Region {0} told of incoming {1} agent {2} (circuit code {3}, teleportflags {4})",
+                "[ConnectionBegin]: Region {0} told of incoming {1} agent {2} (circuit code {3}, teleportflags {4})",
                 scene.RegionInfo.RegionName, agent.IsChildAgent ? "child" : "root", agent.AgentID,
                 agent.CircuitCode, teleportFlags);
 
@@ -887,7 +887,7 @@ namespace Vision.Modules.EntityTransfer
             scene.AuthenticateHandler.AddNewCircuit(agent.CircuitCode, agent);
 
             MainConsole.Instance.InfoFormat(
-                "[Connection Begin]: Region {0} authenticated and authorized incoming {1} agent {2} (circuit code {3})",
+                "[ConnectionBegin]: Region {0} authenticated and authorized incoming {1} agent {2} (circuit code {3})",
                 scene.RegionInfo.RegionName, agent.IsChildAgent ? "child" : "root", agent.AgentID,
                 agent.CircuitCode);
 
@@ -927,7 +927,7 @@ namespace Vision.Modules.EntityTransfer
                 if (!AuthorizationService.IsAuthorizedForRegion(ourRegion, agent, !agent.IsChildAgent, out reason))
                 {
                     MainConsole.Instance.WarnFormat(
-                        "[Connection Begin]: Denied access to {0} at {1} because the user does not have access to the region, reason: {2}",
+                        "[ConnectionBegin]: Denied access to {0} at {1} because the user does not have access to the region, reason: {2}",
                         agent.AgentID, scene.RegionInfo.RegionName, reason);
                     reason = String.Format("You do not have access to the region {0}, reason: {1}",
                                            scene.RegionInfo.RegionName, reason);
@@ -951,7 +951,7 @@ namespace Vision.Modules.EntityTransfer
         public virtual bool IncomingChildAgentDataUpdate(IScene scene, AgentData cAgentData)
         {
             MainConsole.Instance.DebugFormat(
-                "[SCENE]: Incoming child agent update for {0} in {1}", cAgentData.AgentID, scene.RegionInfo.RegionName);
+                "[Scene]: Incoming child agent update for {0} in {1}", cAgentData.AgentID, scene.RegionInfo.RegionName);
 
             //No null updates!
             if (cAgentData == null)
@@ -1035,7 +1035,7 @@ namespace Vision.Modules.EntityTransfer
         /// <param name="agentID"></param>
         public bool IncomingCloseAgent(IScene scene, UUID agentID)
         {
-            //MainConsole.Instance.DebugFormat("[SCENE]: Processing incoming close agent for {0}", agentID);
+            //MainConsole.Instance.DebugFormat("[Scene]: Processing incoming close agent for {0}", agentID);
 
             IScenePresence presence = scene.GetScenePresence(agentID);
             if (presence != null)

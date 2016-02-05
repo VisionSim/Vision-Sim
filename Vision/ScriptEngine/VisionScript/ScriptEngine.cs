@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -202,7 +202,7 @@ namespace Vision.ScriptEngine.VisionScript
 
         #region ISharedRegionModule
 
-        public void Initialize(IConfigSource config)
+        public void Initialise(IConfigSource config)
         {
             m_ConfigSource = config;
             ScriptConfigSource = config.Configs[ScriptEngineName];
@@ -452,11 +452,11 @@ namespace Vision.ScriptEngine.VisionScript
                 MaintenanceThread.StartScripts(
                     scripts.Select(ID => new LUStruct {Action = LUType.Load, ID = ID}).ToArray());
 
-                MainConsole.Instance.Warn("[Virtual Script]: All scripts have been restarted.");
+                MainConsole.Instance.Warn("[Vision Script]: All scripts have been restarted.");
             }
             else
             {
-                MainConsole.Instance.Info("[Virtual Script]: Not restarting all scripts");
+                MainConsole.Instance.Info("[Vision Script]: Not restarting all scripts");
             }
         }
 
@@ -467,11 +467,11 @@ namespace Vision.ScriptEngine.VisionScript
             {
                 StopAllScripts();
                 MaintenanceThread.Stop();
-                MainConsole.Instance.Warn("[Virtual Script]: All scripts have been stopped.");
+                MainConsole.Instance.Warn("[Vision Script]: All scripts have been stopped.");
             }
             else
             {
-                MainConsole.Instance.Info("[Virtual Script]: Not restarting all scripts");
+                MainConsole.Instance.Info("[Vision Script]: Not restarting all scripts");
             }
         }
 
@@ -483,7 +483,7 @@ namespace Vision.ScriptEngine.VisionScript
             MainConsole.Instance.CleanInfo ("    Max allowed threat level: " + ScriptProtection.GetThreatLevel ());
             MainConsole.Instance.CleanInfo ("    Number of scripts running now: " + ScriptProtection.GetAllScripts ().Length);
             MainConsole.Instance.CleanInfo ("    Number of app domains: " + AppDomainManager.NumberOfAppDomains);
-//            MainConsole.Instance.CleanInfo ("    Permission level of app domains: " + AppDomainManager.PermissionLevel);
+            MainConsole.Instance.CleanInfo ("    Permission level of app domains: " + AppDomainManager.PermissionLevel);
             MainConsole.Instance.CleanInfo ("    Number Script Event threads: " +
                                       (MaintenanceThread.scriptThreadpool == null
                                            ? 0
@@ -498,14 +498,14 @@ namespace Vision.ScriptEngine.VisionScript
         protected void VisionDotNetDisable(IScene scene, string[] cmdparams)
         {
             ConsoleDisabled = true;
-            MainConsole.Instance.Warn("[Virtual Script]: VisionScript has been disabled.");
+            MainConsole.Instance.Warn("[Vision Script]: Virtual Script has been disabled.");
         }
 
         protected void VisionDotNetEnable(IScene scene, string[] cmdparams)
         {
             ConsoleDisabled = false;
             MaintenanceThread.Started = true;
-            MainConsole.Instance.Warn("[Virtual Script]: VisionScript has been enabled.");
+            MainConsole.Instance.Warn("[Vision Script]: Virtual Script has been enabled.");
         }
 
         #endregion

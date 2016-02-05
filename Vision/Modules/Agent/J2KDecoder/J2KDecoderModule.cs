@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,21 +25,22 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Modules;
+using Vision.Framework.Services;
+using Vision.Framework.Services.ClassHelpers.Assets;
+using Vision.Framework.Utilities;
+using CSJ2K;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.Imaging;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using CSJ2K;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.Imaging;
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Modules;
-using Vision.Framework.Services;
-using Vision.Framework.Services.ClassHelpers.Assets;
-using Vision.Framework.Utilities;
 
 namespace Vision.Modules.Agent.J2KDecoder
 {
@@ -189,6 +190,7 @@ namespace Vision.Modules.Agent.J2KDecoder
                                 OpenJPEG.J2KLayerInfo layer = new OpenJPEG.J2KLayerInfo
                                                                   {Start = i == 0 ? 0 : layerStarts[i]};
 
+
                                 if (i == layerStarts.Count - 1)
                                     layer.End = j2kData.Length;
                                 else
@@ -200,7 +202,7 @@ namespace Vision.Modules.Agent.J2KDecoder
                     }
                     catch (Exception ex)
                     {
-                        MainConsole.Instance.Warn("[J2kDecoder Module]: CSJ2K threw an exception decoding texture " +
+                        MainConsole.Instance.Warn("[J2KDecoderModule]: CSJ2K threw an exception decoding texture " +
                                                   assetID + ": " +
                                                   ex.Message);
                     }
@@ -210,7 +212,7 @@ namespace Vision.Modules.Agent.J2KDecoder
                     int components;
                     if (!OpenJPEG.DecodeLayerBoundaries(j2kData, out layers, out components))
                     {
-                        MainConsole.Instance.Warn("[J2kDecoder Module]: OpenJPEG failed to decode texture " + assetID);
+                        MainConsole.Instance.Warn("[J2KDecoderModule]: OpenJPEG failed to decode texture " + assetID);
                     }
                 }
 
@@ -218,7 +220,7 @@ namespace Vision.Modules.Agent.J2KDecoder
                 {
                     if (useCSJ2K == this.m_useCSJ2K)
                     {
-                        MainConsole.Instance.Warn("[J2kDecoder Module]: Failed to decode layer data with (" +
+                        MainConsole.Instance.Warn("[J2KDecoderModule]: Failed to decode layer data with (" +
                                                   (m_useCSJ2K ? "CSJ2K" : "OpenJPEG") + ") for texture " + assetID +
                                                   ", length " +
                                                   j2kData.Length + " trying " + (!m_useCSJ2K ? "CSJ2K" : "OpenJPEG"));
@@ -227,7 +229,7 @@ namespace Vision.Modules.Agent.J2KDecoder
                     else
                     {
                         //Second attempt at decode with the other j2k decoder, give up
-                        MainConsole.Instance.Warn("[J2kDecoder Module]: Failed to decode layer data (" +
+                        MainConsole.Instance.Warn("[J2KDecoderModule]: Failed to decode layer data (" +
                                                   (m_useCSJ2K ? "CSJ2K" : "OpenJPEG") + ") for texture " + assetID +
                                                   ", length " +
                                                   j2kData.Length + " guessing sane defaults");

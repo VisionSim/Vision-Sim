@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -26,12 +26,12 @@
  */
 
 using System;
-using Nini.Config;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
+using Nini.Config;
 
-namespace Vision.Modules.GlobalEnvironment
+namespace Vision.Modules.Cloud
 {
     public class CloudModule : ICloudModule
     {
@@ -48,7 +48,7 @@ namespace Vision.Modules.GlobalEnvironment
 
         #region ICloudModule Members
 
-        public void Initialize(IConfigSource config)
+        public void Initialise(IConfigSource config)
         {
             IConfig cloudConfig = config.Configs["Cloud"];
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -207,7 +207,7 @@ namespace Vision.Modules.Chat
 
         #region INonSharedRegionModule Members
 
-        public void Initialize (IConfigSource config)
+        public void Initialise (IConfigSource config)
         {
             IConfig m_config = config.Configs ["Dialog"];
             if (m_config != null)
@@ -243,7 +243,8 @@ namespace Vision.Modules.Chat
                     "alert broadcast", 
                     "alert broadcast <message>", 
                     "Send an alert to everyone logged in", 
-                    HandleAlertConsoleCommand, false, true);      
+                    HandleAlertConsoleCommand, false, true);
+                
             }
         }
 
@@ -294,7 +295,7 @@ namespace Vision.Modules.Chat
 
                 if (cmdType.StartsWith ("g"))
                 {
-                    MainConsole.Instance.InfoFormat ("[Dialog]: Sending general alert in region {0} with message '{1}'",
+                    MainConsole.Instance.InfoFormat ("[DIALOG]: Sending general alert in region {0} with message '{1}'",
                         scene.RegionInfo.RegionName, message);
 
                     // send the message
@@ -305,7 +306,7 @@ namespace Vision.Modules.Chat
                 } else
                 {
 
-                    MainConsole.Instance.InfoFormat ("[Dialog]: Sending broadcast alert to all regions with message '{0}'",  message);
+                    MainConsole.Instance.InfoFormat ("[DIALOG]: Sending broadcast alert to all regions with message '{0}'",  message);
 
                     // broadcast the message
                     foreach (IScene scn in MainConsole.Instance.ConsoleScenes)
@@ -335,7 +336,7 @@ namespace Vision.Modules.Chat
                 return;
                        
 
-            MainConsole.Instance.InfoFormat ("[Dialog]: Sending alert in region {0} to {1} with message '{2}'",
+            MainConsole.Instance.InfoFormat ("[DIALOG]: Sending alert in region {0} to {1} with message '{2}'",
                 scene.RegionInfo.RegionName, userName, message);
 
             // send the message to the user

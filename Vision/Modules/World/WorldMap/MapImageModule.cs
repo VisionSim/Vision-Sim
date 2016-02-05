@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -112,10 +112,10 @@ namespace Vision.Modules.WorldMap
                 drawPrimVolume = false;
             }
 
-            MainConsole.Instance.InfoFormat("[Map Tile Generator]: Generating Maptile for {0}, using {1} ",
+            MainConsole.Instance.InfoFormat("[MapTileGenerator]: Generating Maptile for {0}, using {1} ",
                 m_scene.RegionInfo.RegionName, tileRenderer);
 
-            terrainRenderer.Initialize(m_scene, m_config);
+            terrainRenderer.Initialise(m_scene, m_config);
 
             mapBMP = null;
             terrainBMP = new Bitmap(Constants.RegionSize, Constants.RegionSize, PixelFormat.Format24bppRgb);
@@ -139,7 +139,7 @@ namespace Vision.Modules.WorldMap
 
             terrainRenderer = null;
 
-            MainConsole.Instance.InfoFormat("[Map Tile Generator]: Maptile generation took {0} ms",
+            MainConsole.Instance.InfoFormat("[MapTileGenerator]: Maptile generation took {0} ms",
                 (Environment.TickCount - start));
 
         }
@@ -170,13 +170,13 @@ namespace Vision.Modules.WorldMap
             int start = Environment.TickCount;
             var renderer = new WarpTileRenderer();
 
-            MainConsole.Instance.InfoFormat ("[Map Tile Generator]: Generating worldview for {0}",
+            MainConsole.Instance.InfoFormat ("[MapTileGenerator]: Generating worldview for {0}",
                 m_scene.RegionInfo.RegionName);
 
-            renderer.Initialize(m_scene, m_config);
+            renderer.Initialise(m_scene, m_config);
             Bitmap worldView = renderer.CreateViewImage (camPos, camDir, fov, width, height, useTextures);
 
-            MainConsole.Instance.InfoFormat("[Map Tile Generator]: Worldview generation took {0} ms",
+            MainConsole.Instance.InfoFormat("[MapTileGenerator]: Worldview generation took {0} ms",
                 (Environment.TickCount - start));
 
             return worldView;
@@ -187,12 +187,12 @@ namespace Vision.Modules.WorldMap
             int start = Environment.TickCount;
             var renderer = new WarpTileRenderer();
 
-             MainConsole.Instance.InfoFormat("[Map Tile Generator]: Generating world maptile for {0}",
+             MainConsole.Instance.InfoFormat("[MapTileGenerator]: Generating world maptile for {0}",
                         m_scene.RegionInfo.RegionName);
-            renderer.Initialize(m_scene, m_config);
+            renderer.Initialise(m_scene, m_config);
             Bitmap worldMap = renderer.TerrainToBitmap (null, size);
 
-            MainConsole.Instance.InfoFormat("[Map Tile Generator]: World maptile generation took {0} ms",
+            MainConsole.Instance.InfoFormat("[MapTileGenerator]: World maptile generation took {0} ms",
                 (Environment.TickCount - start));
 
             return worldMap;
@@ -218,7 +218,7 @@ namespace Vision.Modules.WorldMap
 
         #region INonSharedRegionModule Members
 
-        public void Initialize(IConfigSource source)
+        public void Initialise(IConfigSource source)
         {
             m_config = source;
         }

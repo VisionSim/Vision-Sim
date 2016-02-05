@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -226,21 +226,21 @@ namespace Vision.Simulation.Base
         {
             MainConsole.Instance.Info("====================================================================");
             MainConsole.Instance.Info(
-				        string.Format("==================== Starting Vision-Sim ({0}) ======================",
+				        string.Format("================ Starting Vision Sim ({0}) ===================",
                               (IntPtr.Size == 4 ? "x86" : "x64")));
             MainConsole.Instance.Info("====================================================================");
-            MainConsole.Instance.Info("[Vision-Sim Startup]: Version : " + Version + "\n");
-            MainConsole.Instance.Info("[Vision-Sim Startup]: Git Base: " + VersionInfo.GitVersion + "\n");
+            MainConsole.Instance.Info("[Vision Sim Startup]: Version : " + Version + "\n");
+            MainConsole.Instance.Info("[Vision Sim Startup]: Git Base: " + VersionInfo.GitVersion + "\n");
             if (Environment.Is64BitOperatingSystem)
-                MainConsole.Instance.Info("[Vision-Sim Startup]: Running on 64 bit architecture");
+                MainConsole.Instance.Info("[Vision Sim Startup]: Running on 64 bit architecture");
             // get memory allocation
             Process proc = Process.GetCurrentProcess();
-            MainConsole.Instance.Info("[Vision-Sim Startup]: Allocated RAM " + proc.WorkingSet64);
+            MainConsole.Instance.Info("[Vision Sim Startup]: Allocated RAM " + proc.WorkingSet64);
             if (Utilities.IsLinuxOs)
             {
                 var pc = new PerformanceCounter ("Mono Memory", "Total Physical Memory");
                 var bytes = pc.RawValue;
-                MainConsole.Instance.InfoFormat ("[Vision-Sim Startup]: Physical RAM (Mbytes): {0}", bytes / 1024000);
+                MainConsole.Instance.InfoFormat ("[Vision Sim Startup]: Physical RAM (Mbytes): {0}", bytes / 1024000);
             }
 
             SetUpHTTPServer();
@@ -364,7 +364,7 @@ namespace Vision.Simulation.Base
                 plugin.Initialize(this);
 
             foreach (IApplicationPlugin plugin in m_applicationPlugins)
-                plugin.PostInitialize();
+                plugin.PostInitialise();
 
             foreach (IApplicationPlugin plugin in m_applicationPlugins)
                 plugin.Start();
@@ -519,7 +519,7 @@ namespace Vision.Simulation.Base
         public virtual void HandleForceGC(IScene scene, string[] cmd)
         {
             GC.Collect();
-            MainConsole.Instance.Warn("[Garbage Collection Service]: Garbage collection finished");
+            MainConsole.Instance.Warn("[Garbage Collection]: Garbage collection finished");
         }
 
         public virtual void runConfig(IScene scene, string[] cmd)
@@ -560,7 +560,7 @@ namespace Vision.Simulation.Base
             {
                 server.HostName = hostName;
             }
-            MainConsole.Instance.Info("[Vision-Sim Configuration]: Finished reloading configuration.");
+            MainConsole.Instance.Info("[Vision Sim Configuration]: Finished reloading configuration.");
         }
 
         public virtual void HandleShowInfo(IScene scene, string[] cmd)

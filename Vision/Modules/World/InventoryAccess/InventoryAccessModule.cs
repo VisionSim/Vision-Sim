@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -63,7 +63,7 @@ namespace Vision.Modules.InventoryAccess
             get { return "BasicInventoryAccessModule"; }
         }
 
-        public virtual void Initialize(IConfigSource source)
+        public virtual void Initialise(IConfigSource source)
         {
             IConfig moduleConfig = source.Configs["Modules"];
             if (moduleConfig != null)
@@ -72,12 +72,12 @@ namespace Vision.Modules.InventoryAccess
                 if (name == Name)
                 {
                     m_Enabled = true;
-                    //MainConsole.Instance.InfoFormat("[Inventory Access Module]: {0} enabled.", Name);
+                    //MainConsole.Instance.InfoFormat("[INVENTORY ACCESS MODULE]: {0} enabled.", Name);
                 }
             }
         }
 
-        public virtual void PostInitialize()
+        public virtual void PostInitialise()
         {
         }
 
@@ -130,7 +130,7 @@ namespace Vision.Modules.InventoryAccess
         void ClientRezRestoreToWorld(IClientAPI remoteClient, UUID itemID, UUID groupID)
         {
             // Restore object to previous location
-            var userInfo = m_scene.UserAccountService.GetUserAccount(null, remoteClient.AgentId);
+            var userInfo = m_scene.UserAccountService.GetUserAccount(null,remoteClient.AgentId);
             if (userInfo != null)
             {
                 InventoryItemBase item = m_scene.InventoryService.GetItem(remoteClient.AgentId, itemID);
@@ -141,7 +141,7 @@ namespace Vision.Modules.InventoryAccess
                 }
             }
             //else
-            //    MainConsole.Instance,DebugFormat("[Agent Inventory]: User profile not found during restore object: {0}", RegionInfo.RegionName);
+            //    MainConsole.Instance,DebugFormat("[AGENT INVENTORY]: User profile not found during restore object: {0}", RegionInfo.RegionName);
         }
 
         /// <summary>
@@ -173,7 +173,7 @@ namespace Vision.Modules.InventoryAccess
 
             if (item != null)
             {
-                if ((InventoryType)item.InvType == InventoryType.Notecard)
+                if ((InventoryType) item.InvType == InventoryType.Notecard)
                 {
                     if (!m_scene.Permissions.CanEditNotecard(itemID, UUID.Zero, remoteClient.AgentId))
                     {
@@ -191,7 +191,7 @@ namespace Vision.Modules.InventoryAccess
 
                     return SuccessNotecardCAPSUpdate(item.AssetID, itemID);
                 }
-                if ((InventoryType)item.InvType == InventoryType.Gesture)
+                if ((InventoryType) item.InvType == InventoryType.Gesture)
                 {
                     if (!m_scene.Permissions.CanEditNotecard(itemID, UUID.Zero, remoteClient.AgentId))
                     {
@@ -209,7 +209,7 @@ namespace Vision.Modules.InventoryAccess
 
                     return SuccessNotecardCAPSUpdate(item.AssetID, itemID);
                 }
-                if ((InventoryType)item.InvType == InventoryType.LSL)
+                if ((InventoryType) item.InvType == InventoryType.LSL)
                 {
                     if (!m_scene.Permissions.CanEditScript(itemID, UUID.Zero, remoteClient.AgentId))
                         return FailedPermissionsScriptCAPSUpdate(UUID.Zero, itemID);
@@ -235,7 +235,7 @@ namespace Vision.Modules.InventoryAccess
                 return "";
             }
             MainConsole.Instance.ErrorFormat(
-                "[Agent Inventory]: Could not find item {0} for caps inventory update",
+                "[AGENT INVENTORY]: Could not find item {0} for caps inventory update",
                 itemID);
 
             return "";
@@ -249,7 +249,7 @@ namespace Vision.Modules.InventoryAccess
             map["state"] = "complete";
             map["compiled"] = false;
             map["errors"] = new OSDArray();
-            ((OSDArray)map["errors"]).Add(error);
+            ((OSDArray) map["errors"]).Add(error);
             return OSDParser.SerializeLLSDXmlString(map);
         }
 
@@ -261,7 +261,7 @@ namespace Vision.Modules.InventoryAccess
             map["state"] = "complete";
             map["compiled"] = false;
             map["errors"] = new OSDArray();
-            ((OSDArray)map["errors"]).Add("Insufficient permissions to edit script");
+            ((OSDArray) map["errors"]).Add("Insufficient permissions to edit script");
             return OSDParser.SerializeLLSDXmlString(map);
         }
 
@@ -313,6 +313,7 @@ namespace Vision.Modules.InventoryAccess
                 return UUID.Zero;
 
             // Get the user info of the item destination
+            //
             IScenePresence SP = m_scene.GetScenePresence(agentId);
             UUID userID = UUID.Zero;
 
@@ -321,6 +322,7 @@ namespace Vision.Modules.InventoryAccess
             {
                 // Take or take copy require a taker
                 // Saving changes requires a local user
+                //
                 if (SP == null || SP.ControllingClient == null)
                     return UUID.Zero;
 
@@ -329,6 +331,8 @@ namespace Vision.Modules.InventoryAccess
             else
             {
                 // All returns / deletes go to the object owner
+                //
+
                 userID = objectGroups[0].OwnerID;
             }
 
@@ -341,6 +345,8 @@ namespace Vision.Modules.InventoryAccess
             // owner's Lost And Found folder.
             // Delete is treated like return in this case
             // Deleting your own items makes them go to trash
+            //
+
             InventoryFolderBase folder = null;
             InventoryItemBase item = null;
 
@@ -354,7 +360,7 @@ namespace Vision.Modules.InventoryAccess
                 if (null == item)
                 {
                     MainConsole.Instance.DebugFormat(
-                        "[Agent Inventory]: Object {0} {1} scheduled for save to inventory has already been deleted.",
+                        "[AGENT INVENTORY]: Object {0} {1} scheduled for save to inventory has already been deleted.",
                         objectGroups[0].Name, objectGroups[0].UUID);
                     return UUID.Zero;
                 }
@@ -362,9 +368,12 @@ namespace Vision.Modules.InventoryAccess
             else
             {
                 // Folder magic
+                //
                 if (action == DeRezAction.Delete)
                 {
                     // Deleting someone else's item
+                    //
+
                     if (SP == null || SP.ControllingClient == null ||
                         objectGroups[0].OwnerID != agentId)
                     {
@@ -378,6 +387,7 @@ namespace Vision.Modules.InventoryAccess
                 else if (action == DeRezAction.Return)
                 {
                     // Dump to lost + found unconditionally
+                    //
                     folder = m_scene.InventoryService.GetFolderForType(userID, InventoryType.Unknown, FolderType.LostAndFound);
                 }
 
@@ -386,6 +396,7 @@ namespace Vision.Modules.InventoryAccess
                     if (action == DeRezAction.Delete)
                     {
                         // Deletes go to trash by default
+                        //
                         folder = m_scene.InventoryService.GetFolderForType(userID, InventoryType.Unknown, FolderType.Trash);
                     }
                     else
@@ -404,6 +415,7 @@ namespace Vision.Modules.InventoryAccess
 
                 // Override and put into where it came from, if it came
                 // from anywhere in inventory
+                //
                 if (action == DeRezAction.Attachment || action == DeRezAction.Take ||
                     action == DeRezAction.AcquireToUserInventory)
                 {
@@ -425,13 +437,13 @@ namespace Vision.Modules.InventoryAccess
                 }
 
                 item = new InventoryItemBase
-                {
-                    CreatorId = objectGroups[0].RootChild.CreatorID.ToString(),
-                    ID = UUID.Random(),
-                    InvType = (int)InventoryType.Object,
-                    Folder = folder.ID,
-                    Owner = userID
-                };
+                           {
+                               CreatorId = objectGroups[0].RootChild.CreatorID.ToString(),
+                               ID = UUID.Random(),
+                               InvType = (int) InventoryType.Object,
+                               Folder = folder.ID,
+                               Owner = userID
+                           };
             }
 
             AssetBase asset;
@@ -458,23 +470,23 @@ namespace Vision.Modules.InventoryAccess
                     {
                         uint perms = group.GetEffectivePermissions();
                         uint nextPerms = (perms & 7) << 13;
-                        if ((nextPerms & (uint)PermissionMask.Copy) == 0)
-                            perms &= ~(uint)PermissionMask.Copy;
-                        if ((nextPerms & (uint)PermissionMask.Transfer) == 0)
-                            perms &= ~(uint)PermissionMask.Transfer;
-                        if ((nextPerms & (uint)PermissionMask.Modify) == 0)
-                            perms &= ~(uint)PermissionMask.Modify;
+                        if ((nextPerms & (uint) PermissionMask.Copy) == 0)
+                            perms &= ~(uint) PermissionMask.Copy;
+                        if ((nextPerms & (uint) PermissionMask.Transfer) == 0)
+                            perms &= ~(uint) PermissionMask.Transfer;
+                        if ((nextPerms & (uint) PermissionMask.Modify) == 0)
+                            perms &= ~(uint) PermissionMask.Modify;
 
                         // Make sure all bits but the ones we want are clear
                         // on take.
                         // This will be applied to the current perms, so
                         // it will do what we want.
                         group.RootChild.NextOwnerMask &=
-                            ((uint)PermissionMask.Copy |
-                             (uint)PermissionMask.Transfer |
-                             (uint)PermissionMask.Modify);
+                            ((uint) PermissionMask.Copy |
+                             (uint) PermissionMask.Transfer |
+                             (uint) PermissionMask.Modify);
                         group.RootChild.NextOwnerMask |=
-                            (uint)PermissionMask.Move;
+                            (uint) PermissionMask.Move;
 
                         item.BasePermissions = perms & group.RootChild.NextOwnerMask;
                         item.CurrentPermissions = item.BasePermissions;
@@ -505,16 +517,16 @@ namespace Vision.Modules.InventoryAccess
                         item.SaleType = group.RootChild.ObjectSaleType;
 
                         item.CurrentPermissions &=
-                            ((uint)PermissionMask.Copy |
-                             (uint)PermissionMask.Transfer |
-                             (uint)PermissionMask.Modify |
-                             (uint)PermissionMask.Move |
+                            ((uint) PermissionMask.Copy |
+                             (uint) PermissionMask.Transfer |
+                             (uint) PermissionMask.Modify |
+                             (uint) PermissionMask.Move |
                              7); // Preserve folded permissions
                     }
                 }
 
                 if (objectGroups.Count != 1)
-                    item.Flags |= (uint)InventoryItemFlags.ObjectHasMultipleItems;
+                    item.Flags |= (uint) InventoryItemFlags.ObjectHasMultipleItems;
                 item.CreationDate = Util.UnixTimeSinceEpoch();
 
                 m_LLCLientInventoryModule.AddInventoryItem(item);
@@ -581,7 +593,7 @@ namespace Vision.Modules.InventoryAccess
             asset = CreateAsset(
                 objectGroups[0].Name,
                 objectGroups[0].RootChild.Description,
-                (sbyte)AssetType.Object,
+                (sbyte) AssetType.Object,
                 Utils.StringToBytes(AssetXML),
                 objectGroups[0].OwnerID.ToString());
             asset.ID = m_scene.AssetService.Store(asset);
@@ -600,7 +612,7 @@ namespace Vision.Modules.InventoryAccess
             // item that it came from.  This allows us to enable 'save object to inventory'
             if (!m_scene.Permissions.BypassPermissions())
             {
-                if ((item.CurrentPermissions & (uint)PermissionMask.Copy) == (uint)PermissionMask.Copy)
+                if ((item.CurrentPermissions & (uint) PermissionMask.Copy) == (uint) PermissionMask.Copy)
                 {
                     itemId = item.ID;
                 }
@@ -629,7 +641,7 @@ namespace Vision.Modules.InventoryAccess
             // item that it came from.  This allows us to enable 'save object to inventory'
             if (!m_scene.Permissions.BypassPermissions())
             {
-                if ((item.CurrentPermissions & (uint)PermissionMask.Copy) == (uint)PermissionMask.Copy)
+                if ((item.CurrentPermissions & (uint) PermissionMask.Copy) == (uint) PermissionMask.Copy)
                 {
                     itemId = item.ID;
                 }
@@ -637,6 +649,7 @@ namespace Vision.Modules.InventoryAccess
             else
             {
                 // Brave new fullperm world
+                //
                 itemId = item.ID;
             }
             return CreateObjectFromInventory(remoteClient, itemId, item.AssetID, out doc, item);
@@ -712,7 +725,7 @@ namespace Vision.Modules.InventoryAccess
             AssetBase rezAsset = m_scene.AssetService.Get(item.AssetID.ToString());
             if (rezAsset == null)
             {
-                remoteClient.SendAlertMessage("Failed to find the item you requested.");
+                remoteClient.SendAlertMessage ("Failed to find the item you requested.");
                 return false;
             }
 
@@ -726,30 +739,32 @@ namespace Vision.Modules.InventoryAccess
             if (attachment)
             {
                 remoteClient.SendAlertMessage("Inventory item is an attachment, use Wear or Add instead.");
-                return false;
+                return false;                                    
             }
 
             Vector3 pos = group.AbsolutePosition;                                       // maybe .RootPart.GroupPositionNoUpdate;
-            var rezGroup = RezObject(remoteClient, itemID,
+            var rezGroup = RezObject (remoteClient, itemID,
                 pos, Vector3.Zero, UUID.Zero, 1, true, false, false, UUID.Zero);        // NOTE May need taskID from calling llclientview
 
             if (rezGroup != null)
                 success = true;
+      
 
-            if (success && !m_scene.Permissions.BypassPermissions())
+            if (success && !m_scene.Permissions.BypassPermissions ())
             {
                 //we check the inventory item permissions here instead of the prim permissions
                 //if the group or item is no copy, it should be removed
                 if ((item.CurrentPermissions & (uint)PermissionMask.Copy) == 0)
                 {
                     // Not an attachment and no-copy, so remove inventory copy.
-                    m_scene.AssetService.Delete(itemID);
+                    m_scene.AssetService.Delete (itemID);
 
                     List<UUID> itemIDs = new List<UUID> { itemId };
-                    m_scene.InventoryService.DeleteItems(remoteClient.AgentId, itemIDs);
+                    m_scene.InventoryService.DeleteItems (remoteClient.AgentId, itemIDs);
                 }
             }
             return success;
+
         }
 
         /// <summary>
@@ -775,7 +790,7 @@ namespace Vision.Modules.InventoryAccess
             // Work out position details
             byte bRayEndIsIntersection;
 
-            bRayEndIsIntersection = (byte)(RayEndIsIntersection ? 1 : 0);
+            bRayEndIsIntersection = (byte) (RayEndIsIntersection ? 1 : 0);
 
             XmlDocument doc;
             //It might be a library item, send UUID.Zero
@@ -798,38 +813,39 @@ namespace Vision.Modules.InventoryAccess
                 m_scene.SceneGraph.TryGetEntity(fromTaskID, out e);
                 if (e != null && e is ISceneEntity)
                 {
-                    ISceneEntity grp = (ISceneEntity)e;
+                    ISceneEntity grp = (ISceneEntity) e;
                     TaskInventoryItem taskItem = grp.RootChild.Inventory.GetInventoryItem(itemID);
                     item = new InventoryItemBase
-                    {
-                        ID = UUID.Random(),
-                        CreatorId = taskItem.CreatorID.ToString(),
-                        Owner = remoteClient.AgentId,
-                        AssetID = taskItem.AssetID,
-                        Description = taskItem.Description,
-                        Name = taskItem.Name,
-                        AssetType = taskItem.Type,
-                        InvType = taskItem.InvType,
-                        Flags = taskItem.Flags,
-                        SalePrice = taskItem.SalePrice,
-                        SaleType = taskItem.SaleType
-                    };
+                               {
+                                   ID = UUID.Random(),
+                                   CreatorId = taskItem.CreatorID.ToString(),
+                                   Owner = remoteClient.AgentId,
+                                   AssetID = taskItem.AssetID,
+                                   Description = taskItem.Description,
+                                   Name = taskItem.Name,
+                                   AssetType = taskItem.Type,
+                                   InvType = taskItem.InvType,
+                                   Flags = taskItem.Flags,
+                                   SalePrice = taskItem.SalePrice,
+                                   SaleType = taskItem.SaleType
+                               };
+
 
                     if (m_scene.Permissions.PropagatePermissions())
                     {
                         item.BasePermissions = taskItem.BasePermissions &
-                                               (taskItem.NextPermissions | (uint)PermissionMask.Move);
-                        if (taskItem.InvType == (int)InventoryType.Object)
+                                               (taskItem.NextPermissions | (uint) PermissionMask.Move);
+                        if (taskItem.InvType == (int) InventoryType.Object)
                             item.CurrentPermissions = item.BasePermissions &
                                                       (((taskItem.CurrentPermissions & 7) << 13) |
-                                                       (taskItem.CurrentPermissions & (uint)PermissionMask.Move));
+                                                       (taskItem.CurrentPermissions & (uint) PermissionMask.Move));
                         else
                             item.CurrentPermissions = item.BasePermissions & taskItem.CurrentPermissions;
 
                         item.CurrentPermissions |= 16; // Slam
                         item.NextPermissions = taskItem.NextPermissions;
                         item.EveryOnePermissions = taskItem.EveryonePermissions &
-                                                   (taskItem.NextPermissions | (uint)PermissionMask.Move);
+                                                   (taskItem.NextPermissions | (uint) PermissionMask.Move);
                         item.GroupPermissions = taskItem.GroupPermissions & taskItem.NextPermissions;
                     }
                     else
@@ -879,7 +895,8 @@ namespace Vision.Modules.InventoryAccess
                 // have already removed the item from the folder
                 // if it's no copy.
                 // Put it back if it's not an attachment
-                if ((item.CurrentPermissions & (uint)PermissionMask.Copy) == 0)
+                //
+                if ((item.CurrentPermissions & (uint) PermissionMask.Copy) == 0)
                     remoteClient.SendBulkUpdateInventory(item);
                 remoteClient.SendAlertMessage("You do not have permission to rez objects here.");
                 return null;
@@ -896,7 +913,7 @@ namespace Vision.Modules.InventoryAccess
             //  Set it's position in world.
             const float offsetHeight = 0;
             //The OOBsize is only half the size, x2
-            Vector3 newSize = (group.OOBsize * 2) * Quaternion.Inverse(group.GroupRotation);
+            Vector3 newSize = (group.OOBsize*2)*Quaternion.Inverse(group.GroupRotation);
             pos = m_scene.SceneGraph.GetNewRezLocation(
                 RayStart, RayEnd, RayTargetID, Quaternion.Identity,
                 BypassRayCast, bRayEndIsIntersection, true, newSize, false);
@@ -907,7 +924,7 @@ namespace Vision.Modules.InventoryAccess
             ISceneChildEntity rootPart = group.GetChildPart(group.UUID);
             if (rootPart == null)
             {
-                MainConsole.Instance.Error("[Agent Inventory]: Error rezzing ItemID: " + itemID +
+                MainConsole.Instance.Error("[AGENT INVENTORY]: Error rezzing ItemID: " + itemID +
                                            " object has no rootpart.");
                 return null;
             }
@@ -963,7 +980,7 @@ namespace Vision.Modules.InventoryAccess
 
             rootPart.TrimPermissions();
 
-            if (group.RootChild.Shape.PCode == (byte)PCode.Prim)
+            if (group.RootChild.Shape.PCode == (byte) PCode.Prim)
             {
                 group.ClearPartAttachmentData();
             }
@@ -974,9 +991,9 @@ namespace Vision.Modules.InventoryAccess
             group.ScheduleGroupUpdate(PrimUpdateFlags.ForcedFullUpdate);
             if (!m_scene.Permissions.BypassPermissions())
             {
-                if ((item.CurrentPermissions & (uint)PermissionMask.Copy) == 0)
+                if ((item.CurrentPermissions & (uint) PermissionMask.Copy) == 0)
                 {
-                    List<UUID> uuids = new List<UUID> { item.ID };
+                    List<UUID> uuids = new List<UUID> {item.ID};
                     m_scene.InventoryService.DeleteItems(item.Owner, uuids);
                 }
             }
@@ -1024,7 +1041,8 @@ namespace Vision.Modules.InventoryAccess
                     // have already removed the item from the folder
                     // if it's no copy.
                     // Put it back if it's not an attachment
-                    if (((item.CurrentPermissions & (uint)PermissionMask.Copy) == 0))
+                    //
+                    if (((item.CurrentPermissions & (uint) PermissionMask.Copy) == 0))
                         remoteClient.SendBulkUpdateInventory(item);
                     return null;
                 }
@@ -1104,7 +1122,7 @@ namespace Vision.Modules.InventoryAccess
 
                 rootPart.TrimPermissions();
 
-                if (group.RootChild.Shape.PCode == (byte)PCode.Prim)
+                if (group.RootChild.Shape.PCode == (byte) PCode.Prim)
                     group.ClearPartAttachmentData();
 
                 // Fire on_rez
@@ -1112,11 +1130,12 @@ namespace Vision.Modules.InventoryAccess
 
                 if (!m_scene.Permissions.BypassPermissions())
                 {
-                    if ((item.CurrentPermissions & (uint)PermissionMask.Copy) == 0)
+                    if ((item.CurrentPermissions & (uint) PermissionMask.Copy) == 0)
                     {
                         // If this is done on attachments, no
                         // copy ones will be lost, so avoid it
-                        List<UUID> uuids = new List<UUID> { item.ID };
+                        //
+                        List<UUID> uuids = new List<UUID> {item.ID};
                         m_scene.InventoryService.DeleteItems(item.Owner, uuids);
                     }
                 }
@@ -1148,7 +1167,8 @@ namespace Vision.Modules.InventoryAccess
             // At this point, we need to apply perms
             // only to notecards and scripts. All
             // other asset types are always available
-            if (assetRequestItem.AssetType == (int)AssetType.LSLText)
+            //
+            if (assetRequestItem.AssetType == (int) AssetType.LSLText)
             {
                 if (!m_scene.Permissions.CanViewScript(itemID, UUID.Zero, remoteClient.AgentId))
                 {
@@ -1156,7 +1176,7 @@ namespace Vision.Modules.InventoryAccess
                     return false;
                 }
             }
-            else if (assetRequestItem.AssetType == (int)AssetType.Notecard)
+            else if (assetRequestItem.AssetType == (int) AssetType.Notecard)
             {
                 if (!m_scene.Permissions.CanViewNotecard(itemID, UUID.Zero, remoteClient.AgentId))
                 {
@@ -1175,6 +1195,7 @@ namespace Vision.Modules.InventoryAccess
 
             return true;
         }
+
 
         public virtual bool IsForeignUser(UUID userID, out string assetServerURL)
         {
@@ -1197,8 +1218,8 @@ namespace Vision.Modules.InventoryAccess
         /// <returns></returns>
         AssetBase CreateAsset(string name, string description, sbyte assetType, byte[] data, string creatorID)
         {
-            AssetBase asset = new AssetBase(UUID.Random(), name, (AssetType)assetType, UUID.Parse(creatorID))
-            { Description = description, Data = data ?? new byte[1] };
+            AssetBase asset = new AssetBase(UUID.Random(), name, (AssetType) assetType, UUID.Parse(creatorID))
+                                  {Description = description, Data = data ?? new byte[1]};
 
             return asset;
         }

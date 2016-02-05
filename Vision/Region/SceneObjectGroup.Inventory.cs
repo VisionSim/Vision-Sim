@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -150,7 +150,7 @@ namespace Vision.Region
                 return true;
             }
             MainConsole.Instance.ErrorFormat(
-                "[Prim Inventory]: " +
+                "[PRIM INVENTORY]: " +
                 "Couldn't find prim local ID {0} in group {1}, {2} to add inventory item ID {3}",
                 localID, Name, UUID, newItemId);
 
@@ -171,7 +171,7 @@ namespace Vision.Region
                 return part.Inventory.GetInventoryItem(itemID);
             }
             MainConsole.Instance.ErrorFormat(
-                "[Prim Inventory]: " +
+                "[PRIM INVENTORY]: " +
                 "Couldn't find prim local ID {0} in prim {1}, {2} to get inventory item ID {3}",
                 primID, "unknown", "unknown", itemID);
 
@@ -196,7 +196,7 @@ namespace Vision.Region
                 return true;
             }
             MainConsole.Instance.ErrorFormat(
-                "[Prim Inventory]: " +
+                "[PRIM INVENTORY]: " +
                 "Couldn't find prim ID {0} to update item {1}, {2}",
                 item.ParentPartID, item.Name, item.ItemID);
 

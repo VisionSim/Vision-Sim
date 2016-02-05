@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,19 +25,19 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Windows.Forms;
-using Nini.Config;
-using OpenMetaverse.StructuredData;
-using RunTimeCompiler;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.ModuleLoader;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
+using Nini.Config;
+using OpenMetaverse.StructuredData;
+using RunTimeCompiler;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Windows.Forms;
 
 namespace Vision.Modules.Installer
 {
@@ -124,11 +124,11 @@ namespace Vision.Modules.Installer
             var modulePath = Path.GetDirectoryName (fileName);
             if (!Directory.Exists (modulePath))
             {
-                MainConsole.Instance.Error ("[Module Installer]: Invalid module path: " + modulePath);
+                MainConsole.Instance.Error ("Invalid module path: " + modulePath);
                 return;
             } else if (!File.Exists (fileName))
             {
-                MainConsole.Instance.Error ("[Module Installer]: Unable to find the module " + fileName);
+                MainConsole.Instance.Error ("Unable to find the module " + fileName);
                 return;
             }
 
@@ -143,7 +143,7 @@ namespace Vision.Modules.Installer
                                               Path.GetFileNameWithoutExtension(fileName) + ".tmp.xml");
                 if (!File.Exists (tmpFile))
                 {
-                    MainConsole.Instance.Error ("[Module Installer]: Unable to find the module prebuild information: " + tmpFile);
+                    MainConsole.Instance.Error ("Unable to find the module prebuild information: " + tmpFile);
                     return;
                 }
                 ReadFileAndCreatePrebuildFile(tmpFile, fileName);
@@ -236,7 +236,7 @@ namespace Vision.Modules.Installer
                 CopyAndInstallDllFile(dllFile, copiedDllFile, options);
             }
             else
-                MainConsole.Instance.Warn("[Module Installer]: Failed to compile the module, exiting! (" + project.BuildOutput + ")");
+                MainConsole.Instance.Warn("Failed to compile the module, exiting! (" + project.BuildOutput + ")");
 
             File.Delete(Path.Combine(Path.GetDirectoryName(tmpFile), "Vision.sln"));
             File.Delete(Path.Combine(Path.GetDirectoryName(tmpFile), projFile));
@@ -254,13 +254,13 @@ namespace Vision.Modules.Installer
             }
             catch (Exception ex)
             {
-                MainConsole.Instance.Warn("[Module Installer]: Failed to copy the module! (" + ex + ")");
+                MainConsole.Instance.Warn("Failed to copy the module! (" + ex + ")");
                 if (MainConsole.Instance.Prompt("Continue?", "yes", new List<string>(new[] {"yes", "no"})) == "no")
                     return;
             }
             string basePath = Path.Combine(Environment.CurrentDirectory, copiedDllFile);
             LoadModulesFromDllFile(basePath);
-            MainConsole.Instance.Warn("[Module Installer]: Installed the module successfully!");
+            MainConsole.Instance.Warn("Installed the module successfully!");
         }
 
         private void ReadFileAndCreatePrebuildFile(string tmpFile, string fileName)
@@ -393,7 +393,7 @@ namespace Vision.Modules.Installer
             {
                 plugin.PreStartup(m_registry.RequestModuleInterface<ISimulationBase>());
                 plugin.Initialize(m_registry.RequestModuleInterface<ISimulationBase>());
-                plugin.PostInitialize();
+                plugin.PostInitialise();
                 plugin.Start();
                 plugin.PostStart();
             }
@@ -405,7 +405,7 @@ namespace Vision.Modules.Installer
                 {
                     foreach (IScene scene in manager.Scenes)
                     {
-                        nsrm.Initialize(m_config);
+                        nsrm.Initialise(m_config);
                         nsrm.AddRegion(scene);
                         nsrm.RegionLoaded(scene);
                         rmc.AllModules.Add(nsrm);

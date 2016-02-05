@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision-Sim Project nor the
+ *     * Neither the name of the Vision Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,9 +25,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Nini.Config;
-using OpenMetaverse;
 using Vision.Framework.DatabaseInterfaces;
+using OpenMetaverse;
+using Nini.Config;
 using Vision.Framework.Modules;
 
 namespace Vision.Modules.Web
@@ -101,12 +101,12 @@ namespace Vision.Modules.Web
             }
 
             // Library
-            // config =  configSrc.Configs ["LibraryService"];
-            // if (config != null)
-            // {
-            //    _settingsGrid.LibraryName = config.GetString("LibraryName", _settingsGrid.LibraryName);
-            //    _settingsGrid.LibraryOwnerName = config.GetString("LibraryOwnerName", _settingsGrid.LibraryOwnerName);
-            // }
+//            config =  configSrc.Configs ["LibraryService"];
+//            if (config != null)
+//            {
+//                _settingsGrid.LibraryName = config.GetString("LibraryName", _settingsGrid.LibraryName);
+//                _settingsGrid.LibraryOwnerName = config.GetString("LibraryOwnerName", _settingsGrid.LibraryOwnerName);
+//            }
             // RealEstate
             config =  configSrc.Configs ["EstateService"];
             if (config != null)
@@ -114,6 +114,8 @@ namespace Vision.Modules.Web
                 _settingsGrid.SystemEstateOwnerName = config.GetString("SystemEstateOwnerName", _settingsGrid.SystemEstateOwnerName);
                 _settingsGrid.SystemEstateName = config.GetString("SystemEstateName", _settingsGrid.SystemEstateName);
             }
+
+
         }
 
         public static void ResetToDefaults(WebInterface webinterface)
