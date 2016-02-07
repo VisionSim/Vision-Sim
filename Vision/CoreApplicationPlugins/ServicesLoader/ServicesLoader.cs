@@ -52,7 +52,7 @@ namespace Vision.CoreApplicationPlugins.ServicesLoader
         {
         }
 
-        public void PostInitialise()
+        public void PostInitialize()
         {
         }
 

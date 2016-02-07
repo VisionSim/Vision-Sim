@@ -85,7 +85,7 @@ namespace Vision.Services
                                                      HandleGetLogLevel, false, true);
         }
 
-        public void PostInitialise()
+        public void PostInitialize()
         {
         }
 

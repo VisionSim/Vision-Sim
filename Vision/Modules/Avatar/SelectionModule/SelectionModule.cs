@@ -57,7 +57,7 @@ namespace Vision.Modules.Selection
 
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource source)
+        public void Initialize(IConfigSource source)
         {
 			IConfig visionstartupConfig = source.Configs["VisionStartup"];
 			if (visionstartupConfig != null)

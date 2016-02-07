@@ -43,7 +43,7 @@ namespace Vision.Services.DataService
         private string ConnectionString = "";
         private string StorageProvider = "";
 
-        public void Initialise(IConfigSource source, IRegistryCore simBase)
+        public void Initialize(IConfigSource source, IRegistryCore simBase)
         {
             IConfig m_config = source.Configs["VisionData"];
             if (m_config != null)
@@ -97,7 +97,7 @@ namespace Vision.Services.DataService
             }
         }
 
-        public void Initialise(IConfigSource source, IRegistryCore simBase, List<Type> types)
+        public void Initialize(IConfigSource source, IRegistryCore simBase, List<Type> types)
         {
             IConfig m_config = source.Configs["VisionData"];
             if (m_config != null)

@@ -43,10 +43,10 @@ namespace Vision.CoreApplicationPlugins.VisionData
         public void Initialize(ISimulationBase simBase)
         {
             LocalDataService service = new LocalDataService();
-            service.Initialise(simBase.ConfigSource, simBase.ApplicationRegistry);
+            service.Initialize(simBase.ConfigSource, simBase.ApplicationRegistry);
         }
 
-        public void PostInitialise()
+        public void PostInitialize()
         {
         }
 

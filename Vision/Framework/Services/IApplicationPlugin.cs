@@ -59,7 +59,7 @@ namespace Vision.Framework.Services
         /// <summary>
         ///     Called when the application initialization is completed
         /// </summary>
-        void PostInitialise();
+        void PostInitialize();
 
         /// <summary>
         ///     Called when the application loading is completed

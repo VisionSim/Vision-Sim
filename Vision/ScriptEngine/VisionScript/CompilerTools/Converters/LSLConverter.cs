@@ -46,7 +46,7 @@ namespace Vision.ScriptEngine.VisionScript.CompilerTools
             get { return "default"; }
         }
 
-        public void Initialise(Compiler compiler)
+        public void Initialize(Compiler compiler)
         {
             m_compiler = compiler;
             new CSCodeGenerator(compiler);

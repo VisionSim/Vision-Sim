@@ -45,14 +45,14 @@ namespace Vision.Modules.Estate
         protected IRegistryCore m_registry;
          
 
-        public void Initialise(IScene scene, IConfigSource source, ISimulationBase simBase)
+        public void Initialize(IScene scene, IConfigSource source, ISimulationBase simBase)
         {
             scene.StackModuleInterface<IVisionBackupModule>(this);
             m_registry = simBase.ApplicationRegistry;
         }
 
 
-        public void PostInitialise(IScene scene, IConfigSource source, ISimulationBase simBase)
+        public void PostInitialize(IScene scene, IConfigSource source, ISimulationBase simBase)
         {
         }
 

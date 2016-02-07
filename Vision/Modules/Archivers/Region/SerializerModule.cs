@@ -84,7 +84,7 @@ namespace Vision.Modules.Archivers
             get { return null; }
         }
 
-        public void Initialise(IConfigSource source)
+        public void Initialize(IConfigSource source)
         {
         }
 

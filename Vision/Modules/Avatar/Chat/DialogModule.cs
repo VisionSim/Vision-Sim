@@ -207,7 +207,7 @@ namespace Vision.Modules.Chat
 
         #region INonSharedRegionModule Members
 
-        public void Initialise (IConfigSource config)
+        public void Initialize (IConfigSource config)
         {
             IConfig m_config = config.Configs ["Dialog"];
             if (m_config != null)

@@ -333,7 +333,7 @@ namespace Vision.Simulation.Base
         public virtual void InitializeModules()
         {
             LocalDataService lds = new LocalDataService();
-            lds.Initialise(ConfigSource, ApplicationRegistry, m_dataPlugins);
+            lds.Initialize(ConfigSource, ApplicationRegistry, m_dataPlugins);
 
             List<dynamic> modules = new List<dynamic>();
             foreach (Type t in m_servicePlugins)

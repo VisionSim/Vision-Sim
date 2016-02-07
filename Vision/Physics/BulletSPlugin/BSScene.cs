@@ -203,7 +203,7 @@ namespace Vision.Physics.BulletSPlugin
 
         #region Construction and Initialization
 
-        public override void Initialise(IMesher meshmerizer, IScene scene)
+        public override void Initialize(IMesher meshmerizer, IScene scene)
         {
             Scene = scene;
             mesher = meshmerizer;
@@ -265,7 +265,7 @@ namespace Vision.Physics.BulletSPlugin
             m_initialized = true;
         }
 
-        public override void PostInitialise(IConfigSource config)
+        public override void PostInitialize(IConfigSource config)
         {
         }
 

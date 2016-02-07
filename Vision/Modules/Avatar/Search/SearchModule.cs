@@ -666,7 +666,7 @@ namespace Vision.Modules.Search
 
         #region INonSharedRegionModule Members
 
-        public void Initialise (IConfigSource config)
+        public void Initialize (IConfigSource config)
         {
             IConfig searchConfig = config.Configs ["Search"];
             if (searchConfig != null) //Check whether we are enabled

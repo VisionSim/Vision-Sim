@@ -1001,7 +1001,7 @@ namespace Vision.Modules.Estate
 
         #region IRegionModule Members
 
-        public void Initialise (IConfigSource source)
+        public void Initialize (IConfigSource source)
         {
         }
 
