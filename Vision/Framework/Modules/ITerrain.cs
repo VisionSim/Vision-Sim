@@ -26,8 +26,8 @@
  */
 
 using System.Drawing;
-using Vision.Framework.PresenceInfo;
 using OpenMetaverse;
+using Vision.Framework.PresenceInfo;
 
 namespace Vision.Framework.Modules
 {

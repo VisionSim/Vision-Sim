@@ -180,7 +180,7 @@ namespace Vision.Modules.WorldMap
             FastBitmap unsafeBMP = new FastBitmap(mapbmp);
             unsafeBMP.LockBitmap();
             //DateTime start = DateTime.Now;
-            //MainConsole.Instance.Info("[MAPTILE]: Generating Maptile Step 1: Terrain");
+            //MainConsole.Instance.Info("[Map Tile]: Generating Maptile Step 1: Terrain");
 
             // These textures should be in the AssetCache anyway, as every client connecting to this
             // region needs them. Except on start, when the map is recreated (before anyone connected),
@@ -280,7 +280,7 @@ namespace Vision.Modules.WorldMap
                 m_mapping.Clear();
             }
             unsafeBMP.UnlockBitmap();
-            //MainConsole.Instance.Info("[MAPTILE]: Generating Maptile Step 1: Done in " + (DateTime.Now - start).TotalSeconds + " ms");
+            //MainConsole.Instance.Info("[Map Tile]: Generating Maptile Step 1: Done in " + (DateTime.Now - start).TotalSeconds + " ms");
             return unsafeBMP.Bitmap();
         }
 
@@ -381,19 +381,19 @@ namespace Vision.Modules.WorldMap
                 catch (DllNotFoundException)
                 {
                     MainConsole.Instance.ErrorFormat(
-                        "[TexturedMapTileRenderer]: OpenJpeg is not installed correctly on this system.   Asset Data is empty for {0}",
+                        "[Textured Map Tile Renderer]: OpenJpeg is not installed correctly on this system.   Asset Data is empty for {0}",
                         id);
                 }
                 catch (IndexOutOfRangeException)
                 {
                     MainConsole.Instance.ErrorFormat(
-                        "[TexturedMapTileRenderer]: OpenJpeg was unable to encode this.   Asset Data is empty for {0}",
+                        "[Textured Map Tile Renderer]: OpenJpeg was unable to encode this.   Asset Data is empty for {0}",
                         id);
                 }
                 catch (Exception)
                 {
                     MainConsole.Instance.ErrorFormat(
-                        "[TexturedMapTileRenderer]: OpenJpeg was unable to encode this.   Asset Data is empty for {0}",
+                        "[Textured Map Tile Renderer]: OpenJpeg was unable to encode this.   Asset Data is empty for {0}",
                         id);
                 }
             }
@@ -401,7 +401,7 @@ namespace Vision.Modules.WorldMap
         }
 
         // Compute the average color of a texture.
-        Color computeAverageColor(Bitmap bmp)
+        static Color computeAverageColor(Bitmap bmp)
         {
             FastBitmap unsafeBMP = new FastBitmap(bmp);
             // we have 256 x 256 pixel, each with 256 possible color-values per
@@ -449,17 +449,13 @@ namespace Vision.Modules.WorldMap
             return color;
         }
 
-        // S-curve: f(x) = 3x² - 2x³:
-        // f(0) = 0, f(0.5) = 0.5, f(1) = 1,
-        // f'(x) = 0 at x = 0 and x = 1; f'(0.5) = 1.5,
-        // f''(0.5) = 0, f''(x) != 0 for x != 0.5
-        float S(float v)
+        static float S(float v)
         {
             return (v*v*(3f - 2f*v));
         }
 
         // interpolate two colors in HSV space and return the resulting color
-        HSV interpolateHSV(ref HSV c1, ref HSV c2, float ratio)
+        static HSV interpolateHSV(ref HSV c1, ref HSV c2, float ratio)
         {
             if (ratio <= 0f) return c1;
             if (ratio >= 1f) return c2;
