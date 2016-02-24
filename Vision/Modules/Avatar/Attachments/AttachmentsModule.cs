@@ -25,7 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Nini.Config;
+using OpenMetaverse;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
@@ -36,11 +40,6 @@ using Vision.Framework.Serialization;
 using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Services.ClassHelpers.Inventory;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using OpenMetaverse;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using GridRegion = Vision.Framework.Services.GridRegion;
 
 namespace Vision.Modules.Attachments
@@ -50,7 +49,7 @@ namespace Vision.Modules.Attachments
         #region Declares
 
         protected IScene m_scene = null;
-        protected bool m_allowMultipleAttachments = true;
+        protected bool m_allowMultipleAttachments = false;
         protected int m_maxNumberOfAttachments = 38;
 
         public string Name
