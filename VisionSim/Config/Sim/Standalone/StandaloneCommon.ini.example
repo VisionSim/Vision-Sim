@@ -39,21 +39,20 @@ UseVariableRegionSightDistance = false
 MaxDistanceVariableRegionSightDistance = 512
 
 [LibraryService]
-;; Set these if you want to change the name or owner of the Vision Library
+;; Set this if you want to change the name or owner of the Vision Library
 ;;  (This is the system default inventory)
 LibraryName = "Vision Library"
 LibraryOwnerName = "Library Owner"
 
 [SystemUserService]
 ;;  Modify these if you want to change the name of a Vision system user
-GovernorName = "Governor Vision"
+GovernorName = "Governor White"
 RealEstateOwnerName = "RealEstate Owner"
 BankerName = "Vision Banker"
 MarketplaceOwnerName = "Marketplace Concierge"
 
 [EstateService]
 ;;  Modify this if you want to change the Vision system Estate name
-MainlandEstateName = "Vision Mainland"
 SystemEstateName = "Vision Estate"
 
 [LoginService]
@@ -61,7 +60,7 @@ SystemEstateName = "Vision Estate"
 ;; This sets the message when a user logs in.
 ;; <USERNAME> adds the user's name into the message.
 
-WelcomeMessage = "Welcome to my Vision-Sim, <USERNAME>!"
+WelcomeMessage = "Welcome to my Vision Simulator, <USERNAME>!"
 
 ;; OPTIONAL
 ;;This sets the message when a user logs in with a customizable welcome message. You need to add a welcome.txt file somewhere in the web and put the URL here if you want to use this
