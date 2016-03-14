@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -45,12 +45,12 @@ namespace Vision.Framework.ClientInterfaces
 
         public override void FromOSD(OSDMap map)
         {
-            GlobalPosX = (float)Convert.ToDecimal(map["GlobalPosX"].AsString(), Culture.NumberFormatInfo);
-            GlobalPosY = (float)Convert.ToDecimal(map["GlobalPosY"].AsString(), Culture.NumberFormatInfo);
-            //GlobalPosX = map["GlobalPosX"];
-            //GlobalPosY = map["GlobalPosY"];
+            GlobalPosX = (float)Convert.ToDecimal (map ["GlobalPosX"].AsString (), Culture.NumberFormatInfo);
+            GlobalPosY = (float)Convert.ToDecimal (map ["GlobalPosY"].AsString (), Culture.NumberFormatInfo);
+//            GlobalPosX = map["GlobalPosX"];
+//            GlobalPosY = map["GlobalPosY"];
             LandData = new LandData();
-            LandData.FromOSD((OSDMap)map["LandData"]);
+            LandData.FromOSD((OSDMap) map["LandData"]);
             RegionName = map["RegionName"];
             RegionType = map["RegionType"];
             RegionTerrain = map["RegionTerrain"];
@@ -60,10 +60,10 @@ namespace Vision.Framework.ClientInterfaces
         public override OSDMap ToOSD()
         {
             OSDMap map = new OSDMap();
-            map["GlobalPosX"] = OSD.FromReal(GlobalPosX).ToString();
-            map["GlobalPosY"] = OSD.FromReal(GlobalPosY).ToString();
-            //map["GlobalPosX"] = GlobalPosX;
-            //map["GlobalPosY"] = GlobalPosY;
+            map["GlobalPosX"] = OSD.FromReal (GlobalPosX).ToString();
+            map["GlobalPosY"] = OSD.FromReal (GlobalPosY).ToString();
+//            map["GlobalPosX"] = GlobalPosX;
+//            map["GlobalPosY"] = GlobalPosY;
             map["LandData"] = LandData.ToOSD();
             map["RegionName"] = RegionName;
             map["RegionType"] = RegionType;

@@ -91,7 +91,7 @@ namespace Vision.Physics.BulletSPlugin
     public sealed class BSLinksetCompound : BSLinkset
     {
 #pragma warning disable 414
-        static string LogHeader = "[Bulletsim Linkset Compound]";
+        static string LogHeader = "[BULLETSIM LINKSET COMPOUND]";
 #pragma warning restore 414
 
         public BSLinksetCompound(BSScene scene, BSPrimLinkable parent)

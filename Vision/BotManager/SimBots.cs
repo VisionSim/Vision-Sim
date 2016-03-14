@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -32,7 +32,7 @@ namespace Vision.BotManager
     /// <summary>
     ///     Created by Christy Lock
     /// </summary>
-    internal class SimBots
+    class SimBots
     {
         public static double target;
 
@@ -43,7 +43,7 @@ namespace Vision.BotManager
         ///     This returns the x and y to Bot(Me) and then he passes them on to Astar and builds a list of waypoints to
         ///     Reach the goal.
         /// </summary>
-        public static double distTarget
+        public static double DistTarget
         {
             get { return target; }
             set { target = value; }
@@ -69,7 +69,7 @@ namespace Vision.BotManager
                         double distx = botx - i;
                         double disty = boty - j;
                         double goalDist = Math.Sqrt((distx*distx) + (disty*disty));
-                        if (goalDist < distTarget)
+                        if (goalDist < DistTarget)
                         {
                             target = goalDist;
                             itemLoc[0] = i;

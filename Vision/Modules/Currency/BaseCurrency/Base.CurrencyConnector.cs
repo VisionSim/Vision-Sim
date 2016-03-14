@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org//
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,8 +37,7 @@ using Vision.Framework.Services;
 using Vision.Framework.Utilities;
 
 namespace Vision.Modules.Currency
-{
-    
+{    
     public class BaseCurrencyConnector : ConnectorBase, IBaseCurrencyConnector
     {
         #region Declares
@@ -46,7 +45,7 @@ namespace Vision.Modules.Currency
         const string _REALMHISTORY = "currency_history";
         const string _REALMPURCHASE = "currency_purchased";
 
-        IGenericData m_gd;
+        IGenericData GD;
         BaseCurrencyConfig m_config;
         ISyncMessagePosterService m_syncMessagePoster;
         IAgentInfoService m_userInfoService;
@@ -67,7 +66,7 @@ namespace Vision.Modules.Currency
         public void Initialize(IGenericData GenericData, IConfigSource source, IRegistryCore registry,
                                string defaultConnectionString)
         {
-            m_gd = GenericData;
+            GD = GenericData;
             m_registry = registry;
 
             IConfig config = source.Configs["Currency"];
@@ -117,7 +116,7 @@ namespace Vision.Modules.Currency
 
             Dictionary<string, object> where = new Dictionary<string, object> (1);
             where ["PrincipalID"] = agentId;
-            List<string> query = m_gd.Query (new [] { "*" }, _REALM, new QueryFilter () {
+            List<string> query = GD.Query (new [] { "*" }, _REALM, new QueryFilter () {
                 andFilters = where
             }, null, null, null);
             UserCurrency currency;
@@ -149,7 +148,7 @@ namespace Vision.Modules.Currency
             };
             Dictionary<string, object> where = new Dictionary<string, object> (1);
             where ["PrincipalID"] = groupID;
-            List<string> queryResults = m_gd.Query (new [] { "*" }, _REALM, new QueryFilter () {
+            List<string> queryResults = GD.Query (new [] { "*" }, _REALM, new QueryFilter () {
                 andFilters = where
             }, null, null, null);
 
@@ -210,7 +209,7 @@ namespace Vision.Modules.Currency
                 Utils.GetUnixTime()                    // Updated
             };
 
-            m_gd.Insert(_REALMPURCHASE, values.ToArray());
+            GD.Insert(_REALMPURCHASE, values.ToArray());
             return true;
         }
 
@@ -246,7 +245,7 @@ namespace Vision.Modules.Currency
             }
             filter.andGreaterThanEqFilters["Created"] = Utils.DateTimeToUnixTime(now);//Greater than the time that we are checking against
             filter.andLessThanEqFilters["Created"] = Utils.GetUnixTime();//Less than now
-            List<string> query = m_gd.Query(new string[1] { "Amount" }, _REALMPURCHASE, filter, null, null, null);
+            List<string> query = GD.Query(new string[1] { "Amount" }, _REALMPURCHASE, filter, null, null, null);
             if (query == null)
                 return new List<uint> ();
             return query.ConvertAll<uint> (s => uint.Parse (s));
@@ -263,7 +262,7 @@ namespace Vision.Modules.Currency
                 filter.andFilters["FromPrincipalID"] = fromAgentID;
 
    
-            var transactions = m_gd.Query (new string[1] {"count(*)"}, _REALMHISTORY, filter, null, null, null);
+            var transactions = GD.Query (new string[1] {"count(*)"}, _REALMHISTORY, filter, null, null, null);
             if ((transactions == null) || (transactions.Count == 0))
                 return 0;
            
@@ -295,7 +294,7 @@ namespace Vision.Modules.Currency
             sort["Created"] = false;        // descending order
             //sort["FromName"] = true;
 
-            List<string> query = m_gd.Query (new string[] { "*" }, _REALMHISTORY, filter, sort, start, count);
+            List<string> query = GD.Query (new string[] { "*" }, _REALMHISTORY, filter, sort, start, count);
 
             return ParseTransferQuery(query);
         }
@@ -338,7 +337,7 @@ namespace Vision.Modules.Currency
             if (UserID != UUID.Zero)
                 filter.andFilters["PrincipalID"] = UserID;
 
-            var purchases = m_gd.Query (new string[1] { "count(*)" }, _REALMPURCHASE, filter, null, null, null);
+            var purchases = GD.Query (new string[1] { "count(*)" }, _REALMPURCHASE, filter, null, null, null);
             if ((purchases == null) || (purchases.Count == 0))
                 return 0;
             
@@ -369,7 +368,7 @@ namespace Vision.Modules.Currency
             //sort["PrincipalID"] = true;
             sort["Created"] = false;        // descending order
 
-            List<string> query = m_gd.Query (new string[] { "*" }, _REALMPURCHASE, filter, sort, start, count);
+            List<string> query = GD.Query (new string[] { "*" }, _REALMPURCHASE, filter, sort, start, count);
 
             return ParsePurchaseQuery(query);
         }
@@ -532,7 +531,7 @@ namespace Vision.Modules.Currency
             TransactionType TransType, uint ToBalance, uint FromBalance, string ToName, string FromName, string toObjectName, string fromObjectName, UUID regionID)
         {
             if(Amount > m_config.MaxAmountBeforeLogging)
-                m_gd.Insert(_REALMHISTORY, new object[] {
+                GD.Insert(_REALMHISTORY, new object[] {
                     TransID,
                     Description ?? "",
                     FromID.ToString (),
@@ -553,7 +552,7 @@ namespace Vision.Modules.Currency
         void UserCurrencyUpdate (UserCurrency agent, bool full)
         {
             if (full)
-                m_gd.Update (_REALM,
+                GD.Update (_REALM,
                     new Dictionary<string, object> {
                         { "LandInUse", agent.LandInUse },
                         { "Tier", agent.Tier },
@@ -571,7 +570,7 @@ namespace Vision.Modules.Currency
                     null
                 );
             else
-                m_gd.Update (_REALM,
+                GD.Update (_REALM,
                     new Dictionary<string, object> {
                         { "LandInUse", agent.LandInUse },
                         { "Tier", agent.Tier },
@@ -593,13 +592,13 @@ namespace Vision.Modules.Currency
 			UserAccount account = m_registry.RequestModuleInterface<IUserAccountService>().GetUserAccount(new List<UUID> { UUID.Zero }, agentId);
             if (account != null)
             {
-                m_gd.Insert(_REALM, new object[] {agentId.ToString(), 0, 0, 0, 0, 0});
+                GD.Insert(_REALM, new object[] {agentId.ToString(), 0, 0, 0, 0, 0});
             }
         }
 
         void GroupCurrencyCreate(UUID groupID)
         {
-            m_gd.Insert(_REALM, new object[] {groupID.ToString(), 0, 0, 0, 1, 0});
+            GD.Insert(_REALM, new object[] {groupID.ToString(), 0, 0, 0, 1, 0});
         }
 
         DateTime StartTransactionPeriod (int period, string periodType)
@@ -661,8 +660,7 @@ namespace Vision.Modules.Currency
 
             return transferList;
         }
-
-
+			
         static List<AgentPurchase> ParsePurchaseQuery(List<string> query)
         {
             var purchaseList = new List<AgentPurchase>();
@@ -686,6 +684,5 @@ namespace Vision.Modules.Currency
         }
             
         #endregion
-
     }
 }

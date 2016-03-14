@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -65,7 +65,7 @@ namespace Vision.Simulation.Base
 
         static bool _IsHandlingException; // Make sure we don't go recursive on ourselves
 
-        //could move our main function into main and kill this class
+        //could move our main function into VisionMain and kill this class
         public static void BaseMain(string[] args, string defaultIniFile, ISimulationBase simBase)
         {
             // First line, hook the appdomain to the crash reporter
@@ -85,12 +85,12 @@ namespace Vision.Simulation.Base
             // Increase the number of IOCP threads available. Mono defaults to a tragically low number
             int workerThreads, iocpThreads;
             ThreadPool.GetMaxThreads(out workerThreads, out iocpThreads);
-            //MainConsole.Instance.InfoFormat("[Vision Sim Maine]: Runtime gave us {0} worker threads and {1} IOCP threads", workerThreads, iocpThreads);
+            //MainConsole.Instance.InfoFormat("[Vision Main]: Runtime gave us {0} worker threads and {1} IOCP threads", workerThreads, iocpThreads);
             if (workerThreads < 500 || iocpThreads < 1000)
             {
                 workerThreads = 500;
                 iocpThreads = 1000;
-                //MainConsole.Instance.Info("[Vision Sim Main]: Bumping up to 500 worker threads and 1000 IOCP threads");
+                //MainConsole.Instance.Info("[Vision Main]: Bumping up to 500 worker threads and 1000 IOCP threads");
                 ThreadPool.SetMaxThreads(workerThreads, iocpThreads);
             }
 
@@ -172,7 +172,7 @@ namespace Vision.Simulation.Base
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine (
                         "\n     Vision Sim interactive configuration.\n" +
-                        "Enter 'yes' and Vision Sim will guide you through the configuration process.");
+                        "Enter 'yes' and Vision will guide you through the configuration process.");
                 }
 
                 // Make sure...
@@ -197,7 +197,7 @@ namespace Vision.Simulation.Base
                     string regionIPAddress = gridIPAddress;
                     bool isStandalone = true;
                     string dbType = "1";
-                    string gridName = "Vision Sim Grid";
+                    string gridName = "Vision-Sim Grid";
                     string welcomeMessage = "";
                     string allowAnonLogin = "true";
                     uint port = 9000;
@@ -205,7 +205,7 @@ namespace Vision.Simulation.Base
 
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("====================================================================");
-					Console.WriteLine("======================= Vision Sim Configurator ==============");
+					Console.WriteLine("======================= Vision Sim Configurator ====================");
                     Console.WriteLine("====================================================================");
                     Console.ResetColor();
 
@@ -241,7 +241,7 @@ namespace Vision.Simulation.Base
                             Console.ForegroundColor = ConsoleColor.White;
                             Console.WriteLine(
                                 "\nNote: this setup does not automatically create a MySQL installation for you.\n" +
-                                " This will configure the Vision Sim setting but you must install MySQL as well");
+                                " This will configure the Vision setting but you must install MySQL as well");
                             Console.ResetColor();
 
                             dbSource = ReadLine("MySQL database IP", dbSource);
@@ -258,7 +258,7 @@ namespace Vision.Simulation.Base
 
                     if (isStandalone)
                     {
-                        gridName = ReadLine("Name of your Vision Sim Grid", gridName);
+                        gridName = ReadLine("Name of your Vision-Sim Grid", gridName);
 
                         welcomeMessage = "Welcome to " + gridName + ", <USERNAME>!";
                         Console.ForegroundColor = ConsoleColor.White;
@@ -668,7 +668,7 @@ namespace Vision.Simulation.Base
             msg += "\r\n";
             msg += "Application is terminating: " + isTerminating.ToString(CultureInfo.InvariantCulture) + "\r\n";
 
-            MainConsole.Instance.ErrorFormat("[Application]: {0}", msg);
+            MainConsole.Instance.ErrorFormat("[APPLICATION]: {0}", msg);
 
             handleException(msg, ex);
         }
@@ -702,7 +702,7 @@ namespace Vision.Simulation.Base
                 }
                 catch (Exception e2)
                 {
-                    MainConsole.Instance.ErrorFormat("[Crash Logger Crashed]: {0}", e2);
+                    MainConsole.Instance.ErrorFormat("[CRASH LOGGER CRASHED]: {0}", e2);
                 }
             }
         }

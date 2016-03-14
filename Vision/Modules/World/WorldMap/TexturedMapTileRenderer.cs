@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -83,7 +83,7 @@ namespace Vision.Modules.WorldMap
         }
 
         // (for info about algorithm, see http://en.wikipedia.org/wiki/HSL_and_HSV)
-        public Color toColor ()
+        public Color ToColor ()
         {
             float f = h / 60f;
             int sector = (int)f % 6;
@@ -180,7 +180,7 @@ namespace Vision.Modules.WorldMap
             FastBitmap unsafeBMP = new FastBitmap(mapbmp);
             unsafeBMP.LockBitmap();
             //DateTime start = DateTime.Now;
-            //MainConsole.Instance.Info("[Map Tile]: Generating Maptile Step 1: Terrain");
+            //MainConsole.Instance.Info("[MAPTILE]: Generating Maptile Step 1: Terrain");
 
             // These textures should be in the AssetCache anyway, as every client connecting to this
             // region needs them. Except on start, when the map is recreated (before anyone connected),
@@ -262,7 +262,7 @@ namespace Vision.Modules.WorldMap
                             else hsv = interpolateHSV(ref hsv3, ref hsv4, (hmod*3f) - 2f);
                         }
                         //get the data from the original image
-                        Color hsvColor = hsv.toColor();
+                        Color hsvColor = hsv.ToColor();
                         unsafeBMP.SetPixel((int) (x/sizeRatio),
                                            (int) (((m_scene.RegionInfo.RegionSizeY - 1) - y)/sizeRatio), hsvColor);
                     }
@@ -280,7 +280,7 @@ namespace Vision.Modules.WorldMap
                 m_mapping.Clear();
             }
             unsafeBMP.UnlockBitmap();
-            //MainConsole.Instance.Info("[Map Tile]: Generating Maptile Step 1: Done in " + (DateTime.Now - start).TotalSeconds + " ms");
+            //MainConsole.Instance.Info("[MAPTILE]: Generating Maptile Step 1: Done in " + (DateTime.Now - start).TotalSeconds + " ms");
             return unsafeBMP.Bitmap();
         }
 
@@ -381,19 +381,19 @@ namespace Vision.Modules.WorldMap
                 catch (DllNotFoundException)
                 {
                     MainConsole.Instance.ErrorFormat(
-                        "[Textured Map Tile Renderer]: OpenJpeg is not installed correctly on this system.   Asset Data is empty for {0}",
+                        "[TexturedMapTileRenderer]: OpenJpeg is not installed correctly on this system.   Asset Data is empty for {0}",
                         id);
                 }
                 catch (IndexOutOfRangeException)
                 {
                     MainConsole.Instance.ErrorFormat(
-                        "[Textured Map Tile Renderer]: OpenJpeg was unable to encode this.   Asset Data is empty for {0}",
+                        "[TexturedMapTileRenderer]: OpenJpeg was unable to encode this.   Asset Data is empty for {0}",
                         id);
                 }
                 catch (Exception)
                 {
                     MainConsole.Instance.ErrorFormat(
-                        "[Textured Map Tile Renderer]: OpenJpeg was unable to encode this.   Asset Data is empty for {0}",
+                        "[TexturedMapTileRenderer]: OpenJpeg was unable to encode this.   Asset Data is empty for {0}",
                         id);
                 }
             }
@@ -449,6 +449,10 @@ namespace Vision.Modules.WorldMap
             return color;
         }
 
+        // S-curve: f(x) = 3x² - 2x³:
+        // f(0) = 0, f(0.5) = 0.5, f(1) = 1,
+        // f'(x) = 0 at x = 0 and x = 1; f'(0.5) = 1.5,
+        // f''(0.5) = 0, f''(x) != 0 for x != 0.5
         static float S(float v)
         {
             return (v*v*(3f - 2f*v));

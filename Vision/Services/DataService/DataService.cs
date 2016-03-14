@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,27 +25,26 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System;
+using System.Collections.Generic;
+using Nini.Config;
 using Vision.DataManager.MySQL;
 using Vision.DataManager.SQLite;
-
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.ModuleLoader;
 using Vision.Framework.Modules;
 using Vision.Framework.Services;
-using Nini.Config;
-using System;
-using System.Collections.Generic;
 
 namespace Vision.Services.DataService
 {
     public class LocalDataService
     {
-        private string ConnectionString = "";
-        private string StorageProvider = "";
+        string ConnectionString = "";
+        string StorageProvider = "";
 
-        public void Initialize(IConfigSource source, IRegistryCore simBase)
+        public void Initialize(IConfigSource config, IRegistryCore registry)
         {
-            IConfig m_config = source.Configs["VisionData"];
+            IConfig m_config = config.Configs["VisionData"];
             if (m_config != null)
             {
                 StorageProvider = m_config.GetString("StorageProvider", StorageProvider);
@@ -76,6 +75,10 @@ namespace Vision.Services.DataService
                 //Allow for fallback when VisionData isn't set
             {
                 SQLiteLoader GenericData = new SQLiteLoader();
+
+                // set default data directory in case it is needed
+                var simBase = registry.RequestModuleInterface<ISimulationBase> ();
+                GenericData.DefaultDataPath = simBase.DefaultDataPath;
 
                 DataConnector = GenericData;
             }
@@ -85,21 +88,21 @@ namespace Vision.Services.DataService
             {
                 try
                 {
-                    plugin.Initialize(DataConnector == null ? null : DataConnector.Copy(), source, simBase,
+                    plugin.Initialize(DataConnector == null ? null : DataConnector.Copy(), config, registry,
                                       ConnectionString);
                 }
                 catch (Exception ex)
                 {
                     if (MainConsole.Instance != null)
                         MainConsole.Instance.Warn("[DataService]: Exception occurred starting data plugin " +
-                                                  plugin.Name + ", " + ex.ToString());
+                                                  plugin.Name + ", " + ex);
                 }
             }
         }
 
-        public void Initialize(IConfigSource source, IRegistryCore simBase, List<Type> types)
+        public void Initialize(IConfigSource config, IRegistryCore registry, List<Type> types)
         {
-            IConfig m_config = source.Configs["VisionData"];
+            IConfig m_config = config.Configs["VisionData"];
             if (m_config != null)
             {
                 StorageProvider = m_config.GetString("StorageProvider", StorageProvider);
@@ -130,6 +133,10 @@ namespace Vision.Services.DataService
                 //Allow for fallback when VisionData isn't set
             {
                 SQLiteLoader GenericData = new SQLiteLoader();
+
+                // set default data directory in case it is needed
+                var simBase = registry.RequestModuleInterface<ISimulationBase> ();
+                GenericData.DefaultDataPath = simBase.DefaultDataPath;
 
                 DataConnector = GenericData;
             }
@@ -141,13 +148,13 @@ namespace Vision.Services.DataService
                 {
                     try
                     {
-                        plugin.Initialize(DataConnector.Copy(), source, simBase, ConnectionString);
+                        plugin.Initialize(DataConnector.Copy(), config, registry, ConnectionString);
                     }
                     catch (Exception ex)
                     {
                         if (MainConsole.Instance != null)
                             MainConsole.Instance.Warn("[DataService]: Exception occurred starting data plugin " +
-                                                      plugin.Name + ", " + ex.ToString());
+                                                      plugin.Name + ", " + ex);
                     }
                 }
             }

@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -988,7 +988,7 @@ namespace Vision.Modules.Land
             }
             else
             {
-                MainConsole.Instance.WarnFormat("[Land]: Invalid local land ID {0}", landLocalID);
+                MainConsole.Instance.WarnFormat("[LAND]: Invalid local land ID {0}", landLocalID);
             }
         }
 
@@ -1007,7 +1007,7 @@ namespace Vision.Modules.Land
                         if (m_landIDList[x, y] == local_id)
                         {
                             MainConsole.Instance.WarnFormat(
-                                "[Land]: Not removing land object {0}; still being used at {1}, {2}",
+                                "[LAND]: Not removing land object {0}; still being used at {1}, {2}",
                                 local_id, x, y);
                             return;
                             //throw new Exception("Could not remove land object. Still being used at " + x + ", " + y);
@@ -1525,7 +1525,7 @@ namespace Vision.Modules.Land
             else
             {
                 MainConsole.Instance.WarnFormat(
-                    "[Parcel]: Invalid land object {0} passed for parcel object owner request", local_id);
+                    "[PARCEL]: Invalid land object {0} passed for parcel object owner request", local_id);
             }
         }
 
@@ -1971,7 +1971,7 @@ namespace Vision.Modules.Land
             IClientAPI client;
             if (!m_scene.ClientManager.TryGetValue(agentID, out client))
             {
-                MainConsole.Instance.WarnFormat("[Land] unable to retrieve IClientAPI for {0}", agentID);
+                MainConsole.Instance.WarnFormat("[LAND] unable to retrieve IClientAPI for {0}", agentID);
                 return OSDParser.SerializeLLSDXmlBytes(new OSDMap());
             }
             OSDMap args = (OSDMap) OSDParser.DeserializeLLSDXml(HttpServerHandlerHelpers.ReadFully(request));
@@ -1991,7 +1991,7 @@ namespace Vision.Modules.Land
             IClientAPI client;
             if (!m_scene.ClientManager.TryGetValue(agentID, out client))
             {
-                MainConsole.Instance.WarnFormat("[Land] unable to retrieve IClientAPI for {0}", agentID);
+                MainConsole.Instance.WarnFormat("[LAND] unable to retrieve IClientAPI for {0}", agentID);
                 return new byte[0];
             }
 
@@ -2032,7 +2032,7 @@ namespace Vision.Modules.Land
             if (land != null)
                 land.UpdateLandProperties(land_update, client);
             else
-                MainConsole.Instance.WarnFormat("[Land] unable to find parcelID {0}", parcelID);
+                MainConsole.Instance.WarnFormat("[LAND] unable to find parcelID {0}", parcelID);
 
             return OSDParser.SerializeLLSDXmlBytes(new OSDMap());
         }
@@ -2101,8 +2101,8 @@ namespace Vision.Modules.Land
             }
             catch (Exception e)
             {
-                MainConsole.Instance.ErrorFormat("[Land] Fetch error: {0}", e.Message);
-                MainConsole.Instance.ErrorFormat("[Land] ... in request {0}", request);
+                MainConsole.Instance.ErrorFormat("[LAND] Fetch error: {0}", e.Message);
+                MainConsole.Instance.ErrorFormat("[LAND] ... in request {0}", request);
             }
 
             if (parcelID == UUID.Zero)
@@ -2473,19 +2473,19 @@ namespace Vision.Modules.Land
                     }
                     if (info == null)
                     {
-                        MainConsole.Instance.WarnFormat("[Land]: Failed to find region having parcel {0}", parcelID);
+                        MainConsole.Instance.WarnFormat("[LAND]: Failed to find region having parcel {0}", parcelID);
                         return;
                     }
-                    MainConsole.Instance.DebugFormat("[Land] got parcelinfo for parcel {0} in region {1}; sending...",
+                    MainConsole.Instance.DebugFormat("[LAND] got parcelinfo for parcel {0} in region {1}; sending...",
                                                      data.Name, data.RegionHandle);
                     remoteClient.SendParcelInfo(data, parcelID, (uint) (info.RegionLocX + data.UserLocation.X),
                                                 (uint) (info.RegionLocY + data.UserLocation.Y), info.RegionName);
                 }
                 else
-                    MainConsole.Instance.WarnFormat("[Land]: Failed to find parcel {0}", parcelID);
+                    MainConsole.Instance.WarnFormat("[LAND]: Failed to find parcel {0}", parcelID);
             }
             else
-                MainConsole.Instance.Debug("[Land] got no directory service; not sending");
+                MainConsole.Instance.Debug("[LAND] got no directory service; not sending");
         }
 
         public void SetParcelOtherCleanTime(IClientAPI remoteClient, int localID, int otherCleanTime)

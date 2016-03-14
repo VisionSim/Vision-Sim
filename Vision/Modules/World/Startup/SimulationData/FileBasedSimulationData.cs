@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -255,7 +255,7 @@ namespace Vision.Modules
 
                 ForceBackup();
 
-				MainConsole.Instance.Info("[File Based Simulation Data]: Save completed.");
+				MainConsole.Instance.Info("[FileBasedSimulationData]: Save completed.");
 			}
 
 			return regionInfo;
@@ -333,7 +333,12 @@ namespace Vision.Modules
                 // * Mainland / Openspace
                 //
                 // * Estate / Full Region   (Private)
-                info.RegionType = MainConsole.Instance.Prompt ("Region Type (Mainland/Estate)",
+                // * Estate / Homestead
+                // * Estate / Openspace
+                //
+                // * Vision Home / Full Region (Private)
+                //
+                info.RegionType = MainConsole.Instance.Prompt ("Region Type (Mainland / Estate / Homes)",
                     (info.RegionType == "" ? "Estate" : info.RegionType));
 
                 // Region presets or advanced setup
@@ -347,9 +352,7 @@ namespace Vision.Modules
                     info.RegionType = "Mainland / ";                   
                     responses.Add("Full Region");
                     responses.Add("Homestead");
-                    responses.Add ("Openspace");
-                    responses.Add ("Vision");                            // TODO: remove?
-                    responses.Add ("Custom");                               
+                    responses.Add("Openspace");                          
                     setupMode = MainConsole.Instance.Prompt("Mainland region type?", "Full Region", responses).ToLower ();
 
                     // allow specifying terrain for Openspace
@@ -358,23 +361,29 @@ namespace Vision.Modules
                     else if (setupMode.StartsWith("o"))
                         terrainOpen = MainConsole.Instance.Prompt("Openspace terrain ( Grassland, Swamp, Aquatic)?", terrainOpen).ToLower();
 
-                } else
+                } 
+                else if (info.RegionType.ToLower().StartsWith("e"))
                 {
                     // Estate regions
                     info.RegionType = "Estate / ";                   
                     responses.Add("Full Region");
                     responses.Add("Homestead");
                     responses.Add("Openspace");
-                    responses.Add ("Vision");                            // TODO: Vision 'standard' setup, rename??
-                    responses.Add ("Custom");
                     setupMode = MainConsole.Instance.Prompt("Estate region type?","Full Region", responses).ToLower();
+                }
+                else
+                {
+                	info.RegionType = "Vision Homes / ";
+                	responses.Add("Full Region");
+                	setupMode = MainConsole.Instance.Prompt("Estate region type?","Full Region", responses).ToLower();
                 }
 
                 // terrain can be specified for Full or custom regions
                 if (bigRegion)
                     terrainFull = "Flatland";
-                else if (setupMode.StartsWith ("f") || setupMode.StartsWith ("c"))
+                if (setupMode.StartsWith ("f"))
                 {
+                	// 'Region land types' setup
                     var tresp = new List<string>();
                     tresp.Add ("Flatland");
                     tresp.Add ("Grassland");
@@ -388,30 +397,11 @@ namespace Vision.Modules
                     // TODO: This would be where we allow selection of preset terrain files
                 }
 
-                if (setupMode.StartsWith("c"))
-                {
-                    info.RegionType = info.RegionType + "Custom";                   
-                    info.RegionTerrain = terrainFull;
-
-                    GetRegionOptional (ref info);
-
-                } 
-
-                if (setupMode.StartsWith("u"))
-                {
-                    // 'standard' setup
-                    info.RegionType = info.RegionType + "Vision";                   
-                    info.RegionTerrain = "Flatland";
-                    info.Startup = StartupType.Normal;
-                    info.SeeIntoThisSimFromNeighbor = true;
-                    info.InfiniteRegion = true;
-                    info.ObjectCapacity = 50000;
-
-                }
                 if (setupMode.StartsWith("o"))       
                 {
                     // 'Openspace' setup
                     info.RegionType = info.RegionType + "Openspace";
+                    
                     if (terrainOpen.StartsWith("a"))
                         info.RegionTerrain = "Aquatic";
                     else if (terrainOpen.StartsWith("s"))
@@ -423,13 +413,14 @@ namespace Vision.Modules
 
                     info.Startup = StartupType.Medium;
                     info.SeeIntoThisSimFromNeighbor = true;
-                    info.InfiniteRegion = true;
+					info.InfiniteRegion = true;
                     info.ObjectCapacity = 750;
                     info.RegionSettings.AgentLimit = 10;
                     info.RegionSettings.AllowLandJoinDivide = false;
                     info.RegionSettings.AllowLandResell = false;
-                                   }
-                if (setupMode.StartsWith("h"))       
+                }
+                
+                if (setupMode.StartsWith("h"))
                 {
                     // 'Homestead' setup
                     info.RegionType = info.RegionType + "Homestead";
@@ -462,6 +453,10 @@ namespace Vision.Modules
                         info.RegionSettings.AllowLandJoinDivide = false;
                         info.RegionSettings.AllowLandResell = false;
                     }
+                    else if (info.RegionType.StartsWith ("H"))						// Homes always have 25000 prims
+                    {
+                    	info.ObjectCapacity = 25000;
+                    }
                 }
 
                 // re-proportion allocations based on actual region area <> std area
@@ -493,11 +488,12 @@ namespace Vision.Modules
 
                 m_scene.SimulationDataService.ForceBackup();
 
-                MainConsole.Instance.InfoFormat("[File Based Simulation Data]: Save of {0} completed.",info.RegionName);
+                MainConsole.Instance.InfoFormat("[FileBasedSimulationData]: Save of {0} completed.",info.RegionName);
             }
 
             return info;
         }
+
 
         /// <summary>
         /// Modifies the region settings.
@@ -721,7 +717,7 @@ namespace Vision.Modules
                     scene.SimulationDataService.BackupFile = regInfo.RegionName;       
                     scene.SimulationDataService.ForceBackup();
 
-                    MainConsole.Instance.InfoFormat("[File Based Simulation Data]: Save of {0} completed.",regInfo.RegionName);
+                    MainConsole.Instance.InfoFormat("[FileBasedSimulationData]: Save of {0} completed.",regInfo.RegionName);
 
                     // bail out
                     MainConsole.Instance.ConsoleScene = null;
@@ -733,9 +729,11 @@ namespace Vision.Modules
 
                     // shutdown and restart
                     restart.RestartScene();
+
                 }
             }
         }
+
 
         /// <summary>
         /// Sets the region prim capacity.
@@ -826,6 +824,7 @@ namespace Vision.Modules
 
             return false;
         }
+
             
         public virtual List<ISceneEntity> LoadObjects()
         {
@@ -887,7 +886,7 @@ namespace Vision.Modules
             }
             catch (Exception ex)
             {
-                MainConsole.Instance.Error("[File Based Simulation Data]: Failed to save backup, exception occurred " + ex);
+                MainConsole.Instance.Error("[FileBasedSimulationData]: Failed to save backup, exception occurred " + ex);
             }
         }
 
@@ -911,7 +910,7 @@ namespace Vision.Modules
             }
             catch (Exception ex)
             {
-                MainConsole.Instance.Error("[File Based Simulation Data]: Failed to save backup, exception occurred " + ex);
+                MainConsole.Instance.Error("[FileBasedSimulationData]: Failed to save backup, exception occurred " + ex);
             }
             if (m_saveTimer != null)
                 m_saveTimer.Start(); //Restart it as we just did a backup
@@ -1035,7 +1034,7 @@ namespace Vision.Modules
                 }
                 catch (Exception ex)
                 {
-                    MainConsole.Instance.Error("[File Based Simulation Data]: Failed to save backup, exception occurred " +
+                    MainConsole.Instance.Error("[FileBasedSimulationData]: Failed to save backup, exception occurred " +
                                                ex);
                 }
                 m_saveTimer.Start(); //Restart it as we just did a backup
@@ -1043,7 +1042,7 @@ namespace Vision.Modules
             else if (m_displayNotSavingNotice)
             {
                 m_displayNotSavingNotice = false;
-                MainConsole.Instance.Info("[File Based Simulation Data]: Not saving backup, not required");
+                MainConsole.Instance.Info("[FileBasedSimulationData]: Not saving backup, not required");
             }
         }
 
@@ -1067,7 +1066,7 @@ namespace Vision.Modules
             }
             catch (Exception ex)
             {
-                MainConsole.Instance.Error("[File Based Simulation Data]: Failed to save archive, exception occurred " + ex);
+                MainConsole.Instance.Error("[FileBasedSimulationData]: Failed to save archive, exception occurred " + ex);
             }
         }
 
@@ -1139,7 +1138,7 @@ namespace Vision.Modules
                 MainConsole.Instance.WarnFormat("[Backup]: Exception caught: {0}", ex);
             }
 
-            MainConsole.Instance.Info("[File Based Simulation Data]: Backing up " +
+            MainConsole.Instance.Info("[FileBasedSimulationData]: Backing up " +
                                       m_scene.RegionInfo.RegionName);
 
             RegionData regiondata = new RegionData();
@@ -1198,7 +1197,7 @@ namespace Vision.Modules
             {
                 if (File.Exists(filename + (isOldSave ? "" : ".tmp")))
                     File.Delete(filename + (isOldSave ? "" : ".tmp")); //Remove old tmp files
-                MainConsole.Instance.Error("[File Based Simulation Data]: Failed to save backup for region " +
+                MainConsole.Instance.Error("[FileBasedSimulationData]: Failed to save backup for region " +
                                            m_scene.RegionInfo.RegionName + "!");
                 return;
             }
@@ -1229,7 +1228,7 @@ namespace Vision.Modules
             regiondata.Dispose();
             //Now make it the full file again
             MapTileNeedsGenerated = true;
-            MainConsole.Instance.Info("[File Based Simulation Data]: Saved Backup for region " +
+            MainConsole.Instance.Info("[FileBasedSimulationData]: Saved Backup for region " +
                                       m_scene.RegionInfo.RegionName);
         }
 
@@ -1275,7 +1274,7 @@ namespace Vision.Modules
         {
             BackupFile = fileName;
             string simName = Path.GetFileName(fileName); 
-            MainConsole.Instance.Info("[File Based Simulation Data]: Restoring sim backup for region " + simName + "...");
+            MainConsole.Instance.Info("[FileBasedSimulationData]: Restoring sim backup for region " + simName + "...");
 
             _regionData = _regionLoader.LoadBackup(BuildSaveFileName());
             if (_regionData == null)

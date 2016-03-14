@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -769,7 +769,7 @@ namespace Vision.Region
             m_controllingClient.MoveAgentIntoRegion(Scene.RegionInfo, AbsolutePosition, look);
 
             MainConsole.Instance.DebugFormat(
-                "[Scene]: Upgrading child to root agent for {0} in {1}",
+                "[SCENE]: Upgrading child to root agent for {0} in {1}",
                 Name, m_scene.RegionInfo.RegionName);
 
             // On the next prim update, all objects will be sent
@@ -1576,7 +1576,7 @@ namespace Vision.Region
                 }
                 catch (InvalidCastException)
                 {
-                    MainConsole.Instance.Error("[Client]: Invalid autopilot request");
+                    MainConsole.Instance.Error("[CLIENT]: Invalid autopilot request");
                     return;
                 }
                 m_moveToPositionInProgress = true;

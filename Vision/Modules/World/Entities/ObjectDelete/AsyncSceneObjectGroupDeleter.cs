@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -135,7 +135,7 @@ namespace Vision.Modules.Entities.ObjectDelete
             if (!DeleteLoopInUse)
             {
                 DeleteLoopInUse = true;
-                //MainConsole.Instance.Debug("[Scene]: Starting delete loop");
+                //MainConsole.Instance.Debug("[SCENE]: Starting delete loop");
                 Util.FireAndForget(DoDeleteObject);
             }
         }
@@ -168,7 +168,7 @@ namespace Vision.Modules.Entities.ObjectDelete
             else
             {
                 DeleteLoopInUse = false;
-                //MainConsole.Instance.Debug("[Scene]: Ending delete loop");
+                //MainConsole.Instance.Debug("[SCENE]: Ending delete loop");
             }
         }
 
@@ -181,7 +181,7 @@ namespace Vision.Modules.Entities.ObjectDelete
                 if (m_removeFromSimQueue.TryDequeue(out x))
                 {
                     MainConsole.Instance.DebugFormat(
-                        "[Scene]: Sending object to user's inventory, {0} item(s) remaining.",
+                        "[SCENE]: Sending object to user's inventory, {0} item(s) remaining.",
                         m_removeFromSimQueue.Count);
 
                     if (x.permissionToTake)
@@ -215,12 +215,12 @@ namespace Vision.Modules.Entities.ObjectDelete
                 // We can't put the object group details in here since the root part may have disappeared (which is where these sit).
                 // FIXME: This needs to be fixed.
                 MainConsole.Instance.ErrorFormat(
-                    "[Scene]: Queued sending of scene object to agent {0} {1} failed: {2}",
+                    "[SCENE]: Queued sending of scene object to agent {0} {1} failed: {2}",
                     (x != null ? x.agentId.ToString() : "unavailable"),
                     (x != null ? x.agentId.ToString() : "unavailable"), e);
             }
 
-            //MainConsole.Instance.Debug("[Scene]: No objects left in delete queue.");
+            //MainConsole.Instance.Debug("[SCENE]: No objects left in delete queue.");
             return false;
         }
 

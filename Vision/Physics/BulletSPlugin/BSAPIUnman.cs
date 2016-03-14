@@ -212,13 +212,13 @@ namespace Vision.Physics.BulletSPlugin
         // Called directly from unmanaged code so don't do much
         void BulletLogger(string msg)
         {
-            MainConsole.Instance.Debug("[Bulletsim Unmanaged]:" + msg);
+            MainConsole.Instance.Debug("[BULLETS UNMANAGED]:" + msg);
         }
 
         // Called directly from unmanaged code so don't do much
         void BulletLoggerPhysLog(string msg)
         {
-            PhysicsScene.DetailLog("[Bulletsim Unmanaged]:" + msg);
+            PhysicsScene.DetailLog("[BULLETS UNMANAGED]:" + msg);
         }
 
         public override int PhysicsStep(BulletWorld world, float timeStep, int maxSubSteps, float fixedTimeStep,

@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -86,6 +86,7 @@ namespace Vision.Modules.WorldMap
 
         public void CreateMapTile(out Bitmap terrainBMP, out Bitmap mapBMP)
         {
+
             int start = Environment.TickCount;
             bool drawPrimVolume = true;
             string tileRenderer = "WarpTileRenderer";
@@ -111,7 +112,7 @@ namespace Vision.Modules.WorldMap
                 drawPrimVolume = false;
             }
 
-            MainConsole.Instance.InfoFormat("[Map Tile Generator]: Generating Maptile for {0}, using {1} ",
+            MainConsole.Instance.InfoFormat("[MapTileGenerator]: Generating Maptile for {0}, using {1} ",
                 m_scene.RegionInfo.RegionName, tileRenderer);
 
             terrainRenderer.Initialize(m_scene, m_config);
@@ -138,9 +139,11 @@ namespace Vision.Modules.WorldMap
 
             terrainRenderer = null;
 
-            MainConsole.Instance.InfoFormat("[Map Tile Generator]: Maptile generation took {0} ms",
+            MainConsole.Instance.InfoFormat("[MapTileGenerator]: Maptile generation took {0} ms",
                 (Environment.TickCount - start));
+
         }
+
 
         public void CreateMapTile(out byte[] terrain, out byte[] map)
         {
@@ -158,7 +161,8 @@ namespace Vision.Modules.WorldMap
             {
                 map = OpenJPEG.EncodeFromImage(mapBMP, true);
                 mapBMP.Dispose();
-            }             
+            }
+                
         }
 
         public Bitmap CreateViewImage(Vector3 camPos, Vector3 camDir, float fov, int width, int height, bool useTextures)
@@ -166,13 +170,13 @@ namespace Vision.Modules.WorldMap
             int start = Environment.TickCount;
             var renderer = new WarpTileRenderer();
 
-            MainConsole.Instance.InfoFormat ("[Map Tile Generator]: Generating worldview for {0}",
+            MainConsole.Instance.InfoFormat ("[MapTileGenerator]: Generating worldview for {0}",
                 m_scene.RegionInfo.RegionName);
 
             renderer.Initialize(m_scene, m_config);
             Bitmap worldView = renderer.CreateViewImage (camPos, camDir, fov, width, height, useTextures);
 
-            MainConsole.Instance.InfoFormat("[Map Tile Generator]: Worldview generation took {0} ms",
+            MainConsole.Instance.InfoFormat("[MapTileGenerator]: Worldview generation took {0} ms",
                 (Environment.TickCount - start));
 
             return worldView;
@@ -183,12 +187,12 @@ namespace Vision.Modules.WorldMap
             int start = Environment.TickCount;
             var renderer = new WarpTileRenderer();
 
-             MainConsole.Instance.InfoFormat("[Map Tile Generator]: Generating world maptile for {0}",
+             MainConsole.Instance.InfoFormat("[MapTileGenerator]: Generating world maptile for {0}",
                         m_scene.RegionInfo.RegionName);
             renderer.Initialize(m_scene, m_config);
             Bitmap worldMap = renderer.TerrainToBitmap (null, size);
 
-            MainConsole.Instance.InfoFormat("[Map Tile Generator]: World maptile generation took {0} ms",
+            MainConsole.Instance.InfoFormat("[MapTileGenerator]: World maptile generation took {0} ms",
                 (Environment.TickCount - start));
 
             return worldMap;
@@ -249,18 +253,16 @@ namespace Vision.Modules.WorldMap
             }
 
             // setup cache directories
-            if (m_assetCacheDir == "")
+            m_assetCacheDir = m_config.Configs ["AssetCache"].GetString ("CacheDirectory",m_assetCacheDir);
+            if (m_assetCacheDir == "")  // use default
             {
-                m_assetCacheDir = m_config.Configs ["AssetCache"].GetString ("CacheDirectory",m_assetCacheDir);
-
-                if (m_assetCacheDir == "")  // use default
-                {
-                    var defpath = m_scene.RequestModuleInterface<ISimulationBase> ().DefaultDataPath;
-                    m_assetCacheDir = Path.Combine (defpath, Constants.DEFAULT_ASSETCACHE_DIR);
-                }
-                m_assetMapCacheDir = Path.Combine (m_assetCacheDir, "mapzoomlevels");
-                m_assetWorldviewCacheDir = Path.Combine (m_assetCacheDir, "Worldview");
+                var defpath = m_scene.RequestModuleInterface<ISimulationBase> ().DefaultDataPath;
+                m_assetCacheDir = Path.Combine (defpath, Constants.DEFAULT_ASSETCACHE_DIR);
             }
+            m_assetMapCacheDir = Path.Combine (m_assetCacheDir, "mapzoomlevels");
+            m_assetWorldviewCacheDir = Path.Combine (m_assetCacheDir, "Worldview");
+       
+
 
             m_scene.RegisterModuleInterface<IMapImageGenerator>(this);
 
@@ -328,7 +330,7 @@ namespace Vision.Modules.WorldMap
         {
             if (m_generateMapTiles)
             {
-                UpdateMapImage = new Timer(oneminute* minutes);
+                UpdateMapImage = new Timer(oneminute*  minutes);
                 UpdateMapImage.Elapsed += OnTimedCreateNewMapImage;
                 UpdateMapImage.Enabled = true;
             }
@@ -354,13 +356,15 @@ namespace Vision.Modules.WorldMap
                 );
                 ClearWorldviewCachedImages (m_scene.RegionInfo.RegionID);
 
-                CreateTerrainTexture(true);
+                CreateTerrainTexture (true);
                 m_scene.SimulationDataService.MapTileNeedsGenerated = false;
-                
+
                 // refresh details
                 IGridRegisterModule gridRegModule = m_scene.RequestModuleInterface<IGridRegisterModule>();
                 if (gridRegModule != null)
                     gridRegModule.UpdateGridRegion(m_scene);
+                
+
             }
         }
 
@@ -386,9 +390,10 @@ namespace Vision.Modules.WorldMap
                 );
                 ClearWorldviewCachedImages (m_scene.RegionInfo.RegionID);
 
-                CreateTerrainTexture();
+                CreateTerrainTexture ();
                 m_scene.SimulationDataService.MapTileNeedsGenerated = false;
             }
+
         }
 
         /// <summary>
@@ -434,7 +439,8 @@ namespace Vision.Modules.WorldMap
             else
             {
                 Util.FireAndForget(CreateMapTileAsync);
-            }               
+            }
+                
         }
 
         #region Async map tile
@@ -479,9 +485,9 @@ namespace Vision.Modules.WorldMap
                                                      Data = terraindata,
                                                      Description = m_scene.RegionInfo.RegionName,
                                                      Flags =
-                                                         AssetFlags.Deletable | 
-                                                         AssetFlags.Rewritable |
-                                                         AssetFlags.Maptile
+                                                        AssetFlags.Deletable |
+                                                        AssetFlags.Rewritable |
+                                                        AssetFlags.Maptile
                                                  };
                     m_scene.RegionInfo.RegionSettings.TerrainMapImageID = m_scene.AssetService.Store(Terrainasset);
                 }
@@ -504,8 +510,8 @@ namespace Vision.Modules.WorldMap
                                                  Data = mapdata,
                                                  Description = m_scene.RegionInfo.RegionName,
                                                  Flags =
-                                                     AssetFlags.Deletable | 
-                                                     AssetFlags.Rewritable | 
+                                                     AssetFlags.Deletable |
+                                                     AssetFlags.Rewritable |
                                                      AssetFlags.Maptile
                                              };
                     m_scene.RegionInfo.RegionSettings.TerrainImageID = m_scene.AssetService.Store(Mapasset);
@@ -531,7 +537,7 @@ namespace Vision.Modules.WorldMap
                                                     Data = overlay,
                                                     Description = m_scene.RegionInfo.RegionName,
                                                     Flags =
-                                                        AssetFlags.Deletable | 
+                                                        AssetFlags.Deletable |
                                                         AssetFlags.Rewritable |
                                                         AssetFlags.Maptile
                                                 };
@@ -547,6 +553,13 @@ namespace Vision.Modules.WorldMap
             IGridRegisterModule gridRegModule = m_scene.RequestModuleInterface<IGridRegisterModule>();
             if (gridRegModule != null)
                 gridRegModule.UpdateGridRegion(m_scene);
+
+            // clear out... these are all redundant?
+            //terraindata = null;
+            //mapdata = null;
+            //overlay = null;
+            //terrain = null;
+
          }
 
         /// <summary>
@@ -653,7 +666,7 @@ namespace Vision.Modules.WorldMap
             catch (Exception)
             {
                 // Dummy!
-                MainConsole.Instance.Warn("[World Map]: Unable to generate Map image");
+                MainConsole.Instance.Warn("[WORLD MAP]: Unable to generate Map image");
             }
             finally
             {
@@ -694,9 +707,10 @@ namespace Vision.Modules.WorldMap
         Bitmap DrawObjectVolume(IScene whichScene, Bitmap mapbmp)
         {
             ITerrainChannel heightmap = whichScene.RequestModuleInterface<ITerrainChannel>();
-            //MainConsole.Instance.Info("[Map Tile]: Generating Maptile Step 2: Object Volume Profile");
+            //MainConsole.Instance.Info("[MAPTILE]: Generating Maptile Step 2: Object Volume Profile");
             ISceneEntity[] objs = whichScene.Entities.GetEntities();
             Dictionary<uint, DrawStruct> z_sort = new Dictionary<uint, DrawStruct>();
+            //SortedList<float, RectangleDrawStruct> z_sort = new SortedList<float, RectangleDrawStruct>();
             List<float> z_sortheights = new List<float>();
             List<uint> z_localIDs = new List<uint>();
 
@@ -745,6 +759,7 @@ namespace Vision.Modules.WorldMap
                             if (isBelow256AboveTerrain)
                             {
                                 // Try to get the RGBA of the default texture entry..
+                                //
                                 try
                                 {
                                     // get the null checks out of the way
@@ -828,6 +843,7 @@ namespace Vision.Modules.WorldMap
 
                                 Vector3[] vertexes = new Vector3[8];
 
+                                // float[] distance = new float[6];
                                 Vector3[] FaceA = new Vector3[6]; // vertex A for Facei
                                 Vector3[] FaceB = new Vector3[6]; // vertex B for Facei
                                 Vector3[] FaceC = new Vector3[6]; // vertex C for Facei
@@ -836,6 +852,9 @@ namespace Vision.Modules.WorldMap
                                 tScale = new Vector3(lscale.X, -lscale.Y, lscale.Z);
                                 scale = ((tScale*part.GetWorldRotation()));
                                 vertexes[0] = (new Vector3((pos.X + scale.X), (pos.Y + scale.Y), (pos.Z + scale.Z)));
+                                // vertexes[0].x = pos.X + vertexes[0].x;
+                                //vertexes[0].y = pos.Y + vertexes[0].y;
+                                //vertexes[0].z = pos.Z + vertexes[0].z;
 
                                 FaceA[0] = vertexes[0];
                                 FaceB[3] = vertexes[0];
@@ -844,6 +863,10 @@ namespace Vision.Modules.WorldMap
                                 tScale = lscale;
                                 scale = ((tScale*part.GetWorldRotation()));
                                 vertexes[1] = (new Vector3((pos.X + scale.X), (pos.Y + scale.Y), (pos.Z + scale.Z)));
+
+                                // vertexes[1].x = pos.X + vertexes[1].x;
+                                // vertexes[1].y = pos.Y + vertexes[1].y;
+                                //vertexes[1].z = pos.Z + vertexes[1].z;
 
                                 FaceB[0] = vertexes[1];
                                 FaceA[1] = vertexes[1];
@@ -854,6 +877,10 @@ namespace Vision.Modules.WorldMap
 
                                 vertexes[2] = (new Vector3((pos.X + scale.X), (pos.Y + scale.Y), (pos.Z + scale.Z)));
 
+                                //vertexes[2].x = pos.X + vertexes[2].x;
+                                //vertexes[2].y = pos.Y + vertexes[2].y;
+                                //vertexes[2].z = pos.Z + vertexes[2].z;
+
                                 FaceC[0] = vertexes[2];
                                 FaceD[3] = vertexes[2];
                                 FaceC[5] = vertexes[2];
@@ -861,6 +888,10 @@ namespace Vision.Modules.WorldMap
                                 tScale = new Vector3(lscale.X, lscale.Y, -lscale.Z);
                                 scale = ((tScale*part.GetWorldRotation()));
                                 vertexes[3] = (new Vector3((pos.X + scale.X), (pos.Y + scale.Y), (pos.Z + scale.Z)));
+
+                                //vertexes[3].x = pos.X + vertexes[3].x;
+                                // vertexes[3].y = pos.Y + vertexes[3].y;
+                                // vertexes[3].z = pos.Z + vertexes[3].z;
 
                                 FaceD[0] = vertexes[3];
                                 FaceC[1] = vertexes[3];
@@ -870,6 +901,10 @@ namespace Vision.Modules.WorldMap
                                 scale = ((tScale*part.GetWorldRotation()));
                                 vertexes[4] = (new Vector3((pos.X + scale.X), (pos.Y + scale.Y), (pos.Z + scale.Z)));
 
+                                // vertexes[4].x = pos.X + vertexes[4].x;
+                                // vertexes[4].y = pos.Y + vertexes[4].y;
+                                // vertexes[4].z = pos.Z + vertexes[4].z;
+
                                 FaceB[1] = vertexes[4];
                                 FaceA[2] = vertexes[4];
                                 FaceD[4] = vertexes[4];
@@ -877,6 +912,10 @@ namespace Vision.Modules.WorldMap
                                 tScale = new Vector3(-lscale.X, lscale.Y, -lscale.Z);
                                 scale = ((tScale*part.GetWorldRotation()));
                                 vertexes[5] = (new Vector3((pos.X + scale.X), (pos.Y + scale.Y), (pos.Z + scale.Z)));
+
+                                // vertexes[5].x = pos.X + vertexes[5].x;
+                                // vertexes[5].y = pos.Y + vertexes[5].y;
+                                // vertexes[5].z = pos.Z + vertexes[5].z;
 
                                 FaceD[1] = vertexes[5];
                                 FaceC[2] = vertexes[5];
@@ -886,6 +925,10 @@ namespace Vision.Modules.WorldMap
                                 scale = ((tScale*part.GetWorldRotation()));
                                 vertexes[6] = (new Vector3((pos.X + scale.X), (pos.Y + scale.Y), (pos.Z + scale.Z)));
 
+                                // vertexes[6].x = pos.X + vertexes[6].x;
+                                // vertexes[6].y = pos.Y + vertexes[6].y;
+                                // vertexes[6].z = pos.Z + vertexes[6].z;
+
                                 FaceB[2] = vertexes[6];
                                 FaceA[3] = vertexes[6];
                                 FaceB[4] = vertexes[6];
@@ -894,13 +937,19 @@ namespace Vision.Modules.WorldMap
                                 scale = ((tScale*part.GetWorldRotation()));
                                 vertexes[7] = (new Vector3((pos.X + scale.X), (pos.Y + scale.Y), (pos.Z + scale.Z)));
 
+                                // vertexes[7].x = pos.X + vertexes[7].x;
+                                // vertexes[7].y = pos.Y + vertexes[7].y;
+                                // vertexes[7].z = pos.Z + vertexes[7].z;
+
                                 FaceD[2] = vertexes[7];
                                 FaceC[3] = vertexes[7];
                                 FaceD[5] = vertexes[7];
 
                                 #endregion
 
-                                //If we run into an error drawing, break out of the
+                                //int wy = 0;
+
+                                //bool breakYN = false; // If we run into an error drawing, break out of the
                                 // loop so we don't lag to death on error handling
                                 DrawStruct ds = new DrawStruct {brush = new SolidBrush(mapdotspot)};
                                 if (mapdot.RootChild.Shape.ProfileShape == ProfileShape.Circle)
@@ -920,6 +969,8 @@ namespace Vision.Modules.WorldMap
                                 else //if (mapdot.RootPart.Shape.ProfileShape == ProfileShape.Square)
                                 {
                                     ds.dr = DrawRoutine.Rectangle;
+                                    //ds.rect = new Rectangle(mapdrawstartX, (255 - mapdrawstartY), mapdrawendX - mapdrawstartX, mapdrawendY - mapdrawstartY);
+
                                     ds.trns = new face[FaceA.Length];
 
                                     for (int i = 0; i < FaceA.Length; i++)
@@ -972,11 +1023,12 @@ namespace Vision.Modules.WorldMap
                         {
                             g.FillEllipse(rectDrawStruct.brush, rectDrawStruct.rect);
                         }
+                        //g.FillRectangle(rectDrawStruct.brush , rectDrawStruct.rect);
                     }
                 }
             } // lock entities objs
 
-            //MainConsole.Instance.Info("[Map Tile]: Generating Maptile Step 2: Done in " + (Environment.TickCount - tc) + " ms");
+            //MainConsole.Instance.Info("[MAPTILE]: Generating Maptile Step 2: Done in " + (Environment.TickCount - tc) + " ms");
             return mapbmp;
         }
 
@@ -1073,8 +1125,10 @@ namespace Vision.Modules.WorldMap
 
         Bitmap fetchTexture(UUID id)
         {
-            byte[] asset = m_scene.AssetService.GetData(id.ToString());
-            //MainConsole.Instance.DebugFormat("[Textured Map Tile Renderer]: Fetched texture {0}, found: {1}", id, asset != null);
+            byte[] asset = null;
+            if (m_scene.AssetService.GetExists(id.ToString()))
+               asset = m_scene.AssetService.GetData(id.ToString());
+
             if (asset == null) return null;
 
             try
@@ -1086,18 +1140,18 @@ namespace Vision.Modules.WorldMap
             catch (DllNotFoundException)
             {
                 MainConsole.Instance.ErrorFormat(
-                    "[Textured Map Tile Renderer]: OpenJpeg is not installed correctly on this system.   Asset Data is empty for {0}",
+                    "[TexturedMapTileRenderer]: OpenJpeg is not installed correctly on this system.   Asset Data is empty for {0}",
                     id);
             }
             catch (IndexOutOfRangeException)
             {
                 MainConsole.Instance.ErrorFormat(
-                    "[Textured Map Tile Renderer]: OpenJpeg was unable to encode this.   Asset Data is empty for {0}", id);
+                    "[TexturedMapTileRenderer]: OpenJpeg was unable to encode this.   Asset Data is empty for {0}", id);
             }
             catch (Exception)
             {
                 MainConsole.Instance.ErrorFormat(
-                    "[Textured Map Tile Renderer]: OpenJpeg was unable to encode this.   Asset Data is empty for {0}", id);
+                    "[TexturedMapTileRenderer]: OpenJpeg was unable to encode this.   Asset Data is empty for {0}", id);
             }
             return null;
         }
@@ -1134,7 +1188,14 @@ namespace Vision.Modules.WorldMap
         {
             Point returnpt = new Point
                                  {X = (int) point3d.X, Y = (int) ((m_scene.RegionInfo.RegionSizeY - 1) - point3d.Y)};
+            //originpos = point3d;
+            //int d = (int)(256f / 1.5f);
 
+            //Vector3 topos = new Vector3(0, 0, 0);
+            // float z = -point3d.z - topos.z;
+
+            //(int)((topos.x - point3d.x) / z * d);
+            //(int)(255 - (((topos.y - point3d.y) / z * d)));
             returnpt.X /= m_scene.RegionInfo.RegionSizeX/Constants.RegionSize;
             returnpt.Y /= m_scene.RegionInfo.RegionSizeY/Constants.RegionSize;
             return returnpt;
@@ -1182,6 +1243,7 @@ namespace Vision.Modules.WorldMap
 
             if (File.Exists (fullPath))
                 File.Delete (fullPath);
+
         }
 
         public void Dispose()

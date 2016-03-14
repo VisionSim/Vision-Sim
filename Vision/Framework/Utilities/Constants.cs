@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,7 +25,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 namespace Vision.Framework.Utilities
 {
     public static class Constants
@@ -34,9 +33,9 @@ namespace Vision.Framework.Utilities
         public const string MISSING_TEXTURE_ID = "41fcdbb9-0896-495d-8889-1eb6fad88da3";       // texture to use when all else fails...
 
         // some predefined folders
+		public const string DEFAULT_CRASH_DIR = "../Data/Crashes";
         public const string DEFAULT_CONFIG_DIR = "../Config";
         public const string DEFAULT_DATA_DIR = "../Data";
-        public const string DEFAULT_CRASH_DIR = "../Data/Crashes";
 
         // all these are relative to the default data directory,
         // set either as above or via configuration
@@ -82,12 +81,11 @@ namespace Vision.Framework.Utilities
 
         // System Banker Avatar
         public const string BankerUUID = "f4261829-2796-4688-bfe2-085190cb639b";
-        public const string BankerName = "Treasurer Vision";
+        public const string BankerName = "Vision Banker";
 
         // System Marketplace Avatar
         public const string MarketplaceOwnerUUID = "198e72a6-cef6-4bbb-ae08-c0a79e6b7d1e";
         public const string MarketplaceOwnerName = "Marketplace Concierge";
-
 
         // user levels
         public const int USER_DISABLED = -2;
@@ -120,6 +118,5 @@ namespace Vision.Framework.Utilities
         public const int GROUP_PAYMENTS_DELAY = 30;         // minutes to wait after stipend payments before processing group payments
         public const int GROUP_DISBURSMENTS_DELAY = 5;      // offset disbursments by 5 minutes
         public const int DIRECTORYFEE_GRACE_PERIOD = 2;     // hours grace period before a fee will be charged at least once
-
     }
 }

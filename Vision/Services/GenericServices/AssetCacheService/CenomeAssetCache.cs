@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -26,13 +26,13 @@
  */
 
 
+using System;
+using Nini.Config;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Utilities;
-using Nini.Config;
-using System;
 
 namespace Vision.Services
 {
@@ -122,12 +122,12 @@ namespace Vision.Services
         /// <summary>
         ///     Cache object.
         /// </summary>
-        private ICnmCache<string, AssetBase> m_cache;
+        ICnmCache<string, AssetBase> m_cache;
 
         /// <summary>
         ///     Count of cache commands
         /// </summary>
-        private int m_cachedCount;
+        int m_cachedCount;
 
         /// <summary>
         ///     How many gets before dumping statistics
@@ -135,17 +135,17 @@ namespace Vision.Services
         /// <remarks>
         ///     If 0 or less, then disabled.
         /// </remarks>
-        private int m_debugEpoch;
+        int m_debugEpoch;
 
         /// <summary>
         ///     Count of get requests
         /// </summary>
-        private int m_getCount;
+        int m_getCount;
 
         /// <summary>
         ///     How many hits
         /// </summary>
-        private int m_hitCount;
+        int m_hitCount;
 
         #endregion
 

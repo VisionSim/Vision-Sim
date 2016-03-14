@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -238,10 +238,10 @@ namespace Vision.Simulation.Base
             if (MainConsole.Instance != null)
             {
                 MainConsole.Instance.DefaultPrompt = m_consolePrompt;
-                MainConsole.Instance.Info(string.Format("[Mini Vision Sim]: Starting Mini Vision Sim ({0})...",
+                MainConsole.Instance.Info(string.Format("[MINVision]: STARTING MIN Vision ({0})...",
                                                         (IntPtr.Size == 4 ? "x86" : "x64")));
-                MainConsole.Instance.Info("[Mini Vision Sim]: Version : " + Version + "\n");
-                MainConsole.Instance.Info("[Mini Vision Sim]: Git Base: " + VersionInfo.GitVersion + "\n");
+                MainConsole.Instance.Info("[MINVision]: Version : " + Version + "\n");
+                MainConsole.Instance.Info("[MINVision]: Git Base: " + VersionInfo.GitVersion + "\n");
             }
         }
 
@@ -250,7 +250,7 @@ namespace Vision.Simulation.Base
         /// </summary>
         public virtual void Startup()
         {
-            MainConsole.Instance.Info("[Mini Vision Sim]: Startup completed in " +
+            MainConsole.Instance.Info("[MINVision]: Startup completed in " +
                                       (DateTime.Now - this.StartupTime).TotalSeconds);
         }
 
@@ -465,7 +465,7 @@ namespace Vision.Simulation.Base
 
         private void HandleQuit(IScene scene, string[] args)
         {
-            var ok = MainConsole.Instance.Prompt ("[Console]: Shutdown the simulator. Are you sure? (yes/no)", "no").ToLower();
+            var ok = MainConsole.Instance.Prompt ("[CONSOLE]: Shutdown the simulator. Are you sure? (yes/no)", "no").ToLower();
             if (ok.StartsWith("y"))
                 Shutdown(true);
         }
@@ -478,7 +478,7 @@ namespace Vision.Simulation.Base
         {
             if (File.Exists(fileName))
             {
-                MainConsole.Instance.Info("[Command File]: Running " + fileName);
+                MainConsole.Instance.Info("[COMMANDFILE]: Running " + fileName);
                 List<string> commands = new List<string>();
                 using (StreamReader readFile = File.OpenText(fileName))
                 {
@@ -494,7 +494,7 @@ namespace Vision.Simulation.Base
                 }
                 foreach (string currentCommand in commands)
                 {
-                    MainConsole.Instance.Info("[Command File]: Running '" + currentCommand + "'");
+                    MainConsole.Instance.Info("[COMMANDFILE]: Running '" + currentCommand + "'");
                     MainConsole.Instance.RunCommand(currentCommand);
                 }
             }
@@ -503,7 +503,7 @@ namespace Vision.Simulation.Base
         public virtual void HandleForceGC(IScene scene, string[] cmd)
         {
             GC.Collect();
-            MainConsole.Instance.Warn("[Garbage Collection]: Garbage collection finished");
+            MainConsole.Instance.Warn("Garbage collection finished");
         }
 
         public virtual void runConfig(IScene scene, string[] cmd)
@@ -515,10 +515,10 @@ namespace Vision.Simulation.Base
         {
             if (cmd.Length != 5)
             {
-                MainConsole.Instance.Warn("[Command File]: Timer Interval command did not have enough parameters.");
+                MainConsole.Instance.Warn("[CONSOLE]: Timer Interval command did not have enough parameters.");
                 return;
             }
-            MainConsole.Instance.Warn("[Command File]: Set Timer Interval to " + cmd[4]);
+            MainConsole.Instance.Warn("[CONSOLE]: Set Timer Interval to " + cmd[4]);
             m_TimerScriptTime = int.Parse(cmd[4]);
             m_TimerScriptTimer.Enabled = false;
             m_TimerScriptTimer.Interval = m_TimerScriptTime*60*1000;
@@ -542,7 +542,7 @@ namespace Vision.Simulation.Base
             {
                 server.HostName = hostName;
             }
-            MainConsole.Instance.Info("[Vision Sim Configuration]: Finished reloading configuration.");
+            MainConsole.Instance.Info("Finished reloading configuration.");
         }
 
         public virtual void HandleShowInfo(IScene scene, string[] cmd)
@@ -612,9 +612,9 @@ namespace Vision.Simulation.Base
                 }
 
                 if (close)
-                    MainConsole.Instance.Info("[Shut Down]: Terminating");
+                    MainConsole.Instance.Info("[SHUTDOWN]: Terminating");
 
-                MainConsole.Instance.Info("[Shut Down]: Shutdown processing on main thread complete. " +
+                MainConsole.Instance.Info("[SHUTDOWN]: Shutdown processing on main thread complete. " +
                                           (close ? " Exiting..." : ""));
 
                 if (close)

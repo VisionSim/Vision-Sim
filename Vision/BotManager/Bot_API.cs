@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -26,17 +26,17 @@
  */
 
 
-using Vision.Framework.ClientInterfaces;
-using Vision.Framework.Modules;
-using Vision.Framework.PresenceInfo;
-using Vision.Framework.SceneInfo;
-using Vision.ScriptEngine.VisionScript;
-using OpenMetaverse;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Remoting.Lifetime;
+using OpenMetaverse;
+using Vision.Framework.ClientInterfaces;
+using Vision.Framework.Modules;
+using Vision.Framework.PresenceInfo;
+using Vision.Framework.SceneInfo;
+using Vision.ScriptEngine.VisionScript;
 using LSL_Float = Vision.ScriptEngine.VisionScript.LSL_Types.LSLFloat;
 using LSL_Integer = Vision.ScriptEngine.VisionScript.LSL_Types.LSLInteger;
 using LSL_Key = Vision.ScriptEngine.VisionScript.LSL_Types.LSLString;
@@ -76,7 +76,7 @@ namespace Vision.BotManager
 
         #region IBot_Api Members
 
-        public LSL_String botCreateBot(string FirstName, string LastName, string appearanceToClone, LSL_Vector startPos)
+        public LSL_String botCreateBot(string firstName, string lastName, string appearanceToClone, LSL_Vector startPos)
         {
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.Moderate, "botCreateBot", m_host, "bot", m_itemID))
                 return "";
@@ -84,7 +84,7 @@ namespace Vision.BotManager
             if (manager != null)
                 return
                     new LSL_String(
-                        manager.CreateAvatar(FirstName, LastName, m_host.ParentEntity.Scene,
+                        manager.CreateAvatar(firstName, lastName, m_host.ParentEntity.Scene,
                                              UUID.Parse(appearanceToClone), m_host.OwnerID,
                                              new Vector3((float) startPos.x, (float) startPos.y, (float) startPos.z)).
                                 ToString());
@@ -297,11 +297,11 @@ namespace Vision.BotManager
 
         #region IScriptApi Members
 
-        public void Initialize(IScriptModulePlugin ScriptEngine, ISceneChildEntity host, uint localID, UUID itemID,
+        public void Initialize(IScriptModulePlugin scriptEngine, ISceneChildEntity host, uint localID, UUID itemID,
                                ScriptProtectionModule module)
         {
             m_itemID = itemID;
-            m_ScriptEngine = ScriptEngine;
+            m_ScriptEngine = scriptEngine;
             m_host = host;
             ScriptProtection = module;
         }

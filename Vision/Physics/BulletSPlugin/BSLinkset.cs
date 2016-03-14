@@ -43,7 +43,7 @@ namespace Vision.Physics.BulletSPlugin
 
     public abstract class BSLinkset
     {
-        // private static string LogHeader = "[Bulletsim Linkset]";
+        // private static string LogHeader = "[BULLETSIM LINKSET]";
 
         public enum LinksetImplementation
         {
@@ -75,7 +75,7 @@ namespace Vision.Physics.BulletSPlugin
             if (ret == null)
             {
                 physScene.Logger.ErrorFormat(
-                    "[Bulletsim Linkset] Factory could not create linkset. Parent name={1}, ID={2}", parent.Name,
+                    "[BULLETSIM LINKSET] Factory could not create linkset. Parent name={1}, ID={2}", parent.Name,
                     parent.LocalID);
             }
             return ret;

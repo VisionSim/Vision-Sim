@@ -37,7 +37,7 @@ namespace Vision.Physics.BulletSPlugin
     [Serializable]
     public class BSPrim : BSPhysObject
     {
-        static readonly string LogHeader = "[Bulletsim Prim]";
+        static readonly string LogHeader = "[BULLETS PRIM]";
 
         // _size is what the user passed. Scale is what we pass to the physics engine with the mesh.
         OMV.Vector3 _size; // the multiplier for each mesh dimension as passed by the user

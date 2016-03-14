@@ -33,7 +33,7 @@ namespace Vision.Physics.BulletSPlugin
 {
     public static class BSParam
     {
-        static string LogHeader = "[Bulletsim Parameters]";
+        static string LogHeader = "[BULLETSIM PARAMETERS]";
 
         // Tuning notes:
         // From: http://bulletphysics.org/Bullet/phpBB3/viewtopic.php?t=6575

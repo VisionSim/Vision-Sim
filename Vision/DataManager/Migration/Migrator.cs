@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -39,9 +39,10 @@ namespace Vision.DataManager.Migration
 
     public class Migrator : IMigrator, IRestorePoint
     {
-        private readonly Dictionary<string, string> renameSchema = new Dictionary<string, string>();
-        public Dictionary<string, string> renameColumns = new Dictionary<string, string>();
-        public List<SchemaDefinition> schema;
+        readonly Dictionary<string, string> renameSchema = new Dictionary<string, string>();
+
+        public Dictionary<string, string> RenameColumns = new Dictionary<string, string>();
+        public List<SchemaDefinition> Schema;
 
         public Version Version { get; protected set; }
 
@@ -62,10 +63,8 @@ namespace Vision.DataManager.Migration
 
         public bool Validate(IDataConnector genericData)
         {
-            if (genericData.GetVisionVersion(MigrationName) != Version)
-            {
+            if (genericData.GetVisionVersion (MigrationName) != Version)
                 return false;
-            }
             return DoValidate(genericData);
         }
 
@@ -204,7 +203,6 @@ namespace Vision.DataManager.Migration
                 case ColumnTypes.String16:
                     type = ColumnTypeDef.String16;
                     break;
-
                 case ColumnTypes.String255:
                     type = ColumnTypeDef.String255;
                     break;
@@ -279,7 +277,7 @@ namespace Vision.DataManager.Migration
 
         protected void AddSchema(string table, ColumnDefinition[] definitions, IndexDefinition[] indexes)
         {
-            schema.Add(new SchemaDefinition(table, definitions, indexes));
+            Schema.Add(new SchemaDefinition(table, definitions, indexes));
         }
 
         protected void RenameSchema(string oldTable, string newTable)
@@ -290,36 +288,34 @@ namespace Vision.DataManager.Migration
         protected void RemoveSchema(string table)
         {
             //Remove all of the tables that have this name
-            schema.RemoveAll(delegate(SchemaDefinition r)
+            Schema.RemoveAll(delegate(SchemaDefinition r)
                                  {
-                                     if (r.Name == table)
-                                         return true;
-                                     return false;
+                                     return r.Name == table;
                                  });
         }
 
         protected void EnsureAllTablesInSchemaExist(IDataConnector genericData)
         {
-            foreach (System.Collections.Generic.KeyValuePair<string, string> r in renameSchema)
+            foreach (KeyValuePair<string, string> r in renameSchema)
             {
                 genericData.RenameTable(r.Key, r.Value);
             }
-            foreach (var s in schema)
+            foreach (var s in Schema)
             {
-                genericData.EnsureTableExists(s.Name, s.Columns, s.Indices, renameColumns);
+                genericData.EnsureTableExists(s.Name, s.Columns, s.Indices, RenameColumns);
             }
         }
 
         protected bool TestThatAllTablesValidate(IDataConnector genericData)
         {
-            return schema.All(s => genericData.VerifyTableExists(s.Name, s.Columns, s.Indices));
+            return Schema.All(s => genericData.VerifyTableExists(s.Name, s.Columns, s.Indices));
         }
 
         public bool DebugTestThatAllTablesValidate(IDataConnector genericData, out SchemaDefinition reason)
         {
             reason = null;
 
-            foreach (var s in schema.Where(s => !genericData.VerifyTableExists(s.Name, s.Columns, s.Indices)))
+            foreach (var s in Schema.Where(s => !genericData.VerifyTableExists(s.Name, s.Columns, s.Indices)))
             {
                 reason = s;
                 return false;
@@ -329,7 +325,7 @@ namespace Vision.DataManager.Migration
 
         protected void CopyAllTablesToTempVersions(IDataConnector genericData)
         {
-            foreach (var s in schema)
+            foreach (var s in Schema)
             {
                 CopyTableToTempVersion(genericData, s.Name, s.Columns, s.Indices);
             }
@@ -337,25 +333,25 @@ namespace Vision.DataManager.Migration
 
         protected void RestoreTempTablesToReal(IDataConnector genericData)
         {
-            foreach (var s in schema)
+            foreach (var s in Schema)
             {
                 RestoreTempTableToReal(genericData, s.Name, s.Columns, s.Indices);
             }
         }
 
-        private void CopyTableToTempVersion(IDataConnector genericData, string tablename,
+        static void CopyTableToTempVersion(IDataConnector genericData, string tablename,
                                             ColumnDefinition[] columnDefinitions, IndexDefinition[] indexDefinitions)
         {
             genericData.CopyTableToTable(tablename, GetTempTableNameFromTableName(tablename), columnDefinitions,
                                          indexDefinitions);
         }
 
-        private string GetTempTableNameFromTableName(string tablename)
+        static string GetTempTableNameFromTableName(string tablename)
         {
             return tablename + "_temp";
         }
 
-        private void RestoreTempTableToReal(IDataConnector genericData, string tablename,
+        static void RestoreTempTableToReal(IDataConnector genericData, string tablename,
                                             ColumnDefinition[] columnDefinitions, IndexDefinition[] indexDefinitions)
         {
             genericData.CopyTableToTable(GetTempTableNameFromTableName(GetTempTableNameFromTableName(tablename)),
@@ -364,13 +360,13 @@ namespace Vision.DataManager.Migration
 
         public void ClearRestorePoint(IDataConnector genericData)
         {
-            foreach (var s in schema)
+            foreach (var s in Schema)
             {
                 DeleteTempVersion(genericData, s.Name);
             }
         }
 
-        private void DeleteTempVersion(IDataConnector genericData, string tableName)
+        static void DeleteTempVersion(IDataConnector genericData, string tableName)
         {
             string tempTableName = GetTempTableNameFromTableName(tableName);
             if (genericData.TableExists(tempTableName))

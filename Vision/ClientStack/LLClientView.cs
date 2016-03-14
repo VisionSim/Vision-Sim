@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -551,7 +551,7 @@ namespace Vision.ClientStack
         public void Close(bool forceClose)
         {
             //MainConsole.Instance.DebugFormat(
-            //    "[Client]: Close has been called for {0} attached to scene {1}",
+            //    "[CLIENT]: Close has been called for {0} attached to scene {1}",
             //    Name, m_scene.RegionInfo.RegionName);
 
             if (forceClose && !IsLoggingOut) //Don't send it to clients that are logging out
@@ -1134,7 +1134,7 @@ namespace Vision.ClientStack
             }
             catch (Exception e)
             {
-                MainConsole.Instance.Warn("[Client]: ClientView.API.cs: SendLayerData() - Failed with exception " + e);
+                MainConsole.Instance.Warn("[CLIENT]: ClientView.API.cs: SendLayerData() - Failed with exception " + e);
             }
         }
 
@@ -1224,7 +1224,7 @@ namespace Vision.ClientStack
             }
             catch (Exception e)
             {
-                MainConsole.Instance.ErrorFormat("[Client]: SendLayerData() Failed with exception: " + e.ToString());
+                MainConsole.Instance.ErrorFormat("[CLIENT]: SendLayerData() Failed with exception: " + e.ToString());
             }
         }
 
@@ -1668,7 +1668,7 @@ namespace Vision.ClientStack
             if (entities.Length == 0)
                 return; //........... why!
 
-//            MainConsole.Instance.DebugFormat("[Client]: Sending KillObjectPacket to {0} for {1} in {2}", Name, localID, regionHandle);
+//            MainConsole.Instance.DebugFormat("[CLIENT]: Sending KillObjectPacket to {0} for {1} in {2}", Name, localID, regionHandle);
 
             KillObjectPacket kill = (KillObjectPacket) PacketPool.Instance.GetPacket(PacketType.KillObject);
             kill.ObjectData = new KillObjectPacket.ObjectDataBlock[entities.Length];
@@ -1722,7 +1722,7 @@ namespace Vision.ClientStack
             if (entities.Length == 0)
                 return; //........... why!
 
-            //            MainConsole.Instance.DebugFormat("[Client]: Sending KillObjectPacket to {0} for {1} in {2}", Name, localID, regionHandle);
+            //            MainConsole.Instance.DebugFormat("[CLIENT]: Sending KillObjectPacket to {0} for {1} in {2}", Name, localID, regionHandle);
 
             KillObjectPacket kill = (KillObjectPacket) PacketPool.Instance.GetPacket(PacketType.KillObject);
             kill.ObjectData = new KillObjectPacket.ObjectDataBlock[entities.Length];
@@ -3674,7 +3674,7 @@ namespace Vision.ClientStack
 
         public void SendAnimations(AnimationGroup animations)
         {
-            //MainConsole.Instance.DebugFormat("[Client]: Sending animations to {0}", Name);
+            //MainConsole.Instance.DebugFormat("[CLIENT]: Sending animations to {0}", Name);
 
             AvatarAnimationPacket ani =
                 (AvatarAnimationPacket) PacketPool.Instance.GetPacket(PacketType.AvatarAnimation);
@@ -3882,7 +3882,7 @@ namespace Vision.ClientStack
                     /*if (m_killRecord.Contains(entity.LocalId))
                         {
                         MainConsole.Instance.ErrorFormat(
-                            "[Client]: Preventing update for prim with local id {0} after client for user {1} told it was deleted. Mantis this at http://mantis.Vision-sim.org/bug_report_page.php !",
+                            "[CLIENT]: Preventing update for prim with local id {0} after client for user {1} told it was deleted. Mantis this at http://mantis.Vision-sim.org/bug_report_page.php !",
                             entity.LocalId, Name);
                         return;
                         }*/
@@ -4683,7 +4683,7 @@ namespace Vision.ClientStack
 
             packet.ParamList = returnblock;
             packet.Header.Reliable = false;
-            //MainConsole.Instance.Debug("[Estate]: SIM--->" + packet.ToString());
+            //MainConsole.Instance.Debug("[ESTATE]: SIM--->" + packet.ToString());
             OutPacket(packet, ThrottleOutPacketType.AvatarInfo);
         }
 
@@ -4865,7 +4865,7 @@ namespace Vision.ClientStack
             if (notifyCount > 32)
             {
                 MainConsole.Instance.InfoFormat(
-                    "[Land]: Mor e than {0} avatars own prims on this parcel.  Only sending back details of first {0}"
+                    "[LAND]: Mor e than {0} avatars own prims on this parcel.  Only sending back details of first {0}"
                     + " - a developer might want to investigate whether this is a hard limit", 32);
 
                 notifyCount = 32;
@@ -6154,7 +6154,7 @@ namespace Vision.ClientStack
         {
             ScriptDialogReplyPacket rdialog = (ScriptDialogReplyPacket) Pack;
 
-            //MainConsole.Instance.DebugFormat("[Client]: Received ScriptDialogReply from {0}", rdialog.Data.ObjectID);
+            //MainConsole.Instance.DebugFormat("[CLIENT]: Received ScriptDialogReply from {0}", rdialog.Data.ObjectID);
 
             #region Packet Session and User Check
 
@@ -6462,7 +6462,7 @@ namespace Vision.ClientStack
 
             #endregion
 
-            //MainConsole.Instance.Info("[Land]: LAND:" + modify.ToString());
+            //MainConsole.Instance.Info("[LAND]: LAND:" + modify.ToString());
             if (modify.ParcelData.Length > 0)
             {
                 if (OnModifyTerrain != null)
@@ -7757,7 +7757,7 @@ namespace Vision.ClientStack
 
         private bool HandleObjectSpinStart(IClientAPI sender, Packet Pack)
         {
-            //MainConsole.Instance.Warn("[Client]: unhandled ObjectSpinStart packet");
+            //MainConsole.Instance.Warn("[CLIENT]: unhandled ObjectSpinStart packet");
             ObjectSpinStartPacket spinStart = (ObjectSpinStartPacket) Pack;
 
             #region Packet Session and User Check
@@ -7781,7 +7781,7 @@ namespace Vision.ClientStack
 
         private bool HandleObjectSpinUpdate(IClientAPI sender, Packet Pack)
         {
-            //MainConsole.Instance.Warn("[Client]: unhandled ObjectSpinUpdate packet");
+            //MainConsole.Instance.Warn("[CLIENT]: unhandled ObjectSpinUpdate packet");
             ObjectSpinUpdatePacket spinUpdate = (ObjectSpinUpdatePacket) Pack;
 
             #region Packet Session and User Check
@@ -7798,7 +7798,7 @@ namespace Vision.ClientStack
             Vector3 axis;
             float angle;
             spinUpdate.ObjectData.Rotation.GetAxisAngle(out axis, out angle);
-            //MainConsole.Instance.Warn("[Client]: ObjectSpinUpdate packet rot axis:" + axis + " angle:" + angle);
+            //MainConsole.Instance.Warn("[CLIENT]: ObjectSpinUpdate packet rot axis:" + axis + " angle:" + angle);
 
             SpinObject handlerSpinUpdate = OnSpinUpdate;
             if (handlerSpinUpdate != null)
@@ -7810,7 +7810,7 @@ namespace Vision.ClientStack
 
         private bool HandleObjectSpinStop(IClientAPI sender, Packet Pack)
         {
-            //MainConsole.Instance.Warn("[Client]: unhandled ObjectSpinStop packet");
+            //MainConsole.Instance.Warn("[CLIENT]: unhandled ObjectSpinStop packet");
             ObjectSpinStopPacket spinStop = (ObjectSpinStopPacket) Pack;
 
             #region Packet Session and User Check
@@ -8263,7 +8263,7 @@ namespace Vision.ClientStack
                 UUID requestID = new UUID(transfer.TransferInfo.Params, 80);
 
 //                MainConsole.Instance.DebugFormat(
-//                    "[Client]: Got request for asset {0} from item {1} in prim {2} by {3}",
+//                    "[CLIENT]: Got request for asset {0} from item {1} in prim {2} by {3}",
 //                    requestID, itemID, taskID, Name);
 
                 if (!m_scene.Permissions.BypassPermissions())
@@ -8275,7 +8275,7 @@ namespace Vision.ClientStack
                         if (part == null)
                         {
                             MainConsole.Instance.WarnFormat(
-                                "[Client]: {0} requested asset {1} from item {2} in prim {3} but prim does not exist",
+                                "[CLIENT]: {0} requested asset {1} from item {2} in prim {3} but prim does not exist",
                                 Name, requestID, itemID, taskID);
                             return true;
                         }
@@ -8284,7 +8284,7 @@ namespace Vision.ClientStack
                         if (tii == null)
                         {
                             MainConsole.Instance.WarnFormat(
-                                "[Client]: {0} requested asset {1} from item {2} in prim {3} but item does not exist",
+                                "[CLIENT]: {0} requested asset {1} from item {2} in prim {3} but item does not exist",
                                 Name, requestID, itemID, taskID);
                             return true;
                         }
@@ -8309,7 +8309,7 @@ namespace Vision.ClientStack
                                 if (part.OwnerID != AgentId)
                                 {
                                     MainConsole.Instance.WarnFormat(
-                                        "[Client]: {0} requested asset {1} from item {2} in prim {3} but the prim is owned by {4}",
+                                        "[CLIENT]: {0} requested asset {1} from item {2} in prim {3} but the prim is owned by {4}",
                                         Name, requestID, itemID, taskID, part.OwnerID);
                                     return true;
                                 }
@@ -8317,7 +8317,7 @@ namespace Vision.ClientStack
                                 if ((part.OwnerMask & (uint) PermissionMask.Modify) == 0)
                                 {
                                     MainConsole.Instance.WarnFormat(
-                                        "[Client]: {0} requested asset {1} from item {2} in prim {3} but modify permissions are not set",
+                                        "[CLIENT]: {0} requested asset {1} from item {2} in prim {3} but modify permissions are not set",
                                         Name, requestID, itemID, taskID);
                                     return true;
                                 }
@@ -8325,7 +8325,7 @@ namespace Vision.ClientStack
                                 if (tii.OwnerID != AgentId)
                                 {
                                     MainConsole.Instance.WarnFormat(
-                                        "[Client]: {0} requested asset {1} from item {2} in prim {3} but the item is owned by {4}",
+                                        "[CLIENT]: {0} requested asset {1} from item {2} in prim {3} but the item is owned by {4}",
                                         Name, requestID, itemID, taskID, tii.OwnerID);
                                     return true;
                                 }
@@ -8339,7 +8339,7 @@ namespace Vision.ClientStack
                                      (uint) PermissionMask.Transfer))
                                 {
                                     MainConsole.Instance.WarnFormat(
-                                        "[Client]: {0} requested asset {1} from item {2} in prim {3} but item permissions are not modify/copy/transfer",
+                                        "[CLIENT]: {0} requested asset {1} from item {2} in prim {3} but item permissions are not modify/copy/transfer",
                                         Name, requestID, itemID, taskID);
                                     return true;
                                 }
@@ -8347,7 +8347,7 @@ namespace Vision.ClientStack
                                 if (tii.AssetID != requestID)
                                 {
                                     MainConsole.Instance.WarnFormat(
-                                        "[Client]: {0} requested asset {1} from item {2} in prim {3} but this does not match item's asset {4}",
+                                        "[CLIENT]: {0} requested asset {1} from item {2} in prim {3} but this does not match item's asset {4}",
                                         Name, requestID, itemID, taskID, tii.AssetID);
                                     return true;
                                 }
@@ -10690,7 +10690,7 @@ namespace Vision.ClientStack
 
         private bool HandleViewerStats(IClientAPI sender, Packet Pack)
         {
-            //MainConsole.Instance.Warn("[Client]: unhandled ViewerStats packet");
+            //MainConsole.Instance.Warn("[CLIENT]: unhandled ViewerStats packet");
             return true;
         }
 
@@ -12489,7 +12489,7 @@ namespace Vision.ClientStack
         /// <returns></returns>
         private bool Logout(IClientAPI client)
         {
-            //MainConsole.Instance.InfoFormat("[Client]: Got a logout request for {0} in {1}", Name, Scene.RegionInfo.RegionName);
+            //MainConsole.Instance.InfoFormat("[CLIENT]: Got a logout request for {0} in {1}", Name, Scene.RegionInfo.RegionName);
 
             Action<IClientAPI> handlerLogout = OnLogout;
 
@@ -12687,7 +12687,7 @@ namespace Vision.ClientStack
                                 break;
                             default:
                                 MainConsole.Instance.Debug(
-                                    "[Client] MultipleObjUpdate recieved an unknown packet type: " +
+                                    "[CLIENT] MultipleObjUpdate recieved an unknown packet type: " +
                                     (block.Type));
                                 break;
                         }
@@ -12846,7 +12846,7 @@ namespace Vision.ClientStack
                     }
                     catch (InvalidCastException)
                     {
-                        MainConsole.Instance.Error("[Client]: Invalid autopilot request");
+                        MainConsole.Instance.Error("[CLIENT]: Invalid autopilot request");
                         return;
                     }
 
@@ -12855,13 +12855,13 @@ namespace Vision.ClientStack
                     {
                         handlerAutoPilotGo(0, new Vector3(locx, locy, locz), this);
                     }
-                    MainConsole.Instance.InfoFormat("[Client]: Client Requests autopilot to position <{0},{1},{2}>",
+                    MainConsole.Instance.InfoFormat("[CLIENT]: Client Requests autopilot to position <{0},{1},{2}>",
                                                     locx, locy, locz);
 
 
                     break;
                 default:
-                    MainConsole.Instance.Debug("[Client]: Unknown Generic Message, Method: " + gmMethod + ". Invoice: " +
+                    MainConsole.Instance.Debug("[CLIENT]: Unknown Generic Message, Method: " + gmMethod + ". Invoice: " +
                                                gmInvoice +
                                                ".  Dumping Params:");
                     foreach (GenericMessagePacket.ParamListBlock t in gmParams)
@@ -12901,7 +12901,7 @@ namespace Vision.ClientStack
             }
 
             if (!ProcessPacketMethod(packet))
-                MainConsole.Instance.Warn("[Client]: unhandled packet " + packet.Type);
+                MainConsole.Instance.Warn("[CLIENT]: unhandled packet " + packet.Type);
 
             //Give the packet back to the pool now, we've processed it
             PacketPool.Instance.ReturnPacket(packet);
@@ -13090,7 +13090,7 @@ namespace Vision.ClientStack
                     break;
             }
 
-            //MainConsole.Instance.InfoFormat("[Client]: {0} requesting asset {1}", Name, requestID);
+            //MainConsole.Instance.InfoFormat("[CLIENT]: {0} requesting asset {1}", Name, requestID);
 
             m_assetService.Get(requestID.ToString(), transferRequest, AssetReceived);
         }
@@ -13103,7 +13103,7 @@ namespace Vision.ClientStack
         /// <param name="asset"></param>
         private void AssetReceived(string id, Object sender, AssetBase asset)
         {
-            //MainConsole.Instance.InfoFormat("[Client]: {0} found requested asset", Name);
+            //MainConsole.Instance.InfoFormat("[CLIENT]: {0} found requested asset", Name);
 
             TransferRequestPacket transferRequest = (TransferRequestPacket) sender;
 

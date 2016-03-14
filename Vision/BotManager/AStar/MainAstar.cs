@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -33,7 +33,7 @@ namespace Vision.BotManager.AStar
     /// <summary>
     ///     Test class for doing A* path finding on a 2D map.
     /// </summary>
-    internal class MainClass
+    class MainClass
     {
         #region Test Maps
 
@@ -98,15 +98,15 @@ namespace Vision.BotManager.AStar
         /// <summary>
         ///     Prints the solution
         /// </summary>
-        /// <param name="ASolution">The list that holds the solution</param>
-        public static void PrintSolution(ArrayList ASolution)
+        /// <param name="aSolution">The list that holds the solution</param>
+        public static void PrintSolution(ArrayList aSolution)
         {
             for (int j = 0; j < 10; j++)
             {
                 for (int i = 0; i < 10; i++)
                 {
                     bool solution = false;
-                    foreach (AStarNode2D n in ASolution)
+                    foreach (AStarNode2D n in aSolution)
                     {
                         AStarNode2D tmp = new AStarNode2D(null, null, 0, i, j);
                         solution = n.IsSameState(tmp);

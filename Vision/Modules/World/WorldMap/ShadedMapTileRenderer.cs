@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -24,6 +24,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 
 using System;
 using System.Drawing;
@@ -51,7 +52,7 @@ namespace Vision.Modules.WorldMap
 
         public Bitmap TerrainToBitmap(Bitmap mapbmp)
         {
-            //MainConsole.Instance.Info("[Map Tile]: Generating Maptile Step 1: Terrain");
+            //MainConsole.Instance.Info("[MAPTILE]: Generating Maptile Step 1: Terrain");
 
             ITerrainChannel heightmap = m_scene.RequestModuleInterface<ITerrainChannel>();
             bool ShadowDebugContinue = true;
@@ -103,6 +104,8 @@ namespace Vision.Modules.WorldMap
                         try
                         {
                             //X
+                            // .
+                            //
                             // Shade the terrain for shadows
                             if (x < (m_scene.RegionInfo.RegionSizeX - 1) && yr < (m_scene.RegionInfo.RegionSizeY - 1))
                             {
@@ -129,15 +132,18 @@ namespace Vision.Modules.WorldMap
 
                                 try
                                 {
+                                    // hfdiffi = Math.Abs((int)((hfdiff * 4) + (hfdiff * 0.5))) + 1;
                                     hfdiffi = Math.Abs((int) (hfdiff*4.5f)) + 1;
                                     if (hfdiff%1f != 0)
                                     {
+                                        // hfdiffi = hfdiffi + Math.Abs((int)(((hfdiff % 1) * 0.5f) * 10f) - 1);
                                         hfdiffi = hfdiffi + Math.Abs((int) ((hfdiff%1f)*5f) - 1);
                                     }
 
                                     hfdiffihighlight = Math.Abs((int) ((hfdiff*highlightfactor)*4.5f)) + 1;
                                     if (hfdiff%1f != 0)
                                     {
+                                        // hfdiffi = hfdiffi + Math.Abs((int)(((hfdiff % 1) * 0.5f) * 10f) - 1);
                                         hfdiffihighlight = hfdiffihighlight +
                                                            Math.Abs((int) (((hfdiff*highlightfactor)%1f)*5f) - 1);
                                     }
@@ -196,7 +202,7 @@ namespace Vision.Modules.WorldMap
                             if (!terraincorruptedwarningsaid)
                             {
                                 MainConsole.Instance.WarnFormat(
-                                    "[Map Image]: Your terrain is corrupted in region {0}, it might take a few minutes to generate the map image depending on the corruption level",
+                                    "[MAPIMAGE]: Your terrain is corrupted in region {0}, it might take a few minutes to generate the map image depending on the corruption level",
                                     m_scene.RegionInfo.RegionName);
                                 terraincorruptedwarningsaid = true;
                             }
@@ -228,7 +234,7 @@ namespace Vision.Modules.WorldMap
                             if (!terraincorruptedwarningsaid)
                             {
                                 MainConsole.Instance.WarnFormat(
-                                    "[Map Image]: Your terrain is corrupted in region {0}, it might take a few minutes to generate the map image depending on the corruption level",
+                                    "[MAPIMAGE]: Your terrain is corrupted in region {0}, it might take a few minutes to generate the map image depending on the corruption level",
                                     m_scene.RegionInfo.RegionName);
                                 terraincorruptedwarningsaid = true;
                             }
@@ -238,7 +244,7 @@ namespace Vision.Modules.WorldMap
                     }
                 }
             }
-            // MainConsole.Instance.Info("[Map Tile]: Generating Maptile Step 1: Done in " + (Environment.TickCount - tc) + " ms");
+            // MainConsole.Instance.Info("[MAPTILE]: Generating Maptile Step 1: Done in " + (Environment.TickCount - tc) + " ms");
             return mapbmp;
         }
 

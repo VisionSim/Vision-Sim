@@ -41,7 +41,7 @@ namespace Vision.Physics.BulletSPlugin
 {
     public sealed class BSScene : PhysicsScene
     {
-        internal static readonly string LogHeader = "[Bulletsim Scene]";
+        internal static readonly string LogHeader = "[BULLETS SCENE]";
 
         // The name of the region we're working for.
         public string RegionName { get; private set; }
@@ -360,7 +360,7 @@ namespace Vision.Physics.BulletSPlugin
             if (ret == null)
             {
                 MainConsole.Instance.ErrorFormat(
-                    "[Physics Engine]: {0} Could not select bullet engine: '[BulletSim]PhysicsEngine' must be either 'BulletUnmanaged-*' or 'BulletXNA-*'",
+                    "{0} COULD NOT SELECT BULLET ENGINE: '[BulletSim]PhysicsEngine' must be either 'BulletUnmanaged-*' or 'BulletXNA-*'",
                     LogHeader);
             }
             else

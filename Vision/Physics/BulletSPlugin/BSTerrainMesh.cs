@@ -32,7 +32,7 @@ namespace Vision.Physics.BulletSPlugin
 {
     public sealed class BSTerrainMesh : BSTerrainPhys
     {
-        static string LogHeader = "[Bulletsim Terrain Mesh]";
+        static string LogHeader = "[BULLETSIM TERRAIN MESH]";
 
         float[] m_savedHeightMap;
         int m_sizeX;

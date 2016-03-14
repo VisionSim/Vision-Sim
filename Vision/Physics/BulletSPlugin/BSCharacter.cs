@@ -36,7 +36,7 @@ namespace Vision.Physics.BulletSPlugin
 {
     public sealed class BSCharacter : BSPhysObject
     {
-        static readonly string LogHeader = "[Bulletsim Char]";
+        static readonly string LogHeader = "[BULLETS CHAR]";
         int m_ZeroUpdateSent;
         OMV.Vector3 m_lastPosition;
         OMV.Vector3 m_lastVelocity;

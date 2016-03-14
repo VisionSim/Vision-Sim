@@ -31,7 +31,7 @@ namespace Vision.Physics.BulletSPlugin
 {
     public class BSConstraint6Dof : BSConstraint
     {
-        static string LogHeader = "[Bulletsim 6DOF Constraint]";
+        static string LogHeader = "[BULLETSIM 6DOF CONSTRAINT]";
 
         public override ConstraintType Type
         {

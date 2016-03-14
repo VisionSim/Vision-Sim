@@ -31,7 +31,7 @@ namespace Vision.Physics.BulletSPlugin
 {
     public sealed class BSLinksetConstraints : BSLinkset
     {
-        // private static string LogHeader = "[Bulletsim Linkset Constraints]";
+        // private static string LogHeader = "[BULLETSIM LINKSET CONSTRAINTS]";
 
         public class BSLinkInfoConstraint : BSLinkInfo
         {

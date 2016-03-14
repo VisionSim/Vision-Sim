@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -1188,7 +1188,7 @@ namespace Vision.Modules.InventoryAccess
             if (assetRequestItem.AssetID != requestID)
             {
                 MainConsole.Instance.WarnFormat(
-                    "[Client]: {0} requested asset {1} from item {2} but this does not match item's asset {3}",
+                    "[CLIENT]: {0} requested asset {1} from item {2} but this does not match item's asset {3}",
                     Name, requestID, itemID, assetRequestItem.AssetID);
                 return false;
             }

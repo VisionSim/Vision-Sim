@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -178,10 +178,10 @@ namespace Vision.BotManager
             return m_character.AgentId;
         }
             
-        static void AddAndWaitUntilAgentIsAdded(IScene scene, BotClientAPI m_character)
+        static void AddAndWaitUntilAgentIsAdded(IScene scene, BotClientAPI mCharacter)
         {
             bool done = false;
-            scene.AddNewClient(m_character, delegate { done = true; });
+            scene.AddNewClient(mCharacter, delegate { done = true; });
             while (!done)
                 Thread.Sleep(3);
         }
@@ -339,17 +339,17 @@ namespace Vision.BotManager
 
         readonly Dictionary<string, List<UUID>> m_botTags = new Dictionary<string, List<UUID>>();
 
-        public void AddTagToBot(UUID Bot, string tag, UUID userAttempting)
+        public void AddTagToBot(UUID botID, string tag, UUID userAttempting)
         {
             Bot bot;
-            if (m_bots.TryGetValue(Bot, out bot))
+            if (m_bots.TryGetValue(botID, out bot))
             {
                 if (!CheckPermission(bot, userAttempting))
                     return;
             }
             if (!m_botTags.ContainsKey(tag))
                 m_botTags.Add(tag, new List<UUID>());
-            m_botTags[tag].Add(Bot);
+            m_botTags[tag].Add(botID);
         }
 
         public List<UUID> GetBotsWithTag(string tag)
@@ -375,22 +375,22 @@ namespace Vision.BotManager
             }
         }
 
-        public void RemoveTagFromBot(UUID Bot, string tag, UUID userAttempting)
+        public void RemoveTagFromBot(UUID botID, string tag, UUID userAttempting)
         {
             Bot bot;
-            if (m_bots.TryGetValue(Bot, out bot))
+            if (m_bots.TryGetValue(botID, out bot))
             {
                 if (!CheckPermission(bot, userAttempting))
                     return;
             }
             if (m_botTags.ContainsKey(tag))
-                m_botTags[tag].Remove(Bot);
+                m_botTags[tag].Remove(botID);
         }
 
-        public void RemoveAllTagsFromBot(UUID Bot, UUID userAttempting)
+        public void RemoveAllTagsFromBot(UUID botID, UUID userAttempting)
         {
             Bot bot;
-            if (m_bots.TryGetValue(Bot, out bot))
+            if (m_bots.TryGetValue(botID, out bot))
             {
                 if (!CheckPermission(bot, userAttempting))
                     return;
@@ -398,11 +398,11 @@ namespace Vision.BotManager
             List<string> tagsToRemove = new List<string>();
             foreach (KeyValuePair<string, List<UUID>> kvp in m_botTags)
             {
-                if (kvp.Value.Contains(Bot))
+                if (kvp.Value.Contains(botID))
                     tagsToRemove.Add(kvp.Key);
             }
             foreach (string tag in tagsToRemove)
-                m_botTags[tag].Remove(Bot);
+                m_botTags[tag].Remove(botID);
         }
 
         #endregion
@@ -410,19 +410,19 @@ namespace Vision.BotManager
         /// <summary>
         ///     Finds the given users appearance
         /// </summary>
-        /// <param name="target"></param>
+        /// <param name="targetID"></param>
         /// <param name="scene"></param>
         /// <returns></returns>
-        AvatarAppearance GetAppearance(UUID target, IScene scene)
+        AvatarAppearance GetAppearance(UUID targetID, IScene scene)
         {
-            IScenePresence sp = scene.GetScenePresence(target);
+            IScenePresence sp = scene.GetScenePresence(targetID);
             if (sp != null)
             {
                 IAvatarAppearanceModule aa = sp.RequestModuleInterface<IAvatarAppearanceModule>();
                 if (aa != null)
                     return new AvatarAppearance(aa.Appearance);
             }
-            return scene.AvatarService.GetAppearance(target);
+            return scene.AvatarService.GetAppearance(targetID);
         }
 
         bool CheckPermission(IEntity sp, UUID userAttempting)

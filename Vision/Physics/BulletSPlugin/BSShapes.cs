@@ -111,7 +111,7 @@ namespace Vision.Physics.BulletSPlugin
 
     public abstract class BSShape
     {
-        static readonly string LogHeader = "[Bulletsim Shape]";
+        static readonly string LogHeader = "[BULLETSIM SHAPE]";
 
         public int referenceCount { get; set; }
         public DateTime lastReferenced { get; set; }
@@ -357,7 +357,7 @@ namespace Vision.Physics.BulletSPlugin
     // This means allocation and freeing is different than meshes.
    public class BSShapeNative : BSShape
     {
-        static readonly string LogHeader = "[Bulletsim Shape Native]";
+        static readonly string LogHeader = "[BULLETSIM SHAPE NATIVE]";
         public BSShapeNative(BulletShape pShape)
             : base(pShape)
         {
@@ -437,7 +437,7 @@ namespace Vision.Physics.BulletSPlugin
     // BSShapeMesh is a simple mesh.
     public class BSShapeMesh : BSShape
     {
-        static readonly string LogHeader = "[Bulletsim Shape Mesh";
+        static readonly string LogHeader = "[BULLETSIM SHAPE MESH";
         static readonly Dictionary<UInt64, BSShapeMesh> Meshes = new Dictionary<UInt64, BSShapeMesh>();
 
         public BSShapeMesh(BulletShape pShape) : base(pShape)
@@ -642,7 +642,7 @@ namespace Vision.Physics.BulletSPlugin
     public class BSShapeHull : BSShape
     {
 #pragma warning disable 414
-        static string LogHeader = "[Bulletsim Shape Hull]";
+        static string LogHeader = "[BULLETSIM SHAPE HULL]";
 #pragma warning restore 414
 
         public static Dictionary<UInt64, BSShapeHull> Hulls = new Dictionary<UInt64, BSShapeHull>();
@@ -982,7 +982,7 @@ namespace Vision.Physics.BulletSPlugin
 
     public class BSShapeCompound : BSShape
     {
-        static readonly string LogHeader = "[Bulletsim Shape Compound]";
+        static readonly string LogHeader = "[BULLETSIM SHAPE COMPOUND]";
         public static Dictionary<string, BSShapeCompound> CompoundShapes = new Dictionary<string, BSShapeCompound>();
 
         public BSShapeCompound(BulletShape pShape) : base(pShape)
@@ -1137,7 +1137,7 @@ namespace Vision.Physics.BulletSPlugin
     public class BSShapeConvexHull : BSShape
     {
 #pragma warning disable 414
-        static string LogHeader = "[Bulletsim Shape Convex Hull]";
+        static string LogHeader = "[BULLETSIM SHAPE CONVEX HULL]";
 #pragma warning restore 414
 
         public static Dictionary<UInt64, BSShapeConvexHull> ConvexHulls = new Dictionary<UInt64, BSShapeConvexHull>();
@@ -1243,7 +1243,7 @@ namespace Vision.Physics.BulletSPlugin
     public class BSShapeGImpact : BSShape
     {
 #pragma warning disable 414
-        static string LogHeader = "[Bulletsim Shape Gimpact]";
+        static string LogHeader = "[BULLETSIM SHAPE GIMPACT]";
 #pragma warning restore 414
 
         public static Dictionary<UInt64, BSShapeGImpact> GImpacts =  new Dictionary<UInt64, BSShapeGImpact>();

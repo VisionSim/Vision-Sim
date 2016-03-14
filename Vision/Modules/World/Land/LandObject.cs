@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -374,7 +374,7 @@ namespace Vision.Modules.Land
 
                 } catch (Exception ex)
                 {
-                    MainConsole.Instance.Warn ("[Land]: Error updating land object " + LandData.Name + " in region " +
+                    MainConsole.Instance.Warn ("[LAND]: Error updating land object " + LandData.Name + " in region " +
                     m_scene.RegionInfo.RegionName + " : " + ex);
                 }
             }
@@ -758,7 +758,7 @@ namespace Vision.Modules.Land
                     }
                 } catch (InvalidOperationException)
                 {
-                    MainConsole.Instance.Error ("[Land]: Unable to force select the parcel objects. Arr.");
+                    MainConsole.Instance.Error ("[LAND]: Unable to force select the parcel objects. Arr.");
                 }
 
                 remote_client.SendForceClientSelectObjects (resultLocalIDs);

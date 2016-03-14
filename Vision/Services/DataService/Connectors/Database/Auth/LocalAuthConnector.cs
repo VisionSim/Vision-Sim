@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -27,29 +27,28 @@
 
 using System;
 using System.Collections.Generic;
-
-using Vision.Framework.Modules;
-using Vision.Framework.Services;
 using Nini.Config;
 using OpenMetaverse;
+using Vision.Framework.Modules;
+using Vision.Framework.Services;
 
 namespace Vision.Services.DataService
 {
     public class LocalAuthConnector : IAuthenticationData
     {
-        private IGenericData GD;
-        private int m_LastExpire;
-        private string m_realm = "auth";
-        private string m_tokensrealm = "tokens";
+        IGenericData GD;
+        int m_LastExpire;
+        string m_realm = "auth";
+        string m_tokensrealm = "tokens";
 
         #region IAuthenticationData Members
 
-        public void Initialize(IGenericData GenericData, IConfigSource source, IRegistryCore simBase,
+        public void Initialize(IGenericData genericData, IConfigSource source, IRegistryCore simBase,
                                string defaultConnectionString)
         {
             if (source.Configs["VisionConnectors"].GetString("AuthConnector", "LocalConnector") == "LocalConnector")
             {
-                GD = GenericData;
+                GD = genericData;
 
                 string connectionString = defaultConnectionString;
                 if (source.Configs[Name] != null)
@@ -162,7 +161,7 @@ namespace Vision.Services.DataService
         {
         }
 
-        private void DoExpire()
+        void DoExpire()
         {
             GD.DeleteByTime(m_tokensrealm, "validity");
 

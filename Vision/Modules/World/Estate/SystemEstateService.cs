@@ -9,7 +9,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Vision Sim Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -416,7 +416,7 @@ namespace Vision.Modules.Estate
             UserAccount account = accountService.GetUserAccount (null, estateOwner);
             if (account == null)
             {
-                MainConsole.Instance.WarnFormat ("[User Account Service]: The user, '{0}' was not found!", estateOwner);
+                MainConsole.Instance.WarnFormat ("[USER ACCOUNT SERVICE]: The user, '{0}' was not found!", estateOwner);
 
                 // temporary fix until remote user creation can be implemented
                 if (accountService.IsLocalConnector)
@@ -441,8 +441,8 @@ namespace Vision.Modules.Estate
                     }
                 } else
                 {
-                    MainConsole.Instance.WarnFormat ("[User Account Service]: The user must be created on the Grid before assigning an estate!");
-                    MainConsole.Instance.WarnFormat ("[User Account Service]: Regions should be assigned to the system user estate until this can be corrected");
+                    MainConsole.Instance.WarnFormat ("[USER ACCOUNT SERVICE]: The user must be created on the Grid before assigning an estate!");
+                    MainConsole.Instance.WarnFormat ("[USER ACCOUNT SERVICE]: Regions should be assigned to the system user estate until this can be corrected");
 
                     return;
                 }
