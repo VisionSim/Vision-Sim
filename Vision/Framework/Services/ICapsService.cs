@@ -28,11 +28,11 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.Servers.HttpServer.Interfaces;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
 
 namespace Vision.Framework.Services
 {
@@ -366,6 +366,12 @@ namespace Vision.Framework.Services
         string CreateCAPS(string method, string appendedPath);
 
         /// <summary>
+		/// Gets the current region CAPS.
+		/// </summary>
+		/// <returns>The CAPs.</returns>
+		OSDMap GetCAPS();
+
+		/// <summary>
         ///     Get all CapsService modules
         /// </summary>
         /// <returns></returns>

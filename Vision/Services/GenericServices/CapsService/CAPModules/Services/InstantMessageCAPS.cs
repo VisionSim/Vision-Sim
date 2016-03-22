@@ -26,14 +26,14 @@
  */
 
 
+using System;
+using System.IO;
+using System.Text;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Servers.HttpServer;
 using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Services;
-using OpenMetaverse.StructuredData;
-using System;
-using System.IO;
-using System.Text;
 
 namespace Vision.Services
 {
@@ -49,8 +49,7 @@ namespace Vision.Services
             if (m_imService != null)
             {
                 service.AddStreamHandler("ChatSessionRequest",
-                                         new GenericStreamHandler("POST", service.CreateCAPS("ChatSessionRequest", ""),
-                                                                  ChatSessionRequest));
+                                         new GenericStreamHandler("POST", service.CreateCAPS("ChatSessionRequest", ""), ChatSessionRequest));
             }
         }
 
@@ -76,7 +75,7 @@ namespace Vision.Services
             }
             catch (Exception e)
             {
-                MainConsole.Instance.Error("[IMCAPS]: " + e.ToString());
+                MainConsole.Instance.Error("[IMCAPS]: " + e);
             }
 
             return null;
