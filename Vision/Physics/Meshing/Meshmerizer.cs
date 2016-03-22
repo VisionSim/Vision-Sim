@@ -39,7 +39,7 @@ using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.Physics;
 using Vision.Framework.SceneInfo;
-using ZLib.Net;
+using ZLibNet;
 
 #if DEBUGING
 using PrimMesher;
