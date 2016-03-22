@@ -171,12 +171,10 @@ namespace Vision.Modules.Search
         {
             if ((queryFlags & 1) != 0) //People query
             {
-                DirPeopleQuery (remoteClient, queryID, queryText, queryFlags,
-                    queryStart);
+                DirPeopleQuery (remoteClient, queryID, queryText, queryFlags, queryStart);
             } else if ((queryFlags & 32) != 0) //Events query
             {
-                DirEventsQuery (remoteClient, queryID, queryText, queryFlags,
-                    queryStart);
+                DirEventsQuery (remoteClient, queryID, queryText, queryFlags, queryStart);
             }
         }
 
@@ -297,10 +295,18 @@ namespace Vision.Modules.Search
                 send (new T[0]);
                 return;
             }
+
+			//Split into sets of 10 packets
+			int count = Math.Min (10, packets.Count);
             int i = 0;
             while (i < packets.Count)
             {
-                int count = Math.Min (10, packets.Count);
+				// check for remaining range
+
+				//Split into sets of 10 packets
+				if ((i + count) > packets.Count)
+					count = packets.Count - i;
+				
                 //Split into sets of 10 packets
                 T[] data = packets.GetRange (i, count).ToArray ();
                 i += count;
@@ -386,8 +392,8 @@ namespace Vision.Modules.Search
                 if (DirectoryService == null)
                     return;
                 //Find all the land, use "0" for the flags so we get all land for sale, no price or area checking
-                List<DirLandReplyData> Landdata = DirectoryService.FindLandForSaleInRegion ("0", uint.MaxValue, 0, 0, 0,
-                                                      GR.RegionID);
+                List<DirLandReplyData> Landdata = DirectoryService.FindLandForSaleInRegion (
+					"0", uint.MaxValue, 0, 0, 0, GR.RegionID);
 
                 int locX = 0;
                 int locY = 0;
@@ -441,8 +447,8 @@ namespace Vision.Modules.Search
                 if (DirectoryService == null)
                     return;
                 //Find all the land, use "0" for the flags so we get all land for sale, no price or area checking
-                List<DirLandReplyData> Landdata = DirectoryService.FindLandForSale ("0", uint.MaxValue, 0, 0, 0,
-                                                      remoteClient.ScopeID);
+                List<DirLandReplyData> Landdata = DirectoryService.FindLandForSale (
+					"0", uint.MaxValue, 0, 0, 0, remoteClient.ScopeID);
 
                 int locX = 0;
                 int locY = 0;
