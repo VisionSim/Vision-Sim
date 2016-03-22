@@ -193,7 +193,7 @@ namespace Vision.Services
             if (!m_ClientCapsServices.ContainsKey (agentID))
             {
                 PerClientBasedCapsService client = new PerClientBasedCapsService ();
-                client.Initialise (this, agentID);
+                client.Initialize (this, agentID);
                 m_ClientCapsServices.Add (agentID, client);
             }
             return m_ClientCapsServices [agentID];
@@ -257,7 +257,7 @@ namespace Vision.Services
             if (!m_RegionCapsServices.ContainsKey (regionID))
             {
                 IRegionCapsService service = new PerRegionCapsService ();
-                service.Initialise (regionID, Registry);
+                service.Initialize (regionID, Registry);
 
                 m_RegionCapsServices.Add (regionID, service);
             }
