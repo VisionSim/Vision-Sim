@@ -58,11 +58,14 @@ addon-modules/*/
 # Binary
 
 VisionSim/bin/*.log
-VisionSim/bin/*/WhiteCore.*.dll
+VisionSim/bin/*/Vision.*.dll
 VisionSim/bin/.version
-VisionSim/bin/WhiteCore.*.dll
-VisionSim/bin/WhiteCore.*.exe
-VisionSim/bin/WhiteCore.exe
+VisionSim/bin/Vision.*.dll
+VisionSim/bin/Vision.*.exe
+VisionSim/bin/Vision.exe
+
+# This is dependant upon x86/x64 and created at runtime
+VisionSim/bin/ode.dll
 
 # Data files
 
