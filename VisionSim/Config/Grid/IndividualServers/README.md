@@ -5,7 +5,7 @@ In this folder are example 'ini' files to run individual servers for each of the
 
 Note:  These files are not included in the standard grid configuration.
 To uses your configurations you will need to modify the '[Handlers]' 
-section of 'VisionServer.ini'
+section of 'Vision.Server.ini'
 
 Example: To configure for a seperate Asset Server the Configuration for
 the 'Vision.Server.exe' instance could be changed to...
