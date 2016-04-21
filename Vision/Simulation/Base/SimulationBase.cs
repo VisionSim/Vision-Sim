@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -78,6 +78,16 @@ namespace Vision.Simulation.Base
         public string Version
         {
             get { return m_version; }
+        }
+
+        /// <summary>
+        /// Is this instance a grid server.
+        /// </summary>
+        /// <value>true</value>
+        /// <c>false</c>
+        public bool IsGridServer
+        {
+            get { return m_configurationLoader.IsGridServer; }
         }
 
         protected string m_defaultDataPath = Constants.DEFAULT_DATA_DIR;
@@ -226,21 +236,21 @@ namespace Vision.Simulation.Base
         {
             MainConsole.Instance.Info("====================================================================");
             MainConsole.Instance.Info(
-				        string.Format("==================== Starting Vision Sim ({0}) =====================",
+				        string.Format("==================== Starting Vision-Sim ({0}) ===============",
                               (IntPtr.Size == 4 ? "x86" : "x64")));
             MainConsole.Instance.Info("====================================================================");
-            MainConsole.Instance.Info("[VisionStartup]: Version : " + Version + "\n");
-            MainConsole.Instance.Info("[VisionStartup]: Git Base: " + VersionInfo.GitVersion + "\n");
+            MainConsole.Instance.Info("[Vision-Sim Startup]: Version : " + Version + "\n");
+            MainConsole.Instance.Info("[Vision-Sim Startup]: Git Base: " + VersionInfo.GitVersion + "\n");
             if (Environment.Is64BitOperatingSystem)
-                MainConsole.Instance.Info("[VisionStartup]: Running on 64 bit architecture");
+                MainConsole.Instance.Info("[Vision-Sim Startup]: Running on 64 bit architecture");
             // get memory allocation
             Process proc = Process.GetCurrentProcess();
-            MainConsole.Instance.Info("[VisionStartup]: Allocated RAM " + proc.WorkingSet64);
+            MainConsole.Instance.Info("[Vision-Sim Startup]: Allocated RAM " + proc.WorkingSet64);
             if (Utilities.IsLinuxOs)
             {
                 var pc = new PerformanceCounter ("Mono Memory", "Total Physical Memory");
                 var bytes = pc.RawValue;
-                MainConsole.Instance.InfoFormat ("[VisionStartup]: Physical RAM (Mbytes): {0}", bytes / 1024000);
+                MainConsole.Instance.InfoFormat ("[Vision-Sim Startup]: Physical RAM (Mbytes): {0}", bytes / 1024000);
             }
 
             SetUpHTTPServer();
@@ -396,8 +406,8 @@ namespace Vision.Simulation.Base
             // Start timer script (run a script every xx seconds)
             if (m_TimerScriptFileName != "disabled")
             {
-                Timer newtimername = new Timer {Enabled = true, Interval = m_TimerScriptTime*60*1000};
-                newtimername.Elapsed += RunAutoTimerScript;
+                m_TimerScriptTimer = new Timer {Enabled = true, Interval = m_TimerScriptTime*60*1000};
+                m_TimerScriptTimer.Elapsed += RunAutoTimerScript;
             }
         }
 
@@ -405,7 +415,7 @@ namespace Vision.Simulation.Base
         ///     Opens a file and uses it as input to the console command parser.
         /// </summary>
         /// <param name="fileName">name of file to use as input to the console</param>
-        void PrintFileToConsole(string fileName)
+        static void PrintFileToConsole(string fileName)
         {
             if (File.Exists(fileName))
             {
@@ -438,50 +448,59 @@ namespace Vision.Simulation.Base
         {
             if (MainConsole.Instance == null)
                 return;
-            MainConsole.Instance.Commands.AddCommand("quit", 
-                                                     "quit", 
-                                                     "Quit the application", 
-                                                     HandleQuit, false, true);
+            MainConsole.Instance.Commands.AddCommand(
+                "quit", 
+                "quit", 
+                "Quit the application", 
+                HandleQuit, false, true);
             
-            MainConsole.Instance.Commands.AddCommand("shutdown",
-                                                     "shutdown", 
-                                                     "Quit the application", 
-                                                     HandleQuit, false, true);
+            MainConsole.Instance.Commands.AddCommand(
+                "shutdown",
+                "shutdown", 
+                "Quit the application", 
+                HandleQuit, false, true);
             
-            MainConsole.Instance.Commands.AddCommand("show info",
-                                                     "show info",
-                                                     "Show server information (e.g. startup path)", 
-                                                     HandleShowInfo, false, true);
+            MainConsole.Instance.Commands.AddCommand(
+                "show info",
+                "show info",
+                "Show server information (e.g. startup path)", 
+                HandleShowInfo, false, true);
             
-            MainConsole.Instance.Commands.AddCommand("show version",
-                                                     "show version", 
-                                                     "Show server version",
-                                                     HandleShowVersion, false, true);
+            MainConsole.Instance.Commands.AddCommand(
+                "show version",
+                "show version", 
+                "Show server version",
+                HandleShowVersion, false, true);
             
-            MainConsole.Instance.Commands.AddCommand("reload config",
-                                                     "reload config", 
-                                                     "Reloads .ini file configuration",
-                                                     HandleConfigRefresh, false, true);
+            MainConsole.Instance.Commands.AddCommand(
+                "reload config",
+                "reload config", 
+                "Reloads .ini file configuration",
+                HandleConfigRefresh, false, true);
 
             
-            MainConsole.Instance.Commands.AddCommand("set timer script interval", "set timer script interval",
-                                                     "Set the interval for the timer script (in minutes).",
-                                                     HandleTimerScriptTime, false, true);
+            MainConsole.Instance.Commands.AddCommand(
+                "set timer script interval",
+                "set timer script interval",
+                "Set the interval for the timer script (in minutes).",
+                HandleTimerScriptTime, false, true);
             
-            MainConsole.Instance.Commands.AddCommand("force GC",
-                                                     "force GC", 
-                                                     "Forces garbage collection.", 
-                                                     HandleForceGC, false, true);
+            MainConsole.Instance.Commands.AddCommand(
+                "force GC",
+                "force GC", 
+                "Forces garbage collection.", 
+                HandleForceGC, false, true);
             
-            MainConsole.Instance.Commands.AddCommand("run configurator",
-                                                     "run configurator", 
-                                                     "Runs Vision.Configurator.",
-                                                     runConfig, false, true);
+            MainConsole.Instance.Commands.AddCommand(
+                "run configurator",
+                "run configurator", 
+                "Runs Vision.Configurator.",
+                RunConfig, false, true);
         }
 
         void HandleQuit(IScene scene, string[] args)
         {
-            var ok = MainConsole.Instance.Prompt ("[CONSOLE]: Shutdown the simulator. Are you sure? (yes/no)", "no").ToLower();
+            var ok = MainConsole.Instance.Prompt ("[Console]: Shutdown the simulator. Are you sure? (yes/no)", "no").ToLower();
             if (ok.StartsWith("y"))
                 Shutdown(true);
         }
@@ -494,7 +513,7 @@ namespace Vision.Simulation.Base
         {
             if (File.Exists(fileName))
             {
-                MainConsole.Instance.Info("[COMMANDFILE]: Running " + fileName);
+                MainConsole.Instance.Info("[Command File]: Running " + fileName);
                 List<string> commands = new List<string>();
                 using (StreamReader readFile = File.OpenText(fileName))
                 {
@@ -510,7 +529,7 @@ namespace Vision.Simulation.Base
                 }
                 foreach (string currentCommand in commands)
                 {
-                    MainConsole.Instance.Info("[COMMANDFILE]: Running '" + currentCommand + "'");
+                    MainConsole.Instance.Info("[Command File]: Running '" + currentCommand + "'");
                     MainConsole.Instance.RunCommand(currentCommand);
                 }
             }
@@ -519,10 +538,10 @@ namespace Vision.Simulation.Base
         public virtual void HandleForceGC(IScene scene, string[] cmd)
         {
             GC.Collect();
-            MainConsole.Instance.Warn("Garbage collection finished");
+            MainConsole.Instance.Warn("[Garbage Collection Service]: Garbage collection finished");
         }
 
-        public virtual void runConfig(IScene scene, string[] cmd)
+        public virtual void RunConfig(IScene scene, string[] cmd)
         {
             BaseApplication.Configure(true);
         }
@@ -531,36 +550,38 @@ namespace Vision.Simulation.Base
         {
             if (cmd.Length != 5)
             {
-                MainConsole.Instance.Warn("[CONSOLE]: Timer Interval command did not have enough parameters.");
+                MainConsole.Instance.Warn("[Console]: Timer Interval command did not have enough parameters.");
                 return;
             }
-            MainConsole.Instance.Warn("[CONSOLE]: Set Timer Interval to " + cmd[4]);
-            m_TimerScriptTime = int.Parse(cmd[4]);
-            m_TimerScriptTimer.Enabled = false;
-            m_TimerScriptTimer.Interval = m_TimerScriptTime*60*1000;
-            m_TimerScriptTimer.Enabled = true;
+            if (int.TryParse (cmd [4], out m_TimerScriptTime))
+            {
+                m_TimerScriptTimer.Enabled = false;
+                m_TimerScriptTimer.Interval = m_TimerScriptTime * 60 * 1000;
+                m_TimerScriptTimer.Enabled = true;
+                MainConsole.Instance.Warn("[Console]: Set Timer Interval to " + cmd[4]);
+            }
         }
 
         public virtual void HandleConfigRefresh(IScene scene, string[] cmd)
         {
             //Rebuild the configuration
             m_config = m_configurationLoader.LoadConfigSettings(m_original_config);
-            foreach (IApplicationPlugin plugin in m_applicationPlugins)
-                plugin.ReloadConfiguration(m_config);
 
-            string hostName =
-                m_config.Configs["Network"].GetString("HostName", "http://127.0.0.1");
-            //Clean it up a bit
-            // these are doing nothing??
-            hostName.Replace("http://", "");
-            hostName.Replace("https://", "");
-            if (hostName.EndsWith("/"))
-                hostName = hostName.Remove(hostName.Length - 1, 1);
-            foreach (IHttpServer server in m_Servers.Values)
+            if (m_config != null)
             {
-                server.HostName = hostName;
+                foreach (IApplicationPlugin plugin in m_applicationPlugins)
+                    plugin.ReloadConfiguration (m_config);
+
+                string hostName = m_config.Configs ["Network"].GetString ("HostName", "127.0.0.1");
+                hostName = hostName.Replace ("http://", "").Replace ("https://", "");
+                if (hostName.EndsWith ("/"))
+                    hostName = hostName.Remove (hostName.Length - 1, 1);
+                foreach (IHttpServer server in m_Servers.Values)
+                {
+                    server.HostName = hostName;
+                }
+                MainConsole.Instance.Info ("[Vision-Sim Configuration]: Finished reloading configuration.");
             }
-            MainConsole.Instance.Info("Finished reloading configuration.");
         }
 
         public virtual void HandleShowInfo(IScene scene, string[] cmd)
@@ -630,10 +651,12 @@ namespace Vision.Simulation.Base
                 }
 
                 if (close)
-                    MainConsole.Instance.Info("[SHUTDOWN]: Terminating");
+                    MainConsole.Instance.Info("[Shut Down]: Terminating");
 
-                MainConsole.Instance.Info("[SHUTDOWN]: Shutdown processing on main thread complete. " +
-                                          (close ? " Exiting..." : ""));
+                MainConsole.Instance.Info("[Shut Down]: Shut down processing on main thread complete. " +
+                                          (close ? " Exiting Vision-Sim!" : ""));
+                MainConsole.Instance.CleanInfo("");
+                MainConsole.Instance.CleanInfo("");
 
                 if (close)
                     Environment.Exit(0);
@@ -649,10 +672,11 @@ namespace Vision.Simulation.Base
         /// <param name="path"></param>
         protected void CreatePIDFile(string path)
         {
+            FileStream fs = null;
             try
             {
                 string pidstring = Process.GetCurrentProcess().Id.ToString();
-                FileStream fs = File.Create(path);
+                fs = File.Create(path);
                 System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
                 Byte[] buf = enc.GetBytes(pidstring);
                 fs.Write(buf, 0, buf.Length);
@@ -661,6 +685,8 @@ namespace Vision.Simulation.Base
             }
             catch (Exception)
             {
+                if (fs != null)
+                    fs.Close();
             }
         }
 

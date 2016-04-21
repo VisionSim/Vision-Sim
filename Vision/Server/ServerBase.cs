@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,7 +46,7 @@ namespace Vision.Server
             if (MainConsole.Instance != null)
 			{
 				MainConsole.Instance.DefaultPrompt = "Vision.Server ";
-				MainConsole.Instance.Info ("[VisionSTARTUP]: Startup completed in " +
+				MainConsole.Instance.Info ("[Vision-Sim Startup]: Startup completed in " +
 					(DateTime.Now - this.StartupTime).TotalSeconds);
 			}
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,6 @@ namespace Vision.Framework.ConsoleFramework
     }
 
     // A console that uses REST interfaces
-    //
     public class RemoteConsole : CommandConsole
     {
         readonly Dictionary<UUID, ConsoleConnection> m_Connections =
@@ -78,9 +77,8 @@ namespace Vision.Framework.ConsoleFramework
 
             if (source.Configs["Console"] != null)
             {
-                //if (source.Configs["Console"].GetString("RemoteConsole", String.Empty) != "enable")
-                    if (source.Configs["Console"].GetString("Console", String.Empty) != Name)
-                        return;
+                if (source.Configs["Console"].GetString("Console", String.Empty) != Name)
+                    return;
 
                 m_consolePort = (uint) source.Configs["Console"].GetInt("remote_console_port", 0);
                 m_UserName = source.Configs["Console"].GetString("RemoteConsoleUser", String.Empty);
@@ -432,6 +430,7 @@ namespace Vision.Framework.ConsoleFramework
                     rootElement.AppendChild(res);
                 }
             }
+
             c.lastLineSeen = m_LineNumber;
 
             xmldoc.AppendChild(rootElement);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,13 +43,13 @@ using Vision.Framework.Utilities;
 namespace Vision.Simulation.Base
 {
     /// <summary>
-    ///     Starting class for the Vision Server
+    ///     Starting class for the Vision-Sim Server
     /// </summary>
     public class BaseApplication
     {
 
         /// <summary>
-        ///     Save Crashes in the Data/Crashes folder.  Configurable with m_crashDir
+        ///     Save Crashes in the bin/crashes folder.  Configurable with m_crashDir
         /// </summary>
         public static bool m_saveCrashDumps;
 
@@ -59,13 +59,12 @@ namespace Vision.Simulation.Base
         static readonly ConfigurationLoader m_configLoader = new ConfigurationLoader();
 
         /// <summary>
-        ///     Directory to save crash reports to.  Relative to Data/Crashes/
+        ///     Directory to save crash reports to.  Relative to ../Data/Crashes
         /// </summary>
         public static string m_crashDir = Constants.DEFAULT_CRASH_DIR;
 
         static bool _IsHandlingException; // Make sure we don't go recursive on ourselves
 
-        //could move our main function into VisionMain and kill this class
         public static void BaseMain(string[] args, string defaultIniFile, ISimulationBase simBase)
         {
             // First line, hook the appdomain to the crash reporter
@@ -85,12 +84,12 @@ namespace Vision.Simulation.Base
             // Increase the number of IOCP threads available. Mono defaults to a tragically low number
             int workerThreads, iocpThreads;
             ThreadPool.GetMaxThreads(out workerThreads, out iocpThreads);
-            //MainConsole.Instance.InfoFormat("[Vision Main]: Runtime gave us {0} worker threads and {1} IOCP threads", workerThreads, iocpThreads);
+            //MainConsole.Instance.InfoFormat("[Vision-Sim Main: Runtime gave us {0} worker threads and {1} IOCP threads", workerThreads, iocpThreads);
             if (workerThreads < 500 || iocpThreads < 1000)
             {
                 workerThreads = 500;
                 iocpThreads = 1000;
-                //MainConsole.Instance.Info("[Vision Main]: Bumping up to 500 worker threads and 1000 IOCP threads");
+                //MainConsole.Instance.Info("[Vision-Sim Main]: Bumping up to 500 worker threads and 1000 IOCP threads");
                 ThreadPool.SetMaxThreads(workerThreads, iocpThreads);
             }
 
@@ -153,12 +152,12 @@ namespace Vision.Simulation.Base
                 if (!requested)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine ("\n\n************* Vision Sim initial run. *************");
+                    Console.WriteLine ("\n\n************* Vision-Sim initial run. *************");
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine (
-                        "\n\n   This appears to be your first time running Vision Sim.\n" +
+                        "\n\n   This appears to be your first time running Vision-Sim.\n" +
                         "If you have already configured your *.ini files, please ignore this warning and press enter;\n" +
-                        "Otherwise type 'yes' and Vision Sim will guide you through the configuration process.\n\n" +
+                        "Otherwise type 'yes' and Vision-Sim will guide you through the configuration process.\n\n" +
                         "Remember, these file names are Case Sensitive in Linux and Proper Cased.\n" +
                         "1. " + Vision_ConfigDir + "/Vision.ini\nand\n" +
                         "2. " + Vision_ConfigDir + "/Sim/Standalone/StandaloneCommon.ini \nor\n" +
@@ -168,11 +167,11 @@ namespace Vision.Simulation.Base
                 } else
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine ("\n\n************* Vision Sim Configuration *************");
+                    Console.WriteLine ("\n\n************* Vision-Sim Configuration *************");
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine (
-                        "\n     Vision Sim interactive configuration.\n" +
-                        "Enter 'yes' and Vision will guide you through the configuration process.");
+                        "\n     Vision-Sim interactive configuration.\n" +
+                        "Enter 'yes' and Vision-Sim will guide you through the configuration process.");
                 }
 
                 // Make sure...
@@ -180,9 +179,11 @@ namespace Vision.Simulation.Base
                 Console.WriteLine ("");
                 Console.WriteLine (" ##  WARNING  ##");
                 Console.WriteLine("This will overwrite any existing configuration files!");
+                Console.WriteLine("Please be sure you have saved a backup of your configuration files before");
+                Console.WriteLine("Proceeding with this configuration!");
                 Console.ResetColor();
                 Console.WriteLine ("");
-                resp = ReadLine("Do you want to configure Vision Sim now?  (yes/no)", resp);
+                resp = ReadLine("Do you want to configure Vision-Sim now?  (yes/no)", resp);
 
                 if (resp == "yes")
                 {
@@ -205,7 +206,7 @@ namespace Vision.Simulation.Base
 
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("====================================================================");
-					Console.WriteLine("======================= Vision Sim Configurator ====================");
+					Console.WriteLine("======================= Vision-Sim Configurator ==============");
                     Console.WriteLine("====================================================================");
                     Console.ResetColor();
 
@@ -670,7 +671,7 @@ namespace Vision.Simulation.Base
 
             MainConsole.Instance.ErrorFormat("[APPLICATION]: {0}", msg);
 
-            handleException(msg, ex);
+            HandleCrashException(msg, ex);
         }
 
         /// <summary>
@@ -678,10 +679,13 @@ namespace Vision.Simulation.Base
         /// </summary>
         /// <param name="msg"></param>
         /// <param name="ex"></param>
-        public static void handleException(string msg, Exception ex)
+        public static void HandleCrashException(string msg, Exception ex)
         {
-            if (m_saveCrashDumps && Environment.OSVersion.Platform == PlatformID.Win32NT)
-            {
+
+            //if (m_saveCrashDumps && Environment.OSVersion.Platform == PlatformID.Win32NT)
+            // 20160323 -greythane - not sure why this will not work on *nix as well?
+            if (m_saveCrashDumps)
+                           {
                 // Log exception to disk
                 try
                 {
@@ -702,7 +706,7 @@ namespace Vision.Simulation.Base
                 }
                 catch (Exception e2)
                 {
-                    MainConsole.Instance.ErrorFormat("[CRASH LOGGER CRASHED]: {0}", e2);
+                    MainConsole.Instance.ErrorFormat("[Crash Logger Crashed]: {0}", e2);
                 }
             }
         }
@@ -799,7 +803,7 @@ namespace Vision.Simulation.Base
             {
                 exp.ExceptionPointers = Marshal.GetExceptionPointers();
             }
-            bool bRet = false;
+            bool bRet;
             if (exp.ExceptionPointers == IntPtr.Zero)
             {
                 bRet = MiniDumpWriteDump(currentProcessHandle, currentProcessId, fileHandle, (uint) options, IntPtr.Zero,

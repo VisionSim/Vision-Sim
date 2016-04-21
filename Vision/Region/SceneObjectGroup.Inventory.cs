@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -26,12 +26,12 @@
  */
 
 
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Services.ClassHelpers.Inventory;
-using OpenMetaverse;
 
 namespace Vision.Region
 {
@@ -51,14 +51,14 @@ namespace Vision.Region
         ///     Start the scripts contained in all the prims in this group.
         /// </summary>
         public void CreateScriptInstances(int startParam, bool postOnRez,
-                                          StateSource stateSource, UUID RezzedFrom, bool clearStateSaves)
+                                          StateSource stateSource, UUID rezzedFrom, bool clearStateSaves)
         {
             // Don't start scripts if they're turned off in the region!
             if (!m_scene.RegionInfo.RegionSettings.DisableScripts)
             {
                 foreach (SceneObjectPart part in m_partsList)
                 {
-                    part.Inventory.CreateScriptInstances(startParam, postOnRez, stateSource, RezzedFrom, clearStateSaves);
+                    part.Inventory.CreateScriptInstances(startParam, postOnRez, stateSource, rezzedFrom, clearStateSaves);
                 }
             }
         }
@@ -107,7 +107,6 @@ namespace Vision.Region
                                                  };
 
                 // Transfer ownership
-
                 if (remoteClient != null &&
                     remoteClient.AgentId != part.OwnerID &&
                     m_scene.Permissions.PropagatePermissions())
@@ -150,8 +149,7 @@ namespace Vision.Region
                 return true;
             }
             MainConsole.Instance.ErrorFormat(
-                "[PRIM INVENTORY]: " +
-                "Couldn't find prim local ID {0} in group {1}, {2} to add inventory item ID {3}",
+                "[Prim inventory]: " + "Couldn't find prim local ID {0} in group {1}, {2} to add inventory item ID {3}",
                 localID, Name, UUID, newItemId);
 
             return false;
@@ -171,8 +169,7 @@ namespace Vision.Region
                 return part.Inventory.GetInventoryItem(itemID);
             }
             MainConsole.Instance.ErrorFormat(
-                "[PRIM INVENTORY]: " +
-                "Couldn't find prim local ID {0} in prim {1}, {2} to get inventory item ID {3}",
+                "[Prim inventory]: " + "Couldn't find prim local ID {0} in prim {1}, {2} to get inventory item ID {3}",
                 primID, "unknown", "unknown", itemID);
 
             return null;
@@ -196,8 +193,7 @@ namespace Vision.Region
                 return true;
             }
             MainConsole.Instance.ErrorFormat(
-                "[PRIM INVENTORY]: " +
-                "Couldn't find prim ID {0} to update item {1}, {2}",
+                "[Prim inventory]: " + "Couldn't find prim ID {0} to update item {1}, {2}",
                 item.ParentPartID, item.Name, item.ItemID);
 
             return false;
@@ -241,12 +237,12 @@ namespace Vision.Region
             // with in-inventory manipulation of the next owner perms
             // in a major way. So, let's move this to the give itself.
             // Yes. I know. Evil.
-//            if ((ownerMask & RootPart.NextOwnerMask & (uint)PermissionMask.Modify) == 0)
-//                perms &= ~((uint)PermissionMask.Modify >> 13);
-//            if ((ownerMask & RootPart.NextOwnerMask & (uint)PermissionMask.Copy) == 0)
-//                perms &= ~((uint)PermissionMask.Copy >> 13);
-//            if ((ownerMask & RootPart.NextOwnerMask & (uint)PermissionMask.Transfer) == 0)
-//                perms &= ~((uint)PermissionMask.Transfer >> 13);
+            //if ((ownerMask & RootPart.NextOwnerMask & (uint)PermissionMask.Modify) == 0)
+            //    perms &= ~((uint)PermissionMask.Modify >> 13);
+            //if ((ownerMask & RootPart.NextOwnerMask & (uint)PermissionMask.Copy) == 0)
+            //    perms &= ~((uint)PermissionMask.Copy >> 13);
+            //if ((ownerMask & RootPart.NextOwnerMask & (uint)PermissionMask.Transfer) == 0)
+            //    perms &= ~((uint)PermissionMask.Transfer >> 13);
 
             return perms;
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -24,7 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Serialization;
@@ -64,47 +63,47 @@ namespace Vision.Modules.Archivers
             WriteData(asset);
         }
 
-        //        protected void WriteMetadata(TarArchiveWriter archive)
-//        {
-//            StringWriter sw = new StringWriter();
-//            XmlTextWriter xtw = new XmlTextWriter(sw);
-//
-//            xtw.Formatting = Formatting.Indented;
-//            xtw.WriteStartDocument();
-//
-//            xtw.WriteStartElement("assets");
-//
-//            foreach (UUID uuid in m_assets.Keys)
-//            {
-//                AssetBase asset = m_assets[uuid];
-//
-//                if (asset != null)
-//                {
-//                    xtw.WriteStartElement("asset");
-//
-//                    string extension = string.Empty;
-//
-//                    if (ArchiveConstants.ASSET_TYPE_TO_EXTENSION.ContainsKey(asset.Type))
-//                    {
-//                        extension = ArchiveConstants.ASSET_TYPE_TO_EXTENSION[asset.Type];
-//                    }
-//
-//                    xtw.WriteElementString("filename", uuid.ToString() + extension);
-//
-//                    xtw.WriteElementString("name", asset.Name);
-//                    xtw.WriteElementString("description", asset.Description);
-//                    xtw.WriteElementString("asset-type", asset.Type.ToString());
-//
-//                    xtw.WriteEndElement();
-//                }
-//            }
-//
-//            xtw.WriteEndElement();
-//
-//            xtw.WriteEndDocument();
-//
-//            archive.WriteFile("assets.xml", sw.ToString());
-//        }
+        /*protected void WriteMetadata(TarArchiveWriter archive)
+        {
+            StringWriter sw = new StringWriter();
+            XmlTextWriter xtw = new XmlTextWriter(sw);
+
+            xtw.Formatting = Formatting.Indented;
+            xtw.WriteStartDocument();
+
+            xtw.WriteStartElement("assets");
+
+            foreach (UUID uuid in m_assets.Keys)
+            {
+                AssetBase asset = m_assets[uuid];
+
+                if (asset != null)
+                {
+                    xtw.WriteStartElement("asset");
+
+                    string extension = string.Empty;
+
+                    if (ArchiveConstants.ASSET_TYPE_TO_EXTENSION.ContainsKey(asset.Type))
+                    {
+                        extension = ArchiveConstants.ASSET_TYPE_TO_EXTENSION[asset.Type];
+                    }
+
+                    xtw.WriteElementString("filename", uuid.ToString() + extension);
+
+                    xtw.WriteElementString("name", asset.Name);
+                    xtw.WriteElementString("description", asset.Description);
+                    xtw.WriteElementString("asset-type", asset.Type.ToString());
+
+                    xtw.WriteEndElement();
+                }
+            }
+
+            xtw.WriteEndElement();
+
+            xtw.WriteEndDocument();
+
+            archive.WriteFile("assets.xml", sw.ToString());
+        }*/
 
         /// <summary>
         ///     Write asset data files to the given archive
@@ -124,7 +123,7 @@ namespace Vision.Modules.Archivers
             else
             {
                 MainConsole.Instance.ErrorFormat(
-                    "[ARCHIVER]: Unrecognized asset type {0} with uuid {1}.  This asset will be saved but not reloaded",
+                    "[Archiver]: Unrecognized asset type {0} with uuid {1}.  This asset will be saved but not reloaded",
                     asset.Type, asset.ID);
             }
 
@@ -134,10 +133,10 @@ namespace Vision.Modules.Archivers
 
             m_assetsWritten++;
 
-            //MainConsole.Instance.DebugFormat("[ARCHIVER]: Added asset {0}", m_assetsWritten);
+            //MainConsole.Instance.DebugFormat("[Archiver]: Added asset {0}", m_assetsWritten);
 
             if (m_assetsWritten%LOG_ASSET_LOAD_NOTIFICATION_INTERVAL == 0)
-                MainConsole.Instance.InfoFormat("[ARCHIVER]: Added {0} assets to archive", m_assetsWritten);
+                MainConsole.Instance.InfoFormat("[Archiver]: Added {0} assets to archive", m_assetsWritten);
         }
 
         /// <summary>

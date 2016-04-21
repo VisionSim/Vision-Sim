@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -452,11 +452,11 @@ namespace Vision.ScriptEngine.VisionScript
                 MaintenanceThread.StartScripts(
                     scripts.Select(ID => new LUStruct {Action = LUType.Load, ID = ID}).ToArray());
 
-                MainConsole.Instance.Warn("[Vision Script]: All scripts have been restarted.");
+                MainConsole.Instance.Warn("[Vision Script Engine]: All scripts have been restarted.");
             }
             else
             {
-                MainConsole.Instance.Info("[Vision Script]: Not restarting all scripts");
+                MainConsole.Instance.Info("[Vision Script Engine]: Not restarting all scripts");
             }
         }
 
@@ -467,11 +467,11 @@ namespace Vision.ScriptEngine.VisionScript
             {
                 StopAllScripts();
                 MaintenanceThread.Stop();
-                MainConsole.Instance.Warn("[Vision Script]: All scripts have been stopped.");
+                MainConsole.Instance.Warn("[Vision Script Engine]: All scripts have been stopped.");
             }
             else
             {
-                MainConsole.Instance.Info("[Vision Script]: Not restarting all scripts");
+                MainConsole.Instance.Info("[Vision Script Engine]: Not restarting all scripts");
             }
         }
 
@@ -498,14 +498,14 @@ namespace Vision.ScriptEngine.VisionScript
         protected void VisionDotNetDisable(IScene scene, string[] cmdparams)
         {
             ConsoleDisabled = true;
-            MainConsole.Instance.Warn("[Vision Script]: VS has been disabled.");
+            MainConsole.Instance.Warn("[Vision Script Engine]: VS has been disabled.");
         }
 
         protected void VisionDotNetEnable(IScene scene, string[] cmdparams)
         {
             ConsoleDisabled = false;
             MaintenanceThread.Started = true;
-            MainConsole.Instance.Warn("[Vision Script]: VS has been enabled.");
+            MainConsole.Instance.Warn("[Vision Script Engine]: VS has been enabled.");
         }
 
         #endregion

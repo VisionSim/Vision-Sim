@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -204,7 +204,7 @@ namespace Vision.Services.GenericServices.SystemAccountService
         {
 
             var userAccount = m_accountService.GetUserAccount (null, usrUUID);
-            var userPassword = Utilities.RandomPassword.Generate (2, 1, 0);
+            var userPassword = Utilities.RandomPassword.Generate (4, 3, 0);
 
             if (userAccount == null)
             {
@@ -310,7 +310,7 @@ namespace Vision.Services.GenericServices.SystemAccountService
             if (question.StartsWith("y"))
             {
                 IAuthenticationService authService = m_registry.RequestModuleInterface<IAuthenticationService> ();
-                var newPassword = Utilities.RandomPassword.Generate(2, 1, 0);
+                var newPassword = Utilities.RandomPassword.Generate(4, 3, 0);
 
                 UserAccount account = m_accountService.GetUserAccount(null, systemUserName);
                 bool success = false;

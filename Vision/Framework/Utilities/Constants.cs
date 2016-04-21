@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,9 +33,9 @@ namespace Vision.Framework.Utilities
         public const string MISSING_TEXTURE_ID = "41fcdbb9-0896-495d-8889-1eb6fad88da3";       // texture to use when all else fails...
 
         // some predefined folders
-		public const string DEFAULT_CRASH_DIR = "../Data/Crashes";
         public const string DEFAULT_CONFIG_DIR = "../Config";
         public const string DEFAULT_DATA_DIR = "../Data";
+        public const string DEFAULT_CRASH_DIR = "../Data/Crashes";
 
         // all these are relative to the default data directory,
         // set either as above or via configuration
@@ -45,8 +45,10 @@ namespace Vision.Framework.Utilities
         public const string DEFAULT_AVATARARCHIVE_DIR = "AvatarArchives";
         public const string DEFAULT_OARARCHIVE_DIR = "OarFiles";
         public const string DEFAULT_USERINVENTORY_DIR = "UserArchives";
+        public const string DEFAULT_OAR_BACKUP_FILENAME = "region.oar";
 
         public const string DEFAULT_USERHTML_DIR = "html";
+        public const string DEFAULT_LOG_DIR = "logs";
 
         public const int RegionSize = 256;
         public const int RegionHeight = 10000;

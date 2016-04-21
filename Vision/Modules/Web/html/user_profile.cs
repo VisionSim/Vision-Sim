@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/,  http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,15 +25,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.Servers.HttpServer.Implementation;
-using Vision.Framework.Services;
 using System.Collections.Generic;
 using System.Linq;
 using OpenMetaverse;
-using Vision.Framework.Utilities;
-using Vision.Framework.Services.ClassHelpers.Profile;
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
+using Vision.Framework.Servers.HttpServer.Implementation;
+using Vision.Framework.Services;
+using Vision.Framework.Services.ClassHelpers.Profile;
+using Vision.Framework.Utilities;
 
 namespace Vision.Modules.Web
 {
@@ -158,18 +158,22 @@ namespace Vision.Modules.Web
 
             if (groupsConnector != null)
             {
-                foreach (var grp in groupsConnector.GetAgentGroupMemberships(account.PrincipalID, account.PrincipalID))
+                var groupsIn = groupsConnector.GetAgentGroupMemberships(account.PrincipalID, account.PrincipalID);
+                if (groupsIn != null)
                 {
-                    var grpData = groupsConnector.GetGroupProfile (account.PrincipalID, grp.GroupID);
-                    string url = "../images/icons/no_groups.jpg";
-                    if (webhttpService != null && grpData.InsigniaID != UUID.Zero)
-                        url = webhttpService.GetTextureURL (grpData.InsigniaID);
-                    groups.Add (new Dictionary<string, object> {
-                        { "GroupPictureURL", url },
-                        { "GroupName", grp.GroupName }
-                    });
-
+                    foreach (var grp in groupsIn)
+                    {
+                        var grpData = groupsConnector.GetGroupProfile (account.PrincipalID, grp.GroupID);
+                        string url = "../images/icons/no_groups.jpg";
+                        if (webhttpService != null && grpData.InsigniaID != UUID.Zero)
+                            url = webhttpService.GetTextureURL (grpData.InsigniaID);
+                        groups.Add (new Dictionary<string, object> {
+                            { "GroupPictureURL", url },
+                            { "GroupName", grp.GroupName }
+                        });
+                    }
                 }
+            
 
                 if (groups.Count == 0)
                 {

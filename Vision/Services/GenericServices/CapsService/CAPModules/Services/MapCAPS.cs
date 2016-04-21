@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -24,7 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 
 using System.Collections.Generic;
 using Nini.Config;
@@ -63,7 +62,7 @@ namespace Vision.Services
             m_userScopeIDs = simbase.ApplicationRegistry.RequestModuleInterface<IUserAccountService> ().GetUserAccount (null, m_agentID).AllScopeIDs;
 
             m_gridService = simbase.ApplicationRegistry.RequestModuleInterface<IGridService> ();
-            IConfig config = simbase.ConfigSource.Configs ["MapCaps"];
+            IConfig config = simbase.ConfigSource.Configs ["MapCAPS"];
             if (config != null)
                 m_allowCapsMessage = config.GetBoolean ("AllowCapsMessage", m_allowCapsMessage);
 
@@ -89,7 +88,6 @@ namespace Vision.Services
         /// <param name="request"></param>
         /// <param name="httpRequest"></param>
         /// <param name="httpResponse"></param>
-        /// <param name="agentID"></param>
         /// <returns></returns>
         public byte[] MapLayerRequest (string request, OSHttpRequest httpRequest, OSHttpResponse httpResponse)
         {

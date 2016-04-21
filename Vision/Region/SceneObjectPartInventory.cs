@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,32 +25,31 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Serialization;
-using OpenMetaverse;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Vision.Region
 {
     public class SceneObjectPartInventory : IEntityInventory
     {
-        private string m_inventoryFileName = String.Empty;
-        private byte[] m_fileData = new byte[0];
-        private uint m_inventoryFileNameSerial = 0;
+        string m_inventoryFileName = String.Empty;
+        byte[] m_fileData = new byte[0];
+        uint m_inventoryFileNameSerial = 0;
 
         /// <value>
         ///     The part to which the inventory belongs.
         /// </value>
-        private readonly SceneObjectPart m_part;
+        readonly SceneObjectPart m_part;
 
         /// <summary>
         ///     Serial count for inventory file , used to tell if inventory has changed
@@ -91,16 +90,24 @@ namespace Vision.Region
             set { m_inventorySerial = value; }
         }
 
+        protected object itm_Lock = new object();
         /// <value>
         ///     Raw inventory data
         /// </value>
         protected internal TaskInventoryDictionary Items
         {
-            get { return m_items; }
+            get
+            {
+                lock (itm_Lock)
+                    return m_items;
+            }
             set
             {
-                m_items = value;
-                m_inventorySerial++;
+                lock (itm_Lock)
+                {
+                    m_items = value;
+                    m_inventorySerial++;
+                }
             }
         }
 
@@ -134,10 +141,11 @@ namespace Vision.Region
             if (null == m_part || null == m_part.ParentGroup)
                 return;
 
-            if (0 == m_items.Count)
+            if (Items.Count == 0)
                 return;
 
             IList<TaskInventoryItem> items = GetInventoryItems();
+
             lock (m_itemsLock)
             {
                 m_items.Clear();
@@ -172,45 +180,40 @@ namespace Vision.Region
         public void ResetObjectID()
         {
             if (Items.Count == 0)
-            {
                 return;
+
+            HasInventoryChanged = true;
+            if (m_part.ParentGroup != null)
+            {
+                m_part.ParentGroup.HasGroupChanged = true;
             }
 
-            lock (m_itemsLock)
+            IList<TaskInventoryItem> items = Items.Values.ToList();
+            Items.Clear();
+
+            foreach (TaskInventoryItem item in items)
             {
-                HasInventoryChanged = true;
-                if (m_part.ParentGroup != null)
+                //UUID oldItemID = item.ItemID;
+                item.ResetIDs(m_part.UUID);
+
+                //LEAVE THIS COMMENTED!!!
+                // When an object is duplicated, this will be called and it will destroy the original prims scripts!!
+                // This needs to be moved to a place that is safer later
+                //  This was *originally* intended to be used on scripts that were crossing region borders
+                /*if (m_part.ParentGroup != null)
                 {
-                    m_part.ParentGroup.HasGroupChanged = true;
-                }
-
-                IList<TaskInventoryItem> items = Items.Values.ToList();
-                Items.Clear();
-
-                foreach (TaskInventoryItem item in items)
-                {
-                    //UUID oldItemID = item.ItemID;
-                    item.ResetIDs(m_part.UUID);
-
-                    //LEAVE THIS COMMENTED!!!
-                    // When an object is duplicated, this will be called and it will destroy the original prims scripts!!
-                    // This needs to be moved to a place that is safer later
-                    //  This was *originally* intended to be used on scripts that were crossing region borders
-                    /*if (m_part.ParentGroup != null)
+                    lock (m_part.ParentGroup)
                     {
-                        lock (m_part.ParentGroup)
+                        if (m_part.ParentGroup.Scene != null)
                         {
-                            if (m_part.ParentGroup.Scene != null)
+                            foreach (IScriptModule engine in m_part.ParentGroup.Scene.RequestModuleInterfaces<IScriptModule>())
                             {
-                                foreach (IScriptModule engine in m_part.ParentGroup.Scene.RequestModuleInterfaces<IScriptModule>())
-                                {
-                                    engine.UpdateScriptToNewObject(oldItemID, item, m_part);
-                                }
+                                engine.UpdateScriptToNewObject(oldItemID, item, m_part);
                             }
                         }
-                    }*/
-                    Items.Add(item.ItemID, item);
-                }
+                    }
+                }*/
+                Items.Add(item.ItemID, item);
             }
         }
 
@@ -220,13 +223,8 @@ namespace Vision.Region
         /// <param name="ownerId"></param>
         public void ChangeInventoryOwner(UUID ownerId)
         {
-            lock (m_itemsLock)
-            {
-                if (0 == Items.Count)
-                {
-                    return;
-                }
-            }
+            if (Items.Count == 0)
+                return;
 
             HasInventoryChanged = true;
             List<TaskInventoryItem> items = GetInventoryItems();
@@ -249,21 +247,13 @@ namespace Vision.Region
         /// <param name="groupID"></param>
         public void ChangeInventoryGroup(UUID groupID)
         {
-            lock (m_itemsLock)
-            {
-                if (0 == Items.Count)
-                {
-                    return;
-                }
-            }
+            if (Items.Count == 0)
+                return;
 
             HasInventoryChanged = true;
             List<TaskInventoryItem> items = GetInventoryItems();
             foreach (TaskInventoryItem item in items)
-            {
-                if (groupID != item.GroupID)
-                    item.GroupID = groupID;
-            }
+                item.GroupID = groupID;
         }
 
         /// <summary>
@@ -291,7 +281,7 @@ namespace Vision.Region
             lock (m_itemsLock)
             {
                 ret.AddRange(
-                    m_items.Values.Where(item => item.InvType == (int) InventoryType.LSL)
+                    m_items.Values.Where(item => item.InvType == (int)InventoryType.LSL)
                            .Where(
                                item =>
                                m_part.ParentGroup.Scene.Permissions.CanRunScript(item.ItemID, m_part.UUID, item.OwnerID)));
@@ -305,9 +295,10 @@ namespace Vision.Region
             IScriptModule engine = m_part.ParentGroup.Scene.RequestModuleInterface<IScriptModule>();
             if (engine == null) // No engine at all
             {
-                ArrayList ret = new ArrayList {"No Script Engines available at this time."};
+                ArrayList ret = new ArrayList { "No Script Engines available at this time." };
                 return ret;
             }
+
             return engine.GetScriptErrors(itemID);
         }
 
@@ -336,10 +327,7 @@ namespace Vision.Region
         /// <returns></returns>
         public void CreateScriptInstance(TaskInventoryItem item, int startParam, bool postOnRez, StateSource stateSource)
         {
-            // MainConsole.Instance.InfoFormat(
-            //     "[PRIM INVENTORY]: " +
-            //     "Starting script {0}, {1} in prim {2}, {3}",
-            //     item.Name, item.ItemID, Name, UUID);
+            // MainConsole.Instance.InfoFormat("[Prim inventory]: " + "Starting script {0}, {1} in prim {2}, {3}", item.Name, item.ItemID, Name, UUID);
 
             if (!m_part.ParentGroup.Scene.Permissions.CanRunScript(item.ItemID, m_part.UUID, item.OwnerID))
                 return;
@@ -354,10 +342,11 @@ namespace Vision.Region
 
                 bool SendUpdate = m_part.AddFlag(PrimFlags.Scripted);
                 m_part.ParentGroup.Scene.EventManager.TriggerRezScripts(
-                    m_part, new[] {item}, startParam, postOnRez, stateSource, UUID.Zero, false);
+                    m_part, new[] { item }, startParam, postOnRez, stateSource, UUID.Zero, false);
                 if (SendUpdate)
                     m_part.ScheduleUpdate(PrimUpdateFlags.PrimFlags); //We only need to send a compressed
             }
+
             HasInventoryChanged = true;
             ResumeScript(item);
         }
@@ -374,7 +363,12 @@ namespace Vision.Region
         public void UpdateScriptInstance(UUID itemID, byte[] assetData, int startParam, bool postOnRez,
                                          StateSource stateSource)
         {
-            TaskInventoryItem item = m_items[itemID];
+            TaskInventoryItem item;
+            lock (m_itemsLock)
+            {
+                item = m_items[itemID];
+            }
+
             if (!m_part.ParentGroup.Scene.Permissions.CanRunScript(item.ItemID, m_part.UUID, item.OwnerID))
                 return;
 
@@ -394,8 +388,10 @@ namespace Vision.Region
                 {
                     module.UpdateScript(m_part.UUID, item.ItemID, script, startParam, postOnRez, stateSource);
                 }
+
                 ResumeScript(item);
             }
+
             HasInventoryChanged = true;
         }
 
@@ -415,7 +411,7 @@ namespace Vision.Region
                 CreateScriptInstance(item, startParam, postOnRez, stateSource);
             else
                 MainConsole.Instance.ErrorFormat(
-                    "[PRIM INVENTORY]: " +
+                    "[Prim inventory]: " +
                     "Couldn't start script with ID {0} since it couldn't be found for prim {1}, {2} at {3} in {4}",
                     itemId, m_part.Name, m_part.UUID,
                     m_part.AbsolutePosition, m_part.ParentGroup.Scene.RegionInfo.RegionName);
@@ -449,7 +445,7 @@ namespace Vision.Region
             else
             {
                 MainConsole.Instance.ErrorFormat(
-                    "[PRIM INVENTORY]: " +
+                    "[Prim inventory]: " +
                     "Couldn't stop script with ID {0} since it couldn't be found for prim {1}, {2} at {3} in {4}",
                     itemId, m_part.Name, m_part.UUID,
                     m_part.AbsolutePosition, m_part.ParentGroup.Scene.RegionInfo.RegionName);
@@ -461,14 +457,12 @@ namespace Vision.Region
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        private bool InventoryContainsName(string name)
+        bool InventoryContainsName(string name)
         {
             lock (m_itemsLock)
             {
                 if (m_items.Values.Any(item => item.Name == name))
-                {
                     return true;
-                }
             }
             return false;
         }
@@ -479,7 +473,7 @@ namespace Vision.Region
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        private string FindAvailableInventoryName(string name)
+        string FindAvailableInventoryName(string name)
         {
             if (!InventoryContainsName(name))
                 return name;
@@ -487,12 +481,12 @@ namespace Vision.Region
             int suffix = 1;
             while (suffix < 256)
             {
-                string tryName = String.Format("{0} {1}", name, suffix);
+                string tryName = string.Format("{0} {1}", name, suffix);
                 if (!InventoryContainsName(tryName))
                     return tryName;
                 suffix++;
             }
-            return String.Empty;
+            return string.Empty;
         }
 
         /// <summary>
@@ -519,7 +513,7 @@ namespace Vision.Region
             {
                 if (i.Name == item.Name)
                 {
-                    if (i.InvType == (int) InventoryType.LSL)
+                    if (i.InvType == (int)InventoryType.LSL)
                         RemoveScriptInstance(i.ItemID, false);
 
                     RemoveInventoryItem(i.ItemID);
@@ -544,7 +538,7 @@ namespace Vision.Region
         protected void AddInventoryItem(string name, TaskInventoryItem item, bool allowedDrop)
         {
             name = FindAvailableInventoryName(name);
-            if (name == String.Empty)
+            if (name == string.Empty)
                 return;
 
             item.ParentID = m_part.UUID;
@@ -578,7 +572,7 @@ namespace Vision.Region
                 foreach (TaskInventoryItem item in items)
                 {
                     m_items.Add(item.ItemID, item);
-                    //                    m_part.TriggerScriptChangedEvent(Changed.INVENTORY);
+                    //m_part.TriggerScriptChangedEvent(Changed.INVENTORY);
                 }
                 m_inventorySerial++;
             }
@@ -632,7 +626,7 @@ namespace Vision.Region
             if (null == rezAsset)
             {
                 MainConsole.Instance.WarnFormat(
-                    "[PRIM INVENTORY]: Could not find asset {0} for inventory item {1} in {2}",
+                    "[Prim inventory]: Could not find asset {0} for inventory item {1} in {2}",
                     item.AssetID, item.Name, m_part.Name);
                 return null;
             }
@@ -716,11 +710,10 @@ namespace Vision.Region
             {
                 item.ParentID = m_part.UUID;
                 item.ParentPartID = m_part.UUID;
-                item.Flags = m_items[item.ItemID].Flags;
 
                 // If group permissions have been set on, check that the groupID is up to date in case it has
                 // changed since permissions were last set.
-                if (item.GroupPermissions != (uint) PermissionMask.None)
+                if (item.GroupPermissions != (uint)PermissionMask.None)
                     item.GroupID = m_part.GroupID;
 
                 if (item.AssetID == UUID.Zero)
@@ -728,6 +721,7 @@ namespace Vision.Region
 
                 lock (m_itemsLock)
                 {
+                    item.Flags = m_items[item.ItemID].Flags;
                     m_items[item.ItemID] = item;
                     m_inventorySerial++;
                 }
@@ -739,7 +733,7 @@ namespace Vision.Region
                 return true;
             }
             MainConsole.Instance.ErrorFormat(
-                "[PRIM INVENTORY]: " +
+                "[Prim inventory]: " +
                 "Tried to retrieve item ID {0} from prim {1}, {2} at {3} in {4} but the item does not exist in this inventory",
                 item.ItemID, m_part.Name, m_part.UUID,
                 m_part.AbsolutePosition, m_part.ParentGroup.Scene.RegionInfo.RegionName);
@@ -759,13 +753,20 @@ namespace Vision.Region
             TaskInventoryItem item = GetInventoryItem(itemID);
             if (item != null)
             {
-                int type = m_items[itemID].InvType;
+                int type;
+                lock (m_itemsLock)
+                {
+                    type = m_items[itemID].InvType;
+                }
                 if (type == 10) // Script
                 {
                     m_part.RemoveScriptEvents(itemID);
                     m_part.ParentGroup.Scene.EventManager.TriggerRemoveScript(m_part.LocalId, itemID);
                 }
-                m_items.Remove(itemID);
+                lock (m_itemsLock)
+                {
+                    m_items.Remove(itemID);
+                }
                 m_inventorySerial++;
                 m_part.TriggerScriptChangedEvent(Changed.INVENTORY);
 
@@ -788,10 +789,10 @@ namespace Vision.Region
         /// <returns></returns>
         public bool GetInventoryFileName()
         {
-            if (m_inventoryFileName == String.Empty ||
+            if (m_inventoryFileName == string.Empty ||
                 m_inventoryFileNameSerial < m_inventorySerial)
             {
-                m_inventoryFileName = "inventory_" + UUID.Random().ToString() + ".tmp";
+                m_inventoryFileName = "inventory_" + UUID.Random() + ".tmp";
                 m_inventoryFileNameSerial = m_inventorySerial;
                 return true; //We had to change the filename, need to rebuild the file
             }
@@ -819,7 +820,7 @@ namespace Vision.Region
                 //We don't need to update the fileData, so just send the cached info and exit out of this method
                 if (m_fileData.Length > 2)
                 {
-                    client.SendTaskInventory(m_part.UUID, (short) m_inventorySerial,
+                    client.SendTaskInventory(m_part.UUID, (short)m_inventorySerial,
                                              Utils.StringToBytes(m_inventoryFileName));
 
                     xferManager.AddNewFile(m_inventoryFileName, m_fileData);
@@ -838,7 +839,7 @@ namespace Vision.Region
             if (m_part.ParentGroup.Scene.Permissions.CanEditObjectInventory(m_part.UUID, client.AgentId))
                 includeAssets = true;
 
-            List<TaskInventoryItem> items = m_items.Clone2List();
+            List<TaskInventoryItem> items = Items.Clone2List();
             foreach (TaskInventoryItem item in items)
             {
                 UUID ownerID = item.OwnerID;
@@ -889,11 +890,11 @@ namespace Vision.Region
             m_fileData = Utils.StringToBytes(str);
 
             //MainConsole.Instance.Debug(Utils.BytesToString(fileData));
-            //MainConsole.Instance.Debug("[PRIM INVENTORY]: RequestInventoryFile fileData: " + Utils.BytesToString(fileData));
+            //MainConsole.Instance.Debug("[Prim Inventory]: RequestInventoryFile fileData: " + Utils.BytesToString(fileData));
 
             if (m_fileData.Length > 2)
             {
-                client.SendTaskInventory(m_part.UUID, (short) m_inventorySerial,
+                client.SendTaskInventory(m_part.UUID, (short)m_inventorySerial,
                                          Utils.StringToBytes(m_inventoryFileName));
                 xferManager.AddNewFile(m_inventoryFileName, m_fileData);
             }
@@ -909,7 +910,7 @@ namespace Vision.Region
                 List<TaskInventoryItem> items = GetInventoryItems();
                 foreach (TaskInventoryItem item in items)
                 {
-                    if (item.Type == (int) InventoryType.LSL)
+                    if (item.Type == (int)InventoryType.LSL)
                     {
                         foreach (IScriptModule engine in engines)
                         {
@@ -926,8 +927,8 @@ namespace Vision.Region
 
         public class InventoryStringBuilder
         {
-            private StringBuilder BuildString = new StringBuilder();
-            private bool _hasAddeditems = false;
+            StringBuilder BuildString = new StringBuilder();
+            bool _hasAddeditems = false;
 
             public string GetString()
             {
@@ -1000,31 +1001,31 @@ namespace Vision.Region
             {
                 foreach (TaskInventoryItem item in m_items.Values)
                 {
-                    if (item.InvType != (int) InventoryType.Object)
+                    if (item.InvType != (int)InventoryType.Object)
                     {
-                        if ((item.CurrentPermissions & item.NextPermissions & (uint) PermissionMask.Copy) == 0)
-                            mask &= ~((uint) PermissionMask.Copy >> 13);
-                        if ((item.CurrentPermissions & item.NextPermissions & (uint) PermissionMask.Transfer) == 0)
-                            mask &= ~((uint) PermissionMask.Transfer >> 13);
-                        if ((item.CurrentPermissions & item.NextPermissions & (uint) PermissionMask.Modify) == 0)
-                            mask &= ~((uint) PermissionMask.Modify >> 13);
+                        if ((item.CurrentPermissions & item.NextPermissions & (uint)PermissionMask.Copy) == 0)
+                            mask &= ~((uint)PermissionMask.Copy >> 13);
+                        if ((item.CurrentPermissions & item.NextPermissions & (uint)PermissionMask.Transfer) == 0)
+                            mask &= ~((uint)PermissionMask.Transfer >> 13);
+                        if ((item.CurrentPermissions & item.NextPermissions & (uint)PermissionMask.Modify) == 0)
+                            mask &= ~((uint)PermissionMask.Modify >> 13);
                     }
                     else
                     {
-                        if ((item.CurrentPermissions & ((uint) PermissionMask.Copy >> 13)) == 0)
-                            mask &= ~((uint) PermissionMask.Copy >> 13);
-                        if ((item.CurrentPermissions & ((uint) PermissionMask.Transfer >> 13)) == 0)
-                            mask &= ~((uint) PermissionMask.Transfer >> 13);
-                        if ((item.CurrentPermissions & ((uint) PermissionMask.Modify >> 13)) == 0)
-                            mask &= ~((uint) PermissionMask.Modify >> 13);
+                        if ((item.CurrentPermissions & ((uint)PermissionMask.Copy >> 13)) == 0)
+                            mask &= ~((uint)PermissionMask.Copy >> 13);
+                        if ((item.CurrentPermissions & ((uint)PermissionMask.Transfer >> 13)) == 0)
+                            mask &= ~((uint)PermissionMask.Transfer >> 13);
+                        if ((item.CurrentPermissions & ((uint)PermissionMask.Modify >> 13)) == 0)
+                            mask &= ~((uint)PermissionMask.Modify >> 13);
                     }
 
-                    if ((item.CurrentPermissions & (uint) PermissionMask.Copy) == 0)
-                        mask &= ~(uint) PermissionMask.Copy;
-                    if ((item.CurrentPermissions & (uint) PermissionMask.Transfer) == 0)
-                        mask &= ~(uint) PermissionMask.Transfer;
-                    if ((item.CurrentPermissions & (uint) PermissionMask.Modify) == 0)
-                        mask &= ~(uint) PermissionMask.Modify;
+                    if ((item.CurrentPermissions & (uint)PermissionMask.Copy) == 0)
+                        mask &= ~(uint)PermissionMask.Copy;
+                    if ((item.CurrentPermissions & (uint)PermissionMask.Transfer) == 0)
+                        mask &= ~(uint)PermissionMask.Transfer;
+                    if ((item.CurrentPermissions & (uint)PermissionMask.Modify) == 0)
+                        mask &= ~(uint)PermissionMask.Modify;
                 }
             }
 
@@ -1037,15 +1038,16 @@ namespace Vision.Region
             {
                 foreach (TaskInventoryItem item in m_items.Values)
                 {
-                    if (item.InvType == (int) InventoryType.Object && (item.CurrentPermissions & 7) != 0)
+                    if (item.InvType == (int)InventoryType.Object && (item.CurrentPermissions & 7) != 0)
                     {
-                        if ((item.CurrentPermissions & ((uint) PermissionMask.Copy >> 13)) == 0)
-                            item.CurrentPermissions &= ~(uint) PermissionMask.Copy;
-                        if ((item.CurrentPermissions & ((uint) PermissionMask.Transfer >> 13)) == 0)
-                            item.CurrentPermissions &= ~(uint) PermissionMask.Transfer;
-                        if ((item.CurrentPermissions & ((uint) PermissionMask.Modify >> 13)) == 0)
-                            item.CurrentPermissions &= ~(uint) PermissionMask.Modify;
+                        if ((item.CurrentPermissions & ((uint)PermissionMask.Copy >> 13)) == 0)
+                            item.CurrentPermissions &= ~(uint)PermissionMask.Copy;
+                        if ((item.CurrentPermissions & ((uint)PermissionMask.Transfer >> 13)) == 0)
+                            item.CurrentPermissions &= ~(uint)PermissionMask.Transfer;
+                        if ((item.CurrentPermissions & ((uint)PermissionMask.Modify >> 13)) == 0)
+                            item.CurrentPermissions &= ~(uint)PermissionMask.Modify;
                     }
+
                     item.CurrentPermissions &= item.NextPermissions;
                     item.BasePermissions &= item.NextPermissions;
                     item.EveryonePermissions &= item.NextPermissions;
@@ -1072,7 +1074,7 @@ namespace Vision.Region
         {
             lock (m_itemsLock)
             {
-                if (m_items.Values.Any(item => item.InvType == (int) InventoryType.LSL))
+                if (m_items.Values.Any(item => item.InvType == (int)InventoryType.LSL))
                 {
                     return true;
                 }
@@ -1115,7 +1117,7 @@ namespace Vision.Region
             }
         }
 
-        private void ResumeScript(TaskInventoryItem item)
+        void ResumeScript(TaskInventoryItem item)
         {
             IScriptModule[] engines = m_part.ParentGroup.Scene.RequestModuleInterfaces<IScriptModule>();
             if (engines == null)
@@ -1126,7 +1128,7 @@ namespace Vision.Region
                 {
                     engine.ResumeScript(item.ItemID);
                     if (item.OwnerChanged)
-                        engine.PostScriptEvent(item.ItemID, m_part.UUID, "changed", new Object[] {(int) Changed.OWNER});
+                        engine.PostScriptEvent(item.ItemID, m_part.UUID, "changed", new object[] { (int)Changed.OWNER });
                     item.OwnerChanged = false;
                 }
             }

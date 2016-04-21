@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -26,14 +26,14 @@
  */
 
 
+using System;
+using System.Collections.Generic;
+using Nini.Config;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.ModuleLoader;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
-using Nini.Config;
-using System;
-using System.Collections.Generic;
 
 namespace Vision.Services
 {
@@ -48,19 +48,19 @@ namespace Vision.Services
 
         public void PreStartup(ISimulationBase simBase)
         {
-            SetUpConsole(simBase.ConfigSource, simBase.ApplicationRegistry);
+            SetUpConsole(simBase.ConfigSource, simBase);
         }
 
         public void Initialize(ISimulationBase simBase)
         {
         }
 
-        private void SetUpConsole(IConfigSource config, IRegistryCore registry)
+        void SetUpConsole (IConfigSource config, ISimulationBase simbase)
         {
             List<ICommandConsole> Plugins = VisionModuleLoader.PickupModules<ICommandConsole>();
             foreach (ICommandConsole plugin in Plugins)
             {
-                plugin.Initialize(config, registry.RequestModuleInterface<ISimulationBase>());
+                plugin.Initialize(config, simbase );
             }
 
             if (MainConsole.Instance == null)
@@ -71,18 +71,19 @@ namespace Vision.Services
 
             MainConsole.Instance.Threshold = Level.Info;
             
-            MainConsole.Instance.Fatal(String.Format("[Console]: Console log level is {0}",
-                                                         MainConsole.Instance.Threshold));
+            MainConsole.Instance.Fatal(String.Format("[Console]: Console log level is {0}", MainConsole.Instance.Threshold));
 
-            MainConsole.Instance.Commands.AddCommand("set log level", 
-                                                     "set log level [level]",
-                                                     "Set the console logging level", 
-                                                     HandleLogLevel, false, true);
+            MainConsole.Instance.Commands.AddCommand(
+                "set log level", 
+                "set log level [level]",
+                "Set the console logging level", 
+                HandleLogLevel, false, true);
 
-            MainConsole.Instance.Commands.AddCommand("get log level", 
-                                                     "get log level",
-                                                     "Returns the current console logging level", 
-                                                     HandleGetLogLevel, false, true);
+            MainConsole.Instance.Commands.AddCommand(
+                "get log level", 
+                "get log level",
+                "Returns the current console logging level", 
+                HandleGetLogLevel, false, true);
         }
 
         public void PostInitialize()
@@ -109,12 +110,12 @@ namespace Vision.Services
 
         #region Console Commands
 
-        private void HandleGetLogLevel(IScene scene, string[] cmd)
+        static void HandleGetLogLevel(IScene scene, string[] cmd)
         {
             MainConsole.Instance.Fatal(String.Format("Console log level is {0}", MainConsole.Instance.Threshold));
         }
 
-        private void HandleLogLevel(IScene scene, string[] cmd)
+        static void HandleLogLevel(IScene scene, string[] cmd)
         {
             string rawLevel = cmd[3];
 

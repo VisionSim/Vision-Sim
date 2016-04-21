@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,17 +25,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.DatabaseInterfaces;
-using Vision.Framework.Modules;
-using Vision.Framework.Services;
-using Vision.Framework.Services.ClassHelpers.Profile;
-using Nini.Config;
 using System;
 using System.Collections;
 using System.IO;
-using Vision.Framework.Utilities;
+using Nini.Config;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.DatabaseInterfaces;
+using Vision.Framework.Modules;
 using Vision.Framework.Servers;
+using Vision.Framework.Services;
+using Vision.Framework.Services.ClassHelpers.Profile;
+using Vision.Framework.Utilities;
 
 namespace Vision.Services
 {
@@ -181,6 +181,7 @@ namespace Vision.Services
                                                     data.ToString(), false);
                 }
             }
+
             return null;
         }
     }

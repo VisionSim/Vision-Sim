@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -24,7 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 
 using System;
 using System.Collections.Generic;
@@ -88,8 +87,9 @@ namespace Vision.Services
 
         public void DeregisterCaps()
         {
-            if (m_service == null)
-                return; //If display names aren't enabled
+            if (m_service == null)          //If display names aren't enabled
+                return; 
+            
             m_service.RemoveStreamHandler("SetDisplayName", "POST");
             m_service.RemoveStreamHandler("GetDisplayNames", "GET");
         }
@@ -191,7 +191,7 @@ namespace Vision.Services
                         if (info != null)
                             PackUserInfo(info, account, ref agents);
                         else
-                            PackUserInfo(info, account, ref agents);
+                            PackUserInfo(new IUserProfileInfo (), account, ref agents);
                         //else //Technically is right, but needs to be packed no matter what for OS based grids
                         //    bad_ids.Add (id);
                     }
@@ -220,7 +220,7 @@ namespace Vision.Services
             return OSDParser.SerializeLLSDXmlBytes(map);
         }
 
-        private void PackUserInfo(IUserProfileInfo info, UserAccount account, ref OSDArray agents)
+        void PackUserInfo(IUserProfileInfo info, UserAccount account, ref OSDArray agents)
         {
             OSDMap agentMap = new OSDMap();
             agentMap["username"] = account.Name;
@@ -270,9 +270,7 @@ namespace Vision.Services
         {
             if (displayName == name)
                 return true;
-            if (displayName == first + "." + last)
-                return true;
-            return false;
+            return displayName == first + "." + last;
         }
 
         /// <summary>
@@ -354,6 +352,7 @@ namespace Vision.Services
             OSDMap body = new OSDMap();
             OSDMap content = new OSDMap();
             OSDMap agentData = new OSDMap();
+
             content.Add("display_name", OSD.FromString(newDisplayName));
             content.Add("display_name_next_update",
                         OSD.FromDate(
@@ -364,6 +363,7 @@ namespace Vision.Services
             content.Add("legacy_first_name", OSD.FromString(first));
             content.Add("legacy_last_name", OSD.FromString(last));
             content.Add("username", OSD.FromString(account));
+
             body.Add("content", content);
             body.Add("agent", agentData);
             body.Add("reason", OSD.FromString("OK"));

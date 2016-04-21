@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,14 +25,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.ConsoleFramework;
-using Vision.Framework.Modules;
-using Vision.Framework.SceneInfo;
-using Nini.Config;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Nini.Config;
+using Vision.Framework.ConsoleFramework;
+using Vision.Framework.Modules;
+using Vision.Framework.SceneInfo;
+using Vision.Framework.Utilities;
 
 namespace Vision.Modules.Archivers
 {
@@ -44,7 +45,7 @@ namespace Vision.Modules.Archivers
         /// <value>
         ///     The file used to load and save an opensimulator archive if no filename has been specified
         /// </value>
-        protected const string DEFAULT_OAR_BACKUP_FILENAME = "region.oar";
+        protected const string DEFAULT_OAR_BACKUP_FILENAME = Constants.DEFAULT_OAR_BACKUP_FILENAME;
 
         private IScene m_scene;
 
@@ -60,17 +61,16 @@ namespace Vision.Modules.Archivers
             get { return null; }
         }
 
-
         public void Initialize(IConfigSource source)
         {
-            //MainConsole.Instance.Debug("[ARCHIVER] Initializing");
+            //MainConsole.Instance.Debug("[Archiver] Initializing");
         }
 
         public void AddRegion(IScene scene)
         {
             m_scene = scene;
             m_scene.RegisterModuleInterface<IRegionArchiverModule>(this);
-            //MainConsole.Instance.DebugFormat("[ARCHIVER]: Enabled for region {0}", scene.RegionInfo.RegionName);
+            //MainConsole.Instance.DebugFormat("[Archiver]: Enabled for region {0}", scene.RegionInfo.RegionName);
         }
 
         public void RegionLoaded(IScene scene)
@@ -169,7 +169,6 @@ namespace Vision.Modules.Archivers
             return DearchiveRegion(newParams.Count > 2 ? newParams[2] : DEFAULT_OAR_BACKUP_FILENAME, mergeOar, skipAssets,
                             skipTerrain, offsetX, offsetY, offsetZ, flipX, flipY,
                             useParcelOwnership, checkOwnership);
-
         }
 
         /// <summary>
@@ -207,7 +206,7 @@ namespace Vision.Modules.Archivers
         public void ArchiveRegion(string savePath, Guid requestId, string permissions)
         {
             MainConsole.Instance.InfoFormat(
-                "[ARCHIVER]: Writing archive for region {0} to {1}", m_scene.RegionInfo.RegionName, savePath);
+                "[Archiver]: Writing archive for region {0} to {1}", m_scene.RegionInfo.RegionName, savePath);
 
             new ArchiveWriteRequestPreparation(m_scene, savePath, requestId, permissions).ArchiveRegion();
         }
@@ -227,7 +226,7 @@ namespace Vision.Modules.Archivers
                                     bool useParcelOwnership, bool checkOwnership)
         {
             MainConsole.Instance.InfoFormat(
-                "[ARCHIVER]: Loading archive to region {0} from {1}", m_scene.RegionInfo.RegionName, loadPath);
+                "[Archiver]: Loading archive to region {0} from {1}", m_scene.RegionInfo.RegionName, loadPath);
 
             var archiveRead = new ArchiveReadRequest (m_scene, loadPath, merge, skipAssets, skipTerrain, offsetX,
                                   offsetY, offsetZ, flipX, flipY, useParcelOwnership, checkOwnership);

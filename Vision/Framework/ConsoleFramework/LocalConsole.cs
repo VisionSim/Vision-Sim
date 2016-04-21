@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,6 +27,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading;
 using Nini.Config;
@@ -40,7 +41,6 @@ namespace Vision.Framework.ConsoleFramework
     /// </summary>
     public class LocalConsole : CommandConsole
     {
-
         static readonly ConsoleColor[] Colors =
             {
                 // the dark colors don't seem to be visible on some black background terminals like putty :(
@@ -95,9 +95,9 @@ namespace Vision.Framework.ConsoleFramework
             logName = source.Configs ["Console"].GetString ("LogAppendName", logName);
             logPath = source.Configs ["Console"].GetString ("LogPath", logPath);
             if (logPath == "")
-                logPath = simBase.DefaultDataPath;
+                logPath = Path.Combine(simBase.DefaultDataPath, Constants.DEFAULT_LOG_DIR);
 
-            InitializeLog(logPath, logName);
+            InitializeLog(logPath, logName, simBase);
         }
 
         static ConsoleColor DeriveColor(string input)
@@ -376,6 +376,9 @@ namespace Vision.Framework.ConsoleFramework
                 MainConsole.TriggerLog(level.ToString(), fullText);
                 if (m_logFile != null)
                 {
+                    if (m_logDate != DateTime.Now.Date)
+                        RotateLog ();
+
                     m_logFile.WriteLine(fullText);
                     m_logFile.Flush();
                 }
@@ -417,7 +420,6 @@ namespace Vision.Framework.ConsoleFramework
             bool trailingSpace = cmdline.ToString().EndsWith(" ");
 
             // Allow ? through while typing a URI
-            //
             if (words.Length > 0 && words[words.Length - 1].StartsWith("http") && !trailingSpace)
                 return false;
 

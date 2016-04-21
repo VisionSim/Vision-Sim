@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -141,20 +141,22 @@ namespace Vision.Services.DataService
                 DataConnector = GenericData;
             }
 
-            foreach (Type t in types)
+            if (DataConnector != null)      // we have a problem if so...
             {
-                List<dynamic> Plugins = VisionModuleLoader.PickupModules(t);
-                foreach (dynamic plugin in Plugins)
+                foreach (Type t in types)
                 {
-                    try
+                    List<dynamic> Plugins = VisionModuleLoader.PickupModules (t);
+                    foreach (dynamic plugin in Plugins)
                     {
-                        plugin.Initialize(DataConnector.Copy(), config, registry, ConnectionString);
-                    }
-                    catch (Exception ex)
-                    {
-                        if (MainConsole.Instance != null)
-                            MainConsole.Instance.Warn("[DataService]: Exception occurred starting data plugin " +
-                                                      plugin.Name + ", " + ex);
+                        try
+                        {
+                            plugin.Initialize (DataConnector.Copy (), config, registry, ConnectionString);
+                        } catch (Exception ex)
+                        {
+                            if (MainConsole.Instance != null)
+                                MainConsole.Instance.Warn ("[DataService]: Exception occurred starting data plugin " +
+                                plugin.Name + ", " + ex);
+                        }
                     }
                 }
             }

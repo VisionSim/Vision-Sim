@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/,  http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,15 +25,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System.Collections.Generic;
+using OpenMetaverse;
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
+using Vision.Framework.SceneInfo;
 using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
-using Vision.Framework.SceneInfo;
-using OpenMetaverse;
-using System.Collections.Generic;
-using System.IO;
 using GridRegion = Vision.Framework.Services.GridRegion;
 using RegionFlags = Vision.Framework.Services.RegionFlags;
 
@@ -152,7 +151,7 @@ namespace Vision.Modules.Web
                 if (regionPreset.StartsWith("w"))
                 {
                     // 'standard' setup
-                    newRegion.RegionType = newRegion.RegionType + "Vision";                   
+                    newRegion.RegionType = newRegion.RegionType + "Whitecore";                   
                     //info.RegionPort;            // use auto assigned port
                     newRegion.RegionTerrain = "Flatland";
                     newRegion.Startup = StartupType.Normal;
@@ -219,7 +218,7 @@ namespace Vision.Modules.Web
                     newRegion.RegionTerrain = "Custom";
                 }
 
-                /* Disabled as this is a worl=k in progress and will break with the current scenemanager (Dec 5 - greythane-
+                /* Disabled as this is a work in progress and will break with the current scenemanager (Dec 5 - greythane-
                 // TODO: !!! Assumes everything is local for now !!!               
                 ISceneManager scenemanager = webInterface.Registry.RequestModuleInterface<ISceneManager> ();
                 if (scenemanager.CreateRegion(newRegion))

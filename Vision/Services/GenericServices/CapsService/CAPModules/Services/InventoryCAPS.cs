@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -24,7 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 
 using System;
 using System.Collections.Generic;
@@ -149,7 +148,7 @@ namespace Vision.Services
                 
             } catch (Exception ex)
             {
-                MainConsole.Instance.Warn ("[InventoryCaps]: SERIOUS ISSUE! " + ex);
+                MainConsole.Instance.Warn ("[InventoryCAPS]: SERIOUS ISSUE! " + ex);
             } finally
             {
                 map = null;
@@ -175,7 +174,7 @@ namespace Vision.Services
                 
             } catch (Exception ex)
             {
-                MainConsole.Instance.Warn ("[InventoryCaps]: SERIOUS ISSUE! " + ex);
+                MainConsole.Instance.Warn ("[InventoryCAPS]: SERIOUS ISSUE! " + ex);
             }
 
             OSDMap rmap = new OSDMap ();
@@ -214,7 +213,7 @@ namespace Vision.Services
 
             } catch (Exception ex)
             {
-                MainConsole.Instance.Warn ("[InventoryCaps]: SERIOUS ISSUE! " + ex);
+                MainConsole.Instance.Warn ("[InventoryCAPS]: SERIOUS ISSUE! " + ex);
             }
 
             OSDMap rmap = new OSDMap ();
@@ -249,7 +248,7 @@ namespace Vision.Services
 
             } catch (Exception ex)
             {
-                MainConsole.Instance.Warn ("[InventoryCaps]: SERIOUS ISSUE! " + ex);
+                MainConsole.Instance.Warn ("[InventoryCAPS]: SERIOUS ISSUE! " + ex);
             }
 
             OSDMap rmap = new OSDMap ();
@@ -290,7 +289,7 @@ namespace Vision.Services
             OSDMap map = (OSDMap)OSDParser.DeserializeLLSDXml (HttpServerHandlerHelpers.ReadFully (request));
             string asset_type = map ["asset_type"].AsString ();
             int charge = 0;
-            int resourceCost = 0;
+            int resourceCost;
             if (!ChargeUser (asset_type, map, out charge, out resourceCost))
             {
                 map = new OSDMap ();
@@ -647,11 +646,11 @@ namespace Vision.Services
 
             public delegate UUID UploadHandler (string assetName, string description, UUID assetID, UUID inventoryItem,
                                  UUID parentFolderID, byte[] data, string invType, string assetType,
-                                 uint everyone_mask, uint group_mask, uint next_owner_mask);
+                                 uint everyoneMask, uint groupMask, uint nextOwnerMask);
 
             public AssetUploader (string assetName, string description, UUID assetID, UUID inventoryItem,
                                   UUID parentFolderID, string invType, string assetType, string path,
-                                  uint everyone_mask, uint group_mask, uint next_owner_mask, UploadHandler action)
+                                  uint everyoneMask, uint groupMask, uint nextOwnerMask, UploadHandler action)
             {
                 m_assetName = assetName;
                 m_assetDes = description;
@@ -661,9 +660,9 @@ namespace Vision.Services
                 parentFolder = parentFolderID;
                 m_assetType = assetType;
                 m_invType = invType;
-                m_everyone_mask = everyone_mask;
-                m_group_mask = group_mask;
-                m_next_owner_mask = next_owner_mask;
+                m_everyone_mask = everyoneMask;
+                m_group_mask = groupMask;
+                m_next_owner_mask = nextOwnerMask;
                 m_uploadCompleteHandler = action;
             }
 

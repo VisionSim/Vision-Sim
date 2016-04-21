@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -296,18 +296,15 @@ namespace Vision.Modules.Search
                 return;
             }
 
-			//Split into sets of 10 packets
-			int count = Math.Min (10, packets.Count);
+            //Split into sets of 10 packets
+            int count = Math.Min (10, packets.Count);
             int i = 0;
             while (i < packets.Count)
             {
-				// check for remaining range
-
-				//Split into sets of 10 packets
-				if ((i + count) > packets.Count)
-					count = packets.Count - i;
-				
-                //Split into sets of 10 packets
+                // check for remaining range
+                if ((i + count) > packets.Count)
+                    count = packets.Count - i;
+                
                 T[] data = packets.GetRange (i, count).ToArray ();
                 i += count;
                 if (data.Length != 0)
@@ -393,7 +390,7 @@ namespace Vision.Modules.Search
                     return;
                 //Find all the land, use "0" for the flags so we get all land for sale, no price or area checking
                 List<DirLandReplyData> Landdata = DirectoryService.FindLandForSaleInRegion (
-					"0", uint.MaxValue, 0, 0, 0, GR.RegionID);
+                    "0", uint.MaxValue, 0, 0, 0, GR.RegionID);
 
                 int locX = 0;
                 int locY = 0;
@@ -448,7 +445,7 @@ namespace Vision.Modules.Search
                     return;
                 //Find all the land, use "0" for the flags so we get all land for sale, no price or area checking
                 List<DirLandReplyData> Landdata = DirectoryService.FindLandForSale (
-					"0", uint.MaxValue, 0, 0, 0, remoteClient.ScopeID);
+                    "0", uint.MaxValue, 0, 0, 0, remoteClient.ScopeID);
 
                 int locX = 0;
                 int locY = 0;

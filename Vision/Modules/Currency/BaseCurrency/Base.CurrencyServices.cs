@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/
+ * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -103,14 +103,16 @@ namespace Vision.Modules.Currency
                     m_scenes.Remove (scene);
                 };
             }
-				
+
+
             // these are only valid if we are local
             if (m_connector.IsLocalConnector)
             {
                 m_userInfoService = m_registry.RequestModuleInterface<IAgentInfoService> ();
                 m_userAccountService = m_registry.RequestModuleInterface<IUserAccountService> ();
                     
-                AddCommands ();    
+                AddCommands ();
+                
             }
         }
 
@@ -138,6 +140,7 @@ namespace Vision.Modules.Currency
 
                     // not validated
                     e.landValidated = false;
+
                 }
             }
             return false;
@@ -177,6 +180,7 @@ namespace Vision.Modules.Currency
                     "show user purchases",
                     "Display user purchases for a period.",
                     HandleShowPurchases, false, true);
+
             }
         }
 
@@ -255,17 +259,6 @@ namespace Vision.Modules.Currency
             return result;
         }
 
-        public List<GroupAccountHistory> GetTransactions(UUID groupID, UUID agentID, int currentInterval,
-                                                         int intervalDays)
-        {
-            return new List<GroupAccountHistory>();
-        }
-
-        public GroupBalance GetGroupBalance(UUID groupID)
-        {
-            return m_connector.GetGroupBalance(groupID);
-        }
-
         public uint NumberOfTransactions(UUID toAgent, UUID fromAgent)
         {
             return m_connector.NumberOfTransactions(toAgent, fromAgent);
@@ -296,6 +289,7 @@ namespace Vision.Modules.Currency
             return m_connector.GetTransactionHistory(period, periodType, start, count);
         }
  
+
         public uint NumberOfPurchases(UUID UserID)
         {
             return m_connector.NumberOfPurchases(UserID);
@@ -320,6 +314,25 @@ namespace Vision.Modules.Currency
         {
             return m_connector.GetPurchaseHistory(period, periodType, start, count);
         }
+
+        public List<GroupAccountHistory> GetGroupTransactions(UUID groupID, UUID agentID, int currentInterval,
+            int intervalDays)
+        {
+            return m_connector.GetGroupTransactions (groupID, agentID, currentInterval, intervalDays);
+        }
+
+        public GroupBalance GetGroupBalance(UUID groupID)
+        {
+            return m_connector.GetGroupBalance(groupID);
+        }
+
+        public bool GroupCurrencyTransfer(UUID groupID, UUID userID, bool payUser, string toObjectName, UUID fromObjectID,
+            string fromObjectName, int amount, string description, TransactionType type, UUID transactionID)
+        {
+            return m_connector.GroupCurrencyTransfer(groupID, userID, payUser, toObjectName, fromObjectID,
+                fromObjectName, amount, description, type, transactionID);
+        }
+
 
         #endregion
 
@@ -564,6 +577,7 @@ namespace Vision.Modules.Currency
                 if (toUserInfo != null && toUserInfo.IsOnline)
                     m_connector.SendUpdateMoneyBalanceToClient(account.PrincipalID, UUID.Zero, toUserInfo.CurrentRegionURI, (currency.Amount), "");
             }
+
         }
 
         protected void SetMoney(IScene scene, string[] cmd)
@@ -597,7 +611,8 @@ namespace Vision.Modules.Currency
                     m_connector.SendUpdateMoneyBalanceToClient(account.PrincipalID, UUID.Zero, toUserInfo.CurrentRegionURI, currency.Amount, "");
             }
         }
-			
+
+
         protected void GetMoney(IScene scene, string[] cmd)
         {
             UserAccount account = GetUserAccount ();
@@ -608,7 +623,7 @@ namespace Vision.Modules.Currency
             MainConsole.Instance.Info(account.Name + " has " + StrUserBalance((int)currency.Amount));
         }
 
-		/*
+/*
         protected void HandleStipendSet(IScene scene, string[] cmd)
         {
             string rawDate = MainConsole.Instance.Prompt("Date to pay next Stipend? (MM/dd/yyyy)");
@@ -617,14 +632,14 @@ namespace Vision.Modules.Currency
             
             // Make a new DateTime from rawDate
             DateTime newDate = DateTime.ParseExact(rawDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
-            //GiveStipends.StipendDate = newDate;
+//            GiveStipends.StipendDate = newDate;
 
             // Code needs to be added to run through the scheduler and change the 
             // RunsNext to the date that the user wants the scheduler to be
             // Fly-Man- 2-5-2015
             MainConsole.Instance.Info("Stipend Date has been set to" + newDate);
         }
-        */
+*/
         protected void HandleShowTransactions(IScene scene, string [] cmd)
         {
             UserAccount account = GetUserAccount ();
@@ -660,7 +675,9 @@ namespace Vision.Modules.Currency
                 transInfo += String.Format ("{0, -12}", transfer.ToBalance);
 
                 MainConsole.Instance.CleanInfo(transInfo);
+
             }
+
         }
 
         protected void HandleShowPurchases(IScene scene, string [] cmd)
@@ -694,6 +711,7 @@ namespace Vision.Modules.Currency
                 transInfo += String.Format ("{0, -12}", m_connector.RealCurrency + ((float)purchase.RealAmount / 100).ToString ("0.00"));
 
                 MainConsole.Instance.CleanInfo (transInfo);
+
             }
         }
         #endregion

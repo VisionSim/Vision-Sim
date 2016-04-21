@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -90,13 +90,13 @@ namespace Vision.Framework.ConsoleFramework
             Culture.SetCurrentCulture();
             /*string line = */
             ReadLine(m_defaultPrompt + "# ", true, true);
-
-//            result.AsyncWaitHandle.WaitOne(-1);
-
-//            if (line != String.Empty && line.Replace(" ", "") != String.Empty) //If there is a space, its fine
-//            {
-//                MainConsole.Instance.Info("[GUICONSOLE] Invalid command");
-//            }
+            
+            //result.AsyncWaitHandle.WaitOne(-1);
+            
+            //if (line != String.Empty && line.Replace(" ", "") != String.Empty) //If there is a space, its fine
+            //{
+            //   MainConsole.Instance.Info("[GUICONSOLE] Invalid command");
+            //}
         }
 
         public void RunCommand(string cmd)
@@ -117,13 +117,13 @@ namespace Vision.Framework.ConsoleFramework
         {
             string oldDefaultPrompt = m_defaultPrompt;
             m_defaultPrompt = p;
-//            System.Console.Write("{0}", p);
+            //System.Console.Write("{0}", p);
             string cmdinput = Console.ReadLine();
-
-//            while (cmdinput.Equals(null))
-//            {
-//                ;
-//            }
+            
+            //while (cmdinput.Equals(null))
+            //{
+            //    ;
+            //}
 
             if (isCommand)
             {
