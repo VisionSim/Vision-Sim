@@ -27,6 +27,7 @@
 
 using System;
 using Nini.Config;
+using Vision.Framework.ConsoleFramework;
 
 namespace Vision.Framework.ClientInterfaces
 {
@@ -41,7 +42,7 @@ namespace Vision.Framework.ClientInterfaces
         None
     };
 
-    public class UserSetHelpers
+    public static class UserSetHelpers
     {
         /// <summary>
         ///     Parse a user set configuration setting
@@ -61,16 +62,15 @@ namespace Vision.Framework.ClientInterfaces
             if ("gods" == rawSetting.ToLower())
                 rawSetting = UserSet.Administrators.ToString();
 
-            // Doing it this was so that we can do a case insensitive conversion
+            // Doing it this way so that we can do a case insensitive conversion
             try
             {
-                userSet = (UserSet) Enum.Parse(typeof (UserSet), rawSetting, true);
+                userSet = (UserSet)Enum.Parse(typeof(UserSet), rawSetting, true);
             }
             catch
             {
+                MainConsole.Instance.DebugFormat("[Permissions]: {0} {1}", settingName, userSet);
             }
-
-            //MainConsole.Instance.DebugFormat("[PERMISSIONS]: {0} {1}", settingName, userSet);
 
             return userSet;
         }
