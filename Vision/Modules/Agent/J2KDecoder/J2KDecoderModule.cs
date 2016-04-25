@@ -152,13 +152,12 @@ namespace Vision.Modules.Agent.J2KDecoder
 
         bool DoJ2KDecode(UUID assetID, byte[] j2kData, bool useCSJ2K)
         {
-            //int DecodeTime = 0;
-            //DecodeTime = Environment.TickCount;
             OpenJPEG.J2KLayerInfo[] layers;
 
             if (!TryLoadCacheForAsset(assetID, out layers))
             {
-                if (j2kData == null || j2kData.Length == 0)
+                var okDecode = (j2kData != null) && (j2kData.Length > 0);
+                if (!okDecode)
                 {
                     // Layer decoding completely failed. Guess at sane defaults for the layer boundaries
                     layers = CreateDefaultLayers(j2kData.Length);
@@ -175,6 +174,7 @@ namespace Vision.Modules.Agent.J2KDecoder
                     }
                     return false;
                 }
+
                 if (m_useCSJ2K)
                 {
                     try
@@ -202,7 +202,7 @@ namespace Vision.Modules.Agent.J2KDecoder
                     }
                     catch (Exception ex)
                     {
-                        MainConsole.Instance.Warn("[J2KDecoderModule]: CSJ2K threw an exception decoding texture " +
+                        MainConsole.Instance.Warn("[J2K Decoder Module]: CSJ2K threw an exception decoding texture " +
                                                   assetID + ": " +
                                                   ex.Message);
                     }
@@ -212,15 +212,16 @@ namespace Vision.Modules.Agent.J2KDecoder
                     int components;
                     if (!OpenJPEG.DecodeLayerBoundaries(j2kData, out layers, out components))
                     {
-                        MainConsole.Instance.Warn("[J2KDecoderModule]: OpenJPEG failed to decode texture " + assetID);
+                        MainConsole.Instance.Warn("[J2K Decoder Module]: OpenJPEG failed to decode texture " + assetID);
                     }
                 }
 
-                if (layers == null || layers.Length == 0)
+                var okTexture = (layers != null) && (layers.Length > 0);
+                if (!okTexture)
                 {
                     if (useCSJ2K == m_useCSJ2K)
                     {
-                        MainConsole.Instance.Warn("[J2KDecoderModule]: Failed to decode layer data with (" +
+                        MainConsole.Instance.Warn("[J2K Decoder Module]: Failed to decode layer data with (" +
                                                   (m_useCSJ2K ? "CSJ2K" : "OpenJPEG") + ") for texture " + assetID +
                                                   ", length " +
                                                   j2kData.Length + " trying " + (!m_useCSJ2K ? "CSJ2K" : "OpenJPEG"));
@@ -229,7 +230,7 @@ namespace Vision.Modules.Agent.J2KDecoder
                     else
                     {
                         //Second attempt at decode with the other j2k decoder, give up
-                        MainConsole.Instance.Warn("[J2KDecoderModule]: Failed to decode layer data (" +
+                        MainConsole.Instance.Warn("[J2K Decoder Module]: Failed to decode layer data (" +
                                                   (m_useCSJ2K ? "CSJ2K" : "OpenJPEG") + ") for texture " + assetID +
                                                   ", length " +
                                                   j2kData.Length + " guessing sane defaults");
@@ -317,7 +318,7 @@ namespace Vision.Modules.Agent.J2KDecoder
                 for (int i = 0; i < layers.Length; i++)
                 {
                     if (i == layers.Length - 1)
-                        strEnd = String.Empty;
+                        strEnd = string.Empty;
 
                     stringResult.AppendFormat("{0}|{1}|{2}{3}", layers[i].Start, layers[i].End,
                                               layers[i].End - layers[i].Start, strEnd);
@@ -351,7 +352,7 @@ namespace Vision.Modules.Agent.J2KDecoder
 
                     if (lines.Length == 0)
                     {
-                        MainConsole.Instance.Warn("[J2KDecodeCache]: Expiring corrupted layer data (empty) " + assetName);
+                        MainConsole.Instance.Warn("[J2K Decode Cache]: Expiring corrupted layer data (empty) " + assetName);
                         m_cache.Expire(assetName);
                         return false;
                     }
@@ -372,7 +373,7 @@ namespace Vision.Modules.Agent.J2KDecoder
                             }
                             catch (FormatException)
                             {
-                                MainConsole.Instance.Warn("[J2KDecodeCache]: Expiring corrupted layer data (format) " +
+                                MainConsole.Instance.Warn("[J2K Decode Cache]: Expiring corrupted layer data (format) " +
                                                           assetName);
                                 m_cache.Expire(assetName);
                                 return false;
@@ -382,7 +383,7 @@ namespace Vision.Modules.Agent.J2KDecoder
                         }
                         else
                         {
-                            MainConsole.Instance.Warn("[J2KDecodeCache]: Expiring corrupted layer data (layout) " +
+                            MainConsole.Instance.Warn("[J2K Decode Cache]: Expiring corrupted layer data (layout) " +
                                                       assetName);
                             m_cache.Expire(assetName);
                             return false;
