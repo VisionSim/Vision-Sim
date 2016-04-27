@@ -94,7 +94,7 @@ namespace Vision.Modules.Agent.J2KDecoder
                     }
                     else
                     {
-                        List<DecodedCallback> notifylist = new List<DecodedCallback> {callback};
+                        List<DecodedCallback> notifylist = new List<DecodedCallback> { callback };
                         m_notifyList.Add(assetID, notifylist);
                         decode = true;
                     }
@@ -156,11 +156,15 @@ namespace Vision.Modules.Agent.J2KDecoder
 
             if (!TryLoadCacheForAsset(assetID, out layers))
             {
-                var okDecode = (j2kData != null) && (j2kData.Length > 0);
-                if (!okDecode)
+                // not in cache. If no data try to decode with some defaults
+                if (j2kData == null || j2kData.Length == 0)
                 {
                     // Layer decoding completely failed. Guess at sane defaults for the layer boundaries
-                    layers = CreateDefaultLayers(j2kData.Length);
+                    if (j2kData != null)
+                        layers = CreateDefaultLayers(j2kData.Length);
+                    else
+                        layers = CreateDefaultLayers(0);
+
                     // Notify Interested Parties
                     lock (m_notifyList)
                     {
@@ -188,8 +192,7 @@ namespace Vision.Modules.Agent.J2KDecoder
                             for (int i = 0; i < layerStarts.Count; i++)
                             {
                                 OpenJPEG.J2KLayerInfo layer = new OpenJPEG.J2KLayerInfo
-                                                                  {Start = i == 0 ? 0 : layerStarts[i]};
-
+                                { Start = i == 0 ? 0 : layerStarts[i] };
 
                                 if (i == layerStarts.Count - 1)
                                     layer.End = j2kData.Length;
@@ -203,8 +206,7 @@ namespace Vision.Modules.Agent.J2KDecoder
                     catch (Exception ex)
                     {
                         MainConsole.Instance.Warn("[J2K Decoder Module]: CSJ2K threw an exception decoding texture " +
-                                                  assetID + ": " +
-                                                  ex.Message);
+                                                  assetID + ": " + ex.Message);
                     }
                 }
                 else
@@ -216,15 +218,14 @@ namespace Vision.Modules.Agent.J2KDecoder
                     }
                 }
 
-                var okTexture = (layers != null) && (layers.Length > 0);
-                if (!okTexture)
+                if (layers == null || layers.Length == 0)
                 {
                     if (useCSJ2K == m_useCSJ2K)
                     {
                         MainConsole.Instance.Warn("[J2K Decoder Module]: Failed to decode layer data with (" +
                                                   (m_useCSJ2K ? "CSJ2K" : "OpenJPEG") + ") for texture " + assetID +
-                                                  ", length " +
-                                                  j2kData.Length + " trying " + (!m_useCSJ2K ? "CSJ2K" : "OpenJPEG"));
+                                                  ", length " + j2kData.Length +
+                                                  " trying " + (!m_useCSJ2K ? "CSJ2K" : "OpenJPEG"));
                         DoJ2KDecode(assetID, j2kData, !m_useCSJ2K);
                     }
                     else
@@ -232,8 +233,8 @@ namespace Vision.Modules.Agent.J2KDecoder
                         //Second attempt at decode with the other j2k decoder, give up
                         MainConsole.Instance.Warn("[J2K Decoder Module]: Failed to decode layer data (" +
                                                   (m_useCSJ2K ? "CSJ2K" : "OpenJPEG") + ") for texture " + assetID +
-                                                  ", length " +
-                                                  j2kData.Length + " guessing sane defaults");
+                                                  ", length " + j2kData.Length + " guessing sane defaults");
+
                         // Layer decoding completely failed. Guess at sane defaults for the layer boundaries
                         layers = CreateDefaultLayers(j2kData.Length);
                         // Notify Interested Parties
@@ -284,10 +285,10 @@ namespace Vision.Modules.Agent.J2KDecoder
             // with extra padding thrown in for good measure. This is a worst case fallback plan
             // and may not gracefully handle all real world data
             layers[0].Start = 0;
-            layers[1].Start = (int) (j2kLength*0.02f);
-            layers[2].Start = (int) (j2kLength*0.05f);
-            layers[3].Start = (int) (j2kLength*0.20f);
-            layers[4].Start = (int) (j2kLength*0.50f);
+            layers[1].Start = (int)(j2kLength * 0.02f);
+            layers[2].Start = (int)(j2kLength * 0.05f);
+            layers[3].Start = (int)(j2kLength * 0.20f);
+            layers[4].Start = (int)(j2kLength * 0.50f);
 
             layers[0].End = layers[1].Start - 1;
             layers[1].End = layers[2].Start - 1;
@@ -309,7 +310,7 @@ namespace Vision.Modules.Agent.J2KDecoder
 
                 AssetBase layerDecodeAsset = new AssetBase(assetID, assetID, AssetType.Notecard,
                                                            UUID.Zero)
-                                                 {Flags = AssetFlags.Local | AssetFlags.Temporary};
+                { Flags = AssetFlags.Local | AssetFlags.Temporary };
 
                 #region Serialize Layer Data
 
@@ -348,7 +349,7 @@ namespace Vision.Modules.Agent.J2KDecoder
                     #region Deserialize Layer Data
 
                     string readResult = Util.UTF8.GetString(layerDecodeAsset.Data);
-                    string[] lines = readResult.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
+                    string[] lines = readResult.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
                     if (lines.Length == 0)
                     {
@@ -379,7 +380,7 @@ namespace Vision.Modules.Agent.J2KDecoder
                                 return false;
                             }
 
-                            layers[i] = new OpenJPEG.J2KLayerInfo {Start = element1, End = element2};
+                            layers[i] = new OpenJPEG.J2KLayerInfo { Start = element1, End = element2 };
                         }
                         else
                         {
