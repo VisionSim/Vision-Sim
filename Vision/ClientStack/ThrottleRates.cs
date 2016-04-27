@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -26,9 +26,8 @@
  */
 
 using System;
-using Vision.Framework.ClientInterfaces;
 using Nini.Config;
-
+using Vision.Framework.ClientInterfaces;
 
 namespace Vision.ClientStack
 {
@@ -199,7 +198,6 @@ namespace Vision.ClientStack
                     return State;
                 case ThrottleOutPacketType.AvatarInfo:
                     return AvatarInfo;
-//                case ThrottleOutPacketType.Unknown:
                 default:
                     return 0;
             }
@@ -227,7 +225,6 @@ namespace Vision.ClientStack
                     return StateLimit;
                 case ThrottleOutPacketType.AvatarInfo:
                     return AvatarInfoLimit;
-//                case ThrottleOutPacketType.Unknown:
                 default:
                     return 0;
             }

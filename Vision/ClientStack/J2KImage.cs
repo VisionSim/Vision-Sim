@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,14 +25,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+using System;
+using OpenMetaverse;
+using OpenMetaverse.Imaging;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Assets;
-using OpenMetaverse;
-using OpenMetaverse.Imaging;
-using System;
 
 namespace Vision.ClientStack
 {
@@ -41,8 +40,15 @@ namespace Vision.ClientStack
     /// </summary>
     public class J2KImage
     {
-        private const int IMAGE_PACKET_SIZE = 1000;
-        private const int FIRST_PACKET_SIZE = 600;
+        const int IMAGE_PACKET_SIZE = 1000;
+        const int FIRST_PACKET_SIZE = 600;
+
+        byte [] m_asset;
+        bool m_assetRequested;
+        uint m_currentPacket;
+        bool m_decodeRequested;
+        bool m_sentInfo;
+        uint m_stopPacket;
 
         public UUID AgentID;
         public IAssetService AssetService;
@@ -56,13 +62,6 @@ namespace Vision.ClientStack
         public float Priority;
         public uint StartPacket;
         public UUID TextureID;
-        private byte[] m_asset;
-        private bool m_assetRequested;
-
-        private uint m_currentPacket;
-        private bool m_decodeRequested;
-        private bool m_sentInfo;
-        private uint m_stopPacket;
 
         public void Dispose()
         {
@@ -157,7 +156,7 @@ namespace Vision.ClientStack
                     if (m_asset == null)
                     {
                         MainConsole.Instance.Debug(
-                            "[J2KIMAGE]: RunUpdate() called with missing asset data (no missing image texture?). Canceling texture transfer");
+                            "[J2K Image]: RunUpdate() called with missing asset data (no missing image texture?). Canceling texture transfer");
                         m_currentPacket = m_stopPacket;
                         return;
                     }
@@ -168,7 +167,7 @@ namespace Vision.ClientStack
                         if (Layers == null)
                         {
                             MainConsole.Instance.Warn(
-                                "[J2KIMAGE]: RunUpdate() called with missing Layers. Canceling texture transfer");
+                                "[J2K Image]: RunUpdate() called with missing Layers. Canceling texture transfer");
                             m_currentPacket = m_stopPacket;
                             return;
                         }
@@ -205,14 +204,14 @@ namespace Vision.ClientStack
             }
         }
 
-        private bool SendFirstPacket(LLClientView client)
+        bool SendFirstPacket(LLClientView client)
         {
             if (client == null)
                 return false;
 
             if (m_asset == null)
             {
-                MainConsole.Instance.Warn("[J2KIMAGE]: Sending ImageNotInDatabase for texture " + TextureID);
+                MainConsole.Instance.Warn("[J2K Image]: Sending ImageNotInDatabase for texture " + TextureID);
                 client.SendImageNotFound(TextureID);
                 return true;
             }
@@ -233,7 +232,7 @@ namespace Vision.ClientStack
             catch (Exception)
             {
                 MainConsole.Instance.ErrorFormat(
-                    "[J2KIMAGE]: Texture block copy for the first packet failed. textureid={0}, assetlength={1}",
+                    "[J2K Image]: Texture block copy for the first packet failed. textureid={0}, assetlength={1}",
                     TextureID, m_asset.Length);
                 return true;
             }
@@ -243,7 +242,7 @@ namespace Vision.ClientStack
             return false;
         }
 
-        private bool SendPacket(LLClientView client)
+        bool SendPacket(LLClientView client)
         {
             if (client == null || m_asset == null)
                 return false;
@@ -281,7 +280,7 @@ namespace Vision.ClientStack
                     catch (Exception e)
                     {
                         MainConsole.Instance.ErrorFormat(
-                            "[J2KIMAGE]: Texture block copy for the first packet failed. textureid={0}, assetlength={1}, currentposition={2}, imagepacketsize={3}, exception={4}",
+                            "[J2K Image]: Texture block copy for the first packet failed. textureid={0}, assetlength={1}, currentposition={2}, imagepacketsize={3}, exception={4}",
                             TextureID, m_asset.Length, currentPosition, imagePacketSize, e.Message);
                         return false;
                     }
@@ -298,7 +297,7 @@ namespace Vision.ClientStack
             }
         }
 
-        private ushort TexturePacketCount()
+        ushort TexturePacketCount()
         {
             if (!IsDecoded)
                 return 0;
@@ -312,12 +311,12 @@ namespace Vision.ClientStack
             return (ushort) (((m_asset.Length - FIRST_PACKET_SIZE + IMAGE_PACKET_SIZE - 1)/IMAGE_PACKET_SIZE) + 1);
         }
 
-        private int GetPacketForBytePosition(int bytePosition)
+        int GetPacketForBytePosition(int bytePosition)
         {
             return ((bytePosition - FIRST_PACKET_SIZE + IMAGE_PACKET_SIZE - 1)/IMAGE_PACKET_SIZE) + 1;
         }
 
-        private int LastPacketSize()
+        int LastPacketSize()
         {
             if (m_currentPacket == 1)
                 return m_asset.Length;
@@ -330,7 +329,7 @@ namespace Vision.ClientStack
             return lastsize;
         }
 
-        private int CurrentBytePosition()
+        int CurrentBytePosition()
         {
             if (m_currentPacket == 0)
                 return 0;
@@ -345,14 +344,14 @@ namespace Vision.ClientStack
             return result;
         }
 
-        private void J2KDecodedCallback(UUID AssetId, OpenJPEG.J2KLayerInfo[] layers)
+        void J2KDecodedCallback(UUID AssetId, OpenJPEG.J2KLayerInfo[] layers)
         {
             Layers = layers;
             IsDecoded = true;
             RunUpdate();
         }
 
-        private void AssetDataCallback(UUID AssetID, AssetBase asset)
+        void AssetDataCallback(UUID AssetID, AssetBase asset)
         {
             HasAsset = true;
 
@@ -370,7 +369,7 @@ namespace Vision.ClientStack
             RunUpdate();
         }
 
-        private void AssetReceived(string id, Object sender, AssetBase asset)
+        void AssetReceived(string id, object sender, AssetBase asset)
         {
             UUID assetID = UUID.Zero;
             if (asset != null)

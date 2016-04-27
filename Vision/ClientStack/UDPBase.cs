@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,7 +42,7 @@ namespace Vision.ClientStack
         /// <summary>
         ///     Flag to process packets asynchronously or synchronously
         /// </summary>
-        private bool m_asyncPacketHandling;
+        bool m_asyncPacketHandling;
 
         /// <summary>
         ///     Local IP address to bind to in server mode
@@ -52,7 +52,7 @@ namespace Vision.ClientStack
         /// <summary>
         ///     The all important shutdown flag
         /// </summary>
-        private volatile bool m_shutdownFlag = true;
+        volatile bool m_shutdownFlag = true;
 
         /// <summary>
         ///     UDP port to bind to in server mode
@@ -62,7 +62,7 @@ namespace Vision.ClientStack
         /// <summary>
         ///     UDP socket, used in either client or server mode
         /// </summary>
-        private Socket m_udpSocket;
+        Socket m_udpSocket;
 
         /// <summary>
         ///     Returns true if the server is currently listening, otherwise false
@@ -132,11 +132,11 @@ namespace Vision.ClientStack
                     // so we'll catch the exception and continue
                     if(Util.IsWindows())
                         m_udpSocket.IOControl(SIO_UDP_CONNRESET, new byte[] {0}, null);
-                    //MainConsole.Instance.Debug("[UDPBASE]: SIO_UDP_CONNRESET flag set");
+                    //MainConsole.Instance.Debug("[UDP Base]: SIO_UDP_CONNRESET flag set");
                 }
                 catch (SocketException)
                 {
-                    //MainConsole.Instance.Debug("[UDPBASE]: SIO_UDP_CONNRESET flag not supported on this platform, ignoring");
+                    //MainConsole.Instance.Debug("[UDP Base]: SIO_UDP_CONNRESET flag not supported on this platform, ignoring");
                 }
 
                 if (recvBufferSize != 0)
@@ -173,7 +173,6 @@ namespace Vision.ClientStack
         void AsyncBeginReceive()
         {
             // allocate a packet buffer
-            //WrappedObject<UDPPacketBuffer> wrappedBuffer = Pool.CheckOut();
             UDPPacketBuffer buf = new UDPPacketBuffer();
 
             if (!m_shutdownFlag)
@@ -182,14 +181,12 @@ namespace Vision.ClientStack
                 {
                     // kick off an async read
                     m_udpSocket.BeginReceiveFrom(
-                        //wrappedBuffer.Instance.Data,
                         buf.Data,
                         0,
                         UDPPacketBuffer.BUFFER_SIZE,
                         SocketFlags.None,
                         ref buf.RemoteEndPoint,
                         AsyncEndReceive,
-                        //wrappedBuffer);
                         buf);
                 }
                 catch (SocketException e)
@@ -197,7 +194,7 @@ namespace Vision.ClientStack
                     if (e.SocketErrorCode == SocketError.ConnectionReset)
                     {
                         MainConsole.Instance.Warn(
-                            "[UDPBASE]: SIO_UDP_CONNRESET was ignored, attempting to salvage the UDP listener on port " +
+                            "[UDP Base]: SIO_UDP_CONNRESET was ignored, attempting to salvage the UDP listener on port " +
                             m_udpPort);
                         bool salvaged = false;
                         while (!salvaged)
@@ -205,14 +202,12 @@ namespace Vision.ClientStack
                             try
                             {
                                 m_udpSocket.BeginReceiveFrom(
-                                    //wrappedBuffer.Instance.Data,
                                     buf.Data,
                                     0,
                                     UDPPacketBuffer.BUFFER_SIZE,
                                     SocketFlags.None,
                                     ref buf.RemoteEndPoint,
                                     AsyncEndReceive,
-                                    //wrappedBuffer);
                                     buf);
                                 salvaged = true;
                             }
@@ -225,7 +220,7 @@ namespace Vision.ClientStack
                             }
                         }
 
-                        MainConsole.Instance.Warn("[UDPBASE]: Salvaged the UDP listener on port " + m_udpPort);
+                        MainConsole.Instance.Warn("[UDP Base]: Salvaged the UDP listener on port " + m_udpPort);
                     }
                 }
                 catch (ObjectDisposedException)
@@ -241,14 +236,12 @@ namespace Vision.ClientStack
             if (!m_shutdownFlag)
             {
                 // Asynchronous mode will start another receive before the
-                // callback for this packet is even fired. Very parallel :-)
+                // callback for this packet is even fired. Very parallel
                 if (m_asyncPacketHandling)
                     AsyncBeginReceive();
 
                 // get the buffer that was created in AsyncBeginReceive
                 // this is the received data
-                //WrappedObject<UDPPacketBuffer> wrappedBuffer = (WrappedObject<UDPPacketBuffer>)iar.AsyncState;
-                //UDPPacketBuffer buffer = wrappedBuffer.Instance;
                 UDPPacketBuffer buffer = (UDPPacketBuffer) iar.AsyncState;
 
                 try
@@ -269,12 +262,10 @@ namespace Vision.ClientStack
                 }
                 catch (Exception ex)
                 {
-                    MainConsole.Instance.Error("[UDPBase]: Hit error: " + ex);
+                    MainConsole.Instance.Error("[UDP Base]: Hit error: " + ex);
                 }
                 finally
                 {
-                    //wrappedBuffer.Dispose();
-
                     // Synchronous mode waits until the packet callback completes
                     // before starting the receive to fetch another packet
                     if (!m_asyncPacketHandling)
@@ -287,21 +278,17 @@ namespace Vision.ClientStack
         {
             if (!m_shutdownFlag)
             {
-                try
-                {
+                try {
                     // well not async but blocking 
-                    m_udpSocket.SendTo(
+                    m_udpSocket.SendTo (
                         buf.Data,
                         0,
                         buf.DataLength,
                         SocketFlags.None,
                         buf.RemoteEndPoint);
-                }
-                catch (SocketException)
-                {
-                }
-                catch (ObjectDisposedException)
-                {
+                } catch (SocketException) {
+                } catch (ObjectDisposedException) {
+                } catch (Exception) {
                 }
             }
         }
