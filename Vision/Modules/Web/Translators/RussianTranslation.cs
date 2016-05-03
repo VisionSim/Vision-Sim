@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://virtual-planets.org/,  http://reallife3d.ru/
+ * Copyright (c) Contributors, http://Vision-sim.org/, http://virtual-planets.org/,  http://reallife3d.ru/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -868,7 +868,7 @@ namespace Vision.Modules.Web.Translators
 				return "Reporter";
 			case "AssignedToText":
 				return "Assigned to";
- 
+
 			//Times
 			case "Sun":
 				return "Вс";
