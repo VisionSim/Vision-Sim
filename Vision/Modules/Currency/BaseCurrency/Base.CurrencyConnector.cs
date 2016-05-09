@@ -38,9 +38,8 @@ using Vision.Framework.Utilities;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.DatabaseInterfaces;
 
-namespace Vision.Modules.Currency
+namespace Vision.Modules.Currency.BaseCurrency
 {
-    
     public class BaseCurrencyConnector : ConnectorBase, IBaseCurrencyConnector
     {
         #region Declares
@@ -95,7 +94,6 @@ namespace Vision.Modules.Currency
             m_config = new BaseCurrencyConfig(config);
 
             Init(m_registry, Name, "", "/currency/", "CurrencyServerURI");
-
         }
 
         #endregion
@@ -150,7 +148,6 @@ namespace Vision.Modules.Currency
         public List<GroupAccountHistory> GetGroupTransactions(UUID groupID, UUID fromAgentID,
             int currentInterval, int intervalDays)
         {
-            //return new List<GroupAccountHistory>();
             object remoteValue = DoRemoteByURL("CurrencyServerURI", groupID, fromAgentID, currentInterval, intervalDays);
             if (remoteValue != null || m_doRemoteOnly)
                 return (List<GroupAccountHistory>) remoteValue;
@@ -301,7 +298,6 @@ namespace Vision.Modules.Currency
             return new UserCurrency(query);
         }
 
-
         public int CalculateEstimatedCost(uint amount)
         {
             return Convert.ToInt32(
@@ -432,7 +428,6 @@ namespace Vision.Modules.Currency
 
             Dictionary<string, bool> sort = new Dictionary<string, bool>(1);
             sort["Created"] = false;        // descending order
-            //sort["FromName"] = true;
 
             List<string> query = GD.Query (new string[] { "*" }, _REALMHISTORY, filter, sort, start, count);
 
@@ -505,7 +500,6 @@ namespace Vision.Modules.Currency
 
 
             Dictionary<string, bool> sort = new Dictionary<string, bool>(1);
-            //sort["PrincipalID"] = true;
             sort["Created"] = false;        // descending order
 
             List<string> query = GD.Query (new string[] { "*" }, _REALMPURCHASE, filter, sort, start, count);
@@ -536,9 +530,7 @@ namespace Vision.Modules.Currency
 
             return GetPurchaseHistory (UUID.Zero, dateStart, dateEnd, start, count);
         }
-
-
-            
+      
         public bool UserCurrencyTransfer(UUID toID, UUID fromID, uint amount,
                                          string description, TransactionType type, UUID transactionID)
         {
@@ -647,6 +639,7 @@ namespace Vision.Modules.Currency
                     }
                 }
             }
+
             return true;
         }
 
@@ -803,13 +796,14 @@ namespace Vision.Modules.Currency
         static List<GroupAccountHistory> ParseGroupTransferQuery(List<string> query)
         {
             var transferList = new List<GroupAccountHistory>();
-/*
-        int Amount;
-        string Description;
-        string TimeString;
-        string UserCausingCharge;
-        bool Payment
-*/
+
+            /*
+              int Amount;
+              string Description;
+              string TimeString;
+              string UserCausingCharge;
+              bool Payment
+             */
             for (int i = 0; i < query.Count; i += 14)
             {
                 GroupAccountHistory transfer = new GroupAccountHistory ();
@@ -881,7 +875,6 @@ namespace Vision.Modules.Currency
                     null);
         }
 
-
         DateTime StartTransactionPeriod (int period, string periodType)
         {
             DateTime then = DateTime.Now;
@@ -942,7 +935,6 @@ namespace Vision.Modules.Currency
             return transferList;
         }
 
-
         static List<AgentPurchase> ParsePurchaseQuery(List<string> query)
         {
             var purchaseList = new List<AgentPurchase>();
@@ -966,6 +958,5 @@ namespace Vision.Modules.Currency
         }
             
         #endregion
-
     }
 }

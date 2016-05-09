@@ -37,7 +37,7 @@ using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
 
-namespace Vision.Modules.Currency
+namespace Vision.Modules.Currency.BaseCurrency
 {
     public class BaseCurrencyServiceModule : IMoneyModule, IService
     {
@@ -104,15 +104,13 @@ namespace Vision.Modules.Currency
                 };
             }
 
-
             // these are only valid if we are local
             if (m_connector.IsLocalConnector)
             {
                 m_userInfoService = m_registry.RequestModuleInterface<IAgentInfoService> ();
                 m_userAccountService = m_registry.RequestModuleInterface<IUserAccountService> ();
                     
-                AddCommands ();
-                
+                AddCommands ();             
             }
         }
 
@@ -140,7 +138,6 @@ namespace Vision.Modules.Currency
 
                     // not validated
                     e.landValidated = false;
-
                 }
             }
             return false;
@@ -180,7 +177,6 @@ namespace Vision.Modules.Currency
                     "show user purchases",
                     "Display user purchases for a period.",
                     HandleShowPurchases, false, true);
-
             }
         }
 
@@ -256,6 +252,7 @@ namespace Vision.Modules.Currency
                     }
                 }
             }
+
             return result;
         }
 
@@ -289,7 +286,6 @@ namespace Vision.Modules.Currency
             return m_connector.GetTransactionHistory(period, periodType, start, count);
         }
  
-
         public uint NumberOfPurchases(UUID UserID)
         {
             return m_connector.NumberOfPurchases(UserID);
@@ -332,7 +328,6 @@ namespace Vision.Modules.Currency
             return m_connector.GroupCurrencyTransfer(groupID, userID, payUser, toObjectName, fromObjectID,
                 fromObjectName, amount, description, type, transactionID);
         }
-
 
         #endregion
 
@@ -476,8 +471,10 @@ namespace Vision.Modules.Currency
                         }
                     }
                 }
+
                 return new OSDMap() {new KeyValuePair<string, OSD>("Success", false)};
             }
+
             return null;
         }
 
@@ -517,6 +514,7 @@ namespace Vision.Modules.Currency
 
                 return true;
             }
+
             return false;
         }
 
@@ -577,7 +575,6 @@ namespace Vision.Modules.Currency
                 if (toUserInfo != null && toUserInfo.IsOnline)
                     m_connector.SendUpdateMoneyBalanceToClient(account.PrincipalID, UUID.Zero, toUserInfo.CurrentRegionURI, (currency.Amount), "");
             }
-
         }
 
         protected void SetMoney(IScene scene, string[] cmd)
@@ -612,7 +609,6 @@ namespace Vision.Modules.Currency
             }
         }
 
-
         protected void GetMoney(IScene scene, string[] cmd)
         {
             UserAccount account = GetUserAccount ();
@@ -622,8 +618,8 @@ namespace Vision.Modules.Currency
             var currency = m_connector.GetUserCurrency(account.PrincipalID);
             MainConsole.Instance.Info(account.Name + " has " + StrUserBalance((int)currency.Amount));
         }
-
-/*
+        
+        /*
         protected void HandleStipendSet(IScene scene, string[] cmd)
         {
             string rawDate = MainConsole.Instance.Prompt("Date to pay next Stipend? (MM/dd/yyyy)");
@@ -632,14 +628,14 @@ namespace Vision.Modules.Currency
             
             // Make a new DateTime from rawDate
             DateTime newDate = DateTime.ParseExact(rawDate, "MM/dd/yyyy", CultureInfo.InvariantCulture);
-//            GiveStipends.StipendDate = newDate;
+            //GiveStipends.StipendDate = newDate;
 
             // Code needs to be added to run through the scheduler and change the 
             // RunsNext to the date that the user wants the scheduler to be
             // Fly-Man- 2-5-2015
             MainConsole.Instance.Info("Stipend Date has been set to" + newDate);
         }
-*/
+        */
         protected void HandleShowTransactions(IScene scene, string [] cmd)
         {
             UserAccount account = GetUserAccount ();
@@ -675,9 +671,7 @@ namespace Vision.Modules.Currency
                 transInfo += String.Format ("{0, -12}", transfer.ToBalance);
 
                 MainConsole.Instance.CleanInfo(transInfo);
-
             }
-
         }
 
         protected void HandleShowPurchases(IScene scene, string [] cmd)
@@ -711,7 +705,6 @@ namespace Vision.Modules.Currency
                 transInfo += String.Format ("{0, -12}", m_connector.RealCurrency + ((float)purchase.RealAmount / 100).ToString ("0.00"));
 
                 MainConsole.Instance.CleanInfo (transInfo);
-
             }
         }
         #endregion

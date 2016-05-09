@@ -37,7 +37,7 @@ using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Servers;
 
-namespace Vision.Modules.Currency
+namespace Vision.Modules.Currency.BaseCurrency
 {
     /* This module provides the necessary economy functionality for the viewer
        but with all values being $0
@@ -237,6 +237,7 @@ namespace Vision.Modules.Currency
                 catch (InvalidCastException)
                 {
                 }
+
                 Hashtable currencyResponse = new Hashtable {{"estimatedCost", 0}, {"currencyBuy", amount}};
 
                 quoteResponse.Add("success", true);

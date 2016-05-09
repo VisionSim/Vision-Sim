@@ -25,7 +25,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using System;
 using System.Collections;
 using System.Net;
@@ -42,7 +41,7 @@ using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Profile;
 
-namespace Vision.Modules.Currency
+namespace Vision.Modules.Currency.BaseCurrency
 {
     public class RPCHandler : IService
     {
@@ -124,6 +123,7 @@ namespace Vision.Modules.Currency
                     success = true;
                 }
             }
+
             XmlRpcResponse returnval = new XmlRpcResponse();
             Hashtable returnresp = new Hashtable { { "success", success } };
             returnval.Value = returnresp;
@@ -175,6 +175,7 @@ namespace Vision.Modules.Currency
 
                 return returnval;
             }
+
             returnval.Value = new Hashtable
                                   {
                                       {"success", false},

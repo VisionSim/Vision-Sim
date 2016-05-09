@@ -25,7 +25,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -36,7 +35,7 @@ using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.Servers;
 
-namespace Vision.Modules.Currency
+namespace Vision.Modules.Currency.BaseCurrency
 {
     public class BaseCurrencyConfig : IDataTransferable
     {
@@ -146,6 +145,7 @@ namespace Vision.Modules.Currency
                     MainConsole.Instance.Warn("[BaseCurrency]: Exception toOSD() config: " + ex.ToString());
                 }
             }
+
             return returnvalue;
         }
 
@@ -407,4 +407,3 @@ namespace Vision.Modules.Currency
         }
     }
 }
-

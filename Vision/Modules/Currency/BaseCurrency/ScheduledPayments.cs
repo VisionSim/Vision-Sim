@@ -25,7 +25,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +40,7 @@ using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Other;
 using Vision.Framework.Utilities;
 
-namespace Vision.Modules.Currency
+namespace Vision.Modules.Currency.BaseCurrency
 {
     public class ScheduledPayments : IService, IScheduledMoneyModule
     {
@@ -75,7 +74,7 @@ namespace Vision.Modules.Currency
         string stipendPayDay;           // the good day
         string stipendPayTime;          // the time to start work
         bool stipendsPremiumOnly;       // Premium members only
-//        bool stipendsLoadOldUsers;      //  ?? not sure if needed
+        //bool stipendsLoadOldUsers;      //  ?? not sure if needed
         bool stipendsLoginRequired;     // login required in the last week
         int schedulerInterval = 300;    // default to 5 mins
         bool showSchedulerTick = false;
@@ -197,8 +196,7 @@ namespace Vision.Modules.Currency
                 "show scheduler tick",
                 "show scheduler tick",
                 "Show scheduler activity in logs",
-                HandleShowSchedulerTick, false, true);
-            
+                HandleShowSchedulerTick, false, true);       
         }
 
 		void getStipendConfig()
@@ -215,19 +213,17 @@ namespace Vision.Modules.Currency
                 stipendPayDay = currCfg.GetString("StipendPayDay",Constants.STIPEND_PAY_DAY);
                 stipendPayTime = currCfg.GetString("StipendPayTime",Constants.STIPEND_PAY_TIME);
 				stipendsPremiumOnly = currCfg.GetBoolean("StipendsPremiumOnly",false);
-//				stipendsLoadOldUsers = currCfg.GetBoolean ("StipendsLoadOldUsers", false);
+                //stipendsLoadOldUsers = currCfg.GetBoolean ("StipendsLoadOldUsers", false);
 				stipendsLoginRequired = currCfg.GetBoolean ("StipendsLoginRequired", false);
                 schedulerInterval = currCfg.GetInt ("SchedulerInterval", Constants.SCHEDULER_INTERVAL);
 
                 payGroups = currCfg.GetBoolean("GroupPayments",false);
                 directoryFee = currCfg.GetInt ("PriceDirectoryFee", 0);
-
             }
 
             // some sanity checks
             payStipends &= stipendAmount != 0;
             payGroups &= directoryFee != 0;
-
 		}
 
         #endregion
@@ -302,6 +298,7 @@ namespace Vision.Modules.Currency
                             description, currencySymbol, amount, user.Name);
                 }
             }
+
             return true;
         }
 
@@ -341,8 +338,7 @@ namespace Vision.Modules.Currency
             }
 
             // all good.. just clear it
-            scheduler.RemoveFireFunction(fireFunction);
-            
+            scheduler.RemoveFireFunction(fireFunction);    
         }
 
         object ChargeNext(string functionName, object parameters)
@@ -391,7 +387,6 @@ namespace Vision.Modules.Currency
                     // check for a 'runOnce' charge
                     if ((schItem != null) && schItem.RunOnce)
                         scheduler.RemoveID (scdID);
-                    
                 }
                 else
                 {
@@ -399,9 +394,9 @@ namespace Vision.Modules.Currency
                         scheduler.RemoveID(scdID);
                 }
             }
+
             return null;
         }
-
 
         bool CheckWhetherUserShouldPay(UUID agentID, string text)
         {
@@ -455,7 +450,6 @@ namespace Vision.Modules.Currency
             }            
 
             // scheduled payments are always processed
-            //nextScheduledPayment = GetStipendPaytime(Constants.SCHEDULED_PAYMENTS_DELAY);  
             nextScheduledPayment = DateTime.Now.AddSeconds (Constants.SCHEDULER_INTERVAL);
 
             taskTimer.Interval = schedulerInterval * 1000;         // seconds 
@@ -530,7 +524,6 @@ namespace Vision.Modules.Currency
                 stipendInterval = 1;
 
             return periodMult * stipendInterval;
-
         }
 
         /// <summary>
@@ -582,7 +575,6 @@ namespace Vision.Modules.Currency
         /// <returns>The stipend paytime.</returns>
         public DateTime GetStipendPaytime(int minsOffset)
         {
-
             int paydayDow;
             if (stipendPayDay != "")            
             {
@@ -611,8 +603,8 @@ namespace Vision.Modules.Currency
                 // process time was earlier than today 
                 nxtPayTime = nxtPayTime.AddDays ((double) cycleDays);
             }
-            return nxtPayTime;  
 
+            return nxtPayTime;  
         }
 
         /// <summary>
@@ -734,8 +726,7 @@ namespace Vision.Modules.Currency
                     payValue,
                     "Stipends reset",
                     TransactionType.SystemGenerated
-                );
-               
+                );      
             }
             */
 
@@ -747,7 +738,6 @@ namespace Vision.Modules.Currency
             nextStipendPayment = GetStipendPaytime (0);
             MainConsole.Instance.InfoFormat ("[Currency]: The next stipend payment is scheduled for {0}",
                 String.Format("{0:f}",nextStipendPayment));
-
         }
 
         #endregion
@@ -756,7 +746,6 @@ namespace Vision.Modules.Currency
  
         void ScheduledPaymentsInfo()
         {
-
             var userService = m_registry.RequestModuleInterface<IUserAccountService> ();
 
             int payments = 0;
@@ -765,7 +754,7 @@ namespace Vision.Modules.Currency
             string paymentInfo;
 
             paymentInfo = String.Format ("{0, -20}", "User");
-//            paymentInfo += String.Format ("{0, -34}", "Description");
+            //paymentInfo += String.Format ("{0, -34}", "Description");
             paymentInfo += String.Format ("{0, -30}", "Transaction");
             paymentInfo += String.Format ("{0, -10}", "Amount");
             paymentInfo += String.Format ("{0, -10}", "Scheduled");
@@ -781,8 +770,6 @@ namespace Vision.Modules.Currency
             
                 OSDMap itemInfo = (OSDMap)OSDParser.DeserializeJson (I.FireParams);
                 UUID agentID = itemInfo ["AgentID"];
-                //string scdID = itemInfo ["SchedulerID"];
-                //string description = itemInfo ["Text"];
                 int amount = itemInfo ["Amount"];
                 DateTime chargeTime = itemInfo ["StartTime"];
                 TransactionType transType = !itemInfo.ContainsKey ("Type") ? TransactionType.SystemGenerated : (TransactionType)itemInfo ["Type"].AsInteger ();
@@ -790,7 +777,6 @@ namespace Vision.Modules.Currency
                 var user = userService.GetUserAccount (null, agentID);
 
                 paymentInfo = String.Format ("{0, -20}", user.Name);
-  //              paymentInfo += String.Format ("{0, -34}", description.Substring (0, 32));   
                 paymentInfo += String.Format ("{0, -30}", Utilities.TransactionTypeInfo(transType));
                 paymentInfo += String.Format ("{0, -10}", amount);
                 paymentInfo += String.Format ("{0:f}", chargeTime);
@@ -828,7 +814,6 @@ namespace Vision.Modules.Currency
             var startScheduled = DateTime.Now;
             var schPayments = 0;
 
-
             List<SchedulerItem> CurrentSchedule = sched_database.ToRun(nextScheduledPayment);
             foreach (SchedulerItem I in CurrentSchedule)
             {
@@ -845,13 +830,7 @@ namespace Vision.Modules.Currency
                 if (showSchedulerTick)
                     MainConsole.Instance.Info ("[Currency]: No scheduled payments at this time.");
 
-            // reset in case this is a manual 'paynow'
-            //nextScheduledPayment = GetStipendPaytime (Constants.SCHEDULED_PAYMENTS_DELAY);  
-            //MainConsole.Instance.InfoFormat ("[Currency]: The next scheduled payment cycle is scheduled for {0}",
-            //    String.Format("{0:f}",nextScheduledPayment));
-
             nextScheduledPayment = DateTime.Now.AddSeconds (Constants.SCHEDULER_INTERVAL);
-
         }
 
         void FireScheduleEvent(SchedulerItem I, DateTime nextPayTime)
@@ -891,8 +870,7 @@ namespace Vision.Modules.Currency
                 {
                     MainConsole.Instance.ErrorFormat("[Scheduler]: FireEvent Error {0}: {1}", I.id, e);
                 }
-            }
-                
+            }          
         }
 
         #endregion
@@ -919,7 +897,6 @@ namespace Vision.Modules.Currency
             
             if (groups != null)
             {
-
                // check each group
                 foreach (UUID groupID in groups)
                 {
@@ -949,13 +926,12 @@ namespace Vision.Modules.Currency
                 nextSched.Minutes,
                 nextSched.Minutes == 1 ? "" :"s"
             );
+
             MainConsole.Instance.InfoFormat ("            Cycle   : {0} {1}{2}",
                 stipendInterval, stipendPeriod, stipendInterval == 1 ? "" : "s");
             MainConsole.Instance.InfoFormat ("            Groups  : {0}", liableGroups);
             MainConsole.Instance.InfoFormat ("     Directory fee  : {0}{1}", currencySymbol, directoryFee);
             MainConsole.Instance.InfoFormat ("      Fees payable  : {0}{1}", currencySymbol, dirFees);
-
-
         }
 
         void ProcessGroupLiability()
@@ -994,7 +970,6 @@ namespace Vision.Modules.Currency
 
                 foreach (UUID groupID in groups)
                 {
-
                     var groupRec = groupsModule.GetGroupRecord((UUID) Constants.BankerUUID, groupID, null);
                     var groupName = groupRec.GroupName;
 
@@ -1028,6 +1003,7 @@ namespace Vision.Modules.Currency
                         if (((GroupPowers)member.AgentPowers & GroupPowers.Accountable) == GroupPowers.Accountable)
                             payMembers.Add (member.AgentID);
                     }
+
                     if (payMembers.Count == 0)      // no one to pay??
                     continue;
                 
@@ -1077,7 +1053,6 @@ namespace Vision.Modules.Currency
                 String.Format("{0:f}",nextGroupPayment));
 
             return;
-
         }
 
         void ProcessGroupDividends ()
@@ -1105,8 +1080,7 @@ namespace Vision.Modules.Currency
                 groups = groupsModule.GetAllGroups ((UUID) Constants.BankerUUID);
             
             if (groups != null)
-            {
-                
+            {       
                 // check each group
                 GroupBalance grpBalance;
                 bool xfrd;
@@ -1132,6 +1106,7 @@ namespace Vision.Modules.Currency
                         if (((GroupPowers)member.AgentPowers & GroupPowers.Accountable) == GroupPowers.Accountable)
                             payMembers.Add (member.AgentID);
                     }
+
                     if (payMembers.Count == 0)      // no one to pay??
                     continue;
 
@@ -1141,7 +1116,6 @@ namespace Vision.Modules.Currency
                 
                     foreach (var memberID in payMembers)
                     {
-
                         // pay them...
                         xfrd = moneyModule.Transfer (
                             memberID,
@@ -1150,7 +1124,6 @@ namespace Vision.Modules.Currency
                             "Group dividend",
                             TransactionType.SystemGenerated
                         );
-
 
                         // keep track
                         if (xfrd)
@@ -1281,7 +1254,6 @@ namespace Vision.Modules.Currency
                     stipendsLoginRequired = MainConsole.Instance.Prompt ("Require a recent login for Free members? (yes/no)",
                         (stipendsLoginRequired ? "yesy" : "no")).ToLower() == "yes";
                 // not sure about this one??  //StipendsLoadOldUsers = currCfg.GetBoolean ("StipendsLoadOldUsers", false);
-
             }
 
 			// ensure we are enabled
@@ -1289,7 +1261,6 @@ namespace Vision.Modules.Currency
 
             payStipends = true;
             InitializeScheduleTimer();
-
 		}
 
 		protected void HandleStipendDisable(IScene scene, string[] cmd)
@@ -1320,9 +1291,7 @@ namespace Vision.Modules.Currency
             nextStipendPayment = DateTime.Now; 
             SetSchedTimer (10);
             MainConsole.Instance.InfoFormat ("[Currency]: Stipend payments will commence in {0} seconds.", 10);
-
         }
-
 
         protected void HandleStipendReset(IScene scene, string[] cmd)
         {
@@ -1331,9 +1300,7 @@ namespace Vision.Modules.Currency
 
             MainConsole.Instance.Info ("[Currency]; Stipend configuration reloaded");
             StipendInfo ();
-
         }
-
 
         protected void HandleGrouppayEnable(IScene scene, string[] cmd)
         {
@@ -1353,7 +1320,6 @@ namespace Vision.Modules.Currency
             MainConsole.Instance.Info ("[Currency]; Group payments have been enabled");
             MainConsole.Instance.CleanInfoFormat ("          The next group payment cycle is scheduled for {0}",
                   nextGroupPayment.ToLongDateString());
-
         }
 
         protected void HandleGrouppayDisable(IScene scene, string[] cmd)
@@ -1384,7 +1350,6 @@ namespace Vision.Modules.Currency
             nextGroupPayment = DateTime.Now; 
             SetSchedTimer(10);
             MainConsole.Instance.InfoFormat ("[Currency]: Group payments will commence in {0} seconds.", 10);
-
         }
 
         protected void HandleGrouppayPayDividends(IScene scene, string[] cmd)
@@ -1393,7 +1358,6 @@ namespace Vision.Modules.Currency
             nextGroupDividend = DateTime.Now; 
             SetSchedTimer(10);
             MainConsole.Instance.InfoFormat ("[Currency]: Group dividend payments will commence in {0} seconds.", 10);
-
         }
 
         protected void HandleScheduledPayInfo (IScene scene, string[] cmd)
@@ -1407,7 +1371,6 @@ namespace Vision.Modules.Currency
             nextScheduledPayment = DateTime.Now; 
             SetSchedTimer(10);
             MainConsole.Instance.InfoFormat ("[Currency]: Scheduled payments will commence in {0} seconds.", 10);
-
         }
 
         protected void HandleShowSchedulerTick (IScene scene, string[] cmd)
@@ -1416,7 +1379,6 @@ namespace Vision.Modules.Currency
             showSchedulerTick = activity.ToLower().StartsWith("y");
 
             MainConsole.Instance.Info ("[Scheduler]: Activity tracking " + (showSchedulerTick ? "enabled" : "disabled"));
-
         }
         #endregion
     }

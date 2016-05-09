@@ -25,7 +25,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using System;
 using Nini.Config;
 using OpenMetaverse;
@@ -35,7 +34,7 @@ using Vision.Framework.Modules;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
 
-namespace Vision.Modules.Currency
+namespace Vision.Modules.Currency.BaseCurrency
 {
     public class GroupPayments : IService
     {
