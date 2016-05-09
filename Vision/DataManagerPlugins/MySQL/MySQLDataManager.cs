@@ -66,8 +66,14 @@ namespace Vision.DataManager.MySQL
             catch
             {
                 MainConsole.Instance.Error(
-                    "[MySQL Database]: We cannot connect to the MySQL instance you have provided. Please make sure it is online, and then press enter to try again.");
-                Console.Read();
+                    "[MySQL Data base]: We cannot connect to the MySQL instance you have provided. Please make sure it is online, and then press enter to try again.");
+                try
+                {
+                    Console.Read();
+                }
+                catch
+                {
+                }
                 goto retry;
             }
 
@@ -84,12 +90,14 @@ namespace Vision.DataManager.MySQL
         public override void CloseDatabase(DataReaderConnection connection)
         {
             if (connection != null && connection.DataReader != null)
+            {
                 connection.DataReader.Close();
+            }
         }
 
         #endregion
 
-        #region Query
+            #region Query
 
         public IDataReader Query(string sql, Dictionary<string, object> parameters)
         {
@@ -361,6 +369,7 @@ namespace Vision.DataManager.MySQL
                     parts.Add(string.Format("{0} = {1}", value.Key, key));
                 }
             }
+
             if (incrementValue != null)
             {
                 foreach (KeyValuePair<string, int> value in incrementValue)
@@ -390,6 +399,7 @@ namespace Vision.DataManager.MySQL
             {
                 MainConsole.Instance.Error("[MySQL Data Loader] Update(" + query + "), " + e);
             }
+
             return true;
         }
 
@@ -422,6 +432,7 @@ namespace Vision.DataManager.MySQL
             {
                 MainConsole.Instance.Error("[MySQL Data Loader] Insert(" + query + "), " + e);
             }
+
             return true;
         }
 
@@ -446,6 +457,7 @@ namespace Vision.DataManager.MySQL
             {
                 MainConsole.Instance.Error("[MySQL Data Loader] Insert(" + query + "), " + e);
             }
+
             return true;
         }
 
@@ -745,6 +757,7 @@ namespace Vision.DataManager.MySQL
                         break;
                     }
                 }
+
                 if (!found)
                 {
                     removeIndices.Add(oldIndexNames[i]);
@@ -763,6 +776,7 @@ namespace Vision.DataManager.MySQL
                         break;
                     }
                 }
+
                 if (!found)
                 {
                     newIndices.Add(newIndex);
@@ -1059,7 +1073,6 @@ namespace Vision.DataManager.MySQL
                     if (rdr != null)
                     {
                         rdr.Close();
-                        //rdr.Dispose ();
                     }
                 }
                 catch (Exception e)
@@ -1117,7 +1130,6 @@ namespace Vision.DataManager.MySQL
 
             foreach (KeyValuePair<string, Dictionary<uint, string>> index in indexLookup)
             {
-                //index.Value.OrderBy(x => x.Key);
                 defs[index.Key] = new IndexDefinition
                 {
                     Fields = index.Value.Values.ToArray<string>(),
