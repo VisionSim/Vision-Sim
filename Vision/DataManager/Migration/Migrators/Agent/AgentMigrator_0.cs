@@ -1,5 +1,5 @@
-﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+/*
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -27,7 +27,6 @@
 
 using System;
 using System.Collections.Generic;
-using Vision.Framework.Services;
 using Vision.Framework.Utilities;
 
 namespace Vision.DataManager.Migration.Migrators.Agent
@@ -41,67 +40,25 @@ namespace Vision.DataManager.Migration.Migrators.Agent
 
             Schema = new List<SchemaDefinition>();
 
-            AddSchema("user_profile", ColDefs(
+            AddSchema("userdata", ColDefs(
                 ColDef("ID", ColumnTypes.String45),
                 ColDef("Key", ColumnTypes.String50),
                 ColDef("Value", ColumnTypes.Text)
                                       ), IndexDefs(
-                                          IndexDef(new string[2] { "ID", "Key" }, IndexType.Primary)
+                                          IndexDef(new string[2] {"ID", "Key"}, IndexType.Primary)
                                              ));
 
-            AddSchema("user_classifieds", ColDefs(
-                ColDef("Name", ColumnTypes.String50),
-                ColDef("Category", ColumnTypes.String50),
-                ColDef("SimName", ColumnTypes.String50),
-                ColDef("OwnerUUID", ColumnTypes.String50),
-                new ColumnDefinition
-                {
-                    Name = "ScopeID",
-                    Type = new ColumnTypeDef
-                    {
-                        Type = ColumnType.UUID,
-                        defaultValue = OpenMetaverse.UUID.Zero.ToString()
-                    }
-                },
-                ColDef("ClassifiedUUID", ColumnTypes.String50),
-                ColDef("Classified", ColumnTypes.String8196),
-                new ColumnDefinition
-                {
-                    Name = "Price",
-                    Type = new ColumnTypeDef
-                    {
-                        Type = ColumnType.Integer,
-                        Size = 11,
-                        defaultValue = "0"
-                    }
-                },
-                new ColumnDefinition
-                {
-                    Name = "Keyword",
-                    Type = new ColumnTypeDef
-                    {
-                        Type = ColumnType.String,
-                        Size = 512,
-                        defaultValue = ""
-                    }
-                }
-                                             ), IndexDefs(
-                                                 IndexDef(new string[1] { "ClassifiedUUID" }, IndexType.Primary),
-                                                 IndexDef(new string[2] { "Name", "Category" }, IndexType.Index),
-                                                 IndexDef(new string[1] { "OwnerUUID" }, IndexType.Index),
-                                                 IndexDef(new string[1] { "Keyword" }, IndexType.Index, 255)
-                                                    ));
+            AddSchema("macban", ColDefs(
+                ColDef("macAddress", ColumnTypes.String50)
+                                    ), IndexDefs(
+                                        IndexDef(new string[1] {"macAddress"}, IndexType.Primary)
+                                           ));
 
-            AddSchema("user_picks", ColDefs(
-                ColDef("Name", ColumnTypes.String50),
-                ColDef("SimName", ColumnTypes.String50),
-                ColDef("OwnerUUID", ColumnTypes.String50),
-                ColDef("PickUUID", ColumnTypes.String50),
-                ColDef("Pick", ColumnTypes.String8196)
-                                       ), IndexDefs(
-                                           IndexDef(new string[1] { "PickUUID" }, IndexType.Primary),
-                                           IndexDef(new string[1] { "OwnerUUID" }, IndexType.Index)
-                                              ));
+            AddSchema("bannedviewers", ColDefs(
+                ColDef("Client", ColumnTypes.String50)
+                                           ), IndexDefs(
+                                               IndexDef(new string[1] {"Client"}, IndexType.Primary)
+                                                  ));
         }
 
         protected override void DoCreateDefaults(IDataConnector genericData)
@@ -122,12 +79,6 @@ namespace Vision.DataManager.Migration.Migrators.Agent
         protected override void DoPrepareRestorePoint(IDataConnector genericData)
         {
             CopyAllTablesToTempVersions(genericData);
-        }
-
-        public override void FinishedMigration(IDataConnector genericData)
-        {
-            genericData.DropTable("macban");
-            genericData.DropTable("bannedviewers");
         }
     }
 }

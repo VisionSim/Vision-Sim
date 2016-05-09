@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/,  http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,6 +59,7 @@ namespace Vision.Modules.Web
             get { return true; }
         }
 
+
         public Dictionary<string, object> Fill(WebInterface webInterface, string filename, OSHttpRequest httpRequest,
                                                OSHttpResponse httpResponse, Dictionary<string, object> requestParameters,
                                                ITranslator translator, out string response)
@@ -76,7 +77,7 @@ namespace Vision.Modules.Web
 
             if (userService != null)
                 account = userService.GetUserAccount(null, userID);
-
+            
             var agentService = Framework.Utilities.DataManager.RequestPlugin<IAgentConnector>();
             IAgentInfo agent = agentService.GetAgent(userID);
 
@@ -87,28 +88,23 @@ namespace Vision.Modules.Web
             if (requestParameters.ContainsKey("Submit") &&
                 requestParameters["Submit"].ToString() == "SubmitSetUserType")
             {
-                string UserType = requestParameters["UserType"].ToString();
-                int UserFlags = webInterface.UserTypeToUserFlags(UserType);
+
+                string UserType = requestParameters ["UserType"].ToString ();
+                int UserFlags = webInterface.UserTypeToUserFlags (UserType);
 
                 // set the user account type
-                if (account != null)
-                {
+                if (account != null) {
                     account.UserFlags = UserFlags;
-                    userService.StoreUserAccount(account);
-                }
-                else
-                {
+                    userService.StoreUserAccount (account);
+                } else {
                     response = "Unable to update user account!'";
                     return null;
                 }
 
-                if (agent != null)
-                {
-                    agent.OtherAgentInformation["UserFlags"] = UserFlags;
-                    agentService.UpdateAgent(agent);
-                }
-                else
-                {
+                if (agent != null) {
+                    agent.OtherAgentInformation ["UserFlags"] = UserFlags;
+                    agentService.UpdateAgent (agent);
+                } else {
                     response = "Agent information is not available! Has the user logged in yet?";
                     return null;
                 }
@@ -117,15 +113,15 @@ namespace Vision.Modules.Web
                     Framework.Utilities.DataManager.RequestPlugin<IProfileConnector>();
                 if (profileData != null)
                 {
-                    IUserProfileInfo profile = profileData.GetUserProfile(userID);
+                    IUserProfileInfo profile = profileData.GetUserProfile (userID);
                     if (profile == null)
                     {
-                        profileData.CreateNewProfile(userID);
-                        profile = profileData.GetUserProfile(userID);
+                        profileData.CreateNewProfile (userID);
+                        profile = profileData.GetUserProfile (userID);
                     }
 
-                    profile.MembershipGroup = webInterface.UserFlagToType(UserFlags, webInterface.EnglishTranslator);    // membership is english
-                    profileData.UpdateUserProfile(profile);
+                    profile.MembershipGroup = webInterface.UserFlagToType (UserFlags, webInterface.EnglishTranslator);    // membership is english
+                    profileData.UpdateUserProfile (profile);
                 }
 
                 response = "User has been updated.";
@@ -196,12 +192,11 @@ namespace Vision.Modules.Web
                 if (agent != null)
                 {
                     agent.Flags |= IAgentFlags.TempBan;
-                    DateTime until = DateTime.Now.AddDays(timeDays).AddHours(timeHours).AddMinutes(timeMinutes);
-                    agent.OtherAgentInformation["TemperaryBanInfo"] = until;
-                    agentService.UpdateAgent(agent);
+                    DateTime until = DateTime.Now.AddDays (timeDays).AddHours (timeHours).AddMinutes (timeMinutes);
+                    agent.OtherAgentInformation ["TemperaryBanInfo"] = until;
+                    agentService.UpdateAgent (agent);
                     response = "User has been banned.";
-                }
-                else
+                } else
                     response = "Agent information is not available! Has the user logged in yet?";
 
                 return null;
@@ -211,13 +206,12 @@ namespace Vision.Modules.Web
             if (requestParameters.ContainsKey("Submit") &&
                 requestParameters["Submit"].ToString() == "SubmitBanUser")
             {
-                if (agent != null)
+                if( agent != null)
                 {
                     agent.Flags |= IAgentFlags.PermBan;
                     agentService.UpdateAgent(agent);
                     response = "User has been banned.";
-                }
-                else
+                } else
                     response = "Agent information is not available! Has the user logged in yet?";
 
                 return null;
@@ -235,8 +229,7 @@ namespace Vision.Modules.Web
                     agent.OtherAgentInformation.Remove("TemperaryBanInfo");
                     agentService.UpdateAgent(agent);
                     response = "User has been unbanned.";
-                }
-                else
+                } else
                     response = "Agent information is not available! Has the user logged in yet?";
 
                 return null;
@@ -302,7 +295,6 @@ namespace Vision.Modules.Web
                     bannedUntil = string.Format("{0} {1}", bannedTime.ToShortDateString(), bannedTime.ToLongTimeString());
                 }
             }
-
             bool userOnline = false;
             IAgentInfoService agentInfoService = webInterface.Registry.RequestModuleInterface<IAgentInfoService>();
             if (agentInfoService != null)
@@ -310,7 +302,6 @@ namespace Vision.Modules.Web
                 UserInfo info = agentInfoService.GetUserInfo(account.PrincipalID.ToString());
                 userOnline = info != null ? info.IsOnline : false;
             }
-
             vars.Add("UserOnline", userOnline);
             vars.Add("NotUserBanned", !userBanned);
             vars.Add("UserBanned", userBanned);
@@ -335,7 +326,7 @@ namespace Vision.Modules.Web
             vars.Add("Login", translator.GetTranslatedString("Login"));
             vars.Add("TypeUserNameToConfirm", translator.GetTranslatedString("TypeUserNameToConfirm"));
 
-            vars.Add("AdminUserTypeInfoText", translator.GetTranslatedString("AdminUserTypeInfoText"));
+            vars.Add("AdminUserTypeInfoText",translator.GetTranslatedString("AdminUserTypeInfoText"));
             vars.Add("AdminSetUserTypeText", translator.GetTranslatedString("UserTypeText"));
 
             vars.Add("AdminLoginInAsUserText", translator.GetTranslatedString("AdminLoginInAsUserText"));
@@ -364,15 +355,15 @@ namespace Vision.Modules.Web
 
             List<Dictionary<string, object>> daysArgs = new List<Dictionary<string, object>>();
             for (int i = 0; i <= 100; i++)
-                daysArgs.Add(new Dictionary<string, object> { { "Value", i } });
+                daysArgs.Add(new Dictionary<string, object> {{"Value", i}});
 
             List<Dictionary<string, object>> hoursArgs = new List<Dictionary<string, object>>();
             for (int i = 0; i <= 23; i++)
-                hoursArgs.Add(new Dictionary<string, object> { { "Value", i } });
+                hoursArgs.Add(new Dictionary<string, object> {{"Value", i}});
 
             List<Dictionary<string, object>> minutesArgs = new List<Dictionary<string, object>>();
             for (int i = 0; i <= 59; i++)
-                minutesArgs.Add(new Dictionary<string, object> { { "Value", i } });
+                minutesArgs.Add(new Dictionary<string, object> {{"Value", i}});
 
             vars.Add("Days", daysArgs);
             vars.Add("Hours", hoursArgs);

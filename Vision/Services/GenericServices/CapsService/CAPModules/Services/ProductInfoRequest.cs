@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -24,6 +24,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 
 using System.IO;
 using OpenMetaverse.StructuredData;
@@ -99,7 +100,7 @@ namespace Vision.Services
             data.Add(eo);
 
             var wh = new OSDMap ();
-            wh ["name"] = "whitecore_homes";
+            wh ["name"] = "vision_homes";
             wh ["description"] = "Vision Homes / Full Region";
             wh ["sku"] = "101";
             data.Add(wh);

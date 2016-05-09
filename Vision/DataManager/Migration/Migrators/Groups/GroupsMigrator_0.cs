@@ -1,5 +1,5 @@
-﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+/*
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,19 +40,17 @@ namespace Vision.DataManager.Migration.Migrators.Groups
 
             Schema = new List<SchemaDefinition>();
 
-            // Group Agent
-            AddSchema("group_agent", ColDefs(
+            AddSchema("osagent", ColDefs(
                 ColDef("AgentID", ColumnTypes.String50),
                 ColDef("ActiveGroupID", ColumnTypes.String50)
                                      ), IndexDefs(
-                                         IndexDef(new string[1] { "AgentID" }, IndexType.Primary)
+                                         IndexDef(new string[1] {"AgentID"}, IndexType.Primary)
                                             ));
 
-            // Group Data
-            AddSchema("group_data", ColDefs(
+            AddSchema("osgroup", ColDefs(
                 ColDef("GroupID", ColumnTypes.String50),
                 ColDef("Name", ColumnTypes.String50),
-                ColDef("Charter", ColumnTypes.Text),
+                ColDef("Charter", ColumnTypes.String50),
                 ColDef("InsigniaID", ColumnTypes.String50),
                 ColDef("FounderID", ColumnTypes.String50),
                 ColDef("MembershipFee", ColumnTypes.String50),
@@ -61,103 +59,68 @@ namespace Vision.DataManager.Migration.Migrators.Groups
                 ColDef("AllowPublish", ColumnTypes.String50),
                 ColDef("MaturePublish", ColumnTypes.String50),
                 ColDef("OwnerRoleID", ColumnTypes.String50)
-            ), IndexDefs(
-                IndexDef(new string[1] { "GroupID" }, IndexType.Primary),
-                IndexDef(new string[1] { "Name" }, IndexType.Unique)
-            ));
+                                     ), IndexDefs(
+                                         IndexDef(new string[1] {"GroupID"}, IndexType.Primary)
+                                            ));
 
-            // Group Invites
-            AddSchema("group_invite", ColDefs(
+            AddSchema("osgroupinvite", ColDefs(
                 ColDef("InviteID", ColumnTypes.String50),
                 ColDef("GroupID", ColumnTypes.String50),
                 ColDef("RoleID", ColumnTypes.String50),
                 ColDef("AgentID", ColumnTypes.String50),
                 ColDef("TMStamp", ColumnTypes.String50),
                 ColDef("FromAgentName", ColumnTypes.String50)
-            ), IndexDefs(
-                IndexDef(new string[4] { "InviteID", "GroupID", "RoleID", "AgentID" },
-                    IndexType.Primary),
-                IndexDef(new string[2] { "AgentID", "InviteID" }, IndexType.Index)
-            ));
+                                           ), IndexDefs(
+                                               IndexDef(new string[4] {"InviteID", "GroupID", "RoleID", "AgentID"},
+                                                        IndexType.Primary)
+                                                  ));
 
-            // Group Membership
-            AddSchema("group_membership", ColDefs(
+            AddSchema("osgroupmembership", ColDefs(
                 ColDef("GroupID", ColumnTypes.String50),
                 ColDef("AgentID", ColumnTypes.String50),
                 ColDef("SelectedRoleID", ColumnTypes.String50),
                 ColDef("Contribution", ColumnTypes.String45),
                 ColDef("ListInProfile", ColumnTypes.String45),
                 ColDef("AcceptNotices", ColumnTypes.String45)
-            ), IndexDefs(
-                IndexDef(new string[2] { "GroupID", "AgentID" }, IndexType.Primary),
-                IndexDef(new string[1] { "AgentID" }, IndexType.Index)
-            ));
+                                               ), IndexDefs(
+                                                   IndexDef(new string[2] {"GroupID", "AgentID"}, IndexType.Primary)
+                                                      ));
 
-            // Group Notices
-            AddSchema("group_notice", ColDefs(
+            AddSchema("osgroupnotice", ColDefs(
                 ColDef("GroupID", ColumnTypes.String50),
                 ColDef("NoticeID", ColumnTypes.String50),
                 ColDef("Timestamp", ColumnTypes.String50),
-                ColDef("FromName", ColumnTypes.String255),
-                ColDef("Subject", ColumnTypes.String255),
-                ColDef("Message", ColumnTypes.Text),
+                ColDef("FromName", ColumnTypes.String50),
+                ColDef("Subject", ColumnTypes.String50),
+                ColDef("Message", ColumnTypes.String1024),
                 ColDef("HasAttachment", ColumnTypes.String50),
                 ColDef("ItemID", ColumnTypes.String50),
                 ColDef("AssetType", ColumnTypes.String50),
                 ColDef("ItemName", ColumnTypes.String50)
-            ), IndexDefs(
-                IndexDef(new string[3] { "GroupID", "NoticeID", "Timestamp" },
-                    IndexType.Primary)
-            ));
+                                           ), IndexDefs(
+                                               IndexDef(new string[3] {"GroupID", "NoticeID", "Timestamp"},
+                                                        IndexType.Primary)
+                                                  ));
 
-            // Group Role Membership
-            AddSchema("group_role_membership", ColDefs(
+            AddSchema("osgrouprolemembership", ColDefs(
                 ColDef("GroupID", ColumnTypes.String50),
                 ColDef("RoleID", ColumnTypes.String50),
                 ColDef("AgentID", ColumnTypes.String50)
-            ), IndexDefs(
-                IndexDef(new string[3] { "GroupID", "RoleID", "AgentID" },
-                    IndexType.Primary),
-                IndexDef(new string[2] { "AgentID", "GroupID" }, IndexType.Index)
-            ));
+                                                   ), IndexDefs(
+                                                       IndexDef(new string[3] {"GroupID", "RoleID", "AgentID"},
+                                                                IndexType.Primary)
+                                                          ));
 
-            // Group Roles
-            AddSchema("group_roles", ColDefs(
+            AddSchema("osrole", ColDefs(
                 ColDef("GroupID", ColumnTypes.String50),
                 ColDef("RoleID", ColumnTypes.String50),
-                ColDef("Name", ColumnTypes.String255),
-                ColDef("Description", ColumnTypes.String255),
-                ColDef("Title", ColumnTypes.String255),
+                ColDef("Name", ColumnTypes.String512),
+                ColDef("Description", ColumnTypes.String512),
+                ColDef("Title", ColumnTypes.String512),
                 ColDef("Powers", ColumnTypes.String50)
-            ), IndexDefs(
-                IndexDef(new string[2] { "GroupID", "RoleID" }, IndexType.Primary),
-                IndexDef(new string[1] { "RoleID" }, IndexType.Index)
-            ));
-
-            // Group Proposals - They currently are stored as generic data so might reconsider this.
-            AddSchema("group_proposals", ColDefs(
-                ColDef("GroupID", ColumnTypes.String50),
-                ColDef("Duration", ColumnTypes.Integer11),
-                ColDef("Majority", ColumnTypes.Float),
-                ColDef("Text", ColumnTypes.Text),
-                ColDef("Quorum", ColumnTypes.Integer11),
-                ColDef("Session", ColumnTypes.String50),
-                ColDef("BallotInitiator", ColumnTypes.String50),
-                ColDef("Created", ColumnTypes.DateTime),
-                ColDef("Ending", ColumnTypes.DateTime),
-                ColDef("VoteID", ColumnTypes.String50)));
-
-            // Group Proposal Votes
-            AddSchema("group_proposals_votes", ColDefs(
-                ColDef("ProposalID", ColumnTypes.String50),
-                ColDef("UserID", ColumnTypes.String50),
-                ColDef("Vote", ColumnTypes.String10)));
-
-            // groupbans
-            AddSchema("group_bans", ColDefs(
-                ColDef("GroupID", ColumnTypes.String50),
-                ColDef("AgentID", ColumnTypes.String50),
-                ColDef("BanTime", ColumnTypes.DateTime)));
+                                    ), IndexDefs(
+                                        IndexDef(new string[2] {"GroupID", "RoleID"}, IndexType.Primary)
+                                           ));
         }
 
         protected override void DoCreateDefaults(IDataConnector genericData)

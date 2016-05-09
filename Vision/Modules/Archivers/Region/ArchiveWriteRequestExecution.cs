@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -54,13 +54,13 @@ namespace Vision.Modules.Archivers
         protected Guid m_requestId;
         protected IScene m_scene;
         protected List<ISceneEntity> m_sceneObjects;
-        protected IRegionSerialiserModule m_serialiser;
+        protected IRegionSerializerModule m_serialiser;
         protected ITerrainModule m_terrainModule;
 
         public ArchiveWriteRequestExecution(
             List<ISceneEntity> sceneObjects,
             ITerrainModule terrainModule,
-            IRegionSerialiserModule serialiser,
+            IRegionSerializerModule serialiser,
             IScene scene,
             TarArchiveWriter archiveWriter,
             Guid requestId)

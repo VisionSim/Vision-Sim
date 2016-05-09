@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -141,7 +141,7 @@ namespace Vision.Framework.Utilities
                 {
                     if (errorMessage == "")//No error
                     {
-                        // This just dumps a warning for any operation that takes more than 10000 ms
+                        // This just dumps a warning for any operation that takes more than 5000 ms
                         if (MainConsole.Instance.IsDebugEnabled)
                         {
                             System.Diagnostics.StackTrace stackTrace = new System.Diagnostics.StackTrace();
@@ -151,7 +151,7 @@ namespace Vision.Framework.Utilities
                                 url, method, tickelapsed,
                                 stackTrace.GetFrame(3).GetMethod().Name));
                         }
-                        if (tickelapsed > 10000)
+                        if (tickelapsed > 5000)
                         {
                             MainConsole.Instance.Info(
                                 string.Format("[WebUtils]: Slow request - (URI:{0}, METHOD:{1}) took {2}ms",

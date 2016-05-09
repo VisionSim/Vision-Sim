@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -94,7 +94,7 @@ namespace Vision.Modules.Agent.J2KDecoder
                     }
                     else
                     {
-                        List<DecodedCallback> notifylist = new List<DecodedCallback> { callback };
+                        List<DecodedCallback> notifylist = new List<DecodedCallback> {callback};
                         m_notifyList.Add(assetID, notifylist);
                         decode = true;
                     }
@@ -152,6 +152,8 @@ namespace Vision.Modules.Agent.J2KDecoder
 
         bool DoJ2KDecode(UUID assetID, byte[] j2kData, bool useCSJ2K)
         {
+            //int DecodeTime = 0;
+            //DecodeTime = Environment.TickCount;
             OpenJPEG.J2KLayerInfo[] layers;
 
             if (!TryLoadCacheForAsset(assetID, out layers))
@@ -163,7 +165,7 @@ namespace Vision.Modules.Agent.J2KDecoder
                     if (j2kData != null)
                         layers = CreateDefaultLayers(j2kData.Length);
                     else
-                        layers = CreateDefaultLayers(0);
+                        layers = CreateDefaultLayers (0);
 
                     // Notify Interested Parties
                     lock (m_notifyList)
@@ -192,7 +194,8 @@ namespace Vision.Modules.Agent.J2KDecoder
                             for (int i = 0; i < layerStarts.Count; i++)
                             {
                                 OpenJPEG.J2KLayerInfo layer = new OpenJPEG.J2KLayerInfo
-                                { Start = i == 0 ? 0 : layerStarts[i] };
+                                                                  {Start = i == 0 ? 0 : layerStarts[i]};
+
 
                                 if (i == layerStarts.Count - 1)
                                     layer.End = j2kData.Length;
@@ -205,7 +208,7 @@ namespace Vision.Modules.Agent.J2KDecoder
                     }
                     catch (Exception ex)
                     {
-                        MainConsole.Instance.Warn("[J2K Decoder Module]: CSJ2K threw an exception decoding texture " +
+                        MainConsole.Instance.Warn("[J2KDecoderModule]: CSJ2K threw an exception decoding texture " +
                                                   assetID + ": " + ex.Message);
                     }
                 }
@@ -214,7 +217,7 @@ namespace Vision.Modules.Agent.J2KDecoder
                     int components;
                     if (!OpenJPEG.DecodeLayerBoundaries(j2kData, out layers, out components))
                     {
-                        MainConsole.Instance.Warn("[J2K Decoder Module]: OpenJPEG failed to decode texture " + assetID);
+                        MainConsole.Instance.Warn("[J2KDecoderModule]: OpenJPEG failed to decode texture " + assetID);
                     }
                 }
 
@@ -222,7 +225,7 @@ namespace Vision.Modules.Agent.J2KDecoder
                 {
                     if (useCSJ2K == m_useCSJ2K)
                     {
-                        MainConsole.Instance.Warn("[J2K Decoder Module]: Failed to decode layer data with (" +
+                        MainConsole.Instance.Warn("[J2KDecoderModule]: Failed to decode layer data with (" +
                                                   (m_useCSJ2K ? "CSJ2K" : "OpenJPEG") + ") for texture " + assetID +
                                                   ", length " + j2kData.Length +
                                                   " trying " + (!m_useCSJ2K ? "CSJ2K" : "OpenJPEG"));
@@ -231,10 +234,10 @@ namespace Vision.Modules.Agent.J2KDecoder
                     else
                     {
                         //Second attempt at decode with the other j2k decoder, give up
-                        MainConsole.Instance.Warn("[J2K Decoder Module]: Failed to decode layer data (" +
+                        MainConsole.Instance.Warn("[J2KDecoderModule]: Failed to decode layer data (" +
                                                   (m_useCSJ2K ? "CSJ2K" : "OpenJPEG") + ") for texture " + assetID +
                                                   ", length " + j2kData.Length + " guessing sane defaults");
-
+                        
                         // Layer decoding completely failed. Guess at sane defaults for the layer boundaries
                         layers = CreateDefaultLayers(j2kData.Length);
                         // Notify Interested Parties
@@ -285,10 +288,10 @@ namespace Vision.Modules.Agent.J2KDecoder
             // with extra padding thrown in for good measure. This is a worst case fallback plan
             // and may not gracefully handle all real world data
             layers[0].Start = 0;
-            layers[1].Start = (int)(j2kLength * 0.02f);
-            layers[2].Start = (int)(j2kLength * 0.05f);
-            layers[3].Start = (int)(j2kLength * 0.20f);
-            layers[4].Start = (int)(j2kLength * 0.50f);
+            layers[1].Start = (int) (j2kLength*0.02f);
+            layers[2].Start = (int) (j2kLength*0.05f);
+            layers[3].Start = (int) (j2kLength*0.20f);
+            layers[4].Start = (int) (j2kLength*0.50f);
 
             layers[0].End = layers[1].Start - 1;
             layers[1].End = layers[2].Start - 1;
@@ -310,7 +313,7 @@ namespace Vision.Modules.Agent.J2KDecoder
 
                 AssetBase layerDecodeAsset = new AssetBase(assetID, assetID, AssetType.Notecard,
                                                            UUID.Zero)
-                { Flags = AssetFlags.Local | AssetFlags.Temporary };
+                                                 {Flags = AssetFlags.Local | AssetFlags.Temporary};
 
                 #region Serialize Layer Data
 
@@ -349,11 +352,11 @@ namespace Vision.Modules.Agent.J2KDecoder
                     #region Deserialize Layer Data
 
                     string readResult = Util.UTF8.GetString(layerDecodeAsset.Data);
-                    string[] lines = readResult.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] lines = readResult.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
 
                     if (lines.Length == 0)
                     {
-                        MainConsole.Instance.Warn("[J2K Decode Cache]: Expiring corrupted layer data (empty) " + assetName);
+                        MainConsole.Instance.Warn("[J2KDecodeCache]: Expiring corrupted layer data (empty) " + assetName);
                         m_cache.Expire(assetName);
                         return false;
                     }
@@ -374,17 +377,17 @@ namespace Vision.Modules.Agent.J2KDecoder
                             }
                             catch (FormatException)
                             {
-                                MainConsole.Instance.Warn("[J2K Decode Cache]: Expiring corrupted layer data (format) " +
+                                MainConsole.Instance.Warn("[J2KDecodeCache]: Expiring corrupted layer data (format) " +
                                                           assetName);
                                 m_cache.Expire(assetName);
                                 return false;
                             }
 
-                            layers[i] = new OpenJPEG.J2KLayerInfo { Start = element1, End = element2 };
+                            layers[i] = new OpenJPEG.J2KLayerInfo {Start = element1, End = element2};
                         }
                         else
                         {
-                            MainConsole.Instance.Warn("[J2K Decode Cache]: Expiring corrupted layer data (layout) " +
+                            MainConsole.Instance.Warn("[J2KDecodeCache]: Expiring corrupted layer data (layout) " +
                                                       assetName);
                             m_cache.Expire(assetName);
                             return false;

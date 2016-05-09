@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,7 +32,6 @@ using System.Runtime.InteropServices;
 using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Physics;
-
 
 namespace Vision.Physics.OpenDynamicsEngine
 {

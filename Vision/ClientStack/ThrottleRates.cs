@@ -29,6 +29,7 @@ using System;
 using Nini.Config;
 using Vision.Framework.ClientInterfaces;
 
+
 namespace Vision.ClientStack
 {
     /// <summary>
@@ -198,6 +199,7 @@ namespace Vision.ClientStack
                     return State;
                 case ThrottleOutPacketType.AvatarInfo:
                     return AvatarInfo;
+//                case ThrottleOutPacketType.Unknown:
                 default:
                     return 0;
             }
@@ -225,6 +227,7 @@ namespace Vision.ClientStack
                     return StateLimit;
                 case ThrottleOutPacketType.AvatarInfo:
                     return AvatarInfoLimit;
+//                case ThrottleOutPacketType.Unknown:
                 default:
                     return 0;
             }

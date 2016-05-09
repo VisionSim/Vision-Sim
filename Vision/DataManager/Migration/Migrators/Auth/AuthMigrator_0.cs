@@ -1,5 +1,5 @@
-﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+/*
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,22 +40,36 @@ namespace Vision.DataManager.Migration.Migrators.Auth
 
             Schema = new List<SchemaDefinition>();
 
+            //
+            // Change summery:
+            //
+            //   Force the tables to lowercase
+            //     Note: we do multiple renames here as it doesn't 
+            //     always like just switching to lowercase (as in SQLite)
+            //
+            this.RenameSchema("Auth", "auth");
+            this.RenameSchema("Tokens", "tokens");
+
+            //Remove the old name
+            this.RemoveSchema("auth");
+            this.RemoveSchema("tokens");
+            //Add the new lowercase one
             AddSchema("auth", ColDefs(
                 ColDef("UUID", ColumnTypes.Char36),
-                ColDef("passwordHash", ColumnTypes.String512),
-                ColDef("passwordSalt", ColumnTypes.String512),
+                ColDef("passwordHash", ColumnTypes.Char32),
+                ColDef("passwordSalt", ColumnTypes.Char32),
+                ColDef("webLoginKey", ColumnTypes.String255),
                 ColDef("accountType", ColumnTypes.Char32)
                                   ), IndexDefs(
-                                        IndexDef(new string[2] { "UUID", "accountType" }, IndexType.Primary),
-                                        IndexDef(new string[1] { "passwordHash" }, IndexType.Index, 255)
+                                      IndexDef(new string[1] {"UUID"}, IndexType.Primary)
                                          ));
 
             AddSchema("tokens", ColDefs(
                 ColDef("UUID", ColumnTypes.Char36),
                 ColDef("token", ColumnTypes.String255),
-                ColDef("validity", ColumnTypes.Integer11)
+                ColDef("validity", ColumnTypes.Date)
                                     ), IndexDefs(
-                                        IndexDef(new string[2] { "UUID", "token" }, IndexType.Primary)
+                                        IndexDef(new string[2] {"UUID", "token"}, IndexType.Primary)
                                            ));
         }
 

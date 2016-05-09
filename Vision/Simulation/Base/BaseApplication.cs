@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,7 +43,7 @@ using Vision.Framework.Utilities;
 namespace Vision.Simulation.Base
 {
     /// <summary>
-    ///     Starting class for the Vision-Sim Server
+    ///     Starting class for the Vision Server
     /// </summary>
     public class BaseApplication
     {
@@ -59,9 +59,9 @@ namespace Vision.Simulation.Base
         static readonly ConfigurationLoader m_configLoader = new ConfigurationLoader();
 
         /// <summary>
-        ///     Directory to save crash reports to.  Relative to ../Data/Crashes
+        ///     Directory to save crash reports to.  Relative to bin/
         /// </summary>
-        public static string m_crashDir = Constants.DEFAULT_CRASH_DIR;
+        public static string m_crashDir = "crashes";
 
         static bool _IsHandlingException; // Make sure we don't go recursive on ourselves
 
@@ -84,12 +84,12 @@ namespace Vision.Simulation.Base
             // Increase the number of IOCP threads available. Mono defaults to a tragically low number
             int workerThreads, iocpThreads;
             ThreadPool.GetMaxThreads(out workerThreads, out iocpThreads);
-            //MainConsole.Instance.InfoFormat("[Vision-Sim Main: Runtime gave us {0} worker threads and {1} IOCP threads", workerThreads, iocpThreads);
+            //MainConsole.Instance.InfoFormat("[Vision Main]: Runtime gave us {0} worker threads and {1} IOCP threads", workerThreads, iocpThreads);
             if (workerThreads < 500 || iocpThreads < 1000)
             {
                 workerThreads = 500;
                 iocpThreads = 1000;
-                //MainConsole.Instance.Info("[Vision-Sim Main]: Bumping up to 500 worker threads and 1000 IOCP threads");
+                //MainConsole.Instance.Info("[Vision Main]: Bumping up to 500 worker threads and 1000 IOCP threads");
                 ThreadPool.SetMaxThreads(workerThreads, iocpThreads);
             }
 
@@ -163,14 +163,14 @@ namespace Vision.Simulation.Base
                         "2. " + Vision_ConfigDir + "/Sim/Standalone/StandaloneCommon.ini \nor\n" +
                         "3. " + Vision_ConfigDir + "/Grid/GridCommon.ini\n" +
                         "\nAlso, you will want to examine these files in great detail because only the basic system will " +
-                        "load by default. Vision can do a LOT more if you spend a little time going through these files.\n\n");
+                        "load by default. Vision-Sim can do a LOT more if you spend a little time going through these files.\n\n");
                 } else
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine ("\n\n************* Vision-Sim Configuration *************");
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine (
-                        "\n     Vision-Sim interactive configuration.\n" +
+                        "\n     Vision interactive configuration.\n" +
                         "Enter 'yes' and Vision-Sim will guide you through the configuration process.");
                 }
 
@@ -179,8 +179,8 @@ namespace Vision.Simulation.Base
                 Console.WriteLine ("");
                 Console.WriteLine (" ##  WARNING  ##");
                 Console.WriteLine("This will overwrite any existing configuration files!");
-                Console.WriteLine("Please be sure you have saved a backup of your configuration files before");
-                Console.WriteLine("Proceeding with this configuration!");
+                Console.WriteLine("It is strongly recommended that you save a backup copy");
+                Console.WriteLine("of your configuration files before proceeding!");
                 Console.ResetColor();
                 Console.WriteLine ("");
                 resp = ReadLine("Do you want to configure Vision-Sim now?  (yes/no)", resp);
@@ -206,7 +206,7 @@ namespace Vision.Simulation.Base
 
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("====================================================================");
-					Console.WriteLine("======================= Vision-Sim Configurator ==============");
+					Console.WriteLine("======================= Vision-Sim Configurator =================");
                     Console.WriteLine("====================================================================");
                     Console.ResetColor();
 
@@ -335,6 +335,7 @@ namespace Vision.Simulation.Base
                                         newConfig.Set(key, config.Get(key));
                                 }
                             }
+
                             mysql_ini.Save();
                             Console.ForegroundColor = ConsoleColor.Green;
                             Console.WriteLine("Your MySQL.ini has been successfully configured");
@@ -377,7 +378,6 @@ namespace Vision.Simulation.Base
                                 newConfig.Set ("HostName", regionIPAddress);
                             }
                         }
-
 
 						vision_ini.Save();
                         Console.ForegroundColor = ConsoleColor.Green;
@@ -457,7 +457,6 @@ namespace Vision.Simulation.Base
                             Console.WriteLine("Your Grid.ini has been successfully configured");
                             Console.ResetColor();
                             Console.WriteLine ("");
-
                         }
                     }
 
@@ -529,6 +528,7 @@ namespace Vision.Simulation.Base
                                     newConfig.Set(key, config.Get(key));
                             }
                         }
+
                         login_ini.Save();
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Your Login.ini has been successfully configured");
@@ -576,10 +576,9 @@ namespace Vision.Simulation.Base
                     Console.WriteLine(
                         "To re-run this configurator, enter \"run configurator\" into the console.");
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine(" >> Please restart to use your new configuration. <<");
+                    Console.WriteLine(" >> Please restart Vision-Sim to use your new configuration. <<");
                     Console.ResetColor ();
-                    Console.WriteLine ("");
-                    
+                    Console.WriteLine ("");           
                 }
             }
         }
@@ -681,9 +680,11 @@ namespace Vision.Simulation.Base
         /// <param name="ex"></param>
         public static void HandleCrashException(string msg, Exception ex)
         {
-
             //if (m_saveCrashDumps && Environment.OSVersion.Platform == PlatformID.Win32NT)
             // 20160323 -greythane - not sure why this will not work on *nix as well?
+            // 20160408 -EmperorStarfinder - This appears to not work on either Windows or Nix.
+            // Maybe consider removing the saveCrashDumps as it appears it is writing it to the
+            // logs for Vision.Server and Vision consoles already?
             if (m_saveCrashDumps)
                            {
                 // Log exception to disk
@@ -706,7 +707,7 @@ namespace Vision.Simulation.Base
                 }
                 catch (Exception e2)
                 {
-                    MainConsole.Instance.ErrorFormat("[Crash Logger Crashed]: {0}", e2);
+                    MainConsole.Instance.ErrorFormat("[CRASH LOGGER CRASHED]: {0}", e2);
                 }
             }
         }
@@ -803,6 +804,7 @@ namespace Vision.Simulation.Base
             {
                 exp.ExceptionPointers = Marshal.GetExceptionPointers();
             }
+
             bool bRet;
             if (exp.ExceptionPointers == IntPtr.Zero)
             {

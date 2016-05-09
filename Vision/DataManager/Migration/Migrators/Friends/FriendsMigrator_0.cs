@@ -1,5 +1,5 @@
-﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+/*
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,13 +40,25 @@ namespace Vision.DataManager.Migration.Migrators.Friends
 
             Schema = new List<SchemaDefinition>();
 
+            //
+            // Change summery:
+            //
+            //   Force 'Friends' to 'friends'
+            //     Note: we do multiple renames here as it doesn't 
+            //     always like just switching to lowercase (as in SQLite)
+            //
+            this.RenameSchema("Friends", "friends");
+
+            //Remove the old name
+            this.RemoveSchema("friends");
+            //Add the new lowercase one
             AddSchema("friends", ColDefs(
                 ColDef("PrincipalID", ColumnTypes.Char36),
-                ColDef("Friend", ColumnTypes.Char36),
+                ColDef("Friend", ColumnTypes.String255),
                 ColDef("Flags", ColumnTypes.String16),
                 ColDef("Offered", ColumnTypes.Char32)
                                      ), IndexDefs(
-                                         IndexDef(new string[2] { "PrincipalID", "Friend" }, IndexType.Primary)
+                                         IndexDef(new string[1] {"PrincipalID"}, IndexType.Primary)
                                             ));
         }
 

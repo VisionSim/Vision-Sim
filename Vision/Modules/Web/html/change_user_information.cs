@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/,  http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,11 +66,11 @@ namespace Vision.Modules.Web
             UserAccount user = Authenticator.GetAuthentication(httpRequest);
             if (user == null)
             {
-                response = "No authentication service was available to update user details";
+                response = "No authentication service was available to change user details";
                 return null;
             }
 
-            // Who are we dealing with here?
+            // who we are dealing with...
             vars.Add ("UserName", user.Name);
 
             // password change

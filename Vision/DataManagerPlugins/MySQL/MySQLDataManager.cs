@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,38 +41,31 @@ namespace Vision.DataManager.MySQL
     {
         string m_connectionString = "";
 
-        public override string Identifier
-        {
+        public override string Identifier {
             get { return "MySQLData"; }
         }
 
         #region Database
 
-        public override void ConnectToDatabase(string connectionString, string migratorName, bool validateTables)
+        public override void ConnectToDatabase (string connectionString, string migratorName, bool validateTables)
         {
             m_connectionString = connectionString;
-            MySqlConnection c = new MySqlConnection(connectionString);
-            int subStrA = connectionString.IndexOf("Database=");
-            int subStrB = connectionString.IndexOf(";", subStrA);
-            string noDatabaseConnector = m_connectionString.Substring(0, subStrA) +
-                                         m_connectionString.Substring(subStrB + 1);
+            MySqlConnection c = new MySqlConnection (connectionString);
+            int subStrA = connectionString.IndexOf ("Database=");
+            int subStrB = connectionString.IndexOf (";", subStrA);
+            string noDatabaseConnector = m_connectionString.Substring (0, subStrA) +
+                                         m_connectionString.Substring (subStrB + 1);
 
         retry:
-            try
-            {
-                ExecuteNonQuery(noDatabaseConnector, "create schema IF NOT EXISTS " + c.Database,
-                                new Dictionary<string, object>(), false);
-            }
-            catch
-            {
-                MainConsole.Instance.Error(
-                    "[MySQL Data base]: We cannot connect to the MySQL instance you have provided. Please make sure it is online, and then press enter to try again.");
-                try
-                {
-                    Console.Read();
-                }
-                catch
-                {
+            try {
+                ExecuteNonQuery (noDatabaseConnector, "create schema IF NOT EXISTS " + c.Database,
+                                new Dictionary<string, object> (), false);
+            } catch {
+                MainConsole.Instance.Error (
+                    "[MySQL Database]: We cannot connect to the MySQL instance you have provided. Please make sure it is online, and then press enter to try again.");
+                try {
+                    Console.Read ();
+                } catch {
                 }
                 goto retry;
             }
@@ -80,7 +73,7 @@ namespace Vision.DataManager.MySQL
             var migrationManager = new MigrationManager(this, migratorName, validateTables);
             migrationManager.DetermineOperation();
             migrationManager.ExecuteOperation();
-            c.Close();
+            c.Close ();
         }
 
         public void CloseDatabase(MySqlConnection connection)
@@ -89,15 +82,15 @@ namespace Vision.DataManager.MySQL
 
         public override void CloseDatabase(DataReaderConnection connection)
         {
-            if (connection != null && connection.DataReader != null)
-            {
-                connection.DataReader.Close();
+            if (connection != null && connection.DataReader != null) {
+                connection.DataReader.Close ();
+                connection.Dispose ();
             }
         }
 
         #endregion
 
-            #region Query
+        #region Query
 
         public IDataReader Query(string sql, Dictionary<string, object> parameters)
         {
@@ -191,13 +184,13 @@ namespace Vision.DataManager.MySQL
         public override DataReaderConnection QueryData(string whereClause, string table, string wantedValue)
         {
             string query = String.Format("select {0} from {1} {2}", wantedValue, table, whereClause);
-            return new DataReaderConnection { DataReader = QueryData2(query) };
+            return new DataReaderConnection {DataReader = QueryData2(query)};
         }
 
         public override DataReaderConnection QueryData(string whereClause, QueryTables tables, string wantedValue)
         {
             string query = string.Format("SELECT {0} FROM {1} {2}", wantedValue, tables.ToSQL(), whereClause);
-            return new DataReaderConnection { DataReader = QueryData2(query) };
+            return new DataReaderConnection {DataReader = QueryData2(query)};
         }
 
         private IDataReader QueryData2(string query)
@@ -262,7 +255,7 @@ namespace Vision.DataManager.MySQL
                         for (i = 0; i < reader.FieldCount; i++)
                         {
                             Type r = reader[i].GetType();
-                            retVal.Add(r == typeof(DBNull) ? null : reader.GetString(i));
+                            retVal.Add(r == typeof (DBNull) ? null : reader.GetString(i));
                         }
                     }
                     return retVal;
@@ -313,7 +306,7 @@ namespace Vision.DataManager.MySQL
                         {
                             Type r = reader[i].GetType();
                             AddValueToList(ref retVal, reader.GetName(i),
-                                           r == typeof(DBNull) ? null : reader[i].ToString());
+                                           r == typeof (DBNull) ? null : reader[i].ToString());
                         }
                     }
                     return retVal;
@@ -369,7 +362,6 @@ namespace Vision.DataManager.MySQL
                     parts.Add(string.Format("{0} = {1}", value.Key, key));
                 }
             }
-
             if (incrementValue != null)
             {
                 foreach (KeyValuePair<string, int> value in incrementValue)
@@ -399,7 +391,6 @@ namespace Vision.DataManager.MySQL
             {
                 MainConsole.Instance.Error("[MySQL Data Loader] Update(" + query + "), " + e);
             }
-
             return true;
         }
 
@@ -432,7 +423,6 @@ namespace Vision.DataManager.MySQL
             {
                 MainConsole.Instance.Error("[MySQL Data Loader] Insert(" + query + "), " + e);
             }
-
             return true;
         }
 
@@ -457,7 +447,6 @@ namespace Vision.DataManager.MySQL
             {
                 MainConsole.Instance.Error("[MySQL Data Loader] Insert(" + query + "), " + e);
             }
-
             return true;
         }
 
@@ -616,6 +605,7 @@ namespace Vision.DataManager.MySQL
             {
                 columnDefinition.Add("`" + column.Name + "` " + GetColumnTypeStringSymbol(column.Type));
             }
+
             if (primary != null && primary.Fields.Length > 0)
             {
                 columnDefinition.Add("PRIMARY KEY (`" + string.Join("`, `", primary.Fields) + "`)");
@@ -641,7 +631,7 @@ namespace Vision.DataManager.MySQL
                 if (index.IndexSize == 0)
                     indicesQuery.Add(string.Format("{0}( {1} )", type, "`" + string.Join("`, `", index.Fields) + "`"));
                 else
-                    indicesQuery.Add(string.Format("{0}( {1} )", type, "`" + string.Join("`, `", index.Fields) + "`" + "(" + index.IndexSize + ")"));
+                    indicesQuery.Add(string.Format("{0}( {1} )", type, "`" + string.Join("`, `", index.Fields) + "`"+"("+index.IndexSize+")"));
 
             }
 
@@ -757,7 +747,6 @@ namespace Vision.DataManager.MySQL
                         break;
                     }
                 }
-
                 if (!found)
                 {
                     removeIndices.Add(oldIndexNames[i]);
@@ -776,7 +765,6 @@ namespace Vision.DataManager.MySQL
                         break;
                     }
                 }
-
                 if (!found)
                 {
                     newIndices.Add(newIndex);
@@ -1054,12 +1042,12 @@ namespace Vision.DataManager.MySQL
                     typeDef.auto_increment = rdr["Extra"].ToString().IndexOf("auto_increment") >= 0;
                     typeDef.defaultValue = defaultValue is DBNull
                                                ? null
-                                               : defaultValue.ToString();
+                                               : defaultValue.ToString ();
                     defs.Add(new ColumnDefinition
-                    {
-                        Name = name.ToString(),
-                        Type = typeDef,
-                    });
+                                 {
+                                     Name = name.ToString(),
+                                     Type = typeDef,
+                                 });
                 }
             }
             catch (Exception e)
@@ -1073,6 +1061,7 @@ namespace Vision.DataManager.MySQL
                     if (rdr != null)
                     {
                         rdr.Close();
+                        //rdr.Dispose ();
                     }
                 }
                 catch (Exception e)
@@ -1131,13 +1120,13 @@ namespace Vision.DataManager.MySQL
             foreach (KeyValuePair<string, Dictionary<uint, string>> index in indexLookup)
             {
                 defs[index.Key] = new IndexDefinition
-                {
-                    Fields = index.Value.Values.ToArray<string>(),
-                    Type =
+                                      {
+                                          Fields = index.Value.Values.ToArray<string>(),
+                                          Type =
                                               (indexIsUnique[index.Key]
                                                    ? (index.Key == "PRIMARY" ? IndexType.Primary : IndexType.Unique)
                                                    : IndexType.Index)
-                };
+                                      };
             }
 
             return defs;

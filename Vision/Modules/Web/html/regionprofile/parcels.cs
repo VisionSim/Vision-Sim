@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/,  http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -72,39 +72,39 @@ namespace Vision.Modules.Web
             //    "setTimeout(function() {window.location.href = \"index.html\";}, 3000);" +
             //    "</script>";
             //return null;
-
+            
             response = null;
             var vars = new Dictionary<string, object>();
             if (httpRequest.Query.ContainsKey("regionid"))
             {
-                var regionService = webInterface.Registry.RequestModuleInterface<IGridService>();
+                var regionService = webInterface.Registry.RequestModuleInterface<IGridService> ();
                 var region = regionService.GetRegionByUUID(null, UUID.Parse(httpRequest.Query["regionid"].ToString()));
 
                 IEstateConnector estateConnector = Framework.Utilities.DataManager.RequestPlugin<IEstateConnector>();
                 if (estateConnector != null)
                 {
-                    EstateSettings estate = estateConnector.GetEstateSettings(region.RegionID);
-                    vars.Add("OwnerUUID", estate.EstateOwner);
-                    var estateOwnerAccount = webInterface.Registry.RequestModuleInterface<IUserAccountService>().
-                        GetUserAccount(null, estate.EstateOwner);
-                    vars.Add("OwnerName", estateOwnerAccount == null ? "No account found" : estateOwnerAccount.Name);
-                }
-                else
+
+                    EstateSettings estate = estateConnector.GetEstateSettings (region.RegionID);
+                    vars.Add ("OwnerUUID", estate.EstateOwner);
+                    var estateOwnerAccount = webInterface.Registry.RequestModuleInterface<IUserAccountService> ().
+                        GetUserAccount (null, estate.EstateOwner);
+                    vars.Add ("OwnerName", estateOwnerAccount == null ? "No account found" : estateOwnerAccount.Name);
+                } else
                 {
-                    vars.Add("OwnerUUID", "Unknown");
-                    vars.Add("OwnerName", "Unknown");
+                    vars.Add ("OwnerUUID", "Unknown");
+                    vars.Add ("OwnerName", "Unknown");
                 }
 
                 vars.Add("RegionName", region.RegionName);
-                vars.Add("RegionLocX", region.RegionLocX / Constants.RegionSize);
-                vars.Add("RegionLocY", region.RegionLocY / Constants.RegionSize);
+                vars.Add("RegionLocX", region.RegionLocX/Constants.RegionSize);
+                vars.Add("RegionLocY", region.RegionLocY/Constants.RegionSize);
                 vars.Add("RegionSizeX", region.RegionSizeX);
                 vars.Add("RegionSizeY", region.RegionSizeY);
                 vars.Add("RegionType", region.RegionType);
                 vars.Add("RegionTerrain", region.RegionTerrain);
                 vars.Add("RegionOnline",
-                    (region.Flags & (int)RegionFlags.RegionOnline) ==
-                    (int)RegionFlags.RegionOnline
+                    (region.Flags & (int) RegionFlags.RegionOnline) ==
+                    (int) RegionFlags.RegionOnline
                     ? translator.GetTranslatedString("Online")
                     : translator.GetTranslatedString("Offline"));
 
@@ -113,7 +113,7 @@ namespace Vision.Modules.Web
                 if (directoryConnector != null)
                 {
                     IUserAccountService accountService =
-                        webInterface.Registry.RequestModuleInterface<IUserAccountService>();
+                        webInterface.Registry.RequestModuleInterface<IUserAccountService> ();
                     List<LandData> data = directoryConnector.GetParcelsByRegion(0, 10, region.RegionID, UUID.Zero,
                         ParcelFlags.None, ParcelCategory.Any);
                     List<Dictionary<string, object>> parcels = new List<Dictionary<string, object>>();
@@ -123,30 +123,27 @@ namespace Vision.Modules.Web
                     {
                         foreach (var p in data)
                         {
-                            Dictionary<string, object> parcel = new Dictionary<string, object>();
-                            parcel.Add("ParcelNameText", translator.GetTranslatedString("ParcelNameText"));
-                            parcel.Add("ParcelOwnerText", translator.GetTranslatedString("ParcelOwnerText"));
-                            parcel.Add("ParcelUUID", p.GlobalID);
-                            parcel.Add("ParcelName", p.Name);
-                            parcel.Add("ParcelOwnerUUID", p.OwnerID);
-                            parcel.Add("ParcelSnapshotURL", url);
+                            Dictionary<string, object> parcel = new Dictionary<string, object> ();
+                            parcel.Add ("ParcelNameText", translator.GetTranslatedString ("ParcelNameText"));
+                            parcel.Add ("ParcelOwnerText", translator.GetTranslatedString ("ParcelOwnerText"));
+                            parcel.Add ("ParcelUUID", p.GlobalID);
+                            parcel.Add ("ParcelName", p.Name);
+                            parcel.Add ("ParcelOwnerUUID", p.OwnerID);
+                            parcel.Add ("ParcelSnapshotURL", url);
                             if (accountService != null)
                             {
-                                var account = accountService.GetUserAccount(null, p.OwnerID);
+                                var account = accountService.GetUserAccount (null, p.OwnerID);
                                 if (account != null)
-                                    parcel.Add("ParcelOwnerName", account.Name);
+                                    parcel.Add ("ParcelOwnerName", account.Name);
                                 else
-                                    parcel.Add("ParcelOwnerName", account.Name);
+                                    parcel.Add ("ParcelOwnerName", translator.GetTranslatedString ("NoAccountFound"));
                             }
-
-                            parcels.Add(parcel);
+                            parcels.Add (parcel);
                         }
                     }
-
                     vars.Add("ParcelInRegion", parcels);
                     vars.Add("NumberOfParcelsInRegion", parcels.Count);
                 }
-
                 IWebHttpTextureService webTextureService = webInterface.Registry.
                     RequestModuleInterface<IWebHttpTextureService>();
                 if (webTextureService != null && region.TerrainMapImage != UUID.Zero)
@@ -154,14 +151,14 @@ namespace Vision.Modules.Web
                 else
                     vars.Add("RegionImageURL", "../images/icons/no_terrain.jpg");
 
-                /*   // Regionprofile Menus
-                   vars.Add("MenuRegionTitle", translator.GetTranslatedString("MenuRegionTitle"));
-                   vars.Add("TooltipsMenuRegion", translator.GetTranslatedString("TooltipsMenuRegion"));
-                   vars.Add("MenuParcelTitle", translator.GetTranslatedString("MenuParcelTitle"));
-                   vars.Add("TooltipsMenuParcel", translator.GetTranslatedString("TooltipsMenuParcel"));
-                   vars.Add("MenuOwnerTitle", translator.GetTranslatedString("MenuOwnerTitle"));
-                   vars.Add("TooltipsMenuOwner", translator.GetTranslatedString("TooltipsMenuOwner"));
-                   */
+             /*   // Regionprofile Menus
+                vars.Add("MenuRegionTitle", translator.GetTranslatedString("MenuRegionTitle"));
+                vars.Add("TooltipsMenuRegion", translator.GetTranslatedString("TooltipsMenuRegion"));
+                vars.Add("MenuParcelTitle", translator.GetTranslatedString("MenuParcelTitle"));
+                vars.Add("TooltipsMenuParcel", translator.GetTranslatedString("TooltipsMenuParcel"));
+                vars.Add("MenuOwnerTitle", translator.GetTranslatedString("MenuOwnerTitle"));
+                vars.Add("TooltipsMenuOwner", translator.GetTranslatedString("TooltipsMenuOwner"));
+                */
                 vars.Add("RegionInformationText", translator.GetTranslatedString("RegionInformationText"));
                 vars.Add("OwnerNameText", translator.GetTranslatedString("OwnerNameText"));
                 vars.Add("RegionLocationText", translator.GetTranslatedString("RegionLocationText"));
@@ -173,10 +170,12 @@ namespace Vision.Modules.Web
                 vars.Add("RegionOnlineText", translator.GetTranslatedString("RegionOnlineText"));
                 vars.Add("NumberOfUsersInRegionText", translator.GetTranslatedString("NumberOfUsersInRegionText"));
                 vars.Add("ParcelsInRegionText", translator.GetTranslatedString("ParcelsInRegionText"));
-                vars.Add("MainServerURL", webInterface.GridURL);
+                vars.Add ("MainServerURL", webInterface.GridURL);
+
             }
 
             return vars;
+
         }
 
         public bool AttemptFindPage(string filename, ref OSHttpResponse httpResponse, out string text)

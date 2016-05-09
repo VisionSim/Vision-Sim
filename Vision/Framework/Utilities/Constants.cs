@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ namespace Vision.Framework.Utilities
         // some predefined folders
         public const string DEFAULT_CONFIG_DIR = "../Config";
         public const string DEFAULT_DATA_DIR = "../Data";
-        public const string DEFAULT_CRASH_DIR = "../Data/Crashes";
 
         // all these are relative to the default data directory,
         // set either as above or via configuration
@@ -69,7 +68,7 @@ namespace Vision.Framework.Utilities
 
         // System Governor Avatar Account
         public const string GovernorUUID = "3d6181b0-6a4b-97ef-18d8-722652995cf1";
-        public const string GovernorName = "Governor Vision";
+        public const string GovernorName = "Governor White";
 
         // System Estate
         public const string MainlandEstateName = "Vision Mainland";

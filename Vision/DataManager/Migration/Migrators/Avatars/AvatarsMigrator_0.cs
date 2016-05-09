@@ -1,5 +1,5 @@
-﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/,  http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+/*
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,13 +39,16 @@ namespace Vision.DataManager.Migration.Migrators.Avatars
             MigrationName = "Avatars";
 
             Schema = new List<SchemaDefinition>();
+            this.RenameSchema("Avatars", "avatars");
+            this.RemoveSchema("avatars");
 
-            AddSchema("user_appearance", ColDefs(
+            AddSchema("avatars", ColDefs(
                 ColDef("PrincipalID", ColumnTypes.Char36),
-                ColDef("Appearance", ColumnTypes.Text)
-                                        ), IndexDefs(
-                                            IndexDef(new string[1] { "PrincipalID" }, IndexType.Primary)
-                                               ));
+                ColDef("Name", ColumnTypes.String32),
+                ColDef("Value", ColumnTypes.Text)
+                                     ), IndexDefs(
+                                         IndexDef(new string[2] {"PrincipalID", "Name"}, IndexType.Primary)
+                                            ));
         }
 
         protected override void DoCreateDefaults(IDataConnector genericData)

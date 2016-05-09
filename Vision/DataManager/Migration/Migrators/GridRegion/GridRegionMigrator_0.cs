@@ -1,5 +1,5 @@
-﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+/*
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,6 +40,11 @@ namespace Vision.DataManager.Migration.Migrators.GridRegion
 
             Schema = new List<SchemaDefinition>();
 
+            //
+            // Change summery:
+            //
+            //   Add the new 'gridregions' table to replace the old 'regions' table
+            //
             AddSchema("gridregions", ColDefs(
                 ColDef("ScopeID", ColumnTypes.String45),
                 ColDef("RegionUUID", ColumnTypes.String45),
@@ -56,10 +61,7 @@ namespace Vision.DataManager.Migration.Migrators.GridRegion
                 ColDef("SessionID", ColumnTypes.String45),
                 ColDef("Info", ColumnTypes.Text)
                                          ), IndexDefs(
-                                             IndexDef(new string[2] { "ScopeID", "RegionUUID" }, IndexType.Primary),
-                                             IndexDef(new string[1] { "RegionName" }, IndexType.Unique),
-                                             IndexDef(new string[2] { "Flags", "ScopeID" }, IndexType.Index),
-                                             IndexDef(new string[3] { "LocX", "LocY", "ScopeID" }, IndexType.Unique)
+                                             IndexDef(new string[1] {"RegionUUID"}, IndexType.Primary)
                                                 ));
         }
 

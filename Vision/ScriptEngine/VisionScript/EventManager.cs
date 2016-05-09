@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -769,7 +769,7 @@ namespace Vision.ScriptEngine.VisionScript
                 //This will happen if the script doesn't compile correctly
                 if (ID.Script == null)
                 {
-                    MainConsole.Instance.Info("[VisionScript]: Could not load script from item '" +
+                    MainConsole.Instance.Info("[Vision Script]: Could not load script from item '" +
                                               ID.InventoryItem.Name +
                                               "' to fire event " + FunctionName);
                     return false;

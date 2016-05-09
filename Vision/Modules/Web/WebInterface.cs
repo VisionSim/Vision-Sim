@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/,  http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -1137,9 +1137,9 @@ namespace Vision.Modules.Web
 
     public class GridSettings : IDataTransferable
     {
-        public string Gridname = "Vision-Sim Grid";
+        public string Gridname = "Vision Grid";
         public string Gridnick = "Vision";
-        public string WelcomeMessage = "Welcome to Vision-Sim, <USERNAME>!";
+        public string WelcomeMessage = "Welcome to Vision, <USERNAME>!";
         public string SystemEstateOwnerName = Constants.GovernorName;
         public string SystemEstateName = Constants.SystemEstateName;
 
@@ -1229,4 +1229,5 @@ namespace Vision.Modules.Web
             return map;
         }
     }
+
 }

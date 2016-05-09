@@ -29,6 +29,7 @@ using OpenMetaverse;
 using OpenMetaverse.Packets;
 using Vision.Framework.ClientInterfaces;
 
+
 namespace Vision.ClientStack
 {
     public delegate void UnackedPacketMethod(OutgoingPacket packet);
@@ -121,6 +122,13 @@ namespace Vision.ClientStack
         public void Destroy(int whoDoneIt)
         {
             WhoDoneIt = whoDoneIt;
+            /*if(!PacketPool.Instance.ReturnPacket(Packet))
+                Packet = null;
+            Buffer = null;
+            FinishedMethod = null;
+            UnackedMethod = null;
+            Client = null;
+            SequenceNumber = 0;*/
         }
     }
 }

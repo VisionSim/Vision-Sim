@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -24,7 +24,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 
 using System;
 using System.Collections.Generic;
@@ -58,7 +57,7 @@ namespace Vision.Simulation.Base
         protected ConfigurationLoader m_configurationLoader;
 
         /// <value>
-        ///     The config information passed into the Vision-Sim server.
+        ///     The config information passed into the Vision server.
         /// </value>
         protected IConfigSource m_config;
 
@@ -232,10 +231,8 @@ namespace Vision.Simulation.Base
                 if (stpMaxThreads < 2)
                     stpMaxThreads = 2;
                 if (stpMinThreads > stpMaxThreads)
-                    stpMinThreads = stpMaxThreads;
-                
+                    stpMinThreads = stpMaxThreads;           
             }
-
 
             if (Util.FireAndForgetMethod == FireAndForgetMethod.SmartThreadPool)
                 Util.InitThreadPool(stpMinThreads, stpMaxThreads);
@@ -496,7 +493,7 @@ namespace Vision.Simulation.Base
         {
             if (File.Exists(fileName))
             {
-                MainConsole.Instance.Info("[Command file]: Running " + fileName);
+                MainConsole.Instance.Info("[Commandfile]: Running " + fileName);
                 List<string> commands = new List<string>();
                 using (StreamReader readFile = File.OpenText(fileName))
                 {
@@ -512,7 +509,7 @@ namespace Vision.Simulation.Base
                 }
                 foreach (string currentCommand in commands)
                 {
-                    MainConsole.Instance.Info("[Command File]: Running '" + currentCommand + "'");
+                    MainConsole.Instance.Info("[COMMANDFILE]: Running '" + currentCommand + "'");
                     MainConsole.Instance.RunCommand(currentCommand);
                 }
             }
@@ -638,7 +635,7 @@ namespace Vision.Simulation.Base
                     MainConsole.Instance.Info("[Shut Down]: Terminating");
 
                 MainConsole.Instance.Info("[Shut Down]: Shut down processing on main thread complete. " +
-                                          (close ? " Exiting..." : ""));
+                                          (close ? " Exiting Vision-Sim..." : ""));
 
                 if (close)
                     Environment.Exit(0);

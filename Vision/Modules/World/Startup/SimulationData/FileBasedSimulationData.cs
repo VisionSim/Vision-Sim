@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -163,7 +163,7 @@ namespace Vision.Modules
             {
                 if (Path.GetFileName (regBak).StartsWith(regionName)) 
                 {
-                    //MainConsole.Instance.Debug ("Found: " + Path.GetFileNameWithoutExtension (regBak));
+                    //        MainConsole.Instance.Debug ("Found: " + Path.GetFileNameWithoutExtension (regBak));
                     regionBaks.Add ( regBak);
                 }
             }
@@ -296,6 +296,7 @@ namespace Vision.Modules
         /// <param name="currentInfo">Current info.</param>
         RegionInfo CreateRegionFromConsole(RegionInfo info, Boolean prompt, Dictionary<string, int> currentInfo)
         {
+
             if (info == null || info.NewRegion)
             {
                 if (info == null)
@@ -336,6 +337,7 @@ namespace Vision.Modules
                 // * Estate / Openspace
                 //
                 // * Vision Home / Full Region (Private)
+                //
                 info.RegionType = MainConsole.Instance.Prompt ("Region Type (Mainland / Estate / Homes)",
                     (info.RegionType == "" ? "Estate" : info.RegionType));
 
@@ -411,7 +413,7 @@ namespace Vision.Modules
 
                     info.Startup = StartupType.Medium;
                     info.SeeIntoThisSimFromNeighbor = true;
-                    info.InfiniteRegion = true;
+                    info.InfiniteRegion = false;
                     info.ObjectCapacity = 750;
                     info.RegionSettings.AgentLimit = 10;
                     info.RegionSettings.AllowLandJoinDivide = false;
@@ -429,7 +431,7 @@ namespace Vision.Modules
 
                     info.Startup = StartupType.Medium;
                     info.SeeIntoThisSimFromNeighbor = true;
-                    info.InfiniteRegion = true;
+                    info.InfiniteRegion = false;
                     info.ObjectCapacity = 3750;
                     info.RegionSettings.AgentLimit = 20;
                     info.RegionSettings.AllowLandJoinDivide = false;
@@ -443,7 +445,7 @@ namespace Vision.Modules
                     info.RegionTerrain = terrainFull;
                     info.Startup = StartupType.Normal;
                     info.SeeIntoThisSimFromNeighbor = true;
-                    info.InfiniteRegion = true;
+                    info.InfiniteRegion = false;
                     info.ObjectCapacity = 15000;
                     info.RegionSettings.AgentLimit = 100;
                     if (info.RegionType.StartsWith ("M"))                           // defaults are 'true'
@@ -1259,7 +1261,7 @@ namespace Vision.Modules
         {
             int tMapSize = tModule.Width*tModule.Height;
             byte[] sdata = new byte[tMapSize*2];
-            Buffer.BlockCopy(tModule.GetSerialised(), 0, sdata, 0, sdata.Length);
+            Buffer.BlockCopy(tModule.GetSerialized(), 0, sdata, 0, sdata.Length);
             return sdata;
         }
 

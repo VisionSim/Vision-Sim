@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -233,6 +233,7 @@ namespace Vision.DataManager.SQLite
         {
             cmd.Connection.Close();
             cmd.Parameters.Clear();
+            cmd.Dispose ();                 // previously commented but this is a resource leak if not cleared out - greythane - 20160427
         }
 
         void AddParams(ref SqliteCommand cmd, Dictionary<string, object> ps)

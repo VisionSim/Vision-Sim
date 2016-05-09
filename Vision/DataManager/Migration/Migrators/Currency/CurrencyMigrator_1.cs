@@ -1,5 +1,5 @@
-﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org/
+/*
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,7 +30,7 @@ using System.Collections.Generic;
 using Vision.DataManager.Migration;
 using Vision.Framework.Utilities;
 
-namespace Vision.DataManager.Migration.Migrators.Currency
+namespace Simple.Currency
 {
     public class CurrencyMigrator_1 : Migrator
     {
@@ -41,112 +41,43 @@ namespace Vision.DataManager.Migration.Migrators.Currency
 
             Schema = new List<SchemaDefinition>();
 
-            //
-            // Change summary: 11 March 2016
-            //
-            //   Change ID type fields to type UUID
-            //   Rename tables simple_* to user_*  (user currency related)
-            //   Add group_* tables (group currency related)
-            //   Remove old simple* tables
-            //
-
-            RenameSchema("currency", "user_currency");
-            RemoveSchema("currency");
-
-            AddSchema("user_currency", ColDefs(
-                ColDef("PrincipalID", ColumnTypes.UUID),
+            AddSchema("simple_currency", ColDefs(
+                ColDef("PrincipalID", ColumnTypes.String50),
                 ColDef("Amount", ColumnTypes.Integer30),
                 ColDef("LandInUse", ColumnTypes.Integer30),
                 ColDef("Tier", ColumnTypes.Integer30),
-                ColDef("IsGroup", ColumnTypes.TinyInt1),            // this will be deprecated
+                ColDef("IsGroup", ColumnTypes.TinyInt1),
                 new ColumnDefinition
-                {
-                    Name = "StipendsBalance",
-                    Type = new ColumnTypeDef
                     {
-                        Type = ColumnType.Integer,
-                        Size = 11,
-                        defaultValue = "0"
+                        Name = "StipendsBalance",
+                        Type = new ColumnTypeDef
+                                   {
+                                       Type = ColumnType.Integer,
+                                       Size = 11,
+                                       defaultValue = "0"
+                                   }
                     }
-                }
-            ),
-                IndexDefs(
-                    IndexDef(new string[1] {"PrincipalID"}, IndexType.Primary)
-                ));
-
-            RenameSchema("currency_history", "user_currency_history");
-            RemoveSchema("currency_history");
+                                             ),
+                      IndexDefs(
+                          IndexDef(new string[1] {"PrincipalID"}, IndexType.Primary)
+                          ));
 
             // Currency Transaction Logs
-            AddSchema("currency_history", ColDefs(
-                ColDef("TransactionID", ColumnTypes.UUID),
+            AddSchema("simple_currency_history", ColDefs(
+                ColDef("TransactionID", ColumnTypes.String36),
                 ColDef("Description", ColumnTypes.String128),
-                ColDef("FromPrincipalID", ColumnTypes.UUID),
+                ColDef("FromPrincipalID", ColumnTypes.String36),
                 ColDef("FromName", ColumnTypes.String128),
-                ColDef("ToPrincipalID", ColumnTypes.UUID),
+                ColDef("ToPrincipalID", ColumnTypes.String36),
                 ColDef("ToName", ColumnTypes.String128),
                 ColDef("Amount", ColumnTypes.Integer30),
                 ColDef("TransType", ColumnTypes.Integer11),
                 ColDef("Created", ColumnTypes.Integer30),
                 ColDef("ToBalance", ColumnTypes.Integer30),
-                ColDef("FromBalance", ColumnTypes.Integer30),
-                ColDef("FromObjectName", ColumnTypes.String50),
-                ColDef("ToObjectName", ColumnTypes.String50),
-                ColDef("RegionID", ColumnTypes.UUID)),
+                ColDef("FromBalance", ColumnTypes.Integer30)),
                 IndexDefs(
                     IndexDef(new string[1] { "TransactionID" }, IndexType.Primary)
-                ));
-
-            RenameSchema("currency_purchased", "user_purchased");
-            RemoveSchema("currency_purchased");
-
-            // user purchases
-            AddSchema("user_purchased", ColDefs(
-                ColDef("PurchaseID", ColumnTypes.UUID),
-                ColDef("PrincipalID", ColumnTypes.UUID),
-                ColDef("IP", ColumnTypes.String64),
-                ColDef("Amount", ColumnTypes.Integer30),
-                ColDef("RealAmount", ColumnTypes.Integer30),
-                ColDef("Created", ColumnTypes.Integer30),
-                ColDef("Updated", ColumnTypes.Integer30)),
-                IndexDefs(
-                    IndexDef(new string[1] { "PurchaseID" }, IndexType.Primary)
-                ));
-
-            // Group currency
-            AddSchema("group_currency", ColDefs(
-                ColDef("GroupID", ColumnTypes.UUID),
-                ColDef("Balance", ColumnTypes.Integer30),
-                ColDef("GroupFee", ColumnTypes.Integer30),
-                ColDef("LandFee", ColumnTypes.Integer30),
-                ColDef("ObjectFee", ColumnTypes.Integer30),
-                ColDef("ParcelDirectoryFee", ColumnTypes.Integer30),
-                ColDef("TierCredits", ColumnTypes.Integer30),
-                ColDef("TierDebits", ColumnTypes.Integer30)),
-
-                IndexDefs(
-                    IndexDef(new string[1] {"GroupID"}, IndexType.Primary)
-                ));
-
-            // Currency Transaction Logs
-            AddSchema("group_currency_history", ColDefs(
-                ColDef("TransactionID", ColumnTypes.UUID),
-                ColDef("Description", ColumnTypes.String128),
-                ColDef("GroupID", ColumnTypes.UUID),
-                ColDef("GroupName", ColumnTypes.String128),
-                ColDef("AgentID", ColumnTypes.UUID),
-                ColDef("AgentName", ColumnTypes.String128),
-                ColDef("Amount", ColumnTypes.Integer30),
-                ColDef("TransType", ColumnTypes.Integer11),
-                ColDef("Created", ColumnTypes.Integer30),
-                ColDef("GroupBalance", ColumnTypes.Integer30),
-                ColDef("AgentBalance", ColumnTypes.Integer30),
-                ColDef("FromObjectName", ColumnTypes.String50),
-                ColDef("ToObjectName", ColumnTypes.String50),
-                ColDef("RegionID", ColumnTypes.UUID)),
-                IndexDefs(
-                    IndexDef(new string[1] { "TransactionID" }, IndexType.Primary)
-                ));
+                    ));
         }
 
         protected override void DoCreateDefaults(IDataConnector genericData)
@@ -167,14 +98,6 @@ namespace Vision.DataManager.Migration.Migrators.Currency
         protected override void DoPrepareRestorePoint(IDataConnector genericData)
         {
             CopyAllTablesToTempVersions(genericData);
-        }
-
-        public override void FinishedMigration(IDataConnector genericData)
-        {
-            // these do not appear to be needed... at least with MySql
-            //genericData.DropTable("currency");
-            //genericData.DropTable("currency_history");
-            //genericData.DropTable("currency_purchased");
         }
     }
 }

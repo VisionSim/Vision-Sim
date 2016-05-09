@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -150,9 +150,10 @@ namespace Vision.Services.SQLServices.AvatarService
                 return;
             }
 
+            m_Database.Store (principalID, appearance);
+
             var simBase = m_registry.RequestModuleInterface<ISimulationBase> ();
-            simBase.EventManager.FireGenericEventHandler("SetAppearance", new object[2] { principalID, appearance });
-            m_Database.Store(principalID, appearance);
+            simBase.EventManager.FireGenericEventHandler("SetAppearance", new object[] { principalID, appearance });
         }
 
         [CanBeReflected(ThreatLevel = ThreatLevel.Low)]
@@ -169,7 +170,7 @@ namespace Vision.Services.SQLServices.AvatarService
 
         object DeleteUserInformation(string name, object param)
         {
-            UUID user = (UUID) param;
+            var user = (UUID) param;
             ResetAvatar(user);
             return null;
         }
@@ -191,7 +192,7 @@ namespace Vision.Services.SQLServices.AvatarService
                 return;
             }
             ResetAvatar(acc.PrincipalID);
-            InventoryFolderBase folder = m_invService.GetFolderForType(acc.PrincipalID, (InventoryType) 0, FolderType.CurrentOutfit);
+            InventoryFolderBase folder = m_invService.GetFolderForType(acc.PrincipalID, 0, FolderType.CurrentOutfit);
             if (folder != null)
                 m_invService.ForcePurgeFolder(folder);
 

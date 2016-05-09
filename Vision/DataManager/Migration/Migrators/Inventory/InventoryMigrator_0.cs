@@ -1,5 +1,5 @@
-﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+/*
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,22 +40,22 @@ namespace Vision.DataManager.Migration.Migrators.Inventory
 
             Schema = new List<SchemaDefinition>();
 
-            AddSchema("inventory_folders", ColDefs(
+            AddSchema("inventoryfolders", ColDefs(
                 ColDef("folderID", ColumnTypes.Char36),
                 ColDef("agentID", ColumnTypes.Char36),
                 ColDef("parentFolderID", ColumnTypes.Char36),
-                ColDef("folderName", ColumnTypes.String128),
+                ColDef("folderName", ColumnTypes.String64),
                 ColDef("type", ColumnTypes.Integer11),
                 ColDef("version", ColumnTypes.Integer11)
                                               ), IndexDefs(
-                                                  IndexDef(new string[3] { "folderID", "agentID", "parentFolderID" },
+                                                  IndexDef(new string[3] {"folderID", "agentID", "parentFolderID"},
                                                            IndexType.Primary)
                                                      ));
 
-            AddSchema("inventory_items", ColDefs(
+            AddSchema("inventoryitems", ColDefs(
                 ColDef("assetID", ColumnTypes.Char36),
                 ColDef("assetType", ColumnTypes.Integer11),
-                ColDef("inventoryName", ColumnTypes.String128),
+                ColDef("inventoryName", ColumnTypes.String64),
                 ColDef("inventoryDescription", ColumnTypes.String128),
                 ColDef("inventoryNextPermissions", ColumnTypes.Integer11),
                 ColDef("inventoryCurrentPermissions", ColumnTypes.Integer11),
@@ -79,11 +79,7 @@ namespace Vision.DataManager.Migration.Migrators.Inventory
                                                         {
                                                             "assetType", "flags", "inventoryID", "avatarID",
                                                             "parentFolderID"
-                                                        }, IndexType.Primary),
-                                                IndexDef(new string[2] { "parentFolderID", "avatarID" }, IndexType.Index),
-                                                IndexDef(new string[2] { "avatarID", "assetType" }, IndexType.Index),
-                                                IndexDef(new string[1] { "inventoryID" }, IndexType.Index),
-                                                IndexDef(new string[2] { "assetID", "avatarID" }, IndexType.Index)
+                                                        }, IndexType.Primary)
                                                    ));
         }
 

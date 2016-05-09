@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -156,7 +156,11 @@ namespace Vision.BotManager
             appearance.InitialHasWearablesBeenSent = true;
             Bot bot = new Bot();
             bot.Initialize(SP, creatorID);
-            SP.MakeRootAgent(startPos, false, true);
+            try {
+                SP.MakeRootAgent (startPos, false, true);
+            } catch {
+                MainConsole.Instance.ErrorFormat ("[BotManager]: Error creating bot {0} as root agent!",m_character.AgentId);
+            }
             //Move them
             SP.Teleport(startPos);
 

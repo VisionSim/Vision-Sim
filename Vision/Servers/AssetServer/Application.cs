@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,7 +34,7 @@ using Vision.Framework.Modules;
 namespace Vision.Servers.AssetServer
 {
     /// <summary>
-    ///     Starting class for the Vision-Sim Server
+    ///     Starting class for the Vision Server
     /// </summary>
     public class Application
     {

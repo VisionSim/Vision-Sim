@@ -1,5 +1,5 @@
-﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+/*
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,25 +40,13 @@ namespace Vision.DataManager.Migration.Migrators.Estate
 
             Schema = new List<SchemaDefinition>();
 
-            AddSchema("estate_regions", ColDefs(
-                ColDef("RegionID", ColumnTypes.String36),
-                ColDef("EstateID", ColumnTypes.Integer11)
-                                           ), IndexDefs(
-                                               IndexDef(new string[1] { "RegionID" }, IndexType.Primary),
-                                               IndexDef(new string[1] { "EstateID" }, IndexType.Index)
-                                                  ));
-
-            AddSchema("estate_settings", ColDefs(
-                ColDef("EstateID", ColumnTypes.Integer11),
-                ColDef("EstateName", ColumnTypes.String100),
-                ColDef("EstateOwner", ColumnTypes.String36),
-                ColDef("ParentEstateID", ColumnTypes.Integer11),
-                ColDef("Settings", ColumnTypes.Text)
-                                            ), IndexDefs(
-                                                IndexDef(new string[1] { "EstateID" }, IndexType.Primary),
-                                                IndexDef(new string[1] { "EstateOwner" }, IndexType.Index),
-                                                IndexDef(new string[2] { "EstateName", "EstateOwner" }, IndexType.Index)
-                                                   ));
+            AddSchema("estates", ColDefs(
+                ColDef("ID", ColumnTypes.String45),
+                ColDef("Key", ColumnTypes.String50),
+                ColDef("Value", ColumnTypes.Text)
+                                     ), IndexDefs(
+                                         IndexDef(new string[2] {"ID", "Key"}, IndexType.Primary)
+                                            ));
         }
 
         protected override void DoCreateDefaults(IDataConnector genericData)

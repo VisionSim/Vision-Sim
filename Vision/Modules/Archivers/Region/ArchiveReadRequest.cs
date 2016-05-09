@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -200,7 +200,7 @@ namespace Vision.Modules.Archivers
             if (backup != null)
                 backup.LoadingPrims = true;
 
-            IRegionSerialiserModule serialiser = m_scene.RequestModuleInterface<IRegionSerialiserModule>();
+            IRegionSerializerModule serialiser = m_scene.RequestModuleInterface<IRegionSerializerModule>();
             int sceneObjectsLoadedCount = 0;
 
             //We save the groups so that we can back them up later

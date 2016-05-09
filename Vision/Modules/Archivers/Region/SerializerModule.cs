@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org/, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,20 +25,21 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
-using System.IO;
-using System.Xml;
-using Nini.Config;
+
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Serialization;
+using Nini.Config;
+using System;
+using System.IO;
+using System.Xml;
 
 namespace Vision.Modules.Archivers
 {
-    public class SerializerModule : INonSharedRegionModule, IRegionSerialiserModule
+    public class SerializerModule : INonSharedRegionModule, IRegionSerializerModule
     {
-        #region IRegionSerialiserModule Members
+        #region IRegionSerializerModule Members
 
         public ISceneEntity DeserializeGroupFromXml2(string xmlString, IScene scene)
         {
@@ -89,7 +90,7 @@ namespace Vision.Modules.Archivers
 
         public void AddRegion(IScene scene)
         {
-            scene.RegisterModuleInterface<IRegionSerialiserModule>(this);
+            scene.RegisterModuleInterface<IRegionSerializerModule>(this);
         }
 
         public void RegionLoaded(IScene scene)
@@ -98,7 +99,7 @@ namespace Vision.Modules.Archivers
 
         public void RemoveRegion(IScene scene)
         {
-            scene.UnregisterModuleInterface<IRegionSerialiserModule>(this);
+            scene.UnregisterModuleInterface<IRegionSerializerModule>(this);
         }
 
         public void Close()

@@ -25,6 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
 using System;
 using System.Collections.Generic;
 using OpenMetaverse;
@@ -308,7 +309,7 @@ namespace Vision.ClientStack
 
         #region Nested type: J2KImageComparer
 
-        /*
+/*
         sealed class J2KImageComparer : IComparer<J2KImage>
         {
             #region IComparer<J2KImage> Members
@@ -320,7 +321,7 @@ namespace Vision.ClientStack
 
             #endregion
         }
-        */
+*/
 
         #endregion
     }

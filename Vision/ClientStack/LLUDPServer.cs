@@ -706,6 +706,12 @@ namespace Vision.ClientStack
 
             // Stats tracking
             Interlocked.Increment(ref udpClient.PacketsSent);
+//            if (isReliable)
+//                Interlocked.Add(ref udpClient.UnackedBytes, outgoingPacket.Buffer.DataLength);
+
+            // Put the UDP payload on the wire
+//            AsyncBeginSend(buffer);
+
             SyncSend(buffer);
 
             // Keep track of when this packet was sent out (right now)
@@ -720,6 +726,11 @@ namespace Vision.ClientStack
 
         protected override void PacketReceived(UDPPacketBuffer buffer)
         {
+            //MainConsole.Instance.Info("[llupdserver] PacketReceived");
+            // Debugging/Profiling
+            //try { Thread.CurrentThread.Name = "PacketReceived (" + m_scene.RegionInfo.RegionName + ")"; }
+            //catch (Exception) { }
+
             LLUDPClient udpClient;
             Packet packet = null;
             int packetEnd = buffer.DataLength - 1;

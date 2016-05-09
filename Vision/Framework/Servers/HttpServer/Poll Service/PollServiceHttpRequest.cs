@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,13 +37,13 @@ namespace Vision.Framework.Servers.HttpServer
         public readonly int RequestTime;
         public readonly UUID RequestID;
 
-        public PollServiceHttpRequest(
+        public PollServiceHttpRequest (
             PollServiceEventArgs pPollServiceArgs, HttpListenerContext context)
         {
             PollServiceArgs = pPollServiceArgs;
             Context = context;
             RequestTime = System.Environment.TickCount;
-            RequestID = UUID.Random();
+            RequestID = UUID.Random ();
         }
     }
 }

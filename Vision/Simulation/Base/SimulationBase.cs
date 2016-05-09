@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/,  http://virtual-planets.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -236,7 +236,7 @@ namespace Vision.Simulation.Base
         {
             MainConsole.Instance.Info("====================================================================");
             MainConsole.Instance.Info(
-				        string.Format("==================== Starting Vision-Sim ({0}) ===============",
+				        string.Format("==================== Starting Vision-Sim ({0}) ======================",
                               (IntPtr.Size == 4 ? "x86" : "x64")));
             MainConsole.Instance.Info("====================================================================");
             MainConsole.Instance.Info("[Vision-Sim Startup]: Version : " + Version + "\n");
@@ -513,7 +513,7 @@ namespace Vision.Simulation.Base
         {
             if (File.Exists(fileName))
             {
-                MainConsole.Instance.Info("[Command File]: Running " + fileName);
+                MainConsole.Instance.Info("[Commandfile]: Running " + fileName);
                 List<string> commands = new List<string>();
                 using (StreamReader readFile = File.OpenText(fileName))
                 {
@@ -529,7 +529,7 @@ namespace Vision.Simulation.Base
                 }
                 foreach (string currentCommand in commands)
                 {
-                    MainConsole.Instance.Info("[Command File]: Running '" + currentCommand + "'");
+                    MainConsole.Instance.Info("[Commandfile]: Running '" + currentCommand + "'");
                     MainConsole.Instance.RunCommand(currentCommand);
                 }
             }
@@ -654,7 +654,7 @@ namespace Vision.Simulation.Base
                     MainConsole.Instance.Info("[Shut Down]: Terminating");
 
                 MainConsole.Instance.Info("[Shut Down]: Shut down processing on main thread complete. " +
-                                          (close ? " Exiting Vision-Sim!" : ""));
+                                          (close ? " Exiting Vision-Sim..." : ""));
                 MainConsole.Instance.CleanInfo("");
                 MainConsole.Instance.CleanInfo("");
 
