@@ -1,0 +1,5 @@
+C:\Users\Development\Desktop\Vision-Sim\VisionSim\bin\Vision.exe
+C:\Users\Development\Desktop\Vision-Sim\VisionSim\bin\Vision.pdb
+C:\Users\Development\Desktop\Vision-Sim\Vision\Application\obj\x64\Debug\Vision.csprojResolveAssemblyReference.cache
+C:\Users\Development\Desktop\Vision-Sim\Vision\Application\obj\x64\Debug\Vision.exe
+C:\Users\Development\Desktop\Vision-Sim\Vision\Application\obj\x64\Debug\Vision.pdb

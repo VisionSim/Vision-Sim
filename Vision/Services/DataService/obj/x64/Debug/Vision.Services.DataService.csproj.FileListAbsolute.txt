@@ -1,0 +1,5 @@
+C:\Users\Development\Desktop\Vision-Sim\VisionSim\bin\Vision.Services.DataService.dll
+C:\Users\Development\Desktop\Vision-Sim\VisionSim\bin\Vision.Services.DataService.pdb
+C:\Users\Development\Desktop\Vision-Sim\Vision\Services\DataService\obj\x64\Debug\Vision.Services.DataService.csprojResolveAssemblyReference.cache
+C:\Users\Development\Desktop\Vision-Sim\Vision\Services\DataService\obj\x64\Debug\Vision.Services.DataService.dll
+C:\Users\Development\Desktop\Vision-Sim\Vision\Services\DataService\obj\x64\Debug\Vision.Services.DataService.pdb

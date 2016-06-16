@@ -1,0 +1,5 @@
+C:\Users\Development\Desktop\Vision-Sim\VisionSim\bin\Vision.ScriptEngine.VisionScript.dll
+C:\Users\Development\Desktop\Vision-Sim\VisionSim\bin\Vision.ScriptEngine.VisionScript.pdb
+C:\Users\Development\Desktop\Vision-Sim\Vision\ScriptEngine\VisionScript\obj\x64\Debug\Vision.ScriptEngine.VisionScript.csprojResolveAssemblyReference.cache
+C:\Users\Development\Desktop\Vision-Sim\Vision\ScriptEngine\VisionScript\obj\x64\Debug\Vision.ScriptEngine.VisionScript.dll
+C:\Users\Development\Desktop\Vision-Sim\Vision\ScriptEngine\VisionScript\obj\x64\Debug\Vision.ScriptEngine.VisionScript.pdb

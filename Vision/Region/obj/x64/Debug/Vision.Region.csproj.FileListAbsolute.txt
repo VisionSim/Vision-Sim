@@ -1,0 +1,4 @@
+C:\Users\Development\Desktop\Vision-Sim\VisionSim\bin\Vision.Region.dll
+C:\Users\Development\Desktop\Vision-Sim\VisionSim\bin\Vision.Region.pdb
+C:\Users\Development\Desktop\Vision-Sim\Vision\Region\obj\x64\Debug\Vision.Region.dll
+C:\Users\Development\Desktop\Vision-Sim\Vision\Region\obj\x64\Debug\Vision.Region.pdb

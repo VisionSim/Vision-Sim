@@ -1,0 +1,5 @@
+C:\Users\Development\Desktop\Vision-Sim\VisionSim\bin\Physics\Vision.Physics.Meshing.dll
+C:\Users\Development\Desktop\Vision-Sim\VisionSim\bin\Physics\Vision.Physics.Meshing.pdb
+C:\Users\Development\Desktop\Vision-Sim\Vision\Physics\Meshing\obj\x64\Debug\Vision.Physics.Meshing.csprojResolveAssemblyReference.cache
+C:\Users\Development\Desktop\Vision-Sim\Vision\Physics\Meshing\obj\x64\Debug\Vision.Physics.Meshing.dll
+C:\Users\Development\Desktop\Vision-Sim\Vision\Physics\Meshing\obj\x64\Debug\Vision.Physics.Meshing.pdb

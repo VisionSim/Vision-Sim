@@ -1,0 +1,5 @@
+C:\Users\Development\Desktop\Vision-Sim\VisionSim\bin\Vision.Services.GenericServices.dll
+C:\Users\Development\Desktop\Vision-Sim\VisionSim\bin\Vision.Services.GenericServices.pdb
+C:\Users\Development\Desktop\Vision-Sim\Vision\Services\GenericServices\obj\x64\Debug\Vision.Services.GenericServices.csprojResolveAssemblyReference.cache
+C:\Users\Development\Desktop\Vision-Sim\Vision\Services\GenericServices\obj\x64\Debug\Vision.Services.GenericServices.dll
+C:\Users\Development\Desktop\Vision-Sim\Vision\Services\GenericServices\obj\x64\Debug\Vision.Services.GenericServices.pdb

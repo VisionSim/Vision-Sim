@@ -1,0 +1,5 @@
+C:\Users\Development\Desktop\Vision-Sim\VisionSim\bin\Vision.DataManager.dll
+C:\Users\Development\Desktop\Vision-Sim\VisionSim\bin\Vision.DataManager.pdb
+C:\Users\Development\Desktop\Vision-Sim\Vision\DataManager\obj\x64\Debug\Vision.DataManager.csprojResolveAssemblyReference.cache
+C:\Users\Development\Desktop\Vision-Sim\Vision\DataManager\obj\x64\Debug\Vision.DataManager.dll
+C:\Users\Development\Desktop\Vision-Sim\Vision\DataManager\obj\x64\Debug\Vision.DataManager.pdb
