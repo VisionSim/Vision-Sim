@@ -934,7 +934,7 @@ namespace Vision.Modules.Monitoring
         {
         }
 
-        public void PostInitialize ()
+        public void PostInitialise ()
         {
             ISceneManager manager = m_simulationBase.ApplicationRegistry.RequestModuleInterface<ISceneManager> ();
             if (manager != null) {

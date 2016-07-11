@@ -99,7 +99,7 @@ namespace Vision.Modules.Combat
             get { return null; }
         }
 
-        public void Initialize (IConfigSource source)
+        public void Initialise (IConfigSource source)
         {
             m_config = source.Configs ["CombatModule"];
             if (m_config != null) {

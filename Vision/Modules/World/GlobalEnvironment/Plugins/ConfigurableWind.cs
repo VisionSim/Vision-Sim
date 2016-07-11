@@ -63,7 +63,7 @@ namespace Vision.Modules.GlobalEnvironment.Plugins
             get { return "ConfigurableWind"; }
         }
 
-        public void Initialize ()
+        public void Initialise ()
         {
         }
 

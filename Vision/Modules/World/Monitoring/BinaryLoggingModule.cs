@@ -56,7 +56,7 @@ namespace Vision.Modules.Monitoring
             get { return null; }
         }
 
-        public void Initialize (IConfigSource source)
+        public void Initialise (IConfigSource source)
         {
             try {
                 IConfig statConfig = source.Configs ["Statistics.Binary"];

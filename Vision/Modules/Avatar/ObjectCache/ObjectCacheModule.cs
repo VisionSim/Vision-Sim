@@ -55,7 +55,7 @@ namespace Vision.Modules.ObjectCache
 
         #region INonSharedRegionModule
 
-        public virtual void Initialize (IConfigSource source)
+        public virtual void Initialise (IConfigSource source)
         {
             IConfig moduleConfig = source.Configs ["ObjectCache"];
             if (moduleConfig != null) {
@@ -229,7 +229,7 @@ namespace Vision.Modules.ObjectCache
 
         #endregion
 
-        public virtual void PostInitialize ()
+        public virtual void PostInitialise ()
         {
         }
 

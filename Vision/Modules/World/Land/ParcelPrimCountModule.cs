@@ -79,7 +79,7 @@ namespace Vision.Modules.Land
             get { return null; }
         }
 
-        public void Initialize(IConfigSource source)
+        public void Initialise(IConfigSource source)
         {
         }
 

@@ -45,7 +45,7 @@ namespace Vision.Modules
     {
         private List<ServerSetting> m_settings = new List<ServerSetting>();
 
-        public void Initialize(IConfigSource source)
+        public void Initialise(IConfigSource source)
         {
         }
 

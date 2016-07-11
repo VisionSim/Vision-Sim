@@ -50,7 +50,7 @@ namespace Vision.Modules.SetHome
 
         #region INonSharedRegionModule Members
 
-        public void Initialize(IConfigSource pSource)
+        public void Initialise(IConfigSource pSource)
         {
         }
 

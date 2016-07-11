@@ -25,7 +25,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using System;
 using System.IO;
 using System.IO.Compression;
@@ -45,11 +44,11 @@ using Vision.Framework.Utilities;
 
 namespace Vision.Modules.Archivers
 {
-    public class Archiver : IService, IBackupArchiver
+    public class Archiver : IService, IVisionBackupArchiver
     {
         Int64 m_AllowPrompting;
 
-        #region IBackupArchiver Members
+        #region IVisionBackupArchiver Members
 
         public bool AllowPrompting
         {
@@ -118,13 +117,13 @@ namespace Vision.Modules.Archivers
                 MainConsole.Instance.Commands.AddCommand (
                     "save archive",
                     "save archive",
-                    "Saves a Vision-Sim '.abackup' archive (deprecated)",
+                    "Saves a Vision '.abackup' archive (deprecated)",
                     SaveVisionArchive, true, false);
 
                 MainConsole.Instance.Commands.AddCommand (
                     "load archive",
                     "load archive",
-                    "Loads a Vision-Sim '.abackup' archive",
+                    "Loads a Vision '.abackup' archive",
                     LoadVisionArchive, true, false);
             }
 
@@ -145,7 +144,8 @@ namespace Vision.Modules.Archivers
             #endif
 
             //Register the interface
-            registry.RegisterModuleInterface<IBackupArchiver> (this);
+            registry.RegisterModuleInterface<IVisionBackupArchiver> (this);
+
         }
 
         public void Start (IConfigSource config, IRegistryCore registry)
@@ -160,7 +160,8 @@ namespace Vision.Modules.Archivers
 
         void LoadVisionArchive (IScene scene, string[] cmd)
         {
-            string fileName = MainConsole.Instance.Prompt ("What file name should we load?", scene.RegionInfo.RegionName + ".abackup");
+            string fileName = MainConsole.Instance.Prompt ("What file name should we load?",
+                                  scene.RegionInfo.RegionName + ".abackup");
 
             // a couple of sanity checks
             string extension = Path.GetExtension (fileName);
@@ -191,7 +192,8 @@ namespace Vision.Modules.Archivers
 
         void SaveVisionArchive (IScene scene, string[] cmd)
         {
-            string fileName = MainConsole.Instance.Prompt ("What file name will this be saved as?", scene.RegionInfo.RegionName + ".abackup");
+            string fileName = MainConsole.Instance.Prompt ("What file name will this be saved as?",
+                                  scene.RegionInfo.RegionName + ".abackup");
 
             //some file sanity checks
             string extension = Path.GetExtension (fileName);
@@ -206,7 +208,6 @@ namespace Vision.Modules.Archivers
             {
                 fileDir = "./";
             }
-
             if (!Directory.Exists (fileDir))
             {
                 MainConsole.Instance.Info ("[Archiver]: The file path specified, '" + fileDir + "' does not exist!");

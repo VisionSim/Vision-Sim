@@ -109,7 +109,7 @@ namespace Vision.Modules.WorldMap
             MainConsole.Instance.InfoFormat ("[MapTile generator]: Generating Maptile for {0}, using {1} ",
                 m_scene.RegionInfo.RegionName, tileRenderer);
 
-            terrainRenderer.Initialize (m_scene, m_config);
+            terrainRenderer.Initialise (m_scene, m_config);
 
             mapBMP = null;
             terrainBMP = new Bitmap (Constants.RegionSize, Constants.RegionSize, PixelFormat.Format24bppRgb);
@@ -161,7 +161,7 @@ namespace Vision.Modules.WorldMap
             MainConsole.Instance.InfoFormat ("[MapTile generator]: Generating worldview for {0}",
                 m_scene.RegionInfo.RegionName);
 
-            renderer.Initialize (m_scene, m_config);
+            renderer.Initialise (m_scene, m_config);
             Bitmap worldView = renderer.CreateViewImage (camPos, camDir, fov, width, height, useTextures);
 
             MainConsole.Instance.InfoFormat ("[MapTile generator]: Worldview generation took {0} ms",
@@ -177,7 +177,7 @@ namespace Vision.Modules.WorldMap
 
             MainConsole.Instance.InfoFormat ("[MapTile generator]: Generating world maptile for {0}",
                        m_scene.RegionInfo.RegionName);
-            renderer.Initialize (m_scene, m_config);
+            renderer.Initialise (m_scene, m_config);
             Bitmap worldMap = renderer.TerrainToBitmap (null, size);
 
             MainConsole.Instance.InfoFormat ("[MapTile generator]: World maptile generation took {0} ms",
@@ -205,7 +205,7 @@ namespace Vision.Modules.WorldMap
 
         #region INonSharedRegionModule Members
 
-        public void Initialize (IConfigSource source)
+        public void Initialise (IConfigSource source)
         {
             m_config = source;
         }

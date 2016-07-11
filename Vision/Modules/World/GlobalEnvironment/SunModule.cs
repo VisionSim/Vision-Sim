@@ -35,7 +35,7 @@ using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 
-namespace Vision.Modules.GLobalEnvironment
+namespace Vision.Modules.GlobalEnvironment
 {
     public class SunModule : ISunModule
     {
@@ -156,7 +156,7 @@ namespace Vision.Modules.GLobalEnvironment
 
         #region IRegion Methods
 
-        public void Initialize (IConfigSource config)
+        public void Initialise (IConfigSource config)
         {
             m_frame = 0;
             m_config = config;

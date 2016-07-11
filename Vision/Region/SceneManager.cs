@@ -135,7 +135,7 @@ namespace Vision.Region
                 Console.Read(); //Wait till they see
                 Environment.Exit(0);
             }
-            m_selectedDataService.Initialize();
+            m_selectedDataService.Initialise();
 
             AddConsoleCommands();
 
@@ -150,11 +150,11 @@ namespace Vision.Region
             foreach (IScene scene in m_scenes)
             {
                 scene.Config = config;
-                scene.PhysicsScene.PostInitialize(config);
+                scene.PhysicsScene.PostInitialise(config);
             }
         }
 
-        public void PostInitialize()
+        public void PostInitialise()
         {
         }
 
@@ -467,7 +467,7 @@ namespace Vision.Region
             //First, Initialize the SharedRegionStartupModule
             foreach (ISharedRegionStartupModule module in m_startupPlugins)
             {
-                module.Initialize(scene, m_config, m_SimBase);
+                module.Initialise(scene, m_config, m_SimBase);
             }
             //Then do the ISharedRegionModule and INonSharedRegionModules
             MainConsole.Instance.Debug("[Modules]: Loading region modules");
@@ -481,7 +481,7 @@ namespace Vision.Region
             //Then finish the rest of the SharedRegionStartupModules
             foreach (ISharedRegionStartupModule module in m_startupPlugins)
             {
-                module.PostInitialize(scene, m_config, m_SimBase);
+                module.PostInitialise(scene, m_config, m_SimBase);
             }
             foreach (ISharedRegionStartupModule module in m_startupPlugins)
             {

@@ -260,7 +260,7 @@ namespace Vision.Physics.OpenDynamicsEngine
         }
 
         // Initialize the mesh plugin
-        public override void Initialize(IMesher meshmerizer, IScene scene)
+        public override void Initialise(IMesher meshmerizer, IScene scene)
         {
             mesher = meshmerizer;
             m_region = scene.RegionInfo;
@@ -268,7 +268,7 @@ namespace Vision.Physics.OpenDynamicsEngine
             WorldExtents = new Vector2(m_region.RegionSizeX, m_region.RegionSizeY);
         }
 
-        public override void PostInitialize(IConfigSource config)
+        public override void PostInitialise(IConfigSource config)
         {
             m_rayCastManager = new ODERayCastRequestManager(this);
             m_config = config;

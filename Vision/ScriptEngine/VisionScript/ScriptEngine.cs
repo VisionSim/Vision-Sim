@@ -202,7 +202,7 @@ namespace Vision.ScriptEngine.VisionScript
 
         #region ISharedRegionModule
 
-        public void Initialize(IConfigSource config)
+        public void Initialise(IConfigSource config)
         {
             m_ConfigSource = config;
             ScriptConfigSource = config.Configs[ScriptEngineName];
@@ -452,11 +452,11 @@ namespace Vision.ScriptEngine.VisionScript
                 MaintenanceThread.StartScripts(
                     scripts.Select(ID => new LUStruct {Action = LUType.Load, ID = ID}).ToArray());
 
-                MainConsole.Instance.Warn("[Vision Script]: All scripts have been restarted.");
+                MainConsole.Instance.Warn("[Vision Script Engine]: All scripts have been restarted.");
             }
             else
             {
-                MainConsole.Instance.Info("[Vision Script]: Not restarting all scripts");
+                MainConsole.Instance.Info("[Vision Script Engine]: Not restarting all scripts");
             }
         }
 
@@ -467,11 +467,11 @@ namespace Vision.ScriptEngine.VisionScript
             {
                 StopAllScripts();
                 MaintenanceThread.Stop();
-                MainConsole.Instance.Warn("[Vision Script]: All scripts have been stopped.");
+                MainConsole.Instance.Warn("[Vision Script Engine]: All scripts have been stopped.");
             }
             else
             {
-                MainConsole.Instance.Info("[Vision Script]: Not restarting all scripts");
+                MainConsole.Instance.Info("[Vision Script Engine]: Not restarting all scripts");
             }
         }
 
@@ -498,14 +498,14 @@ namespace Vision.ScriptEngine.VisionScript
         protected void VisionDotNetDisable(IScene scene, string[] cmdparams)
         {
             ConsoleDisabled = true;
-            MainConsole.Instance.Warn("[Vision Script]: The Vision Script has been disabled.");
+            MainConsole.Instance.Warn("[Vision Script Engine]: VS has been disabled.");
         }
 
         protected void VisionDotNetEnable(IScene scene, string[] cmdparams)
         {
             ConsoleDisabled = false;
             MaintenanceThread.Started = true;
-            MainConsole.Instance.Warn("[Vision Script]: The Vision Script has been enabled.");
+            MainConsole.Instance.Warn("[Vision Script Engine]: VS has been enabled.");
         }
 
         #endregion

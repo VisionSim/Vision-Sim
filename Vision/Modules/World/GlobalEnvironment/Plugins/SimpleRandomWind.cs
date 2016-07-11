@@ -32,6 +32,7 @@ using OpenMetaverse;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 
+
 namespace Vision.Modules.GlobalEnvironment.Plugins
 {
     public class SimpleRandomWind : IWindModelPlugin
@@ -52,7 +53,7 @@ namespace Vision.Modules.GlobalEnvironment.Plugins
             get { return "SimpleRandomWind"; }
         }
 
-        public void Initialize ()
+        public void Initialise ()
         {
         }
 

@@ -229,7 +229,7 @@ namespace Vision.Modules.Permissions
 
         #region INonSharedRegionModule Members
 
-        public void Initialize (IConfigSource config)
+        public void Initialise (IConfigSource config)
         {
             PermissionsConfig = config.Configs ["Permissions"];
 

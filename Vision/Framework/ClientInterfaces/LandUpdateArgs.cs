@@ -54,6 +54,11 @@ namespace Vision.Framework.ClientInterfaces
         public int PassPrice;
         public bool Privacy;
         public int SalePrice;
+        // 25062016 Added for LibOMV update 1.0.2.5
+        public bool SeeAVs;
+        public bool AnyAVSounds;
+        public bool GroupAVSounds;
+        // End
         public UUID SnapshotID;
         public Vector3 UserLocation;
         public Vector3 UserLookAt;

@@ -755,7 +755,7 @@ namespace Vision.ScriptEngine.VisionScript
                 //This will happen if the script doesn't compile correctly
                 if (ID.Script == null)
                 {
-                    MainConsole.Instance.Info("[Vision Script]: Could not load script from item '" +
+                    MainConsole.Instance.Info("[Vision Script Engine]: Could not load script from item '" +
                                               ID.InventoryItem.Name +
                                               "' to fire event " + FunctionName);
                     return false;

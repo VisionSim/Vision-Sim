@@ -49,7 +49,7 @@ namespace Vision.Modules.Inventory
 
         #region INonSharedRegionModule Members
 
-        public void Initialize(IConfigSource config)
+        public void Initialise(IConfigSource config)
         {
             if (config.Configs["Messaging"] != null)
             {

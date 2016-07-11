@@ -53,7 +53,7 @@ namespace Vision.Modules.Chat
         Dictionary<UUID, List<GridInstantMessage>> m_offlineMessagesCache =
             new Dictionary<UUID, List<GridInstantMessage>> ();
 
-        public void Initialize (IConfigSource config)
+        public void Initialise (IConfigSource config)
         {
             IConfig cnf = config.Configs ["Messaging"];
             if (cnf != null) {

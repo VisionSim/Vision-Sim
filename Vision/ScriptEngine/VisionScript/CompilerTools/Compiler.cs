@@ -185,7 +185,7 @@ namespace Vision.ScriptEngine.VisionScript.CompilerTools
             converters = VisionModuleLoader.PickupModules<IScriptConverter>();
             foreach (IScriptConverter convert in converters)
             {
-                convert.Initialize(this);
+                convert.Initialise(this);
             }
         }
 

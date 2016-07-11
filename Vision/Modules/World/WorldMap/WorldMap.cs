@@ -69,7 +69,7 @@ namespace Vision.Modules.WorldMap
 
         #region INonSharedRegionModule Members
 
-        public virtual void Initialize (IConfigSource source)
+        public virtual void Initialise (IConfigSource source)
         {
             if (source.Configs ["MapModule"] != null) {
                 if (source.Configs ["MapModule"].GetString ("WorldMapModule", "WorldMapModule") != Name)

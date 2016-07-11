@@ -548,7 +548,7 @@ namespace Vision.ScriptEngine.VisionScript
 
             if (InventoryItem == null)
             {
-                MainConsole.Instance.Warn("[Vision Script]: Could not find inventory item for script " + ItemID + ", part" +
+                MainConsole.Instance.Warn("[Vision Script Engine]: Could not find inventory item for script " + ItemID + ", part" +
                                           Part.Name + "@" +
                                           Part.AbsolutePosition);
                 return false;

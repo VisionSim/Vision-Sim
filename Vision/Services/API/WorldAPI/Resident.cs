@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/
+ * Copyright (c) Contributors, http://vision-sim.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,19 +25,22 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
  
+using Nini.Config;
+using Vision.Framework.Modules;
 using Vision.Framework.Services;
+
 namespace Vision.Services.API.WorldAPI
 {
 	public class ResidentWorldAPI : IService
 	{
 		#region IService implementation
 
-		public void Initialize(Nini.Config.IConfigSource config, Vision.Framework.Modules.IRegistryCore registry)
+		public void Initialize(IConfigSource config, IRegistryCore registry)
 		{
 			throw new System.NotImplementedException();
 		}
 		
-		public void Start(Nini.Config.IConfigSource config, Vision.Framework.Modules.IRegistryCore registry)
+		public void Start(IConfigSource config, IRegistryCore registry)
 		{
 			throw new System.NotImplementedException();
 		}

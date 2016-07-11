@@ -33,7 +33,7 @@ namespace Vision.Framework.Modules
 {
     public interface IMapTileTerrainRenderer
     {
-        void Initialize(IScene scene, IConfigSource config);
+        void Initialise(IScene scene, IConfigSource config);
         Bitmap TerrainToBitmap(Bitmap mapbmp);
     }
 }

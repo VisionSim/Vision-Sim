@@ -26,10 +26,10 @@
  */
 
 using System;
-using Nini.Config;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
+using Nini.Config;
 
 namespace Vision.Modules.GlobalEnvironment
 {
@@ -48,7 +48,7 @@ namespace Vision.Modules.GlobalEnvironment
 
         #region ICloudModule Members
 
-        public void Initialize (IConfigSource config)
+        public void Initialise (IConfigSource config)
         {
             IConfig cloudConfig = config.Configs ["Cloud"];
 

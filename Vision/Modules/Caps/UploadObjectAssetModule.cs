@@ -58,7 +58,7 @@ namespace Vision.Modules.Caps
             get { return null; }
         }
 
-        public void Initialize(IConfigSource source)
+        public void Initialise(IConfigSource source)
         {
         }
 

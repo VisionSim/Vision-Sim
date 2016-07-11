@@ -89,7 +89,8 @@ namespace Vision.Modules.Currency
         }
 
         public bool Transfer(UUID toID, UUID fromID, UUID toObjectID, string toObjectName, UUID fromObjectID,
-                             string fromObjectName, int amount, string description, TransactionType type)
+                             string fromObjectName, int amount, string description,
+                             TransactionType type)
         {
             if ((type == TransactionType.PayObject) && (OnObjectPaid != null))
                 OnObjectPaid((fromObjectID == UUID.Zero) ? toObjectID : fromObjectID, fromID, amount);
@@ -108,7 +109,7 @@ namespace Vision.Modules.Currency
         ///     Startup
         /// </summary>
         /// <param name="config"></param>
-        public void Initialize(IConfigSource config)
+        public void Initialise(IConfigSource config)
         {
             m_config = config;
             IConfig currencyConfig = config.Configs["Currency"];
@@ -178,7 +179,8 @@ namespace Vision.Modules.Currency
             return true;
         }
 
-        public void ProcessMoneyTransferRequest(UUID source, UUID destination, int amount, int transactiontype, string description)
+        public void ProcessMoneyTransferRequest(UUID source, UUID destination, int amount,
+                                                int transactiontype, string description)
         {
         }
 
@@ -236,12 +238,12 @@ namespace Vision.Modules.Currency
                 catch (InvalidCastException)
                 {
                 }
-
                 Hashtable currencyResponse = new Hashtable {{"estimatedCost", 0}, {"currencyBuy", amount}};
 
                 quoteResponse.Add("success", true);
                 quoteResponse.Add("currency", currencyResponse);
                 quoteResponse.Add("confirm", "asdfad9fj39ma9fj");
+
                 returnval.Value = quoteResponse;
                 return returnval;
             }
@@ -255,6 +257,32 @@ namespace Vision.Modules.Currency
 
         protected XmlRpcResponse buy_func(XmlRpcRequest request, IPEndPoint ep)
         {
+            /*Hashtable requestData = (Hashtable)request.Params[0];
+            UUID agentId = UUID.Zero;
+            int amount = 0;
+            if (requestData.ContainsKey("agentId") && requestData.ContainsKey("currencyBuy"))
+            {
+                UUID.TryParse((string)requestData["agentId"], out agentId);
+                try
+                {
+                    amount = (Int32)requestData["currencyBuy"];
+                }
+                catch (InvalidCastException)
+                {
+                }
+                if (agentId != UUID.Zero)
+                {
+                    uint buyer = CheckExistAndRefreshFunds(agentId);
+                    buyer += (uint)amount;
+                    UpdateBalance(agentId,buyer);
+					
+                    IClientAPI client = LocateClientObject(agentId);
+                    if (client != null)
+                    {
+                        SendMoneyBalance(client, agentId, client.SessionId, UUID.Zero);
+                    }
+                }
+            }*/
             XmlRpcResponse returnval = new XmlRpcResponse();
             Hashtable returnresp = new Hashtable {{"success", true}};
             returnval.Value = returnresp;
@@ -365,7 +393,8 @@ namespace Vision.Modules.Currency
             return new List<AgentPurchase> ();
         }
 
-        public List<GroupAccountHistory> GetGroupTransactions(UUID groupID, UUID agentID, int currentInterval, int intervalDays)
+        public List<GroupAccountHistory> GetGroupTransactions(UUID groupID, UUID agentID, int currentInterval,
+            int intervalDays)
         {
             return new List<GroupAccountHistory>();
         }
