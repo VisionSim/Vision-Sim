@@ -1,6 +1,8 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
+ * For an explanation of the license of each contributor and the content it 
+ * covers please see the Licenses directory.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -25,7 +27,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using System;
 using System.Text;
 using Nini.Config;
@@ -49,7 +50,7 @@ namespace Vision.Modules.Voice
 
         #region INonSharedRegionModule Members
 
-        public void Initialise(IConfigSource config)
+        public void Initialize(IConfigSource config)
         {
             IConfig voiceconfig = config.Configs["Voice"];
             if (voiceconfig == null)
@@ -121,7 +122,7 @@ namespace Vision.Modules.Voice
         //
         // Note that OnRegisterCaps is called here via a closure
         // delegate containing the scene of the respective region (see
-        // Initialise()).
+        // Initialize()).
         public OSDMap OnRegisterCaps(IScene scene, UUID agentID, IHttpServer caps)
         {
             OSDMap retVal = new OSDMap();
@@ -166,8 +167,6 @@ namespace Vision.Modules.Voice
             ((OSDMap) response["voice_credentials"])["channel_uri"] = "";
             return OSDParser.SerializeLLSDXmlBytes(response);
         }
-
-
 
         #region Region-side message sending
 

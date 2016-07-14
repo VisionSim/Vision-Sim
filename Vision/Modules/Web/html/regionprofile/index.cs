@@ -1,6 +1,8 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
+ * For an explanation of the license of each contributor and the content it 
+ * covers please see the Licenses directory.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -36,7 +38,6 @@ using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
 using RegionFlags = Vision.Framework.Services.RegionFlags;
-
 
 namespace Vision.Modules.Web
 {
@@ -185,8 +186,6 @@ namespace Vision.Modules.Web
                 vars.Add ("TooltipsMenuParcel", translator.GetTranslatedString ("TooltipsMenuParcel"));
                 vars.Add ("MenuOwnerTitle", translator.GetTranslatedString ("MenuOwnerTitle"));
                 vars.Add ("TooltipsMenuOwner", translator.GetTranslatedString ("TooltipsMenuOwner"));
-
-
                 vars.Add ("RegionInformationText", translator.GetTranslatedString ("RegionInformationText"));
                 vars.Add ("OwnerNameText", translator.GetTranslatedString ("OwnerNameText"));
                 vars.Add ("RegionLocationText", translator.GetTranslatedString ("RegionLocationText"));
@@ -200,7 +199,6 @@ namespace Vision.Modules.Web
                 vars.Add ("NumberOfUsersInRegionText", translator.GetTranslatedString ("NumberOfUsersInRegionText"));
                 vars.Add ("ParcelsInRegionText", translator.GetTranslatedString ("ParcelsInRegionText"));
                 vars.Add ("MainServerURL", webInterface.GridURL);
-
             }
 
             return vars;

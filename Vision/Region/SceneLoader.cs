@@ -1,6 +1,8 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
+ * For an explanation of the license of each contributor and the content it 
+ * covers please see the Licenses directory.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -26,12 +28,11 @@
  */
 
 using System.Collections.Generic;
-
+using Nini.Config;
 using Vision.Framework.ModuleLoader;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
-using Nini.Config;
 
 namespace Vision.Region
 {
@@ -59,7 +60,7 @@ namespace Vision.Region
                 m_simBase.ApplicationRegistry.RegisterModuleInterface<ISceneLoader>(this);
         }
 
-        public void PostInitialise()
+        public void PostInitialize()
         {
         }
 
@@ -100,7 +101,7 @@ namespace Vision.Region
             List<IClientNetworkServer> allClientServers = new List<IClientNetworkServer>();
             foreach (IClientNetworkServer clientServer in clientServers)
             {
-                clientServer.Initialise((uint)regionInfo.RegionPort, m_configSource, circuitManager);
+                clientServer.Initialize((uint)regionInfo.RegionPort, m_configSource, circuitManager);
                 allClientServers.Add(clientServer);
             }
 

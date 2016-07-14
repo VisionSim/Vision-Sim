@@ -1,6 +1,8 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
+ * For an explanation of the license of each contributor and the content it 
+ * covers please see the Licenses directory.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -168,8 +170,6 @@ namespace Vision.Framework.Utilities
                         MainConsole.Instance.WarnFormat ("[WebUtils] Request timed out - (URI:{0}, METHOD:{1}) : {2}", url, method, ex.Message);
                     string bufdata;
                     bufdata = buffer.Length > 0 ? Encoding.UTF8.GetString (buffer) : "null";
-					if (bufdata.Length > 255)
-						bufdata = bufdata.Substring (0, 250) + "...";
                     MainConsole.Instance.WarnFormat ("[WebUtils] Request - {0}", bufdata);
                 }
             } catch (Exception ex) {
@@ -177,8 +177,6 @@ namespace Vision.Framework.Utilities
                     MainConsole.Instance.WarnFormat ("[WebUtils] Request failed - (URI:{0}, METHOD:{1}) : {2}", url, method, ex.Message);
                     string bufdata;
                     bufdata = buffer.Length > 0 ? Encoding.UTF8.GetString (buffer) : "null";
-					if (bufdata.Length > 255)
-						bufdata = bufdata.Substring (0, 250) + "...";
                     MainConsole.Instance.WarnFormat ("[WebUtils] Request - {0}", bufdata);
                 }
             }

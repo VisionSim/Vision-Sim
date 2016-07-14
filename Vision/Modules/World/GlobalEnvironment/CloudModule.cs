@@ -1,6 +1,8 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
+ * For an explanation of the license of each contributor and the content it 
+ * covers please see the Licenses directory.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -26,10 +28,10 @@
  */
 
 using System;
+using Nini.Config;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
-using Nini.Config;
 
 namespace Vision.Modules.GlobalEnvironment
 {
@@ -48,7 +50,7 @@ namespace Vision.Modules.GlobalEnvironment
 
         #region ICloudModule Members
 
-        public void Initialise (IConfigSource config)
+        public void Initialize (IConfigSource config)
         {
             IConfig cloudConfig = config.Configs ["Cloud"];
 

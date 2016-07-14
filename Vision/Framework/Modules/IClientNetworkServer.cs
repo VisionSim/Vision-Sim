@@ -1,6 +1,8 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org, http://opensimulator.org/
+ * Copyright (c) Contributors, http://vision-sim.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
+ * For an explanation of the license of each contributor and the content it 
+ * covers please see the Licenses directory.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -25,17 +27,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.PresenceInfo;
-using Vision.Framework.SceneInfo;
+using System.Net;
 using Nini.Config;
 using OpenMetaverse;
-using System.Net;
+using Vision.Framework.PresenceInfo;
+using Vision.Framework.SceneInfo;
 
 namespace Vision.Framework.Modules
 {
     public interface IClientNetworkServer
     {
-        void Initialise(uint port, IConfigSource configSource, AgentCircuitManager authenticateClass);
+        void Initialize(uint port, IConfigSource configSource, AgentCircuitManager authenticateClass);
         void UpdatePort(uint port);
         void AddScene(IScene x);
         void Start();

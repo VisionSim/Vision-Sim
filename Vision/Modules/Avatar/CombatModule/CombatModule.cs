@@ -1,6 +1,8 @@
 /*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
+ * For an explanation of the license of each contributor and the content it 
+ * covers please see the Licenses directory.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -35,7 +37,6 @@ using Vision.Framework.Physics;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
-
 
 namespace Vision.Modules.Combat
 {
@@ -99,7 +100,7 @@ namespace Vision.Modules.Combat
             get { return null; }
         }
 
-        public void Initialise (IConfigSource source)
+        public void Initialize (IConfigSource source)
         {
             m_config = source.Configs ["CombatModule"];
             if (m_config != null) {

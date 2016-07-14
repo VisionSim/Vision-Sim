@@ -1,6 +1,8 @@
 ﻿/*
- * Copyright (c) Contributors, http://vision-sim.org/, http://whitecore-sim.org/, http://aurora-sim.org
+ * Copyright (c) Contributors, http://vision-sim.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
+ * For an explanation of the license of each contributor and the content it 
+ * covers please see the Licenses directory.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -39,7 +41,6 @@ using Vision.Framework.SceneInfo.Entities;
 using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Utilities;
 
-
 namespace Vision.Modules.WorldShader
 {
     public class WorldShader : INonSharedRegionModule
@@ -50,7 +51,7 @@ namespace Vision.Modules.WorldShader
 
         #region ISharedRegionModule Members
 
-        public void Initialise (IConfigSource source)
+        public void Initialize (IConfigSource source)
         {
         }
 
@@ -216,10 +217,6 @@ namespace Vision.Modules.WorldShader
         {
             Primitive.TextureEntry Textures = new Primitive.TextureEntry (id);
             Textures.DefaultTexture = CopyFace (c.DefaultTexture, Textures.DefaultTexture);
-            //for(int i = 0; i < c.FaceTextures.Length; i++)
-            //{
-            //    Textures.FaceTextures[i] = c.FaceTextures[i];
-            //}
             return Textures;
         }
 
