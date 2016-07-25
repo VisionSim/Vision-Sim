@@ -1,5 +1,5 @@
-﻿/*
- * Copyright (c) Contributors, http://secondgalaxy.com/
+/*
+ * Copyright (c) Contributors, http://vision-sim.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  * For an explanation of the license of each contributor and the content it 
  * covers please see the Licenses directory.
@@ -11,7 +11,7 @@
  *     * Redistributions in binary form must reproduce the above copyright
  *       notice, this list of conditions and the following disclaimer in the
  *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Second Galaxy Project nor the
+ *     * Neither the name of the Vision-Sim Project nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
  *
@@ -25,46 +25,29 @@
  * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ */
 
-using System.Reflection;
-using System.Runtime.InteropServices;
+using Vision.Framework.SceneInfo;
+using Vision.Framework.Serialization;
 
-/// <summary>
-/// 	General information about an assembly is controlled through the following
-/// 	set of attributes.  Change these attribute values, to modify the information
-/// 	associated with an assembly.
-/// </summary>
-[assembly: AssemblyTitle("Vision.Services.NoSQLServices")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyProduct("Vision.Services.NoSQLServices")]
-[assembly: AssemblyCopyright("Copyright © 2016-2025")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
+namespace Vision.Framework.Modules
+{
+    public interface IVisionBackupArchiver
+    {
+        bool AllowPrompting { get; set; }
+        void SaveRegionBackup(TarArchiveWriter writer, IScene scene);
+        void LoadRegionBackup(TarArchiveReader reader, IScene scene);
+    }
 
-/// <summary>
-/// 	Setting ComVisible to false makes the types in this assembly not visible
-/// 	to COM components.  If you need to access a type in this assembly from
-/// 	COM, set the ComVisible attribute to true on that type.
-/// </summary>
-[assembly: ComVisible(false)]
+    public interface IVisionBackupModule
+    {
+        bool IsArchiving { get; }
+        void SaveModuleToArchive(TarArchiveWriter writer, IScene scene);
 
-/// <summary>
-/// 	The following GUID is for the ID of the typelib if this project is exposed to COM
-/// </summary>
-[assembly: Guid("269c99ff-0740-4886-8593-7527903090bf")]
+        void BeginLoadModuleFromArchive(IScene scene);
 
-/// <summary>
-/// 	Version information for an assembly consists of the following four values:
-/// 		
-/// 		Major Version
-/// 		Minor Version
-/// 		Build Number
-/// 		Revion Number
-/// 	
-/// 	You can specify all the values or you can default the Build and Revision Numbers
-/// 	by using the '*' as shown below:
-/// 	[assembly: AssemblyVersion("1.0.*")]
-/// </summary>
-[assembly: AssemblyVersion("1.0.2.*")]
+        void LoadModuleFromArchive(byte[] data, string filePath, TarArchiveReader.TarEntryType type, IScene scene);
+
+        void EndLoadModuleFromArchive(IScene scene);
+    }
+}
