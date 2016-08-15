@@ -704,7 +704,7 @@
     </Project>
 	  
     <!-- Vision app -->
-    <Project frameworkVersion="v4_5" name="Vision" path="Vision/Application" type="Exe" appmanifest="app.manifest">
+    <Project frameworkVersion="v4_5" name="Vision" path="Vision/Application" type="Exe" appmanifest="app.manifest" icon="Vision.ico">
       <Configuration name="Debug" platform="x86">
         <Options>
           <OutputPath>../../VisionSim/bin/</OutputPath>
@@ -740,7 +740,7 @@
       </Files>
     </Project>
 	
-    <Project frameworkVersion="v4_5" name="Vision.Server" path="Vision/Server" type="Exe" appmanifest="app.manifest">
+    <Project frameworkVersion="v4_5" name="Vision.Server" path="Vision/Server" type="Exe" appmanifest="app.manifest" icon="Vision.Server.ico">
       <Configuration name="Debug" platform="x86">
         <Options>
           <OutputPath>../../VisionSim/bin/</OutputPath>
@@ -781,7 +781,7 @@
       </Files>
     </Project>
 
-    <Project frameworkVersion="v4_5" name="Vision.Server.AssetServer" path="Vision/Servers/AssetServer" type="Exe" appmanifest="app.manifest">
+    <Project frameworkVersion="v4_5" name="Vision.Server.AssetServer" path="Vision/Servers/AssetServer" type="Exe" appmanifest="app.manifest" icon="Vision.AssetServer.ico">
       <Configuration name="Debug" platform="x86">
         <Options>
           <OutputPath>../../../VisionSim/bin/</OutputPath>
@@ -822,7 +822,7 @@
       </Files>
     </Project>
 	
-    <Project frameworkVersion="v4_5" name="Vision.Server.AvatarServer" path="Vision/Servers/AvatarServer" type="Exe" appmanifest="app.manifest">
+    <Project frameworkVersion="v4_5" name="Vision.Server.AvatarServer" path="Vision/Servers/AvatarServer" type="Exe" appmanifest="app.manifest" icon="Vision.AvatarServer.ico">
       <Configuration name="Debug" platform="x86">
         <Options>
           <OutputPath>../../../VisionSim/bin/</OutputPath>
@@ -863,7 +863,7 @@
       </Files>
     </Project>
 	
-    <Project frameworkVersion="v4_5" name="Vision.Server.GridServer" path="Vision/Servers/GridServer" type="Exe" appmanifest="app.manifest">
+    <Project frameworkVersion="v4_5" name="Vision.Server.GridServer" path="Vision/Servers/GridServer" type="Exe" appmanifest="app.manifest" icon="Vision.GridServer.ico">
       <Configuration name="Debug" platform="x86">
         <Options>
           <OutputPath>../../../VisionSim/bin/</OutputPath>
@@ -904,7 +904,7 @@
       </Files>
     </Project>
 
-    <Project frameworkVersion="v4_5" name="Vision.Server.InventoryServer" path="Vision/Servers/InventoryServer" type="Exe" appmanifest="app.manifest">
+    <Project frameworkVersion="v4_5" name="Vision.Server.InventoryServer" path="Vision/Servers/InventoryServer" type="Exe" appmanifest="app.manifest" icon="Vision.InventoryServer.ico">
       <Configuration name="Debug" platform="x86">
         <Options>
           <OutputPath>../../../VisionSim/bin/</OutputPath>
@@ -945,7 +945,7 @@
       </Files>
     </Project>
 	
-    <Project frameworkVersion="v4_5" name="Vision.Server.WebServer" path="Vision/Servers/WebServer" type="Exe" appmanifest="app.manifest">
+    <Project frameworkVersion="v4_5" name="Vision.Server.WebServer" path="Vision/Servers/WebServer" type="Exe" appmanifest="app.manifest" icon="Vision.WebServer.ico">
       <Configuration name="Debug" platform="x86">
         <Options>
           <OutputPath>../../../VisionSim/bin/</OutputPath>
