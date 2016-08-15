@@ -39,6 +39,7 @@ using System.Resources;
 [assembly: AssemblyTitle("Vision.Servers.AssetServer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("Vision-Sim Development Team")]
 [assembly: AssemblyProduct("Vision.Servers.AssetServer")]
 [assembly: AssemblyCopyright("Copyright © 2016-2025")]
 [assembly: AssemblyTrademark("")]

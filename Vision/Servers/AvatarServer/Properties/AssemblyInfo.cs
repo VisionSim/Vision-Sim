@@ -39,6 +39,7 @@ using System.Resources;
 [assembly: AssemblyTitle("Vision.Servers.AvatarServer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("Vision-Sim Development Team")]
 [assembly: AssemblyProduct("Vision.Server.AvatarServer")]
 [assembly: AssemblyCopyright("Copyright © 2016-2025")]
 [assembly: AssemblyTrademark("")]

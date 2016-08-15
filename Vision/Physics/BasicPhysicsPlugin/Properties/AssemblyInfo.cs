@@ -38,6 +38,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Vision.Physics.BasicPhysicsPlugin")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("Vision-Sim Development Team")]
 [assembly: AssemblyProduct("Vision.Physics.BasicPhysicsPlugin")]
 [assembly: AssemblyCopyright("Copyright © 2016-2025")]
 [assembly: AssemblyTrademark("")]

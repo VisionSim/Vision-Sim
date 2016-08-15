@@ -38,6 +38,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Vision.CoreApplicationPlugins")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("Vision-Sim Development Team")]
 [assembly: AssemblyProduct("Vision.CoreApplicationPlugins")]
 [assembly: AssemblyCopyright("Copyright © 2016-2025")]
 [assembly: AssemblyTrademark("")]

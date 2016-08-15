@@ -39,6 +39,7 @@ using System.Resources;
 [assembly: AssemblyTitle("Vision.Servers.InventoryServer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("Vision-Sim Development Team")]
 [assembly: AssemblyProduct("Vision.Servers.InventoryServer")]
 [assembly: AssemblyCopyright("Copyright © 2016-2025")]
 [assembly: AssemblyTrademark("")]
