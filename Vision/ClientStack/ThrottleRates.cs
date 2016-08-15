@@ -200,7 +200,6 @@ namespace Vision.ClientStack
                     return State;
                 case ThrottleOutPacketType.AvatarInfo:
                     return AvatarInfo;
-//                case ThrottleOutPacketType.Unknown:
                 default:
                     return 0;
             }
@@ -228,7 +227,6 @@ namespace Vision.ClientStack
                     return StateLimit;
                 case ThrottleOutPacketType.AvatarInfo:
                     return AvatarInfoLimit;
-//                case ThrottleOutPacketType.Unknown:
                 default:
                     return 0;
             }

@@ -34,7 +34,7 @@ namespace Vision.Physics.BulletSPlugin
 {
     public abstract class BSConstraint : IDisposable
     {
-        static string LogHeader = "[BULLETSIM CONSTRAINT]";
+        static string LogHeader = "[Bulletsim Constraint]";
 
         protected BulletWorld m_world;
         protected BSScene PhysicsScene;

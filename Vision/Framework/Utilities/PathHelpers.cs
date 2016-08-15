@@ -52,10 +52,9 @@ namespace Vision.Framework.Utilities
             {
                 string userName = Environment.UserName; //check system for current username
                 return Regex.Replace(Path, usernameVar, userName, RegexOptions.IgnoreCase);
-                    //return Path with the system username
+               //return Path with the system username
             }
         }
-
 
         public static string PathHomeDrive(string fName) 
         {
@@ -127,7 +126,6 @@ namespace Vision.Framework.Utilities
                     defaultDir = "./";
 
                 fileName = VerifyOSPath(Path.Combine (defaultDir, fileName));
-
             }
              
             // check if the directory exists
@@ -368,6 +366,5 @@ namespace Vision.Framework.Utilities
 
             return fileName;
         }
-
     }
 }

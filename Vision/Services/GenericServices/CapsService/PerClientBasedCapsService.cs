@@ -36,16 +36,12 @@ using Vision.Framework.PresenceInfo;
 using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Services;
 
-
 namespace Vision.Services
 {
     public class PerClientBasedCapsService : IClientCapsService
     {
         protected ICapsService m_CapsService;
-
-        protected Dictionary<UUID, IRegionClientCapsService> m_RegionCapsServices =
-            new Dictionary<UUID, IRegionClientCapsService> ();
-
+        protected Dictionary<UUID, IRegionClientCapsService> m_RegionCapsServices = new Dictionary<UUID, IRegionClientCapsService> ();
         protected UserAccount m_account;
         protected UUID m_agentID;
         protected bool m_callbackHasCome;

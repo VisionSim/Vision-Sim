@@ -41,8 +41,7 @@ using Vision.Framework.PresenceInfo;
 using Vision.Framework.DatabaseInterfaces;
 
 namespace Vision.Modules.Currency
-{
-    
+{    
     public class BaseCurrencyConnector : ConnectorBase, IBaseCurrencyConnector
     {
         #region Declares
@@ -978,6 +977,5 @@ namespace Vision.Modules.Currency
         }
             
         #endregion
-
     }
 }

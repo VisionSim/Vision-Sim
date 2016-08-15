@@ -27,8 +27,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Vision.Framework.Services.ClassHelpers.Assets;
 using OpenMetaverse;
+using Vision.Framework.Services.ClassHelpers.Assets;
 
 namespace Vision.Framework.ClientInterfaces
 {
@@ -48,7 +48,5 @@ namespace Vision.Framework.ClientInterfaces
         public byte[] Params;
         public UUID RequestAssetID;
         public UUID TransferRequestID;
-        //public bool AssetInCache;
-        //public int TimeRequested;
     }
 }

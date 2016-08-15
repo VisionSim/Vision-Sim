@@ -66,7 +66,6 @@ namespace Vision.ScriptEngine.VisionScript.MiniModule
     {
         UUID SculptMap { get; set; }
         SculptType SculptType { get; set; }
-
         HoleShape HoleType { get; set; }
         double HoleSize { get; set; }
         PrimType PrimType { get; set; }

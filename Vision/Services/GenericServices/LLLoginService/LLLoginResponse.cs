@@ -124,7 +124,7 @@ namespace Vision.Services
 
             FillOutActiveGestures(gestures);
 
-            CircuitCode = (int)aCircuit.CircuitCode;
+            CircuitCode = (int) aCircuit.CircuitCode;
             Lastname = account.LastName;
             Firstname = account.FirstName;
             this.DisplayName = DisplayName;
@@ -154,7 +154,8 @@ namespace Vision.Services
 
         #region FillOutData
 
-        void FillOutInventoryData(List<InventoryFolderBase> invSkel, ILibraryService libService, IInventoryService invService)
+        void FillOutInventoryData(List<InventoryFolderBase> invSkel, ILibraryService libService,
+                                          IInventoryService invService)
         {
             InventoryData inventData = null;
 
@@ -164,7 +165,9 @@ namespace Vision.Services
             }
             catch (Exception e)
             {
-                MainConsole.Instance.WarnFormat("[LLogin service]: Error processing inventory skeleton of agent {0} - {1}", agentID, e);
+                MainConsole.Instance.WarnFormat(
+                    "[LLogin service]: Error processing inventory skeleton of agent {0} - {1}",
+                    agentID, e);
 
                 // ignore and continue
             }
@@ -175,7 +178,7 @@ namespace Vision.Services
 
                 Hashtable InventoryRootHash = new Hashtable();
                 InventoryRootHash["folder_id"] = inventData.RootFolderID.ToString();
-                InventoryRoot = new ArrayList { InventoryRootHash };
+                InventoryRoot = new ArrayList {InventoryRootHash};
                 InventorySkeleton = AgentInventoryArray;
             }
 
@@ -208,7 +211,6 @@ namespace Vision.Services
                     list.Add(item);
                 }
             }
-
             ActiveGestures = list;
         }
 
@@ -218,8 +220,7 @@ namespace Vision.Services
             // This is a fallback setting as the user's home region should have been set on login
             int x = Constants.DEFAULT_REGIONSTART_X * Constants.RegionSize;
             int y = Constants.DEFAULT_REGIONSTART_Y * Constants.RegionSize;
-            if (homeRegion != null)
-            {
+            if (homeRegion != null) {
                 x = homeRegion.RegionLocX;
                 y = homeRegion.RegionLocY;
             }
@@ -235,10 +236,12 @@ namespace Vision.Services
         void FillOutRegionData(AgentCircuitData circuitData, GridRegion destination)
         {
             IPEndPoint endPoint = destination.ExternalEndPoint;
+            //We don't need this anymore, we set this from what we get from the region
+            //endPoint = Util.ResolveAddressForClient (endPoint, circuitData.ClientIPEndPoint);
             SimAddress = endPoint.Address.ToString();
-            SimPort = (uint)circuitData.RegionUDPPort;
-            RegionX = (uint)destination.RegionLocX;
-            RegionY = (uint)destination.RegionLocY;
+            SimPort = (uint) circuitData.RegionUDPPort;
+            RegionX = (uint) destination.RegionLocX;
+            RegionY = (uint) destination.RegionLocY;
             RegionSizeX = destination.RegionSizeX;
             RegionSizeY = destination.RegionSizeY;
         }
@@ -301,15 +304,15 @@ namespace Vision.Services
                     uiConfigHash["allow_first_life"] = AllowFirstLife;
                 uiConfig.Add(uiConfigHash);
 
-                responseData["sim_port"] = (int)SimPort;
+                responseData["sim_port"] = (int) SimPort;
                 responseData["sim_ip"] = SimAddress;
-                responseData["http_port"] = (int)SimHttpPort;
+                responseData["http_port"] = (int) SimHttpPort;
 
                 responseData["agent_id"] = AgentID.ToString();
                 responseData["session_id"] = SessionID.ToString();
                 responseData["secure_session_id"] = SecureSessionID.ToString();
                 responseData["circuit_code"] = CircuitCode;
-                responseData["seconds_since_epoch"] = (int)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds;
+                responseData["seconds_since_epoch"] = (int) (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds;
                 responseData["login-flags"] = loginFlags;
                 responseData["seed_capability"] = seedCapability;
 
@@ -346,12 +349,12 @@ namespace Vision.Services
                 responseData["home"] = home;
                 responseData["look_at"] = lookAt;
                 responseData["message"] = Message;
-                responseData["region_x"] = (int)(RegionX);
-                responseData["region_y"] = (int)(RegionY);
+                responseData["region_x"] = (int) (RegionX);
+                responseData["region_y"] = (int) (RegionY);
                 responseData["region_size_x"] = (RegionSizeX);
                 responseData["region_size_y"] = (RegionSizeY);
                 responseData["cof_version"] = COFVersion;
-
+                
                 #region Global Textures
 
                 ArrayList globalTextures = new ArrayList();
@@ -401,7 +404,7 @@ namespace Vision.Services
                 {
                     Hashtable voice_config = new Hashtable();
                     voice_config["VoiceServerType"] = VoiceServerType;
-                    ArrayList list = new ArrayList { voice_config };
+                    ArrayList list = new ArrayList {voice_config};
                     responseData["voice-config"] = list;
                 }
 
@@ -434,7 +437,7 @@ namespace Vision.Services
                         if (tmp != string.Empty) responseData["economy"] = tmp;
                         tmp = gridInfo.GetString("helperuri", string.Empty);
                         if (tmp != string.Empty) responseData["helperuri"] = tmp;
-
+                        
                         // Some viewers recognize these values already
                         // ...but broadcasting them won't make older viewer crash
                         tmp = gridInfo.GetString("destination", string.Empty);
@@ -484,15 +487,14 @@ namespace Vision.Services
             foreach (BuddyList.BuddyInfo buddyitem in from finfo in friendsList
                                                       where finfo.TheirFlags != -1
                                                       select new BuddyList.BuddyInfo(finfo.Friend)
-                                                      {
-                                                          BuddyID = finfo.Friend,
-                                                          BuddyRightsHave = finfo.TheirFlags,
-                                                          BuddyRightsGiven = finfo.MyFlags
-                                                      })
+                                                                 {
+                                                                     BuddyID = finfo.Friend,
+                                                                     BuddyRightsHave = finfo.TheirFlags,
+                                                                     BuddyRightsGiven = finfo.MyFlags
+                                                                 })
             {
                 buddylistreturn.AddNewBuddy(buddyitem);
             }
-
             return buddylistreturn;
         }
 
@@ -509,12 +511,11 @@ namespace Vision.Services
                 TempHash = new Hashtable();
                 TempHash["name"] = InvFolder.Name;
                 TempHash["parent_id"] = InvFolder.ParentID.ToString();
-                TempHash["version"] = (int)InvFolder.Version;
-                TempHash["type_default"] = (int)InvFolder.Type;
+                TempHash["version"] = (int) InvFolder.Version;
+                TempHash["type_default"] = (int) InvFolder.Type;
                 TempHash["folder_id"] = InvFolder.ID.ToString();
                 AgentInventoryArray.Add(TempHash);
             }
-
             return new InventoryData(AgentInventoryArray, rootID);
         }
 
@@ -535,8 +536,8 @@ namespace Vision.Services
             AgentInventoryArray.Add(RootHash);
 
             List<UUID> rootFolderUUIDs =
-                (from rootFolder in rootFolders
-                 where rootFolder.Name != InventoryFolderBase.ROOT_FOLDER_NAME
+                (from rootFolder in rootFolders 
+                 where rootFolder.Name != InventoryFolderBase.ROOT_FOLDER_NAME 
                  select rootFolder.ID).ToList();
 
             if (rootFolderUUIDs.Count != 0)
@@ -547,7 +548,6 @@ namespace Vision.Services
                                    ref AgentInventoryArray);
                 }
             }
-
             return AgentInventoryArray;
         }
 
@@ -579,7 +579,7 @@ namespace Vision.Services
             //for now create random inventory library owner
             Hashtable TempHash = new Hashtable();
             TempHash["agent_id"] = libService.LibraryOwner.ToString(); // libFolder.Owner
-            ArrayList inventoryLibOwner = new ArrayList { TempHash };
+            ArrayList inventoryLibOwner = new ArrayList {TempHash};
             return inventoryLibOwner;
         }
 
@@ -670,11 +670,11 @@ namespace Vision.Services
             get { return agentAccessMax; }
             set { agentAccessMax = value; }
         }
-
+        
         public string AgentRegionAccess
         {
-            get { return agentRegionAccess; }
-            set { agentRegionAccess = value; }
+        	get { return agentRegionAccess; }
+        	set { agentRegionAccess = value; }
         }
 
         public string StartLocation
@@ -694,17 +694,17 @@ namespace Vision.Services
             get { return seedCapability; }
             set { seedCapability = value; }
         }
-
+        
         public int AOTransition
         {
-            get { return aoTransition; }
-            set { aoTransition = value; }
+        	get { return aoTransition; }
+        	set { aoTransition = value; }
         }
-
+        
         public int AgentFlag
         {
-            get { return agentFlags; }
-            set { agentFlags = value; }
+        	get { return agentFlags; }
+        	set { agentFlags = value; }
         }
 
         public string ErrorReason { get; set; }
@@ -737,27 +737,27 @@ namespace Vision.Services
 
         public string SunTexture
         {
-            get { return (string)LLLoginResponseRegister.GetValue("SunTexture"); }
+            get { return (string) LLLoginResponseRegister.GetValue("SunTexture"); }
         }
 
         public string CloudTexture
         {
-            get { return (string)LLLoginResponseRegister.GetValue("CloudTexture"); }
+            get { return (string) LLLoginResponseRegister.GetValue("CloudTexture"); }
         }
 
         public string MoonTexture
         {
-            get { return (string)LLLoginResponseRegister.GetValue("MoonTexture"); }
+            get { return (string) LLLoginResponseRegister.GetValue("MoonTexture"); }
         }
 
         public string AllowFirstLife
         {
-            get { return (string)LLLoginResponseRegister.GetValue("AllowFirstLife"); }
+            get { return (string) LLLoginResponseRegister.GetValue("AllowFirstLife"); }
         }
 
         public bool AllowExportPermission
         {
-            get { return (bool)LLLoginResponseRegister.GetValue("AllowExportPermission"); }
+            get { return (bool) LLLoginResponseRegister.GetValue("AllowExportPermission"); }
         }
 
         public string OpenIDURL
@@ -777,12 +777,12 @@ namespace Vision.Services
 
         public int MaxAgentGroups
         {
-            get { return (int)LLLoginResponseRegister.GetValue("MaxAgentGroups"); }
+            get { return (int) LLLoginResponseRegister.GetValue("MaxAgentGroups"); }
         }
 
         public string VoiceServerType
         {
-            get { return (string)LLLoginResponseRegister.GetValue("VoiceServerType"); }
+            get { return (string) LLLoginResponseRegister.GetValue("VoiceServerType"); }
         }
 
         public string TutorialURL
@@ -824,14 +824,13 @@ namespace Vision.Services
         {
             get
             {
-                string retVal = (string)LLLoginResponseRegister.GetValue("Message");
-                if (retVal.Contains("<USERNAME>"))
+                string retVal = (string) LLLoginResponseRegister.GetValue("Message");
+                if (retVal.Contains ("<USERNAME>"))
                 {
-                    retVal = DisplayName != ""
-                        ? retVal.Replace("<USERNAME>", DisplayName)
-                        : retVal.Replace("<USERNAME>", firstname + " " + lastname);
+                    retVal = DisplayName != "" 
+                        ? retVal.Replace ("<USERNAME>", DisplayName) 
+                        : retVal.Replace ("<USERNAME>", firstname + " " + lastname);
                 }
-
                 return retVal;
             }
         }
@@ -865,7 +864,6 @@ namespace Vision.Services
                 {
                     buddyArray.Add(buddy.ToHashTable());
                 }
-
                 return buddyArray;
             }
 

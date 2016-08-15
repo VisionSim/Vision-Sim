@@ -100,6 +100,7 @@ namespace Vision.BotManager
         {
             IMessageTransferModule m_TransferModule =
                 m_object.Scene.RequestModuleInterface<IMessageTransferModule>();
+
             if (m_TransferModule != null)
                 m_TransferModule.SendInstantMessage(im);
         }
@@ -164,6 +165,7 @@ namespace Vision.BotManager
         {
             if (speed > 4)
                 speed = 4;
+
             m_speed = speed;
         }
 

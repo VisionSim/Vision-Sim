@@ -43,8 +43,7 @@ namespace Vision.Framework.Modules
         void Start();
         void Stop();
         IClientNetworkServer Copy();
-        bool AddClient(uint circuitCode, UUID agentID, UUID sessionID, IPEndPoint remoteEndPoint,
-                                         AgentCircuitData sessionInfo);
+        bool AddClient(uint circuitCode, UUID agentID, UUID sessionID, IPEndPoint remoteEndPoint, AgentCircuitData sessionInfo);
         void RemoveClient(IClientAPI iClientAPI);
     }
 }

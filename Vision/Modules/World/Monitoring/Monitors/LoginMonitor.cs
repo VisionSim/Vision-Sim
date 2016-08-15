@@ -28,6 +28,7 @@
  */
 
 using System;
+
 using Vision.Framework.Modules;
 
 namespace Vision.Modules.Monitoring.Monitors

@@ -27,7 +27,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 using System.Collections.Generic;
 using Nini.Config;
 using Vision.Framework.DatabaseInterfaces;
@@ -43,8 +42,7 @@ namespace Vision.Services.DataService
 
         #region IAssetConnector Members
 
-        public void Initialize(IGenericData GenericData, IConfigSource source, IRegistryCore simBase,
-                               string defaultConnectionString)
+        public void Initialize(IGenericData GenericData, IConfigSource source, IRegistryCore simBase, string defaultConnectionString)
         {
             GD = GenericData;
 
@@ -52,8 +50,7 @@ namespace Vision.Services.DataService
                 defaultConnectionString = source.Configs[Name].GetString("ConnectionString", defaultConnectionString);
 
             if (GD != null)
-                GD.ConnectToDatabase(defaultConnectionString, "Asset",
-                                     source.Configs["VisionConnectors"].GetBoolean("ValidateTables", true));
+                GD.ConnectToDatabase(defaultConnectionString, "Asset", source.Configs["VisionConnectors"].GetBoolean("ValidateTables", true));
 
             Framework.Utilities.DataManager.RegisterPlugin(Name + "Local", this);
 
@@ -71,7 +68,8 @@ namespace Vision.Services.DataService
         [CanBeReflected(ThreatLevel = ThreatLevel.Low)]
         public void UpdateLSLData(string token, string key, string value)
         {
-            if (m_doRemoteOnly) {
+            if (m_doRemoteOnly)
+            {
                 DoRemote (token, key, value);
                 return;
             }

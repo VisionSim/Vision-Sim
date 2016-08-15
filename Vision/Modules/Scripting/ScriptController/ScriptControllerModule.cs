@@ -36,7 +36,6 @@ using Vision.Framework.ClientInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
-
 using GridRegion = Vision.Framework.Services.GridRegion;
 
 namespace Vision.Modules.Scripting

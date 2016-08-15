@@ -143,6 +143,7 @@ namespace Vision.Services
             	
                 return OSDParser.SerializeLLSDXmlBytes (resp);
             }
+
             return MainServer.BlankResponse;
         }
     }

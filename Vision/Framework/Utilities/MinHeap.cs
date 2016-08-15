@@ -44,7 +44,6 @@ namespace Vision.Framework.Utilities
     {
         public const int DEFAULT_CAPACITY = 4;
         private readonly Comparison<T> comparison;
-
         private HeapItem[] items;
         private int size;
         private object sync_root;

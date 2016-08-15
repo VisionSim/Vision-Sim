@@ -41,6 +41,7 @@ using Vision.Framework.Services.ClassHelpers.Profile;
 using Vision.Framework.Utilities;
 using RegionFlags = Vision.Framework.Services.RegionFlags;
 
+
 namespace Vision.Modules.Web
 {
     public class RegisterPage : IWebInterfacePage
@@ -195,7 +196,8 @@ namespace Vision.Modules.Web
                     IUserAccountService accountService =
                         webInterface.Registry.RequestModuleInterface<IUserAccountService>();
                     UUID userID = UUID.Random();
-                    string error = accountService.CreateUser(userID, settings.DefaultScopeID, AvatarName, AvatarPassword, UserEmail);
+                    string error = accountService.CreateUser(userID, settings.DefaultScopeID, AvatarName, AvatarPassword,
+                                                             UserEmail);
                     if (error == "")
                     {
                         // set the user account type
@@ -249,7 +251,6 @@ namespace Vision.Modules.Web
                                 if (snapshotUUID != UUID.Zero)
                                     profile.Image = snapshotUUID;
                             }
-
                             profile.MembershipGroup = webInterface.UserFlagToType (UserFlags, webInterface.EnglishTranslator);    // membership is english
                             profile.IsNewUser = true;
                             profileData.UpdateUserProfile (profile);
@@ -327,6 +328,7 @@ namespace Vision.Modules.Web
 
             vars.Add("RegionList", RegionListVars);
             vars.Add("UserHomeRegionText", translator.GetTranslatedString("UserHomeRegionText"));
+
             vars.Add("UserTypeText", translator.GetTranslatedString("UserTypeText"));
             vars.Add("UserType", webInterface.UserTypeArgs(translator)) ;
 
@@ -346,6 +348,7 @@ namespace Vision.Modules.Web
                 avatarArchives.Add (archiveInfo);
             }
             vars.Add("AvatarArchive", avatarArchives);
+
 
             string tosLocation = "";
             if (loginServerConfig != null && loginServerConfig.GetBoolean("UseTermsOfServiceOnFirstLogin", false))

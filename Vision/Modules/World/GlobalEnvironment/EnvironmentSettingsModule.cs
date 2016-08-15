@@ -43,7 +43,7 @@ using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
 
-namespace Vision.Modules
+namespace Vision.Modules.GlobalEnvironment
 {
     public class EnvironmentSettingsModule : IEnvironmentSettingsModule, INonSharedRegionModule
     {
@@ -123,7 +123,8 @@ namespace Vision.Modules
             else
             {
                 fail_reason = "You don't have permissions to set the Windlight settings here.";
-                SP.ControllingClient.SendAlertMessage("You don't have the correct permissions to set the Windlight Settings");
+                SP.ControllingClient.SendAlertMessage(
+                    "You don't have the correct permissions to set the Windlight Settings");
             }
             OSDMap result = new OSDMap()
                                 {

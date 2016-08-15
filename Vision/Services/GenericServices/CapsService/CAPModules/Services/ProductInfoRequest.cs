@@ -61,7 +61,6 @@ namespace Vision.Services
 
         byte[] ProductInfoRequestCAP (string path, Stream request, OSHttpRequest httpRequest, OSHttpResponse httpResponse)
         {
-            //OSDMap data = m_service.GetCAPS ();
             var data = new OSDArray();
 
             var mf = new OSDMap ();

@@ -37,6 +37,7 @@ using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Utilities;
 
+
 namespace Vision.Region.Animation
 {
     /// <summary>

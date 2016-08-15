@@ -37,7 +37,6 @@ using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 
-
 namespace Vision.Modules.VisitorLogger
 {
     /// <summary>

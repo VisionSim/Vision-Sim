@@ -90,6 +90,7 @@ namespace Vision.Modules.Web
 
             vars.Add ("RegionList", RegionListVars);
             vars.Add ("RegionText", translator.GetTranslatedString ("Region"));
+
             vars.Add ("RegionNameText", translator.GetTranslatedString ("RegionNameText"));
             vars.Add ("RegionLocXText", translator.GetTranslatedString ("RegionLocXText"));
             vars.Add ("RegionLocYText", translator.GetTranslatedString ("RegionLocYText"));

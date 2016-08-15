@@ -77,7 +77,6 @@ namespace Vision.Framework.Physics
         ///     Offset from center of mass where linear motor forces are added
         /// </summary>
         LINEAR_MOTOR_OFFSET = 20,
-
  
         // ## these are Float parameters ##
         HOVER_HEIGHT = 24,
@@ -105,9 +104,7 @@ namespace Vision.Framework.Physics
         ROLL_FRAME = 46,
 
         //  ## rotationParam (Quaternion)
-        REFERENCE_FRAME = 44
-
-    
+        REFERENCE_FRAME = 44   
     }
 
     [Flags]

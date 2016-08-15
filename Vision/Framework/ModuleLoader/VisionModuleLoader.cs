@@ -405,16 +405,19 @@ namespace Vision.Framework.ModuleLoader
                                     }
                                 }
                             }
+
                             catch (Exception)
                             {
                             }
                         }
                     }
+
                     catch (Exception)
                     {
                     }
                 }
             }
+
             return modules;
         }
 
@@ -445,9 +448,11 @@ namespace Vision.Framework.ModuleLoader
                     pluginAssembly = Assembly.Load(AssemblyName.GetAssemblyName(dllName));
                     LoadedAssemblys.Add(dllName, pluginAssembly);
                 }
+
                 catch (BadImageFormatException)
                 {
                 }
+
                 catch
                 {
                 }
@@ -471,21 +476,25 @@ namespace Vision.Framework.ModuleLoader
                                         loadedTypes.Add(pluginType);
                                 }
                             }
+
                             if (typeof(T).IsAssignableFrom(pluginType))
                             {
                                 modules.Add((T) Activator.CreateInstance(pluginType));
                             }
                         }
+
                         catch (Exception ex)
                         {
-                            MainConsole.Instance.Warn("[MODULELOADER]: Error loading module " + pluginType.Name +
+                            MainConsole.Instance.Warn("[Module Loader]: Error loading module " + pluginType.Name +
                                                       " in file " + dllName +
                                                       " : " + ex);
                         }
                     }
+
                     if (ALLOW_CACHE)
                         LoadedDlls[moduleDir].AddRange(loadedTypes);
                 }
+
                 catch (Exception)
                 {
                 }
@@ -541,21 +550,25 @@ namespace Vision.Framework.ModuleLoader
                                         loadedTypes.Add(pluginType);
                                 }
                             }
+
                             if (t.IsAssignableFrom(pluginType))
                             {
                                 modules.Add(Activator.CreateInstance(pluginType));
                             }
                         }
+
                         catch (Exception ex)
                         {
-                            MainConsole.Instance.Warn("[MODULELOADER]: Error loading module " + pluginType.Name +
+                            MainConsole.Instance.Warn("[Module Loader]: Error loading module " + pluginType.Name +
                                                       " in file " + dllName +
                                                       " : " + ex);
                         }
                     }
+
                     if (ALLOW_CACHE)
                         LoadedDlls[moduleDir].AddRange(loadedTypes);
                 }
+
                 catch (Exception)
                 {
                 }
@@ -592,14 +605,17 @@ namespace Vision.Framework.ModuleLoader
                     }
                 }
             }
+
             catch (ReflectionTypeLoadException e)
             {
                 foreach (Exception e2 in e.LoaderExceptions)
                 {
                     MainConsole.Instance.Error(e2.ToString());
                 }
+
                 throw e;
             }
+
             return plugins;
         }
     }

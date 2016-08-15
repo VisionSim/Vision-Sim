@@ -178,6 +178,7 @@ namespace Vision.Framework.ClientInterfaces
                                             Type = Type,
                                             ToAgentID = ToAgentID
                                         };
+
             return message;
         }
 

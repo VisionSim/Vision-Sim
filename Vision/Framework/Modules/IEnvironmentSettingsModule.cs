@@ -35,7 +35,6 @@ namespace Vision.Framework.Modules
     {
         WindlightDayCycle GetCurrentDayCycle();
         void TriggerWindlightUpdate(int interpolate);
-
         void SetDayCycle(WindlightDayCycle cycle);
     }
 }

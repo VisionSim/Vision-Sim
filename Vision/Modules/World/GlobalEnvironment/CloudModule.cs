@@ -28,10 +28,10 @@
  */
 
 using System;
-using Nini.Config;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
+using Nini.Config;
 
 namespace Vision.Modules.GlobalEnvironment
 {
@@ -193,7 +193,6 @@ namespace Vision.Modules.GlobalEnvironment
                 client.SendCloudData (cloudCover);
             }
         }
-
 
         /// <summary>
         ///     Calculate the cloud cover over the region.

@@ -37,8 +37,7 @@ namespace Vision.Framework.Utilities
     /// </summary>
     public static class DataManager
     {
-        private static readonly Dictionary<string, IVisionDataPlugin> Plugins =
-            new Dictionary<string, IVisionDataPlugin>();
+        private static readonly Dictionary<string, IVisionDataPlugin> Plugins = new Dictionary<string, IVisionDataPlugin>();
 
         public static List<IVisionDataPlugin> GetPlugins()
         {
@@ -58,6 +57,7 @@ namespace Vision.Framework.Utilities
                 Plugins.TryGetValue(typeof (T).Name, out Plugin);
                 return (T) Plugin;
             }
+
             //Return null if we can't find it
             return default(T);
         }
@@ -75,6 +75,7 @@ namespace Vision.Framework.Utilities
                 Plugins.TryGetValue(name, out Plugin);
                 return (T) Plugin;
             }
+
             //Return null if we can't find it
             return default(T);
         }

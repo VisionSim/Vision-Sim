@@ -121,8 +121,7 @@ namespace Vision.Modules.Web
                      PagesMigrator.CheckWhetherIgnoredVersionUpdate(settings.LastPagesVersionUpdateIgnored)
                          ? ""
                          : "checked");
-            vars.Add("IgnoreSettingsUpdates",
-                     settings.LastSettingsVersionUpdateIgnored != SettingsMigrator.CurrentVersion ? "" : "checked");
+            vars.Add("IgnoreSettingsUpdates", settings.LastSettingsVersionUpdateIgnored != SettingsMigrator.CurrentVersion ? "" : "checked");
 
             vars.Add("SettingsManager", translator.GetTranslatedString("SettingsManager"));
             vars.Add("IgnorePagesUpdatesText", translator.GetTranslatedString("IgnorePagesUpdatesText"));

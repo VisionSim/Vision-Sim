@@ -38,7 +38,6 @@ using Vision.Framework.Physics;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 
-
 namespace Vision.Modules.PhysicsState
 {
     public class PhysicsStateModule : INonSharedRegionModule, IPhysicsStateModule

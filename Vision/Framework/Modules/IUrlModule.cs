@@ -41,10 +41,8 @@ namespace Vision.Framework.Modules
         void HttpResponse(UUID request, int status, string body);
         string GetHttpHeader(UUID request, string header);
         int GetFreeUrls();
-
         void ScriptRemoved(UUID itemID);
         void ObjectRemoved(UUID objectID);
-
         string ExternalHostNameForLSL { get; }
     }
 }

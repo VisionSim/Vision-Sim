@@ -38,9 +38,7 @@ namespace Vision.Framework.Modules
     public interface IMessageTransferModule
     {
         event UndeliveredMessage OnUndeliveredMessage;
-
         void SendInstantMessages(GridInstantMessage im, List<UUID> AgentsToSendTo);
-
         void SendInstantMessage(GridInstantMessage im);
     }
 }

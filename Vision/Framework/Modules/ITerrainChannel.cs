@@ -78,6 +78,5 @@ namespace Vision.Framework.Modules
         /// Recalculates land area.
         /// </summary>
         void ReCalcLandArea ();
-
     }
 }

@@ -117,6 +117,7 @@ namespace Vision.Simulation.Base
                     else
                         section.Remove (name);
                 }
+
                 doc.Save ();
             }
         }

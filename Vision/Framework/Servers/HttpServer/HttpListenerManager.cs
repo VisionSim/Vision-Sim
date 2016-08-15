@@ -181,7 +181,7 @@ namespace Vision.Framework.Servers.HttpServer
                 }
                 catch (Exception e)
                 {
-                    MainConsole.Instance.ErrorFormat("[HttpListenerManager]: Exception occurred: {0}", e.ToString());
+                    MainConsole.Instance.ErrorFormat("[Http Listener Manager]: Exception occurred: {0}", e.ToString());
                 }
             }
         }

@@ -456,5 +456,4 @@ namespace Vision.Framework.ClientInterfaces
             BanDate = values["BanDate"];
         }
     }
-
 }

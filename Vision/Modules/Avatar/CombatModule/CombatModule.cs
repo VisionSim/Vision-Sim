@@ -38,6 +38,7 @@ using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.SceneInfo.Entities;
 
+
 namespace Vision.Modules.Combat
 {
     public class CombatModule : INonSharedRegionModule, ICombatModule

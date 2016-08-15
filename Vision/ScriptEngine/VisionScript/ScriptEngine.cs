@@ -479,7 +479,7 @@ namespace Vision.ScriptEngine.VisionScript
 
         protected void VisionDotNetStats(IScene scene, string[] cmdparams)
         {
-            MainConsole.Instance.Info ("Vision Script Engine Stats:");
+            MainConsole.Instance.Info ("Vision DotNet Script Engine Stats:");
             MainConsole.Instance.CleanInfo ("    Region: " + scene.RegionInfo.RegionName);
             MainConsole.Instance.CleanInfo ("    Number of scripts compiled: " + Compiler.ScriptCompileCounter);
             MainConsole.Instance.CleanInfo ("    Max allowed threat level: " + ScriptProtection.GetThreatLevel ());

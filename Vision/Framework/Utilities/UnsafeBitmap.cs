@@ -109,8 +109,7 @@ namespace Vision.Framework.Utilities
 
             public override string ToString()
             {
-                return "(" + alpha + ", " + red + ", " + green + ", " + blue +
-                       ")";
+                return "(" + alpha + ", " + red + ", " + green + ", " + blue + ")";
             }
         }
 

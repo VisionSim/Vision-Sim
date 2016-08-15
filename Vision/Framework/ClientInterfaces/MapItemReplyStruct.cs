@@ -52,8 +52,10 @@ namespace Vision.Framework.ClientInterfaces
                 {
                     array.Add(item.ToOSD());
                 }
+
                 result[kvp.Key.ToString()] = array;
             }
+
             return result;
         }
 
@@ -70,6 +72,7 @@ namespace Vision.Framework.ClientInterfaces
                     r.FromOSD((OSDMap) o);
                     replies.Add(r);
                 }
+
                 items[regionHandle] = replies;
             }
         }
