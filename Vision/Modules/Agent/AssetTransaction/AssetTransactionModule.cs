@@ -31,6 +31,7 @@ using System;
 using System.Collections.Generic;
 using Nini.Config;
 using OpenMetaverse;
+using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
