@@ -147,7 +147,6 @@ namespace Vision.Modules.Archivers
 
             //Register the interface
             registry.RegisterModuleInterface<IVisionBackupArchiver> (this);
-
         }
 
         public void Start (IConfigSource config, IRegistryCore registry)
@@ -184,6 +183,7 @@ namespace Vision.Modules.Archivers
                 MainConsole.Instance.Warn ("No file found with the specified name.");
                 return;
             }
+
             GZipStream m_loadStream = new GZipStream (stream, CompressionMode.Decompress);
             TarArchiveReader reader = new TarArchiveReader (m_loadStream);
 
@@ -208,6 +208,7 @@ namespace Vision.Modules.Archivers
             {
                 fileDir = "./";
             }
+
             if (!Directory.Exists (fileDir))
             {
                 MainConsole.Instance.Info ("[Archiver]: The file path specified, '" + fileDir + "' does not exist!");
