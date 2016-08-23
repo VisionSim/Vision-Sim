@@ -304,7 +304,7 @@ namespace Vision.Simulation.Base
             if (m_Servers.TryGetValue(port, out server) && server.Secure == useHTTPS)
                 return server;
 
-            uint threadCount = m_config.Configs["Network"].GetUInt("HttpThreadCount", 5);
+            uint threadCount = m_config.Configs["Network"].GetUInt("HttpThreadCount", 50);
 
             // find out where we live
             string hostName;
