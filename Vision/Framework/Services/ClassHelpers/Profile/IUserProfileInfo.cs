@@ -439,6 +439,8 @@ namespace Vision.Framework.Services.ClassHelpers.Profile
 
             ParcelName = map ["ParcelName"].AsString ();
             ClassifiedFlags = (byte)map ["ClassifiedFlags"].AsInteger ();
+            if (ClassifiedFlags == 0)
+                ClassifiedFlags = (byte) DirectoryManager.ClassifiedQueryFlags.PG);
             PriceForListing = map ["PriceForListing"].AsInteger ();
         }
     }
