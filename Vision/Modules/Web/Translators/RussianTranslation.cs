@@ -27,610 +27,619 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+using System.Collections.Generic;
+
 namespace Vision.Modules.Web.Translators
 {
     public class RussianTranslation : ITranslator
     {
-        public string LanguageName
-        {
+        public string LanguageName {
             get { return "ru"; }
         }
 
-        public string GetTranslatedString(string key)
+
+        public string GetTranslatedString (string key)
         {
-            switch (key)
-            {
-                // Generic
-                case "No": return "Нет";
-                case "Yes": return "да";
-                case "Submit": return "Отправить";
-                case "Accept": return "принимать";
-                case "Save": return "Сохранить";
-                case "FirstText": return "Первый";
-                case "BackText": return "назад";
-                case "NextText": return "следующий";
-                case "LastText": return "Последний";
-                case "CurrentPageText": return "Текущая страница";
-                case "MoreInfoText": return "Больше информации";
-                case "NoDetailsText": return "Никаких подробностей не найдено...";
-                case "MoreInfo": return "Больше информации";
-
-                case "ObjectNameText": return "объект";
-                case "LocationText": return "Место нахождения";
-                case "UUIDText": return "UUID";
-                case "DetailsText": return "Описание";
-                case "NotesText": return "Заметки";
-                case "SaveUpdates": return "Сохранить обновления";
-                case "ActiveText": return "активный";
-                case "CheckedText": return "Проверено";
-                case "CategoryText": return "категория";
-                case "SummaryText": return "Резюме";
-
-                // Status information
-                case "GridStatus": return "Сетка Статус";
-                case "Online": return "В сети";
-                case "Offline": return "Не в сети";
-                case "TotalUserCount": return "Всего пользователей";
-                case "TotalRegionCount": return "Общий граф Регион";
-                case "UniqueVisitors": return "Уникальные посетители Последние 30 дней";
-                case "OnlineNow": return "Сейчас в сети";
-                case "HyperGrid": return "HyperGrid (HG)";
-                case "Voice": return "голос";
-                case "Currency": return "валюта";
-                case "Disabled": return "Отключено";
-                case "Enabled": return "Включено";
-                case "News": return "Новости";
-                case "Region": return "Область";
-
-                // User login
-                case "Login": return "Авторизоваться";
-                case "UserName": return "имя пользователя";
-                case "UserNameText": return "имя пользователя";
-                case "Password": return "пароль";
-                case "PasswordText": return "пароль";
-                case "PasswordConfirmation": return "Подтверждение пароля";
-                case "ForgotPassword": return "Забыли пароль?";
-                case "TypeUserNameToConfirm": return "Пожалуйста, введите имя пользователя этой учетной записи, чтобы подтвердить, что вы хотите удалить эту учетную запись";
-
-                // Special windows
-                case "SpecialWindowTitleText": return "Специальный Заголовок Окно информации";
-                case "SpecialWindowTextText": return "Специальное информационное окно Текст";
-                case "SpecialWindowColorText": return "Специальный InfoWindow Цвет";
-                case "SpecialWindowStatusText": return "Особый статус информационного окна";
-                case "WelcomeScreenManagerFor": return "Добро пожаловать менеджер экрана для";
-                case "ChangesSavedSuccessfully": return "Изменения сохранены Успешно";
-
-                // User registration
-                case "AvatarNameText": return "Аватар Имя";
-                case "AvatarScopeText": return "Аватар для Идентификатор области";
-                case "FirstNameText": return "Твое имя";
-                case "LastNameText": return "Ваша фамилия";
-                case "UserAddressText": return "Ваш адресс";
-                case "UserZipText": return "Ваш почтовый индекс";
-                case "UserCityText": return "Ваш город";
-                case "UserCountryText": return "Твоя страна";
-                case "UserDOBText": return "Ваша дата рождения (месяц день год)";
-                case "UserEmailText": return "Ваш адрес электронной почты";
-                case "UserHomeRegionText": return "Главная область";
-                case "RegistrationText": return "Аватар для регистрации";
-                case "RegistrationsDisabled": return "Регистрации в настоящее время отключены, пожалуйста, попробуйте еще раз в ближайшее время";
-                case "TermsOfServiceText": return "Условия использования";
-                case "TermsOfServiceAccept": return "Вы принимаете условия предоставления услуг, как описано выше?";
-                case "AvatarNameError": return "Вы не ввели имя аватара!";
-                case "AvatarPasswordError": return "Пароль пуст или не соответствует!";
-                case "AvatarEmailError": return " Адрес электронной почты необходим для восстановления пароля! ('Никто', если неизвестен)";
-                case "AvatarNameSpacingError": return "Ваше имя аватара должно быть \"Имя  Фамилия\"!";
-
-                // news
-                case "OpenNewsManager": return "Откройте диспетчер новостей";
-                case "NewsManager": return "Новости менеджер";
-                case "EditNewsItem": return "пункт Редактировать новости";
-                case "AddNewsItem": return "Добавить новый пункт новости";
-                case "DeleteNewsItem": return "Удалить новость";
-                case "NewsDateText": return "Новости Дата";
-                case "NewsTitleText": return "Заголовок новости";
-                case "NewsItemTitle": return "Название элемента новостей";
-                case "NewsItemText": return "Текст элемента Новости";
-                case "AddNewsText": return "Добавить Новости";
-                case "DeleteNewsText": return "Удалить Новости";
-                case "EditNewsText": return "Редактировать Новости";
-
-                // User Profile
-                case "UserProfileFor": return "Профиль пользователя Для";
-                case "UsersGroupsText": return "Группы Регистрация";
-                case "GroupNameText": return "группа";
-                case "UsersPicksText": return "Выборы для";
-                case "ResidentSince": return "Житель с";
-                case "AccountType": return "тип аккаунта";
-                case "PartnersName": return "Имя партнера";
-                case "AboutMe": return "Обо мне";
-                case "IsOnlineText": return "Статус пользователь";
-                case "OnlineLocationText": return "Пользователь Расположение";
-
-                // Region Information
-                case "RegionInformationText": return "Регион информация";
-                case "OwnerNameText": return "Имя владельца";
-                case "RegionLocationText": return "Регион Расположение";
-                case "RegionSizeText": return "Регион Размер";
-                case "RegionNameText": return "Имя Регион";
-                case "RegionTypeText": return "Тип Регион";
-                case "RegionDelayStartupText": return "Задержка запуска скриптов";
-                case "RegionPresetText": return "Регион Предустановленная";
-                case "RegionTerrainText": return "Регион местности";
-                case "ParcelsInRegionText": return "Посылки в регионе";
-                case "ParcelNameText": return "Имя посылок";
-                case "ParcelOwnerText": return "Имя Parcel владельца";
-
-                // Region List
-                case "RegionInfoText": return "Информация о регионе";
-                case "RegionListText": return "Список область";
-                case "RegionLocXText": return "Регион X";
-                case "RegionLocYText": return "Регион Y";
-                case "SortByLocX": return "Сортировать По регионам X";
-                case "SortByLocY": return "Сортировать По регионам Y";
-                case "SortByName": return "Сортировать по Имя Регион";
-                case "RegionMoreInfo": return "Больше информации";
-                case "RegionMoreInfoTooltips": return "Более подробную информацию о";
-                case "OnlineUsersText": return "Пользователи на сайте";
-                case "RegionOnlineText": return "Регион Статус";
-                case "RegionMaturityText": return "Рейтинг Доступ";
-                case "NumberOfUsersInRegionText": return "Количество пользователей в регионе";
-
-                // Region manager
-                case "Mainland": return "материк";
-                case "Estate": return "имущество";
-                case "FullRegion": return "Полный Регион";
-                case "Homestead": return "усадьба";
-                case "Openspace": return "Открытое пространство";
-                case "Flatland": return "Плоская земля";
-                case "Grassland": return "луг";
-                case "Island": return "остров";
-                case "Aquatic": return "водный";
-                case "Custom": return "изготовленный на заказ";
-                case "RegionPortText": return "Регион Порт";
-                case "RegionVisibilityText": return "Видна соседей";
-                case "RegionInfiniteText": return "Бесконечные область";
-                case "RegionCapacityText": return "вместимость объекта Регион";
-
-                // Main Menu Buttons
-                case "MenuHome": return "Главная";
-                case "MenuLogin": return "Авторизоваться";
-                case "MenuLogout": return "Выйти";
-                case "MenuRegister": return "регистр";
-                case "MenuForgotPass": return "Забыли пароль";
-                case "MenuNews": return "Новости";
-                case "MenuWorld": return "Мир";
-                case "MenuWorldMap": return "Карта мира";
-                case "MenuRegion": return "Список область";
-                case "MenuUser": return "пользователь";
-                case "MenuOnlineUsers": return "Пользователи на сайте";
-                case "MenuUserSearch": return "Пользователи Поиск";
-                case "MenuRegionSearch": return "область поиска";
-                case "MenuChat": return "чат";
-                case "MenuHelp": return "Помогите";
-                case "MenuViewerHelp": return "Телезритель Помощь";
-                case "MenuChangeUserInformation": return "Изменение информации пользователя";
-                case "MenuWelcomeScreenManager": return "Добро пожаловать менеджер экрана";
-                case "MenuNewsManager": return "Новости менеджер";
-                case "MenuUserManager": return "абонентская система управления";
-                case "MenuFactoryReset": return "Сброс к заводским настройкам";
-                case "ResetMenuInfoText": return "Сброс пунктов меню назад к наиболее обновленные значения по умолчанию";
-                case "ResetSettingsInfoText": return "Сбрасывает параметры веб-интерфейса к наиболее обновленные значения по умолчанию";
-                case "MenuPageManager": return "Менеджер страниц";
-                case "MenuSettingsManager": return "WebUI Настройки";
-                case "MenuManager": return "управление";
-                case "MenuSettings": return "Настройки";
-                case "MenuRegionManager": return "Регион-менеджер";
-                case "MenuManagerSimConsole": return "Тренажер консоли";
-                case "MenuPurchases": return "Закупки пользователей";
-                case "MenuMyPurchases": return "Мои покупки";
-                case "MenuTransactions": return "Операции пользователя";
-                case "MenuMyTransactions": return "Мои сделки";
-                case "MenuMyClassifieds": return "Мои объявления";
-                case "MenuStatistics": return "Средство просмотра статистики";
-                case "MenuGridSettings": return "Настройки сетки";
-
-                // Main Menu Tooltips
-                case "TooltipsMenuHome": return "Главная";
-                case "TooltipsMenuLogin": return "Авторизоваться";
-                case "TooltipsMenuLogout": return "Выйти";
-                case "TooltipsMenuRegister": return "регистр";
-                case "TooltipsMenuForgotPass": return "Забыли пароль";
-                case "TooltipsMenuNews": return "Новости";
-                case "TooltipsMenuWorld": return "Мир";
-                case "TooltipsMenuWorldMap": return "Карта мира";
-                case "TooltipsMenuUser": return "пользователь";
-                case "TooltipsMenuOnlineUsers": return "Пользователи на сайте";
-                case "TooltipsMenuUserSearch": return "Пользователи Поиск";
-                case "TooltipsMenuRegionSearch": return "область поиска";
-                case "TooltipsMenuChat": return "чат";
-                case "TooltipsMenuViewerHelp": return "Телезритель Помощь";
-                case "TooltipsMenuHelp": return "Помогите";
-                case "TooltipsMenuChangeUserInformation": return "Изменение информации пользователя";
-                case "TooltipsMenuWelcomeScreenManager": return "Добро пожаловать менеджер экрана";
-                case "TooltipsMenuNewsManager": return "Новости менеджер";
-                case "TooltipsMenuUserManager": return "абонентская система управления";
-                case "TooltipsMenuFactoryReset": return "Сброс к заводским настройкам";
-                case "TooltipsMenuPageManager": return "Менеджер страниц";
-                case "TooltipsMenuSettingsManager": return "Диспетчер настроек";
-                case "TooltipsMenuManager": return "Управление администратора";
-                case "TooltipsMenuSettings": return "WebUI настройки";
-                case "TooltipsMenuRegionManager": return "Регион создавать / редактировать";
-                case "TooltipsMenuManagerSimConsole": return "Интернет консоли симулятор";
-                case "TooltipsMenuPurchases": return "информация о покупке";
-                case "TooltipsMenuTransactions": return "информация об операции";
-                case "TooltipsMenuStatistics": return "Средство просмотра статистики";
-                case "TooltipsMenuGridSettings": return "Настройки сетки";
-
-                // Menu Region box
-                case "MenuRegionTitle": return "Область";
-                case "MenuParcelTitle": return "Посылки";
-                case "MenuOwnerTitle": return "владелец";
-                case "TooltipsMenuRegion": return "Регион Подробнее";
-                case "TooltipsMenuParcel": return "Регион Посылки";
-                case "TooltipsMenuOwner": return "Владелец недвижимости";
-
-                // Menu Profile Box
-                case "MenuProfileTitle": return "Профиль";
-                case "MenuGroupTitle": return "групп";
-                case "MenuPicksTitle": return "Выборы";
-                case "MenuRegionsTitle": return "районы";
-                case "TooltipsMenuProfile": return "Профиль пользователя";
-                case "TooltipsMenuGroups": return "Группы пользователей";
-                case "TooltipsMenuPicks": return "Выбор пользователя";
-                case "TooltipsMenuRegions": return "Регионы пользователей";
-                case "UserGroupNameText": return "Группа пользователей";
-                case "PickNameText": return "Выберите имя";
-                case "PickRegionText": return "Место нахождения";
-
-                // Urls
-                case "WelcomeScreen": return "экран приветствия";
-
-                // Tooltips Urls
-                case "TooltipsWelcomeScreen": return "экран приветствия";
-                case "TooltipsWorldMap": return "Карта мира";
-
-                // Style Switcher
-                case "styles1": return "Default Minimalist";
-                case "styles2": return "Light Degarde";
-                case "styles3": return "Blue Night";
-                case "styles4": return "Dark Degrade";
-                case "styles5": return "Luminus";
-
-                case "StyleSwitcherStylesText": return "Стили";
-                case "StyleSwitcherLanguagesText": return "Языки";
-                case "StyleSwitcherChoiceText": return "Выбор";
-
-                // Language Switcher Tooltips
-                case "en": return "English";
-                case "fr": return "Français";
-                case "de": return "Deutsch";
-                case "it": return "Italiano";
-                case "es": return "Español";
-                case "nl": return "Nederlands";
-                case "ru": return "Русский";
-
-                // Index Page
-                case "HomeText": return "Главная";
-                case "HomeTextWelcome": return "Это наш новый виртуальный мир! Присоединяйтесь к нам сейчас, и сделать разницу!";
-                case "HomeTextTips": return "Новые презентации";
-                case "WelcomeToText": return "Добро пожаловать в";
-
-                // World Map Page
-                case "WorldMap": return "Карта мира";
-                case "WorldMapText": return "Полноэкранный";
-
-                // Chat Page
-                case "ChatText": return "Чат поддержки";
-
-                // Help Page
-                case "HelpText": return "Помогите";
-                case "HelpViewersConfigText": return "Конфигурация просмотра";
-
-                case "AngstromViewer": return "Angstrom Viewer";
-                case "AstraViewer": return "Astra Viewer";
-                case "FirestormViewer": return "Firestorm Viewer";
-                case "KokuaViewer": return "Kokua Viewer";
-                case "ImprudenceViewer": return "Imprudence Viewer";
-                case "PhoenixViewer": return "Phoenix Viewer";
-                case "SingularityViewer": return "Singularity Viewer";
-                case "VoodooViewer": return "Voodoo Viewer";
-                case "ZenViewer": return "Zen Viewer";
-
-                //Logout page
-                case "Logout": return "Выйти";
-                case "LoggedOutSuccessfullyText": return "Вы вышли из системы успешно.";
-
-                //Change user information page
-                case "ChangeUserInformationText": return "Изменение информации пользователя";
-                case "ChangePasswordText": return "Изменить пароль";
-                case "NewPasswordText": return "новый пароль";
-                case "NewPasswordConfirmationText": return "Новый пароль (подтверждение)";
-                case "ChangeEmailText": return "Изменить адрес электронной почты";
-                case "NewEmailText": return "Новый адрес электронной почты";
-                case "DeleteUserText": return "Удалите мой аккаунт";
-                case "DeleteText": return "Удалить";
-                case "DeleteUserInfoText":
-                    return "Это удалит всю информацию о вас в сетке и удалить доступ к этой услуге. Если вы хотите продолжить, введите имя и пароль и нажмите кнопку Удалить.";
-                case "EditText": return "редактировать";
-                case "EditUserAccountText": return "Редактирование учетных записей пользователей";
-
-                //Maintenance page
-                case "WebsiteDownInfoText": return "Сайт в настоящее время вниз, пожалуйста, попробуйте еще раз в ближайшее время.";
-                case "WebsiteDownText": return "Сайт форума";
-
-                //http_404 page
-                case "Error404Text": return "Код ошибки";
-                case "Error404InfoText": return "404 Страница не найдена";
-                case "HomePage404Text": return "домашняя страница";
-
-                //http_505 page
-                case "Error505Text": return "Код ошибки";
-                case "Error505InfoText": return "505 Внутренняя ошибка сервера";
-                case "HomePage505Text": return "домашняя страница";
-
-                //user_search page
-                case "Search": return "Поиск";
-                case "SearchText": return "Поиск";
-                case "SearchForUserText": return "Поиск пользователя";
-                case "UserSearchText": return "Пользователи Поиск";
-                case "SearchResultForUserText": return "Результат поиска для пользователя";
-
-                //region_search page
-                case "SearchForRegionText": return "Поиск для региона";
-                case "RegionSearchText": return "область поиска";
-                case "SearchResultForRegionText": return "Результат поиска для региона";
-
-                //Edit user page
-                case "AdminDeleteUserText": return "Удалить пользователя";
-                case "AdminDeleteUserInfoText": return "Это удаляет учетную запись и уничтожает всю информацию, связанную с ним.";
-                case "BanText": return "запрет";
-                case "UnbanText": return "Разбанить";
-                case "AdminTempBanUserText": return "Временный запрет пользователя";
-                case "AdminTempBanUserInfoText": return "Это блокирует пользователей от входа в систему в течение заданного промежутка времени.";
-                case "AdminBanUserText": return "Пан Пользователь";
-                case "AdminBanUserInfoText": return "Это блокирует пользователей от входа в систему, пока пользователь не Unbanned.";
-                case "AdminUnbanUserText": return "Разбанить пользователя";
-                case "AdminUnbanUserInfoText": return "Удаляет временные и постоянные запреты на пользователя.";
-                case "AdminLoginInAsUserText": return "Войти как пользователь";
-                case "AdminLoginInAsUserInfoText":
-                    return "Вы будете зарегистрированы из вашей учетной записи администратора, и вошли в систему под именем этого пользователя, и будет видеть все, как они видят это";
-                case "TimeUntilUnbannedText": return "Время, пока пользователь не Unbanned";
-                case "DaysText": return "дней";
-                case "HoursText": return "часов";
-                case "MinutesText": return "минут";
-                case "EdittingText": return "редактирование";
-                case "BannedUntilText": return "Пользователь не запрещена до:";
-                case "KickAUserText": return "Кик Пользователь";
-                case "KickAUserInfoText": return "Стартует пользователь из сетки (регистрирует их в течение 30 секунд)";
-                case "KickMessageText": return "Обращение к пользователю";
-                case "KickUserText": return "Кик Пользователь";
-                case "MessageAUserText": return "Отправить сообщение пользователю";
-                case "MessageAUserInfoText": return "Посылает пользователю сообщение синий ящик (будет поступать в течение 30 секунд)";
-                case "MessageUserText": return "Сообщение пользователя";
-
-                // Transactions
-                case "TransactionsText": return "операции";
-                case "DateInfoText": return "Выберите диапазон дат";
-                case "DateStartText": return "дата начала";
-                case "DateEndText": return "Дата окончания";
-                case "30daysPastText": return "Предыдущие 30 дней";
-                case "TransactionToAgentText": return "Для пользователя";
-                case "TransactionFromAgentText": return "От пользователя";
-                case "TransactionDateText": return "Дата";
-                case "TransactionDetailText": return "Описание";
-                case "TransactionAmountText": return "Количество";
-                case "TransactionBalanceText": return "Баланс";
-                case "NoTransactionsText": return "Нет сделок не найдено...";
-                case "PurchasesText": return "Покупки";
-                case "LoggedIPText": return "Зарегистрированный IP-адрес";
-                case "NoPurchasesText": return "Не найдено ни одной покупки...";
-                case "PurchaseCostText": return "Стоимость";
-
-                // Classifieds
-                case "ClassifiedsText": return "Объявления";
-
-                // Sim Console
-                case "SimConsoleText": return "Да командной консоли";
-                case "SimCommandText": return "команда";
-
-                //factory_reset
-                case "FactoryReset": return "Сброс к заводским настройкам";
-                case "ResetMenuText": return "Меню Сброс заводских настроек по умолчанию";
-                case "ResetSettingsText": return "Сбросить настройки Web (страницы Диспетчер параметров) заводских настроек по умолчанию";
-                case "Reset": return "Сброс";
-                case "Settings": return "настройки";
-                case "Pages": return "страницы";
-                case "DefaultsUpdated": return "по умолчанию обновляются, перейдите Factory Reset, чтобы обновить или Settings Manager, чтобы отключить это предупреждение.";
-
-                //page_manager
-                case "PageManager": return "Менеджер страниц";
-                case "SaveMenuItemChanges": return "Пункт меню Сохранить";
-                case "SelectItem": return "Выберите предмет";
-                case "DeleteItem": return "Удалить пункт";
-                case "AddItem": return "Добавить элемент";
-                case "PageLocationText": return "Расположение страницы";
-                case "PageIDText": return "Идентификатор страницы";
-                case "PagePositionText": return "Страница Позиция";
-                case "PageTooltipText": return "Страница подсказке";
-                case "PageTitleText": return "Заголовок страницы";
-                case "RequiresLoginText": return "Требуется пароль, чтобы просмотреть";
-                case "RequiresLogoutText": return "Требуется Выход для просмотра";
-                case "RequiresAdminText": return "Требуется Администратор для просмотра";
-                case "RequiresAdminLevelText": return "Необходимый уровень администратора для просмотра";
-
-                // grid settings
-                case "GridSettingsManager": return "Сетка Settings Manager";
-                case "GridnameText": return "название сетки";
-                case "GridnickText": return "Сетка ник";
-                case "WelcomeMessageText": return "Вход приветственное сообщени";
-                case "GovernorNameText": return "система управления";
-                case "MainlandEstateNameText": return "Материковый недвижимости";
-                case "RealEstateOwnerNameText": return "Владелец системы недвижимости";
-                case "SystemEstateNameText": return "система недвижимости";
-                case "BankerNameText": return "система банкира";
-                case "MarketPlaceOwnerNameText": return "Владелец системы Торговая площадка";
-
-                //settings manager page
-                case "WebRegistrationText": return "Веб-регистрация допускается";
-                case "GridCenterXText": return "Сетка Центр Расположение X";
-                case "GridCenterYText": return "Сетка Центр Расположение Y";
-                case "SettingsManager": return "Диспетчер настроек";
-                case "IgnorePagesUpdatesText": return "Игнорировать предупреждения стр обновления до следующего обновления";
-                case "IgnoreSettingsUpdatesText": return "Игнорировать предупреждения настроек обновления до следующего обновления";
-                case "HideLanguageBarText": return "Скрыть панель выбора языка";
-                case "HideStyleBarText": return "Скрыть панель выбора стиля";
-                case "HideSlideshowBarText": return "Скрыть панель слайд-шоу";
-                case "LocalFrontPageText": return "Местные Главная страница";
-                case "LocalCSSText": return "Местных стилей CSS";
-
-                // statistics
-                case "StatisticsText": return "Средство просмотра статистики";
-                case "ViewersText": return "Средство просмотра использования";
-                case "GPUText": return "Видеокарты";
-                case "PerformanceText": return "средние производительности";
-                case "FPSText": return "Кадров / сек";
-                case "RunTimeText": return "время работы";
-                case "RegionsVisitedText": return "Регионы посетили";
-                case "MemoryUseageText": return "использование памяти";
-                case "PingTimeText": return "Пинг времени";
-                case "AgentsInViewText": return "Агенты в поле зрения";
-                case "ClearStatsText": return "Очищать данные статистики";
-
-                // abuse reports
-                case "MenuAbuse": return "Злоупотребление Отчеты";
-                case "TooltipsMenuAbuse": return "Отчеты о нарушении Пользователь";
-                case "AbuseReportText": return "Сообщение о нарушении";
-                case "AbuserNameText": return "Недостоверная";
-                case "AbuseReporterNameText": return "репортер";
-                case "AssignedToText": return "Назначена";
-
-                //Times
-                case "Sun":
-                    return "солнце";
-                case "Mon":
-                    return "понедельник";
-                case "Tue":
-                    return "вторник";
-                case "Wed":
-                    return "Мы б";
-                case "Thu":
-                    return "четверг";
-                case "Fri":
-                    return "пятница";
-                case "Sat":
-                    return "Сидел";
-                case "Sunday":
-                    return "Воскресенье";
-                case "Monday":
-                    return "понедельник";
-                case "Tuesday":
-                    return "вторник";
-                case "Wednesday":
-                    return "среда";
-                case "Thursday":
-                    return "Четверг";
-                case "Friday":
-                    return "пятница";
-                case "Saturday":
-                    return "суббота";
-
-                case "Jan_Short":
-                    return "январь";
-                case "Feb_Short":
-                    return "февраль";
-                case "Mar_Short":
-                    return "март";
-                case "Apr_Short":
-                    return "апрель";
-                case "May_Short":
-                    return "май";
-                case "Jun_Short":
-                    return "июнь";
-                case "Jul_Short":
-                    return "июль";
-                case "Aug_Short":
-                    return "август";
-                case "Sep_Short":
-                    return "сентябрь";
-                case "Oct_Short":
-                    return "октябрь";
-                case "Nov_Short":
-                    return "ноябрь";
-                case "Dec_Short":
-                    return "декабрь";
-
-                case "January":
-                    return "январь";
-                case "February":
-                    return "февраль";
-                case "March":
-                    return "Март";
-                case "April":
-                    return "апрель";
-                case "May":
-                    return "май";
-                case "June":
-                    return "июнь";
-                case "July":
-                    return "июль";
-                case "August":
-                    return "август";
-                case "September":
-                    return "сентябрь";
-                case "October":
-                    return "октября";
-                case "November":
-                    return "ноябрь";
-                case "December":
-                    return "Декабрь";
-
-                // User types
-                case "UserTypeText":
-                    return "Тип пользователя";
-                case "AdminUserTypeInfoText":
-                    return "Тип пользователя (в настоящее время используется для периодических платежей стипендиатов).";
-                case "Guest":
-                    return "гость";
-                case "Resident":
-                    return "резидент";
-                case "Member":
-                    return "член";
-                case "Contractor":
-                    return "подрядчик";
-                case "Charter_Member":
-                    return "Устав Участник";
-
-                // ColorBox
-                case "ColorBoxImageText":
-                    return "Образ";
-                case "ColorBoxOfText":
-                    return "из";
-                case "ColorBoxPreviousText":
-                    return "предыдущий";
-                case "ColorBoxNextText":
-                    return "следующий";
-                case "ColorBoxCloseText":
-                    return "Закрыть";
-                case "ColorBoxStartSlideshowText":
-                    return "Начать показ слайдов";
-                case "ColorBoxStopSlideshowText":
-                    return "Остановка слайд-шоу";
-
-                // Maintenance
-                case "NoAccountFound":
-                    return "Ни один счет не найдено";
-                case "DisplayInMenu":
-                    return "Дисплей В меню";
-                case "ParentText":
-                    return "Меню родитель";
-                case "CannotSetParentToChild":
-                    return "Невозможно установить пункт меню, как ребенок к себе.";
-                case "TopLevel":
-                    return "Верхний уровень";
-            }
-
-            return "UNKNOWN CHARACTER";
+            if (dictionary.ContainsKey (key))
+                return dictionary [key];
+            return ":" + key + ":";
         }
+
+        readonly Dictionary<string, string> dictionary = new Dictionary<string, string> {
+            // general
+            { "No", "Нет"},
+            { "Yes", "Да"},
+            { "Submit", "Отправить"},
+            { "Accept", "Nринимать"},
+            { "Save", "Сохранить"},
+            { "FirstText", "Nервый"},
+            { "BackText", "Назад"},
+            { "NextText", "Следующий"},
+            { "LastText", "Nоследний"},
+            { "CurrentPageText", "Current Page"},
+            { "MoreInfoText", "Больше информации"},
+            { "NoDetailsText", "Никаких подробностей не найдено..."},
+            { "MoreInfo", "More Information"},
+            { "Name", "имя"},
+            { "ObjectNameText", "Oбъект"},
+            { "LocationText", "Регион"},
+            { "UUIDText", "UUID"},
+            { "DetailsText", "Описание"},
+            { "NotesText", "Заметки"},
+            { "SaveUpdates", "Сохранить"},
+            { "ActiveText", "Aктивный"},
+            { "CheckedText", "Рассмотренные"},
+            { "CategoryText", "Категория"},
+            { "SummaryText", "Резюме"},
+            { "MaturityText", "Maturity"},
+            { "DateText", "Date"},
+            { "TimeText", "Time"},
+            { "MinuteText", "minute"},
+            { "MinutesText", "minutes"},
+            { "HourText", "hour"},
+            { "HoursText", "hours"},
+            { "EdittingText", "Editing"},
+
+            // Status information
+            { "GridStatus", "Статус"},
+            { "Online", "В 3D Мире"},
+            { "Offline", "Нет в Сети"},
+            { "TotalUserCount", "Пользователей"},
+            { "TotalRegionCount", "Total Region Count"},
+            { "UniqueVisitors", "За последние 30 дней"},
+            { "OnlineNow", "В игре"},
+            { "InterWorld", "Inter World (IWC)"},
+            { "HyperGrid", "HyperGrid (HG)"},
+            { "Voice", "Голосовой"},
+            { "Currency", "Currency"},
+            { "Disabled", "Disabled"},
+            { "Enabled", "Enabled"},
+            { "News", "Новости"},
+            { "Region", "Регион"},
+
+            // User login
+            { "Login", "Вход"},
+            { "UserName", "Имя пользователя"},
+            { "UserNameText", "Имя пользователя"},
+            { "Password", "Пароль"},
+            { "PasswordText", "Пароль"},
+            { "PasswordConfirmation", "Password Confirmation"},
+            { "ForgotPassword", "Забыли пароль?"},
+            { "TypeUserNameToConfirm", "Пожалуйста, введите имя пользователя этой учетной записи, чтобы подтвердить, что вы хотите удалить эту учетную запись"},
+
+            // Special windows
+            { "SpecialWindowTitleText", "Special Info Window Title"},
+            { "SpecialWindowTextText", "Special Info Window Text"},
+            { "SpecialWindowColorText", "Special Info Window Color"},
+            { "SpecialWindowStatusText", "Special Info Window Status"},
+            { "WelcomeScreenManagerFor", "Welcome Screen Manager For"},
+            { "ChangesSavedSuccessfully", "Changes Saved Successfully"},
+
+            // User registration
+            { "AvatarNameText", "Имя пользователя"},
+            { "AvatarScopeText", "Avatar Scope ID"},
+            { "FirstNameText", "Имя"},
+            { "LastNameText", "Фамилия"},
+            { "UserAddressText", "Адрес"},
+            { "UserZipText", "Почтовый Индекс"},
+            { "UserCityText", "Город"},
+            { "UserCountryText", "Страна"},
+            { "UserDOBText", "Дата рождения"},
+            { "UserEmailText", "Email"},
+            { "UserHomeRegionText", "Выберите Регион"},
+            { "RegistrationText", "Регистрация"},
+            { "RegistrationsDisabled", "Регистрация в данный момент отключена, пожалуйста, попробуйте еще раз в ближайшее время."},
+            { "TermsOfServiceText", "Условия Пользования"},
+            { "TermsOfServiceAccept", "Вы принимаете условия пользования, как описано выше?"},
+            { "AvatarNameError", "Вы не ввели имя аватара!"},
+            { "AvatarPasswordError", "Поле пароля пустое или не совпадает!"},
+            { "AvatarEmailError", "Адрес электронной почты необходим для восстановления пароля!"},
+            { "AvatarNameSpacingError", "Имя аватар должно быть \"Имя Фамилия\"!"},
+
+            // News
+            { "OpenNewsManager", "Open the news manager"},
+            { "NewsManager", "News Manager"},
+            { "EditNewsItem", "Edit news item"},
+            { "AddNewsItem", "Add new news item"},
+            { "DeleteNewsItem", "Delete news item"},
+            { "NewsDateText", "News Date"},
+            { "NewsTitleText", "News Title"},
+            { "NewsItemTitle", "News Item Title"},
+            { "NewsItemText", "News Item Text"},
+            { "AddNewsText", "Add News"},
+            { "DeleteNewsText", "Delete News"},
+            { "EditNewsText", "Edit News"},
+
+            // User Profile
+            { "UserProfileFor", "Профиль пользователя"},
+            { "UsersGroupsText", "Мои группы"},
+            { "GroupNameText", "Группы"},
+            { "UsersPicksText", "Места"},
+            { "ResidentSince", "Дата регистрации"},
+            { "AccountType", "Должность"},
+            { "PartnersName", "Партнёр"},
+            { "AboutMe", "Обо мне"},
+            { "IsOnlineText", "Статус"},
+            { "OnlineLocationText", "Локация"},
+            { "Partner", "Нет партнёра"},
+            { "Friends", "Friends"},
+            { "Nothing", "Нет информации"},
+            { "ChangePass", "Ваш пароль изменен"},
+            { "NoChangePass", "Не удалось изменить пароль, попробуйте еще раз позже"},
+
+            // Region Information
+            { "RegionInformationText", "Информация об регионе"},
+            { "OwnerNameText", "Владелец"},
+            { "RegionLocationText", "Координаты"},
+            { "RegionSizeText", "Размер"},
+            { "RegionNameText", "Название"},
+            { "RegionTypeText", "Region Type"},
+            { "RegionDelayStartupText", "Delay starting scripts"},
+            { "RegionPresetText", "Region Preset"},
+            { "RegionTerrainText", "Region Terrain"},
+            { "ParcelsInRegionText", "Parcels In Region"},
+            { "ParcelNameText", "Parcel Name"},
+            { "ParcelOwnerText", "Parcel Owner's Name"},
+
+            // Region List
+            { "RegionInfoText", "Информация об регионе"},
+            { "RegionListText", "Список регионов"},
+            { "RegionLocXText", "Позиция X"},
+            { "RegionLocYText", "Позиция Y"},
+            { "SortByLocX", "Сортировать по позиции X"},
+            { "SortByLocY", "Сортировать по позиции Y"},
+            { "SortByName", "Сортировать по имени региона"},
+            { "RegionMoreInfo", "Больще информации"},
+            { "RegionMoreInfoTooltips", "Подробнее о"},
+            { "OnlineUsersText", "Пользователи"},
+            { "OnlineFriendsText", "Online Friends"},
+            { "RegionOnlineText", "Статус"},
+            { "RegionMaturityText", "Открыть Рейтинг"},
+            { "NumberOfUsersInRegionText", "Количество пользователей в регионе"},
+
+            // Region manager
+            { "Mainland", "Материк"},
+            { "Estate", "Имущество"},
+            { "FullRegion", "Полный Регион"},
+            { "Homestead", "Homestead"},
+            { "Openspace", "Космос"},
+            { "Flatland", "Равнина"},
+            { "Grassland", "Поле"},
+            { "Island", "Остров"},
+            { "Aquatic", "Океан"},
+            { "Custom", "На заказ"},
+            { "RegionPortText", "Порт"},
+            { "RegionVisibilityText", "Видимый для соседей"},
+            { "RegionInfiniteText", "Бесконечная область"},
+            { "RegionCapacityText", "Region object capacity"},
+
+            // Menus
+            { "MenuHome", "Домой"},
+            { "MenuLogin", "Вход"},
+            { "MenuLogout", "Выход"},
+            { "MenuRegister", "Регистрация"},
+            { "MenuForgotPass", "Забыли пароль"},
+            { "MenuNews", "Новости"},
+            { "MenuWorld", "Мир"},
+            { "MenuWorldMap", "Карта мира"},
+            { "MenuRegion", "Список локаций"},
+            { "MenuUser", "Пользователи"},
+            { "MenuOnlineUsers", "Онлайн пользователи"},
+            { "MenuUserSearch", "Поиск"},
+            { "MenuRegionSearch", "Поиск"},
+            { "MenuChat", "Чат"},
+            { "MenuHelp", "Помощь"},
+            { "MenuViewerHelp", "Скачать"},
+            { "MenuChangeUserInformation", "Change User Information"},
+            { "MenuWelcomeScreenManager", "Welcome Screen Manager"},
+            { "MenuNewsManager", "Новости"},
+            { "MenuUserManager", "Пользователи"},
+            { "MenuFactoryReset", "Сброс"},
+            { "ResetMenuInfoText", "Resets the menu items back to the most updated defaults"},
+            { "ResetSettingsInfoText", "Resets the Web Interface settings back to the most updated defaults"},
+            { "MenuPageManager", "Страницы"},
+            { "MenuSettingsManager", "Настройки сайта"},
+            { "MenuManager", "Management"},
+            { "MenuSettings", "Настройки"},
+            { "MenuRegionManager", "Region Manager"},
+            { "MenuManagerSimConsole", "Simulator console"},
+            { "MenuPurchases", "User Purchases"},
+            { "MenuMyPurchases", "My Purchases"},
+            { "MenuTransactions", "User Transactions"},
+            { "MenuMyTransactions", "Трансакции"},
+            { "MenuClassifieds", "Classifieds"},
+            { "MenuMyClassifieds", "My Classifieds"},
+            { "MenuEvents", "Events"},
+            { "MenuMyEvents", "My Events"},
+            { "MenuStatistics", "Клиенты"},
+            { "MenuGridSettings", "Сервер"},
+
+            // Menu Tooltips
+            { "TooltipsMenuHome", "Home"},
+            { "TooltipsMenuLogin", "Login"},
+            { "TooltipsMenuLogout", "Logout"},
+            { "TooltipsMenuRegister", "Register"},
+            { "TooltipsMenuForgotPass", "Forgot Password"},
+            { "TooltipsMenuNews", "News"},
+            { "TooltipsMenuWorld", "World"},
+            { "TooltipsMenuWorldMap", "World Map"},
+            { "TooltipsMenuUser", "User"},
+            { "TooltipsMenuOnlineUsers", "Online Users"},
+            { "TooltipsMenuUserSearch", "User Search"},
+            { "TooltipsMenuRegionSearch", "Region Search"},
+            { "TooltipsMenuChat", "Chat"},
+            { "TooltipsMenuViewerHelp", "Viewer Help"},
+            { "TooltipsMenuHelp", "Help"},
+            { "TooltipsMenuChangeUserInformation", "Change User Information"},
+            { "TooltipsMenuWelcomeScreenManager", "Welcome Screen Manager"},
+            { "TooltipsMenuNewsManager", "News Manager"},
+            { "TooltipsMenuUserManager", "User Manager"},
+            { "TooltipsMenuFactoryReset", "Factory Reset"},
+            { "TooltipsMenuPageManager", "Page Manager"},
+            { "TooltipsMenuSettingsManager", "Settings Manager"},
+            { "TooltipsMenuManager", "Admin Management"},
+            { "TooltipsMenuSettings", "WebUI Settings"},
+            { "TooltipsMenuRegionManager", "Region create/edit"},
+            { "TooltipsMenuManagerSimConsole", "Online simulator console"},
+            { "TooltipsMenuPurchases", "Purchase information"},
+            { "TooltipsMenuTransactions", "Transaction information"},
+            { "TooltipsMenuClassifieds", "Classifieds information"},
+            { "TooltipsMenuEvents", "Event information"},
+            { "TooltipsMenuStatistics", "Viewer Statistics"},
+            { "TooltipsMenuGridSettings", "Grid settings"},
+
+            // Menu Region box
+            { "MenuRegionTitle", "Регион"},
+            { "MenuParcelTitle", "Parcels"},
+            { "MenuOwnerTitle", "Владелец"},
+            { "TooltipsMenuRegion", "Region Details"},
+            { "TooltipsMenuParcel", "Region Parcels"},
+            { "TooltipsMenuOwner", "Estate Owner"},
+
+            // Menu Profile box
+            { "MenuProfileTitle", "Profile"},
+            { "MenuGroupTitle", "Groups"},
+            { "MenuPicksTitle", "Picks"},
+            { "MenuRegionsTitle", "Regions"},
+            { "TooltipsMenuProfile", "User Profile"},
+            { "TooltipsMenuGroups", "User Groups"},
+            { "TooltipsMenuPicks", "User Selections"},
+            { "TooltipsMenuRegions", "User Regions"},
+            { "UserGroupNameText", "User group"},
+            { "PickNameText", "Pick name"},
+            { "PickRegionText", "Location"},
+
+            // Urls
+            { "WelcomeScreen", "Welcome Screen"},
+
+            // Tooltips Urls
+            { "TooltipsWelcomeScreen", "Welcome Screen"},
+            { "TooltipsWorldMap", "World Map"},
+
+            // Index
+            { "HomeText", "Главная"},
+            { "HomeTextWelcome", "This is our New Virtual World! Join us now, and make a difference!"},
+            { "HomeTextTips", "New presentations"},
+            { "WelcomeToText", "Welcome to"},
+
+            // World Map
+            { "WorldMap", "Карта мира"},
+            { "WorldMapText", "На весь экран"},
+
+            // Chat Page
+            { "ChatText", "Chat Support"},
+
+            // Help Page
+            { "HelpText", "Скачать"},
+            { "HelpViewersConfigText", "Viewer Configuration"},
+            { "AlchemyViewer", "Alchemy Viewer"},
+            { "AngstromViewer", "Angstrom Viewer"},
+            { "AstraViewer", "Astra Viewer"},
+            { "FirestormViewer", "Firestorm Viewer"},
+            { "KokuaViewer", "Kokua Viewer"},
+            { "ImprudenceViewer", "Imprudence Viewer"},
+            { "PhoenixViewer", "Phoenix Viewer"},
+            { "SingularityViewer", "Singularity Viewer"},
+            { "VoodooViewer", "Voodoo Viewer"},
+            { "ZenViewer", "Zen Viewer"},
+
+            // Logout
+            { "Logout", "Выход"},
+            { "LoggedOutSuccessfullyText", "Вы успешно вышли из системы."},
+
+            // Change user information
+            { "ChangeUserInformationText", "Настройки"},
+            { "ChangePasswordText", "Изменить пароль"},
+            { "NewPasswordText", "Новый пароль"},
+            { "NewPasswordConfirmationText", "Повторите пароль"},
+            { "ChangeEmailText", "Изменть Email"},
+            { "NewEmailText", "Новый Email адрес"},
+            { "DeleteUserText", "Удалить аккаунт"},
+            { "DeleteText", "Удалить"},
+            { "DeleteUserInfoText",
+               "Вы уверены, что хотите удалить свой аккаунт в ReaL Life 3D без возможности восстановления. Если вы хотите продолжить, введите свое имя и пароль и нажмите кнопку Удалить."},
+            { "EditText", "Редактировать"},
+            { "EditUserAccountText", "Редактировать аккаунт пользователя"},
+
+            // Maintenance
+            { "WebsiteDownInfoText", "Сайт на данный момент не работает, пожалуйста, попробуйте еще раз в ближайшее время."},
+            { "WebsiteDownText", "Сайт отключен на технические работы"},
+
+            // Http 404
+            { "Error404Text", "Ошибка"},
+            { "Error404InfoText", "404 страница не существует"},
+            { "HomePage404Text", "Главная страница"},
+
+            // Http 505
+            { "Error505Text", "Ошибка"},
+            { "Error505InfoText", "505 Внутренняя Ошибка Сервера"},
+            { "HomePage505Text", "Главная страница"},
+
+            // User search
+            { "Search", "Поиск"},
+            { "SearchText", "Поиск"},
+            { "SearchForUserText", "Поиск пользователя"},
+            { "UserSearchText", "Поиск пользователя"},
+            { "SearchResultForUserText", "Результат поиска"},
+
+            // Region search
+            { "SearchForRegionText", "Поиск Региона"},
+            { "RegionSearchText", "Поиск Региона"},
+            { "SearchResultForRegionText", "Результат поиска"},
+
+            // Edit user
+            { "AdminDeleteUserText", "Удалить пользователя"},
+            { "AdminDeleteUserInfoText", "Удалить аккаунт и всю связанную с ним информацию."},
+            { "BanText", "Заблокировать"},
+            { "UnbanText", "Разблокировать"},
+            { "AdminTempBanUserText", "Бан на время"},
+            { "AdminTempBanUserInfoText", "Блокирует вход пользователя в течение заданного времени."},
+            { "AdminBanUserText", "Бан навсегда"},
+            { "AdminBanUserInfoText", "Блокирует вход пользователя в навсегда, пока он не будет снят Сотрудниками."},
+            { "AdminUnbanUserText", "Разблокировать"},
+            { "AdminUnbanUserInfoText", "Removes temporary and permanent bans on the user."},
+            { "AdminLoginInAsUserText", "Вход пользователем в 3D мир"},
+            { "AdminLoginInAsUserInfoText",
+                "Вы выйдете из вашей учетной записи Сотрудника и войдете в систему как этот пользователь."},
+            { "BannedUntilText", "User banned until"},
+            { "KickAUserText", "Выкинуть"},
+            { "KickAUserInfoText", "Выкинуть пользователя с 3D мира (срабатывает в течение 30 секунд)"},
+            { "KickMessageText", "Причина отключения"},
+            { "KickUserText", "Отключение от 3D мира"},
+            { "MessageAUserText", "Отправить сообщение"},
+            { "MessageAUserInfoText", "Отправляет сообщение пользователю"},
+            { "MessageUserText", "Отправить"},
+
+            // Transactions
+            { "TransactionsText", "Transactions"},
+            { "DateInfoText", "Select a date range"},
+            { "DateStartText", "Commencing Date"},
+            { "DateEndText", "Ending Date"},
+            { "30daysPastText", "Previous 30 days"},
+            { "TransactionToAgentText", "To User"},
+            { "TransactionFromAgentText", "From User"},
+            { "TransactionDateText", "Date"},
+            { "TransactionDetailText", "Description"},
+            { "TransactionAmountText", "Amount"},
+            { "TransactionBalanceText", "Balance"},
+            { "NoTransactionsText", "No transactions found..."},
+            { "PurchasesText", "Purchases"},
+            { "LoggedIPText", "Logged IP address"},
+            { "NoPurchasesText", "No purchases found..."},
+            { "PurchaseCostText", "Cost"},
+       
+            // Classifieds
+            { "ClassifiedsText", "Объявления"},
+            { "ClassifiedText", "Classified"},
+            { "ListedByText", "Внесены"},
+            { "CreationDateText", "Указанной даты"},
+            { "ExpirationDateText", "Срок годности" },
+            { "DescriptionText", "Описание" },
+            { "PriceOfListingText", "Цена"},
+            // Classified categories
+            { "CatAll", "All"},
+            { "CatSelect", ""},
+            { "CatShopping", "Shopping"},
+            { "CatLandRental", "Land Rental"},
+            { "CatPropertyRental", "Property Rental"},
+            { "CatSpecialAttraction", "Special Attraction"},
+            { "CatNewProducts", "New Products"},
+            { "CatEmployment", "Employment"},
+            { "CatWanted", "Wanted"},
+            { "CatService", "Service"},
+            { "CatPersonal", "Personal"},
+
+            // Events
+            { "EventsText", "Events"},
+            { "EventNameText", "Event"},
+            { "EventLocationText", "Where"},
+            { "HostedByText","Сделано"},
+            { "EventDateText", "начинающегося"},
+            { "EventTimeInfoText", "Event time should be local time (Server)"},
+            { "CoverChargeText", "входная плата"},
+            { "Duration", "продолжительность"},
+            { "AddEventText", "Add event"},
+
+            // Event categories
+            { "CatDiscussion", "Discussion"},
+            { "CatSports", "Sports"},
+            { "CatLiveMusic", "Live Music"},
+            { "CatCommercial", "Commercial"},
+            { "CatEntertainment", "Nightlife/Entertainment"},
+            { "CatGames", "Games/Contests"},
+            { "CatPageants", "Pageants"},
+            { "CatEducation", "Education"},
+            { "CatArtsCulture", "Arts/Culture"},
+            { "CatCharitySupport", "Charity/Support Group"},
+            { "CatMiscellaneous", "Miscellaneous"},
+
+            // Event lookup periods
+            { "Next24Hours", "Next 24 hours"},
+            { "Next10Hours", "Next 10 hours"},
+            { "Next4Hours", "Next 4 hours"},
+            { "Next2Hours", "Next 2 hours"},
+
+            // Sim Console
+            { "SimConsoleText", "Sim Command Console"},
+            { "SimCommandText", "Command"},
+
+            // Statistics
+            { "StatisticsText", "Viewer statistics"},
+            { "ViewersText", "Viewer usage"},
+            { "GPUText", "Graphics cards"},
+            { "PerformanceText", "Performance averages"},
+            { "FPSText", "Frames / second"},
+            { "RunTimeText", "Run time"},
+            { "RegionsVisitedText", "Regions visited"},
+            { "MemoryUseageText", "Memory use"},
+            { "PingTimeText", "Ping time"},
+            { "AgentsInViewText", "Agents in view"},
+            { "ClearStatsText", "Clear statistics data"},
+
+            // Abuse reports
+            { "MenuAbuse", "Abuse Reports"},
+            { "TooltipsMenuAbuse", "User abuse reports"},
+            { "AbuseReportText", "Abuse Report"},
+            { "AbuserNameText", "Abuser"},
+            { "AbuseReporterNameText", "Reporter"},
+            { "AssignedToText", "Assigned to"},
+
+            // Factory_reset
+            { "FactoryReset", "Factory Reset"},
+            { "ResetMenuText", "Reset Menu To Factory Defaults"},
+            { "ResetSettingsText", "Reset Web Settings (Settings Manager page) To Factory Defaults"},
+            { "Reset", "Reset"},
+            { "Settings", "Settings"},
+            { "Pages", "Pages"},
+            { "DefaultsUpdated", "defaults updated, go to Factory Reset to update or Settings Manager to disable this warning."},
+
+            // Page_manager
+            { "PageManager", "Page Manager"},
+            { "SaveMenuItemChanges", "Save Menu Item"},
+            { "SelectItem", "Select Item"},
+            { "DeleteItem", "Delete Item"},
+            { "AddItem", "Add Item"},
+            { "PageLocationText", "Page Location"},
+            { "PageIDText", "Page ID"},
+            { "PagePositionText", "Page Position"},
+            { "PageTooltipText", "Page Tooltip"},
+            { "PageTitleText", "Page Title"},
+            { "RequiresLoginText", "Requires Login To View"},
+            { "RequiresLogoutText", "Requires Logout To View"},
+            { "RequiresAdminText", "Requires Admin To View"},
+            { "RequiresAdminLevelText", "Required Admin Level To View"},
+
+            // Grid settings
+            { "GridSettingsManager", "Grid Settings Manager"},
+            { "GridnameText", "Grid name"},
+            { "GridnickText", "Grid nickname"},
+            { "WelcomeMessageText", "Login welcome message"},
+            { "GovernorNameText", "System Governor"},
+            { "MainlandEstateNameText", "Mainland estate"},
+            { "RealEstateOwnerNameText", "System estate owner"},
+            { "SystemEstateNameText", "System estate"},
+            { "BankerNameText", "System banker"},
+            { "MarketPlaceOwnerNameText", "System marketplace owner"},
+
+            // Settings manager
+            { "WebRegistrationText", "Web registrations allowed"},
+            { "GridCenterXText", "Grid Center Location X"},
+            { "GridCenterYText", "Grid Center Location Y"},
+            { "SettingsManager", "Settings Manager"},
+            { "IgnorePagesUpdatesText", "Ignore pages update warning until next update"},
+            { "IgnoreSettingsUpdatesText", "Ignore settings update warning until next update"},
+            { "HideLanguageBarText", "Hide Language Selection Bar"},
+            { "HideStyleBarText", "Hide Style Selection Bar"},
+            { "HideSlideshowBarText", "Hide Slideshow Bar"},
+            { "LocalFrontPageText", "Local front page"},
+            { "LocalCSSText", "Local CSS stylesheet"},
+
+            // Dates
+            { "Sun", "Вс"},
+            { "Mon", "Пн"},
+            { "Tue", "Вт"},
+            { "Wed", "Ср"},
+            { "Thu", "Чт"},
+            { "Fri", "Пт"},
+            { "Sat", "Сб"},
+            { "Sunday", "Воскресенье"},
+            { "Monday", "Понедельник"},
+            { "Tuesday", "Вторник"},
+            { "Wednesday", "Среда"},
+            { "Thursday", "Четверг"},
+            { "Friday", "Пятница"},
+            { "Saturday", "Суббота"},
+
+            { "Jan_Short", "Янв"},
+            { "Feb_Short", "Фев"},
+            { "Mar_Short", "Март"},
+            { "Apr_Short", "Апр"},
+            { "May_Short", "Май"},
+            { "Jun_Short", "Июнь"},
+            { "Jul_Short", "Июль"},
+            { "Aug_Short", "Авг"},
+            { "Sep_Short", "Сен"},
+            { "Oct_Short", "Окт"},
+            { "Nov_Short", "Ноя"},
+            { "Dec_Short", "Дек"},
+
+            { "January", "Январь"},
+            { "February", "Февраль"},
+            { "March", "Март"},
+            { "April", "Апрель"},
+            { "May", "Май"},
+            { "June", "Июнь"},
+            { "July", "Июль"},
+            { "August", "Август"},
+            { "September", "Сентябрь"},
+            { "October", "Октябрь"},
+            { "November", "Ноябрь"},
+            { "December", "Декабрь"},
+
+            // User types
+            { "UserTypeText", "User type"},
+            { "AdminUserTypeInfoText", "The type of user (Currently used for periodical stipend payments)."},
+            { "Guest", "Гость"},
+            { "Resident", "Resident"},
+            { "Member", "Member"},
+            { "Contractor", "Contractor"},
+            { "Charter_Member", "Charter Member"},
+
+            // ColorBox
+            { "ColorBoxImageText", "Image"},
+            { "ColorBoxOfText", "of"},
+            { "ColorBoxPreviousText", "Previous"},
+            { "ColorBoxNextText", "Далее"},
+            { "ColorBoxCloseText", "Закрыть"},
+            { "ColorBoxStartSlideshowText", "Start Slide Show"},
+            { "ColorBoxStopSlideshowText", "Stop Slide Show"},
+
+            // Maintenance
+            { "NoAccountFound", "No account found"},
+            { "DisplayInMenu", "Display In Menu"},
+            { "ParentText", "Menu Parent"},
+            { "CannotSetParentToChild", "Cannot set menu item as a child to itself."},
+            { "TopLevel", "Top Level"},
+
+            // Style Switcher
+            { "styles1", "Default Minimalist"},
+            { "styles2", "Light Degarde"},
+            { "styles3", "Blue Night"},
+            { "styles4", "Dark Degrade"},
+            { "styles5", "Luminus"},
+
+            { "StyleSwitcherStylesText", "Styles"},
+            { "StyleSwitcherLanguagesText", "Languages"},
+            { "StyleSwitcherChoiceText", "Choice"},
+
+            // Language Switcher Tooltips
+            { "en", "English"},
+            { "fr", "Français"},
+            { "de", "Deutsch"},
+            { "it", "Italiano"},
+            { "es", "Español"},
+            { "nl", "Nederlands"},
+            { "ru", "Русский"},
+        };
     }
 }

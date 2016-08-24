@@ -132,7 +132,6 @@ namespace Vision.Modules.Web
                             { "RealAmount",((float) purchase.RealAmount/100).ToString("0.00") },
                             { "PurchaseDate", Culture.LocaleDate (purchase.PurchaseDate.ToLocalTime(), "MMM dd, hh:mm:ss tt") },
                             { "UpdateDate", Culture.LocaleDate (purchase.UpdateDate.ToLocalTime(), "MMM dd, hh:mm:ss tt") }
-
                         });
                         }
                     }
@@ -170,7 +169,6 @@ namespace Vision.Modules.Web
             vars.Add ("PurchaseAgentText", translator.GetTranslatedString ("TransactionToAgentText"));
             vars.Add ("PurchaseDateText", translator.GetTranslatedString ("TransactionDateText"));
             vars.Add ("PurchaseUpdateDateText", translator.GetTranslatedString ("TransactionDateText"));
-            //vars.Add("PurchaseTimeText", translator.GetTranslatedString("Time"));
             vars.Add ("PurchaseDetailText", translator.GetTranslatedString ("TransactionDetailText"));
             vars.Add ("LoggedIPText", translator.GetTranslatedString ("LoggedIPText"));
             vars.Add ("PurchaseAmountText", InWorldCurrency + translator.GetTranslatedString ("TransactionAmountText"));

@@ -95,6 +95,7 @@ namespace Vision.Modules.Web
                                   }
                               });
             }
+
             vars.Add("PagesList", pages);
 
             #endregion
@@ -109,12 +110,13 @@ namespace Vision.Modules.Web
                            "</script>";
                 return null;
             }
+
             if (requestParameters.ContainsKey("AddItem"))
             {
-                //generics.AddGeneric(UUID.Zero, "WebPages", "Root", rootPage.ToOSD());
                 vars.Add("EdittingPageID", -2);
                 vars.Add("DisplayEdit", true);
             }
+
             if (requestParameters.ContainsKey("SelectItem"))
             {
                 GridPage page = rootPage.GetPageByLocation(MenuItem);
@@ -145,6 +147,7 @@ namespace Vision.Modules.Web
                                         {"PageSelected", ""}
                                     }
                             };
+
                 GridPage parent = rootPage.GetParent(page);
                 foreach (GridPage p in allPages)
                 {
@@ -159,6 +162,7 @@ namespace Vision.Modules.Web
                                       }
                                   });
                 }
+
                 vars.Add("ParentPagesList", pages);
             }
 
@@ -188,6 +192,7 @@ namespace Vision.Modules.Web
                                         {"PageSelected", ""}
                                     }
                             };
+
                 foreach (GridPage p in allPages)
                 {
                     pages.Add(new Dictionary<string, object>
@@ -197,6 +202,7 @@ namespace Vision.Modules.Web
                                       {"PageSelected", ""}
                                   });
                 }
+
                 vars.Add("ParentPagesList", pages);
             }
 

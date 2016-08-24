@@ -99,16 +99,9 @@ namespace Vision.Modules.Web
             if (account == null)
                 return vars;
 
-			/* Allow access to the system user info - needed for Estate owner Profiles of regions
-            if ( Utilities.IsSystemUser(account.PrincipalID) )
-				return vars;
-            */
-
             vars.Add("UserName", account.Name);
             //  TODO: User Profile inworld shows this as the standard mm/dd/yyyy
             //  Do we want this to be localised into the users Localisation or keep it as standard ?
-            //
-            //  vars.Add("UserBorn", Culture.LocaleDate(Util.ToDateTime(account.Created)));
             vars.Add("UserBorn", Util.ToDateTime(account.Created).ToShortDateString());
 
             IUserProfileInfo profile = Framework.Utilities.DataManager.RequestPlugin<IProfileConnector>().
@@ -136,6 +129,7 @@ namespace Vision.Modules.Web
                 vars.Add ("UserType", "Guest");
                 vars.Add ("UserPartner", "Not specified yet");
                 vars.Add ("UserAboutMe", "Nothing here yet");
+
             }
             vars.Add ("UserPictureURL", picUrl);
 

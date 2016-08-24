@@ -63,13 +63,6 @@ namespace Vision.Modules.Web
                                                OSHttpResponse httpResponse, Dictionary<string, object> requestParameters,
                                                ITranslator translator, out string response)
         {
-            // under development
-            //response = "<h3>Sorry! This feature is not available yet<</h3><br /> Redirecting to main page" +
-            //    "<script language=\"javascript\">" +
-            //    "setTimeout(function() {window.location.href = \"index.html\";}, 3000);" +
-            //    "</script>";
-            //return null;
-
             response = null;
             var vars = new Dictionary<string, object> ();
             if (httpRequest.Query.ContainsKey ("regionid")) {
@@ -136,12 +129,15 @@ namespace Vision.Modules.Web
                                 else
                                     parcel.Add ("ParcelOwnerName", translator.GetTranslatedString ("NoAccountFound"));
                             }
+
                             parcels.Add (parcel);
                         }
                     }
+
                     vars.Add ("ParcelInRegion", parcels);
                     vars.Add ("NumberOfParcelsInRegion", parcels.Count);
                 }
+
                 IWebHttpTextureService webTextureService = webInterface.Registry.
                     RequestModuleInterface<IWebHttpTextureService> ();
                 if (webTextureService != null && region.TerrainMapImage != UUID.Zero)
@@ -149,14 +145,6 @@ namespace Vision.Modules.Web
                 else
                     vars.Add ("RegionImageURL", "../images/icons/no_terrain.jpg");
 
-                /*   // Regionprofile Menus
-                   vars.Add("MenuRegionTitle", translator.GetTranslatedString("MenuRegionTitle"));
-                   vars.Add("TooltipsMenuRegion", translator.GetTranslatedString("TooltipsMenuRegion"));
-                   vars.Add("MenuParcelTitle", translator.GetTranslatedString("MenuParcelTitle"));
-                   vars.Add("TooltipsMenuParcel", translator.GetTranslatedString("TooltipsMenuParcel"));
-                   vars.Add("MenuOwnerTitle", translator.GetTranslatedString("MenuOwnerTitle"));
-                   vars.Add("TooltipsMenuOwner", translator.GetTranslatedString("TooltipsMenuOwner"));
-                   */
                 vars.Add ("RegionInformationText", translator.GetTranslatedString ("RegionInformationText"));
                 vars.Add ("OwnerNameText", translator.GetTranslatedString ("OwnerNameText"));
                 vars.Add ("RegionLocationText", translator.GetTranslatedString ("RegionLocationText"));
@@ -169,11 +157,9 @@ namespace Vision.Modules.Web
                 vars.Add ("NumberOfUsersInRegionText", translator.GetTranslatedString ("NumberOfUsersInRegionText"));
                 vars.Add ("ParcelsInRegionText", translator.GetTranslatedString ("ParcelsInRegionText"));
                 vars.Add ("MainServerURL", webInterface.GridURL);
-
             }
 
             return vars;
-
         }
 
         public bool AttemptFindPage (string filename, ref OSHttpResponse httpResponse, out string text)

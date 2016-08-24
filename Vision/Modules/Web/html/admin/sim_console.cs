@@ -40,7 +40,7 @@ namespace Vision.Modules.Web
             {
                 return new[]
                            {
-                               "html/sim_console.html"
+                               "html/admin/sim_console.html"
                            };
             }
         }
@@ -61,7 +61,6 @@ namespace Vision.Modules.Web
         {
             response = null;
             var vars = new Dictionary<string, object>();
-            //IGenericsConnector connector = Framework.Utilities.DataManager.RequestPlugin<IGenericsConnector>();
 
             // Check if we're looking at the standard page or the submitted one
             if (requestParameters.ContainsKey("Submit"))
@@ -69,14 +68,11 @@ namespace Vision.Modules.Web
             }
             else
             {
-                //vars.Add("ErrorMessage", error);
-
                 vars.Add("SimConsoleText", translator.GetTranslatedString("SimConsoleText"));
                 vars.Add("SimAddressText", translator.GetTranslatedString("SimAddressText"));
                 vars.Add("UserNameText", translator.GetTranslatedString("UserNameText"));
                 vars.Add("PasswordText", translator.GetTranslatedString("PasswordText"));
                 vars.Add("SendCommandText", translator.GetTranslatedString("SendCommandText"));
-
                 vars.Add("Login", translator.GetTranslatedString("Login"));
             }
 

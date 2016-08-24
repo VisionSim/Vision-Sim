@@ -73,17 +73,9 @@ namespace Vision.Modules.Web
             if (account == null)
                 return vars;
 
-            /* Allow access to the syatem user info - needed for Estate owner Profiles of regions
-
-            if ( Utilities.IsSystemUser(account.PrincipalID))
-                return vars;
-            */
-
             vars.Add ("UserName", account.Name);
             //  TODO: User Profile inworld shows this as the standard mm/dd/yyyy
             //  Do we want this to be localised into the users Localisation or keep it as standard ?
-            //
-            //  vars.Add("UserBorn", Culture.LocaleDate(Util.ToDateTime(account.Created)));
             vars.Add ("UserBorn", Util.ToDateTime (account.Created).ToShortDateString ());
 
             IUserProfileInfo profile = Framework.Utilities.DataManager.RequestPlugin<IProfileConnector> ().
@@ -117,8 +109,7 @@ namespace Vision.Modules.Web
                 var friends = friendsService.GetFriends (account.PrincipalID);
                 UUID friendID = UUID.Zero;
                 if (friends.Any (f => UUID.TryParse (f.Friend, out friendID) && friendID == ourAccount.PrincipalID)) {
-                    IAgentInfoService agentInfoService =
-                        webInterface.Registry.RequestModuleInterface<IAgentInfoService> ();
+                    IAgentInfoService agentInfoService = webInterface.Registry.RequestModuleInterface<IAgentInfoService> ();
                     IGridService gridService = webInterface.Registry.RequestModuleInterface<IGridService> ();
                     UserInfo ourInfo = agentInfoService.GetUserInfo (account.PrincipalID.ToString ());
                     if (ourInfo != null && ourInfo.IsOnline)
@@ -162,15 +153,12 @@ namespace Vision.Modules.Web
                     }
                 }
 
-
                 if (groups.Count == 0) {
                     groups.Add (new Dictionary<string, object> {
                         { "GroupPictureURL", "../images/icons/no_groups.jpg" },
                         { "GroupName", "None yet" }
                     });
-
                 }
-
             }
 
             vars.Add ("GroupNameText", translator.GetTranslatedString ("GroupNameText"));

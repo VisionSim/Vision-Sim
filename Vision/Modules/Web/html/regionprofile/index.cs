@@ -125,37 +125,12 @@ namespace Vision.Modules.Web
                     vars.Add ("NumberOfUsersInRegion", 0);
                     vars.Add ("UsersInRegion", new List<Dictionary<string, object>> ());
                 }
-
-                IDirectoryServiceConnector directoryConnector = Framework.Utilities.DataManager.RequestPlugin<IDirectoryServiceConnector> ();
-
+                IDirectoryServiceConnector directoryConnector =
+                    Framework.Utilities.DataManager.RequestPlugin<IDirectoryServiceConnector> ();
                 if (directoryConnector != null) {
                     List<LandData> parcelData = directoryConnector.GetParcelsByRegion (0, 10, region.RegionID, UUID.Zero,
                         ParcelFlags.None, ParcelCategory.Any);
-                    /*List<Dictionary<string, object>> parcels = new List<Dictionary<string, object>>();
-                    foreach (var p in parcelData)
-                     {
-                        Dictionary<string, object> parcel = new Dictionary<string, object>();
-                        parcel.Add("ParcelNameText", translator.GetTranslatedString("ParcelNameText"));
-                        parcel.Add("ParcelOwnerText", translator.GetTranslatedString("ParcelOwnerText"));
-                        parcel.Add("ParcelUUID", p.GlobalID);
-                        parcel.Add("ParcelName", p.Name);
-                        parcel.Add("ParcelOwnerUUID", p.OwnerID);
-                        IUserAccountService accountService =
-                            webInterface.Registry.RequestModuleInterface<IUserAccountService>();
-                        if (accountService != null)
-                        {
-                            var account = accountService.GetUserAccount(null, p.OwnerID);
-                            if (account == null)
-                                parcel.Add("ParcelOwnerName", translator.GetTranslatedString("NoAccountFound"));
-                            else
-                                parcel.Add("ParcelOwnerName", account.Name);
-                        }
-                        parcels.Add(parcel);
-                    }
-
-                    vars.Add("ParcelInRegion", parcels);
-                    */
-
+                    
                     if (parcelData != null)
                         vars.Add ("NumberOfParcelsInRegion", parcelData.Count);
                     else
@@ -190,7 +165,6 @@ namespace Vision.Modules.Web
                 vars.Add ("TooltipsMenuParcel", translator.GetTranslatedString ("TooltipsMenuParcel"));
                 vars.Add ("MenuOwnerTitle", translator.GetTranslatedString ("MenuOwnerTitle"));
                 vars.Add ("TooltipsMenuOwner", translator.GetTranslatedString ("TooltipsMenuOwner"));
-
 
                 vars.Add ("RegionInformationText", translator.GetTranslatedString ("RegionInformationText"));
                 vars.Add ("OwnerNameText", translator.GetTranslatedString ("OwnerNameText"));

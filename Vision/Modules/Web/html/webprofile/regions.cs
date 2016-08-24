@@ -69,7 +69,6 @@ namespace Vision.Modules.Web
             var regionslist = new List<Dictionary<string, object>>();
             UserAccount account = null;
 
-            // future use // uint amountPerQuery = 10;
             string noDetails = translator.GetTranslatedString ("NoDetailsText");
 
             if (httpRequest.Query.ContainsKey("userid"))
@@ -154,7 +153,7 @@ namespace Vision.Modules.Web
         public bool AttemptFindPage(string filename, ref OSHttpResponse httpResponse, out string text)
         {
             httpResponse.ContentType = "text/html";
-            //text = "";
+
             text = File.ReadAllText("html/webprofile/index.html");
                       return false;
         }

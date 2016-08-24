@@ -87,7 +87,7 @@ namespace Vision.Modules.Web
                 requestParameters ["Submit"].ToString () == "SubmitSetUserType") {
 
                 string UserType = requestParameters ["UserType"].ToString ();
-                int UserFlags = webInterface.UserTypeToUserFlags (UserType);
+                int UserFlags = WebHelpers.UserTypeToUserFlags (UserType);
 
                 // set the user account type
                 if (account != null) {
@@ -115,7 +115,7 @@ namespace Vision.Modules.Web
                         profile = profileData.GetUserProfile (userID);
                     }
 
-                    profile.MembershipGroup = webInterface.UserFlagToType (UserFlags, webInterface.EnglishTranslator);    // membership is english
+                    profile.MembershipGroup = WebHelpers.UserFlagToType (UserFlags, webInterface.EnglishTranslator);    // membership is english
                     profileData.UpdateUserProfile (profile);
                 }
 
@@ -283,6 +283,7 @@ namespace Vision.Modules.Web
                     bannedUntil = string.Format ("{0} {1}", bannedTime.ToShortDateString (), bannedTime.ToLongTimeString ());
                 }
             }
+
             bool userOnline = false;
             IAgentInfoService agentInfoService = webInterface.Registry.RequestModuleInterface<IAgentInfoService> ();
             if (agentInfoService != null) {
@@ -369,7 +370,7 @@ namespace Vision.Modules.Web
             vars.Add ("HoursText", translator.GetTranslatedString ("HoursText"));
             vars.Add ("MinutesText", translator.GetTranslatedString ("MinutesText"));
 
-            vars.Add ("UserType", webInterface.UserTypeArgs (translator));
+            vars.Add ("UserType", WebHelpers.UserTypeArgs (translator));
 
             return vars;
         }

@@ -130,8 +130,7 @@ namespace Vision.Modules.Web
 
             vars.Add("UsersGroupsText", translator.GetTranslatedString("UsersGroupsText"));
 
-            IGroupsServiceConnector groupsConnector =
-                Framework.Utilities.DataManager.RequestPlugin<IGroupsServiceConnector>();
+            IGroupsServiceConnector groupsConnector = Framework.Utilities.DataManager.RequestPlugin<IGroupsServiceConnector>();
             List<Dictionary<string, object>> groups = new List<Dictionary<string, object>> ();
 
             if (groupsConnector != null)

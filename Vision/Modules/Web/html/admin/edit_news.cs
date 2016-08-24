@@ -81,6 +81,7 @@ namespace Vision.Modules.Web
                     "setTimeout(function() {window.location.href = \"index.html?page=news_manager\";}, 0);" +
                     "</script>";
                 }
+
                 return null;
             }
 
@@ -96,6 +97,7 @@ namespace Vision.Modules.Web
                 vars.Add ("EditNewsText", translator.GetTranslatedString ("EditNewsText"));
                 vars.Add ("Submit", translator.GetTranslatedString ("Submit"));
             }
+
             return vars;
         }
 

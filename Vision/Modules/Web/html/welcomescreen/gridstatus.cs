@@ -75,6 +75,7 @@ namespace Vision.Modules.Web
             if (connector != null)
                 welcomeInfo = connector.GetGeneric<GridWelcomeScreen>(UUID.Zero, "GridWelcomeScreen",
                                                                                     "GridWelcomeScreen");
+
             if (welcomeInfo == null)
                 welcomeInfo = GridWelcomeScreen.Default;
 

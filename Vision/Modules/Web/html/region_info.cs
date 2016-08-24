@@ -84,6 +84,7 @@ namespace Vision.Modules.Web
                         ownerName = estateOwnerAccount == null ? "No account found" : estateOwnerAccount.Name;
                     }
                 }
+
                 vars.Add ("OwnerUUID", ownerUUID);
                 vars.Add ("OwnerName", ownerName);
 
@@ -121,12 +122,14 @@ namespace Vision.Modules.Web
                                 }
                             }
                         }
+
                         vars.Add ("UsersInRegion", users);
                     }
                 } else {
                     vars.Add ("NumberOfUsersInRegion", 0);
                     vars.Add ("UsersInRegion", new List<Dictionary<string, object>> ());
                 }
+
                 IDirectoryServiceConnector directoryConnector =
                     Framework.Utilities.DataManager.RequestPlugin<IDirectoryServiceConnector> ();
 
@@ -149,12 +152,15 @@ namespace Vision.Modules.Web
                                 else
                                     parcel.Add ("ParcelOwnerName", translator.GetTranslatedString ("NoAccountFound"));
                             }
+
                             parcels.Add (parcel);
                         }
                     }
+
                     vars.Add ("ParcelInRegion", parcels);
                     vars.Add ("NumberOfParcelsInRegion", parcels.Count);
                 }
+
                 IWebHttpTextureService webTextureService = webInterface.Registry.
                                                                         RequestModuleInterface<IWebHttpTextureService> ();
                 if (webTextureService != null && region.TerrainMapImage != UUID.Zero)

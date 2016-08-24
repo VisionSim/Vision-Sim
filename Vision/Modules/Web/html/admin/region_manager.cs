@@ -36,7 +36,6 @@ using Vision.Framework.SceneInfo;
 using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
-//using GridRegion = Vision.Framework.Services.GridRegion;
 using RegionFlags = Vision.Framework.Services.RegionFlags;
 
 namespace Vision.Modules.Web
@@ -50,8 +49,6 @@ namespace Vision.Modules.Web
                 return new[]
                 {
                     "html/admin/region_manager.html"
-                    //"html/regionprofile/base.html",
-                    //"html/regionprofile/"
                 };
             }
         }
@@ -86,7 +83,6 @@ namespace Vision.Modules.Web
                 }
 
                 string RegionName = requestParameters["RegionName"].ToString();
-                //string OwnerUUID = requestParameters["OwnerUUID"].ToString();
                 string RegionLocX = requestParameters["RegionLocX"].ToString();
                 string RegionLocY = requestParameters["RegionLocY"].ToString();
                 string RegionSizeX = requestParameters["RegionSizeX"].ToString();
@@ -99,19 +95,12 @@ namespace Vision.Modules.Web
                 string RegionLoadTerrain = requestParameters.ContainsKey("RegionLoadTerrain")
                     ? requestParameters["RegionLoadTerrain"].ToString()
                     : "";
-                //bool ToSAccept = requestParameters.ContainsKey("ToSAccept") &&
-                //    requestParameters["ToSAccept"].ToString() == "Accepted";
-
-                // string UserType = requestParameters.ContainsKey("UserType")         // only admins can set membership
-                //     ? requestParameters ["UserType"].ToString ()
-                //     : "Resident";
 
                 // a bit of idiot proofing
                 if (RegionName == "")  {
                     response = "<h3>" + translator.GetTranslatedString ("RegionNameError") + "</h3>";   
                     return null;
                 }
-
                 if ( (RegionLocX == "") || (RegionLocY == "") )
                 {
                     response = "<h3>" + translator.GetTranslatedString ("RegionLocationError") + "</h3>";   
@@ -152,28 +141,26 @@ namespace Vision.Modules.Web
                 if (regionPreset.StartsWith ("w", System.StringComparison.Ordinal))
                 {
                     // 'standard' setup
-                    newRegion.RegionType = newRegion.RegionType + "Whitecore";                   
-                    //info.RegionPort;            // use auto assigned port
+                    newRegion.RegionType = newRegion.RegionType + "vision";                   
                     newRegion.RegionTerrain = "Flatland";
                     newRegion.Startup = StartupType.Normal;
                     newRegion.SeeIntoThisSimFromNeighbor = true;
-                    newRegion.InfiniteRegion = false;
+                    newRegion.InfiniteRegion = true;
                     newRegion.ObjectCapacity = 50000;
                     newRegion.RegionPort = RegionPort;
                 }
-
                 if (regionPreset.StartsWith ("o", System.StringComparison.Ordinal))       
                 {
                     // 'Openspace' setup
                     newRegion.RegionType = newRegion.RegionType + "Openspace";                   
-                    //newRegion.RegionPort;            // use auto assigned port
+
                     if (RegionTerrain.StartsWith ("a", System.StringComparison.Ordinal))
                         newRegion.RegionTerrain = "Aquatic";
                     else
                         newRegion.RegionTerrain = "Grassland";
                     newRegion.Startup = StartupType.Medium;
                     newRegion.SeeIntoThisSimFromNeighbor = true;
-                    newRegion.InfiniteRegion = false;
+                    newRegion.InfiniteRegion = true;
                     newRegion.ObjectCapacity = 750;
                     newRegion.RegionSettings.AgentLimit = 10;
                     newRegion.RegionSettings.AllowLandJoinDivide = false;
@@ -183,11 +170,10 @@ namespace Vision.Modules.Web
                 {
                     // 'Homestead' setup
                     newRegion.RegionType = newRegion.RegionType + "Homestead";                   
-                    //info.RegionPort;            // use auto assigned port
                     newRegion.RegionTerrain = "Homestead";
                     newRegion.Startup = StartupType.Medium;
                     newRegion.SeeIntoThisSimFromNeighbor = true;
-                    newRegion.InfiniteRegion = false;
+                    newRegion.InfiniteRegion = true;
                     newRegion.ObjectCapacity = 3750;
                     newRegion.RegionSettings.AgentLimit = 20;
                     newRegion.RegionSettings.AllowLandJoinDivide = false;
@@ -198,11 +184,10 @@ namespace Vision.Modules.Web
                 {
                     // 'Full Region' setup
                     newRegion.RegionType = newRegion.RegionType + "Full Region";                   
-                    //newRegion.RegionPort;            // use auto assigned port
                     newRegion.RegionTerrain = RegionTerrain;
                     newRegion.Startup = StartupType.Normal;
                     newRegion.SeeIntoThisSimFromNeighbor = true;
-                    newRegion.InfiniteRegion = false;
+                    newRegion.InfiniteRegion = true;
                     newRegion.ObjectCapacity = 15000;
                     newRegion.RegionSettings.AgentLimit = 100;
                     if (newRegion.RegionType.StartsWith ("M", System.StringComparison.Ordinal))                           // defaults are 'true'
@@ -234,7 +219,6 @@ namespace Vision.Modules.Web
                         }
                     } 
 
-                    //response = "<h3>" + error + "</h3>";
                     response = "<h3> Error registering region with grid</h3>";
                 } else
                     response = "<h3>Error creating this region.</h3>";
@@ -261,6 +245,7 @@ namespace Vision.Modules.Web
                     if (accountService != null)
                         estateOwnerAccount = accountService.GetUserAccount (null, estate.EstateOwner);
                 }
+
                 vars.Add ("OwnerUUID", estateOwner);
                 vars.Add ("OwnerName", estateOwnerAccount != null ? estateOwnerAccount.Name : "No account found");
 
@@ -309,10 +294,8 @@ namespace Vision.Modules.Web
                     settings = new WebUISettings ();
                 
                 // get some current details
-                //List<GridRegion> regions = gridService.GetRegionsByName(null, "", null,null);
-
                 var currentInfo = scenemanager.FindCurrentRegionInfo ();
-                //Dictionary<string, int> currentInfo = null;
+
                 if (currentInfo != null)
                 {
                     vars.Add ("RegionLocX", currentInfo ["minX"] > 0 ? currentInfo ["minX"] : settings.MapCenter.X);
@@ -324,16 +307,15 @@ namespace Vision.Modules.Web
                     vars.Add ("RegionLocY", settings.MapCenter.Y);
                     vars.Add("RegionPort", 9000);
                 }
-             
+                  
                 vars.Add ("RegionSizeX", Constants.RegionSize);
                 vars.Add ("RegionSizeY", Constants.RegionSize);
-                vars.Add ("RegionType", webInterface.RegionTypeArgs(translator));
-                vars.Add ("RegionPresetType", webInterface.RegionPresetArgs(translator));
-                vars.Add ("RegionTerrain", webInterface.RegionTerrainArgs(translator));            
+                vars.Add ("RegionType", WebHelpers.RegionTypeArgs(translator));
+                vars.Add ("RegionPresetType", WebHelpers.RegionPresetArgs(translator));
+                vars.Add ("RegionTerrain", WebHelpers.RegionTerrainArgs(translator));          
             }
 
-                // Labels
-                //vars.Add ("RegionInformationText", translator.GetTranslatedString ("RegionInformationText"));
+            // Labels
             vars.Add ("RegionNameText", translator.GetTranslatedString ("RegionNameText"));
             vars.Add ("RegionLocationText", translator.GetTranslatedString ("RegionLocationText"));
             vars.Add ("RegionSizeText", translator.GetTranslatedString ("RegionSizeText"));

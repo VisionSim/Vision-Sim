@@ -80,23 +80,14 @@ namespace Vision.Modules.Web
 
                 account = webInterface.Registry.RequestModuleInterface<IUserAccountService>().
                     GetUserAccount(null, userid);
-
-                //IEstateConnector estateConnector = Framework.Utilities.DataManager.RequestPlugin<IEstateConnector> ();
-                //EstateSettings estate = estateConnector.GetEstateSettings (region.RegionID);
             }
+
             if (account == null)
                 return vars;
-
-            // There is no harm in showing the system users here, actually it is required
-            //if ( Utilities.IsSytemUser(account.PrincipalID))
-            //    return vars;
 
             vars.Add("UserName", account.Name);
             //  TODO: User Profile inworld shows this as the standard mm/dd/yyyy
             //  Do we want this to be localised into the users Localisation or keep it as standard ?
-            //
-            // greythane, Oct 2014 - Not sure why we need to keep the US format here?  A lot of us don't live there :)  
-            //  vars.Add("UserBorn", Culture.LocaleDate(Util.ToDateTime(account.Created)));
             vars.Add("UserBorn", Util.ToDateTime(account.Created).ToShortDateString());  
 
             IUserProfileInfo profile = Framework.Utilities.DataManager.RequestPlugin<IProfileConnector>().

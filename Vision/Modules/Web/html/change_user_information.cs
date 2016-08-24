@@ -92,10 +92,10 @@ namespace Vision.Modules.Web
                         response = authService.SetPassword(user.PrincipalID, "UserAccount", password)
                             ? "Your password has been updated"
                             : "Failed to set your password, try again later";
-
                     else
                         response = "No authentication service was available to change your password";
                 }
+
                 return null;
             }
 

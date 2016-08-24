@@ -91,6 +91,12 @@ namespace Vision.Modules.Web
         {
             byte [] jpeg = new byte [0];
             httpResponse.ContentType = "image/jpeg";
+            var imageUUID = httpRequest.QueryString ["uuid"];
+
+            // check for bogies
+            if (imageUUID == UUID.Zero.ToString ())
+                return jpeg;
+            
             IAssetService m_AssetService = _registry.RequestModuleInterface<IAssetService> ();
 
             using (MemoryStream imgstream = new MemoryStream ()) {
@@ -119,7 +125,8 @@ namespace Vision.Modules.Web
                         }
                     }
                     myEncoderParameters.Dispose ();
-                    image.Dispose ();
+                    if (image != null)
+                        image.Dispose ();
                 }
             }
 

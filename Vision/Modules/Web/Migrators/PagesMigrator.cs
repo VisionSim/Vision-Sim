@@ -80,15 +80,6 @@ namespace Vision.Modules.Web
                         MenuTitle = "MenuWorldMap",
                         MenuToolTip = "TooltipsMenuWorldMap"
                     },
-                    /* removed as region list now provides search capabilitie
-                     new GridPage {
-                        ShowInMenu = true,
-                        MenuID = "region_search",
-                        Location = "region_search.html",
-                        MenuPosition = 1,
-                        MenuTitle = "MenuRegionSearch",
-                        MenuToolTip = "TooltipsMenuRegionSearch"
-                    }, */
                     new GridPage {
                         ShowInMenu = true,
                         MenuID = "region_list",
@@ -100,13 +91,35 @@ namespace Vision.Modules.Web
                 }
             });
 
+            // events
+            _rootPage.Children.Add (new GridPage {
+                ShowInMenu = true,
+                LoggedInRequired = false,
+                MenuID = "events",
+                Location = "events/events.html",
+                MenuPosition = 3,
+                MenuTitle = "MenuEvents",
+                MenuToolTip = "TooltipsMenuEvents"
+            });
+
+            // classifieds
+            _rootPage.Children.Add (new GridPage {
+                ShowInMenu = true,
+                LoggedInRequired = false,
+                MenuID = "classifieds",
+                Location = "classifieds.html",
+                MenuPosition = 4,
+                MenuTitle = "MenuClassifieds",
+                MenuToolTip = "TooltipsMenuClassifieds"
+            });
+
             // users
             _rootPage.Children.Add (new GridPage {
                 ShowInMenu = true,
                 LoggedInRequired = true,
                 MenuID = "users",
                 Location = "user_profile.html",
-                MenuPosition = 3,
+                MenuPosition = 5,
                 MenuTitle = "MenuUser",
                 MenuToolTip = "TooltipsMenuUser",
                 Children = new List<GridPage> {
@@ -141,7 +154,7 @@ namespace Vision.Modules.Web
                     new GridPage {
                         ShowInMenu = true,
                         LoggedInRequired = true,
-                        MenuID = "Transactions",
+                        MenuID = "transactions",
                         Location = "user_transactions.html",
                         MenuPosition = 3,
                         MenuTitle = "MenuMyTransactions",
@@ -150,11 +163,11 @@ namespace Vision.Modules.Web
                     new GridPage {
                         ShowInMenu = true,
                         LoggedInRequired = true,
-                        MenuID = "Classifieds",
-                        Location = "classifieds.html",
+                        MenuID = "userevents",
+                        Location = "events/events.html",
                         MenuPosition = 4,
-                        MenuTitle = "MenuMyClassifieds",
-                        MenuToolTip = "TooltipsMenuClassifieds"
+                        MenuTitle = "MenuMyEvents",
+                        MenuToolTip = "TooltipsMenuEvents"
                     },
                     new GridPage {
                         ShowInMenu = true,
@@ -173,7 +186,7 @@ namespace Vision.Modules.Web
                 ShowInMenu = true,
                 MenuID = "help",
                 Location = "help.html",
-                MenuPosition = 5,
+                MenuPosition = 6,
                 MenuTitle = "MenuHelp",
                 MenuToolTip = "TooltipsMenuHelp",
                 Children = new List<GridPage> {
@@ -196,67 +209,24 @@ namespace Vision.Modules.Web
                 }
             });
 
-            // register
-            _rootPage.Children.Add (new GridPage {
-                ShowInMenu = true,
-                LoggedInRequired = true,
-                MenuID = "logout",
-                Location = "logout.html",
-                MenuPosition = 6,
-                MenuTitle = "MenuLogout",
-                MenuToolTip = "TooltipsMenuLogout"
-            });
-
-            // login
-            _rootPage.Children.Add (new GridPage {
-                ShowInMenu = true,
-                LoggedOutRequired = true,
-                MenuID = "register",
-                Location = "register.html",
-                MenuPosition = 6,
-                MenuTitle = "MenuRegister",
-                MenuToolTip = "TooltipsMenuRegister"
-            });
-
-            // Logout
-            _rootPage.Children.Add (new GridPage {
-                ShowInMenu = true,
-                LoggedOutRequired = true,
-                MenuID = "login",
-                Location = "login.html",
-                MenuPosition = 7,
-                MenuTitle = "MenuLogin",
-                MenuToolTip = "TooltipsMenuLogin",
-                Children = new List<GridPage> {
-                    new GridPage {
-                        ShowInMenu = true,
-                        MenuID = "forgot_pass",
-                        Location = "forgot_pass.html",
-                        MenuPosition = 1,
-                        MenuTitle = "MenuForgotPass",
-                        MenuToolTip = "TooltipsMenuForgotPass"
-                    }
-                }
-            });
-
             // Management
             _rootPage.Children.Add (new GridPage {
                 ShowInMenu = true,
                 AdminRequired = true,
                 MenuID = "manager",
                 Location = "admin/manager.html",
-                MenuPosition = 8,
+                MenuPosition = 7,
                 MenuTitle = "MenuManager",
                 MenuToolTip = "TooltipsMenuManager",
                 Children = new List<GridPage> {
                     new GridPage {
                         ShowInMenu = true,
                         AdminRequired = true,
-                        MenuID = "news_manager",
-                        Location = "admin/news_manager.html",
-                        MenuPosition = 2,
-                        MenuTitle = "MenuNewsManager",
-                        MenuToolTip = "TooltipsMenuNewsManager"
+                        MenuID = "new_user",
+                        Location = "register.html",
+                        MenuPosition = 0,
+                        MenuTitle = "MenuRegister",
+                        MenuToolTip = "TooltipsMenuRegister"
                     },
                     new GridPage {
                         ShowInMenu = true,
@@ -270,11 +240,11 @@ namespace Vision.Modules.Web
                     new GridPage {
                         ShowInMenu = true,
                         AdminRequired = true,
-                        MenuID = "new_user",
-                        Location = "register.html",
-                        MenuPosition = 0,
-                        MenuTitle = "MenuRegister",
-                        MenuToolTip = "TooltipsMenuRegister"
+                        MenuID = "news_manager",
+                        Location = "admin/news_manager.html",
+                        MenuPosition = 2,
+                        MenuTitle = "MenuNewsManager",
+                        MenuToolTip = "TooltipsMenuNewsManager"
                     },
                     new GridPage {
                         ShowInMenu = false,
@@ -341,27 +311,18 @@ namespace Vision.Modules.Web
                 AdminRequired = true,
                 MenuID = "manager",
                 Location = "admin/settings.html",
-                MenuPosition = 9,
+                MenuPosition = 8,
                 MenuTitle = "MenuSettings",
                 MenuToolTip = "TooltipsMenuSettingsManager",
                 Children = new List<GridPage> {
                     new GridPage {
                         ShowInMenu = true,
                         AdminRequired = true,
-                        MenuID = "factory_reset",
-                        Location = "admin/factory_reset.html",
-                        MenuPosition = 4,
-                        MenuTitle = "MenuFactoryReset",
-                        MenuToolTip = "TooltipsMenuFactoryReset"
-                    },
-                    new GridPage {
-                        ShowInMenu = true,
-                        AdminRequired = true,
-                        MenuID = "page_manager",
-                        Location = "admin/page_manager.html",
-                        MenuPosition = 2,
-                        MenuTitle = "MenuPageManager",
-                        MenuToolTip = "TooltipsMenuPageManager"
+                        MenuID = "gridsettings_manager",
+                        Location = "admin/gridsettings_manager.html",
+                        MenuPosition = 0,
+                        MenuTitle = "MenuGridSettings",
+                        MenuToolTip = "TooltipsMenuGridSettings"
                     },
                     new GridPage {
                         ShowInMenu = true,
@@ -375,11 +336,11 @@ namespace Vision.Modules.Web
                     new GridPage {
                         ShowInMenu = true,
                         AdminRequired = true,
-                        MenuID = "gridsettings_manager",
-                        Location = "admin/gridsettings_manager.html",
-                        MenuPosition = 0,
-                        MenuTitle = "MenuGridSettings",
-                        MenuToolTip = "TooltipsMenuGridSettings"
+                        MenuID = "page_manager",
+                        Location = "admin/page_manager.html",
+                        MenuPosition = 2,
+                        MenuTitle = "MenuPageManager",
+                        MenuToolTip = "TooltipsMenuPageManager"
                     },
                     new GridPage {
                         ShowInMenu = true,
@@ -389,12 +350,63 @@ namespace Vision.Modules.Web
                         MenuPosition = 3,
                         MenuTitle = "MenuWelcomeScreenManager",
                         MenuToolTip = "TooltipsMenuWelcomeScreenManager"
-
+                    },
+                    new GridPage {
+                        ShowInMenu = true,
+                        AdminRequired = true,
+                        MenuID = "factory_reset",
+                        Location = "admin/factory_reset.html",
+                        MenuPosition = 4,
+                        MenuTitle = "MenuFactoryReset",
+                        MenuToolTip = "TooltipsMenuFactoryReset"
                     }
                 }
             });
 
-            // these are indivual paages that can be called
+            // register
+            _rootPage.Children.Add (new GridPage {
+                ShowInMenu = true,
+                LoggedOutRequired = true,
+                MenuID = "register",
+                Location = "register.html",
+                MenuPosition = 9,
+                MenuTitle = "MenuRegister",
+                MenuToolTip = "TooltipsMenuRegister"
+            });
+
+            // Login
+            _rootPage.Children.Add (new GridPage {
+                ShowInMenu = true,
+                LoggedOutRequired = true,
+                MenuID = "login",
+                Location = "login.html",
+                MenuPosition = 10,
+                MenuTitle = "MenuLogin",
+                MenuToolTip = "TooltipsMenuLogin",
+                Children = new List<GridPage> {
+                    new GridPage {
+                        ShowInMenu = true,
+                        MenuID = "forgot_pass",
+                        Location = "forgot_pass.html",
+                        MenuPosition = 1,
+                        MenuTitle = "MenuForgotPass",
+                        MenuToolTip = "TooltipsMenuForgotPass"
+                    }
+                }
+            });
+
+            // logout
+            _rootPage.Children.Add (new GridPage {
+                ShowInMenu = true,
+                LoggedInRequired = true,
+                MenuID = "logout",
+                Location = "logout.html",
+                MenuPosition = 10,
+                MenuTitle = "MenuLogout",
+                MenuToolTip = "TooltipsMenuLogout"
+            });
+
+            // these are non menu, indivual pages that can be called
             _rootPage.Children.Add (new GridPage {
                 MenuID = "add_news",
                 ShowInMenu = false,
@@ -428,6 +440,14 @@ namespace Vision.Modules.Web
                 AdminRequired = true,
                 MenuPosition = 8,
                 Location = "admin/abuse_report.html"
+            });
+            _rootPage.Children.Add (new GridPage {
+                MenuID = "add_event",
+                ShowInMenu = false,
+                LoggedInRequired = true,
+                AdminRequired = false,
+                MenuPosition = 8,
+                Location = "events/add_event.html"
             });
 
             //Things added, but not used
