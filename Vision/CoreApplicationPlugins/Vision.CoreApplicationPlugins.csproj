@@ -183,7 +183,7 @@
 	  <Compile Include="ServicesLoader\ServicesLoader.cs">
 		<SubType>Code</SubType>
 	  </Compile>
-	  <Compile Include="WhiteCoreData\WhiteCoreDataStartupPlugin.cs">
+	  <Compile Include="VisionData\VisionDataStartupPlugin.cs">
 		<SubType>Code</SubType>
 	  </Compile>
   </ItemGroup>

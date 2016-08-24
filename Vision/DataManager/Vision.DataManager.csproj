@@ -212,9 +212,6 @@
 	  <Compile Include="Migration\Migrators\Parcel\ParcelMigrator_0.cs">
 		<SubType>Code</SubType>
 	  </Compile>
-	  <Compile Include="Migration\Migrators\PresenceInfo\PresenceInfoMigrator_0.cs">
-		<SubType>Code</SubType>
-	  </Compile>
 	  <Compile Include="Migration\Migrators\Region\RegionMigrator_0.cs">
 		<SubType>Code</SubType>
 	  </Compile>

@@ -366,7 +366,7 @@
 	  <Compile Include="DatabaseInterfaces\IUserStatsDataConnector.cs">
 		<SubType>Code</SubType>
 	  </Compile>
-	  <Compile Include="ModuleLoader\WhiteCoreModuleLoader.cs">
+	  <Compile Include="ModuleLoader\VisionModuleLoader.cs">
 		<SubType>Code</SubType>
 	  </Compile>
 	  <Compile Include="Modules\IAgentAssetTransactions.cs">

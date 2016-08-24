@@ -5,7 +5,7 @@
 	  <SchemaVersion>2.0</SchemaVersion>
 	  <ProjectGuid>{1E1B3EC6-0000-0000-0000-000000000000}</ProjectGuid>
 	  <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-	  <ApplicationIcon></ApplicationIcon>
+	  <ApplicationIcon>Vision.AssetServer.ico</ApplicationIcon>
 	  <AssemblyKeyContainerName>
 	  </AssemblyKeyContainerName>
 	  <AssemblyName>Vision.Server.AssetServer</AssemblyName>

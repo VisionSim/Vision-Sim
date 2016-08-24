@@ -462,6 +462,9 @@
     <Compile Include="Web\IWebInterfacePage.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Web\webhelpers.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Web\WebHttpTextureService.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -526,6 +529,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Web\html\slmapapi.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Web\html\user_partnership.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Web\html\user_profile.cs">
@@ -603,7 +609,7 @@
     <Compile Include="Web\html\events\add_event.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Web\html\events\index.cs">
+    <Compile Include="Web\html\events\events.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Web\html\javascripts\jquery.jclock.cs">
@@ -669,6 +675,9 @@
     <Compile Include="Web\Translators\ItalianTranslation.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Web\Translators\RussianTranslation.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Web\Translators\SpanishTranslation.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -688,6 +697,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="World\BannedViewersModule\PresenceInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="World\BannedViewersModule\PresenceInfoMigrator_2.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="World\BannedViewersModule\PresenceInfoMigrator_3.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="World\DefaultInventoryIARLoader\DefaultInventoryIARLoader.cs">
@@ -727,6 +742,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="World\GlobalEnvironment\CloudModule.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="World\GlobalEnvironment\EnvironmentSettingsModule.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="World\GlobalEnvironment\SunModule.cs">
@@ -986,9 +1004,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="World\VisitorLogger\VisitorLogger.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="World\WindLightSettings\EnvironmentSettingsModule.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="World\WorldMap\MapImageModule.cs">
