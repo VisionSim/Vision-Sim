@@ -26,7 +26,7 @@
 	<div class="text">
 		<p class=minitext>{WelcomeToText}</p>
 		<h1> {SystemName}</h1>
-		<p>powered by Vision Sim</p>
+		<p>powered by Vision-Sim</p>
 	</div>
 </div>
 
@@ -34,7 +34,7 @@
 	<img src="images/screenshots/welcome2.jpg" alt="test" />
 	<div class="text">
 		<p class=minitext>{WelcomeToText} {SystemName}</p>
-		<h1>Vision Sim<br />Virtual Worlds</h1>
+		<h1>Vision-Sim<br />Virtual Worlds</h1>
 		<p class="minitext">{HomeTextWelcome}</p>
 	</div>
 </div>
@@ -43,8 +43,11 @@
 	<img src="images/screenshots/welcomescreen.jpg" alt="test" />
 	<div class="text">
 		<p class=minitext>{WelcomeToText} {SystemName}</p>
-		<h1>Vision Sim</h1><br/>
+		<h1>Vision-Sim</h1><br/>
 		<p>Viewer Welcome Screen</p>
+		<!--
+		<p>{HomeTextTips}: <a target="_top" class='welcomescreen' href="welcomescreen/" alt="{TooltipsWelcomeScreen}" title="{TooltipsWelcomeScreen}">{WelcomeScreen}</a></p>
+		-->
 	</div>
 </div>
 
@@ -53,6 +56,9 @@
 	<div class="text">
 		<p class=minitext>{WelcomeToText} {SystemName}</p>
 		<h1>World Map</h1><br />
+		<!--
+		<p>{HomeTextTips}: <a target="_top" class='world_map' href="world_map.html" alt="{TooltipsWorldMap}" title="{TooltipsWorldMap}">{TooltipsWorldMap}</a></p>
+		-->
 	</div>
 </div>
 </div>
@@ -65,6 +71,8 @@
 	<iframe  src={LocalFrontPage} style="height:100%;width:100%;display:inline-block;"></iframe>
 </div>
 {IfLocalPageEnd}
+
+
 
 <div class="homesidebar">
 <!-- user login form -->
@@ -106,6 +114,7 @@
 	</div>
 {IfUserLoginEnd}
 
+
 	<!-- grid info -->
 	<div class=homegrid>
 		<iframe class="gridstatus" src="welcomescreen/gridstatus.html" scrolling="no" style="overflow:hidden;width:300px;float:right;"></iframe>
@@ -144,3 +153,4 @@
     );
     });
  </script>
+
