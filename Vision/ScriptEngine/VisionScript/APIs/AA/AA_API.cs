@@ -717,6 +717,7 @@ namespace Vision.ScriptEngine.VisionScript.APIs
                 // lease.RenewOnCallTime = TimeSpan.FromSeconds(10.0);
                 // lease.SponsorshipTimeout = TimeSpan.FromMinutes(1.0);
             }
+
             return lease;
         }
 
