@@ -57,6 +57,10 @@ namespace Vision.Modules.Web
     {
         #region Declares
 
+        // Suppress the warnings relating to webinterface pages as i already am aware of them
+        // and will fix them as time permits - 20160830 - BritanyannCopperfield
+#pragma warning disable 0649
+
         protected const int CLIENT_CACHE_TIME = 86400;  // 1 day
         protected uint _port = 8002;                    // assuming grid mode here
         protected bool _enabled = true;
