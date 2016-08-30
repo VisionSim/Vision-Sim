@@ -69,7 +69,7 @@ namespace Vision.Modules.Estate
 
         #region ISharedRegionStartupModule Members
 
-        public void Initialise(IScene scene, IConfigSource source, ISimulationBase simBase)
+        public void Initialize(IScene scene, IConfigSource source, ISimulationBase simBase)
         {
             IConfig config = source.Configs["EstateSettingsModule"];
             if (config != null)
@@ -172,7 +172,7 @@ namespace Vision.Modules.Estate
             }
         }
 
-        public void PostInitialise(IScene scene, IConfigSource source, ISimulationBase simBase)
+        public void PostInitialize(IScene scene, IConfigSource source, ISimulationBase simBase)
         {
         }
 
