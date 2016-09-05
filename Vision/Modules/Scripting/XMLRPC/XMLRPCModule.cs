@@ -39,8 +39,6 @@ using OpenMetaverse;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
-//using Vision.Framework.Servers;
-//using Vision.Framework.Servers.HttpServer;
 using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
@@ -107,8 +105,6 @@ namespace Vision.Modules.Scripting
             m_registry = registry;
             if (config.Configs ["XMLRPC"] != null)
                 m_remoteDataPort = config.Configs ["XMLRPC"].GetInt ("XmlRpcPort", m_remoteDataPort);
-
-
         }
 
         public void Start(IConfigSource config, IRegistryCore registry)
@@ -118,25 +114,18 @@ namespace Vision.Modules.Scripting
         public void FinishedStartup ()
         {
             var simBase = m_registry.RequestModuleInterface<ISimulationBase> ();
-            if (simBase.IsGridServer)
+            if (!simBase.IsGridServer)
                 return;
 
-            //start XMLRPC server only for regions
+            //start XMLRPC Server
             if (IsEnabled () && !ServerStarted ()) {
                 m_httpServerStarted = true;
                 // Start http server
                 // Attach xmlrpc handlers
-                MainConsole.Instance.Info ("[XMLRPC]: " +
-                    "Starting up XMLRPC Server on port " + m_remoteDataPort +
-                    " for llRemoteData commands.");
-                //IHttpServer httpServer = new BaseHttpServer ((uint)m_remoteDataPort, MainServer.Instance.HostName,
-                //    false, 1);
-                //httpServer.AddXmlRPCHandler ("llRemoteData", XmlRpcRemoteData);
-                //httpServer.Start ();
+                MainConsole.Instance.Info ("[XmlRpc Server]: " + "Starting up XMLRPC Server on port " + m_remoteDataPort + " for llRemoteData commands.");
 
                 m_server = simBase.GetHttpServer ((uint)m_remoteDataPort);
                 m_server.AddXmlRPCHandler ("llRemoteData", XmlRpcRemoteData);
-
             }
         }
 
@@ -146,7 +135,6 @@ namespace Vision.Modules.Scripting
 
         public void Initialize(IConfigSource config)
         {
-
             // We need to create these early because the scripts might be calling
             // But since this gets called for every region, we need to make sure they
             // get called only one time (or we lose any open channels)
@@ -156,7 +144,6 @@ namespace Vision.Modules.Scripting
                 m_rpcPending = new Dictionary<UUID, RPCRequestInfo>();
                 m_rpcPendingResponses = new Dictionary<UUID, RPCRequestInfo>();
                 m_pendingSRDResponses = new Dictionary<UUID, SendRemoteDataRequest>();
-
             }
         }
 
@@ -233,7 +220,7 @@ namespace Vision.Modules.Scripting
             // This should no longer happen, but the check is reasonable anyway
             if (null == m_openChannels)
             {
-                MainConsole.Instance.Warn("[XMLRPC]: Attempt to open channel before initialization is complete");
+                MainConsole.Instance.Warn("[XmlRpc]: Attempt to open channel before initialization is complete");
                 return newChannel;
             }
 
@@ -298,6 +285,7 @@ namespace Vision.Modules.Scripting
                 foreach (
                     RPCRequestInfo oneRpcInfo in
                         m_rpcPendingResponses.Values.Where(oneRpcInfo => oneRpcInfo.GetChannelKey() == channel_key))
+
                     rpcInfo = oneRpcInfo;
             }
             else
@@ -334,7 +322,6 @@ namespace Vision.Modules.Scripting
                 m_openChannels.Remove(channelKey);
         }
 
-
         public bool hasRequests()
         {
             lock (XMLRPCListLock)
@@ -342,9 +329,11 @@ namespace Vision.Modules.Scripting
                 if (m_rpcPending != null)
                     if (m_rpcPending.Count > 0)
                         return true;
+
                 if (m_pendingSRDResponses != null)
                     if (m_pendingSRDResponses.Count > 0)
                         return true;
+
                 return false;
             }
         }
@@ -355,6 +344,7 @@ namespace Vision.Modules.Scripting
             {
                 if (m_rpcPending.Count == 0)
                     return null;
+
                 lock (XMLRPCListLock)
                 {
                     foreach (RPCRequestInfo luid in m_rpcPending.Values.Where(luid => !luid.IsProcessed()))
@@ -363,6 +353,7 @@ namespace Vision.Modules.Scripting
                     }
                 }
             }
+
             return null;
         }
 
@@ -378,7 +369,7 @@ namespace Vision.Modules.Scripting
                 }
                 else
                 {
-                    MainConsole.Instance.Error("[XMLRPC]: Unable to complete request");
+                    MainConsole.Instance.Error("[XmlRpc Server]: Unable to complete request");
                 }
             }
         }
@@ -388,6 +379,7 @@ namespace Vision.Modules.Scripting
             SendRemoteDataRequest req = new SendRemoteDataRequest(
                 primID, itemID, channel, dest, idata, sdata
                 );
+
             m_pendingSRDResponses.Add(req.GetReqID(), req);
             req.Process();
 
@@ -402,6 +394,7 @@ namespace Vision.Modules.Scripting
             {
                 if (m_pendingSRDResponses.Count == 0)
                     return null;
+
                 lock (XMLRPCListLock)
                 {
                     foreach (SendRemoteDataRequest luid in m_pendingSRDResponses.Values.Where(luid => luid.Finished))
@@ -410,6 +403,7 @@ namespace Vision.Modules.Scripting
                     }
                 }
             }
+
             return null;
         }
 
@@ -463,9 +457,7 @@ namespace Vision.Modules.Scripting
 
                     lock (XMLRPCListLock)
                     {
-                        rpcInfo =
-                            new RPCRequestInfo(rpcChanInfo.GetPrimID(), rpcChanInfo.GetItemID(), channel, strVal,
-                                               intVal);
+                        rpcInfo = new RPCRequestInfo(rpcChanInfo.GetPrimID(), rpcChanInfo.GetItemID(), channel, strVal, intVal);
                         m_rpcPending.Add(rpcInfo.GetMessageID(), rpcInfo);
                     }
 
@@ -476,6 +468,7 @@ namespace Vision.Modules.Scripting
                         Thread.Sleep(RemoteReplyScriptWait);
                         timeoutCtr += RemoteReplyScriptWait;
                     }
+
                     if (rpcInfo.IsProcessed())
                     {
                         Hashtable param = new Hashtable();
@@ -712,20 +705,24 @@ namespace Vision.Modules.Scripting
                         ArrayList respData = (ArrayList) resp.Value;
                         respParms = (Hashtable) respData[0];
                     }
+
                     if (respParms != null)
                     {
                         if (respParms.Contains("StringValue"))
                         {
                             Sdata = (string) respParms["StringValue"];
                         }
+
                         if (respParms.Contains("IntValue"))
                         {
                             Idata = Convert.ToInt32(respParms["IntValue"]);
                         }
+
                         if (respParms.Contains("faultString"))
                         {
                             Sdata = (string) respParms["faultString"];
                         }
+
                         if (respParms.Contains("faultCode"))
                         {
                             Idata = Convert.ToInt32(respParms["faultCode"]);
