@@ -82,7 +82,7 @@ namespace Vision.Framework.ClientInterfaces
             map["eventFlags"] = eventFlags;
             map["maturity"] = maturity;
             map["regionId"] = regionId;
-            map["parcelId"] = parcelID;
+            map["parcelId"] = parcelId;
             return map;
         }
 

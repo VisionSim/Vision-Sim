@@ -34,7 +34,7 @@ using Vision.Framework.Services;
 
 namespace Vision.Framework.DatabaseInterfaces
 {
-    public interface IEstateConnector : IWhiteCoreDataPlugin
+    public interface IEstateConnector : IVisionDataPlugin
     {
         /// <summary>
         /// Are we doing local or remote calls.

@@ -38,7 +38,7 @@ using Vision.Framework.Services.ClassHelpers.Profile;
 
 namespace Vision.Framework.DatabaseInterfaces
 {
-    public interface IDirectoryServiceConnector : IWhiteCoreDataPlugin
+    public interface IDirectoryServiceConnector : IVisionDataPlugin
     {
         #region Regions
 
