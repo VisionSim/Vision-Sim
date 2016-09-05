@@ -719,7 +719,7 @@ namespace Vision.Modules.Estate
             IUserAccountService accountService = m_registry.RequestModuleInterface<IUserAccountService> ();
 
             string estateInfo;
-            var estates = estateConnector.GetEstates ();
+            var estates = estateConnector.GetEstateNames ();
 
             // headings
             estateInfo = string.Format ("{0, -20}", "Estate");
@@ -777,7 +777,7 @@ namespace Vision.Modules.Estate
                 do {
                     estateName = MainConsole.Instance.Prompt ("Estate name (? for list)", "");
                     if (estateName == "?") {
-                        var estates = estateConnector.GetEstates ();
+                        var estates = estateConnector.GetEstateNames ();
                         MainConsole.Instance.CleanInfo (" Available estates are : ");
                         foreach (string estate in estates)
                             MainConsole.Instance.CleanInfo ("    " + estate);

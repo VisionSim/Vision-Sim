@@ -57,8 +57,7 @@ namespace Vision.Services.DataService
 
         #region IDirectoryServiceConnector Members
 
-        public void Initialize(IGenericData GenericData, IConfigSource source, IRegistryCore simBase,
-                               string defaultConnectionString)
+        public void Initialize(IGenericData GenericData, IConfigSource source, IRegistryCore simBase, string defaultConnectionString)
         {
             GD = GenericData;
             m_registry = simBase;
@@ -67,13 +66,11 @@ namespace Vision.Services.DataService
                 defaultConnectionString = source.Configs[Name].GetString("ConnectionString", defaultConnectionString);
 
             if (GD != null)
-                GD.ConnectToDatabase(defaultConnectionString, "Directory",
-                                     source.Configs["VisionConnectors"].GetBoolean("ValidateTables", true));
+                GD.ConnectToDatabase(defaultConnectionString, "Directory", source.Configs["VisionConnectors"].GetBoolean("ValidateTables", true));
 
             Framework.Utilities.DataManager.RegisterPlugin(Name + "Local", this);
 
-            if (source.Configs["VisionConnectors"].GetString("DirectoryServiceConnector", "LocalConnector") ==
-                "LocalConnector")
+            if (source.Configs["VisionConnectors"].GetString("DirectoryServiceConnector", "LocalConnector") == "LocalConnector")
             {
                 Framework.Utilities.DataManager.RegisterPlugin(this);
             }
@@ -182,10 +179,13 @@ namespace Vision.Services.DataService
                 var posZ = (float)Convert.ToDecimal(Query[i + 5], Culture.NumberFormatInfo);
                 landData.UserLocation = new Vector3(posX, posY, posZ);
 
+                // UserLocation =
+                //     new Vector3(float.Parse(Query[i + 3]), float.Parse(Query[i + 4]), float.Parse(Query[i + 5])),
                 landData.Name = Query[i + 6];
                 landData.Description = Query[i + 7];
                 landData.Flags = uint.Parse(Query[i + 8]);
                 landData.Dwell = int.Parse(Query[i + 9]);
+                //landData.InfoUUID = UUID.Parse(Query[i + 10]);
                 landData.SalePrice = int.Parse(Query[i + 12]);
                 landData.AuctionID = uint.Parse(Query[i + 13]);
                 landData.Area = int.Parse(Query[i + 14]);
@@ -216,7 +216,6 @@ namespace Vision.Services.DataService
 
                 Lands.Add(landData);
             }
-
             return Lands;
         }
 
@@ -303,7 +302,6 @@ namespace Vision.Services.DataService
                     break;
                 }
             }
-
             if (landData == null && lands.Count != 0)
                 landData = lands[0];
 
@@ -429,7 +427,6 @@ namespace Vision.Services.DataService
                     return Query2LandData(GD.Query(new[] { "*" }, m_SearchParcelTable, filter, sort, start, count));
                 }
             }
-
             return resp;
         }
 
@@ -452,7 +449,6 @@ namespace Vision.Services.DataService
                     return uint.Parse(GD.Query(new[] { "COUNT(ParcelID)" }, m_SearchParcelTable, filter, null, null, null)[0]);
                 }
             }
-
             return 0;
         }
 
@@ -468,6 +464,7 @@ namespace Vision.Services.DataService
                 object remoteValue = DoRemote(start, count, RegionID, name);
                 return remoteValue != null ? (List<LandData>)remoteValue : resp;
             }
+
 
             IRegionData regiondata = Framework.Utilities.DataManager.RequestPlugin<IRegionData>();
             if (regiondata != null)
@@ -511,7 +508,6 @@ namespace Vision.Services.DataService
                     return uint.Parse(GD.Query(new[] { "COUNT(ParcelID)" }, m_SearchParcelTable, filter, null, null, null)[0]);
                 }
             }
-
             return 0;
         }
 
@@ -547,13 +543,10 @@ namespace Vision.Services.DataService
             filter.orLikeFilters["Name"] = "%" + queryText + "%";
             filter.orLikeFilters["Description"] = "%" + queryText + "%";
             filter.andFilters["ShowInSearch"] = 1;
-
             if (category != "-1")
                 filter.andFilters["Category"] = category;
-
             if ((Flags & (uint)DirectoryManager.DirFindFlags.AreaSort) == (uint)DirectoryManager.DirFindFlags.AreaSort)
                 sort["Area"] = false;
-
             if ((Flags & (uint)DirectoryManager.DirFindFlags.NameSort) == (uint)DirectoryManager.DirFindFlags.NameSort)
                 sort["Name"] = false;
 
@@ -630,7 +623,6 @@ namespace Vision.Services.DataService
             Dictionary<string, bool> sort = new Dictionary<string, bool>();
             if ((Flags & (uint)DirectoryManager.DirFindFlags.AreaSort) == (uint)DirectoryManager.DirFindFlags.AreaSort)
                 sort["Area"] = false;
-
             if ((Flags & (uint)DirectoryManager.DirFindFlags.NameSort) == (uint)DirectoryManager.DirFindFlags.NameSort)
                 sort["Name"] = false;
 
@@ -720,15 +712,13 @@ namespace Vision.Services.DataService
             {
                 filter.andGreaterThanEqFilters["Area"] = (int)area;
             }
-
             Dictionary<string, bool> sort = new Dictionary<string, bool>();
-
             if ((Flags & (uint)DirectoryManager.DirFindFlags.AreaSort) == (uint)DirectoryManager.DirFindFlags.AreaSort)
                 sort["Area"] = false;
-
             if ((Flags & (uint)DirectoryManager.DirFindFlags.NameSort) == (uint)DirectoryManager.DirFindFlags.NameSort)
                 sort["Name"] = false;
-            
+            //if ((queryFlags & (uint)DirectoryManager.DirFindFlags.PerMeterSort) == (uint)DirectoryManager.DirFindFlags.PerMeterSort)
+            //    sort["Area"] = (queryFlags & (uint)DirectoryManager.DirFindFlags.SortAsc) == (uint)DirectoryManager.DirFindFlags.SortAsc);
             if ((Flags & (uint)DirectoryManager.DirFindFlags.PricesSort) ==
                 (uint)DirectoryManager.DirFindFlags.PricesSort)
                 sort["SalePrice"] = (Flags & (uint)DirectoryManager.DirFindFlags.SortAsc) ==
@@ -805,6 +795,10 @@ namespace Vision.Services.DataService
             else if ((queryFlags & (uint)DirectoryManager.DirFindFlags.NameSort) ==
                      (uint)DirectoryManager.DirFindFlags.NameSort)
                 sort["Name"] = false;
+            //else if ((queryFlags & (uint)DirectoryManager.DirFindFlags.PerMeterSort) == (uint)DirectoryManager.DirFindFlags.PerMeterSort)
+            //    sort["Area"] = (queryFlags & (uint)DirectoryManager.DirFindFlags.SortAsc) == (uint)DirectoryManager.DirFindFlags.SortAsc);
+            //else if ((queryFlags & (uint)DirectoryManager.DirFindFlags.PricesSort) == (uint)DirectoryManager.DirFindFlags.PricesSort)
+            //    sort["SalePrice"] = (queryFlags & (uint)DirectoryManager.DirFindFlags.SortAsc) == (uint)DirectoryManager.DirFindFlags.SortAsc;
             else
                 sort["Dwell"] = false;
 
@@ -935,7 +929,6 @@ namespace Vision.Services.DataService
                         Data.Add(replyData);
                 }
             }
-
             return Data;
         }
 
@@ -959,8 +952,11 @@ namespace Vision.Services.DataService
 
             QueryFilter filter = new QueryFilter();
 
+            //filter.andLikeFilters ["Name"] = "%" + queryText + "%";
             if (category != (int)DirectoryManager.ClassifiedCategories.Any) //Check the category
                 filter.andFilters["Category"] = category.ToString();
+            //if (scopeID != UUID.Zero)
+            //    filter.andFilters ["ScopeID"] = scopeID;
 
             List<string> retVal = GD.Query(new[] { "*" }, m_userClassifiedsTable, filter, null, null, null);
 
@@ -983,7 +979,6 @@ namespace Vision.Services.DataService
                         classifieds.Add(classified);
                 }
             }
-
             return classifieds;
         }
 
@@ -1016,7 +1011,6 @@ namespace Vision.Services.DataService
                 classified.FromOSD((OSDMap)OSDParser.DeserializeJson(retVal[i + 6]));
                 Classifieds.Add(classified);
             }
-
             return Classifieds;
         }
 
@@ -1098,7 +1092,7 @@ namespace Vision.Services.DataService
             // do we have search parameters
             if (queryList.Length == 3)
                 filter.andLikeFilters["name"] = "%" + queryList[2] + "%";
-
+            //}
             if (scopeID != UUID.Zero)
                 filter.andFilters["scopeID"] = scopeID;
 
@@ -1142,10 +1136,25 @@ namespace Vision.Services.DataService
             return eventdata;
         }
 
+
         [CanBeReflected(ThreatLevel = ThreatLevel.Low)]
         public List<EventData> GetAllEvents(int queryHours, int category, int maturityLevel)
         {
+            return GetEventsList(null, queryHours, category, maturityLevel);
+        }
+
+        [CanBeReflected(ThreatLevel = ThreatLevel.Low)]
+        public List<EventData> GetUserEvents(string userId, int queryHours, int category, int maturityLevel)
+        {
+            // The same as GetEventList but incuded for more intuitive calls and possible expansion 
+            return GetEventsList(userId, queryHours, category, maturityLevel);
+        }
+
+        [CanBeReflected(ThreatLevel = ThreatLevel.Low)]
+        public List<EventData> GetEventsList(string userId, int queryHours, int category, int maturityLevel)
+        {
             // WebUI call 
+
             List<EventData> retEvents = new List<EventData>();
 
             if (m_doRemoteOnly)
@@ -1155,8 +1164,12 @@ namespace Vision.Services.DataService
             }
 
             QueryFilter filter = new QueryFilter();
-            var endTime = DateTime.Now.AddHours(queryHours);
-            filter.andGreaterThanEqFilters["UNIX_TIMESTAMP(date)"] = Util.ToUnixTime(DateTime.Now);
+            if (userId != null)
+                filter.andLikeFilters["creator"] = userId;
+
+            var starttime = DateTime.Now;
+            var endTime = starttime.AddHours(queryHours);
+            filter.andGreaterThanEqFilters["UNIX_TIMESTAMP(date)"] = Util.ToUnixTime(starttime);
             filter.andLessThanEqFilters["UNIX_TIMESTAMP(date)"] = Util.ToUnixTime(endTime);
 
             // maturity level
@@ -1229,10 +1242,10 @@ namespace Vision.Services.DataService
                                 ownerID = new UUID(retVal[i + 1]),
                                 name = retVal[i + 5],
                             };
-
                             DateTime date = DateTime.Parse(retVal[i + 2]);
                             replyData.date = date.ToString(new DateTimeFormatInfo());
                             replyData.unixTime = (uint)Util.ToUnixTime(date);
+                            //replyData.eventFlags = Convert.ToUInt32(retVal[i + 4]);
                             replyData.eventFlags = Convert.ToUInt32(retVal[i + 3]) >> 1;   // maturity level
 
                             Data.Add(replyData);
@@ -1267,6 +1280,8 @@ namespace Vision.Services.DataService
 
                 data.eventID = Convert.ToUInt32(RetVal[i]);
                 data.creator = RetVal[i + 1];
+                data.regionId = RetVal[1 + 2];
+                data.parcelId = RetVal[i + 3];
 
                 //Parse the time out for the viewer
                 DateTime date = DateTime.Parse(RetVal[i + 4]);
@@ -1320,6 +1335,22 @@ namespace Vision.Services.DataService
             return (RetVal.Count == 0) ? null : Query2EventData(RetVal)[0];
         }
 
+        /// <summary>
+        /// Creates the event.
+        /// </summary>
+        /// <returns>The event.</returns>
+        /// <param name="creator">Creator.</param>
+        /// <param name="regionID">Region identifier.</param>
+        /// <param name="parcelID">Parcel identifier.</param>
+        /// <param name="date">Date.</param>
+        /// <param name="cover">Cover.</param>
+        /// <param name="maturity">Maturity.</param>
+        /// <param name="flags">Flags.</param>
+        /// <param name="duration">Duration.</param>
+        /// <param name="localPos">Local position.</param>
+        /// <param name="name">Name.</param>
+        /// <param name="description">Description.</param>
+        /// <param name="category">Category.</param>
         [CanBeReflected(ThreatLevel = ThreatLevel.Low)]
         public EventData CreateEvent(UUID creator, UUID regionID, UUID parcelID, DateTime date, uint cover,
                                      EventFlags maturity, uint flags, uint duration, Vector3 localPos, string name,
@@ -1360,6 +1391,8 @@ namespace Vision.Services.DataService
             eventData.name = name;
             eventData.description = description;
             eventData.category = category;
+            eventData.regionId = regionID.ToString();
+            eventData.parcelId = parcelID.ToString();
 
             Dictionary<string, object> row = new Dictionary<string, object>(15);
             row["EID"] = eventData.eventID;
@@ -1368,7 +1401,7 @@ namespace Vision.Services.DataService
             row["parcel"] = parcelID.ToString();
             row["date"] = date.ToString("s");
             row["cover"] = eventData.cover;
-            row["maturity"] = (uint)maturity;      // PG = 1, M == 2, A == 4
+            row["maturity"] = Util.ConvertEventMaturityToDBMaturity(maturity);      // PG = 1, M == 2, A == 4
             row["flags"] = flags;                   // region maturity flags
             row["duration"] = duration;
             row["localPosX"] = localPos.X;
@@ -1381,6 +1414,77 @@ namespace Vision.Services.DataService
             GD.Insert(m_eventInfoTable, row);
 
             return eventData;
+        }
+
+        [CanBeReflected(ThreatLevel = ThreatLevel.Low)]
+        public bool UpdateAddEvent(EventData eventData)
+        {
+            if (m_doRemoteOnly)
+            {
+                object remoteValue = DoRemote(eventData);
+                return (bool)remoteValue;
+            }
+
+            // delete this event it it exists 
+            QueryFilter filter = new QueryFilter();
+            filter.andFilters["EID"] = eventData.eventID;
+            GD.Delete(m_eventInfoTable, filter);
+
+            // add the event 
+            Dictionary<string, object> row = new Dictionary<string, object>(15);
+            row["EID"] = GetMaxEventID() + 1;
+            row["creator"] = eventData.creator;
+            row["region"] = eventData.regionId;
+            row["parcel"] = eventData.parcelId;
+            row["date"] = eventData.date;
+            row["cover"] = eventData.cover;
+            row["maturity"] = Util.ConvertEventMaturityToDBMaturity((EventFlags)eventData.maturity);      // PG = 1, M == 2, A == 4
+            row["flags"] = eventData.eventFlags;             // region maturity flags
+            row["duration"] = eventData.duration;
+            row["localPosX"] = eventData.regionPos.X;
+            row["localPosY"] = eventData.regionPos.Y;
+            row["localPosZ"] = eventData.regionPos.Z;
+            row["name"] = eventData.name;
+            row["description"] = eventData.description;
+            row["category"] = eventData.category;
+
+            try
+            {
+                GD.Insert(m_eventInfoTable, row);
+            }
+            catch
+            {
+                return false;
+            }
+
+            // assume success if no error
+            return true;
+        }
+
+        [CanBeReflected(ThreatLevel = ThreatLevel.Low)]
+        public bool DeleteEvent(string eventId)
+        {
+            if (m_doRemoteOnly)
+            {
+                object remoteValue = DoRemote(eventId);
+                return (bool)remoteValue;
+            }
+
+            // delete this event it it exists 
+            QueryFilter filter = new QueryFilter();
+            filter.andFilters["EID"] = eventId;
+
+            try
+            {
+                GD.Delete(m_eventInfoTable, filter);
+            }
+            catch
+            {
+                return false;
+            }
+
+            // assume success if no error
+            return true;
         }
 
         public List<EventData> GetEvents(uint start, uint count, Dictionary<string, bool> sort,
@@ -1411,7 +1515,6 @@ namespace Vision.Services.DataService
             {
                 return 0;
             }
-
             return uint.Parse(GD.Query(new[] { "MAX(EID)" }, m_eventInfoTable, null, null, null, null)[0]);
         }
 

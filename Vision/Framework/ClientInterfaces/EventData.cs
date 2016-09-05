@@ -52,6 +52,8 @@ namespace Vision.Framework.ClientInterfaces
         public int maturity;
         public string name;
         public string simName;
+        public string regionId;
+        public string parcelId;
 
         public EventData()
         {
@@ -79,6 +81,8 @@ namespace Vision.Framework.ClientInterfaces
             map["RPosZ"] = OSD.FromReal(regionPos.Z).ToString();
             map["eventFlags"] = eventFlags;
             map["maturity"] = maturity;
+            map["regionId"] = regionId;
+            map["parcelId"] = parcelID;
             return map;
         }
 
@@ -120,6 +124,8 @@ namespace Vision.Framework.ClientInterfaces
 
             eventFlags = map["eventFlags"];
             maturity = map["maturity"];
+            regionId = map["regionId"];
+            parcelId = map["parcelId"];
         }
     }
 }
