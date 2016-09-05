@@ -41,6 +41,7 @@ using Vision.Framework.Services.ClassHelpers.Profile;
 using Vision.Framework.Utilities;
 using RegionFlags = Vision.Framework.Services.RegionFlags;
 
+
 namespace Vision.Modules.Web
 {
     public class RegisterPage : IWebInterfacePage
@@ -99,7 +100,6 @@ namespace Vision.Modules.Web
                     return "1";
             }
         }
-
 
         public Dictionary<string, object> Fill(WebInterface webInterface, string filename, OSHttpRequest httpRequest,
                                                OSHttpResponse httpResponse, Dictionary<string, object> requestParameters,
@@ -167,18 +167,20 @@ namespace Vision.Modules.Web
                     response = "<h3>" + translator.GetTranslatedString("AvatarNameError") + "</h3>";
                     return null;
                 }
+
                 if ((AvatarPassword == "") || (AvatarPassword != AvatarPasswordCheck))
                 {
                     response = "<h3>" + translator.GetTranslatedString("AvatarPasswordError") + "</h3>";
                     return null;
                 }
+
                 if (UserEmail == "")
                 {
                     response = "<h3>" + translator.GetTranslatedString("AvatarEmailError") + "</h3>";
                     return null;
                 }
 
-                // Only one space is allowed in the name to seperate First and Last of the avatar name
+                // Thish -  Only one space is allowed in the name to seperate First and Last of the avatar name
                 if (AvatarName.Split(' ').Length != 2)
                 {
                     response = "<h3>" + translator.GetTranslatedString("AvatarNameSpacingError") + "</h3>";
@@ -190,11 +192,10 @@ namespace Vision.Modules.Web
                 {
                     AvatarPassword = Util.Md5Hash(AvatarPassword);
 
-                    IUserAccountService accountService =
-                        webInterface.Registry.RequestModuleInterface<IUserAccountService>();
+                    IUserAccountService accountService = webInterface.Registry.RequestModuleInterface<IUserAccountService>();
                     UUID userID = UUID.Random();
-                    string error = accountService.CreateUser(userID, settings.DefaultScopeID, AvatarName, AvatarPassword,
-                                                             UserEmail);
+                    string error = accountService.CreateUser(userID, settings.DefaultScopeID, AvatarName, AvatarPassword, UserEmail);
+
                     if (error == "")
                     {
                         // set the user account type
@@ -213,12 +214,16 @@ namespace Vision.Modules.Web
                         agent.OtherAgentInformation["UserDOBDay"] = UserDOBDay;
                         agent.OtherAgentInformation["UserDOBYear"] = UserDOBYear;
                         agent.OtherAgentInformation["UserFlags"] = UserFlags;
-                        
+                        /*if (activationRequired)
+                        {
+                            UUID activationToken = UUID.Random();
+                            agent.OtherAgentInformation["WebUIActivationToken"] = Util.Md5Hash(activationToken.ToString() + ":" + PasswordHash);
+                            resp["WebUIActivationToken"] = activationToken;
+                        }*/
                         con.UpdateAgent(agent);
 
                         // create user profile details
-                        IProfileConnector profileData =
-                            Framework.Utilities.DataManager.RequestPlugin<IProfileConnector>();
+                        IProfileConnector profileData = Framework.Utilities.DataManager.RequestPlugin<IProfileConnector>();
                         if (profileData != null)
                         {
                             IUserProfileInfo profile = profileData.GetUserProfile(userID);
@@ -268,6 +273,7 @@ namespace Vision.Modules.Web
                 }
                 else
                     response = "<h3>You did not accept the Terms of Service agreement.</h3>";
+
                 return null;
             }
 
@@ -292,6 +298,7 @@ namespace Vision.Modules.Web
                 RegionFlags.Foreign |
                 RegionFlags.Hidden,
                 null, null, sortBy);
+
             foreach (var region in regions)
             {
                 RegionListVars.Add(new Dictionary<string, object> {
@@ -302,29 +309,9 @@ namespace Vision.Modules.Web
 
             vars.Add("RegionList", RegionListVars);
             vars.Add("UserHomeRegionText", translator.GetTranslatedString("UserHomeRegionText"));
-
             vars.Add("UserTypeText", translator.GetTranslatedString("UserTypeText"));
             vars.Add("UserType", WebHelpers.UserTypeArgs(translator));
-
-            var avArchiver = webInterface.Registry.RequestModuleInterface<IAvatarAppearanceArchiver>();
-            var archives = avArchiver.GetAvatarArchives();
-
-            List<Dictionary<string, object>> avatarArchives = new List<Dictionary<string, object>>();
-            IWebHttpTextureService webTextureService = webInterface.Registry.RequestModuleInterface<IWebHttpTextureService>();
-            foreach (var archive in archives)
-            {
-                var archiveInfo = new Dictionary<string, object>();
-                archiveInfo.Add("AvatarArchiveName", archive.FolderName);
-                archiveInfo.Add("AvatarArchiveSnapshotID", archive.Snapshot);
-                archiveInfo.Add("AvatarArchiveSnapshotURL", archive.LocalSnapshot != ""
-                                 ? webTextureService.GetAvatarImageURL(archive.LocalSnapshot)
-                                 : webTextureService.GetTextureURL(archive.Snapshot)
-                                );
-
-                avatarArchives.Add(archiveInfo);
-            }
-
-            vars.Add("AvatarArchive", avatarArchives);
+            vars.Add("AvatarArchive", WebHelpers.AvatarSelections(webInterface.Registry));
 
             string tosLocation = "";
 
@@ -354,6 +341,7 @@ namespace Vision.Modules.Web
             if (loginServerConfig != null)
             {
                 string userNameSeed = loginServerConfig.GetString("UserNameSeed", "");
+
                 if (userNameSeed != "")
                     m_userNameSeed = userNameSeed.Split(',');
             }

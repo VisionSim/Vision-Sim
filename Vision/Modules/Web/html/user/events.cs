@@ -29,30 +29,30 @@
 
 using System.Collections.Generic;
 using OpenMetaverse;
+using Vision.Framework.ClientInterfaces;
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.Servers.HttpServer.Implementation;
-using Vision.Framework.Services.ClassHelpers.Profile;
+using Vision.Framework.Services;
 using Vision.Framework.Utilities;
 
 namespace Vision.Modules.Web
 {
-    public class ClassifiedsMain : IWebInterfacePage
+    public class UserEvents : IWebInterfacePage
     {
-        public string[] FilePath
+        public string [] FilePath
         {
-            get
-            {
-                return new[]
+            get {
+                return new []
                            {
-                               "html/classifieds/index.html"
+                               "html/user/events.html"
                            };
             }
         }
 
         public bool RequiresAuthentication
         {
-            get { return false; }
+            get { return true; }
         }
 
         public bool RequiresAdminAuthentication
@@ -67,114 +67,140 @@ namespace Vision.Modules.Web
             response = null;
             var vars = new Dictionary<string, object> ();
             var directoryService = Framework.Utilities.DataManager.RequestPlugin<IDirectoryServiceConnector> ();
-            var classifiedListVars = new List<Dictionary<string, object>> ();
+            var eventListVars = new List<Dictionary<string, object>> ();
             IMoneyModule moneyModule = webInterface.Registry.RequestModuleInterface<IMoneyModule> ();
 
             var currencySymbol = "$";
             if (moneyModule != null)
                 currencySymbol = moneyModule.InWorldCurrencySymbol;
 
+            UserAccount user = Authenticator.GetAuthentication (httpRequest);
+
+            var eventLevel = 7; // all events; 
+            var category = (int)DirectoryManager.EventCategories.All;
+            var timeframe = 24;
+
             var pg_checked = "checked";
-            var ma_checked = "";
-            var ao_checked = "";
-            var classifiedLevel = (uint)DirectoryManager.ClassifiedQueryFlags.PG;
-            var category = (int)DirectoryManager.ClassifiedCategories.Any;
+            var ma_checked = "checked";
+            var ao_checked = "checked";
+
             if (requestParameters.ContainsKey ("Submit")) {
-                uint level = 0;
+                int level = 0;
                 pg_checked = "";
                 ma_checked = "";
                 ao_checked = "";
+
                 if (requestParameters.ContainsKey ("display_pg")) {
-                    level += (uint)DirectoryManager.ClassifiedQueryFlags.PG;
+                    level += Util.ConvertEventMaturityToDBMaturity (DirectoryManager.EventFlags.PG);
                     pg_checked = "checked";
                 }
 
                 if (requestParameters.ContainsKey ("display_ma")) {
-                    level += (uint)DirectoryManager.ClassifiedQueryFlags.Mature;
+                    level += Util.ConvertEventMaturityToDBMaturity (DirectoryManager.EventFlags.Mature);
                     ma_checked = "checked";
                 }
 
                 if (requestParameters.ContainsKey ("display_ao")) {
-                    level += (uint)DirectoryManager.ClassifiedQueryFlags.Adult;
+                    level += Util.ConvertEventMaturityToDBMaturity (DirectoryManager.EventFlags.Adult);
                     ao_checked = "checked";
                 }
 
-                classifiedLevel = level;
+                eventLevel = level;
+
                 string cat = requestParameters ["category"].ToString ();
                 category = int.Parse (cat);
-            }
 
-            // build category selection
-            vars.Add ("CategoryType", WebHelpers.ClassifiedCategorySelections(category, translator));
+                string timsel = requestParameters ["timeframe"].ToString ();
+                timeframe = int.Parse (timsel);
+            }
 
             // maturity selections
             vars.Add ("PG_checked", pg_checked);
             vars.Add ("MA_checked", ma_checked);
             vars.Add ("AO_checked", ao_checked);
 
-            // get some classifieds
+            // build category selection
+            vars.Add ("CategoryType", WebHelpers.EventCategorySelections (category, translator));
+
+            // build timeframes
+            vars.Add ("TimeFrame", WebHelpers.EventTimeframesSelections (timeframe, translator));
+
+            // get some events
             if (directoryService != null) {
 
-                var classifieds = new List<Classified> ();
-                classifieds = directoryService.GetAllClassifieds ( category, classifiedLevel);
+                var events = new List<EventData> ();
+                events = directoryService.GetUserEvents (user.PrincipalID.ToString (), timeframe, category, eventLevel);
 
-                if (classifieds.Count == 0) { 
-                    classifiedListVars.Add (new Dictionary<string, object> {
-                        { "ClassifiedUUID", "" },
-                        { "CreationDate", "" },
-                        { "ExpirationDate", "" },
-                        { "Category", "" },
+                if (events.Count == 0) {
+                    vars.Add ("EditText", "");
+                    eventListVars.Add (new Dictionary<string, object> {
+                        { "EventID", "" },
+                        { "CreatorUUID", "" },
+                        { "EventDate", "" },
+                        { "EventDateUTC", "" },
+                        { "CoverCharge", "" },
+                        { "Duration", "" },
                         { "Name", "" },
                         { "Description", translator.GetTranslatedString("NoDetailsText") },
-                        { "SnapshotUUID", "" },
                         { "SimName", "" },
                         { "GPosX", "" },
                         { "GPosY", "" },
                         { "GPosZ", "" },
-                        { "ParcelName", "" },
+                        { "LocalPosX", "" },
+                        { "LocalPosY", "" },
+                        { "LocalPosZ", "" },
                         { "Maturity", "" },
-                        { "PriceForListing", "" }
-                    });
+                        { "EventFlags", "" },   // same as maturity??
+                        { "Category", "" }
+                });
                 } else {
-                    foreach (var classified in classifieds) {
-                        classifiedListVars.Add (new Dictionary<string, object> {
-                            { "ClassifiedUUID", classified.ClassifiedUUID },
-                            { "CreationDate", Util.ToDateTime (classified.CreationDate).ToShortDateString () },
-                            { "ExpirationDate", Util.ToDateTime (classified.ExpirationDate).ToShortDateString () },
-                            { "Category", WebHelpers.ClassifiedCategory(classified.Category, translator) },
-                            { "Name", classified.Name },
-                            { "Description", classified.Description },
-                            { "SnapshotUUID", classified.SnapshotUUID },
-                            { "SimName", classified.SimName },
-                            { "GPosX", classified.GlobalPos.X.ToString () },
-                            { "GPosY", classified.GlobalPos.Y.ToString () },
-                            { "GPosZ",classified.GlobalPos.Z.ToString () },
-                            { "ParcelName", classified.ParcelName },
-                            { "Maturity", WebHelpers.ClassifiedMaturity(classified.ClassifiedFlags) },
-                            { "PriceForListing", currencySymbol + " " + classified.PriceForListing }
+                    vars.Add ("EditText", translator.GetTranslatedString ("EditText"));
+                    foreach (var evnt in events) {
+                        var evntDateTime = Util.ToDateTime (evnt.dateUTC).ToLocalTime ();
+                        eventListVars.Add (new Dictionary<string, object> {
+                            { "EventID", evnt.eventID },
+                            { "CreatorUUID", evnt.creator },
+                            { "EventDate", evnt.date },
+                            { "EventDateUTC", Culture.LocaleShortDateTime(evntDateTime)},
+                            { "CoverCharge", currencySymbol + " " + evnt.amount },
+                            { "Duration", WebHelpers.EventDuration((int)evnt.duration,translator) },
+                            { "Name", evnt.name },
+                            { "Description", evnt.description },
+                            { "SimName", evnt.simName },
+                            { "GPosX", evnt.globalPos.X.ToString () },
+                            { "GPosY", evnt.globalPos.Y.ToString () },
+                            { "GPosZ", evnt.globalPos.Z.ToString () },
+                            { "LocalPosX", evnt.regionPos.X.ToString () },
+                            { "LocalPosY", evnt.regionPos.Y.ToString () },
+                            { "LocalPosZ",evnt.regionPos.Z.ToString () },
+                            { "Maturity", WebHelpers.EventMaturity(evnt.maturity) },
+                            { "EventFlags", evnt.eventFlags },
+                            { "Category",  WebHelpers.EventCategory(int.Parse(evnt.category), translator) }
                         });
                     }
                 }
 
-                vars.Add ("ClassifiedList", classifiedListVars);
+                vars.Add ("EventList", eventListVars);
             }
-            
-            vars.Add ("Classifieds", translator.GetTranslatedString ("Classifieds"));
 
-			// labels
-            vars.Add ("ClassifiedsText", translator.GetTranslatedString("ClassifiedsText"));
-            vars.Add ("CreationDateText", translator.GetTranslatedString ("CreationDateText"));
+            vars.Add ("Events", translator.GetTranslatedString ("Events"));
+
+            // labels
+            vars.Add ("UserName", user.Name);
+            vars.Add ("EventsText", translator.GetTranslatedString ("EventsText"));
+            vars.Add ("AddEventText", translator.GetTranslatedString ("AddEventText"));
+            vars.Add ("EventDateText", translator.GetTranslatedString ("EventDateText"));
             vars.Add ("CategoryText", translator.GetTranslatedString ("CategoryText"));
-            vars.Add ("ClassifiedNameText", translator.GetTranslatedString ("ClassifiedText"));
+            vars.Add ("LocationText", translator.GetTranslatedString ("LocationText"));
             vars.Add ("DescriptionText", translator.GetTranslatedString ("DescriptionText"));
             vars.Add ("MaturityText", translator.GetTranslatedString ("MaturityText"));
-            vars.Add ("PriceOfListingText", translator.GetTranslatedString ("PriceOfListingText"));
-            vars.Add ("ExpirationDateText", translator.GetTranslatedString ("ExpirationDateText"));
+            vars.Add ("CoverChargeText", translator.GetTranslatedString ("CoverChargeText"));
+            vars.Add ("DurationText", translator.GetTranslatedString ("DurationText"));
 
             return vars;
         }
 
-        public bool AttemptFindPage(string filename, ref OSHttpResponse httpResponse, out string text)
+        public bool AttemptFindPage (string filename, ref OSHttpResponse httpResponse, out string text)
         {
             text = "";
             return false;

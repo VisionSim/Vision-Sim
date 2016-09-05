@@ -106,7 +106,6 @@ namespace Vision.Modules.Web
             vars.Add ("AbuseReportsList", abuseReportsList);
             vars.Add ("NoDetailsText", noDetails);
             vars.Add ("AbuseReportText", translator.GetTranslatedString ("MenuAbuse"));
-
             vars.Add ("CategoryText", translator.GetTranslatedString ("CategoryText"));
             vars.Add ("AbuseReporterNameText", translator.GetTranslatedString ("AbuseReporterNameText"));
             vars.Add ("AbuserNameText", translator.GetTranslatedString ("AbuserNameText"));

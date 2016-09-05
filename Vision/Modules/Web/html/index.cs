@@ -76,8 +76,10 @@ namespace Vision.Modules.Web
             {
                 if (page.LoggedOutRequired && Authenticator.CheckAuthentication(httpRequest))
                     continue;
+
                 if (page.LoggedInRequired && !Authenticator.CheckAuthentication(httpRequest))
                     continue;
+
                 if (page.AdminRequired && !Authenticator.CheckAdminAuthentication(httpRequest, page.AdminLevelRequired))
                     continue;
 
@@ -87,8 +89,10 @@ namespace Vision.Modules.Web
                 {
                     if (childPage.LoggedOutRequired && Authenticator.CheckAuthentication(httpRequest))
                         continue;
+
                     if (childPage.LoggedInRequired && !Authenticator.CheckAuthentication(httpRequest))
                         continue;
+
                     if (childPage.AdminRequired &&
                         !Authenticator.CheckAdminAuthentication(httpRequest, childPage.AdminLevelRequired))
                         continue;
@@ -125,10 +129,11 @@ namespace Vision.Modules.Web
                                   {"ChildrenMenuItems", childPages},
                                   {"MenuItemLocation", page.Location},
                                   {"MenuItemTitleHelp", GetTranslatedString(translator, page.MenuToolTip, page, true)},
-                        {"MenuItemTitle", GetTranslatedString(translator, page.MenuTitle, page, false)},
+                        { "MenuItemTitle", GetTranslatedString(translator, page.MenuTitle, page, false)},
                         {"MenuItemToolTip", GetTranslatedString(translator, page.MenuToolTip, page, true)}
                               });
             }
+
             vars.Add("MenuItems", pages);
 
             #endregion
@@ -155,7 +160,7 @@ namespace Vision.Modules.Web
             vars.Add("it", translator.GetTranslatedString("it"));
             vars.Add("es", translator.GetTranslatedString("es"));
             vars.Add("nl", translator.GetTranslatedString("nl"));
-            vars.Add ("ru", translator.GetTranslatedString ("ru"));
+            vars.Add("ru", translator.GetTranslatedString("ru"));
 
             // Index Page
             vars.Add("HomeText", translator.GetTranslatedString("HomeText"));

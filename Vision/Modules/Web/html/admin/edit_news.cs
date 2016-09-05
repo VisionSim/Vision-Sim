@@ -91,7 +91,6 @@ namespace Vision.Modules.Web
                 vars.Add ("NewsTitle", news.Title);
                 vars.Add ("NewsText", news.Text);
                 vars.Add ("NewsID", news.ID.ToString ());
-
                 vars.Add ("NewsItemTitle", translator.GetTranslatedString ("NewsItemTitle"));
                 vars.Add ("NewsItemText", translator.GetTranslatedString ("NewsItemText"));
                 vars.Add ("EditNewsText", translator.GetTranslatedString ("EditNewsText"));

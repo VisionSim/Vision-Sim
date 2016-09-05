@@ -34,7 +34,8 @@ namespace Vision.Modules.Web
 {
     public class ChatMain : IWebInterfacePage
     {
-        public string [] FilePath {
+        public string [] FilePath
+        {
             get {
                 return new []
                            {
@@ -43,11 +44,13 @@ namespace Vision.Modules.Web
             }
         }
 
-        public bool RequiresAuthentication {
+        public bool RequiresAuthentication
+        {
             get { return false; }
         }
 
-        public bool RequiresAdminAuthentication {
+        public bool RequiresAdminAuthentication
+        {
             get { return false; }
         }
 

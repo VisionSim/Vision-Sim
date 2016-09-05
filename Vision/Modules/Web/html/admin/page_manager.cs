@@ -71,7 +71,7 @@ namespace Vision.Modules.Web
             IGenericsConnector generics = Framework.Utilities.DataManager.RequestPlugin<IGenericsConnector>();
             GridPage rootPage = generics.GetGeneric<GridPage>(UUID.Zero, "WebPages", "Root");
             if (rootPage == null)
-                return null;            // major bummer !!
+                return null;            // major bummer
             
             rootPage.Children.Sort((a, b) => a.MenuPosition.CompareTo(b.MenuPosition));
             List<GridPage> allPages = new List<GridPage>(rootPage.Children);
@@ -95,7 +95,6 @@ namespace Vision.Modules.Web
                                   }
                               });
             }
-
             vars.Add("PagesList", pages);
 
             #endregion
@@ -147,7 +146,6 @@ namespace Vision.Modules.Web
                                         {"PageSelected", ""}
                                     }
                             };
-
                 GridPage parent = rootPage.GetParent(page);
                 foreach (GridPage p in allPages)
                 {
@@ -192,7 +190,6 @@ namespace Vision.Modules.Web
                                         {"PageSelected", ""}
                                     }
                             };
-
                 foreach (GridPage p in allPages)
                 {
                     pages.Add(new Dictionary<string, object>

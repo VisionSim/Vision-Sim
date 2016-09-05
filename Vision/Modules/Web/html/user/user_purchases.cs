@@ -29,7 +29,7 @@
 
 using System;
 using System.Collections.Generic;
-using OpenMetaverse;
+using Nini.Config;
 using Vision.Framework.Modules;
 using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Services;
@@ -37,22 +37,25 @@ using Vision.Framework.Utilities;
 
 namespace Vision.Modules.Web
 {
-    public class UserTransactionsPage : IWebInterfacePage
+    public class UserPurchasesPage : IWebInterfacePage
     {
-        public string [] FilePath {
+        public string [] FilePath
+        {
             get {
                 return new []
                            {
-                               "html/user_transactions.html"
+                               "html/user/user_purchases.html"
                            };
             }
         }
 
-        public bool RequiresAuthentication {
+        public bool RequiresAuthentication
+        {
             get { return true; }
         }
 
-        public bool RequiresAdminAuthentication {
+        public bool RequiresAdminAuthentication
+        {
             get { return false; }
         }
 
@@ -61,84 +64,100 @@ namespace Vision.Modules.Web
                                                 ITranslator translator, out string response)
         {
             response = null;
+            IConfig gridInfo = webInterface.Registry.RequestModuleInterface<ISimulationBase> ().ConfigSource.Configs ["GridInfoService"];
+            var inWorldCurrency = gridInfo.GetString ("CurrencySymbol", string.Empty) + " ";
+            var realCurrency = gridInfo.GetString ("RealCurrencySymbol", string.Empty) + " ";
+
             var vars = new Dictionary<string, object> ();
-            var transactionsList = new List<Dictionary<string, object>> ();
+            var purchasesList = new List<Dictionary<string, object>> ();
 
             var today = DateTime.Now;
-            var fromDays = today.AddDays (-7);
-            string DateStart = fromDays.ToShortDateString ();
-            string DateEnd = today.ToShortDateString ();
+            var thirtyDays = today.AddDays (-7);
+            string dateStart = thirtyDays.ToShortDateString ();
+            string dateEnd = today.ToShortDateString ();
 
             IMoneyModule moneyModule = webInterface.Registry.RequestModuleInterface<IMoneyModule> ();
-            string noDetails = translator.GetTranslatedString ("NoTransactionsText");
+            string noDetails = translator.GetTranslatedString ("NoPurchasesText");
 
             // Check if we're looking at the standard page or the submitted one
-            if (requestParameters.ContainsKey ("Submit")) {
+            if (requestParameters.ContainsKey ("Submit"))
+            {
                 if (requestParameters.ContainsKey ("date_start"))
-                    DateStart = requestParameters ["date_start"].ToString ();
+                    dateStart = requestParameters ["date_start"].ToString ();
+
                 if (requestParameters.ContainsKey ("date_end"))
-                    DateEnd = requestParameters ["date_end"].ToString ();
+                    dateEnd = requestParameters ["date_end"].ToString ();
             }
 
             UserAccount user = Authenticator.GetAuthentication (httpRequest);
 
-            // Transaction Logs
+            // Purchases Logs
             var timeNow = DateTime.Now.ToString ("HH:mm:ss");
-            var dateFrom = DateTime.Parse (DateStart + " " + timeNow);
-            var dateTo = DateTime.Parse (DateEnd + " " + timeNow);
+            var dateFrom = DateTime.Parse (dateStart + " " + timeNow);
+            var dateTo = DateTime.Parse (dateEnd + " " + timeNow);
             TimeSpan period = dateTo.Subtract (dateFrom);
 
-            var transactions = new List<AgentTransfer> ();
+            var purchases = new List<AgentPurchase> ();
             if (user != null && moneyModule != null)
-                transactions = moneyModule.GetTransactionHistory (user.PrincipalID, UUID.Zero, dateFrom, dateTo, null, null);
+                purchases = moneyModule.GetPurchaseHistory (user.PrincipalID, dateFrom, dateTo, null, null);
 
             // data
-            if (transactions.Count > 0) {
+            if (purchases.Count > 0)
+            {
                 noDetails = "";
 
-                foreach (var transaction in transactions) {
-                    transactionsList.Add (new Dictionary<string, object> {
-                        { "Date", Culture.LocaleDate (transaction.TransferDate.ToLocalTime(), "MMM dd, hh:mm:ss tt") },
-                        { "ToAgent", transaction.ToAgentName },
-                        { "FromAgent", transaction.FromAgentName },
-                        { "Description", transaction.Description },
-                        { "Amount",transaction.Amount },
-                        { "ToBalance",transaction.ToBalance }
+                foreach (var purchase in purchases) {
+                    purchasesList.Add (new Dictionary<string, object> {
+                        { "ID", purchase.ID },
+                        { "AgentID", purchase.AgentID },
+                        { "AgentName", user.Name },
+                        { "LoggedIP", purchase.IP },
+                        { "Description", "Purchase" },
+                        { "Amount",purchase.Amount },
+                        { "RealAmount",((float) purchase.RealAmount/100).ToString("0.00") },
+                        { "PurchaseDate", Culture.LocaleDate (purchase.PurchaseDate.ToLocalTime(), "MMM dd, hh:mm:ss tt") },
+                        { "UpdateDate", Culture.LocaleDate (purchase.UpdateDate.ToLocalTime(), "MMM dd, hh:mm:ss tt") }
                     });
                 }
             }
 
-            if (transactionsList.Count == 0) {
-                transactionsList.Add (new Dictionary<string, object> {
-                    {"Date", ""},                   //Culture.LocaleDate(today,"MMM dd, hh:mm:ss")},
-                    {"ToAgent", ""},
-                    {"FromAgent", ""},
-                    {"Description", translator.GetTranslatedString ("NoTransactionsText")},
+            if (purchasesList.Count == 0)
+            {
+                purchasesList.Add (new Dictionary<string, object> {
+                    {"ID", ""},
+                    {"AgentID", ""},
+                    {"AgentName", ""},
+                    {"LoggedIP", ""},
+                    {"Description",  translator.GetTranslatedString ("NoPurchasesText")},
                     {"Amount",""},
-                    {"ToBalance",""}
+                    {"RealAmount",""},
+                    {"PurchaseDate",""},
+                    {"UpdateDate", ""}
                 });
             }
 
             // always required data
-            vars.Add ("DateStart", DateStart);
-            vars.Add ("DateEnd", DateEnd);
+            vars.Add ("DateStart", dateStart);
+            vars.Add ("DateEnd", dateEnd);
             vars.Add ("Period", period.TotalDays + " " + translator.GetTranslatedString ("DaysText"));
-            vars.Add ("TransactionsList", transactionsList);
-            vars.Add ("NoTransactionsText", noDetails);
+            vars.Add ("PurchasesList", purchasesList);
+            vars.Add ("NoPurchasesText", noDetails);
 
             // labels
-            vars.Add ("TransactionsText", translator.GetTranslatedString ("TransactionsText"));
+            vars.Add ("UserName", user.Name);
+            vars.Add ("PurchasesText", translator.GetTranslatedString ("PurchasesText"));
             vars.Add ("DateInfoText", translator.GetTranslatedString ("DateInfoText"));
             vars.Add ("DateStartText", translator.GetTranslatedString ("DateStartText"));
             vars.Add ("DateEndText", translator.GetTranslatedString ("DateEndText"));
+            vars.Add ("SearchUserText", translator.GetTranslatedString ("AvatarNameText"));
 
-            vars.Add ("TransactionDateText", translator.GetTranslatedString ("TransactionDateText"));
-            vars.Add ("TransactionToAgentText", translator.GetTranslatedString ("TransactionToAgentText"));
-            vars.Add ("TransactionFromAgentText", translator.GetTranslatedString ("TransactionFromAgentText"));
-            //vars.Add("TransactionTimeText", translator.GetTranslatedString("Time"));
-            vars.Add ("TransactionDetailText", translator.GetTranslatedString ("TransactionDetailText"));
-            vars.Add ("TransactionAmountText", translator.GetTranslatedString ("TransactionAmountText"));
-            vars.Add ("TransactionBalanceText", translator.GetTranslatedString ("TransactionBalanceText"));
+            vars.Add ("PurchaseAgentText", translator.GetTranslatedString ("TransactionToAgentText"));
+            vars.Add ("PurchaseDateText", translator.GetTranslatedString ("TransactionDateText"));
+            vars.Add ("PurchaseUpdateDateText", translator.GetTranslatedString ("TransactionDateText"));
+            vars.Add ("PurchaseDetailText", translator.GetTranslatedString ("TransactionDetailText"));
+            vars.Add ("LoggedIPText", translator.GetTranslatedString ("LoggedIPText"));
+            vars.Add ("PurchaseAmountText", inWorldCurrency + translator.GetTranslatedString ("TransactionAmountText"));
+            vars.Add ("PurchaseRealAmountText", realCurrency + translator.GetTranslatedString ("PurchaseCostText"));
 
             return vars;
         }

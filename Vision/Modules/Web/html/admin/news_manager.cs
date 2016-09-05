@@ -72,6 +72,7 @@ namespace Vision.Modules.Web
             }
             else
                 vars["Success"] = "";
+
             var newsItems = connector.GetGenerics<GridNewsItem>(UUID.Zero, "WebGridNews");
             vars.Add("News", newsItems.ConvertAll<Dictionary<string, object>>(item => item.ToDictionary()));
             vars.Add("NewsManager", translator.GetTranslatedString("NewsManager"));

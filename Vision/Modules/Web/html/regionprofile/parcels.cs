@@ -138,13 +138,21 @@ namespace Vision.Modules.Web
                     vars.Add ("NumberOfParcelsInRegion", parcels.Count);
                 }
 
-                IWebHttpTextureService webTextureService = webInterface.Registry.
-                    RequestModuleInterface<IWebHttpTextureService> ();
+                IWebHttpTextureService webTextureService = webInterface.Registry.RequestModuleInterface<IWebHttpTextureService> ();
+
                 if (webTextureService != null && region.TerrainMapImage != UUID.Zero)
                     vars.Add ("RegionImageURL", webTextureService.GetTextureURL (region.TerrainMapImage));
                 else
                     vars.Add ("RegionImageURL", "../images/icons/no_terrain.jpg");
 
+                /*   // Regionprofile Menus
+                   vars.Add("MenuRegionTitle", translator.GetTranslatedString("MenuRegionTitle"));
+                   vars.Add("TooltipsMenuRegion", translator.GetTranslatedString("TooltipsMenuRegion"));
+                   vars.Add("MenuParcelTitle", translator.GetTranslatedString("MenuParcelTitle"));
+                   vars.Add("TooltipsMenuParcel", translator.GetTranslatedString("TooltipsMenuParcel"));
+                   vars.Add("MenuOwnerTitle", translator.GetTranslatedString("MenuOwnerTitle"));
+                   vars.Add("TooltipsMenuOwner", translator.GetTranslatedString("TooltipsMenuOwner"));
+                   */
                 vars.Add ("RegionInformationText", translator.GetTranslatedString ("RegionInformationText"));
                 vars.Add ("OwnerNameText", translator.GetTranslatedString ("OwnerNameText"));
                 vars.Add ("RegionLocationText", translator.GetTranslatedString ("RegionLocationText"));

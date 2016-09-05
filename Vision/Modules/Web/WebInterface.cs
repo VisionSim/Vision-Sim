@@ -56,10 +56,9 @@ namespace Vision.Modules.Web
     public class WebInterface : IService, IWebInterfaceModule
     {
         #region Declares
-
-        // Suppress the warnings relating to webinterface pages as i already am aware of them
-        // and will fix them as time permits - 20160830 - BritanyannCopperfield
-#pragma warning disable 0649
+		
+		#pragma warning disable 0649
+		// Putting this here to clear out some warnings - 29082016 Fly-man-
 
         protected const int CLIENT_CACHE_TIME = 86400;  // 1 day
         protected uint _port = 8002;                    // assuming grid mode here
@@ -73,7 +72,6 @@ namespace Vision.Modules.Web
         internal GridPage webPages;
         internal WebUISettings webUISettings;
         public GridSettings gridSettings;
-
 
         #endregion
 
@@ -149,9 +147,11 @@ namespace Vision.Modules.Web
 
                 string defaultLanguage = con.GetString ("DefaultLanguage", "en");
                 _defaultTranslator = _translators.FirstOrDefault (t => t.LanguageName == defaultLanguage);
+
                 if (_defaultTranslator == null)
                     _defaultTranslator = _translators [0];
             }
+
             if (_enabled) {
                 Registry.RegisterModuleInterface<IWebInterfaceModule> (this);
                 var server = registry.RequestModuleInterface<ISimulationBase> ().GetHttpServer (_port);
@@ -164,7 +164,7 @@ namespace Vision.Modules.Web
                     m_localHtmlPath = Path.Combine (defpath, Constants.DEFAULT_USERHTML_DIR);
                 }
 
-                MainConsole.Instance.Info ("[WebUI]: Default language is " + _defaultTranslator.LanguageName.ToUpper ());
+                MainConsole.Instance.Info ("[Web Interface]: Default language is " + _defaultTranslator.LanguageName.ToUpper ());
             }
         }
 
@@ -177,6 +177,7 @@ namespace Vision.Modules.Web
 
                 if (PagesMigrator.RequiresInitialUpdate ())
                     PagesMigrator.ResetToDefaults ();
+
                 if (SettingsMigrator.RequiresInitialUpdate ())
                     SettingsMigrator.ResetToDefaults (this);
             }
@@ -196,19 +197,17 @@ namespace Vision.Modules.Web
             return page;
         }
 
-        protected byte [] FindAndSendPage (string path, Stream request, OSHttpRequest httpRequest,
-                                         OSHttpResponse httpResponse)
+        protected byte [] FindAndSendPage (string path, Stream request, OSHttpRequest httpRequest, OSHttpResponse httpResponse)
         {
             byte [] response;
             string filename = GetFileNameFromHTMLPath (path, httpRequest.Query);
             if (filename == null)
                 return MainServer.BlankResponse;
 
-            //httpResponse.KeepAlive = true;
             if (httpRequest.HttpMethod == "POST")
                 httpResponse.KeepAlive = false;
 
-            MainConsole.Instance.Debug ("[WebInterface]: Serving " + filename + ", keep-alive: " + httpResponse.KeepAlive);
+            MainConsole.Instance.Debug ("[Web Interface]: Serving " + filename + ", keep-alive: " + httpResponse.KeepAlive);
             IWebInterfacePage page = GetPage (filename);
             if (page != null) {
                 // dynamic pages
@@ -231,6 +230,7 @@ namespace Vision.Modules.Web
                     else if (text != "") {
                         xslt.Load (new XmlTextReader (new StringReader (text)));
                     }
+
                     var stm = new MemoryStream ();
                     xslt.Transform (vars, null, stm);
                     stm.Position = 1;
@@ -262,11 +262,13 @@ namespace Vision.Modules.Web
                     return MainServer.BadRequest;
                 
                 httpResponse.ContentType = GetContentType (filename, httpResponse);
+
                 if (httpResponse.ContentType == null)
                     return MainServer.BadRequest;
                 
                 response = File.ReadAllBytes (filename);
             }
+
             return response;
         }
 
@@ -301,6 +303,7 @@ namespace Vision.Modules.Web
                     var cookie = httpRequest.Cookies.Get ("language");
                     translator = _translators.FirstOrDefault (t => t.LanguageName == cookie.Value);
                 }
+
                 if (translator == null)
                     translator = _defaultTranslator;
 
@@ -308,14 +311,17 @@ namespace Vision.Modules.Web
                     if (!Authenticator.CheckAuthentication (httpRequest))
                         return null;
                 }
+
                 if (page.RequiresAdminAuthentication) {
                     if (!Authenticator.CheckAdminAuthentication (httpRequest))
                         return null;
                 }
-                vars = page.Fill (this, parentFileName, httpRequest, httpResponse, requestParameters,
-                                  translator, out response);
+
+                vars = page.Fill (this, parentFileName, httpRequest, httpResponse, requestParameters, translator, out response);
+
                 return vars;
             }
+
             return null;
         }
 
@@ -325,9 +331,11 @@ namespace Vision.Modules.Web
             IWebInterfacePage page = GetPage (filename);
             if (page != null) {
                 ITranslator translator = null;
+
                 if (httpRequest.Query.ContainsKey ("language"))
                     translator =
                         _translators.FirstOrDefault (t => t.LanguageName == httpRequest.Query ["language"].ToString ());
+
                 if (translator == null)
                     translator = _defaultTranslator;
 
@@ -339,12 +347,14 @@ namespace Vision.Modules.Web
                             return null;
                     }
                 }
+
                 string response;
                 var pageVars = page.Fill (this, filename, httpRequest, httpResponse, requestParameters,
                                           translator, out response);
                 if (pageVars != null)
                     return (VisionXmlDocument)pageVars ["xml"];
             }
+
             return null;
         }
 
@@ -478,8 +488,7 @@ namespace Vision.Modules.Web
             return posToCheckFrom - 1;
         }
 
-        static List<string> ExtractLines (string [] lines, int pos,
-                                                 string keyToCheck, string type, out int posToCheckFrom)
+        static List<string> ExtractLines (string [] lines, int pos, string keyToCheck, string type, out int posToCheckFrom)
         {
             posToCheckFrom = pos + 1;
             List<string> repeatedLines = new List<string> ();
@@ -550,20 +559,22 @@ namespace Vision.Modules.Web
                 string filePath = path.StartsWith ("/", StringComparison.Ordinal)
                                       ? path.Remove (0, 1) 
                                       : path;
+
                 filePath = filePath.IndexOf ('?') >= 0 ? filePath.Substring (0, filePath.IndexOf ('?')) : filePath;
 
                 if (filePath == "")
                     filePath = "index.html";
+
                 if (filePath [filePath.Length - 1] == '/')
                     filePath = filePath + "index.html";
 
                 string file;
+
                 if (filePath.StartsWith ("local/", StringComparison.Ordinal))                      // local included files 
                 {
                     file = Path.Combine (m_localHtmlPath, filePath.Remove (0, 6));
                 }
                 else {                                                    // 'normal' page processing
-
                     // try for files in the user data path first
                     file = Path.Combine (m_localHtmlPath, filePath);
                     if (Path.GetFileName (file) == "") {
@@ -573,20 +584,28 @@ namespace Vision.Modules.Web
 
                     if (!File.Exists (file)) {
                         // use the default pages
-                        //MainConsole.Instance.Info ("Using the bin page");
                         file = Path.Combine ("html/", filePath);
                         if (!Path.GetFullPath (file).StartsWith (Path.GetFullPath ("html/"), StringComparison.Ordinal)) {
                             MainConsole.Instance.Info ("Using the Data/html page");
                             return "html/index.html";
                         }
+
                         if (Path.GetFileName (file) == "")
                             file = Path.Combine (file, "index.html");
                     }
 
-                    if (query.ContainsKey ("page") && _pages.ContainsKey ("html/" + query ["page"] + ".html")) {
-                        file = _pages ["html/" + query ["page"] + ".html"].FilePath [0];
+                    if (query.ContainsKey ("page")) {
+                        var subdir = "";
+                        if (query.ContainsKey ("subdir"))
+                            subdir = query ["subdir"] + "/";
+                        var wpage =  "html/" + subdir + query ["page"] + ".html";
+
+                        if (_pages.ContainsKey (wpage)) {
+                            file = _pages [wpage].FilePath [0];
+                        }
                     }
                 }
+
                 if (!File.Exists (file)) {
                     MainConsole.Instance.DebugFormat ("WebInterface]: Unknown page request, {0}", file);
                     return "html/http_404.html";
@@ -597,7 +616,6 @@ namespace Vision.Modules.Web
                 return "html/http_404.html";
             }
         }
-
 
         public static Dictionary<string, object> ParseQueryString (string query)
         {
@@ -641,8 +659,6 @@ namespace Vision.Modules.Web
             return result;
         }
 
-
-
         internal GridPage GetGridPages ()
         {
             if (webPages == null) {
@@ -669,6 +685,7 @@ namespace Vision.Modules.Web
                     settings.MapCenter.X = simbase.MapCenterX;
                     settings.MapCenter.Y = simbase.MapCenterY;
                 }
+
                 return settings;
             }
 
@@ -707,9 +724,7 @@ namespace Vision.Modules.Web
             // change what's appropriate...
             ILoginService loginService = Registry.RequestModuleInterface<ILoginService> ();
             loginService.WelcomeMessage = settings.WelcomeMessage;
-
         }
-
 
         #endregion
 
@@ -757,7 +772,6 @@ namespace Vision.Modules.Web
         {
             Dictionary<string, object> dictionary = new Dictionary<string, object> ();
 
-            //dictionary.Add("NewsDate", Time.ToShortDateString());
             dictionary.Add ("NewsDate", Culture.LocaleDate (Time));
             dictionary.Add ("NewsTitle", Title);
             dictionary.Add ("NewsText", Text);
@@ -837,7 +851,6 @@ namespace Vision.Modules.Web
             AdminRequired = mp ["AdminRequired"];
             AdminLevelRequired = mp ["AdminLevelRequired"];
             Children = ((OSDArray)mp ["Children"]).ConvertAll (o => new GridPage (o));
-
         }
 
         public override void FromOSD (OSDMap map)
@@ -892,6 +905,7 @@ namespace Vision.Modules.Web
                         return p;
                 }
             }
+
             return null;
         }
 
@@ -914,6 +928,7 @@ namespace Vision.Modules.Web
                         return p;
                 }
             }
+
             return null;
         }
 
@@ -952,6 +967,7 @@ namespace Vision.Modules.Web
                     }
                 }
             }
+
             if (foundPage != null)
                 Children.Remove (foundPage);
         }
@@ -973,6 +989,7 @@ namespace Vision.Modules.Web
                     }
                 }
             }
+
             if (foundPage != null)
                 Children.Remove (foundPage);
         }
@@ -996,6 +1013,7 @@ namespace Vision.Modules.Web
                         return pp;
                 }
             }
+
             return null;
         }
     }

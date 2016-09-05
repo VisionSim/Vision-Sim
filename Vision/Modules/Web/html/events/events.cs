@@ -39,24 +39,20 @@ namespace Vision.Modules.Web
 {
     public class EventsMain : IWebInterfacePage
     {
-        public string[] FilePath
-        {
-            get
-            {
-                return new[]
+        public string [] FilePath {
+            get {
+                return new []
                            {
                                "html/events/events.html"
                            };
             }
         }
 
-        public bool RequiresAuthentication
-        {
+        public bool RequiresAuthentication {
             get { return false; }
         }
 
-        public bool RequiresAdminAuthentication
-        {
+        public bool RequiresAdminAuthentication {
             get { return false; }
         }
 
@@ -67,14 +63,14 @@ namespace Vision.Modules.Web
             response = null;
             var vars = new Dictionary<string, object> ();
             var directoryService = Framework.Utilities.DataManager.RequestPlugin<IDirectoryServiceConnector> ();
-            List<Dictionary<string, object>> eventListVars = new List<Dictionary<string, object>> ();
+            var eventListVars = new List<Dictionary<string, object>> ();
             IMoneyModule moneyModule = webInterface.Registry.RequestModuleInterface<IMoneyModule> ();
 
             var currencySymbol = "$";
             if (moneyModule != null)
                 currencySymbol = moneyModule.InWorldCurrencySymbol;
 
-            var eventLevel = Util.ConvertEventMaturityToDBMaturity (DirectoryManager.EventFlags.PG); 
+            var eventLevel = Util.ConvertEventMaturityToDBMaturity (DirectoryManager.EventFlags.PG);
             var category = (int)DirectoryManager.EventCategories.All;
             var timeframe = 24;
 
@@ -88,17 +84,17 @@ namespace Vision.Modules.Web
                 ma_checked = "";
                 ao_checked = "";
                 if (requestParameters.ContainsKey ("display_pg")) {
-                    level += Util.ConvertEventMaturityToDBMaturity(DirectoryManager.EventFlags.PG);
+                    level += Util.ConvertEventMaturityToDBMaturity (DirectoryManager.EventFlags.PG);
                     pg_checked = "checked";
                 }
 
                 if (requestParameters.ContainsKey ("display_ma")) {
-                    level += Util.ConvertEventMaturityToDBMaturity(DirectoryManager.EventFlags.Mature);
+                    level += Util.ConvertEventMaturityToDBMaturity (DirectoryManager.EventFlags.Mature);
                     ma_checked = "checked";
                 }
 
                 if (requestParameters.ContainsKey ("display_ao")) {
-                    level += Util.ConvertEventMaturityToDBMaturity(DirectoryManager.EventFlags.Adult);
+                    level += Util.ConvertEventMaturityToDBMaturity (DirectoryManager.EventFlags.Adult);
                     ao_checked = "checked";
                 }
 
@@ -106,7 +102,7 @@ namespace Vision.Modules.Web
 
                 string cat = requestParameters ["category"].ToString ();
                 category = int.Parse (cat);
-            
+
                 string timsel = requestParameters ["timeframe"].ToString ();
                 timeframe = int.Parse (timsel);
             }
@@ -117,10 +113,10 @@ namespace Vision.Modules.Web
             vars.Add ("AO_checked", ao_checked);
 
             // build category selection
-            vars.Add ("CategoryType", WebHelpers.EventCategorySelections (category,translator));
+            vars.Add ("CategoryType", WebHelpers.EventCategorySelections (category, translator));
 
             // build timeframes
-             vars.Add ("TimeFrame", WebHelpers.EventTimeframesSelections (timeframe, translator));
+            vars.Add ("TimeFrame", WebHelpers.EventTimeframesSelections (timeframe, translator));
 
             // get some events
             if (directoryService != null) {
@@ -128,9 +124,9 @@ namespace Vision.Modules.Web
                 var events = new List<EventData> ();
                 events = directoryService.GetAllEvents (timeframe, category, eventLevel);
 
-                if (events.Count == 0) {      
+                if (events.Count == 0) {
                     eventListVars.Add (new Dictionary<string, object> {
-                        { "EventUUID", "" },
+                        { "EventID", "" },
                         { "CreatorUUID", "" },
                         { "EventDate", "" },
                         { "EventDateUTC", "" },
@@ -153,7 +149,7 @@ namespace Vision.Modules.Web
                     foreach (var evnt in events) {
                         var evntDateTime = Util.ToDateTime (evnt.dateUTC).ToLocalTime ();
                         eventListVars.Add (new Dictionary<string, object> {
-                            { "EventUUID", evnt.eventID },
+                            { "EventID", evnt.eventID },
                             { "CreatorUUID", evnt.creator },
                             { "EventDate", evnt.date },
                             { "EventDateUTC", Culture.LocaleShortDateTime(evntDateTime)},
@@ -177,15 +173,15 @@ namespace Vision.Modules.Web
 
                 vars.Add ("EventList", eventListVars);
             }
-            
+
             vars.Add ("Events", translator.GetTranslatedString ("Events"));
 
-			// labels
-            vars.Add ("EventsText", translator.GetTranslatedString("EventsText"));
+            // labels
+            vars.Add ("EventsText", translator.GetTranslatedString ("EventsText"));
             vars.Add ("AddEventText", translator.GetTranslatedString ("AddEventText"));
             vars.Add ("EventDateText", translator.GetTranslatedString ("EventDateText"));
             vars.Add ("CategoryText", translator.GetTranslatedString ("CategoryText"));
-            vars.Add ("EventNameText", translator.GetTranslatedString ("EventNameText"));
+            vars.Add ("LocationText", translator.GetTranslatedString ("LocationText"));
             vars.Add ("DescriptionText", translator.GetTranslatedString ("DescriptionText"));
             vars.Add ("MaturityText", translator.GetTranslatedString ("MaturityText"));
             vars.Add ("CoverChargeText", translator.GetTranslatedString ("CoverChargeText"));
@@ -194,7 +190,7 @@ namespace Vision.Modules.Web
             return vars;
         }
 
-        public bool AttemptFindPage(string filename, ref OSHttpResponse httpResponse, out string text)
+        public bool AttemptFindPage (string filename, ref OSHttpResponse httpResponse, out string text)
         {
             text = "";
             return false;

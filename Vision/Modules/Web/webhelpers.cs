@@ -28,10 +28,12 @@
  */
 
 using System.Collections.Generic;
+using System.IO;
 using OpenMetaverse;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
+using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
 using Vision.Framework.Utilities;
 
@@ -39,35 +41,44 @@ namespace Vision.Modules.Web
 {
     public static class WebHelpers
     {
-        #region Geberal
+        #region General
+
+        public static List<Dictionary<string, object>> YesNoSelection (ITranslator translator, bool condition)
+        {
+            var yesNoArgs = new List<Dictionary<string, object>> ();
+            yesNoArgs.Add (new Dictionary<string, object> {
+                {"Value", translator.GetTranslatedString("Yes")},
+                {"selected", condition ? "selected" : ""}
+            });
+            yesNoArgs.Add (new Dictionary<string, object> {
+                { "Value", translator.GetTranslatedString ("No") },
+                {"selected", !condition ? "selected" : ""}
+            });
+
+            return yesNoArgs;
+        }
+
+        public static string YesNo (ITranslator translator, bool condition)
+        {
+            return condition ? translator.GetTranslatedString ("Yes") : translator.GetTranslatedString ("No");
+        }
+
         public static List<Dictionary<string, object>> ShortMonthSelections (ITranslator translator)
         {
             // index is assumed Jan - 1 etc
-            List<Dictionary<string, object>> monthsArgs = new List<Dictionary<string, object>> ();
-            monthsArgs.Add (new Dictionary<string, object> {
-                {"Value", translator.GetTranslatedString("Jan_Short")} });
-            monthsArgs.Add (new Dictionary<string, object> {
-                { "Value", translator.GetTranslatedString ("Feb_Short") } });
-            monthsArgs.Add (new Dictionary<string, object> {
-                { "Value", translator.GetTranslatedString ("Mar_Short") } });
-            monthsArgs.Add (new Dictionary<string, object> {
-                { "Value", translator.GetTranslatedString ("Apr_Short") } });
-            monthsArgs.Add (new Dictionary<string, object> {
-                { "Value", translator.GetTranslatedString ("May_Short") } });
-            monthsArgs.Add (new Dictionary<string, object> {
-                { "Value", translator.GetTranslatedString ("Jun_Short") } });
-            monthsArgs.Add (new Dictionary<string, object> {
-                { "Value", translator.GetTranslatedString ("Jul_Short") } });
-            monthsArgs.Add (new Dictionary<string, object> {
-                { "Value", translator.GetTranslatedString ("Aug_Short") } });
-            monthsArgs.Add (new Dictionary<string, object> {
-                { "Value", translator.GetTranslatedString ("Sep_Short") } });
-            monthsArgs.Add (new Dictionary<string, object> {
-                { "Value", translator.GetTranslatedString ("Oct_Short") } });
-            monthsArgs.Add (new Dictionary<string, object> {
-                { "Value", translator.GetTranslatedString ("Nov_Short") } });
-            monthsArgs.Add (new Dictionary<string, object> {
-                { "Value", translator.GetTranslatedString("Dec_Short")}});
+            var monthsArgs = new List<Dictionary<string, object>> ();
+            monthsArgs.Add (new Dictionary<string, object> {{"Value", translator.GetTranslatedString("Jan_Short")} });
+            monthsArgs.Add (new Dictionary<string, object> {{ "Value", translator.GetTranslatedString ("Feb_Short") } });
+            monthsArgs.Add (new Dictionary<string, object> {{ "Value", translator.GetTranslatedString ("Mar_Short") } });
+            monthsArgs.Add (new Dictionary<string, object> {{ "Value", translator.GetTranslatedString ("Apr_Short") } });
+            monthsArgs.Add (new Dictionary<string, object> {{ "Value", translator.GetTranslatedString ("May_Short") } });
+            monthsArgs.Add (new Dictionary<string, object> {{ "Value", translator.GetTranslatedString ("Jun_Short") } });
+            monthsArgs.Add (new Dictionary<string, object> {{ "Value", translator.GetTranslatedString ("Jul_Short") } });
+            monthsArgs.Add (new Dictionary<string, object> {{ "Value", translator.GetTranslatedString ("Aug_Short") } });
+            monthsArgs.Add (new Dictionary<string, object> {{ "Value", translator.GetTranslatedString ("Sep_Short") } });
+            monthsArgs.Add (new Dictionary<string, object> {{ "Value", translator.GetTranslatedString ("Oct_Short") } });
+            monthsArgs.Add (new Dictionary<string, object> {{ "Value", translator.GetTranslatedString ("Nov_Short") } });
+            monthsArgs.Add (new Dictionary<string, object> {{ "Value", translator.GetTranslatedString("Dec_Short")}});
 
             return monthsArgs;
         }
@@ -221,7 +232,6 @@ namespace Vision.Modules.Web
 
         public static List<Dictionary<string, object>> EventTimeframesSelections (int timeframe, ITranslator translator)
         {
-
             // build timeframes
             var timeframes = new List<Dictionary<string, object>> ();
             timeframes.Add (new Dictionary<string, object> {
@@ -242,11 +252,10 @@ namespace Vision.Modules.Web
                 {"selected", timeframe == 2 ? "selected" : "" } });
 
             return timeframes;
-
         }
 
         // Time selections
-        public static List<Dictionary<string, object>> EventTimeSelections (string nearestHalf, ITranslator translator)
+        public static List<Dictionary<string, object>> EventTimeSelections (string nearestHalf)
         {
             var timeoptions = new List<Dictionary<string, object>> ();
             timeoptions.Add (new Dictionary<string, object> {
@@ -538,7 +547,7 @@ namespace Vision.Modules.Web
             return durations;
         }
 
-        public static List<Dictionary<string, object>> ParcelLocations (List<ExtendedLandData> myParcels)
+        public static List<Dictionary<string, object>> ParcelLocations (List<ExtendedLandData> myParcels, string selParcel)
         {
             var regionData = Framework.Utilities.DataManager.RequestPlugin<IRegionData> ();
             var parcelList = new List<Dictionary<string, object>> ();
@@ -550,12 +559,14 @@ namespace Vision.Modules.Web
                 if (region.IsForeign || region.IsHgRegion)
                     continue;
 
+                // this might change
+                if (!region.IsOnline)
+                    continue;
+
                 var regionMaturity = Utilities.GetShortRegionMaturity (region.Access);
                 var regionArea = region.RegionArea < 1000000
                            ? region.RegionArea + " m2"
                            : (region.RegionArea / 1000000) + " km2";
-                //var regionLocX = region.RegionLocX / Constants.RegionSize;
-                //var regionLocY = region.RegionLocY / Constants.RegionSize;
 
                 var regionName = parcel.RegionName;
                 var parcelName = parcel.LandData.Name;
@@ -563,23 +574,27 @@ namespace Vision.Modules.Web
                 var parcelLocY = (int)(parcel.GlobalPosY / Constants.RegionSize);
                 var parcelUUID = parcel.LandData.GlobalID;
                 var parcelUserLanding = parcel.LandData.UserLocation;
-
                 var parcelLocation = parcelLocX.ToString () + ',' + parcelLocY;
                 var parcelLanding = parcelUserLanding.X + "," + parcelUserLanding.Y + "," + parcelUserLanding.Z;
 
+                var selected = "";
+                if (selParcel != "")
+                    if (parcelUUID.ToString () == selParcel)
+                        selected = "selected";
 
                 parcelList.Add (new Dictionary<string, object> {
                     {"Value",regionMaturity + " " + parcelName + " in " + regionName + " " + regionArea},
                             {"Index",parcelLocation + "," + parcelLanding + "," + parcelUUID},
-                            {"disabled", region.IsOnline}
-                        });
-
+                            {"disabled", region.IsOnline ? "" : "disabled"},        // always enabled as offline regions are ignored for now
+                            {"selected", selected}
+                    });
             }
+
             return parcelList;
         }
 
         // event locations
-        public static List<Dictionary<string, object>> EventLocations (UserAccount user, IRegistryCore registry)
+        public static List<Dictionary<string, object>> EventLocations (UserAccount user, IRegistryCore registry, string selParcel)
         {
             // Get current parcels on regions etc
             var regionList = new List<Dictionary<string, object>> ();
@@ -587,31 +602,26 @@ namespace Vision.Modules.Web
             var groupService = registry.RequestModuleInterface<IGroupsModule> ();
             var friendsService = registry.RequestModuleInterface<IFriendsService> ();
 
-            //var sortBy = new Dictionary<string, bool> ();
-            //sortBy.Add ("region", true);
-            //var regionData = Framework.Utilities.DataManager.RequestPlugin<IRegionData> ();
-            //List<GridRegion> regions = null;
-            //List<ExtendedLandData> parcels = null;
-
-
             regionList.Add (new Dictionary<string, object> {
                 {"Value", "---MY PARCELS---"},
                 {"Index","0"},
-                {"disabled","disabled"}
+                {"disabled","disabled"},
+                {"selected", ""}
             });
 
             if (user != null) {
                 var myParcels = directoryService.GetParcelByOwner (user.PrincipalID);
                 if (myParcels.Count > 0)
-                    regionList.AddRange (ParcelLocations (myParcels));
+                    regionList.AddRange (ParcelLocations (myParcels, selParcel));
             }
 
             // Group owned parcels
             regionList.Add (new Dictionary<string, object> {
-                    {"Value", "---GROUP PARCELS---"},
-                    {"Index","0"},
-                    {"disabled","disabled"}
-                });
+                {"Value", "---GROUP PARCELS---"},
+                {"Index","0"},
+                {"disabled","disabled"},
+                {"selected", ""}
+            });
 
             if (groupService != null) {
                 var grpmembership = groupService.GetMembershipData (user.PrincipalID);
@@ -619,34 +629,39 @@ namespace Vision.Modules.Web
                     foreach (var grp in grpmembership) {
                         var groupParcels = directoryService.GetParcelByOwner (grp.GroupID);
                         if (groupParcels.Count > 0)
-                            regionList.AddRange (ParcelLocations (groupParcels));
+                            regionList.AddRange (ParcelLocations (groupParcels, selParcel));
                     }
                 }
             }
 
             // Private Estate parcels
             regionList.Add (new Dictionary<string, object> {
-                    {"Value", "---PRIVATE ESTATE PARCELS---"},
-                    {"Index","0"},
-                    {"disabled","disabled"}
-                });
+                {"Value", "---PRIVATE ESTATE PARCELS---"},
+                {"Index","0"},
+                {"disabled","disabled"},
+                {"selected", ""}
+            });
 
             // Public parcels
             regionList.Add (new Dictionary<string, object> {
-                    {"Value", "---PUBLIC PARCELS---"},
-                    {"Index","0"},
-                    {"disabled","disabled"}
-                });
-            var mainlandParcels = directoryService.GetParcelByOwner ((UUID) Constants.GovernorUUID);
+                {"Value", "---PUBLIC PARCELS---"},
+                {"Index","0"},
+                {"disabled","disabled"},
+                {"selected", ""}
+            });
+
+            var mainlandParcels = directoryService.GetParcelByOwner ((UUID)Constants.GovernorUUID);
+
             if (mainlandParcels.Count > 0)
-                regionList.AddRange (ParcelLocations (mainlandParcels));
+                regionList.AddRange (ParcelLocations (mainlandParcels, selParcel));
 
             // Friends parcels
             regionList.Add (new Dictionary<string, object> {
-                    {"Value", "---MY FRIENDS PARCELS---"},
-                    {"Index","0"},
-                    {"disabled","disabled"}
-                });
+                {"Value", "---MY FRIENDS PARCELS---"},
+                {"Index","0"},
+                {"disabled","disabled"},
+                {"selected", ""}
+            });
 
             if (user != null) {
                 var friends = friendsService.GetFriends (user.PrincipalID);
@@ -657,7 +672,7 @@ namespace Vision.Modules.Web
                     if (friendID != UUID.Zero) {
                         var friendParcels = directoryService.GetParcelByOwner (friendID);
                         if (friendParcels.Count > 0)
-                            regionList.AddRange (ParcelLocations (friendParcels));
+                            regionList.AddRange (ParcelLocations (friendParcels, selParcel));
                     }
                 }
             }
@@ -698,7 +713,6 @@ namespace Vision.Modules.Web
             }
         }
 
-
         public static string EventCategory (int category, ITranslator translator)
         {
             switch (category) {
@@ -716,35 +730,34 @@ namespace Vision.Modules.Web
             default: // 0
                 return translator.GetTranslatedString ("CatAll");
             }
-
         }
 
         public static string EventDuration (int duration, ITranslator translator)
         {
-            switch(duration) {
-                case 10: return "10 " + translator.GetTranslatedString ("MinutesText");
-                case 15: return "15 " + translator.GetTranslatedString ("MinutesText");
-                case 20: return "20 " + translator.GetTranslatedString ("MinutesText");
-                case 25: return "25 " + translator.GetTranslatedString ("MinutesText");
-                case 30: return "30 " + translator.GetTranslatedString ("MinutesText");
-                case 45: return "45 " + translator.GetTranslatedString ("MinutesText");
-                case 60: return "1 " + translator.GetTranslatedString ("HourText");
-                case 90: return "1.5 " + translator.GetTranslatedString ("HoursText");
-                case 120: return "2 " + translator.GetTranslatedString ("HoursText");
-                case 150: return "2.5 " + translator.GetTranslatedString ("HoursText");
-                case 180: return "3 " + translator.GetTranslatedString ("HoursText");
-                case 240: return "4 " + translator.GetTranslatedString ("HoursText");
-                case 300: return "5 " + translator.GetTranslatedString ("HoursText");
-                case 360: return "6 " + translator.GetTranslatedString ("HoursText");
-                case 420: return "7 " + translator.GetTranslatedString ("HoursText");
-                case 480: return "8 " + translator.GetTranslatedString ("HoursText");
-                case 540: return "9 " + translator.GetTranslatedString ("HoursText");
-                case 600: return "10 " + translator.GetTranslatedString ("HoursText");
-                case 660: return "11 " + translator.GetTranslatedString ("HoursText");
-                case 720: return "12 " + translator.GetTranslatedString ("HoursText");
-                case 1440: return "24 " + translator.GetTranslatedString ("HoursText");
+            switch (duration) {
+            case 10: return "10 " + translator.GetTranslatedString ("MinutesText");
+            case 15: return "15 " + translator.GetTranslatedString ("MinutesText");
+            case 20: return "20 " + translator.GetTranslatedString ("MinutesText");
+            case 25: return "25 " + translator.GetTranslatedString ("MinutesText");
+            case 30: return "30 " + translator.GetTranslatedString ("MinutesText");
+            case 45: return "45 " + translator.GetTranslatedString ("MinutesText");
+            case 60: return "1 " + translator.GetTranslatedString ("HourText");
+            case 90: return "1.5 " + translator.GetTranslatedString ("HoursText");
+            case 120: return "2 " + translator.GetTranslatedString ("HoursText");
+            case 150: return "2.5 " + translator.GetTranslatedString ("HoursText");
+            case 180: return "3 " + translator.GetTranslatedString ("HoursText");
+            case 240: return "4 " + translator.GetTranslatedString ("HoursText");
+            case 300: return "5 " + translator.GetTranslatedString ("HoursText");
+            case 360: return "6 " + translator.GetTranslatedString ("HoursText");
+            case 420: return "7 " + translator.GetTranslatedString ("HoursText");
+            case 480: return "8 " + translator.GetTranslatedString ("HoursText");
+            case 540: return "9 " + translator.GetTranslatedString ("HoursText");
+            case 600: return "10 " + translator.GetTranslatedString ("HoursText");
+            case 660: return "11 " + translator.GetTranslatedString ("HoursText");
+            case 720: return "12 " + translator.GetTranslatedString ("HoursText");
+            case 1440: return "24 " + translator.GetTranslatedString ("HoursText");
             default:
-                return duration.ToString();
+                return duration.ToString ();
             }
         }
 
@@ -752,46 +765,191 @@ namespace Vision.Modules.Web
 
         #region Regions
 
-        public static List<Dictionary<string, object>> RegionTypeArgs (ITranslator translator)
+        public static List<Dictionary<string, object>> RegionTypeArgs (ITranslator translator, string selType)
         {
+            if (selType != "")
+                selType = selType.ToLower ().Substring (0, 1);
+
             var args = new List<Dictionary<string, object>> ();
+
             args.Add (new Dictionary<string, object> {
-                {"Value", translator.GetTranslatedString("Mainland")}, {"Index","0"} });
+                { "Value", translator.GetTranslatedString("Mainland")},
+                { "Index","m"},
+                { "selected", selType == "m" ? "selected" : "" }
+            });
             args.Add (new Dictionary<string, object> {
-                {"Value", translator.GetTranslatedString("Estate")}, {"Index","1"} });
+                { "Value", translator.GetTranslatedString("Estate")},
+                { "Index","e"},
+                { "selected", selType == "e" ? "selected" : "" }
+            });
+
             return args;
         }
 
-        public static List<Dictionary<string, object>> RegionPresetArgs (ITranslator translator)
+        public static List<Dictionary<string, object>> RegionPresetArgs (ITranslator translator, string selPreset)
         {
+            if (selPreset != "")
+                selPreset = selPreset.ToLower ().Substring (0, 1);
+
             var args = new List<Dictionary<string, object>> ();
+
             args.Add (new Dictionary<string, object> {
-                {"Value", translator.GetTranslatedString("FullRegion")}, {"Index","0"} });
+                {"Value", translator.GetTranslatedString("FullRegion")},
+                {"Index","f"},
+                { "selected", selPreset == "f" ? "selected" : "" }
+            });
             args.Add (new Dictionary<string, object> {
-                {"Value", translator.GetTranslatedString("Homestead")}, {"Index","1"} });
+                {"Value", translator.GetTranslatedString("Homestead")},
+                {"Index","h"},
+                { "selected", selPreset == "h" ? "selected" : "" }
+            });
             args.Add (new Dictionary<string, object> {
-                {"Value", translator.GetTranslatedString("Openspace")}, {"Index","2"} });
+                {"Value", translator.GetTranslatedString("Openspace")},
+                {"Index","o"},
+                { "selected", selPreset == "o" ? "selected" : "" }
+            });
             args.Add (new Dictionary<string, object> {
-                {"Value", translator.GetTranslatedString("Vision")}, {"Index","3"} });
+                {"Value", translator.GetTranslatedString("Vision")},
+                {"Index","w"},
+                { "selected", selPreset == "w" ? "selected" : "" }
+            });
             args.Add (new Dictionary<string, object> {
-                {"Value", translator.GetTranslatedString("Custom")}, {"Index","4"} });
+                {"Value", translator.GetTranslatedString("Custom")},
+                {"Index","c"},
+                { "selected", selPreset == "c" ? "selected" : "" }
+            });
+
             return args;
         }
 
-        public static List<Dictionary<string, object>> RegionTerrainArgs (ITranslator translator)
+        public static List<Dictionary<string, object>> RegionTerrainArgs (ITranslator translator, string selTerrain)
+        {
+            if (selTerrain != "")
+                selTerrain = selTerrain.ToLower ().Substring (0, 1);
+
+            var args = new List<Dictionary<string, object>> ();
+
+            args.Add (new Dictionary<string, object> {
+                {"Value", translator.GetTranslatedString("Flatland")},
+                {"Index","f"},
+                { "selected", selTerrain == "f" ? "selected" : "" }
+            });
+            args.Add (new Dictionary<string, object> {
+                {"Value", translator.GetTranslatedString("Grassland")},
+                {"Index","g"},
+                { "selected", selTerrain == "g" ? "selected" : "" }
+            });
+            args.Add (new Dictionary<string, object> {
+                {"Value", translator.GetTranslatedString("Island")},
+                {"Index","i"},
+                { "selected", selTerrain == "i" ? "selected" : "" }
+            });
+            args.Add (new Dictionary<string, object> {
+                {"Value", translator.GetTranslatedString("Aquatic")},
+                {"Index","a"},
+                { "selected", selTerrain == "a" ? "selected" : "" }
+            });
+            args.Add (new Dictionary<string, object> {
+                {"Value", translator.GetTranslatedString("Custom")},
+                {"Index","c"},
+                { "selected", selTerrain == "c" ? "selected" : "" }
+            });
+
+            return args;
+        }
+
+        public static List<Dictionary<string, object>> EstateSelections (IRegistryCore registry, string ownerId, int selEstate)
+        {
+            var estateList = new List<Dictionary<string, object>> ();
+            var estateConnector = Framework.Utilities.DataManager.RequestPlugin<IEstateConnector> ();
+            var accountService = registry.RequestModuleInterface<IUserAccountService> ();
+
+            List<string> estates;
+            if (ownerId != null) {
+                var owner = UUID.Parse (ownerId);
+                estates = estateConnector.GetEstateNames (owner);
+            } else
+                estates = estateConnector.GetEstateNames ();
+
+            foreach (var estate in estates) {
+                var estateID = estateConnector.GetEstateID (estate);
+                EstateSettings ES = estateConnector.GetEstateSettings (estateID);
+
+                if (ES != null) {
+                    UserAccount EstateOwner = accountService.GetUserAccount (null, ES.EstateOwner);
+
+                    var selected = "";
+                    if (selEstate > -1)
+                        if (estateID == selEstate)
+                            selected = "selected";
+
+                    estateList.Add (new Dictionary<string, object> {
+                        {"Value", ES.EstateName + " (" + EstateOwner.Name + ")"},
+                        {"Index", estateID},
+                        {"selected", selected}
+                    });
+                }
+            }
+
+            return estateList;
+        }
+
+        /// <summary>
+        /// Regions startup selection.
+        /// </summary>
+        /// <returns>The startup selection.</returns>
+        /// <param name="translator">Translator.</param>
+        /// <param name="selStartup">Sel startup.</param>
+        public static List<Dictionary<string, object>> RegionStartupSelection (ITranslator translator, StartupType selStartup)
         {
             var args = new List<Dictionary<string, object>> ();
             args.Add (new Dictionary<string, object> {
-                {"Value", translator.GetTranslatedString("Flatland")}, {"Index","0"} });
+                {"Value", translator.GetTranslatedString("NormalText")},
+                {"Index","n"},
+                { "selected", selStartup == StartupType.Normal ? "selected" : "" }
+            });
             args.Add (new Dictionary<string, object> {
-                {"Value", translator.GetTranslatedString("Grassland")}, {"Index","1"} });
-            args.Add (new Dictionary<string, object> {
-                {"Value", translator.GetTranslatedString("Island")}, {"Index","2"} });
-            args.Add (new Dictionary<string, object> {
-                {"Value", translator.GetTranslatedString("Aquatic")}, {"Index","3"} });
-            args.Add (new Dictionary<string, object> {
-                {"Value", translator.GetTranslatedString("Custom")}, {"Index","4"} });
+                {"Value", translator.GetTranslatedString("DelayedText")},
+                {"Index","m"},
+                { "selected", selStartup == StartupType.Medium ? "selected" : "" }
+            });
+
             return args;
+        }
+
+        /// <summary>
+        /// Gets region selections.
+        /// </summary>
+        /// <returns>The selections.</returns>
+        /// <param name="registry">Registry.</param>
+        public static List<Dictionary<string, object>> RegionSelections (IRegistryCore registry)
+        {
+            var webTextureService = registry.RequestModuleInterface<IWebHttpTextureService> ();
+            var simBase = registry.RequestModuleInterface<ISimulationBase> ();
+            var defaultOarDir = Path.Combine (simBase.DefaultDataPath, Constants.DEFAULT_OARARCHIVE_DIR);
+            var regionArchives = new List<Dictionary<string, object>> ();
+
+            if (Directory.Exists (defaultOarDir)) {
+                var archives = new List<string> (Directory.GetFiles (defaultOarDir, "*.oar"));
+                archives.AddRange (new List<string> (Directory.GetFiles (defaultOarDir, "*.tgz")));
+                foreach (string file in archives) {
+                    var localPic = Path.ChangeExtension (file, "jpg");
+                    if (File.Exists (localPic))
+                        regionArchives.Add (new Dictionary<string, object> {
+                        {"RegionArchiveSnapshotURL", webTextureService.GetImageURL(localPic)},
+                        {"RegionArchive", file},
+                        {"RegionArchiveName", Path.GetFileNameWithoutExtension(file)}
+                    });
+                    else
+                        regionArchives.Add (new Dictionary<string, object> {
+                        {"RegionArchiveSnapshotURL", "../images/icons/no_terrain.jpg"},
+                        {"RegionArchive", file},
+                        {"RegionArchiveName", Path.GetFileNameWithoutExtension(file)}
+                    });
+                }
+            }
+
+            return regionArchives;
         }
 
         #endregion
@@ -805,16 +963,11 @@ namespace Vision.Modules.Web
         public static List<Dictionary<string, object>> UserTypeArgs (ITranslator translator)
         {
             var args = new List<Dictionary<string, object>> ();
-            args.Add (new Dictionary<string, object> {
-                {"Value", translator.GetTranslatedString("Guest")}, {"Index","0"} });
-            args.Add (new Dictionary<string, object> {
-                {"Value", translator.GetTranslatedString("Resident")}, {"Index","1"} });
-            args.Add (new Dictionary<string, object> {
-                {"Value", translator.GetTranslatedString("Member")}, {"Index","2"} });
-            args.Add (new Dictionary<string, object> {
-                {"Value", translator.GetTranslatedString("Contractor")}, {"Index","3"} });
-            args.Add (new Dictionary<string, object> {
-                {"Value", translator.GetTranslatedString("Charter_Member")}, {"Index","4"} });
+            args.Add (new Dictionary<string, object> {{"Value", translator.GetTranslatedString("Guest")}, {"Index","0"} });
+            args.Add (new Dictionary<string, object> {{"Value", translator.GetTranslatedString("Resident")}, {"Index","1"} });
+            args.Add (new Dictionary<string, object> {{"Value", translator.GetTranslatedString("Member")}, {"Index","2"} });
+            args.Add (new Dictionary<string, object> {{"Value", translator.GetTranslatedString("Contractor")}, {"Index","3"} });
+            args.Add (new Dictionary<string, object> {{"Value", translator.GetTranslatedString("Charter_Member")}, {"Index","4"} });
             return args;
         }
 
@@ -849,9 +1002,6 @@ namespace Vision.Modules.Web
         /// <param name = "translator"></param>
         public static string UserFlagToType (int userFlags, ITranslator translator)
         {
-            //if (translator == null)
-            //    translator = EnglishTranslator;
-
             switch (userFlags) {
             case Constants.USER_FLAG_GUEST:
                 return translator.GetTranslatedString ("Guest");
@@ -868,6 +1018,128 @@ namespace Vision.Modules.Web
             }
         }
 
+        /// <summary>
+        /// User account selections.
+        /// </summary>
+        /// <returns>The selections.</returns>
+        /// <param name="registry">Registry.</param>
+        /// <param name="userID">User identifier.</param>
+        public static List<Dictionary<string, object>> UserSelections (IRegistryCore registry, UUID userID)
+        {
+            var userList = new List<Dictionary<string, object>> ();
+            var accountService = registry.RequestModuleInterface<IUserAccountService> ();
+            var users = accountService.GetUserAccounts (null, "*");
+
+            foreach (var user in users) {
+                var selected = "";
+
+                if (userID == user.PrincipalID)
+                    selected = "selected";
+
+                userList.Add (new Dictionary<string, object> {
+                    {"Value", user.Name},
+                    {"Index",user.PrincipalID},
+                    {"selected", selected}
+                });
+            }
+
+            return userList;
+        }
+
+        /// <summary>
+        /// Builds available Avatar selections.
+        /// </summary>
+        /// <returns>The selections.</returns>
+        /// <param name="registry">Registry.</param>
+        public static List<Dictionary<string, object>> AvatarSelections (IRegistryCore registry)
+        {
+            var avArchiver = registry.RequestModuleInterface<IAvatarAppearanceArchiver> ();
+            var webTextureService = registry.RequestModuleInterface<IWebHttpTextureService> ();
+            var avatarArchives = new List<Dictionary<string, object>> ();
+            var archives = avArchiver.GetAvatarArchives ();
+
+            foreach (var archive in archives) {
+                var archiveInfo = new Dictionary<string, object> ();
+                archiveInfo.Add ("AvatarArchiveName", archive.FolderName);
+                archiveInfo.Add ("AvatarArchiveSnapshotID", archive.Snapshot);
+                archiveInfo.Add ("AvatarArchiveSnapshotURL", archive.LocalSnapshot != ""
+                                 ? webTextureService.GetAvatarImageURL (archive.LocalSnapshot)
+                                 : webTextureService.GetTextureURL (archive.Snapshot)
+                                );
+
+                avatarArchives.Add (archiveInfo);
+            }
+
+            return avatarArchives;
+        }
+
+        // user regions
+        /*        public static List<Dictionary<string, object>> UserRegionSelections (UserAccount user, string selRegion)
+                {
+                    var regionList = new List<Dictionary<string, object>> ();
+                    var directoryService = Framework.Utilities.DataManager.RequestPlugin<IDirectoryServiceConnector> ();
+
+                    regionList.Add (new Dictionary<string, object> {
+                            {"Value", "---MY REGIONS---"},
+                            {"Index","0"},
+                            {"disabled","disabled"},
+                            {"selected", ""}
+                            });
+
+                    if (user != null) {
+                        var myParcels = directoryService.GetParcelByOwner (user.PrincipalID);
+
+                        if (myParcels.Count == 0) 
+                            return regionList;
+
+                        // build the user region list
+
+                        var regionuuids = new List<UUID> ();
+                        foreach (var parcel in myParcels) {
+                            if (regionuuids.Contains (parcel.LandData.RegionID))
+                                continue;
+
+                            regionuuids.Add (parcel.LandData.RegionID);
+                        }
+
+                        var regionData = Framework.Utilities.DataManager.RequestPlugin<IRegionData> ();
+                        foreach (UUID regionID in regionuuids) {
+                            var region = regionData.Get (regionID, null);
+
+                            // future proofing
+                            if (region.IsForeign || region.IsHgRegion)
+                                continue;
+
+                            // this might change
+                            if (!region.IsOnline)
+                                continue;
+
+                            var regionArea = region.RegionArea < 1000000
+                                       ? region.RegionArea + " m2"
+                                       : (region.RegionArea / 1000000) + " km2";
+
+                            var regionLocX = region.RegionLocX / Constants.RegionSize;
+                            var regionLocY = region.RegionLocY / Constants.RegionSize;
+
+                            var regionName = region.RegionName;
+
+                            var selected = "";
+                            if (selRegion != "")
+                                if (region.RegionID.ToString () == selRegion)
+                                    selected = "selected";
+
+                            regionList.Add (new Dictionary<string, object> {
+                                    {"Value", region.RegionName + " " + regionArea},
+                                    {"Index", region.RegionID},
+                                    {"disabled", region.IsOnline ? "" : "disabled"},        // always enabled as offline regions are ignored for now
+                                    {"selected", selected},
+                                });
+                        }
+                    }
+
+                    return regionList;
+                }
+        */
         #endregion
     }
 }

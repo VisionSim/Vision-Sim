@@ -57,7 +57,6 @@ namespace Vision.Modules.Web
             get { return true; }
         }
 
-
         public Dictionary<string, object> Fill (WebInterface webInterface, string filename, OSHttpRequest httpRequest,
                                                OSHttpResponse httpResponse, Dictionary<string, object> requestParameters,
                                                ITranslator translator, out string response)
@@ -141,6 +140,7 @@ namespace Vision.Modules.Web
                     else
                         response = "No authentication service was available to change the account passwor!";
                 }
+
                 return null;
             }
 
@@ -242,6 +242,7 @@ namespace Vision.Modules.Web
                     response = "User has been kicked.";
                 } else
                     response = "Unable to determine user to  kick!";
+
                 return null;
             }
 
@@ -268,10 +269,12 @@ namespace Vision.Modules.Web
             if (agent != null)
                 userBanned =  ((agent.Flags & IAgentFlags.PermBan) == IAgentFlags.PermBan ||
                                (agent.Flags & IAgentFlags.TempBan) == IAgentFlags.TempBan);
+
             bool TempUserBanned = false;
+
             if (userBanned) {
                 if ((agent.Flags & IAgentFlags.TempBan) == IAgentFlags.TempBan &&
-                    agent.OtherAgentInformation ["Temperory BanInfo"].AsDate () < DateTime.Now.ToUniversalTime ()) {
+                    agent.OtherAgentInformation ["Temporary BanInfo"].AsDate () < DateTime.Now.ToUniversalTime ()) {
                     userBanned = false;
                     agent.Flags &= ~IAgentFlags.TempBan;
                     agent.Flags &= ~IAgentFlags.PermBan;
@@ -286,6 +289,7 @@ namespace Vision.Modules.Web
 
             bool userOnline = false;
             IAgentInfoService agentInfoService = webInterface.Registry.RequestModuleInterface<IAgentInfoService> ();
+
             if (agentInfoService != null) {
                 UserInfo Info = null;
                 if (account != null)

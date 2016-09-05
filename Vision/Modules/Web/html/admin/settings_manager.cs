@@ -69,12 +69,15 @@ namespace Vision.Modules.Web
                 settings.MapCenter.X = int.Parse(requestParameters["GridCenterX"].ToString());
                 settings.MapCenter.Y = int.Parse(requestParameters["GridCenterY"].ToString());
                 settings.LocalFrontPage = requestParameters["LocalFrontPage"].ToString();
+
                 if (settings.LocalFrontPage != "")
                     settings.LocalFrontPage = "local/" + settings.LocalFrontPage;
+
                 settings.LocalCSS = requestParameters["LocalCSS"].ToString();
-                 settings.HideSlideshowBar = requestParameters["HideSlideshowBar"].ToString() == "1";
+                settings.HideSlideshowBar = requestParameters["HideSlideshowBar"].ToString() == "1";
                 settings.HideLanguageTranslatorBar = requestParameters["HideLanguageBar"].ToString() == "1";
                 settings.HideStyleBar = requestParameters["HideStyleBar"].ToString() == "1";
+
                 if (settings.LocalCSS != "")
                 {
                     settings.LocalCSS = "local/" + settings.LocalCSS;
@@ -102,6 +105,7 @@ namespace Vision.Modules.Web
             vars.Add("WebRegistrationYes", settings.WebRegistration ? "selected=\"selected\"" : "");
             vars.Add("GridCenterX", settings.MapCenter.X);
             vars.Add("GridCenterY", settings.MapCenter.Y);
+
             if (settings.LocalFrontPage.StartsWith("local/"))
                 vars.Add("LocalFrontPage", settings.LocalFrontPage.Remove(0,6));                // remove 'local/' prefix
             else
@@ -122,6 +126,7 @@ namespace Vision.Modules.Web
                      PagesMigrator.CheckWhetherIgnoredVersionUpdate(settings.LastPagesVersionUpdateIgnored)
                          ? ""
                          : "checked");
+
             vars.Add("IgnoreSettingsUpdates",
                      settings.LastSettingsVersionUpdateIgnored != SettingsMigrator.CurrentVersion ? "" : "checked");
 

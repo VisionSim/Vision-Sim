@@ -63,8 +63,10 @@ namespace Vision.Modules.Web
             if (_server != null) {
                 _server.AddStreamHandler (new GenericStreamHandler ("GET", "/index.php?method=GridTexture", OnHTTPGetTextureImage));
                 _server.AddStreamHandler (new GenericStreamHandler ("GET", "/index.php?method=AvatarTexture", OnHTTPGetAvatarImage));
+                _server.AddStreamHandler (new GenericStreamHandler ("GET", "/WebImage", OnHTTPGetImage));
                 _registry.RegisterModuleInterface<IWebHttpTextureService> (this);
             }
+
             IGridInfo gridInfo = _registry.RequestModuleInterface<IGridInfo> ();
             _gridNick = gridInfo != null
                             ? gridInfo.GridName
@@ -86,8 +88,12 @@ namespace Vision.Modules.Web
             return _server.ServerURI + "/index.php?method=AvatarTexture&imageurl=" + imageURL;
         }
 
-        public byte [] OnHTTPGetTextureImage (string path, Stream request, OSHttpRequest httpRequest,
-                                            OSHttpResponse httpResponse)
+        public string GetImageURL (string imageURL)
+        {
+            return _server.ServerURI + "/WebImage?imageurl=" + imageURL;
+        }
+
+        public byte [] OnHTTPGetTextureImage (string path, Stream request, OSHttpRequest httpRequest, OSHttpResponse httpResponse)
         {
             byte [] jpeg = new byte [0];
             httpResponse.ContentType = "image/jpeg";
@@ -124,6 +130,7 @@ namespace Vision.Modules.Web
                         } catch {
                         }
                     }
+
                     myEncoderParameters.Dispose ();
                     if (image != null)
                         image.Dispose ();
@@ -143,9 +150,7 @@ namespace Vision.Modules.Web
             return new byte [0];
         }
 
-
-      public byte [] OnHTTPGetAvatarImage (string path, Stream request, OSHttpRequest httpRequest,
-                                            OSHttpResponse httpResponse)
+      public byte [] OnHTTPGetAvatarImage (string path, Stream request, OSHttpRequest httpRequest, OSHttpResponse httpResponse)
         {
             httpResponse.ContentType = "image/jpeg";
 
@@ -156,6 +161,7 @@ namespace Vision.Modules.Web
                 if (File.Exists (uri)) {
                     return File.ReadAllBytes (uri);
                 }
+
                 return File.ReadAllBytes (nourl);
             } catch {
             }
@@ -163,6 +169,24 @@ namespace Vision.Modules.Web
             return new byte [0];
         }
 
+        public byte [] OnHTTPGetImage (string path, Stream request, OSHttpRequest httpRequest, OSHttpResponse httpResponse)
+        {
+            httpResponse.ContentType = "image/jpeg";
+
+            string uri = httpRequest.QueryString ["imageurl"];
+            string nourl = "html/images/noimage.jpg";
+
+            try {
+                if (File.Exists (uri)) {
+                    return File.ReadAllBytes (uri);
+                }
+
+                return File.ReadAllBytes (nourl);
+            } catch {
+            }
+
+            return new byte [0];
+        }
 
         Bitmap ResizeBitmap (Image b, int nWidth, int nHeight)
         {
@@ -191,6 +215,7 @@ namespace Vision.Modules.Web
                 if (encoders [j].MimeType == mimeType)
                     return encoders [j];
             }
+
             return null;
         }
     }

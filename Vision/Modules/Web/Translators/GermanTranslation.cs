@@ -1,4 +1,4 @@
-Ôªø/*
+/*
  * Copyright (c) Contributors, http://vision-sim.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  * For an explanation of the license of each contributor and the content it 
@@ -33,15 +33,14 @@ namespace Vision.Modules.Web.Translators
 {
     public class GermanTranslation : ITranslator
     {
-        public string LanguageName
-        {
+        public string LanguageName {
             get { return "de"; }
         }
 
-        public string GetTranslatedString(string key)
+        public string GetTranslatedString (string key)
         {
-            if (dictionary.ContainsKey(key))
-                return dictionary[key];
+            if (dictionary.ContainsKey (key))
+                return dictionary [key];
             return ":" + key + ":";
         }
 
@@ -52,6 +51,7 @@ namespace Vision.Modules.Web.Translators
             {"Submit", "Einreichen"},
             {"Accept", "Akzeptieren"},
             {"Save", "Speichern"},
+            { "Cancel", "Stornieren"},
             {"FirstText", "Erste"},
             {"BackText", "Zur√ºck"},
             {"NextText", "Vor"},
@@ -78,6 +78,7 @@ namespace Vision.Modules.Web.Translators
             { "MinutesText", "minuten"},
             { "HourText", "stunde"},
             { "HoursText", "stunden"},
+            { "EditText", "Bearbeiten"},
             { "EdittingText", "Bearbeiten"},
 
             // Status information
@@ -174,6 +175,7 @@ namespace Vision.Modules.Web.Translators
             {"RegionSizeText", "Region Gr√∂√üe"},
             {"RegionNameText", "Region Name"},
             {"RegionTypeText", "Region Art"},
+            { "RegionPresetTypeText", "Region Type"},
             { "RegionDelayStartupText", "Delay starting scripts"},
             { "RegionPresetText", "Region Preset"},
             {"RegionTerrainText", "Region Terrain"},
@@ -198,20 +200,33 @@ namespace Vision.Modules.Web.Translators
             {"NumberOfUsersInRegionText", "Anzahl der Benutzer in Region"},
 
             // Region manager
-            { "Mainland", "Mainland"},
-            { "Estate", "Estate"},
-            { "FullRegion", "Full Region"},
-            { "Homestead", "Homestead"},
-            { "Openspace", "Openspace"},
-            { "Flatland", "Flatland"},
-            { "Grassland", "Grassland"},
-            { "Island", "Island"},
-            { "Aquatic", "Aquatic"},
-            { "Custom", "Custom"},
+            { "AddRegionText", "In Region"},
+            { "Mainland", "Festland"},
+            { "Estate", "Gut"},
+            { "FullRegion", "Voll Region"},
+            { "Homestead", "Heimst‰tte"},
+            { "Openspace", "Freifl‰che"},
+            { "Flatland", "Flachland"},
+            { "Grassland", "Wiese"},
+            { "Island", "Insel"},
+            { "Aquatic", "Wasser"},
+            { "Custom", "Brauch"},
             { "RegionPortText", "Region Port"},
             { "RegionVisibilityText", "Sichtbar zu Nachbarn"},
             { "RegionInfiniteText", "Unendliche Region"},
             { "RegionCapacityText", "Region Prims"},
+            { "NormalText", "Normal"},
+            { "DelayedText", "Versp‰tet"},
+
+            // Estate management
+            {"AddEstateText", "In Immobilien"},
+            {"EstateText", "Gut"},
+            {"EstatesText", "L‰ndereien"},
+            {"PricePerMeterText", "Preis pro Quadratmeter"},
+            {"PublicAccessText", "÷ffentlicher Zugang"},
+            {"AllowVoiceText", "Lassen Stimme"},
+            {"TaxFreeText", "Steuerfrei"},
+            {"AllowDirectTeleportText", "Lassen Sie direkte teleporting"},
 
             // Menus
             {"MenuHome", "Startseite"},
@@ -242,6 +257,7 @@ namespace Vision.Modules.Web.Translators
             {"MenuManager", "Management"},
             {"MenuSettings", "Einstellungen"},
             {"MenuRegionManager", "Region-Manager"},
+            { "MenuEstateManager", "Estate Manager"},
             {"MenuManagerSimConsole", "Simulator-Konsole"},
             {"MenuPurchases", "Benutzer Eink√§ufe"},
             {"MenuMyPurchases", "Meine K√§ufe"},
@@ -280,6 +296,7 @@ namespace Vision.Modules.Web.Translators
             {"TooltipsMenuManager", "Admin Management"},
             {"TooltipsMenuSettings", "WebUI Einstellungen"},
             {"TooltipsMenuRegionManager", "Region erstellen / bearbeiten"},
+            { "TooltipsMenuEstateManager", "Estate management"},
             {"TooltipsMenuManagerSimConsole", "Online-Simulator-Konsole"},
             {"TooltipsMenuPurchases", "Kaufinformationen"},
             {"TooltipsMenuTransactions", "Transaktionsinformationen"},
@@ -503,6 +520,7 @@ namespace Vision.Modules.Web.Translators
             {"Reset", "Reset"},
             {"Settings", "Einstellungen"},
             {"Pages", "Seiten"},
+            { "UpdateRequired", "update erforderlich"},
             {"DefaultsUpdated",
                     "Standardwerte aktualisiert, gehe zu den Werkseinstellungen um sie zu aktualisieren oder Einstellungsmanager um diese Warnung zu deaktivieren."},
 

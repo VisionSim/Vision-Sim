@@ -84,8 +84,10 @@ namespace Vision.Modules.Web
                 if (requestParameters.ContainsKey ("Submit")) {
                     if (requestParameters.ContainsKey ("date_start"))
                         DateStart = requestParameters ["date_start"].ToString ();
+
                     if (requestParameters.ContainsKey ("date_end"))
                         DateEnd = requestParameters ["date_end"].ToString ();
+
                     if (requestParameters.ContainsKey ("user_name"))
                         UserName = requestParameters ["user_name"].ToString ();
 

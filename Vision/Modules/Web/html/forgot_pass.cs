@@ -38,7 +38,8 @@ namespace Vision.Modules.Web
 {
     public class ForgotPassMain : IWebInterfacePage
     {
-        public string [] FilePath {
+        public string [] FilePath
+        {
             get {
                 return new []
                            {
@@ -47,11 +48,13 @@ namespace Vision.Modules.Web
             }
         }
 
-        public bool RequiresAuthentication {
+        public bool RequiresAuthentication
+        {
             get { return false; }
         }
 
-        public bool RequiresAdminAuthentication {
+        public bool RequiresAdminAuthentication
+        {
             get { return false; }
         }
 
@@ -67,9 +70,7 @@ namespace Vision.Modules.Web
                 string username = requestParameters ["username"].ToString ();
                 string UserEmail = requestParameters ["UserEmail"].ToString ();
 
-                UserAccount account =
-                    webInterface.Registry.RequestModuleInterface<IUserAccountService> ()
-                        .GetUserAccount (null, username);
+                UserAccount account = webInterface.Registry.RequestModuleInterface<IUserAccountService> ().GetUserAccount (null, username);
 
                 if (account == null) {
                     response = "<h3>Please enter a valid username</h3>";
@@ -106,7 +107,8 @@ namespace Vision.Modules.Web
                     if (authService != null)
                         success = authService.SetPassword (account.PrincipalID, "UserAccount", newPassword);
 
-                    if (success) {
+                    if (success)
+                    {
                         Email.SendEmail (
                             UUID.Zero,
                             emailAddress,

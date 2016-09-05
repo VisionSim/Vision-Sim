@@ -39,6 +39,7 @@ using Vision.Framework.Services;
 using Vision.Framework.Utilities;
 using RegionFlags = Vision.Framework.Services.RegionFlags;
 
+
 namespace Vision.Modules.Web
 {
     public class RegionInfoPage : IWebInterfacePage
@@ -74,8 +75,10 @@ namespace Vision.Modules.Web
 
                 IEstateConnector estateConnector = Framework.Utilities.DataManager.RequestPlugin<IEstateConnector> ();
                 EstateSettings estate = null;
+
                 if (estateConnector != null)
                     estate = estateConnector.GetEstateSettings (region.RegionID);
+
                 if (estate != null) {
                     vars.Add ("OwnerUUID", estate.EstateOwner);
                     var estateOwnerAccount = webInterface.Registry.RequestModuleInterface<IUserAccountService> ().
@@ -125,12 +128,38 @@ namespace Vision.Modules.Web
                     vars.Add ("NumberOfUsersInRegion", 0);
                     vars.Add ("UsersInRegion", new List<Dictionary<string, object>> ());
                 }
+
                 IDirectoryServiceConnector directoryConnector =
                     Framework.Utilities.DataManager.RequestPlugin<IDirectoryServiceConnector> ();
                 if (directoryConnector != null) {
                     List<LandData> parcelData = directoryConnector.GetParcelsByRegion (0, 10, region.RegionID, UUID.Zero,
                         ParcelFlags.None, ParcelCategory.Any);
-                    
+                    /*List<Dictionary<string, object>> parcels = new List<Dictionary<string, object>>();
+                    foreach (var p in parcelData)
+                     {
+                        Dictionary<string, object> parcel = new Dictionary<string, object>();
+                        parcel.Add("ParcelNameText", translator.GetTranslatedString("ParcelNameText"));
+                        parcel.Add("ParcelOwnerText", translator.GetTranslatedString("ParcelOwnerText"));
+                        parcel.Add("ParcelUUID", p.GlobalID);
+                        parcel.Add("ParcelName", p.Name);
+                        parcel.Add("ParcelOwnerUUID", p.OwnerID);
+                        IUserAccountService accountService =
+                            webInterface.Registry.RequestModuleInterface<IUserAccountService>();
+
+                        if (accountService != null)
+                        {
+                            var account = accountService.GetUserAccount(null, p.OwnerID);
+                            if (account == null)
+                                parcel.Add("ParcelOwnerName", translator.GetTranslatedString("NoAccountFound"));
+                            else
+                                parcel.Add("ParcelOwnerName", account.Name);
+                        }
+
+                        parcels.Add(parcel);
+                    }
+
+                    vars.Add("ParcelInRegion", parcels);
+*/
                     if (parcelData != null)
                         vars.Add ("NumberOfParcelsInRegion", parcelData.Count);
                     else

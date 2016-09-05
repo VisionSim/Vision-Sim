@@ -78,8 +78,7 @@ namespace Vision.Modules.Web
 
                 UUID userid = region.EstateOwner;
 
-                account = webInterface.Registry.RequestModuleInterface<IUserAccountService>().
-                    GetUserAccount(null, userid);
+                account = webInterface.Registry.RequestModuleInterface<IUserAccountService>().GetUserAccount(null, userid);
             }
 
             if (account == null)
@@ -90,8 +89,7 @@ namespace Vision.Modules.Web
             //  Do we want this to be localised into the users Localisation or keep it as standard ?
             vars.Add("UserBorn", Util.ToDateTime(account.Created).ToShortDateString());  
 
-            IUserProfileInfo profile = Framework.Utilities.DataManager.RequestPlugin<IProfileConnector>().
-                                              GetUserProfile(account.PrincipalID);
+            IUserProfileInfo profile = Framework.Utilities.DataManager.RequestPlugin<IProfileConnector>().GetUserProfile(account.PrincipalID);
             if (profile != null)
             {
                 vars.Add ("UserType", profile.MembershipGroup == "" ? "Resident" : profile.MembershipGroup);
@@ -99,18 +97,20 @@ namespace Vision.Modules.Web
                 {
                     if (profile.Partner != UUID.Zero)
                     {
-                        account = webInterface.Registry.RequestModuleInterface<IUserAccountService> ().
-                                           GetUserAccount (null, profile.Partner);
+                        account = webInterface.Registry.RequestModuleInterface<IUserAccountService> ().GetUserAccount (null, profile.Partner);
                         vars.Add ("UserPartner", account.Name);
                     } else
                         vars.Add ("UserPartner", "No partner");
+
                     vars.Add ("UserAboutMe", profile.AboutText == "" ? "Nothing here" : profile.AboutText);
 
                     string url = "../images/icons/no_avatar.jpg";
                     IWebHttpTextureService webhttpService =
                         webInterface.Registry.RequestModuleInterface<IWebHttpTextureService> ();
+
                     if (webhttpService != null && profile.Image != UUID.Zero)
                         url = webhttpService.GetTextureURL (profile.Image);
+
                     vars.Add ("UserPictureURL", url);
                 }
             } else
@@ -129,12 +129,13 @@ namespace Vision.Modules.Web
                 UUID friendID = UUID.Zero;
                 if (friends.Any(f => UUID.TryParse(f.Friend, out friendID) && friendID == ourAccount.PrincipalID))
                 {
-                    IAgentInfoService agentInfoService =
-                        webInterface.Registry.RequestModuleInterface<IAgentInfoService>();
+                    IAgentInfoService agentInfoService = webInterface.Registry.RequestModuleInterface<IAgentInfoService>();
                     IGridService gridService = webInterface.Registry.RequestModuleInterface<IGridService>();
                     UserInfo ourInfo = agentInfoService.GetUserInfo(account.PrincipalID.ToString());
+
                     if (ourInfo != null && ourInfo.IsOnline)
                         vars.Add("OnlineLocation", gridService.GetRegionByUUID(null, ourInfo.CurrentRegionID).RegionName);
+
                     vars.Add("UserIsOnline", ourInfo != null && ourInfo.IsOnline);
                     vars.Add("IsOnline",
                              ourInfo != null && ourInfo.IsOnline

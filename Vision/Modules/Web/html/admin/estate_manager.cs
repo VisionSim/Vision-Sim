@@ -28,19 +28,20 @@
  */
 
 using System.Collections.Generic;
+using Vision.Framework.DatabaseInterfaces;
+using Vision.Framework.SceneInfo;
 using Vision.Framework.Servers.HttpServer.Implementation;
 using Vision.Framework.Services;
-using Vision.Framework.Utilities;
 
 namespace Vision.Modules.Web
 {
-    public class RegionManagerPage : IWebInterfacePage
+    public class EstateManagerPage : IWebInterfacePage
     {
         public string [] FilePath {
             get {
                 return new []
                            {
-                               "html/admin/region_manager.html"
+                               "html/admin/estate_manager.html"
                            };
             }
         }
@@ -59,47 +60,50 @@ namespace Vision.Modules.Web
         {
             response = null;
             var vars = new Dictionary<string, object> ();
+            var estateListVars = new List<Dictionary<string, object>> ();
+            var estateConnector = Framework.Utilities.DataManager.RequestPlugin<IEstateConnector> ();
+            var accountService = webInterface.Registry.RequestModuleInterface<IUserAccountService> ();
 
-            var RegionListVars = new List<Dictionary<string, object>> ();
-            var sortBy = new Dictionary<string, bool> ();
-            if (httpRequest.Query.ContainsKey ("region"))
-                sortBy.Add (httpRequest.Query ["region"].ToString (), true);
-            else if (httpRequest.Query.ContainsKey ("Order"))
-                sortBy.Add (httpRequest.Query ["Order"].ToString (), true);
+            var estates = estateConnector.GetEstateNames ();
 
-            var regionData = Framework.Utilities.DataManager.RequestPlugin<IRegionData> ();
-            var regions = regionData.Get ((RegionFlags)0,
-                                          RegionFlags.Hyperlink | RegionFlags.Foreign | RegionFlags.Hidden,
-                                          null, null, sortBy);
-            foreach (var region in regions) {
-                string info;
-                info = (region.RegionArea < 1000000) ? region.RegionArea + " m2" : (region.RegionArea / 1000000) + " km2";
-                info = info + ", " + region.RegionTerrain;
+            if (estates.Count > 0) {
 
-                RegionListVars.Add (new Dictionary<string, object> {
-                    { "RegionLocX", region.RegionLocX / Constants.RegionSize },
-                    { "RegionLocY", region.RegionLocY / Constants.RegionSize },
-                    { "RegionName", region.RegionName },
-                    { "RegionInfo", info},
-                    { "RegionStatus", WebHelpers.YesNo(translator, region.IsOnline)},
-                    { "RegionID", region.RegionID },
-                    { "RegionURI", region.RegionURI }
-                });
+                foreach (var estate in estates) {
+                    var estateID = estateConnector.GetEstateID (estate);
+                    EstateSettings ES = estateConnector.GetEstateSettings (estateID);
+
+                    if (ES != null) {
+                        var estateOwner = accountService.GetUserAccount (null, ES.EstateOwner);
+                        var regions = estateConnector.GetRegions ((int)ES.EstateID);
+
+                        estateListVars.Add (new Dictionary<string, object> {
+                            {"EstateID", ES.EstateID.ToString()},
+                            {"EstateName", ES.EstateName},
+                            {"EstateOwner", estateOwner.Name},
+                            {"PublicAccess", WebHelpers.YesNo(translator, ES.PublicAccess)},
+                            {"AllowVoice", WebHelpers.YesNo(translator, ES.AllowVoice)},
+                            {"TaxFree", WebHelpers.YesNo(translator, ES.TaxFree)},
+                            {"AllowDirectTeleport", WebHelpers.YesNo (translator, ES.AllowDirectTeleport)},
+                            {"RegionCount", regions.Count.ToString()}
+                        });
+                    }
+                }
             }
 
-            vars.Add ("RegionList", RegionListVars);
+            vars.Add ("EstateList", estateListVars);
 
             // labels
-            vars.Add ("RegionManagerText", translator.GetTranslatedString ("MenuRegionManager"));
-            vars.Add ("AddRegionText", translator.GetTranslatedString ("AddRegionText"));
-            vars.Add ("EditRegionText", translator.GetTranslatedString ("EditText"));
-            vars.Add ("RegionListText", translator.GetTranslatedString ("RegionListText"));
-            vars.Add ("RegionText", translator.GetTranslatedString ("Region"));
-            vars.Add ("RegionNameText", translator.GetTranslatedString ("RegionNameText"));
-            vars.Add ("RegionLocXText", translator.GetTranslatedString ("RegionLocXText"));
-            vars.Add ("RegionLocYText", translator.GetTranslatedString ("RegionLocYText"));
-            vars.Add ("RegionOnlineText", translator.GetTranslatedString ("Online"));
-            vars.Add ("MainServerURL", webInterface.GridURL);
+            vars.Add ("EstateManagerText", translator.GetTranslatedString ("MenuEstateManager"));
+            vars.Add ("AddEstateText", translator.GetTranslatedString ("AddEstateText"));
+            vars.Add ("EditEstateText", translator.GetTranslatedString ("EditText"));
+            vars.Add ("EstateListText", translator.GetTranslatedString ("EstatesText"));
+            vars.Add ("EstateText", translator.GetTranslatedString ("EstateText"));
+            vars.Add ("EstateOwnerText", translator.GetTranslatedString ("MenuOwnerTitle"));
+            vars.Add ("PublicAccessText", translator.GetTranslatedString ("PublicAccessText"));
+            vars.Add ("AllowVoiceText", translator.GetTranslatedString ("AllowVoiceText"));
+            vars.Add ("TaxFreeText", translator.GetTranslatedString ("TaxFreeText"));
+            vars.Add ("AllowDirectTeleportText", translator.GetTranslatedString ("AllowDirectTeleportText"));
+            vars.Add ("RegionsText", translator.GetTranslatedString ("MenuRegionsTitle"));
 
             return vars;
         }

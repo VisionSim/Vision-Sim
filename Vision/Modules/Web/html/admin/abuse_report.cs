@@ -135,27 +135,22 @@ namespace Vision.Modules.Web
             vars.Add ("AbuserName", rpt.AbuserName);
             vars.Add ("IsActive", rpt.Active);
             vars.Add ("IsNotActive", !rpt.Active);
-
             vars.Add ("AssignedTo", rpt.AssignedTo);
             vars.Add ("Category", rpt.Category);
-
             vars.Add ("IsChecked", rpt.Checked);
             vars.Add ("IsNotChecked", !rpt.Checked);
-
             vars.Add ("Notes", rpt.Notes);
             vars.Add ("ObjectName", rpt.ObjectName);
             vars.Add ("ObjectPosition", rpt.ObjectPosition);
             vars.Add ("ObjectUUID", rpt.ObjectUUID);
             vars.Add ("RegionName", rpt.RegionName);
             vars.Add ("ReporterName", rpt.ReporterName);
-            vars.Add ("ScreenshotURL", snapshotURL);
-            
+            vars.Add ("ScreenshotURL", snapshotURL);          
             vars.Add ("NoDetailsText", noDetails);
             vars.Add ("InfoMessage", infoMessage);
 
             // labels
             vars.Add ("AbuseReportText", translator.GetTranslatedString ("AbuseReportText"));
-
             vars.Add ("DateText", translator.GetTranslatedString ("DateText"));
             vars.Add ("CategoryText", translator.GetTranslatedString ("CategoryText"));
             vars.Add ("SummaryText", translator.GetTranslatedString ("SummaryText"));
