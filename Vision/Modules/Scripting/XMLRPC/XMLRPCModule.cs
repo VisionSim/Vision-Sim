@@ -82,7 +82,7 @@ namespace Vision.Modules.Scripting
     {
         IRegistryCore m_registry;
         protected IHttpServer m_server;
-        
+
         readonly object XMLRPCListLock = new object();
         int RemoteReplyScriptTimeout = 9000;
         int RemoteReplyScriptWait = 300;
@@ -103,29 +103,30 @@ namespace Vision.Modules.Scripting
         public void Initialize(IConfigSource config, IRegistryCore registry)
         {
             m_registry = registry;
-            if (config.Configs ["XMLRPC"] != null)
-                m_remoteDataPort = config.Configs ["XMLRPC"].GetInt ("XmlRpcPort", m_remoteDataPort);
+            if (config.Configs["XMLRPC"] != null)
+                m_remoteDataPort = config.Configs["XMLRPC"].GetInt("XmlRpcPort", m_remoteDataPort);
         }
 
         public void Start(IConfigSource config, IRegistryCore registry)
         {
         }
 
-        public void FinishedStartup ()
+        public void FinishedStartup()
         {
-            var simBase = m_registry.RequestModuleInterface<ISimulationBase> ();
+            var simBase = m_registry.RequestModuleInterface<ISimulationBase>();
             if (!simBase.IsGridServer)
                 return;
 
             //start XMLRPC Server
-            if (IsEnabled () && !ServerStarted ()) {
+            if (IsEnabled() && !ServerStarted())
+            {
                 m_httpServerStarted = true;
                 // Start http server
                 // Attach xmlrpc handlers
-                MainConsole.Instance.Info ("[XmlRpc Server]: " + "Starting up XMLRPC Server on port " + m_remoteDataPort + " for llRemoteData commands.");
+                MainConsole.Instance.Info("[XmlRpc Service]: " + "Starting up XMLRPC Server on port " + m_remoteDataPort + " for llRemoteData commands.");
 
-                m_server = simBase.GetHttpServer ((uint)m_remoteDataPort);
-                m_server.AddXmlRPCHandler ("llRemoteData", XmlRpcRemoteData);
+                m_server = simBase.GetHttpServer((uint)m_remoteDataPort);
+                m_server.AddXmlRPCHandler("llRemoteData", XmlRpcRemoteData);
             }
         }
 
@@ -147,7 +148,7 @@ namespace Vision.Modules.Scripting
             }
         }
 
-        public void AddRegion (IScene scene)
+        public void AddRegion(IScene scene)
         {
             scene.RegisterModuleInterface<IXMLRPC>(this);
         }
@@ -220,7 +221,7 @@ namespace Vision.Modules.Scripting
             // This should no longer happen, but the check is reasonable anyway
             if (null == m_openChannels)
             {
-                MainConsole.Instance.Warn("[XmlRpc]: Attempt to open channel before initialization is complete");
+                MainConsole.Instance.Warn("[XmlRpc Service]: Attempt to open channel before initialization is complete");
                 return newChannel;
             }
 
@@ -257,7 +258,7 @@ namespace Vision.Modules.Scripting
                 lock (XMLRPCListLock)
                 {
                     int cnt = m_openChannels.Values.Count(li => li.GetItemID().Equals(itemID));
-                    for(int i = 0; i < cnt; i++)
+                    for (int i = 0; i < cnt; i++)
                         m_openChannels.Remove(itemID);
                 }
             }
@@ -305,7 +306,7 @@ namespace Vision.Modules.Scripting
             }
             else
             {
-                MainConsole.Instance.Warn("[XMLRPC]: Channel or message_id not found");
+                MainConsole.Instance.Warn("[XmlRpc Service]: Channel or message_id not found");
             }
         }
 
@@ -369,7 +370,7 @@ namespace Vision.Modules.Scripting
                 }
                 else
                 {
-                    MainConsole.Instance.Error("[XmlRpc Server]: Unable to complete request");
+                    MainConsole.Instance.Error("[XmlRpc Service]: Unable to complete request");
                 }
             }
         }
@@ -440,18 +441,18 @@ namespace Vision.Modules.Scripting
         {
             XmlRpcResponse response = new XmlRpcResponse();
 
-            Hashtable requestData = (Hashtable) request.Params[0];
+            Hashtable requestData = (Hashtable)request.Params[0];
             bool GoodXML = (requestData.Contains("Channel") && requestData.Contains("IntValue") &&
                             requestData.Contains("StringValue"));
 
             if (GoodXML)
             {
-                UUID channel = new UUID((string) requestData["Channel"]);
+                UUID channel = new UUID((string)requestData["Channel"]);
                 RPCChannelInfo rpcChanInfo;
                 if (m_openChannels.TryGetValue(channel, out rpcChanInfo))
                 {
                     string intVal = Convert.ToInt32(requestData["IntValue"]).ToString();
-                    string strVal = (string) requestData["StringValue"];
+                    string strVal = (string)requestData["StringValue"];
 
                     RPCRequestInfo rpcInfo;
 
@@ -475,7 +476,7 @@ namespace Vision.Modules.Scripting
                         param["StringValue"] = rpcInfo.GetStrRetval();
                         param["IntValue"] = rpcInfo.GetIntRetval();
 
-                        ArrayList parameters = new ArrayList {param};
+                        ArrayList parameters = new ArrayList { param };
 
                         response.Value = parameters;
                         rpcInfo = null;
@@ -660,7 +661,7 @@ namespace Vision.Modules.Scripting
         public void Process()
         {
             httpThread = new Thread(SendRequest)
-                             {Name = "HttpRequestThread", Priority = ThreadPriority.BelowNormal, IsBackground = true};
+            { Name = "HttpRequestThread", Priority = ThreadPriority.BelowNormal, IsBackground = true };
             _finished = false;
             httpThread.Start();
         }
@@ -688,7 +689,7 @@ namespace Vision.Modules.Scripting
             param["StringValue"] = Sdata;
             param["IntValue"] = Convert.ToString(Idata);
 
-            ArrayList parameters = new ArrayList {param};
+            ArrayList parameters = new ArrayList { param };
             XmlRpcRequest req = new XmlRpcRequest(mName, parameters);
             try
             {
@@ -696,21 +697,21 @@ namespace Vision.Modules.Scripting
                 if (resp != null)
                 {
                     Hashtable respParms;
-                    if (resp.Value.GetType().Equals(typeof (Hashtable)))
+                    if (resp.Value.GetType().Equals(typeof(Hashtable)))
                     {
-                        respParms = (Hashtable) resp.Value;
+                        respParms = (Hashtable)resp.Value;
                     }
                     else
                     {
-                        ArrayList respData = (ArrayList) resp.Value;
-                        respParms = (Hashtable) respData[0];
+                        ArrayList respData = (ArrayList)resp.Value;
+                        respParms = (Hashtable)respData[0];
                     }
 
                     if (respParms != null)
                     {
                         if (respParms.Contains("StringValue"))
                         {
-                            Sdata = (string) respParms["StringValue"];
+                            Sdata = (string)respParms["StringValue"];
                         }
 
                         if (respParms.Contains("IntValue"))
@@ -720,7 +721,7 @@ namespace Vision.Modules.Scripting
 
                         if (respParms.Contains("faultString"))
                         {
-                            Sdata = (string) respParms["faultString"];
+                            Sdata = (string)respParms["faultString"];
                         }
 
                         if (respParms.Contains("faultCode"))
@@ -733,7 +734,7 @@ namespace Vision.Modules.Scripting
             catch (Exception we)
             {
                 Sdata = we.Message;
-                MainConsole.Instance.Warn("[SendRemoteDataRequest]: Request failed");
+                MainConsole.Instance.Warn("[Send Remote Data Request]: Request failed");
                 MainConsole.Instance.Warn(we.StackTrace);
             }
 
