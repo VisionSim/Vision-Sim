@@ -3762,5 +3762,16 @@ namespace Vision.ScriptEngine.VisionScript.APIs
                 World.EventManager.TriggerObjectDeGrab(child.ParentEntity.RootChild, child, sp.ControllingClient, touchArgs);                             
             }
         }
+
+         // This may still not very usefull, detector is lost on rez, restarts, etc
+         public void osVolumeDetect(int detect)
+         {
+             m_host.AddScriptLPS(1);
+
+             if (m_host.ParentGroup == null || m_host.ParentGroup.IsDeleted || m_host.ParentGroup.IsAttachment)
+                 return;
+
+             m_host.ScriptSetVolumeDetect(detect != 0);
+         }
     }
 }
