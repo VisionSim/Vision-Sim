@@ -72,7 +72,8 @@ namespace Vision.Modules
         protected int m_removeArchiveDays = 30;
         protected bool m_saveChanges = true;
         protected IScene m_scene;
-        protected int m_timeBetweenBackupSaves = 1440; //One day
+        protected int m_timeBetweenBackupSaves = 1440;
+        //One day
         protected int m_timeBetweenSaves = 5;
         protected bool m_shutdown = false;
         protected IRegionDataLoader _regionLoader;
@@ -366,7 +367,7 @@ namespace Vision.Modules
                 // * Estate / Homestead
                 // * Estate / Openspace
                 //
-                // * Vision Home / Full Region (Private)
+                // * Universe Home / Full Region (Private)
                 info.RegionType = MainConsole.Instance.Prompt("Region Type (Mainland / Estate / Homes)",
                     (info.RegionType == "" ? "Estate" : info.RegionType));
 
@@ -402,7 +403,7 @@ namespace Vision.Modules
                 }
                 else
                 {
-                    info.RegionType = "Vision Homes / ";
+                    info.RegionType = "Universe Homes / ";
                     responses.Add("Full Region");
                     setupMode = MainConsole.Instance.Prompt("Estate region type?", "Full Region", responses).ToLower();
                 }
@@ -443,7 +444,7 @@ namespace Vision.Modules
                     info.Startup = StartupType.Medium;
                     info.SeeIntoThisSimFromNeighbor = true;
                     info.InfiniteRegion = true;
-                    info.ObjectCapacity = 750;
+                    info.ObjectCapacity = 1000;
                     info.RegionSettings.AgentLimit = 10;
                     info.RegionSettings.AllowLandJoinDivide = false;
                     info.RegionSettings.AllowLandResell = false;
@@ -461,7 +462,7 @@ namespace Vision.Modules
                     info.Startup = StartupType.Medium;
                     info.SeeIntoThisSimFromNeighbor = true;
                     info.InfiniteRegion = true;
-                    info.ObjectCapacity = 3750;
+                    info.ObjectCapacity = 5000;
                     info.RegionSettings.AgentLimit = 20;
                     info.RegionSettings.AllowLandJoinDivide = false;
                     info.RegionSettings.AllowLandResell = false;
@@ -475,19 +476,22 @@ namespace Vision.Modules
                     info.Startup = StartupType.Normal;
                     info.SeeIntoThisSimFromNeighbor = true;
                     info.InfiniteRegion = true;
-                    info.ObjectCapacity = 15000;
+                    info.ObjectCapacity = 20000;
                     info.RegionSettings.AgentLimit = 100;
-                    if (info.RegionType.StartsWith("M", StringComparison.Ordinal))                           // defaults are 'true'
-                    {
+
+                    if (info.RegionType.StartsWith("M", StringComparison.Ordinal))
+                    {                           // defaults are 'true'
                         info.RegionSettings.AllowLandJoinDivide = false;
                         info.RegionSettings.AllowLandResell = false;
+                        info.InfiniteRegion = true;
+                        info.ObjectCapacity = 22500;
                     }
-                    else if (info.RegionType.StartsWith("H", StringComparison.Ordinal))                    // Homes always have 25000 prims
-                    {
+                    else if (info.RegionType.StartsWith("H", StringComparison.Ordinal))
+                    {                    // Homes always have 25000 prims
                         info.RegionSettings.AllowLandJoinDivide = true;
                         info.RegionSettings.AllowLandResell = true;
                         info.InfiniteRegion = true;
-                        info.ObjectCapacity = 25000;
+                        info.ObjectCapacity = 30000;
                     }
                 }
 
@@ -600,7 +604,7 @@ namespace Vision.Modules
             var loc = regInfo.RegionLocX;
             regInfo.RegionLocX =
                 int.Parse(MainConsole.Instance.Prompt("Region Location X",
-                    ((regInfo.RegionLocX == 0
+                ((regInfo.RegionLocX == 0
                         ? m_mapcenter_x
                         : regInfo.RegionLocX / Constants.RegionSize)).ToString())) * Constants.RegionSize;
             if (regInfo.RegionLocX != loc)
@@ -609,7 +613,7 @@ namespace Vision.Modules
             loc = regInfo.RegionLocY;
             regInfo.RegionLocY =
                 int.Parse(MainConsole.Instance.Prompt("Region location Y",
-                    ((regInfo.RegionLocY == 0
+                ((regInfo.RegionLocY == 0
                         ? m_mapcenter_y
                         : regInfo.RegionLocY / Constants.RegionSize)).ToString())) * Constants.RegionSize;
             if (regInfo.RegionLocY != loc)
@@ -673,14 +677,14 @@ namespace Vision.Modules
             // allow port selection
             var oldPort = regInfo.RegionPort;
             regInfo.RegionPort = int.Parse(MainConsole.Instance.Prompt("Region Port (Only change if necessary)",
-                                                                         regInfo.RegionPort.ToString()));
+                regInfo.RegionPort.ToString()));
             if (regInfo.RegionPort != oldPort)
                 updated = true;
 
             var oldStart = regInfo.Startup;
             // Startup mode
             string scriptStart = MainConsole.Instance.Prompt(
-                "Region Startup - Normal or Delayed startup (normal/delay) : ", "normal").ToLower();
+                                              "Region Startup - Normal or Delayed startup (normal/delay) : ", "normal").ToLower();
             regInfo.Startup = scriptStart.StartsWith("n") ? StartupType.Normal : StartupType.Medium;
             if (regInfo.Startup != oldStart)
                 updated = true;
@@ -702,7 +706,7 @@ namespace Vision.Modules
             var oldCap = regInfo.ObjectCapacity;
             regInfo.ObjectCapacity =
                 int.Parse(MainConsole.Instance.Prompt("Object capacity",
-                    regInfo.ObjectCapacity == 0
+                regInfo.ObjectCapacity == 0
                     ? "50000"
                     : regInfo.ObjectCapacity.ToString()));
             if (regInfo.ObjectCapacity != oldCap)
@@ -713,7 +717,7 @@ namespace Vision.Modules
 
         public virtual void SetRegion(IScene scene)
         {
-            scene.VisionEventManager.RegisterEventHandler("Backup", VisionEventManager_OnGenericEvent);
+            scene.UniverseEventManager.RegisterEventHandler("Backup", UniverseEventManager_OnGenericEvent);
             m_scene = scene;
         }
 
@@ -858,7 +862,7 @@ namespace Vision.Modules
                 terrainModule.TerrainRevertMap = ReadFromData(_regionData.RevertTerrain);
                 //Make sure the size is right!
                 if (terrainModule.TerrainRevertMap != null &&
-                    terrainModule.TerrainRevertMap.Width != m_scene.RegionInfo.RegionSizeX)
+                                terrainModule.TerrainRevertMap.Width != m_scene.RegionInfo.RegionSizeX)
                     terrainModule.TerrainRevertMap = null;
             }
             else
@@ -866,7 +870,7 @@ namespace Vision.Modules
                 terrainModule.TerrainMap = ReadFromData(_regionData.Terrain);
                 //Make sure the size is right!
                 if (terrainModule.TerrainMap != null &&
-                    terrainModule.TerrainMap.Width != m_scene.RegionInfo.RegionSizeX)
+                                terrainModule.TerrainMap.Width != m_scene.RegionInfo.RegionSizeX)
                     terrainModule.TerrainMap = null;
             }
         }
@@ -1024,7 +1028,7 @@ namespace Vision.Modules
         /// <param name="FunctionName"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        object VisionEventManager_OnGenericEvent(string FunctionName, object parameters)
+        object UniverseEventManager_OnGenericEvent(string FunctionName, object parameters)
         {
             if (FunctionName == "Backup")
             {
@@ -1141,8 +1145,8 @@ namespace Vision.Modules
             if (m_scene == null || m_scene.RegionInfo.HasBeenDeleted)
                 return;
             IBackupModule backupModule = m_scene.RequestModuleInterface<IBackupModule>();
-            if (backupModule != null && backupModule.LoadingPrims) //Something is changing lots of prims
-            {
+            if (backupModule != null && backupModule.LoadingPrims)
+            { //Something is changing lots of prims
                 MainConsole.Instance.Info("[Backup]: Not saving backup because the backup module is loading prims");
                 return;
             }
@@ -1204,8 +1208,8 @@ namespace Vision.Modules
                     (entity) =>
                     {
                         return !(entity.IsAttachment ||
-               ((entity.RootChild.Flags & PrimFlags.Temporary) == PrimFlags.Temporary) ||
-               ((entity.RootChild.Flags & PrimFlags.TemporaryOnRez) == PrimFlags.TemporaryOnRez));
+                        ((entity.RootChild.Flags & PrimFlags.Temporary) == PrimFlags.Temporary) ||
+                        ((entity.RootChild.Flags & PrimFlags.TemporaryOnRez) == PrimFlags.TemporaryOnRez));
                     }));
             try
             {
@@ -1226,7 +1230,7 @@ namespace Vision.Modules
                 if (File.Exists(filename + (isOldSave ? "" : ".tmp")))
                     File.Delete(filename + (isOldSave ? "" : ".tmp")); //Remove old tmp files
                 MainConsole.Instance.Error("[File Based Simulation Data]: Failed to save backup for region " +
-                                           m_scene.RegionInfo.RegionName + "!");
+                m_scene.RegionInfo.RegionName + "!");
                 return;
             }
 
@@ -1294,6 +1298,85 @@ namespace Vision.Modules
             return string.Format("--{0:yyyy-MM-dd-HH-mm}", DateTime.Now);
         }
 
+        // Adjust max region object capacities if necessary
+        void UpdateRegionCapacity()
+        {
+            if (_regionData.RegionInfo.RegionType.Contains("Full Region"))
+            {
+                // mainland
+                if (_regionData.RegionInfo.RegionType.ToLower().StartsWith("m", StringComparison.Ordinal))
+                {
+                    if (_regionData.RegionInfo.ObjectCapacity < 22500)
+                        _regionData.RegionInfo.ObjectCapacity = 22500;
+                }
+                else if (_regionData.RegionInfo.RegionType.ToLower().StartsWith("h", StringComparison.Ordinal))
+                {
+                    if (_regionData.RegionInfo.ObjectCapacity < 30000)
+                        _regionData.RegionInfo.ObjectCapacity = 30000;
+                }
+                else
+                {
+                    // must be private (estate) region
+                    if (_regionData.RegionInfo.ObjectCapacity < 20000)
+                        _regionData.RegionInfo.ObjectCapacity = 20000;
+                }
+
+                return;
+            }
+
+            if (_regionData.RegionInfo.RegionType.Contains("Homestead"))
+            {
+                if (_regionData.RegionInfo.ObjectCapacity < 5000)
+                    _regionData.RegionInfo.ObjectCapacity = 5000;
+                return;
+            }
+
+            if (_regionData.RegionInfo.RegionType.Contains("Openspace"))
+            {
+                if (_regionData.RegionInfo.ObjectCapacity < 1000)
+                    _regionData.RegionInfo.ObjectCapacity = 1000;
+            }
+        }
+
+        // Adjust max region object capacities if necessary
+        void UpdateRegionCapacity()
+        {
+            if (_regionData.RegionInfo.RegionType.Contains("Full Region"))
+            {
+                // mainland
+                if (_regionData.RegionInfo.RegionType.ToLower().StartsWith("m", StringComparison.Ordinal))
+                {
+                    if (_regionData.RegionInfo.ObjectCapacity < 22500)
+                        _regionData.RegionInfo.ObjectCapacity = 22500;
+                }
+                else if (_regionData.RegionInfo.RegionType.ToLower().StartsWith("h", StringComparison.Ordinal))
+                {
+                    if (_regionData.RegionInfo.ObjectCapacity < 30000)
+                        _regionData.RegionInfo.ObjectCapacity = 30000;
+                }
+                else
+                {
+                    // must be private (estate) region
+                    if (_regionData.RegionInfo.ObjectCapacity < 20000)
+                        _regionData.RegionInfo.ObjectCapacity = 20000;
+                }
+                return;
+            }
+
+            if (_regionData.RegionInfo.RegionType.Contains("Homestead"))
+            {
+                if (_regionData.RegionInfo.ObjectCapacity < 5000)
+                    _regionData.RegionInfo.ObjectCapacity = 5000;
+                return;
+            }
+
+            if (_regionData.RegionInfo.RegionType.Contains("Openspace"))
+            {
+                if (_regionData.RegionInfo.ObjectCapacity < 1000)
+                    _regionData.RegionInfo.ObjectCapacity = 1000;
+            }
+        }
+
         protected virtual void ReadBackup(string fileName)
         {
             BackupFile = fileName;
@@ -1317,6 +1400,9 @@ namespace Vision.Modules
                     _regionData.RegionInfo.RegionPort = int.Parse(MainConsole.Instance.Prompt("Region Port: ",
                         (9000).ToString()));
                 }
+
+                // increase capacity if needed - 2016-11-03
+                UpdateRegionCapacity();
             }
 
             GC.Collect();
@@ -1324,7 +1410,8 @@ namespace Vision.Modules
 
         ITerrainChannel ReadFromData(byte[] data)
         {
-            if (data == null) return null;
+            if (data == null)
+                return null;
             short[] sdata = new short[data.Length / 2];
             Buffer.BlockCopy(data, 0, sdata, 0, data.Length);
             return new TerrainChannel(sdata, m_scene);
