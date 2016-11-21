@@ -745,7 +745,7 @@ SLURL.Map.prototype.CreateMapTypes = function(){
 	var mapTypes = [];
 
 		var copyCollection = new GCopyrightCollection('Vision');
-		var copyright = new GCopyright(1, new GLatLngBounds(new GLatLng(0, 0), new GLatLng(-90, 90)), 0, "(C) 2016 - 2025 " + (new Date).getFullYear() + " http://vision-sim.org");
+		var copyright = new GCopyright(1, new GLatLngBounds(new GLatLng(0, 0), new GLatLng(-90, 90)), 0, "(C) 2016 - 2025 " + (new Date).getFullYear() + " http://virtual-planets.org");
 		copyCollection.addCopyright(copyright);
 
 		// Create the 'Land' type of map
