@@ -31,11 +31,11 @@ using System;
 
 namespace Vision.DataManager
 {
-    [Serializable]
-    public class DataManagerException : Exception
-    {
-        public DataManagerException(string message) : base(message)
-        {
-        }
-    }
+	[Serializable]
+	public class DataManagerException : Exception
+	{
+		public DataManagerException (string message) : base (message)
+		{
+		}
+	}
 }

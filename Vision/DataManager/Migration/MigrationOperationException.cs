@@ -31,11 +31,11 @@ using System;
 
 namespace Vision.DataManager.Migration
 {
-    [Serializable]
-    public class MigrationOperationException : Exception
-    {
-        public MigrationOperationException(string message) : base(message)
-        {
-        }
-    }
+	[Serializable]
+	public class MigrationOperationException : Exception
+	{
+		public MigrationOperationException (string message) : base (message)
+		{
+		}
+	}
 }

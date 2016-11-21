@@ -32,23 +32,23 @@ using Vision.Framework.Modules;
 
 namespace Vision.Framework.Services
 {
-    public class RegionRegistrationURLs : IDataTransferable
-    {
-        public OSDMap URLS;
-        public string SessionID;
+	public class RegionRegistrationURLs : IDataTransferable
+	{
+		public OSDMap URLS;
+		public string SessionID;
 
-        public override OSDMap ToOSD()
-        {
-            OSDMap retVal = new OSDMap();
-            retVal["URLS"] = URLS;
-            retVal["SessionID"] = SessionID;
-            return retVal;
-        }
+		public override OSDMap ToOSD ()
+		{
+			OSDMap retVal = new OSDMap ();
+			retVal ["URLS"] = URLS;
+			retVal ["SessionID"] = SessionID;
+			return retVal;
+		}
 
-        public override void FromOSD(OSDMap retVal)
-        {
-            URLS = (OSDMap) retVal["URLS"];
-            SessionID = retVal["SessionID"].AsString();
-        }
-    }
+		public override void FromOSD (OSDMap retVal)
+		{
+			URLS = (OSDMap)retVal ["URLS"];
+			SessionID = retVal ["SessionID"].AsString ();
+		}
+	}
 }

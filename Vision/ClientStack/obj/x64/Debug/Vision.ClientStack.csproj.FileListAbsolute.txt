@@ -1,4 +1,0 @@
-C:\Users\Development\Desktop\Vision-Sim\VisionSim\bin\Vision.ClientStack.dll
-C:\Users\Development\Desktop\Vision-Sim\VisionSim\bin\Vision.ClientStack.pdb
-C:\Users\Development\Desktop\Vision-Sim\Vision\ClientStack\obj\x64\Debug\Vision.ClientStack.dll
-C:\Users\Development\Desktop\Vision-Sim\Vision\ClientStack\obj\x64\Debug\Vision.ClientStack.pdb

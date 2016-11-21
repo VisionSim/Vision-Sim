@@ -32,10 +32,12 @@ using Vision.Framework.Servers.HttpServer.Implementation;
 
 namespace Vision.Framework.Services
 {
-    public interface IFreeswitchService
-    {
-        byte[] HandleDirectoryRequest(Hashtable requestBody, OSHttpRequest httpRequest, OSHttpResponse httpResponse);
-        byte[] HandleDialplanRequest(Hashtable requestBody, OSHttpRequest httpRequest, OSHttpResponse httpResponse);
-        string GetJsonConfig();
-    }
+	public interface IFreeswitchService
+	{
+		byte[] HandleDirectoryRequest (Hashtable requestBody, OSHttpRequest httpRequest, OSHttpResponse httpResponse);
+
+		byte[] HandleDialplanRequest (Hashtable requestBody, OSHttpRequest httpRequest, OSHttpResponse httpResponse);
+
+		string GetJsonConfig ();
+	}
 }

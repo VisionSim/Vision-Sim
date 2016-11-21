@@ -29,10 +29,12 @@
 
 namespace Vision.ScriptEngine.VisionScript.MiniModule
 {
-    public interface ISecurityCredential
-    {
-        ISocialEntity owner { get; }
-        bool CanEditObject(IObject target);
-        bool CanEditTerrain(int x, int y);
-    }
+	public interface ISecurityCredential
+	{
+		ISocialEntity owner { get; }
+
+		bool CanEditObject (IObject target);
+
+		bool CanEditTerrain (int x, int y);
+	}
 }

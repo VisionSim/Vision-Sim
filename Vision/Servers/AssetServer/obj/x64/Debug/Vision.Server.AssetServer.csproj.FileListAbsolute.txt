@@ -1,5 +1,0 @@
-C:\Users\Development\Desktop\Vision-Sim\VisionSim\bin\Vision.Server.AssetServer.exe
-C:\Users\Development\Desktop\Vision-Sim\VisionSim\bin\Vision.Server.AssetServer.pdb
-C:\Users\Development\Desktop\Vision-Sim\Vision\Servers\AssetServer\obj\x64\Debug\Vision.Server.AssetServer.csprojResolveAssemblyReference.cache
-C:\Users\Development\Desktop\Vision-Sim\Vision\Servers\AssetServer\obj\x64\Debug\Vision.Server.AssetServer.exe
-C:\Users\Development\Desktop\Vision-Sim\Vision\Servers\AssetServer\obj\x64\Debug\Vision.Server.AssetServer.pdb

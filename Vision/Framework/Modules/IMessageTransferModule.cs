@@ -33,12 +33,14 @@ using Vision.Framework.ClientInterfaces;
 
 namespace Vision.Framework.Modules
 {
-    public delegate void UndeliveredMessage(GridInstantMessage im, string reason);
+	public delegate void UndeliveredMessage (GridInstantMessage im, string reason);
 
-    public interface IMessageTransferModule
-    {
-        event UndeliveredMessage OnUndeliveredMessage;
-        void SendInstantMessages(GridInstantMessage im, List<UUID> AgentsToSendTo);
-        void SendInstantMessage(GridInstantMessage im);
-    }
+	public interface IMessageTransferModule
+	{
+		event UndeliveredMessage OnUndeliveredMessage;
+
+		void SendInstantMessages (GridInstantMessage im, List<UUID> AgentsToSendTo);
+
+		void SendInstantMessage (GridInstantMessage im);
+	}
 }

@@ -31,32 +31,32 @@ using Vision.Framework.Physics;
 
 namespace Vision.Physics.BasicPhysicsPlugin
 {
-    /// <summary>
-    ///     Effectively a physics plugin that simulates no physics at all.
-    /// </summary>
-    public class BasicPhysicsPlugin : IPhysicsPlugin
-    {
-        #region IPhysicsPlugin Members
+	/// <summary>
+	///     Effectively a physics plugin that simulates no physics at all.
+	/// </summary>
+	public class BasicPhysicsPlugin : IPhysicsPlugin
+	{
+		#region IPhysicsPlugin Members
 
-        public bool Init()
-        {
-            return true;
-        }
+		public bool Init ()
+		{
+			return true;
+		}
 
-        public PhysicsScene GetScene()
-        {
-            return new BasicScene();
-        }
+		public PhysicsScene GetScene ()
+		{
+			return new BasicScene ();
+		}
 
-        public string GetName()
-        {
-            return ("basicphysics");
-        }
+		public string GetName ()
+		{
+			return ("basicphysics");
+		}
 
-        public void Dispose()
-        {
-        }
+		public void Dispose ()
+		{
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

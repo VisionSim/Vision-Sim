@@ -29,7 +29,7 @@
 
 namespace Vision.Framework.Modules
 {
-    public interface INonSharedRegionModule : IRegionModuleBase
-    {
-    }
+	public interface INonSharedRegionModule : IRegionModuleBase
+	{
+	}
 }

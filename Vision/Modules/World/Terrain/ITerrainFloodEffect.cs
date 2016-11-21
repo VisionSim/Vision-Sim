@@ -32,8 +32,9 @@ using Vision.Framework.Modules;
 
 namespace Vision.Modules.Terrain
 {
-    public interface ITerrainFloodEffect
-    {
-        void FloodEffect(ITerrainChannel map, UUID userID, float north, float west, float south, float east, float strength);
-    }
+	public interface ITerrainFloodEffect
+	{
+		void FloodEffect (ITerrainChannel map, UUID userID, float north,
+		                       float west, float south, float east, float strength);
+	}
 }

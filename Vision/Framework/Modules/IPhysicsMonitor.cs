@@ -32,8 +32,8 @@ using Vision.Framework.Physics;
 
 namespace Vision.Framework.Modules
 {
-    public interface IPhysicsMonitor
-    {
-        void AddPhysicsStats(UUID regionID, PhysicsScene scene);
-    }
+	public interface IPhysicsMonitor
+	{
+		void AddPhysicsStats (UUID regionID, PhysicsScene scene);
+	}
 }

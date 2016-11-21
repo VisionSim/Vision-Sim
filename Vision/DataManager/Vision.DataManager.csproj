@@ -173,6 +173,12 @@
 	  <Compile Include="Migration\Migrators\AbuseReports\AbuseReportsMigrator_0.cs">
 		<SubType>Code</SubType>
 	  </Compile>
+	  <Compile Include="Migration\Migrators\AbuseReports\AbuseReportsMigrator_1.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="Migration\Migrators\AbuseReports\AbuseReportsMigrator_2.cs">
+		<SubType>Code</SubType>
+	  </Compile>
 	  <Compile Include="Migration\Migrators\Agent\AgentMigrator_0.cs">
 		<SubType>Code</SubType>
 	  </Compile>
@@ -200,6 +206,9 @@
 	  <Compile Include="Migration\Migrators\Generics\GenericsMigrator_0.cs">
 		<SubType>Code</SubType>
 	  </Compile>
+	  <Compile Include="Migration\Migrators\GridPlanet\GridPlanetMigrator_0.cs">
+		<SubType>Code</SubType>
+	  </Compile>
 	  <Compile Include="Migration\Migrators\GridRegion\GridRegionMigrator_0.cs">
 		<SubType>Code</SubType>
 	  </Compile>
@@ -212,10 +221,16 @@
 	  <Compile Include="Migration\Migrators\Parcel\ParcelMigrator_0.cs">
 		<SubType>Code</SubType>
 	  </Compile>
+	  <Compile Include="Migration\Migrators\Planet\PlanetMigrator_0.cs">
+		<SubType>Code</SubType>
+	  </Compile>
 	  <Compile Include="Migration\Migrators\Region\RegionMigrator_0.cs">
 		<SubType>Code</SubType>
 	  </Compile>
 	  <Compile Include="Migration\Migrators\Scheduler\SchedulerMigrator_0.cs">
+		<SubType>Code</SubType>
+	  </Compile>
+	  <Compile Include="Migration\Migrators\SolarSystem\SolarSystemMigrator_0.cs">
 		<SubType>Code</SubType>
 	  </Compile>
 	  <Compile Include="Migration\Migrators\Stats\StatsMigrator_0.cs">

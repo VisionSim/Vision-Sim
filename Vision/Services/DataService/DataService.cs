@@ -39,103 +39,88 @@ using Vision.Framework.Services;
 
 namespace Vision.Services.DataService
 {
-    public class LocalDataService
-    {
-        string ConnectionString = "";
-        string StorageProvider = "";
+	public class LocalDataService
+	{
+		string ConnectionString = "";
+		string StorageProvider = "";
 
-        public void Initialize(IConfigSource config, IRegistryCore registry)
-        {
-            IConfig m_config = config.Configs["VisionData"];
-            if (m_config != null)
-            {
-                StorageProvider = m_config.GetString("StorageProvider", StorageProvider);
-                ConnectionString = m_config.GetString("ConnectionString", ConnectionString);
-            }
+		public void Initialize (IConfigSource config, IRegistryCore registry)
+		{
+			IConfig m_config = config.Configs ["VisionData"];
+			if (m_config != null) {
+				StorageProvider = m_config.GetString ("StorageProvider", StorageProvider);
+				ConnectionString = m_config.GetString ("ConnectionString", ConnectionString);
+			}
 
-            IGenericData DataConnector = null;
-            if (StorageProvider == "MySQL")
-                //Allow for fallback when eData isn't set
-            {
-                MySQLDataLoader GenericData = new MySQLDataLoader();
+			IGenericData DataConnector = null;
+			if (StorageProvider == "MySQL")
+ {                //Allow for fallback when VisionData isn't set
+				MySQLDataLoader GenericData = new MySQLDataLoader ();
 
-                DataConnector = GenericData;
-            }
-            else if (StorageProvider == "SQLite")
-                //Allow for fallback when Data isn't set
-            {
-                SQLiteLoader GenericData = new SQLiteLoader();
+				DataConnector = GenericData;
+			} else if (StorageProvider == "SQLite")
+ {                //Allow for fallback when VisionData isn't set
+				SQLiteLoader GenericData = new SQLiteLoader ();
 
-                // set default data directory in case it is needed
-                var simBase = registry.RequestModuleInterface<ISimulationBase> ();
-                GenericData.DefaultDataPath = simBase.DefaultDataPath;
+				// set default data directory in case it is needed
+				var simBase = registry.RequestModuleInterface<ISimulationBase> ();
+				GenericData.DefaultDataPath = simBase.DefaultDataPath;
 
-                DataConnector = GenericData;
-            }
+				DataConnector = GenericData;
+			}
 
-            List<IVisionDataPlugin> Plugins = VisionModuleLoader.PickupModules<IVisionDataPlugin>();
-            foreach (IVisionDataPlugin plugin in Plugins)
-            {
-                try
-                {
-                    plugin.Initialize(DataConnector == null ? null : DataConnector.Copy(), config, registry, ConnectionString);
-                }
-                catch (Exception ex)
-                {
-                    if (MainConsole.Instance != null)
-                        MainConsole.Instance.Warn("[Data Service]: Exception occurred starting data plugin " + plugin.Name + ", " + ex);
-                }
-            }
-        }
+			List<IVisionDataPlugin> Plugins = VisionModuleLoader.PickupModules<IVisionDataPlugin> ();
+			foreach (IVisionDataPlugin plugin in Plugins) {
+				try {
+					plugin.Initialize (DataConnector == null ? null : DataConnector.Copy (), config, registry,
+						ConnectionString);
+				} catch (Exception ex) {
+					if (MainConsole.Instance != null)
+						MainConsole.Instance.Warn ("[DataService]: Exception occurred starting data plugin " +
+						plugin.Name + ", " + ex);
+				}
+			}
+		}
 
-        public void Initialize(IConfigSource config, IRegistryCore registry, List<Type> types)
-        {
-            IConfig m_config = config.Configs["VisionData"];
-            if (m_config != null)
-            {
-                StorageProvider = m_config.GetString("StorageProvider", StorageProvider);
-                ConnectionString = m_config.GetString("ConnectionString", ConnectionString);
-            }
+		public void Initialize (IConfigSource config, IRegistryCore registry, List<Type> types)
+		{
+			IConfig m_config = config.Configs ["VisionData"];
+			if (m_config != null) {
+				StorageProvider = m_config.GetString ("StorageProvider", StorageProvider);
+				ConnectionString = m_config.GetString ("ConnectionString", ConnectionString);
+			}
 
-            IGenericData DataConnector = null;
-            if (StorageProvider == "MySQL")
-                //Allow for fallback when Data isn't set
-            {
-                MySQLDataLoader GenericData = new MySQLDataLoader();
+			IGenericData DataConnector = null;
+			if (StorageProvider == "MySQL")
+ {                //Allow for fallback when VisionData isn't set
+				MySQLDataLoader GenericData = new MySQLDataLoader ();
 
-                DataConnector = GenericData;
-            }
-            else if (StorageProvider == "SQLite")
-                //Allow for fallback when VisionData isn't set
-            {
-                SQLiteLoader GenericData = new SQLiteLoader();
+				DataConnector = GenericData;
+			} else if (StorageProvider == "SQLite")
+ {                //Allow for fallback when VisionData isn't set
+				SQLiteLoader GenericData = new SQLiteLoader ();
 
-                // set default data directory in case it is needed
-                var simBase = registry.RequestModuleInterface<ISimulationBase> ();
-                GenericData.DefaultDataPath = simBase.DefaultDataPath;
+				// set default data directory in case it is needed
+				var simBase = registry.RequestModuleInterface<ISimulationBase> ();
+				GenericData.DefaultDataPath = simBase.DefaultDataPath;
 
-                DataConnector = GenericData;
-            }
+				DataConnector = GenericData;
+			}
 
-            if (DataConnector != null)      // we have a problem if so...
-            {
-                foreach (Type t in types)
-                {
-                    List<dynamic> Plugins = VisionModuleLoader.PickupModules (t);
-                    foreach (dynamic plugin in Plugins)
-                    {
-                        try
-                        {
-                            plugin.Initialize (DataConnector.Copy (), config, registry, ConnectionString);
-                        } catch (Exception ex)
-                        {
-                            if (MainConsole.Instance != null)
-                                MainConsole.Instance.Warn ("[DataService]: Exception occurred starting data plugin " +
-                                plugin.Name + ", " + ex);
-                        }
-                    }
-                }
-            }
-        }
-    }
+			if (DataConnector != null) {      // we have a problem if so...
+				foreach (Type t in types) {
+					List<dynamic> Plugins = VisionModuleLoader.PickupModules (t);
+					foreach (dynamic plugin in Plugins) {
+						try {
+							plugin.Initialize (DataConnector.Copy (), config, registry, ConnectionString);
+						} catch (Exception ex) {
+							if (MainConsole.Instance != null)
+								MainConsole.Instance.Warn ("[DataService]: Exception occurred starting data plugin " +
+								plugin.Name + ", " + ex);
+						}
+					}
+				}
+			}
+		}
+	}
 }

@@ -1,4 +1,0 @@
-C:\Users\Development\Desktop\Vision-Sim\VisionSim\bin\Physics\Vision.Physics.OpenDynamicsEngine.dll
-C:\Users\Development\Desktop\Vision-Sim\VisionSim\bin\Physics\Vision.Physics.OpenDynamicsEngine.pdb
-C:\Users\Development\Desktop\Vision-Sim\Vision\Physics\OpenDynamicsEngine\obj\x64\Debug\Vision.Physics.OpenDynamicsEngine.dll
-C:\Users\Development\Desktop\Vision-Sim\Vision\Physics\OpenDynamicsEngine\obj\x64\Debug\Vision.Physics.OpenDynamicsEngine.pdb

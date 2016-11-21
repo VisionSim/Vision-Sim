@@ -31,10 +31,12 @@ using OpenMetaverse;
 
 namespace Vision.ScriptEngine.VisionScript.MiniModule
 {
-    public interface IEntity
-    {
-        string Name { get; set; }
-        UUID GlobalID { get; }
-        Vector3 WorldPosition { get; set; }
-    }
+	public interface IEntity
+	{
+		string Name { get; set; }
+
+		UUID GlobalID { get; }
+
+		Vector3 WorldPosition { get; set; }
+	}
 }

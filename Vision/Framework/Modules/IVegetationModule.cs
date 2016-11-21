@@ -33,19 +33,20 @@ using Vision.Framework.SceneInfo.Entities;
 
 namespace Vision.Framework.Modules
 {
-    public interface IVegetationModule : IEntityCreator
-    {
-        /// <summary>
-        ///     Add a new tree to the scene.  Used by other modules.
-        /// </summary>
-        /// <param name="uuid"></param>
-        /// <param name="groupID"></param>
-        /// <param name="scale"></param>
-        /// <param name="rotation"></param>
-        /// <param name="position"></param>
-        /// <param name="treeType"></param>
-        /// <param name="newTree"></param>
-        /// <returns></returns>
-        ISceneEntity AddTree(UUID uuid, UUID groupID, Vector3 scale, Quaternion rotation, Vector3 position, Tree treeType, bool newTree);
-    }
+	public interface IVegetationModule : IEntityCreator
+	{
+		/// <summary>
+		///     Add a new tree to the scene.  Used by other modules.
+		/// </summary>
+		/// <param name="uuid"></param>
+		/// <param name="groupID"></param>
+		/// <param name="scale"></param>
+		/// <param name="rotation"></param>
+		/// <param name="position"></param>
+		/// <param name="treeType"></param>
+		/// <param name="newTree"></param>
+		/// <returns></returns>
+		ISceneEntity AddTree (
+			UUID uuid, UUID groupID, Vector3 scale, Quaternion rotation, Vector3 position, Tree treeType, bool newTree);
+	}
 }

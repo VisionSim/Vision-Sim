@@ -32,9 +32,10 @@ using Vision.Framework.Modules;
 
 namespace Vision.Framework.Physics
 {
-    public interface IMeshingPlugin
-    {
-        string GetName();
-        IMesher GetMesher(IConfigSource config, IRegistryCore registry);
-    }
+	public interface IMeshingPlugin
+	{
+		string GetName ();
+
+		IMesher GetMesher (IConfigSource config, IRegistryCore registry);
+	}
 }

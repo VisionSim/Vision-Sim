@@ -1,4 +1,0 @@
-C:\Users\Development\Desktop\Vision-Sim\VisionSim\bin\Vision.Server.WebServer.exe
-C:\Users\Development\Desktop\Vision-Sim\VisionSim\bin\Vision.Server.WebServer.pdb
-C:\Users\Development\Desktop\Vision-Sim\Vision\Servers\WebServer\obj\x64\Debug\Vision.Server.WebServer.exe
-C:\Users\Development\Desktop\Vision-Sim\Vision\Servers\WebServer\obj\x64\Debug\Vision.Server.WebServer.pdb

@@ -31,8 +31,8 @@ using Vision.Framework.Utilities;
 
 namespace Vision.DataManager.Migration
 {
-    public interface IRestorePoint
-    {
-        void DoRestore(IDataConnector genericData);
-    }
+	public interface IRestorePoint
+	{
+		void DoRestore (IDataConnector genericData);
+	}
 }

@@ -1,5 +1,0 @@
-C:\Users\Development\Desktop\Vision-Sim\VisionSim\bin\Vision.Services.SQLServices.dll
-C:\Users\Development\Desktop\Vision-Sim\VisionSim\bin\Vision.Services.SQLServices.pdb
-C:\Users\Development\Desktop\Vision-Sim\Vision\Services\SQLServices\obj\x64\Debug\Vision.Services.SQLServices.csprojResolveAssemblyReference.cache
-C:\Users\Development\Desktop\Vision-Sim\Vision\Services\SQLServices\obj\x64\Debug\Vision.Services.SQLServices.dll
-C:\Users\Development\Desktop\Vision-Sim\Vision\Services\SQLServices\obj\x64\Debug\Vision.Services.SQLServices.pdb

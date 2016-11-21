@@ -31,10 +31,11 @@ using Vision.Framework.Servers.HttpServer.Interfaces;
 
 namespace Vision.Framework.Servers
 {
-    public class MainServer
-    {
-        public static IHttpServer Instance { get; set; }
-        public static byte[] BlankResponse = System.Text.Encoding.UTF8.GetBytes("");
-        public static byte[] BadRequest = new byte[0];
-    }
+	public class MainServer
+	{
+		public static IHttpServer Instance { get; set; }
+
+		public static byte[] BlankResponse = System.Text.Encoding.UTF8.GetBytes ("");
+		public static byte[] BadRequest = new byte[0];
+	}
 }

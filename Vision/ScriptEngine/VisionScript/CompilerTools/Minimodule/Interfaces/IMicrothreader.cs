@@ -31,8 +31,8 @@ using System.Collections;
 
 namespace Vision.ScriptEngine.VisionScript.MiniModule
 {
-    public interface IMicrothreader
-    {
-        void Run(IEnumerable microthread);
-    }
+	public interface IMicrothreader
+	{
+		void Run (IEnumerable microthread);
+	}
 }

@@ -1,4 +1,0 @@
-C:\Users\Development\Desktop\Vision-Sim\VisionSim\bin\Vision.Services.API.dll
-C:\Users\Development\Desktop\Vision-Sim\VisionSim\bin\Vision.Services.API.pdb
-C:\Users\Development\Desktop\Vision-Sim\Vision\Services\API\obj\x64\Debug\Vision.Services.API.dll
-C:\Users\Development\Desktop\Vision-Sim\Vision\Services\API\obj\x64\Debug\Vision.Services.API.pdb

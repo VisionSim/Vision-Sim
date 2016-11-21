@@ -32,8 +32,9 @@ using Vision.Framework.Modules;
 
 namespace Vision.Modules.Terrain
 {
-    public interface ITerrainPaintableEffect
-    {
-        void PaintEffect(ITerrainChannel map, UUID userID, float x, float y, float z, float strength, float duration, float BrushSize);
-    }
+	public interface ITerrainPaintableEffect
+	{
+		void PaintEffect (ITerrainChannel map, UUID userID, float x, float y, float z, float strength, float duration,
+		                       float BrushSize);
+	}
 }

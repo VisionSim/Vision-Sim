@@ -1,5 +1,0 @@
-C:\Users\Development\Desktop\Vision-Sim\VisionSim\bin\Physics\Vision.Physics.BulletSPlugin.dll
-C:\Users\Development\Desktop\Vision-Sim\VisionSim\bin\Physics\Vision.Physics.BulletSPlugin.pdb
-C:\Users\Development\Desktop\Vision-Sim\Vision\Physics\BulletSPlugin\obj\x64\Debug\Vision.Physics.BulletSPlugin.csprojResolveAssemblyReference.cache
-C:\Users\Development\Desktop\Vision-Sim\Vision\Physics\BulletSPlugin\obj\x64\Debug\Vision.Physics.BulletSPlugin.dll
-C:\Users\Development\Desktop\Vision-Sim\Vision\Physics\BulletSPlugin\obj\x64\Debug\Vision.Physics.BulletSPlugin.pdb

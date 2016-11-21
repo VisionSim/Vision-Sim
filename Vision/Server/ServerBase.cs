@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) Contributors, http://vision-sim.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  * For an explanation of the license of each contributor and the content it 
@@ -45,11 +45,11 @@ namespace Vision.Server
 
             //Fix the default prompt
             if (MainConsole.Instance != null)
-			{
-				MainConsole.Instance.DefaultPrompt = "Vision.Server ";
-				MainConsole.Instance.Info ("[Vision-Sim Startup]: Startup completed in " +
-					(DateTime.Now - this.StartupTime).TotalSeconds);
-			}
+            {
+                MainConsole.Instance.DefaultPrompt = "Vision.Server ";
+                MainConsole.Instance.Info("[Vision-Sim Startup]: Startup completed in " +
+                    (DateTime.Now - this.StartupTime).TotalSeconds);
+            }
         }
 
         public override ISimulationBase Copy()

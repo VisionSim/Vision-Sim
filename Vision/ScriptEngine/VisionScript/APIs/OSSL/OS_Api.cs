@@ -37,8 +37,12 @@ using System.Net;
 using System.Runtime.Remoting.Lifetime;
 using System.Text;
 using System.Text.RegularExpressions;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
+using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
@@ -48,9 +52,6 @@ using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Utilities;
 using Vision.ScriptEngine.VisionScript.Runtime;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
 using GridRegion = Vision.Framework.Services.GridRegion;
 using Group = System.Text.RegularExpressions.Group;
 using LSL_Float = Vision.ScriptEngine.VisionScript.LSL_Types.LSLFloat;
@@ -60,7 +61,6 @@ using LSL_List = Vision.ScriptEngine.VisionScript.LSL_Types.list;
 using LSL_Rotation = Vision.ScriptEngine.VisionScript.LSL_Types.Quaternion;
 using LSL_String = Vision.ScriptEngine.VisionScript.LSL_Types.LSLString;
 using LSL_Vector = Vision.ScriptEngine.VisionScript.LSL_Types.Vector3;
-using Vision.Framework.DatabaseInterfaces;
 
 namespace Vision.ScriptEngine.VisionScript.APIs
 {
@@ -126,9 +126,7 @@ namespace Vision.ScriptEngine.VisionScript.APIs
             get { return m_host.ParentEntity.Scene; }
         }
 
-        //
         // OpenSim functions
-        //
 
         #region IOSSL_Api Members
 
@@ -1633,7 +1631,7 @@ namespace Vision.ScriptEngine.VisionScript.APIs
             Hashtable jsondata = new Hashtable(); // the hashtable to be returned
             try
             {
-                // iterate through the serialized stream of tokens and store at the right depth in the hashtable
+                // iterate through the serialised stream of tokens and store at the right depth in the hashtable
                 // the top level hashtable may contain more nested hashtables within it each containing an objects representation
                 int i = 0;
                 for (i = 0; i < JSON.Length; i++)
@@ -2957,9 +2955,7 @@ namespace Vision.ScriptEngine.VisionScript.APIs
             m_LSL_Api = (LSL_Api)m_ScriptEngine.GetApi(m_itemID, "ll");
         }
 
-        //
         //Dumps an error message on the debug console.
-        //
 
         internal void OSSLShoutError(string message)
         {
@@ -2993,7 +2989,6 @@ namespace Vision.ScriptEngine.VisionScript.APIs
         {
             // This function has no security. It can be used to destroy
             // arbitrary builds the user would normally have no rights to
-            //
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.VeryHigh, "osSetRot", m_host, "OSSL", m_itemID)) return;
 
             IEntity entity;
@@ -3026,6 +3021,7 @@ namespace Vision.ScriptEngine.VisionScript.APIs
                         return DateTime.Now;
                     }
                 }
+
                 presence.ControllingClient.SendTeleportStart((uint) TeleportFlags.ViaLocation);
 
                 IEntityTransferModule entityTransfer = World.RequestModuleInterface<IEntityTransferModule>();
@@ -3039,6 +3035,7 @@ namespace Vision.ScriptEngine.VisionScript.APIs
 
                 return PScriptSleep(5000);
             }
+
             return DateTime.Now;
         }
 
@@ -3046,8 +3043,7 @@ namespace Vision.ScriptEngine.VisionScript.APIs
         {
             // High because it can be used to target attacks to known weaknesses
             // This would allow a new class of griefer scripts that don't even
-            // require their user to know what they are doing (see script
-            // kiddie)
+            // require their user to know what they are doing (see script kiddie)
             // Because it would be nice if scripts didn't blow up if the information
             //    about the physics engine, this function returns an empty string if
             //    the user does not have permission to see it. This as opposed to
@@ -3286,7 +3282,6 @@ namespace Vision.ScriptEngine.VisionScript.APIs
             }
         }
 
-
         // NPC functionality
         public LSL_Key osNpcCreate(string firstname, string lastname, LSL_Types.Vector3 position, string notecard)
         {
@@ -3306,7 +3301,6 @@ namespace Vision.ScriptEngine.VisionScript.APIs
                 (options & ScriptBaseClass.OS_NPC_NOT_OWNED) == 0,
                 (options & ScriptBaseClass.OS_NPC_SENSE_AS_AGENT) != 0);
         }
-
 
         LSL_Key NpcCreate(
             string firstname, string lastname, LSL_Types.Vector3 position, string notecard, bool owned, bool senseAsAgent)
@@ -3366,8 +3360,8 @@ namespace Vision.ScriptEngine.VisionScript.APIs
                         ownerID,
                         npcPosition
                     );
-
                 }
+
                 return new LSL_Key(newBotId.ToString());
             }
 
@@ -3518,8 +3512,7 @@ namespace Vision.ScriptEngine.VisionScript.APIs
 
                 Vector3 targetPos = target.ToVector3();
 
-                MainConsole.Instance.DebugFormat ("NPC: {0} moving to position: {1}, region: {2}, Options: {3}",
-                    npcId, targetPos, World, options);
+                MainConsole.Instance.DebugFormat ("NPC: {0} moving to position: {1}, region: {2}, Options: {3}", npcId, targetPos, World, options);
 
                 manager.MoveToTarget(
                     npcId,
@@ -3542,7 +3535,6 @@ namespace Vision.ScriptEngine.VisionScript.APIs
                 if (!UUID.TryParse(npc.m_string, out npcId))
                     return;
 
-                //manager.StopMoveToTarget(npcId, World, m_host.OwnerID);
                 manager.StopMoving (npcId, m_host.OwnerID);               
             }
         }
@@ -3570,7 +3562,6 @@ namespace Vision.ScriptEngine.VisionScript.APIs
             }
             
             return new LSL_Rotation( 0,0,0,0);
-
         }
 
         public void osNpcSetRot(LSL_Key npc, LSL_Rotation rotation)
@@ -3594,7 +3585,6 @@ namespace Vision.ScriptEngine.VisionScript.APIs
                 }
             }
         }
-
 
         public void osNpcWhisper(LSL_Key npc, int channel, string message)
         {
@@ -3643,7 +3633,6 @@ namespace Vision.ScriptEngine.VisionScript.APIs
             }
         }
 
-
         public void osNpcSit(LSL_Key npc, LSL_Key target, int options)
         {
             if (!ScriptProtection.CheckThreatLevel(ThreatLevel.High, "osNpcSit", m_host, "OSSL", m_itemID))
@@ -3665,11 +3654,9 @@ namespace Vision.ScriptEngine.VisionScript.APIs
                     var sitObjectID = UUID.Parse (target.m_string);
                     ISceneChildEntity child = World.GetSceneObjectPart (sitObjectID);
                     if (child == null)
-                        //throw new Exception("Failed to find entity to sit on");
                         return;
 
                     sp.HandleAgentRequestSit (sp.ControllingClient, sitObjectID, new Vector3 (0,0,0));
-
                 }
             }
         }
@@ -3744,34 +3731,20 @@ namespace Vision.ScriptEngine.VisionScript.APIs
                 if (!UUID.TryParse(npcLSL_Key, out npcId) || !manager.CheckPermission(npcId, m_host.OwnerID))
                     return;
 
-
                 IScenePresence sp = World.GetScenePresence(npcId);
                 if (sp == null)
                     return;
+
                 ISceneChildEntity child = World.GetSceneObjectPart(UUID.Parse(object_key));
                 if (child == null)
-                    //throw new Exception("Failed to find entity to touch");
                     return;
 
                 SurfaceTouchEventArgs touchArgs = new SurfaceTouchEventArgs();
 
-                World.EventManager.TriggerObjectGrab(child.ParentEntity.RootChild, child, Vector3.Zero, sp.ControllingClient,
-                    touchArgs);
-                World.EventManager.TriggerObjectGrabbing(child.ParentEntity.RootChild, child, Vector3.Zero,
-                    sp.ControllingClient, touchArgs);
-                World.EventManager.TriggerObjectDeGrab(child.ParentEntity.RootChild, child, sp.ControllingClient, touchArgs);                             
+                World.EventManager.TriggerObjectGrab(child.ParentEntity.RootChild, child, Vector3.Zero, sp.ControllingClient, touchArgs);
+                World.EventManager.TriggerObjectGrabbing(child.ParentEntity.RootChild, child, Vector3.Zero, sp.ControllingClient, touchArgs);
+                World.EventManager.TriggerObjectDeGrab(child.ParentEntity.RootChild, child, sp.ControllingClient, touchArgs);                              
             }
         }
-
-         // This may still not very usefull, detector is lost on rez, restarts, etc
-         public void osVolumeDetect(int detect)
-         {
-             m_host.AddScriptLPS(1);
-
-             if (m_host.ParentGroup == null || m_host.ParentGroup.IsDeleted || m_host.ParentGroup.IsAttachment)
-                 return;
-
-             m_host.ScriptSetVolumeDetect(detect != 0);
-         }
     }
 }

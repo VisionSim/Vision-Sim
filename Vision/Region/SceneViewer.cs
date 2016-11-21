@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Contributors, http://virtual-sim.org/
+ * Copyright (c) Contributors, http://vision-sim.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  * For an explanation of the license of each contributor and the content it 
  * covers please see the Licenses directory.

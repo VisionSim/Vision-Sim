@@ -33,9 +33,10 @@ using Vision.Framework.SceneInfo;
 
 namespace Vision.Framework.Modules
 {
-    public interface IMapTileTerrainRenderer
-    {
-        void Initialize(IScene scene, IConfigSource config);
-        Bitmap TerrainToBitmap(Bitmap mapbmp);
-    }
+	public interface IMapTileTerrainRenderer
+	{
+		void Initialize (IScene scene, IConfigSource config);
+
+		Bitmap TerrainToBitmap (Bitmap mapbmp);
+	}
 }

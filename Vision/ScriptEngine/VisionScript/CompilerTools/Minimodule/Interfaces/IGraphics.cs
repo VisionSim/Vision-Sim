@@ -32,10 +32,12 @@ using OpenMetaverse;
 
 namespace Vision.ScriptEngine.VisionScript.MiniModule
 {
-    public interface IGraphics
-    {
-        UUID SaveBitmap(Bitmap data);
-        UUID SaveBitmap(Bitmap data, bool lossless, bool temporary);
-        Bitmap LoadBitmap(UUID assetID);
-    }
+	public interface IGraphics
+	{
+		UUID SaveBitmap (Bitmap data);
+
+		UUID SaveBitmap (Bitmap data, bool lossless, bool temporary);
+
+		Bitmap LoadBitmap (UUID assetID);
+	}
 }

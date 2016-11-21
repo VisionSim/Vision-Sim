@@ -31,10 +31,12 @@ using Vision.Framework.ClientInterfaces;
 
 namespace Vision.Framework.Modules
 {
-    public interface IEnvironmentSettingsModule
-    {
-        WindlightDayCycle GetCurrentDayCycle();
-        void TriggerWindlightUpdate(int interpolate);
-        void SetDayCycle(WindlightDayCycle cycle);
-    }
+	public interface IEnvironmentSettingsModule
+	{
+		WindlightDayCycle GetCurrentDayCycle ();
+
+		void TriggerWindlightUpdate (int interpolate);
+
+		void SetDayCycle (WindlightDayCycle cycle);
+	}
 }
