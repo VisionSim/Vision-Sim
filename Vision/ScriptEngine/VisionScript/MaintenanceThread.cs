@@ -73,11 +73,11 @@ namespace Vision.ScriptEngine.VisionScript
 		public bool EventProcessorIsRunning;
 		public bool RunInMainProcessingThread;
 		public bool ScriptChangeIsRunning;
-		public VisionThreadPool cmdThreadpool;
+		public ThreadPool cmdThreadpool;
 		public int MaxScriptThreads = 1;
 		public bool m_Started;
-		public VisionThreadPool scriptChangeThreadpool;
-		public VisionThreadPool scriptThreadpool;
+		public ThreadPool scriptChangeThreadpool;
+		public ThreadPool scriptThreadpool;
 
 		public bool Started {
 			get { return m_Started; }
@@ -112,16 +112,16 @@ namespace Vision.ScriptEngine.VisionScript
 			//There IS a reason we start this, even if RunInMain is enabled
 			// If this isn't enabled, we run into issues with the CmdHandlerQueue,
 			// as it always must be async, so we must run the pool anyway
-			VisionThreadPoolStartInfo info = new VisionThreadPoolStartInfo {
+			ThreadPoolStartInfo info = new ThreadPoolStartInfo {
 				priority = ThreadPriority.Normal,
 				Threads = 1,
 				MaxSleepTime = Engine.Config.GetInt ("SleepTime", 100),
 				SleepIncrementTime = Engine.Config.GetInt ("SleepIncrementTime", 1),
 				Name = "Script Cmd Thread Pools"
 			};
-			cmdThreadpool = new VisionThreadPool (info);
+			cmdThreadpool = new ThreadPool (info);
             
-			VisionThreadPoolStartInfo scinfo = new VisionThreadPoolStartInfo {
+			ThreadPoolStartInfo scinfo = new ThreadPoolStartInfo {
 				priority = ThreadPriority.Normal,
 				Threads = 1,
 				MaxSleepTime = Engine.Config.GetInt ("SleepTime", 100),
@@ -129,10 +129,10 @@ namespace Vision.ScriptEngine.VisionScript
 				Name = "Script Loading Thread Pools"
 			};
         
-			scriptChangeThreadpool = new VisionThreadPool (scinfo);
+			scriptChangeThreadpool = new ThreadPool (scinfo);
 
 			MaxScriptThreads = Engine.Config.GetInt ("MaxScriptThreads", 100); // leave control threads out of user option
-			VisionThreadPoolStartInfo sinfo = new VisionThreadPoolStartInfo {
+			ThreadPoolStartInfo sinfo = new ThreadPoolStartInfo {
 				priority = ThreadPriority.Normal,
 				Threads = MaxScriptThreads,
 				MaxSleepTime = Engine.Config.GetInt ("SleepTime", 100),
@@ -140,7 +140,7 @@ namespace Vision.ScriptEngine.VisionScript
 				KillThreadAfterQueueClear = true,
 				Name = "Script Event Thread Pools"
 			};
-			scriptThreadpool = new VisionThreadPool (sinfo);
+			scriptThreadpool = new ThreadPool (sinfo);
 
 			AppDomain.CurrentDomain.AssemblyResolve += m_ScriptEngine.AssemblyResolver.OnAssemblyResolve;
 		}

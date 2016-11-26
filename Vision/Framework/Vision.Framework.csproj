@@ -1053,10 +1053,10 @@
 	  <Compile Include="Utilities\VersionInfo.cs">
 		<SubType>Code</SubType>
 	  </Compile>
-	  <Compile Include="Utilities\VisionThreadPool.cs">
+	  <Compile Include="Utilities\ThreadPool.cs">
 		<SubType>Code</SubType>
 	  </Compile>
-	  <Compile Include="Utilities\VisionXmlDocument.cs">
+	  <Compile Include="Utilities\XmlDocument.cs">
 		<SubType>Code</SubType>
 	  </Compile>
 	  <Compile Include="Utilities\WebUtils.cs">

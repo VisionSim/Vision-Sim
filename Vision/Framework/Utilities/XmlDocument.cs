@@ -36,22 +36,22 @@ namespace Vision.Framework.Utilities
 	/// <summary>
 	///     Summary description for NSXML.
 	/// </summary>
-	public sealed class VisionXmlDocument : XmlDocument
+	public sealed class XmlDocument : XmlDocument
 	{
 		#region Constructors
 
 		/// <summary>
 		///     Default Constructor
 		/// </summary>
-		public VisionXmlDocument ()
+		public XmlDocument ()
 		{
 		}
 
 		/// <summary>
-		///     Creates a VisionXmlDocument and loads it with the xml
+		///     Creates a XmlDocument and loads it with the xml
 		/// </summary>
 		/// <param name="xml"></param>
-		public VisionXmlDocument (string xml) : this ()
+		public XmlDocument (string xml) : this ()
 		{
 			LoadXml (xml);
 		}
@@ -61,13 +61,13 @@ namespace Vision.Framework.Utilities
 		#region root work
 
 		/// <summary>
-		///     Creates a new VisionXmlDocument with the specified rootName
+		///     Creates a new XmlDocument with the specified rootName
 		/// </summary>
 		/// <param name="rootName"></param>
 		/// <returns></returns>
-		public static VisionXmlDocument NewXmlDocumentWithRoot (string rootName)
+		public static XmlDocument NewXmlDocumentWithRoot (string rootName)
 		{
-			return new VisionXmlDocument ("<" + rootName + "/>");
+			return new XmlDocument ("<" + rootName + "/>");
 		}
 
 		/// <summary>
@@ -252,7 +252,7 @@ namespace Vision.Framework.Utilities
 		/// <param name="xPathFrom">XPath to the node or nodes you want to move</param>
 		/// <param name="xPathTo">XPath to the node that you want to place the xml</param>
 		/// <returns></returns>
-		public VisionXmlDocument AddXMLDoc (VisionXmlDocument XmlDoc, string xPathFrom, string xPathTo)
+		public XmlDocument AddXMLDoc (XmlDocument XmlDoc, string xPathFrom, string xPathTo)
 		{
 			if (DocumentElement == null)
 				throw new Exception ("DocumentElemnt is null");
