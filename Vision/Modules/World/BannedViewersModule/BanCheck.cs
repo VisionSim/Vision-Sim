@@ -64,8 +64,7 @@ namespace Vision.Modules.Ban
 			m_module = new BanCheck (source, registry.RequestModuleInterface<IUserAccountService> ());
 		}
 
-		public LoginResponse Login (Hashtable request, UserAccount account, IAgentInfo agentInfo, string authType,
-		                                  string password, out object data)
+		public LoginResponse Login (Hashtable request, UserAccount account, IAgentInfo agentInfo, string authType, string password, out object data)
 		{
 			data = null;
 
@@ -91,6 +90,7 @@ namespace Vision.Modules.Ban
 				             id0, out message)) {
 				return new LLFailedLoginResponse (LoginResponseEnum.Indeterminant, message, false);
 			}
+
 			return null;
 		}
 
@@ -116,8 +116,7 @@ namespace Vision.Modules.Ban
 		bool m_checkOnTimer = true;
 		bool m_enabled = true;
 
-		ListCombiningTimedSaving<PresenceInfo> _checkForSimilaritiesLater =
-			new ListCombiningTimedSaving<PresenceInfo> ();
+		ListCombiningTimedSaving<PresenceInfo> _checkForSimilaritiesLater = new ListCombiningTimedSaving<PresenceInfo> ();
 
 		#endregion
 
@@ -158,8 +157,7 @@ namespace Vision.Modules.Ban
 			if (m_checkOnTimer)
 				_checkForSimilaritiesLater.Start (5, CheckForSimilaritiesMultiple);
 
-			GrieferAllowLevel =
-                (AllowLevel)Enum.Parse (typeof(AllowLevel), config.GetString ("GrieferAllowLevel", "AllowKnown"));
+			GrieferAllowLevel = (AllowLevel)Enum.Parse (typeof(AllowLevel), config.GetString ("GrieferAllowLevel", "AllowKnown"));
 
 			presenceInfo = Framework.Utilities.DataManager.RequestPlugin<IPresenceInfo> ();
 			m_accountService = userAccountService;
@@ -208,7 +206,6 @@ namespace Vision.Modules.Ban
 					"Removes the block for logging in on a given user",
 					UnBlockUser, false, true);
 			}
-
 		}
 
 		#endregion
@@ -226,8 +223,7 @@ namespace Vision.Modules.Ban
 			presenceInfo.Check (info, m_useIncludeList ? m_allowedViewers : m_bannedViewers, m_useIncludeList);
 		}
 
-		PresenceInfo UpdatePresenceInfo (UUID agentID, PresenceInfo oldInfo, string ip, string version,
-		                                       string platform, string mac, string id0)
+		PresenceInfo UpdatePresenceInfo (UUID agentID, PresenceInfo oldInfo, string ip, string version, string platform, string mac, string id0)
 		{
 			PresenceInfo info = new PresenceInfo ();
 			info.AgentID = agentID;
@@ -286,12 +282,14 @@ namespace Vision.Modules.Ban
 				MainConsole.Instance.Warn ("Cannot find user.");
 				return;
 			}
+
 			UUID AgentID = account.PrincipalID;
 			PresenceInfo info = GetInformation (AgentID);
 			if (info == null) {
 				MainConsole.Instance.Warn ("Cannot find user.");
 				return;
 			}
+
 			DisplayUserInfo (info);
 		}
 
@@ -314,13 +312,12 @@ namespace Vision.Modules.Ban
 			var conn = Framework.Utilities.DataManager.RequestPlugin<IAgentConnector> ();
 			IAgentInfo agentInfo = conn.GetAgent (agentID);
 			if (
-				MainConsole.Instance.Prompt ("Do you want to have this only be a temporary ban?", "no",
-					new List<string> () { "yes", "no" }).ToLower () == "yes") {
+				MainConsole.Instance.Prompt ("Do you want to have this only be a temporary ban?", "no", new List<string> () { "yes", "no" }).ToLower () == "yes") {
 				float days = float.Parse (MainConsole.Instance.Prompt ("How long (in days) should this ban last?", "5.0"));
 
 				agentInfo.Flags |= IAgentFlags.TempBan;
 
-				agentInfo.OtherAgentInformation ["TemperaryBanInfo"] = DateTime.Now.ToUniversalTime ().AddDays (days);
+				agentInfo.OtherAgentInformation ["TemporaryBanInfo"] = DateTime.Now.ToUniversalTime ().AddDays (days);
 			} else {
 				info.Flags |= PresenceInfo.PresenceInfoFlags.Banned;
 				presenceInfo.UpdatePresenceInfo (info);
@@ -354,8 +351,8 @@ namespace Vision.Modules.Ban
 
 			agentInfo.Flags &= IAgentFlags.TempBan;
 			agentInfo.Flags &= IAgentFlags.PermBan;
-			if (agentInfo.OtherAgentInformation.ContainsKey ("TemperaryBanInfo"))
-				agentInfo.OtherAgentInformation.Remove ("TemperaryBanInfo");
+			if (agentInfo.OtherAgentInformation.ContainsKey ("TemporaryBanInfo"))
+				agentInfo.OtherAgentInformation.Remove ("TemporaryBanInfo");
 			conn.UpdateAgent (agentInfo);
 
 			MainConsole.Instance.Fatal ("User block removed");
@@ -369,6 +366,7 @@ namespace Vision.Modules.Ban
 				MainConsole.Instance.Warn ("Cannot find user.");
 				return;
 			}
+
 			UUID agentID = account.PrincipalID;
 			PresenceInfo info = GetInformation (agentID);
 			if (info == null) {
@@ -384,6 +382,7 @@ namespace Vision.Modules.Ban
 				MainConsole.Instance.Warn ("Please choose a valid flag: Clean, Suspected, Known, Banned");
 				return;
 			}
+
 			MainConsole.Instance.Info ("Set Flags for " + info.AgentID + " to " + info.Flags);
 			presenceInfo.UpdatePresenceInfo (info);
 		}
@@ -501,8 +500,7 @@ namespace Vision.Modules.Ban
 
 		#region Public members
 
-		public bool CheckUser (UUID agentID, string ip, string version, string platform, string mac, string id0,
-		                             out string message)
+		public bool CheckUser (UUID agentID, string ip, string version, string platform, string mac, string id0, out string message)
 		{
 			message = "";
 			if (!m_enabled)
@@ -563,20 +561,19 @@ namespace Vision.Modules.Ban
 					if (IPAddress.TryParse (ip, out ipa))
 						IPBans.Add (ipa);
 				}
+
 				IPRangeBans = Util.ConvertToList (config.GetString ("IPRangeBans", ""), true);
 			}
 		}
 
-		public LoginResponse Login (Hashtable request, UserAccount account, IAgentInfo agentInfo, string authType,
-		                                  string password, out object data)
+		public LoginResponse Login (Hashtable request, UserAccount account, IAgentInfo agentInfo, string authType, string password, out object data)
 		{
 			data = null;
 			string ip = request != null && request.ContainsKey ("ip") ? (string)request ["ip"] : "127.0.0.1";
 			ip = ip.Split (':') [0]; //Remove the port
 			IPAddress userIP = IPAddress.Parse (ip);
 			if (IPBans.Contains (userIP))
-				return new LLFailedLoginResponse (LoginResponseEnum.Indeterminant,
-					"Your account cannot be accessed on this computer.", false);
+				return new LLFailedLoginResponse (LoginResponseEnum.Indeterminant, "Your account cannot be accessed on this computer.", false);
             
 			foreach (string ipRange in IPRangeBans) {
 				string[] split = ipRange.Split ('-');
@@ -587,8 +584,7 @@ namespace Vision.Modules.Ban
 				IPAddress high = IPAddress.Parse (ip);
 				NetworkUtils.IPAddressRange range = new NetworkUtils.IPAddressRange (low, high);
 				if (range.IsInRange (userIP))
-					return new LLFailedLoginResponse (LoginResponseEnum.Indeterminant,
-						"Your account cannot be accessed on this computer.", false);
+					return new LLFailedLoginResponse (LoginResponseEnum.Indeterminant, "Your account cannot be accessed on this computer.", false);
 			}
 
 			return null;
