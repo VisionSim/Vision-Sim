@@ -64,8 +64,8 @@ namespace Vision.Modules.WorldMap
 		readonly ConcurrentQueue<MapItemRequester> m_itemsToRequest = 
 			new ConcurrentQueue<MapItemRequester> ();
 		bool itemRequesterIsRunning;
-		static ThreadPool threadpool;
-		static ThreadPool blockthreadpool;
+		static VisionThreadPool threadpool;
+		static VisionThreadPool blockthreadpool;
 		int MapViewLength = 8;
 
 		#region INonSharedRegionModule Members
@@ -105,12 +105,12 @@ namespace Vision.Modules.WorldMap
 			if (!m_Enabled)
 				return;
 
-			ThreadPoolStartInfo info = new ThreadPoolStartInfo {
+			VisionThreadPoolStartInfo info = new VisionThreadPoolStartInfo {
 				priority = ThreadPriority.Lowest,
 				Threads = 1
 			};
-			threadpool = new ThreadPool (info);
-			blockthreadpool = new ThreadPool (info);
+			threadpool = new VisionThreadPool (info);
+			blockthreadpool = new VisionThreadPool (info);
 		}
 
 		public virtual void Close ()

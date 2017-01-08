@@ -10368,7 +10368,7 @@ namespace Vision.ScriptEngine.VisionScript.APIs
                 return "";
 
             if (name == "sim_channel")
-                return "Vision Sim Server";
+                return "Vision-Sim Server";
             if (name == "sim_version")
                 return World.RequestModuleInterface<ISimulationBase>().Version;
             if (name == "frame_number")
@@ -10545,7 +10545,8 @@ namespace Vision.ScriptEngine.VisionScript.APIs
                     case 128:
                         try
                         {
-                            if (!ScriptProtection.CheckThreatLevel(ThreatLevel.High, "llRequestSimulatorData", m_host, "LSL", m_itemID))
+                            if (!ScriptProtection.CheckThreatLevel(ThreatLevel.High, "llRequestSimulatorData", m_host,
+                                                                   "LSL", m_itemID))
                                 return "";
 
                             reply = "Vision";

@@ -34,6 +34,7 @@ using OpenMetaverse.Imaging;
 using Vision.Framework.Modules;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Services.ClassHelpers.Assets;
+using Vision.Framework.Utilities;
 
 namespace Vision.ScriptEngine.VisionScript.MiniModule
 {
@@ -72,12 +73,9 @@ namespace Vision.ScriptEngine.VisionScript.MiniModule
 
 		public Bitmap LoadBitmap (UUID assetID)
 		{
-			// from AssetCaps
-			const string MISSING_TEXTURE_ID = "41fcdbb9-0896-495d-8889-1eb6fad88da3";       // texture to use when all else fails...
-
 			byte[] bmp = m_scene.AssetService.GetData (assetID.ToString ());
 			if (bmp == null)
-				bmp = m_scene.AssetService.GetData (MISSING_TEXTURE_ID);
+				bmp = m_scene.AssetService.GetData (Constants.MISSING_TEXTURE_ID);
 
 			if (bmp == null)    // something reqlly wrong here
                 return null;

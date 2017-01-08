@@ -51,7 +51,7 @@ using Vision.Framework.Utilities;
 using RegionFlags = OpenMetaverse.RegionFlags;
 
 namespace Vision.ClientStack
-    {
+{
     public delegate bool PacketMethod(IClientAPI simClient, Packet packet);
 
     /// <summary>
@@ -585,10 +585,10 @@ namespace Vision.ClientStack
             m_udpClient.OnPacketStats -= PopulateStats;
             m_udpClient.Shutdown();
 
-            MainConsole.Instance.DebugFormat("[Client] Memory on initiate {0}", startMem);
+            MainConsole.Instance.DebugFormat("[Client] Memory on initiate {0} mBytes",startMem / 1000000);
             var endMem = GC.GetTotalMemory(true);
-            MainConsole.Instance.DebugFormat("[Client] Memory on close {0}", endMem);
-            MainConsole.Instance.DebugFormat("[Client] Memory released {0}", startMem - endMem);
+            MainConsole.Instance.DebugFormat("[Client] Memory on close {0} mBytes", endMem / 1000000);
+            MainConsole.Instance.DebugFormat ("[Client] Memory released {0} mBytes", (startMem - endMem) / 1000000);
         }
 
         public void Kick(string message)
@@ -10956,8 +10956,8 @@ namespace Vision.ClientStack
             if (m_GroupsModule != null)
             {
                 m_GroupsModule.ActivateGroup(this, activateGroupPacket.AgentData.GroupID);
-            }'
-            '
+            }
+
             return true;
         }
 

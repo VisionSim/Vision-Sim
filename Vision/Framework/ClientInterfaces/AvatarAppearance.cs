@@ -581,6 +581,7 @@ namespace Vision.Framework.ClientInterfaces
         {
             if ((attPnt & 0x80) > 0)
                 return true;
+
             lock (_attachmentslock)
             {
                 if (m_attachments.ContainsKey(attPnt))
@@ -713,7 +714,6 @@ namespace Vision.Framework.ClientInterfaces
             foreach (AvatarAttachment attach in GetAttachments())
                 attachs.Add(attach.Pack());
             data["attachments"] = attachs;
-
             data["wearableCache"] = m_wearableCache.ToOSDMap();
 
             return data;

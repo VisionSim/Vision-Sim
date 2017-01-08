@@ -168,7 +168,6 @@ namespace Vision.Modules.Ban
 
 		void AddCommands ()
 		{
-
 			if (MainConsole.Instance != null) {
 				MainConsole.Instance.Commands.AddCommand (
 					"show user info",
@@ -312,7 +311,8 @@ namespace Vision.Modules.Ban
 			var conn = Framework.Utilities.DataManager.RequestPlugin<IAgentConnector> ();
 			IAgentInfo agentInfo = conn.GetAgent (agentID);
 			if (
-				MainConsole.Instance.Prompt ("Do you want to have this only be a temporary ban?", "no", new List<string> () { "yes", "no" }).ToLower () == "yes") {
+				MainConsole.Instance.Prompt ("Do you want to have this only be a temporary ban?", "no",
+					new List<string> () { "yes", "no" }).ToLower () == "yes") {
 				float days = float.Parse (MainConsole.Instance.Prompt ("How long (in days) should this ban last?", "5.0"));
 
 				agentInfo.Flags |= IAgentFlags.TempBan;
@@ -343,6 +343,7 @@ namespace Vision.Modules.Ban
 				MainConsole.Instance.Warn ("Cannot find user.");
 				return;
 			}
+
 			info.Flags = PresenceInfo.PresenceInfoFlags.Clean;
 			presenceInfo.UpdatePresenceInfo (info);
 
@@ -566,14 +567,16 @@ namespace Vision.Modules.Ban
 			}
 		}
 
-		public LoginResponse Login (Hashtable request, UserAccount account, IAgentInfo agentInfo, string authType, string password, out object data)
+		public LoginResponse Login (Hashtable request, UserAccount account, IAgentInfo agentInfo, string authType,
+		                                  string password, out object data)
 		{
 			data = null;
 			string ip = request != null && request.ContainsKey ("ip") ? (string)request ["ip"] : "127.0.0.1";
 			ip = ip.Split (':') [0]; //Remove the port
 			IPAddress userIP = IPAddress.Parse (ip);
 			if (IPBans.Contains (userIP))
-				return new LLFailedLoginResponse (LoginResponseEnum.Indeterminant, "Your account cannot be accessed on this computer.", false);
+				return new LLFailedLoginResponse (LoginResponseEnum.Indeterminant,
+					"Your account cannot be accessed on this computer.", false);
             
 			foreach (string ipRange in IPRangeBans) {
 				string[] split = ipRange.Split ('-');
@@ -584,7 +587,8 @@ namespace Vision.Modules.Ban
 				IPAddress high = IPAddress.Parse (ip);
 				NetworkUtils.IPAddressRange range = new NetworkUtils.IPAddressRange (low, high);
 				if (range.IsInRange (userIP))
-					return new LLFailedLoginResponse (LoginResponseEnum.Indeterminant, "Your account cannot be accessed on this computer.", false);
+					return new LLFailedLoginResponse (LoginResponseEnum.Indeterminant,
+						"Your account cannot be accessed on this computer.", false);
 			}
 
 			return null;

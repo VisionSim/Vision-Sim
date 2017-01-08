@@ -33,7 +33,7 @@ using System.Threading;
 
 namespace Vision.Framework.Utilities
 {
-	public class ThreadPoolStartInfo
+	public class VisionThreadPoolStartInfo
 	{
 		public int InitialSleepTime = 10;
 		public bool KillThreadAfterQueueClear;
@@ -44,16 +44,16 @@ namespace Vision.Framework.Utilities
 		public ThreadPriority priority;
 	}
 
-	public class ThreadPool
+	public class VisionThreadPool
 	{
 		readonly int[] Sleeping;
 		readonly Thread[] Threads;
-		readonly ThreadPoolStartInfo m_info;
+		readonly VisionThreadPoolStartInfo m_info;
 		readonly ConcurrentQueue<Action> queue = new ConcurrentQueue<Action> ();
 		public long nSleepingthreads;
 		public long nthreads;
 
-		public ThreadPool (ThreadPoolStartInfo info)
+		public VisionThreadPool (VisionThreadPoolStartInfo info)
 		{
 			m_info = info;
 			Threads = new Thread [m_info.Threads];
@@ -128,7 +128,7 @@ namespace Vision.Framework.Utilities
 							Thread thread = new Thread (ThreadStart) {
 								Priority = m_info.priority,
 								Name =
-                                                        (m_info.Name == "" ? "ThreadPool" : m_info.Name) + "#" + i,
+                                                        (m_info.Name == "" ? "VisionThreadPool" : m_info.Name) + "#" + i,
 								IsBackground = true
 							};
 							try {
