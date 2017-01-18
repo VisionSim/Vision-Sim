@@ -76,11 +76,10 @@ namespace Vision.Modules.Chat
 				return;
 
 			if (m_TransferModule == null) {
-				m_TransferModule =
-                    scene.RequestModuleInterface<IMessageTransferModule> ();
+				m_TransferModule = scene.RequestModuleInterface<IMessageTransferModule> ();
 
 				if (m_TransferModule == null) {
-					MainConsole.Instance.Error ("[INSTANT MESSAGE]: No message transfer module, IM will not work!");
+					MainConsole.Instance.Error ("[Instant Message]: No message transfer module, IM will not work!");
 					scene.EventManager.OnNewClient -= EventManager_OnNewClient;
 					scene.EventManager.OnClosingClient -= EventManager_OnClosingClient;
 					scene.EventManager.OnIncomingInstantMessage -= OnGridInstantMessage;
@@ -137,8 +136,7 @@ namespace Vision.Modules.Chat
 
 			if (m_TransferModule != null) {
 				if (client == null) {
-					UserAccount account = m_Scene.UserAccountService.GetUserAccount (m_Scene.RegionInfo.AllScopeIDs,
-						                                     im.FromAgentID);
+					UserAccount account = m_Scene.UserAccountService.GetUserAccount (m_Scene.RegionInfo.AllScopeIDs, im.FromAgentID);
 					if (account != null)
 						im.FromAgentName = account.Name;
 					else
@@ -165,8 +163,7 @@ namespace Vision.Modules.Chat
 			}
 
 			if (m_TransferModule != null) {
-				UserAccount account = m_Scene.UserAccountService.GetUserAccount (m_Scene.RegionInfo.AllScopeIDs,
-					                                  msg.FromAgentID);
+				UserAccount account = m_Scene.UserAccountService.GetUserAccount (m_Scene.RegionInfo.AllScopeIDs, msg.FromAgentID);
 				if (account != null)
 					msg.FromAgentName = account.Name;
 				else
