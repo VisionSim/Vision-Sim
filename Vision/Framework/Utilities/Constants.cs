@@ -68,9 +68,10 @@ namespace Vision.Framework.Utilities
 		public const string LibraryOwnerUUID = "11111111-1111-0000-0000-000100bba000";
         public const string LibraryOwnerName = "Library Owner";
 		public const string LibraryRootFolderID = "00000112-000f-0000-0000-000100bba000";
+        public const string LibraryName = "Vision-Sim Library";
 
-		// System Real Estate Avatar Account
-		public const string RealEstateOwnerUUID = "bbb55499-7938-4752-ab7c-f7136e36cced";
+        // System Real Estate Avatar Account
+        public const string RealEstateOwnerUUID = "bbb55499-7938-4752-ab7c-f7136e36cced";
 		public const string RealEstateOwnerName = "RealEstate Owner";
 
 		// System Governor Avatar Account

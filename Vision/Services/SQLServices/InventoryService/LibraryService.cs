@@ -56,10 +56,10 @@ namespace Vision.Services.SQLServices.InventoryService
 			get { return new UUID (Constants.LibraryRootFolderID); }
 		}
 
-		string libOwnerName = "Library Owner";
+		string libOwnerName = Constants.LibraryOwnerName;
 		bool m_enabled;
 		IRegistryCore m_registry;
-		string pLibName = "Vision Library";
+		string pLibName = Constants.LibraryName;
 		protected IInventoryService m_inventoryService;
 
 		#region ILibraryService Members
