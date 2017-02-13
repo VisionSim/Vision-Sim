@@ -108,8 +108,7 @@ namespace Vision.Modules.WorldMap
 				drawPrimVolume = false;
 			}
 
-			MainConsole.Instance.InfoFormat ("[MapTile generator]: Generating Maptile for {0}, using {1} ",
-				m_scene.RegionInfo.RegionName, tileRenderer);
+			MainConsole.Instance.InfoFormat ("[Map Tile Generator]: Generating Maptile for {0}, using {1} ", m_scene.RegionInfo.RegionName, tileRenderer);
 
 			terrainRenderer.Initialize (m_scene, m_config);
 
@@ -134,11 +133,8 @@ namespace Vision.Modules.WorldMap
 
             GC.Collect();
 
-			MainConsole.Instance.InfoFormat ("[MapTile generator]: Maptile generation took {0} ms",
-				(Environment.TickCount - start));
-
+			MainConsole.Instance.InfoFormat ("[Map Tile Generator]: Maptile generation took {0} ms", m_scene.RegionInfo.RegionName, (Environment.TickCount - start));
 		}
-
 
 		public void CreateMapTile (out byte[] terrain, out byte[] map)
 		{
@@ -151,11 +147,11 @@ namespace Vision.Modules.WorldMap
 				terrain = OpenJPEG.EncodeFromImage (terrainBMP, true);
 				terrainBMP.Dispose ();
 			}
+
 			if (mapBMP != null) {
 				map = OpenJPEG.EncodeFromImage (mapBMP, true);
 				mapBMP.Dispose ();
 			}
-
 		}
 
 		public Bitmap CreateViewImage (Vector3 camPos, Vector3 camDir, float fov, int width, int height, bool useTextures)
@@ -163,14 +159,13 @@ namespace Vision.Modules.WorldMap
 			int start = Environment.TickCount;
 			var renderer = new WarpTileRenderer ();
 
-			MainConsole.Instance.InfoFormat ("[MapTile generator]: Generating worldview for {0}",
+			MainConsole.Instance.InfoFormat ("[Map Tile Generator]: Generating worldview for {0}",
 				m_scene.RegionInfo.RegionName);
 
 			renderer.Initialize (m_scene, m_config);
 			Bitmap worldView = renderer.CreateViewImage (camPos, camDir, fov, width, height, useTextures);
 
-			MainConsole.Instance.InfoFormat ("[MapTile generator]: Worldview generation took {0} ms",
-				(Environment.TickCount - start));
+			MainConsole.Instance.InfoFormat ("[Map Tile Generator]: Worldview generation took {0} ms", (Environment.TickCount - start));
 
 			return worldView;
 		}
@@ -180,12 +175,12 @@ namespace Vision.Modules.WorldMap
 			int start = Environment.TickCount;
 			var renderer = new WarpTileRenderer ();
 
-			MainConsole.Instance.InfoFormat ("[MapTile generator]: Generating world maptile for {0}",
+			MainConsole.Instance.InfoFormat ("[Map Tile Generator]: Generating world maptile for {0}",
 				m_scene.RegionInfo.RegionName);
 			renderer.Initialize (m_scene, m_config);
 			Bitmap worldMap = renderer.TerrainToBitmap (null, size);
 
-			MainConsole.Instance.InfoFormat ("[MapTile generator]: World maptile generation took {0} ms",
+			MainConsole.Instance.InfoFormat ("[Map Tile Generator]: World maptile generation took {0} ms",
 				(Environment.TickCount - start));
 
 			return worldMap;
@@ -377,7 +372,6 @@ namespace Vision.Modules.WorldMap
 				MainConsole.Instance.InfoFormat ("[Maptile generator]: Skipping maptile generation for {0} as no change have been made",
 					m_scene.RegionInfo.RegionName);
 			}
-
 		}
 
 		/// <summary>
@@ -417,7 +411,6 @@ namespace Vision.Modules.WorldMap
 			} else {
 				Util.FireAndForget (CreateMapTileAsync);
 			}
-
 		}
 
 		#region Async map tile
@@ -669,7 +662,7 @@ namespace Vision.Modules.WorldMap
 		Bitmap DrawObjectVolume (IScene whichScene, Bitmap mapbmp)
 		{
 			ITerrainChannel heightmap = whichScene.RequestModuleInterface<ITerrainChannel> ();
-			//MainConsole.Instance.Info("[MAPTILE]: Generating Maptile Step 2: Object Volume Profile");
+			//MainConsole.Instance.Info("[Map Tile]: Generating Maptile Step 2: Object Volume Profile");
 			ISceneEntity[] objs = whichScene.Entities.GetEntities ();
 			Dictionary<uint, DrawStruct> z_sort = new Dictionary<uint, DrawStruct> ();
 			//SortedList<float, RectangleDrawStruct> z_sort = new SortedList<float, RectangleDrawStruct>();
@@ -1129,7 +1122,6 @@ namespace Vision.Modules.WorldMap
 
 			if (File.Exists (fullPath))
 				File.Delete (fullPath);
-
 		}
 
 		public void Dispose ()
