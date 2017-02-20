@@ -130,6 +130,7 @@ namespace Vision.Modules.Web
 						} catch {
 						}
 					}
+
 					myEncoderParameters.Dispose ();
 					if (image != null)
 						image.Dispose ();
@@ -149,9 +150,7 @@ namespace Vision.Modules.Web
 			return new byte [0];
 		}
 
-
-		public byte [] OnHTTPGetAvatarImage (string path, Stream request, OSHttpRequest httpRequest,
-		                                         OSHttpResponse httpResponse)
+		public byte [] OnHTTPGetAvatarImage (string path, Stream request, OSHttpRequest httpRequest, OSHttpResponse httpResponse)
 		{
 			httpResponse.ContentType = "image/jpeg";
 
@@ -169,9 +168,7 @@ namespace Vision.Modules.Web
 			return new byte [0];
 		}
 
-
-		public byte [] OnHTTPGetImage (string path, Stream request, OSHttpRequest httpRequest,
-		                                     OSHttpResponse httpResponse)
+		public byte [] OnHTTPGetImage (string path, Stream request, OSHttpRequest httpRequest, OSHttpResponse httpResponse)
 		{
 			httpResponse.ContentType = "image/jpeg";
 
