@@ -1895,38 +1895,38 @@ namespace Vision.Region
 			m_parentGroup.SetHoverHeight (height, hoverType, tau);
 		}
 
-		public void PreloadSound (string sound)
-		{
-			// UUID ownerID = OwnerID;
-			UUID objectID = ParentGroup.RootPart.UUID;
-			UUID soundID = UUID.Zero;
+        public void PreloadSound(string sound)
+        {
+            // UUID ownerID = OwnerID;
+            UUID objectID = ParentGroup.RootPart.UUID;
+            UUID soundID = UUID.Zero;
 
-			if (!UUID.TryParse (sound, out soundID)) {
-				//Trys to fetch sound id from prim's inventory.
-				//Prim's inventory doesn't support non script items yet
+            if (!UUID.TryParse(sound, out soundID))
+            {
+                //Trys to fetch sound id from prim's inventory.
+                //Prim's inventory doesn't support non script items yet
 
-				lock (TaskInventory) {
-					foreach (
+                lock (TaskInventory)
+                {
+                    foreach (
                         KeyValuePair<UUID, TaskInventoryItem> item in
-                            TaskInventory.Where(item => item.Value.Name == sound)) {
-						soundID = item.Value.ItemID;
-						break;
-					}
-				}
-			}
+                            TaskInventory.Where(item => item.Value.Name == sound))
+                    {
+                        soundID = item.Value.ItemID;
+                        break;
+                    }
+                }
+            }
 
-			m_parentGroup.Scene.ForEachScenePresence (delegate(IScenePresence sp) {
-				if (sp.IsChildAgent)
-					return;
-				if (
-					!(Util.GetDistanceTo (sp.AbsolutePosition,
-						AbsolutePosition) >= 100))
-					sp.ControllingClient.SendPreLoadSound (objectID,
-						objectID, soundID);
-			});
-		}
+            m_parentGroup.Scene.ForEachScenePresence(delegate (IScenePresence sp) {
+                if (sp.IsChildAgent)
+                    return;
+                if (!(Util.GetDistanceTo(sp.AbsolutePosition, AbsolutePosition) >= 100))
+                    sp.ControllingClient.SendPreLoadSound(objectID, objectID, soundID);
+            });
+        }
 
-		public bool RemFlag (PrimFlags flag)
+        public bool RemFlag (PrimFlags flag)
 		{
 			// PrimFlags prevflag = Flags;
 			if ((Flags & flag) != 0) {
@@ -3359,7 +3359,11 @@ namespace Vision.Region
 		public void ResetExpire ()
 		{
 			Expires = DateTime.Now + new TimeSpan (TimeSpan.TicksPerMinute);
-		}
+
+            // set prim counts as tainted so they get recalculated
+            var pcount = m_parentGroup.Scene.RequestModuleInterface<IPrimCountModule>();
+            pcount.TaintPrimCount();
+        }
 
 		public event AddPhysics OnAddPhysics;
 		public event RemovePhysics OnRemovePhysics;
