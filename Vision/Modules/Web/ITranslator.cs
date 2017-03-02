@@ -29,10 +29,12 @@
 
 namespace Vision.Modules.Web
 {
-	public interface ITranslator
-	{
-		string LanguageName { get; }
+    public interface ITranslator
+    {
+        string LanguageName { get; }
+        string FullLanguageName { get; }
+        string GetTranslatedString (string key);
 
-		string GetTranslatedString (string key);
-	}
+        void Deserialize (string basePath);
+    }
 }

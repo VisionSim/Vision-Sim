@@ -28,33 +28,46 @@
  */
 
 using System.Collections.Generic;
+using System.IO;
 
 namespace Vision.Modules.Web.Translators
 {
-    public class IrishTranslation : ITranslator
+    public static class TranslatorSerialization
     {
-        public string LanguageName {
-            get { return "ga"; }
-        }
-
-        public string FullLanguageName {
-            get { return "Irish"; }
-        }
-
-        public string GetTranslatedString (string key)
+        /// <summary>
+        /// Deserialize the specified <languageName>.po file
+        /// </summary>
+        /// <param name="basePath">Base path.</param>
+        /// <param name="languageName">Language name.</param>
+        public static Dictionary<string, string> Deserialize (string basePath, string languageName)
         {
-            if (dictionary.ContainsKey (key))
-                return dictionary [key];
-            return ":" + key + ":";
-        }
+            var newdict = new Dictionary<string, string> ();
+            var outPath = Path.Combine (basePath, "translations");
+            var fileName = Path.Combine (outPath, languageName + ".po");
 
-        Dictionary<string, string> dictionary = new Dictionary<string, string> ();
+            if (!File.Exists (fileName))
+                return newdict;             // no translation available
 
-        public void Deserialize (string basePath)
-        {
-            var newdict = TranslatorSerialization.Deserialize (basePath, LanguageName);
-            if (newdict.Count > 0)
-                dictionary = newdict;
+            string inputline;
+            char [] delim = { ' ' };
+
+            using (StreamReader reader = new StreamReader (fileName)) {
+                string key = "";
+
+                while ((inputline = reader.ReadLine ()) != null) {
+                    var bits = inputline.Split (delim, 2);
+                    if (bits.Length == 2) {
+                        if (bits [0] == "msgid")
+                            key = bits [1].Replace ("\"", "");
+                        if (key != "" & bits [0] == "msgstr") {
+                            newdict.Add (key, bits [1].Replace ("\"", ""));
+                            key = "";
+                        }
+                    }
+                }
+            }
+
+            return newdict;
         }
     }
 }

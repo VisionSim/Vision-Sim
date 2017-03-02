@@ -31,14 +31,14 @@ using System.Collections.Generic;
 
 namespace Vision.Modules.Web.Translators
 {
-    public class IrishTranslation : ITranslator
+    public class SkeletonTranslation : ITranslator      // << Rename the class for your language
     {
         public string LanguageName {
-            get { return "ga"; }
+            get { return "sk"; }                        // << replace with the language code
         }
 
         public string FullLanguageName {
-            get { return "Irish"; }
+            get { return "Skeleton"; }                  // << replace with the language name
         }
 
         public string GetTranslatedString (string key)
