@@ -1,0 +1,3 @@
+[submodule "Vision-LibOMV"]
+	path = Vision-LibOMV
+	url = https://github.com/VisionSim/Vision-LibOMV.git
