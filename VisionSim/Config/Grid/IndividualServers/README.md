@@ -3,8 +3,8 @@
 
 In this folder are example 'ini' files to run individual servers for each of the required services.
 
-Note:  These files are not included in the standard grid configuration.
-To uses your configurations you will need to modify the '[Handlers]' 
+Note:  These files are NOT INCLUDED in the standard grid configuration.
+To use your configurations you will need to modify the '[Handlers]' 
 section of 'Vision.Server.ini'
 
 Example: To configure for a seperate Asset Server the Configuration for
@@ -14,4 +14,3 @@ the 'Vision.Server.exe' instance could be changed to...
 ;; to comment this line and configure these services externally.
 ;Include-Single = Grid/ServerConfiguration/SingleServerInstance.ini
 Include-Simgle = Grid/IndividualServers/Vision.AssetServer.ini
-
