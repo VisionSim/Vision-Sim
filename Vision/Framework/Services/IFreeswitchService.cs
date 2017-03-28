@@ -27,17 +27,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System.Collections;
 using Vision.Framework.Servers.HttpServer.Implementation;
+using System.Collections;
 
 namespace Vision.Framework.Services
 {
-	public interface IFreeswitchService
-	{
-		byte[] HandleDirectoryRequest (Hashtable requestBody, OSHttpRequest httpRequest, OSHttpResponse httpResponse);
-
-		byte[] HandleDialplanRequest (Hashtable requestBody, OSHttpRequest httpRequest, OSHttpResponse httpResponse);
-
-		string GetJsonConfig ();
-	}
+    public interface IFreeswitchService
+    {
+        byte[] HandleDirectoryRequest(Hashtable requestBody, OSHttpRequest httpRequest, OSHttpResponse httpResponse);
+        byte[] HandleDialplanRequest(Hashtable requestBody, OSHttpRequest httpRequest, OSHttpResponse httpResponse);
+        string GetJsonConfig();
+    }
 }

@@ -31,8 +31,8 @@ using OpenMetaverse;
 
 namespace Vision.ScriptEngine.VisionScript.MiniModule
 {
-	public interface IObjectSound
-	{
-		void Play (UUID soundAsset, double volume);
-	}
+    public interface IObjectSound
+    {
+        void Play(UUID soundAsset, double volume);
+    }
 }

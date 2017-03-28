@@ -105,7 +105,6 @@ namespace Vision.Services
             get { return m_WelcomeMessage; }
             set { m_WelcomeMessage = value; }
         }
-
         public void Initialize(IConfigSource config, IRegistryCore registry)
         {
             m_config = config;
@@ -122,26 +121,26 @@ namespace Vision.Services
             if (defHomeRegPos != "")
             {
                 string[] spl = defHomeRegPos.Replace(" ", "").Split(',');
-                if (spl.Length == 2)
+                if(spl.Length == 2)
                     m_DefaultHomeRegionPos = new Vector3(float.Parse(spl[0]), float.Parse(spl[1]), 25);
                 else if (spl.Length == 3)
                     m_DefaultHomeRegionPos = new Vector3(float.Parse(spl[0]), float.Parse(spl[1]), float.Parse(spl[2]));
             }
             m_DefaultUserAvatarArchive = m_loginServerConfig.GetString("DefaultAvatarArchiveForNewUser",
-                m_DefaultUserAvatarArchive);
+                                                                       m_DefaultUserAvatarArchive);
             m_AllowAnonymousLogin = m_loginServerConfig.GetBoolean("AllowAnonymousLogin", false);
             m_AllowDuplicateLogin = m_loginServerConfig.GetBoolean("AllowDuplicateLogin", false);
             LLLoginResponseRegister.RegisterValue("AllowFirstLife",
-                m_loginServerConfig.GetBoolean("AllowFirstLifeInProfile", true)
+                                                  m_loginServerConfig.GetBoolean("AllowFirstLifeInProfile", true)
                                                       ? "Y"
                                                       : "N");
             LLLoginResponseRegister.RegisterValue("MaxAgentGroups", m_loginServerConfig.GetInt("MaxAgentGroups", 100));
             LLLoginResponseRegister.RegisterValue("VoiceServerType",
-                m_loginServerConfig.GetString("VoiceServerType", "vivox"));
+                                                  m_loginServerConfig.GetString("VoiceServerType", "vivox"));
             ReadEventValues(m_loginServerConfig);
             ReadClassifiedValues(m_loginServerConfig);
             LLLoginResponseRegister.RegisterValue("AllowExportPermission",
-                m_loginServerConfig.GetBoolean("AllowUsageOfExportPermissions", true));
+                                                  m_loginServerConfig.GetBoolean("AllowUsageOfExportPermissions", true));
 
             m_DefaultRegionName = m_loginServerConfig.GetString("DefaultRegion", string.Empty);
             m_WelcomeMessage = m_loginServerConfig.GetString("WelcomeMessage", "");
@@ -150,19 +149,16 @@ namespace Vision.Services
             if (m_WelcomeMessageURL != "")
             {
                 WebClient client = new WebClient();
-                try
-                {
-                    m_WelcomeMessage = client.DownloadString(m_WelcomeMessageURL);
+                try {
+                    m_WelcomeMessage = client.DownloadString (m_WelcomeMessageURL);
+                } catch {
+                    MainConsole.Instance.Error ("[LLogin service]: Error obtaining welcome message from " + m_WelcomeMessageURL);
                 }
-                catch
-                {
-                    MainConsole.Instance.Error("[Login Service]: Error obtaining welcome message from " + m_WelcomeMessageURL);
-                }
-                client.Dispose();
+                client.Dispose ();
             }
             // load web settings overrides (if any)
-            IGenericsConnector generics = Framework.Utilities.DataManager.RequestPlugin<IGenericsConnector>();
-            var settings = generics.GetGeneric<GridSettings>(UUID.Zero, "GridSettings", "Settings");
+            IGenericsConnector generics = Framework.Utilities.DataManager.RequestPlugin<IGenericsConnector> ();
+            var settings = generics.GetGeneric<GridSettings> (UUID.Zero, "GridSettings", "Settings");
             if (settings != null)
                 m_WelcomeMessage = settings.WelcomeMessage;
 
@@ -172,9 +168,9 @@ namespace Vision.Services
             m_MinLoginLevel = m_loginServerConfig.GetInt("MinLoginLevel", 0);
             LLLoginResponseRegister.RegisterValue("SunTexture", m_loginServerConfig.GetString("SunTexture", sunTexture));
             LLLoginResponseRegister.RegisterValue("MoonTexture",
-                m_loginServerConfig.GetString("MoonTexture", moonTexture));
+                                                  m_loginServerConfig.GetString("MoonTexture", moonTexture));
             LLLoginResponseRegister.RegisterValue("CloudTexture",
-                m_loginServerConfig.GetString("CloudTexture", cloudTexture));
+                                                  m_loginServerConfig.GetString("CloudTexture", cloudTexture));
 
 
             registry.RegisterModuleInterface<ILoginService>(this);
@@ -208,7 +204,7 @@ namespace Vision.Services
                 module.Initialize(this, m_config, registry);
             }
 
-            MainConsole.Instance.DebugFormat("[Login Service]: Starting...");
+            MainConsole.Instance.DebugFormat("[LLogin service]: Starting...");
         }
 
         public void FinishedStartup()
@@ -217,30 +213,30 @@ namespace Vision.Services
 
         public void ReadEventValues(IConfig config)
         {
-            SetEventCategories((int)DirectoryManager.EventCategories.Discussion, "Discussion");
-            SetEventCategories((int)DirectoryManager.EventCategories.Sports, "Sports");
-            SetEventCategories((int)DirectoryManager.EventCategories.LiveMusic, "Live Music");
-            SetEventCategories((int)DirectoryManager.EventCategories.Commercial, "Commercial");
-            SetEventCategories((int)DirectoryManager.EventCategories.Nightlife, "Nightlife/Entertainment");
-            SetEventCategories((int)DirectoryManager.EventCategories.Games, "Games/Contests");
-            SetEventCategories((int)DirectoryManager.EventCategories.Pageants, "Pageants");
-            SetEventCategories((int)DirectoryManager.EventCategories.Education, "Education");
-            SetEventCategories((int)DirectoryManager.EventCategories.Arts, "Arts and Culture");
-            SetEventCategories((int)DirectoryManager.EventCategories.Charity, "Charity/Support Groups");
-            SetEventCategories((int)DirectoryManager.EventCategories.Miscellaneous, "Miscellaneous");
+            SetEventCategories((int) DirectoryManager.EventCategories.Discussion, "Discussion");
+            SetEventCategories((int) DirectoryManager.EventCategories.Sports, "Sports");
+            SetEventCategories((int) DirectoryManager.EventCategories.LiveMusic, "Live Music");
+            SetEventCategories((int) DirectoryManager.EventCategories.Commercial, "Commercial");
+            SetEventCategories((int) DirectoryManager.EventCategories.Nightlife, "Nightlife/Entertainment");
+            SetEventCategories((int) DirectoryManager.EventCategories.Games, "Games/Contests");
+            SetEventCategories((int) DirectoryManager.EventCategories.Pageants, "Pageants");
+            SetEventCategories((int) DirectoryManager.EventCategories.Education, "Education");
+            SetEventCategories((int) DirectoryManager.EventCategories.Arts, "Arts and Culture");
+            SetEventCategories((int) DirectoryManager.EventCategories.Charity, "Charity/Support Groups");
+            SetEventCategories((int) DirectoryManager.EventCategories.Miscellaneous, "Miscellaneous");
         }
 
         public void ReadClassifiedValues(IConfig config)
         {
-            AddClassifiedCategory((int)DirectoryManager.ClassifiedCategories.Shopping, "Shopping");
-            AddClassifiedCategory((int)DirectoryManager.ClassifiedCategories.LandRental, "Land Rental");
-            AddClassifiedCategory((int)DirectoryManager.ClassifiedCategories.PropertyRental, "Property Rental");
-            AddClassifiedCategory((int)DirectoryManager.ClassifiedCategories.SpecialAttraction, "Special Attraction");
-            AddClassifiedCategory((int)DirectoryManager.ClassifiedCategories.NewProducts, "New Products");
-            AddClassifiedCategory((int)DirectoryManager.ClassifiedCategories.Employment, "Employment");
-            AddClassifiedCategory((int)DirectoryManager.ClassifiedCategories.Wanted, "Wanted");
-            AddClassifiedCategory((int)DirectoryManager.ClassifiedCategories.Service, "Service");
-            AddClassifiedCategory((int)DirectoryManager.ClassifiedCategories.Personal, "Personal");
+            AddClassifiedCategory((int) DirectoryManager.ClassifiedCategories.Shopping, "Shopping");
+            AddClassifiedCategory((int) DirectoryManager.ClassifiedCategories.LandRental, "Land Rental");
+            AddClassifiedCategory((int) DirectoryManager.ClassifiedCategories.PropertyRental, "Property Rental");
+            AddClassifiedCategory((int) DirectoryManager.ClassifiedCategories.SpecialAttraction, "Special Attraction");
+            AddClassifiedCategory((int) DirectoryManager.ClassifiedCategories.NewProducts, "New Products");
+            AddClassifiedCategory((int) DirectoryManager.ClassifiedCategories.Employment, "Employment");
+            AddClassifiedCategory((int) DirectoryManager.ClassifiedCategories.Wanted, "Wanted");
+            AddClassifiedCategory((int) DirectoryManager.ClassifiedCategories.Service, "Service");
+            AddClassifiedCategory((int) DirectoryManager.ClassifiedCategories.Personal, "Personal");
         }
 
         public void SetEventCategories(int value, string categoryName)
@@ -272,14 +268,14 @@ namespace Vision.Services
                 UserAccount account = m_UserAccountService.GetUserAccount(null, firstName, lastName);
                 if (account == null)
                 {
-                    MainConsole.Instance.InfoFormat("[Login Service]: Set Level failed, user {0} {1} not found",
-                        firstName, lastName);
+                    MainConsole.Instance.InfoFormat("[LLogin service]: Set Level failed, user {0} {1} not found",
+                                                    firstName, lastName);
                     return response;
                 }
 
                 if (account.UserLevel < 200)
                 {
-                    MainConsole.Instance.InfoFormat("[Login Service]: Set Level failed, reason: user level too low");
+                    MainConsole.Instance.InfoFormat("[LLogin service]: Set Level failed, reason: user level too low");
                     return response;
                 }
 
@@ -292,19 +288,19 @@ namespace Vision.Services
                 UUID secureSession = UUID.Zero;
                 if ((token == string.Empty) || (token != string.Empty && !UUID.TryParse(token, out secureSession)))
                 {
-                    MainConsole.Instance.InfoFormat("[Login Service]: SetLevel failed, reason: authentication failed");
+                    MainConsole.Instance.InfoFormat("[LLogin service]: SetLevel failed, reason: authentication failed");
                     return response;
                 }
             }
             catch (Exception e)
             {
-                MainConsole.Instance.Error("[Login Service]: SetLevel failed, exception " + e);
+                MainConsole.Instance.Error("[LLogin service]: SetLevel failed, exception " + e);
                 return response;
             }
 
             m_MinLoginLevel = level;
-            MainConsole.Instance.InfoFormat("[Login Service]: Login level set to {0} by {1} {2}", level, firstName,
-                lastName);
+            MainConsole.Instance.InfoFormat("[LLogin service]: Login level set to {0} by {1} {2}", level, firstName,
+                                            lastName);
 
             response["success"] = true;
             return response;
@@ -312,8 +308,8 @@ namespace Vision.Services
 
         public bool VerifyClient(UUID AgentID, string name, string authType, string passwd)
         {
-            MainConsole.Instance.InfoFormat("[Login Service]: Login verification request for {0}",
-                AgentID == UUID.Zero
+            MainConsole.Instance.InfoFormat("[LLogin service]: Login verification request for {0}",
+                                            AgentID == UUID.Zero
                                                 ? name
                                                 : AgentID.ToString());
 
@@ -333,11 +329,11 @@ namespace Vision.Services
             IAgentConnector agentData = Framework.Utilities.DataManager.RequestPlugin<IAgentConnector>();
             if (agentData != null)
             {
-                agent = agentData.GetAgent(account.PrincipalID);
+                agent = agentData.GetAgent (account.PrincipalID);
                 if (agent == null)
                 {
-                    agentData.CreateNewAgent(account.PrincipalID);
-                    agent = agentData.GetAgent(account.PrincipalID);
+                    agentData.CreateNewAgent (account.PrincipalID);
+                    agent = agentData.GetAgent (account.PrincipalID);
                 }
             }
 
@@ -353,8 +349,8 @@ namespace Vision.Services
         }
 
         public LoginResponse Login(UUID AgentID, string Name, string authType, string passwd, string startLocation,
-                                    string clientVersion, string channel, string mac, string id0, IPEndPoint clientIP,
-                                    Hashtable requestData)
+                                   string clientVersion, string channel, string mac, string id0, IPEndPoint clientIP,
+                                   Hashtable requestData)
         {
             LoginResponse response;
             UUID session = UUID.Random();
@@ -377,7 +373,7 @@ namespace Vision.Services
             }
 
             MainConsole.Instance.InfoFormat(
-                "[Login Service]: Login request for {0} from {1} with user agent {2} starting in {3}",
+                "[LLogin service]: Login request for {0} from {1} with user agent {2} starting in {3}",
                 Name, clientIP.Address, realViewer, startLocation);
 
             UserAccount account = AgentID != UUID.Zero
@@ -385,19 +381,19 @@ namespace Vision.Services
                                       : m_UserAccountService.GetUserAccount(null, Name);
             if (account == null && m_AllowAnonymousLogin)
             {
-                m_UserAccountService.CreateUser(Name, passwd.StartsWith("$1$", StringComparison.Ordinal) ? passwd.Remove(0, 3) : passwd, "");
+                m_UserAccountService.CreateUser(Name, passwd.StartsWith ("$1$", StringComparison.Ordinal) ? passwd.Remove(0, 3) : passwd, "");
                 account = m_UserAccountService.GetUserAccount(null, Name);
             }
             if (account == null)
             {
-                MainConsole.Instance.InfoFormat("[Login Service]: Login failed for user {0}: no account found", Name);
+                MainConsole.Instance.InfoFormat("[LLogin service]: Login failed for user {0}: no account found", Name);
                 return LLFailedLoginResponse.AccountProblem;
             }
 
-            if (account.UserLevel < 0)
-            { //No allowing anyone less than 0
+            if (account.UserLevel < 0) //No allowing anyone less than 0
+            {
                 MainConsole.Instance.InfoFormat(
-                    "[Login Service]: Login failed for user {0}, reason: user is banned",
+                    "[LLogin service]: Login failed for user {0}, reason: user is banned",
                     account.Name);
                 return LLFailedLoginResponse.PermanentBannedProblem;
             }
@@ -405,29 +401,25 @@ namespace Vision.Services
             if (account.UserLevel < m_MinLoginLevel)
             {
                 MainConsole.Instance.InfoFormat(
-                    "[Login Service]: Login failed for user {1}, reason: login is blocked for user level {0}",
+                    "[LLogin service]: Login failed for user {1}, reason: login is blocked for user level {0}",
                     account.UserLevel, account.Name);
                 return LLFailedLoginResponse.LoginBlockedProblem;
             }
 
             IAgentInfo agent = null;
             IAgentConnector agentData = Framework.Utilities.DataManager.RequestPlugin<IAgentConnector>();
-            if (agentData != null)
-            {
-                agent = agentData.GetAgent(account.PrincipalID);
-                if (agent == null)
-                {
-                    agentData.CreateNewAgent(account.PrincipalID);
-                    agent = agentData.GetAgent(account.PrincipalID);
+            if (agentData != null) {
+                agent = agentData.GetAgent (account.PrincipalID);
+                if (agent == null) {
+                    agentData.CreateNewAgent (account.PrincipalID);
+                    agent = agentData.GetAgent (account.PrincipalID);
                 }
-            }
-            else
-            {
-                MainConsole.Instance.ErrorFormat("[Login Service]: Login failed for user {1}, reason: {0}",
-                    account.Name, "Unable to retrieve agen connector");
+            } else {
+                MainConsole.Instance.ErrorFormat ("[LLogin service]: Login failed for user {1}, reason: {0}",
+                                                 account.Name, "Unable to retrieve agen connector");
                 return LLFailedLoginResponse.GridProblem;
             }
-
+                           
             requestData["ip"] = clientIP.ToString();
             foreach (ILoginModule module in LoginModules)
             {
@@ -435,12 +427,12 @@ namespace Vision.Services
                 if ((response = module.Login(requestData, account, agent, authType, passwd, out data)) != null)
                 {
                     MainConsole.Instance.InfoFormat(
-                        "[Login Service]: Login failed for user {1}, reason: {0}",
+                        "[LLogin service]: Login failed for user {1}, reason: {0}",
                         (data != null ? data.ToString() : (response is LLFailedLoginResponse) ? (response as LLFailedLoginResponse).Value : "Unknown"), account.Name);
                     return response;
                 }
                 if (data != null)
-                    secureSession = (UUID)data; //TODO: NEED TO FIND BETTER WAY TO GET THIS DATA
+                    secureSession = (UUID) data; //TODO: NEED TO FIND BETTER WAY TO GET THIS DATA
             }
 
             try
@@ -455,7 +447,7 @@ namespace Vision.Services
                 if (m_RequireInventory && m_InventoryService == null)
                 {
                     MainConsole.Instance.WarnFormat(
-                        "[Login Service]: Login failed for user {0}, reason: inventory service not set up",
+                        "[LLogin service]: Login failed for user {0}, reason: inventory service not set up",
                         account.Name);
                     return LLFailedLoginResponse.InventoryProblem;
                 }
@@ -464,12 +456,12 @@ namespace Vision.Services
                 {
                     List<InventoryItemBase> defaultItems;
                     m_InventoryService.CreateUserInventory(account.PrincipalID, m_DefaultUserAvatarArchive == "",
-                        out defaultItems);
+                                                           out defaultItems);
                     inventorySkel = m_InventoryService.GetInventorySkeleton(account.PrincipalID);
                     if (m_RequireInventory && ((inventorySkel == null) || (inventorySkel.Count == 0)))
                     {
                         MainConsole.Instance.InfoFormat(
-                            "[Login Service]: Login failed for user {0}, reason: unable to retrieve user inventory",
+                            "[LLogin service]: Login failed for user {0}, reason: unable to retrieve user inventory",
                             account.Name);
                         return LLFailedLoginResponse.InventoryProblem;
                     }
@@ -477,17 +469,17 @@ namespace Vision.Services
                     {
                         avappearance = new AvatarAppearance(account.PrincipalID);
                         avappearance.SetWearable((int)WearableType.Shape,
-                            new AvatarWearable(defaultItems[0].ID, defaultItems[0].AssetID));
+                                                 new AvatarWearable(defaultItems[0].ID, defaultItems[0].AssetID));
                         avappearance.SetWearable((int)WearableType.Skin,
-                            new AvatarWearable(defaultItems[1].ID, defaultItems[1].AssetID));
+                                                 new AvatarWearable(defaultItems[1].ID, defaultItems[1].AssetID));
                         avappearance.SetWearable((int)WearableType.Hair,
-                            new AvatarWearable(defaultItems[2].ID, defaultItems[2].AssetID));
+                                                 new AvatarWearable(defaultItems[2].ID, defaultItems[2].AssetID));
                         avappearance.SetWearable((int)WearableType.Eyes,
-                            new AvatarWearable(defaultItems[3].ID, defaultItems[3].AssetID));
+                                                 new AvatarWearable(defaultItems[3].ID, defaultItems[3].AssetID));
                         avappearance.SetWearable((int)WearableType.Shirt,
-                            new AvatarWearable(defaultItems[4].ID, defaultItems[4].AssetID));
+                                                 new AvatarWearable(defaultItems[4].ID, defaultItems[4].AssetID));
                         avappearance.SetWearable((int)WearableType.Pants,
-                            new AvatarWearable(defaultItems[5].ID, defaultItems[5].AssetID));
+                                                 new AvatarWearable(defaultItems[5].ID, defaultItems[5].AssetID));
                         m_AvatarService.SetAppearance(account.PrincipalID, avappearance);
                     }
                 }
@@ -530,7 +522,7 @@ namespace Vision.Services
 
                 // Get active gestures
                 List<InventoryItemBase> gestures = m_InventoryService.GetActiveGestures(account.PrincipalID);
-                //MainConsole.Instance.DebugFormat("[Login Service]: {0} active gestures", gestures.Count);
+                //MainConsole.Instance.DebugFormat("[LLogin service]: {0} active gestures", gestures.Count);
 
                 //Now get the logged in status, then below make sure to kill the previous agent if we crashed before
                 UserInfo guinfo = m_agentInfoService.GetUserInfo(account.PrincipalID.ToString());
@@ -561,11 +553,11 @@ namespace Vision.Services
                 if (guinfo != null && (guinfo.HomeRegionID != UUID.Zero) && m_GridService != null)
                     home = m_GridService.GetRegionByUUID(account.AllScopeIDs, guinfo.HomeRegionID);
 
-                if (guinfo == null || guinfo.HomeRegionID == UUID.Zero)
-                { //Give them a default home and last
+                if (guinfo == null || guinfo.HomeRegionID == UUID.Zero) //Give them a default home and last
+                {
                     bool positionSet = false;
                     if (guinfo == null)
-                        guinfo = new UserInfo { UserID = account.PrincipalID.ToString() };
+                        guinfo = new UserInfo {UserID = account.PrincipalID.ToString()};
                     GridRegion DefaultRegion = null, FallbackRegion = null, SafeRegion = null;
                     if (m_GridService != null)
                     {
@@ -605,15 +597,15 @@ namespace Vision.Services
                         }
                     }
 
-                    if (!positionSet)
+                    if(!positionSet)
                         guinfo.CurrentPosition = guinfo.HomePosition = new Vector3(128, 128, 25);
                     guinfo.HomeLookAt = guinfo.CurrentLookAt = new Vector3(0, 0, 0);
 
                     m_agentInfoService.SetHomePosition(guinfo.UserID, guinfo.HomeRegionID, guinfo.HomePosition,
-                        guinfo.HomeLookAt);
+                                                       guinfo.HomeLookAt);
 
                     MainConsole.Instance.Info("[LLLoginService]: User did not have a home, set to " +
-                    (guinfo.HomeRegionID == UUID.Zero ? "(no region found)" : guinfo.HomeRegionID.ToString()));
+                                              (guinfo.HomeRegionID == UUID.Zero ? "(no region found)" : guinfo.HomeRegionID.ToString()));
                 }
 
                 //
@@ -624,11 +616,10 @@ namespace Vision.Services
                 Vector3 lookAt = Vector3.Zero;
                 TeleportFlags tpFlags = TeleportFlags.ViaLogin;
                 GridRegion destination = FindDestination(account, guinfo, session, startLocation, home, out tpFlags,
-                                             out where, out position, out lookAt);
-                if (destination == null)
-                {
-                    MainConsole.Instance.InfoFormat(
-                        "[Login Service]: Login failed for user {0}, reason: destination not found", account.Name);
+                                                         out where, out position, out lookAt);
+                if (destination == null) {
+                    MainConsole.Instance.InfoFormat (
+                        "[LLogin service]: Login failed for user {0}, reason: destination not found", account.Name);
                     return LLFailedLoginResponse.DeadRegionProblem;
                 }
 
@@ -671,14 +662,14 @@ namespace Vision.Services
                 //
                 string reason = "", seedCap = "";
                 AgentCircuitData aCircuit = LaunchAgentAtGrid(destination, tpFlags, account, session,
-                                                secureSession, position, where,
-                                                clientIP, friendsToInform, out where, out reason, out seedCap,
-                                                out destination);
+                                                              secureSession, position, where,
+                                                              clientIP, friendsToInform, out where, out reason, out seedCap,
+                                                              out destination);
 
                 if (aCircuit == null)
                 {
-                    MainConsole.Instance.InfoFormat("[Login Service]: Login failed for user {1}, reason: {0}", reason,
-                        account.Name);
+                    MainConsole.Instance.InfoFormat("[LLogin service]: Login failed for user {1}, reason: {0}", reason,
+                                                    account.Name);
                     return new LLFailedLoginResponse(LoginResponseEnum.InternalError, reason, false);
                 }
 
@@ -689,9 +680,9 @@ namespace Vision.Services
 
                 //Set them as logged in now, they are ready, and fire the logged in event now, as we're all done
                 m_agentInfoService.SetLastPosition(account.PrincipalID.ToString(), destination.RegionID, position,
-                    lookAt, destination.ServerURI);
+                                                   lookAt, destination.ServerURI);
                 m_agentInfoService.SetLoggedIn(account.PrincipalID.ToString(), true, destination.RegionID,
-                    destination.ServerURI);
+                                               destination.ServerURI);
                 m_agentInfoService.FireUserStatusChangeEvent(account.PrincipalID.ToString(), true, destination.RegionID);
 
                 //
@@ -712,26 +703,26 @@ namespace Vision.Services
 
                 ArrayList eventNotifications = new ArrayList();
                 BuildEventNotifications(account.PrincipalID, ref eventNotifications);
-
+                
                 if (m_FriendsService != null)
                     m_FriendsService.SendFriendOnlineStatuses(account.PrincipalID, true);
 
                 response = new LLLoginResponse(account, aCircuit, guinfo, destination, inventorySkel,
-                    friendsList.ToArray(), m_InventoryService, m_LibraryService,
-                    where, startLocation, position, lookAt, gestures, home, clientIP,
-                    MaxMaturity, MaturityRating,
-                    eventCategories, eventNotifications, classifiedCategories, seedCap,
-                    m_config, DisplayName, avappearance.Serial.ToString(), m_registry.RequestModuleInterface<IGridInfo>());
+                                               friendsList.ToArray(), m_InventoryService, m_LibraryService,
+                                               where, startLocation, position, lookAt, gestures, home, clientIP,
+                                               MaxMaturity, MaturityRating,
+                                               eventCategories, eventNotifications, classifiedCategories, seedCap,
+                                               m_config, DisplayName, avappearance.Serial.ToString(), m_registry.RequestModuleInterface<IGridInfo>());
 
                 MainConsole.Instance.InfoFormat(
-                    "[Login Service]: All clear. Sending response to client for to login to region " +
+                    "[LLogin service]: All clear. Sending response to client for login to region " +
                     destination.RegionName + " at " + position + ".");
 
                 return response;
             }
             catch (Exception e)
             {
-                MainConsole.Instance.WarnFormat("[Login Service]: Exception processing login for {0} : {1}", Name, e);
+                MainConsole.Instance.WarnFormat("[LLogin service]: Exception processing login for {0} : {1}", Name, e);
                 if (account != null)
                 {
                     //Revert their logged in status if we got that far
@@ -765,8 +756,8 @@ namespace Vision.Services
         }
 
         protected GridRegion FindDestination(UserAccount account, UserInfo pinfo, UUID sessionID, string startLocation,
-                                              GridRegion home, out TeleportFlags tpFlags, out string where,
-                                              out Vector3 position, out Vector3 lookAt)
+                                             GridRegion home, out TeleportFlags tpFlags, out string where,
+                                             out Vector3 position, out Vector3 lookAt)
         {
             where = "home";
             position = new Vector3(128, 128, 25);
@@ -790,7 +781,7 @@ namespace Vision.Services
                 if (home == null)
                 {
                     MainConsole.Instance.WarnFormat(
-                        "[Login Service]: User {0} {1} tried to login to a 'home' start location but they have none set",
+                        "[LLogin service]: User {0} {1} tried to login to a 'home' start location but they have none set",
                         account.FirstName, account.LastName);
 
                     tryDefaults = true;
@@ -832,7 +823,7 @@ namespace Vision.Services
                             else
                             {
                                 MainConsole.Instance.WarnFormat(
-                                    "[Login Service]: User {0} {1} does not have a valid home and this grid does not have default locations. Attempting to find random region",
+                                    "[LLogin service]: User {0} {1} does not have a valid home and this grid does not have default locations. Attempting to find random region",
                                     account.FirstName, account.LastName);
                                 defaults = m_GridService.GetRegionsByName(account.AllScopeIDs, "", 0, 1);
                                 if (defaults != null && defaults.Count > 0)
@@ -847,6 +838,7 @@ namespace Vision.Services
 
                 return region;
             }
+
             if (startLocation.Equals("last"))
             {
                 tpFlags |= TeleportFlags.ViaLandmark;
@@ -901,6 +893,7 @@ namespace Vision.Services
                     if (position.Y > region.RegionSizeY)
                         position.Y = region.RegionSizeY;
 
+
                     lookAt = pinfo.CurrentLookAt;
                 }
 
@@ -909,13 +902,13 @@ namespace Vision.Services
             else
             {
                 // free uri form
-                // e.g. New Moon&135&46  New Moon@universegrid.org:8002&153&34
+                // e.g. New Moon&135&46  New Moon@visiongrid.org:8002&153&34
                 where = "url";
                 Regex reURI = new Regex(@"^uri:(?<region>[^&]+)&(?<x>\d+)&(?<y>\d+)&(?<z>\d+)$");
                 Match uriMatch = reURI.Match(startLocation);
                 position = new Vector3(float.Parse(uriMatch.Groups["x"].Value, Culture.NumberFormatInfo),
-                    float.Parse(uriMatch.Groups["y"].Value, Culture.NumberFormatInfo),
-                    float.Parse(uriMatch.Groups["z"].Value, Culture.NumberFormatInfo));
+                                       float.Parse(uriMatch.Groups["y"].Value, Culture.NumberFormatInfo),
+                                       float.Parse(uriMatch.Groups["z"].Value, Culture.NumberFormatInfo));
 
                 string regionName = uriMatch.Groups["region"].ToString();
                 if (!regionName.Contains("@"))
@@ -924,7 +917,7 @@ namespace Vision.Services
                     if ((regions == null) || (regions.Count == 0))
                     {
                         MainConsole.Instance.InfoFormat(
-                            "[LLogin Service]: Got Custom Login URI {0}, can't locate region {1}. Trying defaults.",
+                            "[LLogin service]: Got Custom Login URI {0}, can't locate region {1}. Trying defaults.",
                             startLocation, regionName);
                         regions = m_GridService.GetDefaultRegions(account.AllScopeIDs);
                         if (regions != null && regions.Count > 0)
@@ -946,21 +939,18 @@ namespace Vision.Services
                             return safeRegions[0];
                         }
                         MainConsole.Instance.InfoFormat(
-                            "[LLogin Service]: Got Custom Login URI {0}, Grid does not have any available regions.",
+                            "[LLogin service]: Got Custom Login URI {0}, Grid does not have any available regions.",
                             startLocation);
                         return null;
                     }
                     return regions[0];
                 }
-                //This is so that you can login to other grids via IWC (or HG), example"RegionTest@universegrid.com:8002". 
-                //All this really needs to do is inform the other grid that we have a user who wants to connect.
-                //IWC allows users to login by default to other regions (without the host names), 
-                //but if one is provided and we don't have a link, we need to create one here.
-                string[] parts = regionName.Split(new char[] { '@' });
+                //This is so that you can login to other grids via IWC (or HG), example"RegionTest@testingserver.com:8002". All this really needs to do is inform the other grid that we have a user who wants to connect. IWC allows users to login by default to other regions (without the host names), but if one is provided and we don't have a link, we need to create one here.
+                string[] parts = regionName.Split(new char[] {'@'});
                 if (parts.Length < 2)
                 {
                     MainConsole.Instance.InfoFormat(
-                        "[LLogin Service]: Got Custom Login URI {0}, can't locate region {1}",
+                        "[LLogin service]: Got Custom Login URI {0}, can't locate region {1}",
                         startLocation, regionName);
                     return null;
                 }
@@ -997,7 +987,7 @@ namespace Vision.Services
                             return safeRegions[0];
                         }
                         MainConsole.Instance.InfoFormat(
-                            "[LLogin Service]: Got Custom Login URI {0}, Grid does not have any available regions.",
+                            "[LLogin service]: Got Custom Login URI {0}, Grid does not have any available regions.",
                             startLocation);
                         return null;
                     }
@@ -1006,10 +996,10 @@ namespace Vision.Services
         }
 
         protected AgentCircuitData LaunchAgentAtGrid(GridRegion destination, TeleportFlags tpFlags, UserAccount account,
-                                                      UUID session, UUID secureSession, Vector3 position,
-                                                      string currentWhere,
-                                                      IPEndPoint clientIP, List<UUID> friendsToInform, out string where, out string reason,
-                                                      out string seedCap, out GridRegion dest)
+                                                     UUID session, UUID secureSession, Vector3 position,
+                                                     string currentWhere,
+                                                     IPEndPoint clientIP, List<UUID> friendsToInform, out string where, out string reason,
+                                                     out string seedCap, out GridRegion dest)
         {
             where = currentWhere;
             reason = string.Empty;
@@ -1019,11 +1009,11 @@ namespace Vision.Services
 
             #region Launch Agent
 
-            circuitCode = (uint)Util.RandomClass.Next();
+            circuitCode = (uint) Util.RandomClass.Next();
             aCircuit = MakeAgent(destination, account, session, secureSession, circuitCode, position,
-                clientIP);
-            aCircuit.TeleportFlags = (uint)tpFlags;
-            MainConsole.Instance.DebugFormat("[Login Service]: Attempting to log {0} into {1} at {2}...", account.Name, destination.RegionName, destination.ServerURI);
+                                 clientIP);
+            aCircuit.TeleportFlags = (uint) tpFlags;
+            MainConsole.Instance.DebugFormat("[LoginService]: Attempting to log {0} into {1} at {2}...", account.Name, destination.RegionName, destination.ServerURI);
             LoginAgentArgs args = m_registry.RequestModuleInterface<IAgentProcessing>().LoginAgent(destination, aCircuit, friendsToInform);
             aCircuit.CachedUserInfo = args.CircuitData.CachedUserInfo;
             aCircuit.RegionUDPPort = args.CircuitData.RegionUDPPort;
@@ -1033,9 +1023,9 @@ namespace Vision.Services
             bool success = args.Success;
             if (!success && m_GridService != null)
             {
-                MainConsole.Instance.DebugFormat("[Login Service]: Failed to log {0} into {1} at {2}...", account.Name, destination.RegionName, destination.ServerURI);
+                MainConsole.Instance.DebugFormat("[LoginService]: Failed to log {0} into {1} at {2}...", account.Name, destination.RegionName, destination.ServerURI);
                 //Remove the landmark flag (landmark is used for ignoring the landing points in the region)
-                aCircuit.TeleportFlags &= ~(uint)TeleportFlags.ViaLandmark;
+                aCircuit.TeleportFlags &= ~(uint) TeleportFlags.ViaLandmark;
                 m_GridService.SetRegionUnsafe(destination.RegionID);
 
                 // Make sure the client knows this isn't where they wanted to land
@@ -1046,36 +1036,36 @@ namespace Vision.Services
                 if (defaultRegions != null)
                 {
                     success = TryFindGridRegionForAgentLogin(defaultRegions, account,
-                        session, secureSession, circuitCode, position,
-                        clientIP, aCircuit, friendsToInform,
-                        out seedCap, out reason, out dest);
+                                                             session, secureSession, circuitCode, position,
+                                                             clientIP, aCircuit, friendsToInform, 
+                                                             out seedCap, out reason, out dest);
                 }
                 if (!success)
                 {
                     // Try the fallback regions
                     List<GridRegion> fallbacks = m_GridService.GetFallbackRegions(account.AllScopeIDs,
-                                                     destination.RegionLocX,
-                                                     destination.RegionLocY);
+                                                                                  destination.RegionLocX,
+                                                                                  destination.RegionLocY);
                     if (fallbacks != null)
                     {
                         success = TryFindGridRegionForAgentLogin(fallbacks, account,
-                            session, secureSession, circuitCode,
-                            position,
-                            clientIP, aCircuit, friendsToInform,
-                            out seedCap, out reason, out dest);
+                                                                 session, secureSession, circuitCode,
+                                                                 position,
+                                                                 clientIP, aCircuit, friendsToInform,
+                                                                 out seedCap, out reason, out dest);
                     }
                     if (!success)
                     {
                         //Try to find any safe region
                         List<GridRegion> safeRegions = m_GridService.GetSafeRegions(account.AllScopeIDs,
-                                                           destination.RegionLocX,
-                                                           destination.RegionLocY);
+                                                                                    destination.RegionLocX,
+                                                                                    destination.RegionLocY);
                         if (safeRegions != null)
                         {
                             success = TryFindGridRegionForAgentLogin(safeRegions, account,
-                                session, secureSession, circuitCode,
-                                position, clientIP, aCircuit, friendsToInform,
-                                out seedCap, out reason, out dest);
+                                                                     session, secureSession, circuitCode,
+                                                                     position, clientIP, aCircuit, friendsToInform,
+                                                                     out seedCap, out reason, out dest);
                             if (!success)
                                 reason = "No Region Found";
                         }
@@ -1087,7 +1077,7 @@ namespace Vision.Services
 
             if (success)
             {
-                MainConsole.Instance.DebugFormat("[Login Service]: Successfully logged {0} into {1} at {2}...", account.Name, destination.RegionName, destination.ServerURI);
+                MainConsole.Instance.DebugFormat("[LoginService]: Successfully logged {0} into {1} at {2}...", account.Name, destination.RegionName, destination.ServerURI);
                 //Set the region to safe since we got there
                 m_GridService.SetRegionSafe(destination.RegionID);
                 return aCircuit;
@@ -1096,17 +1086,17 @@ namespace Vision.Services
         }
 
         protected bool TryFindGridRegionForAgentLogin(List<GridRegion> regions, UserAccount account,
-                                                       UUID session, UUID secureSession,
-                                                       uint circuitCode, Vector3 position,
-                                                       IPEndPoint clientIP, AgentCircuitData aCircuit, List<UUID> friendsToInform,
-                                                       out string seedCap, out string reason, out GridRegion destination)
+                                                      UUID session, UUID secureSession,
+                                                      uint circuitCode, Vector3 position,
+                                                      IPEndPoint clientIP, AgentCircuitData aCircuit, List<UUID> friendsToInform,
+                                                      out string seedCap, out string reason, out GridRegion destination)
         {
             LoginAgentArgs args = null;
             foreach (GridRegion r in regions)
             {
                 if (r == null)
                     continue;
-                MainConsole.Instance.DebugFormat("[Login Service]: Attempting to log {0} into {1} at {2}...", account.Name, r.RegionName, r.ServerURI);
+                MainConsole.Instance.DebugFormat("[LoginService]: Attempting to log {0} into {1} at {2}...", account.Name, r.RegionName, r.ServerURI);
                 args = m_registry.RequestModuleInterface<IAgentProcessing>().
                                   LoginAgent(r, aCircuit, friendsToInform);
                 if (args.Success)
@@ -1135,19 +1125,19 @@ namespace Vision.Services
         }
 
         protected AgentCircuitData MakeAgent(GridRegion region, UserAccount account,
-                                              UUID session, UUID secureSession, uint circuit,
-                                              Vector3 position, IPEndPoint clientIP)
+                                             UUID session, UUID secureSession, uint circuit,
+                                             Vector3 position, IPEndPoint clientIP)
         {
             return new AgentCircuitData
-            {
-                AgentID = account.PrincipalID,
-                IsChildAgent = false,
-                CircuitCode = circuit,
-                SecureSessionID = secureSession,
-                SessionID = session,
-                StartingPosition = position,
-                IPAddress = clientIP.Address.ToString()
-            };
+                                            {
+                                                AgentID = account.PrincipalID,
+                                                IsChildAgent = false,
+                                                CircuitCode = circuit,
+                                                SecureSessionID = secureSession,
+                                                SessionID = session,
+                                                StartingPosition = position,
+                                                IPAddress = clientIP.Address.ToString()
+                                            };
         }
 
         #region Console Commands
@@ -1157,19 +1147,19 @@ namespace Vision.Services
             if (MainConsole.Instance == null)
                 return;
             MainConsole.Instance.Commands.AddCommand("login level",
-                "login level <level>",
-                "Set the minimum user level to log in",
-                HandleLoginCommand, false, true);
+                                                     "login level <level>",
+                                                     "Set the minimum user level to log in", 
+                                                     HandleLoginCommand, false, true);
 
             MainConsole.Instance.Commands.AddCommand("login reset",
-                "login reset",
-                "Reset the login level to allow all users",
-                HandleLoginCommand, false, true);
+                                                     "login reset",
+                                                     "Reset the login level to allow all users",
+                                                     HandleLoginCommand, false, true);
 
             MainConsole.Instance.Commands.AddCommand("login text",
-                "login text <text>",
-                "Set the text users will see on login",
-                HandleLoginCommand, false, true);
+                                                     "login text <text>",
+                                                     "Set the text users will see on login", 
+                                                     HandleLoginCommand, false, true);
         }
 
         protected void HandleLoginCommand(IScene scene, string[] cmd)
@@ -1184,7 +1174,7 @@ namespace Vision.Services
                     // or fixing critical issues
                     //
                     if (cmd.Length > 2)
-                        int.TryParse(cmd[2], out m_MinLoginLevel);
+                      int.TryParse(cmd[2], out m_MinLoginLevel);
                     break;
                 case "reset":
                     m_MinLoginLevel = 0;
@@ -1209,7 +1199,7 @@ namespace Vision.Services
 
                 InventoryFolderBase appearanceFolder = m_InventoryService.GetFolderForType(user, InventoryType.Wearable, FolderType.Clothing);
                 InventoryFolderBase folderForAppearance = new InventoryFolderBase(UUID.Random(), "GridWear", user, -1,
-                                                              appearanceFolder.ID, 1);
+                                                                                  appearanceFolder.ID, 1);
                 List<InventoryFolderBase> userFolders = m_InventoryService.GetFolderFolders(user, appearanceFolder.ID);
                 bool alreadyThere = false;
                 List<UUID> items2RemoveFromAppearence = new List<UUID>();
@@ -1267,10 +1257,10 @@ namespace Vision.Services
                 foreach (InventoryItemBase itemBase in itemsInFolder)
                 {
                     InventoryItemBase newcopy = m_InventoryService.InnerGiveInventoryItem(user, folderOwnerID, itemBase,
-                                                    folderForAppearance.ID,
-                                                    true, true);
+                                                                                          folderForAppearance.ID,
+                                                                                          true, true);
 
-                    if (newcopy.InvType == (int)InventoryType.Object)
+                    if (newcopy.InvType == (int) InventoryType.Object)
                     {
                         byte[] attobj = m_AssetService.GetData(newcopy.AssetID.ToString());
 
@@ -1287,9 +1277,9 @@ namespace Vision.Services
                                 continue;
                             }
 
-                            if (doc.FirstChild.OuterXml.StartsWith("<groups>", StringComparison.Ordinal) ||
+                            if (doc.FirstChild.OuterXml.StartsWith ("<groups>", StringComparison.Ordinal) ||
                                 (doc.FirstChild.NextSibling != null &&
-                                doc.FirstChild.NextSibling.OuterXml.StartsWith("<groups>", StringComparison.Ordinal)))
+                                 doc.FirstChild.NextSibling.OuterXml.StartsWith ("<groups>", StringComparison.Ordinal)))
                                 continue;
 
                             string xml;
@@ -1300,8 +1290,7 @@ namespace Vision.Services
                                 xml = doc.FirstChild.OuterXml;
                             doc.LoadXml(xml);
 
-                            if (doc.DocumentElement == null)
-                                continue;
+                            if (doc.DocumentElement == null) continue;
 
                             XmlNodeList xmlNodeList = doc.DocumentElement.SelectNodes("//State");
                             int attchspot;
@@ -1327,8 +1316,7 @@ namespace Vision.Services
         public void FixCurrentOutFitFolder(UUID user, ref AvatarAppearance avappearance)
         {
             InventoryFolderBase CurrentOutFitFolder = m_InventoryService.GetFolderForType(user, 0, FolderType.CurrentOutfit);
-            if (CurrentOutFitFolder == null)
-                return;
+            if (CurrentOutFitFolder == null) return;
             List<InventoryItemBase> ic = m_InventoryService.GetFolderItems(user, CurrentOutFitFolder.ID);
             List<UUID> brokenLinks = new List<UUID>();
             List<UUID> OtherStuff = new List<UUID>();
@@ -1358,9 +1346,9 @@ namespace Vision.Services
                         InventoryItemBase linkedItem2;
                         if ((linkedItem2 = m_InventoryService.GetItem(user, wearable[ii].ItemID)) != null)
                         {
-                            InventoryItemBase linkedItem3 = (InventoryItemBase)linkedItem2.Clone();
+                            InventoryItemBase linkedItem3 = (InventoryItemBase) linkedItem2.Clone();
                             linkedItem3.AssetID = linkedItem2.ID;
-                            linkedItem3.AssetType = (int)AssetType.Link;
+                            linkedItem3.AssetType = (int) AssetType.Link;
                             linkedItem3.ID = UUID.Random();
                             linkedItem3.CurrentPermissions = linkedItem2.NextPermissions;
                             linkedItem3.EveryOnePermissions = linkedItem2.NextPermissions;
@@ -1385,9 +1373,9 @@ namespace Vision.Services
                         InventoryItemBase linkedItem2;
                         if ((linkedItem2 = m_InventoryService.GetItem(user, attachment.ItemID)) != null)
                         {
-                            InventoryItemBase linkedItem3 = (InventoryItemBase)linkedItem2.Clone();
+                            InventoryItemBase linkedItem3 = (InventoryItemBase) linkedItem2.Clone();
                             linkedItem3.AssetID = linkedItem2.ID;
-                            linkedItem3.AssetType = (int)AssetType.Link;
+                            linkedItem3.AssetType = (int) AssetType.Link;
                             linkedItem3.ID = UUID.Random();
                             linkedItem3.CurrentPermissions = linkedItem2.NextPermissions;
                             linkedItem3.EveryOnePermissions = linkedItem2.NextPermissions;

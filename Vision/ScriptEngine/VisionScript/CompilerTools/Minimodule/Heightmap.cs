@@ -33,40 +33,43 @@ using Vision.Framework.SceneInfo;
 
 namespace Vision.ScriptEngine.VisionScript.MiniModule
 {
-	public class Heightmap : MarshalByRefObject, IHeightmap
-	{
-		readonly IScene m_scene;
+    public class Heightmap : MarshalByRefObject, IHeightmap
+    {
+        readonly IScene m_scene;
 
-		public Heightmap (IScene scene)
-		{
-			m_scene = scene;
-		}
+        public Heightmap(IScene scene)
+        {
+            m_scene = scene;
+        }
 
-		#region IHeightmap Members
+        #region IHeightmap Members
 
-		public float this [int x, int y] {
-			get { return Get (x, y); }
-			set { Set (x, y, value); }
-		}
+        public float this[int x, int y]
+        {
+            get { return Get(x, y); }
+            set { Set(x, y, value); }
+        }
 
-		public int Length {
-			get { return m_scene.RequestModuleInterface<ITerrainChannel> ().Height; }
-		}
+        public int Length
+        {
+            get { return m_scene.RequestModuleInterface<ITerrainChannel>().Height; }
+        }
 
-		public int Width {
-			get { return m_scene.RequestModuleInterface<ITerrainChannel> ().Width; }
-		}
+        public int Width
+        {
+            get { return m_scene.RequestModuleInterface<ITerrainChannel>().Width; }
+        }
 
-		#endregion
+        #endregion
 
-		protected float Get (int x, int y)
-		{
-			return m_scene.RequestModuleInterface<ITerrainChannel> () [x, y];
-		}
+        protected float Get(int x, int y)
+        {
+            return m_scene.RequestModuleInterface<ITerrainChannel>()[x, y];
+        }
 
-		protected void Set (int x, int y, float val)
-		{
-			m_scene.RequestModuleInterface<ITerrainChannel> () [x, y] = val;
-		}
-	}
+        protected void Set(int x, int y, float val)
+        {
+            m_scene.RequestModuleInterface<ITerrainChannel>()[x, y] = val;
+        }
+    }
 }

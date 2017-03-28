@@ -32,69 +32,71 @@ using Vision.Framework.Services;
 
 namespace Vision.Framework.Utilities
 {
-	/// <summary>
-	///     Plugin manager that deals with retrieving IDataPlugins
-	/// </summary>
-	public static class DataManager
-	{
-		private static readonly Dictionary<string, IVisionDataPlugin> Plugins =
-			new Dictionary<string, IVisionDataPlugin> ();
+    /// <summary>
+    ///     Plugin manager that deals with retrieving IDataPlugins
+    /// </summary>
+    public static class DataManager
+    {
+        private static readonly Dictionary<string, IVisionDataPlugin> Plugins =
+            new Dictionary<string, IVisionDataPlugin>();
 
-		public static List<IVisionDataPlugin> GetPlugins ()
-		{
-			return new List<IVisionDataPlugin> (Plugins.Values);
-		}
+        public static List<IVisionDataPlugin> GetPlugins()
+        {
+            return new List<IVisionDataPlugin>(Plugins.Values);
+        }
 
-		/// <summary>
-		///     Request a data plugin from the registry
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <returns></returns>
-		public static T RequestPlugin<T> () where T : IVisionDataPlugin
-		{
-			if (Plugins.ContainsKey (typeof(T).Name)) {
-				IVisionDataPlugin Plugin;
-				Plugins.TryGetValue (typeof(T).Name, out Plugin);
-				return (T)Plugin;
-			}
-			//Return null if we can't find it
-			return default(T);
-		}
+        /// <summary>
+        ///     Request a data plugin from the registry
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static T RequestPlugin<T>() where T : IVisionDataPlugin
+        {
+            if (Plugins.ContainsKey(typeof (T).Name))
+            {
+                IVisionDataPlugin Plugin;
+                Plugins.TryGetValue(typeof (T).Name, out Plugin);
+                return (T) Plugin;
+            }
+            //Return null if we can't find it
+            return default(T);
+        }
 
-		/// <summary>
-		///     Request a data plugin from the registry
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <returns></returns>
-		public static T RequestPlugin<T> (string name) where T : IVisionDataPlugin
-		{
-			if (Plugins.ContainsKey (name)) {
-				IVisionDataPlugin Plugin;
-				Plugins.TryGetValue (name, out Plugin);
-				return (T)Plugin;
-			}
-			//Return null if we can't find it
-			return default(T);
-		}
+        /// <summary>
+        ///     Request a data plugin from the registry
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static T RequestPlugin<T>(string name) where T : IVisionDataPlugin
+        {
+            if (Plugins.ContainsKey(name))
+            {
+                IVisionDataPlugin Plugin;
+                Plugins.TryGetValue(name, out Plugin);
+                return (T) Plugin;
+            }
+            //Return null if we can't find it
+            return default(T);
+        }
 
-		/// <summary>
-		///     Register a new plugin to the registry
-		/// </summary>
-		/// <param name="plugin"></param>
-		public static void RegisterPlugin (IVisionDataPlugin plugin)
-		{
-			RegisterPlugin (plugin.Name, plugin);
-		}
+        /// <summary>
+        ///     Register a new plugin to the registry
+        /// </summary>
+        /// <param name="plugin"></param>
+        public static void RegisterPlugin(IVisionDataPlugin plugin)
+        {
+            RegisterPlugin(plugin.Name, plugin);
+        }
 
-		/// <summary>
-		///     Register a new plugin to the registry
-		/// </summary>
-		/// <param name="name"></param>
-		/// <param name="plugin"></param>
-		public static void RegisterPlugin (string name, IVisionDataPlugin plugin)
-		{
-			if (!Plugins.ContainsKey (name))
-				Plugins.Add (name, plugin);
-		}
-	}
+        /// <summary>
+        ///     Register a new plugin to the registry
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="plugin"></param>
+        public static void RegisterPlugin(string name, IVisionDataPlugin plugin)
+        {
+            if (!Plugins.ContainsKey(name))
+                Plugins.Add(name, plugin);
+        }
+    }
 }

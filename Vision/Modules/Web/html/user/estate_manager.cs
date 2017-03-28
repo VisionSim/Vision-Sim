@@ -87,6 +87,7 @@ namespace Vision.Modules.Web
                         {"AllowDirectTeleport", ""},
                         {"RegionCount", ""}
                     });
+
             }
 
             vars.Add ("EstateList", estateListVars);
@@ -111,4 +112,5 @@ namespace Vision.Modules.Web
             return false;
         }
     }
+
 }

@@ -66,7 +66,6 @@ namespace Vision.Modules.Web.Translators
                     }
                 }
             }
-
             return newdict;
         }
     }

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) Contributors, http://vision-sim.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  * For an explanation of the license of each contributor and the content it 
@@ -29,14 +29,14 @@
 
 using System;
 using System.Collections.Generic;
-using Vision.Framework.Modules;
 using Vision.Framework.Services;
 using Vision.Simulation.Base;
+using Vision.Framework.Modules;
 
 namespace Vision.Servers.AssetServer
 {
     /// <summary>
-    ///     This is the starting class for the Vision-Sim Server
+    ///     Starting class for the Vision-Sim Server
     /// </summary>
     public class Application
     {
@@ -44,8 +44,8 @@ namespace Vision.Servers.AssetServer
         {
             BaseApplication.BaseMain(args, "Vision.AssetServer.ini",
                                      new MinimalSimulationBase("Vision.AssetServer ",
-                                                               new List<Type> { typeof(IAssetDataPlugin) },
-                                                               new List<Type>
+                                                               new List<Type> {typeof (IAssetDataPlugin)},
+                                                               new List<Type> 
                                                                {
                                                                     typeof (IAssetService),
                                                                     typeof (ISyncMessagePosterService),

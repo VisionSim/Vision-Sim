@@ -28,15 +28,14 @@
  */
 
 using System.Drawing;
-using Nini.Config;
 using Vision.Framework.SceneInfo;
+using Nini.Config;
 
 namespace Vision.Framework.Modules
 {
-	public interface IMapTileTerrainRenderer
-	{
-		void Initialize (IScene scene, IConfigSource config);
-
-		Bitmap TerrainToBitmap (Bitmap mapbmp);
-	}
+    public interface IMapTileTerrainRenderer
+    {
+        void Initialize(IScene scene, IConfigSource config);
+        Bitmap TerrainToBitmap(Bitmap mapbmp);
+    }
 }

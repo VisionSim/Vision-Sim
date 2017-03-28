@@ -41,6 +41,7 @@ using Vision.Framework.Services.ClassHelpers.Profile;
 using Vision.Framework.Utilities;
 using RegionFlags = Vision.Framework.Services.RegionFlags;
 
+
 namespace Vision.Modules.Web
 {
     public class RegisterPage : IWebInterfacePage
@@ -180,7 +181,7 @@ namespace Vision.Modules.Web
                     return null;
                 }
 
-                // Only one space is allowed in the name to seperate First and Last of the avatar name
+                // Thish -  Only one space is allowed in the name to seperate First and Last of the avatar name
                 if (AvatarName.Split (' ').Length != 2)
                 {
                     response = "<h3>" + translator.GetTranslatedString("AvatarNameSpacingError") + "</h3>";

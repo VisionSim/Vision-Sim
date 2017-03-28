@@ -27,53 +27,54 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Nini.Config;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
 using Vision.Framework.Services;
+using Nini.Config;
 
 namespace Vision.Services
 {
-	public class AuthorizationService : IAuthorizationService, IService
-	{
-		private IRegistryCore m_registry;
+    public class AuthorizationService : IAuthorizationService, IService
+    {
+        private IRegistryCore m_registry;
 
-		#region IAuthorizationService Members
+        #region IAuthorizationService Members
 
-		public bool IsAuthorizedForRegion (GridRegion region, AgentCircuitData agent, bool isRootAgent, out string reason)
-		{
-			ISceneManager manager = m_registry.RequestModuleInterface<ISceneManager> ();
-			IScene scene = manager == null ? null : manager.Scenes.Find ((s) => s.RegionInfo.RegionID == region.RegionID);
-			if (scene != null) {
-				//Found the region, check permissions
-				return scene.Permissions.AllowedIncomingAgent (agent, isRootAgent, out reason);
-			}
-			reason = "Not Authorized as region does not exist.";
-			return false;
-		}
+        public bool IsAuthorizedForRegion(GridRegion region, AgentCircuitData agent, bool isRootAgent, out string reason)
+        {
+            ISceneManager manager = m_registry.RequestModuleInterface<ISceneManager>();
+            IScene scene = manager == null ? null : manager.Scenes.Find((s) => s.RegionInfo.RegionID == region.RegionID);
+            if (scene != null)
+            {
+                //Found the region, check permissions
+                return scene.Permissions.AllowedIncomingAgent(agent, isRootAgent, out reason);
+            }
+            reason = "Not Authorized as region does not exist.";
+            return false;
+        }
 
-		#endregion
+        #endregion
 
-		#region IService Members
+        #region IService Members
 
-		public void Initialize (IConfigSource config, IRegistryCore registry)
-		{
-			registry.RegisterModuleInterface<IAuthorizationService> (this);
-			m_registry = registry;
+        public void Initialize(IConfigSource config, IRegistryCore registry)
+        {
+            registry.RegisterModuleInterface<IAuthorizationService>(this);
+            m_registry = registry;
 
-			MainConsole.Instance.Debug ("[AuthorizationService]: Local Authorization service enabled");
-		}
+            MainConsole.Instance.Debug("[AuthorizationService]: Local Authorization service enabled");
+        }
 
-		public void Start (IConfigSource config, IRegistryCore registry)
-		{
-		}
+        public void Start(IConfigSource config, IRegistryCore registry)
+        {
+        }
 
-		public void FinishedStartup ()
-		{
-		}
+        public void FinishedStartup()
+        {
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

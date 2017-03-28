@@ -34,20 +34,20 @@ using Vision.Framework.Services;
 
 namespace Vision.Framework.DatabaseInterfaces
 {
-	public interface IOfflineMessagesConnector : IVisionDataPlugin
-	{
-		/// <summary>
-		///     Gets all offline messages for the user in GridInstantMessage format.
-		/// </summary>
-		/// <param name="agentID"></param>
-		/// <returns></returns>
-		List<GridInstantMessage> GetOfflineMessages (UUID agentID);
+    public interface IOfflineMessagesConnector : IVisionDataPlugin
+    {
+        /// <summary>
+        ///     Gets all offline messages for the user in GridInstantMessage format.
+        /// </summary>
+        /// <param name="agentID"></param>
+        /// <returns></returns>
+        List<GridInstantMessage> GetOfflineMessages(UUID agentID);
 
-		/// <summary>
-		///     Adds a new offline message for the user.
-		/// </summary>
-		/// <param name="message"></param>
-		/// <returns>Whether it was successfully added</returns>
-		bool AddOfflineMessage (GridInstantMessage message);
-	}
+        /// <summary>
+        ///     Adds a new offline message for the user.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns>Whether it was successfully added</returns>
+        bool AddOfflineMessage(GridInstantMessage message);
+    }
 }

@@ -27,13 +27,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using OpenMetaverse;
 using Vision.Framework.Physics;
+using OpenMetaverse;
 
 namespace Vision.Framework.Modules
 {
-	public interface IPhysicsMonitor
-	{
-		void AddPhysicsStats (UUID regionID, PhysicsScene scene);
-	}
+    public interface IPhysicsMonitor
+    {
+        void AddPhysicsStats(UUID regionID, PhysicsScene scene);
+    }
 }

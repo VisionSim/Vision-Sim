@@ -32,10 +32,10 @@ using OpenMetaverse;
 
 namespace Vision.Framework.ClientInterfaces
 {
-	public class AvatarPickerReplyDataArgs : EventArgs
-	{
-		public UUID AvatarID;
-		public byte[] FirstName;
-		public byte[] LastName;
-	}
+    public class AvatarPickerReplyDataArgs : EventArgs
+    {
+        public UUID AvatarID;
+        public byte[] FirstName;
+        public byte[] LastName;
+    }
 }

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) Contributors, http://vision-sim.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  * For an explanation of the license of each contributor and the content it 
@@ -32,7 +32,7 @@ using Vision.Simulation.Base;
 namespace Vision
 {
     /// <summary>
-    ///     This is the starting class for the Vision-Sim Server
+    ///     Starting class for the VIrtual Vision Simulator
     /// </summary>
     public class Application
     {

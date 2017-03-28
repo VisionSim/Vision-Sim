@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) Contributors, http://vision-sim.org/
  * See CONTRIBUTORS.TXT for a full list of copyright holders.
  * For an explanation of the license of each contributor and the content it 
@@ -27,17 +27,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using System;
 using Vision.Framework.ConsoleFramework;
 using Vision.Framework.Modules;
 using Vision.Simulation.Base;
+using System;
 
 namespace Vision.Server
 {
     public class VisionBase : SimulationBase
     {
         /// <summary>
-        ///     Performs initialization of the scene, such as loading configuration from disk.
+        ///     Performs initialisation of the scene, such as loading configuration from disk.
         /// </summary>
         public override void Startup()
         {

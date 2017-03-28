@@ -27,48 +27,49 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-using Nini.Config;
 using Vision.Framework.Modules;
 using Vision.Framework.Servers.HttpServer.Interfaces;
 using Vision.Framework.Services;
+using Nini.Config;
 
 namespace Vision.Services
 {
-	public class ServerConnector : IService
-	{
-		private IRegistryCore m_registry;
-		private IConfigSource m_config;
+    public class ServerConnector : IService
+    {
+        private IRegistryCore m_registry;
+        private IConfigSource m_config;
 
-		public string Name {
-			get { return GetType ().Name; }
-		}
+        public string Name
+        {
+            get { return GetType().Name; }
+        }
 
-		#region IService Members
+        #region IService Members
 
-		public void Initialize (IConfigSource config, IRegistryCore registry)
-		{
-		}
+        public void Initialize(IConfigSource config, IRegistryCore registry)
+        {
+        }
 
-		public void Start (IConfigSource config, IRegistryCore registry)
-		{
-			m_config = config;
-			IConfig handlerConfig = config.Configs ["VisionConnectors"];
-			if (!handlerConfig.GetBoolean ("AllowRemoteCalls", false))
-				return;
+        public void Start(IConfigSource config, IRegistryCore registry)
+        {
+            m_config = config;
+            IConfig handlerConfig = config.Configs["VisionConnectors"];
+            if (!handlerConfig.GetBoolean("AllowRemoteCalls", false))
+                return;
 
-			m_registry = registry;
-		}
+            m_registry = registry;
+        }
 
-		public void FinishedStartup ()
-		{
-			if (m_registry != null) {
-				uint port = m_config.Configs ["Network"].GetUInt ("http_listener_port", 8003);
-				IHttpServer server = m_registry.RequestModuleInterface<ISimulationBase> ().GetHttpServer (port);
+        public void FinishedStartup()
+        {
+            if (m_registry != null)
+            {
+                uint port = m_config.Configs["Network"].GetUInt("http_listener_port", 8003);
+                IHttpServer server = m_registry.RequestModuleInterface<ISimulationBase>().GetHttpServer(port);
 
-				server.AddStreamHandler (new ServerHandler ("/server/", m_registry, null));
-			}
-		}
-
-		#endregion
-	}
+                server.AddStreamHandler(new ServerHandler("/server/", m_registry, null));
+            }
+        }
+        #endregion
+    }
 }

@@ -32,16 +32,12 @@ using OpenMetaverse;
 
 namespace Vision.ScriptEngine.VisionScript.MiniModule
 {
-	public interface IObjectAccessor : ICollection<IObject>
-	{
-		IObject this [int index] { get; }
-
-		IObject this [uint index] { get; }
-
-		IObject this [UUID index] { get; }
-
-		IObject Create (Vector3 position);
-
-		IObject Create (Vector3 position, Quaternion rotation);
-	}
+    public interface IObjectAccessor : ICollection<IObject>
+    {
+        IObject this[int index] { get; }
+        IObject this[uint index] { get; }
+        IObject this[UUID index] { get; }
+        IObject Create(Vector3 position);
+        IObject Create(Vector3 position, Quaternion rotation);
+    }
 }

@@ -214,7 +214,7 @@ namespace Vision.Modules.Web
             if (httpRequest.HttpMethod == "POST")
                 httpResponse.KeepAlive = false;
 
-            MainConsole.Instance.Debug ("[Web Interface]: Serving " + filename + ", keep-alive: " + httpResponse.KeepAlive);
+            MainConsole.Instance.Debug ("[WebInterface]: Serving " + filename + ", keep-alive: " + httpResponse.KeepAlive);
             IWebInterfacePage page = GetPage (filename);
             if (page != null) {
                 // dynamic pages
@@ -1142,4 +1142,5 @@ namespace Vision.Modules.Web
             return map;
         }
     }
+
 }
