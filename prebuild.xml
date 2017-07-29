@@ -62,7 +62,7 @@
 
     <!-- Libraries -->
 
-    <Project name="CSJ2K" path="Virtual-LibOMV/CSJ2K" type="Library" frameworkVersion="v4_5">
+    <Project name="CSJ2K" path="Vision-LibOMV/CSJ2K" type="Library" frameworkVersion="v4_5">
       <Configuration name="Debug" platform="x86">
         <Options>
           <OutputPath>../../VisionSim/bin/</OutputPath>
@@ -94,7 +94,7 @@
       </Files>
     </Project>
 
-    <Project name="OpenMetaverseTypes" path="Virtual-LibOMV/OpenMetaverseTypes" type="Library" rootNamespace="OpenMetaverse" frameworkVersion="v4_5">
+    <Project name="OpenMetaverseTypes" path="Vision-LibOMV/OpenMetaverseTypes" type="Library" rootNamespace="OpenMetaverse" frameworkVersion="v4_5">
       <Configuration name="Debug" platform="x86">
         <Options>
           <OutputPath>../../VisionSim/bin/</OutputPath>
@@ -126,7 +126,7 @@
       </Files>
     </Project>
 
-    <Project name="OpenMetaverse.StructuredData" path="Virtual-LibOMV/OpenMetaverse.StructuredData" type="Library" rootNamespace="OpenMetaverse.StructuredData" frameworkVersion="v4_5">
+    <Project name="OpenMetaverse.StructuredData" path="Vision-LibOMV/OpenMetaverse.StructuredData" type="Library" rootNamespace="OpenMetaverse.StructuredData" frameworkVersion="v4_5">
       <Configuration name="Debug" platform="x86">
         <Options>
           <OutputPath>../../VisionSim/bin/</OutputPath>
@@ -159,7 +159,7 @@
       </Files>
     </Project>
 
-    <Project name="OpenMetaverse" path="Virtual-LibOMV/OpenMetaverse" type="Library" rootNamespace="OpenMetaverse" frameworkVersion="v4_5">
+    <Project name="OpenMetaverse" path="Vision-LibOMV/OpenMetaverse" type="Library" rootNamespace="OpenMetaverse" frameworkVersion="v4_5">
       <Configuration name="Debug" platform="x86">
         <Options>
           <OutputPath>../../VisionSim/bin/</OutputPath>
