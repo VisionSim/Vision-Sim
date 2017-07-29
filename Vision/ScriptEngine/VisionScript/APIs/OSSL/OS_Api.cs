@@ -37,8 +37,12 @@ using System.Net;
 using System.Runtime.Remoting.Lifetime;
 using System.Text;
 using System.Text.RegularExpressions;
+using Nini.Config;
+using OpenMetaverse;
+using OpenMetaverse.StructuredData;
 using Vision.Framework.ClientInterfaces;
 using Vision.Framework.ConsoleFramework;
+using Vision.Framework.DatabaseInterfaces;
 using Vision.Framework.Modules;
 using Vision.Framework.PresenceInfo;
 using Vision.Framework.SceneInfo;
@@ -48,9 +52,6 @@ using Vision.Framework.Services;
 using Vision.Framework.Services.ClassHelpers.Assets;
 using Vision.Framework.Utilities;
 using Vision.ScriptEngine.VisionScript.Runtime;
-using Nini.Config;
-using OpenMetaverse;
-using OpenMetaverse.StructuredData;
 using GridRegion = Vision.Framework.Services.GridRegion;
 using Group = System.Text.RegularExpressions.Group;
 using LSL_Float = Vision.ScriptEngine.VisionScript.LSL_Types.LSLFloat;
@@ -60,7 +61,6 @@ using LSL_List = Vision.ScriptEngine.VisionScript.LSL_Types.list;
 using LSL_Rotation = Vision.ScriptEngine.VisionScript.LSL_Types.Quaternion;
 using LSL_String = Vision.ScriptEngine.VisionScript.LSL_Types.LSLString;
 using LSL_Vector = Vision.ScriptEngine.VisionScript.LSL_Types.Vector3;
-using Vision.Framework.DatabaseInterfaces;
 
 namespace Vision.ScriptEngine.VisionScript.APIs
 {
@@ -126,10 +126,7 @@ namespace Vision.ScriptEngine.VisionScript.APIs
             get { return m_host.ParentEntity.Scene; }
         }
 
-        //
         // OpenSim functions
-        //
-
         #region IOSSL_Api Members
 
         public LSL_Integer osSetTerrainHeight(int x, int y, double val)
@@ -145,13 +142,31 @@ namespace Vision.ScriptEngine.VisionScript.APIs
                 ITerrainChannel heightmap = World.RequestModuleInterface<ITerrainChannel>();
                 heightmap[x, y] = (float) val;
                 ITerrainModule terrainModule = World.RequestModuleInterface<ITerrainModule>();
-                if (terrainModule != null) terrainModule.TaintTerrain();
+
+                if (terrainModule != null)
+                    terrainModule.TaintTerrain();
+
                 return 1;
             }
             else
             {
                 return 0;
             }
+        }
+
+        public LSL_Key osGetRezzingObject()
+        {
+            if (!ScriptProtection.CheckThreatLevel(ThreatLevel.None, "osGetRezzingObject", m_host, "OSSL", m_itemID))
+                return new LSL_Key(UUID.Zero.ToString());
+
+            // this is a hack for the present and may not work correctly -greythane-
+            UUID rezID = m_host.CreatorID;   //.ParentGroup.RezzerID;
+
+            if (rezID == UUID.Zero || World.GetScenePresence(rezID) != null)
+                return new LSL_Key(UUID.Zero.ToString());
+
+            return new LSL_Key(rezID.ToString());
+
         }
 
         public LSL_Float osGetTerrainHeight(int x, int y)
