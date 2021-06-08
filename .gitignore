@@ -55,6 +55,10 @@ Vision.sln.cache
 
 addon-modules/*/
 
+# IRC chat module
+VisionSim/bin/Glacier2.dll
+VisionSim/bin/Ice.dll
+
 # Binary
 
 VisionSim/bin/*.log
@@ -63,15 +67,18 @@ VisionSim/bin/.version
 VisionSim/bin/Vision.*.dll
 VisionSim/bin/Vision.*.exe
 VisionSim/bin/Vision.exe
+VisionSim/bin/.vision.config
+VisionSim/bin/.visiongrid.config
 
 # This is dependant upon x86/x64 and created at runtime
-VisionSim/bin/ode.dll
+VisioneSim/bin/ode.dll
 
-# 20170322 - Exclude LibOMV libraries that are now included in the build process
+# 20170112 - Exclude LibOMV libraries that are now included in the build process
 VisionSim/bin/CSJ2K.dll
 VisionSim/bin/OpenMetaverse.dll
 VisionSim/bin/OpenMetaverse.StructuredData.dll
 VisionSim/bin/OpenMetaverseTypes.dll
+VisionSim/bin/OpenMetaverse.Rendering.Meshmerizer.dll
 
 # Data files
 
@@ -96,3 +103,9 @@ VisionSim/Data/UserArchives/*
 # Documentation
 
 VisionDocs/
+
+# Visual Studio files
+.vs/*
+Icon*
+VisionSim/bin/html/VisionWebUI.sublime-project
+VisionSim/bin/html/VisionWebUI.sublime-workspace
